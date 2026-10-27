@@ -79,8 +79,8 @@ export const EVENTS = [
     title: "The Roads Behind the Front",
     when: (f, m) => m.will <= 0,
     paras: [
-      "The army is falling back, and the roads and railways behind it are full of people. Many have been ordered out by the army itself, with their villages burned, and many more have simply fled.",
-      "The towns of the interior cannot house or feed them, and the trains the army needs for its supplies are blocked by trains of refugees. The ministers in Petrograd say plainly what the war is doing to the country.",
+      "The army is falling back, and the roads and railways behind it are full of people. Many have been ordered out by the army itself, with their villages burned, and many more have fled.",
+      "The towns of the interior cannot house or feed them, and the trains the army needs for its supplies are blocked by trains of refugees. The ministers in Petrograd say what the war is doing to the country.",
     ],
   },
   {

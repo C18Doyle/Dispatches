@@ -362,9 +362,7 @@ CAMPAIGNS.aok.nodes = {
         outcome:
           "Speculative. The Third Army is held at the San while the First and Fourth go north. " +
           "The blow in the north is weaker by a corps and a half, and the flank that was " +
-          "meant to be turned is covered by an army that has not yet fought. The Russians " +
-          "have not shown which of the two armies they mean to hit, and the General Staff " +
-          "has to say what the Third Army is waiting for.",
+          "meant to be turned is covered by an army that has not yet fought. The Russians have not shown which of the two armies they mean to hit.",
       },
     ],
   },
@@ -431,9 +429,7 @@ CAMPAIGNS.aok.nodes = {
               "Speculative. The corps arrive on different days by different roads and " +
               "are put in as they come. The Russians, who have the whole of two armies " +
               "in hand, beat them one at a time, and the Third Army is lost as it was in " +
-              "the record with two corps more. The Fourth Army has been weakened for " +
-              "nothing, and the General Staff has to explain why it divided its force " +
-              "between two fronts and was strong on neither." },
+              "the record with two corps more. The Fourth Army has been weakened for nothing: the force was divided between two fronts and was strong on neither." },
         ],
       },
       {
@@ -969,7 +965,7 @@ CAMPAIGNS.aok.nodes = {
         label: "Launch the Trentino offensive with the army's own troops, taking the divisions from Galicia",
         historical: true,
         advisor: { name: "Conrad", position:
-          "Italy has to be punished for the betrayal, and the Galician front is quiet enough to be thinned. This is the chance." },
+          "Italy has to be punished for the betrayal, and the Galician front is quiet enough to be thinned." },
         impact: { manpower: -2, munitions: -1, will: 0 },
         setFlags: { aok_strafe: "launched" },
         next: "aok_1916_08_brusilov",
@@ -1194,9 +1190,7 @@ CAMPAIGNS.aok.nodes = {
         nextIf: (m) => (m.will >= -3 ? "aok_end_separate" : null),
         next: "aok_1917_11_caporetto",
         outcome:
-          "Speculative. The Emperor tells Berlin that the monarchy needs peace and means to " +
-          "have it, and the German command has to decide whether to meet him or to " +
-          "overrule him. The French, who have heard the same message by another road, " +
+          "Speculative. The Emperor tells Berlin that the monarchy needs peace and means to have it. Berlin reads it as a threat and asks what the monarchy means to do. The French, who have heard the same message by another road, " +
           "are in no hurry to answer. The alliance, which had been held together " +
           "by what neither partner said to the other, has to survive the saying of it.",
       },
@@ -1614,8 +1608,7 @@ CAMPAIGNS.aok.nodes = {
     title: "Out, Early",
     advisors: ["karl"],
     situation:
-      "The Emperor told his ally what he intended, and the ally has to decide what to do " +
-      "about it. The German command has the power to occupy the monarchy and does not " +
+      "The Emperor told his ally what he intended. The German command has the power to occupy the monarchy and does not " +
       "use it. The French and the British, who were not waiting for the offer, have to " +
       "consider whether they believe it, and whether a peace on those terms leaves them " +
       "with an enemy or with an ally.\n\n" +

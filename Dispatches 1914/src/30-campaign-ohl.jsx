@@ -400,7 +400,7 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. Both corps stay where the plan put them. The new command in " +
           "East Prussia fights with the army it has, and the right wing goes forward at " +
-          "a strength the plan could count on. The province goes on being overrun while the matter is argued, every report from East Prussia asks for more men than the army there has, and the Chief has to answer for it.",
+          "a strength the plan could count on. The province goes on being overrun while the matter is argued, and every report from East Prussia asks for more men than the army there has.",
       },
     ],
   },
@@ -647,9 +647,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The attack is cancelled with the Channel ports still behind the " +
           "British line, and the fresh divisions go east by rail. The eastern armies go " +
           "into the winter stronger than they were. The front in the west stays where " +
-          "the autumn left it, and the coast is never again as open as it is this week. " +
-          "The Chief who gave up the last chance of a decision in the west has to say " +
-          "what he will try instead.",
+          "the autumn left it, and the coast is never again as open as it is this week.",
       },
       {
         id: "dig",
@@ -838,7 +836,7 @@ CAMPAIGNS.ohl.nodes = {
         label: "Make the object the French army — hold the ground, let them counter-attack into the guns",
         historical: true,
         advisor: { name: "Falkenhayn", position:
-          "They will not give up Verdun. That is the point of choosing it. We do not need the city if they will spend the army defending it." },
+          "They will not give up Verdun. We do not need the city if they will spend the army defending it." },
         impact: { manpower: -1, munitions: -2, will: -1 },
         setFlags: { ohl_verdun: "attrition" },
         dispute:
@@ -859,9 +857,7 @@ CAMPAIGNS.ohl.nodes = {
               "The guns do the work and the infantry is not spent taking ground for its own " +
               "sake. The French come on to the artillery as expected, in counter-attacks " +
               "that cost them far more than the ground is worth. The ledger is grim on both " +
-              "sides and the German column of it is smaller than it might have been. The " +
-              "operation does what the memorandum said it would, which is the only thing " +
-              "that can be said for it." },
+              "sides and the German column of it is smaller than it might have been. The operation does what the memorandum said it would." },
           { weight: 55, title: "Fifth Army reads the directive as an order to take the fortress", historicalBranch: true,
             impact: { manpower: -2, will: -1 },
             setFlags: { ohl_verdunExec: "fortress" },
@@ -879,7 +875,7 @@ CAMPAIGNS.ohl.nodes = {
         id: "elsewhere",
         label: "Decline the Meuse — hold in the west and wait for the enemy to attack first",
         advisor: { name: "Crown Prince Wilhelm", position:
-          "If the object is really the French army and not the city, then say so plainly, or do not begin." },
+          "If the object is the French army and not the city, say so, or do not begin." },
         impact: { manpower: 1, munitions: 1, will: -2 },
         gate: (m) => m.will >= 1,
         disabledReason: "A year without an offensive cannot be explained at home from here",
@@ -904,9 +900,7 @@ CAMPAIGNS.ohl.nodes = {
     advisors: ["falkenhayn", "tappen"],
     situation: (flags) =>
       "The British and French attacked on the Somme yesterday, after a week of " +
-      "bombardment. In most places the German line has held. At the southern end, " +
-      "where French and British lines meet, it has not, and Second Army has to say what " +
-      "it will do about ground it has already lost.\n\n" +
+      "bombardment. In most places the German line has held. At the southern end, where French and British lines meet, it has not: ground has already been lost.\n\n" +
       (flags.ohl_verdun === "declined"
         ? "No German army is committed on the Meuse, so the reserves are in hand. They " +
           "are also the only reserves there are."
@@ -946,9 +940,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. Ground is given where it cannot be held cheaply and a second " +
           "line is built behind it. The front moves back by a few kilometres in places. " +
           "Fewer men are lost in counter-attacks, and the retreat has to be explained " +
-          "at home as something other than a defeat. The officers who hold that no yard " +
-          "may be given up say so, and the Chief has to decide whether he is willing to " +
-          "be overruled by his own caution.",
+          "at home as something other than a defeat. The officers who hold that no yard may be given up say so.",
       },
       {
         id: "verdun",
@@ -962,8 +954,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The offensive at Verdun is stopped in the first days of July, and the divisions " +
           "that were feeding it are sent to the Somme. The ground lost at the south end is counter-attacked " +
           "with fresh troops and not retaken piecemeal, and the French, no longer pressed on the Meuse, " +
-          "are free to find more men for the Somme. The Chief has given up the object he chose in the " +
-          "winter, and has to say so to the Kaiser.",
+          "are free to find more men for the Somme. The Chief has given up the object he chose in the winter.",
       },
     ],
   },
@@ -1389,10 +1380,8 @@ CAMPAIGNS.ohl.nodes = {
       "want to take in the east. The soldiers want to move at once, while the " +
       "Russian army is dissolving and the Baltic provinces and Ukraine are open.\n\n" +
       (flags.ohl_caporetto === "sent"
-        ? "The German divisions sent to Italy have come out of it, and the army has to " +
-          "decide where to use them."
-        : "The divisions that did not go to Italy are where they were, and the army has " +
-          "to decide where to use them.") +
+        ? "The German divisions sent to Italy have come out of it."
+        : "The divisions that did not go to Italy are where they were.") +
       " Every division that stays in the east is one that is not in France in March." +
       (flags.xc_ukraine === "kept" ? "\n\nVienna has told Berlin that no Austro-Hungarian division will go into Ukraine. The occupation, and the grain, will be German work alone." : ""),
     context:

@@ -731,7 +731,7 @@ CAMPAIGNS.ohl.nodes = {
         outcome:
           "Speculative. Both corps stay where the plan put them. The new command in " +
           "East Prussia fights with the army it has, and the right wing goes forward at " +
-          "a strength the plan could count on. The province goes on being overrun while the matter is argued, every report from East Prussia asks for more men than the army there has, and the Chief has to answer for it.",
+          "a strength the plan could count on. The province goes on being overrun while the matter is argued, and every report from East Prussia asks for more men than the army there has.",
       },
     ],
   },
@@ -978,9 +978,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The attack is cancelled with the Channel ports still behind the " +
           "British line, and the fresh divisions go east by rail. The eastern armies go " +
           "into the winter stronger than they were. The front in the west stays where " +
-          "the autumn left it, and the coast is never again as open as it is this week. " +
-          "The Chief who gave up the last chance of a decision in the west has to say " +
-          "what he will try instead.",
+          "the autumn left it, and the coast is never again as open as it is this week.",
       },
       {
         id: "dig",
@@ -1169,7 +1167,7 @@ CAMPAIGNS.ohl.nodes = {
         label: "Make the object the French army — hold the ground, let them counter-attack into the guns",
         historical: true,
         advisor: { name: "Falkenhayn", position:
-          "They will not give up Verdun. That is the point of choosing it. We do not need the city if they will spend the army defending it." },
+          "They will not give up Verdun. We do not need the city if they will spend the army defending it." },
         impact: { manpower: -1, munitions: -2, will: -1 },
         setFlags: { ohl_verdun: "attrition" },
         dispute:
@@ -1190,9 +1188,7 @@ CAMPAIGNS.ohl.nodes = {
               "The guns do the work and the infantry is not spent taking ground for its own " +
               "sake. The French come on to the artillery as expected, in counter-attacks " +
               "that cost them far more than the ground is worth. The ledger is grim on both " +
-              "sides and the German column of it is smaller than it might have been. The " +
-              "operation does what the memorandum said it would, which is the only thing " +
-              "that can be said for it." },
+              "sides and the German column of it is smaller than it might have been. The operation does what the memorandum said it would." },
           { weight: 55, title: "Fifth Army reads the directive as an order to take the fortress", historicalBranch: true,
             impact: { manpower: -2, will: -1 },
             setFlags: { ohl_verdunExec: "fortress" },
@@ -1210,7 +1206,7 @@ CAMPAIGNS.ohl.nodes = {
         id: "elsewhere",
         label: "Decline the Meuse — hold in the west and wait for the enemy to attack first",
         advisor: { name: "Crown Prince Wilhelm", position:
-          "If the object is really the French army and not the city, then say so plainly, or do not begin." },
+          "If the object is the French army and not the city, say so, or do not begin." },
         impact: { manpower: 1, munitions: 1, will: -2 },
         gate: (m) => m.will >= 1,
         disabledReason: "A year without an offensive cannot be explained at home from here",
@@ -1235,9 +1231,7 @@ CAMPAIGNS.ohl.nodes = {
     advisors: ["falkenhayn", "tappen"],
     situation: (flags) =>
       "The British and French attacked on the Somme yesterday, after a week of " +
-      "bombardment. In most places the German line has held. At the southern end, " +
-      "where French and British lines meet, it has not, and Second Army has to say what " +
-      "it will do about ground it has already lost.\n\n" +
+      "bombardment. In most places the German line has held. At the southern end, where French and British lines meet, it has not: ground has already been lost.\n\n" +
       (flags.ohl_verdun === "declined"
         ? "No German army is committed on the Meuse, so the reserves are in hand. They " +
           "are also the only reserves there are."
@@ -1277,9 +1271,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. Ground is given where it cannot be held cheaply and a second " +
           "line is built behind it. The front moves back by a few kilometres in places. " +
           "Fewer men are lost in counter-attacks, and the retreat has to be explained " +
-          "at home as something other than a defeat. The officers who hold that no yard " +
-          "may be given up say so, and the Chief has to decide whether he is willing to " +
-          "be overruled by his own caution.",
+          "at home as something other than a defeat. The officers who hold that no yard may be given up say so.",
       },
       {
         id: "verdun",
@@ -1293,8 +1285,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The offensive at Verdun is stopped in the first days of July, and the divisions " +
           "that were feeding it are sent to the Somme. The ground lost at the south end is counter-attacked " +
           "with fresh troops and not retaken piecemeal, and the French, no longer pressed on the Meuse, " +
-          "are free to find more men for the Somme. The Chief has given up the object he chose in the " +
-          "winter, and has to say so to the Kaiser.",
+          "are free to find more men for the Somme. The Chief has given up the object he chose in the winter.",
       },
     ],
   },
@@ -1720,10 +1711,8 @@ CAMPAIGNS.ohl.nodes = {
       "want to take in the east. The soldiers want to move at once, while the " +
       "Russian army is dissolving and the Baltic provinces and Ukraine are open.\n\n" +
       (flags.ohl_caporetto === "sent"
-        ? "The German divisions sent to Italy have come out of it, and the army has to " +
-          "decide where to use them."
-        : "The divisions that did not go to Italy are where they were, and the army has " +
-          "to decide where to use them.") +
+        ? "The German divisions sent to Italy have come out of it."
+        : "The divisions that did not go to Italy are where they were.") +
       " Every division that stays in the east is one that is not in France in March." +
       (flags.xc_ukraine === "kept" ? "\n\nVienna has told Berlin that no Austro-Hungarian division will go into Ukraine. The occupation, and the grain, will be German work alone." : ""),
     context:
@@ -2642,7 +2631,7 @@ CAMPAIGNS.gqg.nodes = {
         label: "Obey, and withdraw the covering troops ten kilometres, while pressing the Cabinet for the order to mobilise",
         historical: true,
         advisor: { name: "Joffre", position:
-          "The government is entitled to be obeyed, and Britain's opinion is worth ten kilometres. The cost is a day, and the Cabinet must be told what it is." },
+          "The government is entitled to be obeyed, and Britain's opinion is worth ten kilometres. The cost is a day." },
         impact: { manpower: 0, munitions: 0, will: 0 },
         setFlags: { gqg_covering: "obeyed" },
         next: "gqg_1914_01_frontieres",
@@ -2741,9 +2730,7 @@ CAMPAIGNS.gqg.nodes = {
           "The attacks go in and are stopped in front of positions the doctrine said " +
           "would give way. The Battle of the Frontiers costs the army more men in three " +
           "weeks than anyone in this building has budgeted for a year, and the German " +
-          "right comes on through Belgium regardless. The regiments that went forward " +
-          "in red trousers learn what machine guns and heavy howitzers do to a bayonet " +
-          "charge, and the lesson is paid for in full.",
+          "right comes on through Belgium regardless. The regiments that went forward in red trousers learn what machine guns and heavy howitzers do to a bayonet charge.",
       },
       {
         id: "shift",
@@ -3050,9 +3037,7 @@ CAMPAIGNS.gqg.nodes = {
               "Speculative. The turn is made and does not achieve the separation it needed. " +
               "The invasion is stopped, later and further south, and the line that congeals " +
               "runs across more of France than it historically did. The government is back " +
-              "in Bordeaux, and Paris is shelled. The army has fought a great battle and " +
-              "kept the capital, and has to explain to the country why it is still giving " +
-              "up villages." },
+              "in Bordeaux, and Paris is shelled. The army has fought a great battle and kept the capital, and is still giving up villages." },
         ],
       },
       {
@@ -3201,9 +3186,7 @@ CAMPAIGNS.gqg.nodes = {
         next: "gqg_1915_14_salonika",
         outcome:
           "Artois and Champagne are fought and the second position holds both times. " +
-          "The line moves by yards. The cost is entered in a ledger that the Chamber " +
-          "will eventually read, and the soldiers who go forward in the autumn go with " +
-          "no illusion left about what the first day will give them. The occupied " +
+          "The line moves by yards. The soldiers who go forward in the autumn go with no illusion left about what the first day will give them. The occupied " +
           "departments are no nearer, and the Commander-in-Chief has no other policy to " +
           "put in place of the one that has not worked.",
       },
@@ -3411,9 +3394,7 @@ CAMPAIGNS.gqg.nodes = {
       (flags.gqg_verdun === "shortened"
         ? "The line was shortened in February and the divisions exist. The original French share is still possible."
         : "Verdun has consumed the divisions that were to make it. What France can now put into the Somme is a fraction of what was promised.") +
-      "\n\nThe British will attack either way. What is at stake is whether they " +
-      "attack beside an ally or in place of one, and what that does to the alliance " +
-      "for the remaining years of the war." +
+      "\n\nThe British will attack either way. They attack either beside an ally or in place of one." +
       (flags.xc_chantilly === "declined" ? "\n\nThe Russian representative at Chantilly gave no date for an offensive in the east, and the Somme is the only combined blow the Allies are certain to make." : ""),
     context:
       "Relieving Verdun is one argument for the Somme. Keeping the coalition intact is " +
@@ -3875,7 +3856,7 @@ CAMPAIGNS.gqg.nodes = {
         id: "report",
         label: "Report to the government that the army cannot be relied on to attack",
         advisor: { name: "Painleve", position:
-          "If that is the true state of the army then the Ministry has to be told, whatever it decides to do with the information." },
+          "If that is the true state of the army, the Ministry must be told." },
         gate: (m) => m.will <= -2,
         disabledReason: "The army's condition does not yet warrant telling the government the offensive instrument is gone",
         impact: { manpower: 0, munitions: 0, will: -2 },
@@ -3923,15 +3904,14 @@ CAMPAIGNS.gqg.nodes = {
         label: "Attack with a limited objective and stop at it",
         historical: true,
         advisor: { name: "Petain", position:
-          "The men will be told exactly where the attack stops, and then it will stop there. That is the whole of the method." },
+          "The men will be told exactly where the attack stops, and then it will stop there." },
         impact: { manpower: -1, munitions: -2, will: 3 },
         setFlags: { gqg_malmaison: "limited" },
         next: "gqg_1918_12_link",
         outcome:
           "The fort and village are taken and the operation stops on its objective. The " +
           "Germans give up the remainder of the ridge and go back across the Ailette. " +
-          "The cost is a fraction of April's and the ground is greater. The army " +
-          "notices, which is the point of it. The soldiers who were promised battles " +
+          "The cost is a fraction of April's and the ground is greater. The army notices. The soldiers who were promised battles " +
           "they could win are given one, and a French attack does what the staff said " +
           "it would.",
       },
@@ -4014,15 +3994,13 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Speculative. Every division that can be moved goes north, and the junction " +
           "with the British holds. Champagne and the road to Paris are left to what " +
-          "remains. If the main blow falls there, the French army has nothing to meet " +
-          "it with, and the government that told its general to cover the capital has " +
-          "to decide what it meant. If the blow does not fall there, the Commander-in-Chief has won.",
+          "remains. If the main blow falls there, the French army has nothing to meet it with. The two armies stay in touch, and Amiens is not lost. If the blow does not fall there, the Commander-in-Chief has won.",
       },
       {
         id: "paris",
         label: "Cover Paris first: tell Haig in writing that the French reserve will fall back on the capital if the retreat goes on",
         advisor: { name: "Petain", position:
-          "The government's order is to cover Paris. If it comes to a choice, I shall have to obey it, and Haig must be told so plainly." },
+          "The government's order is to cover Paris. If it comes to a choice, I shall have to obey it, and Haig must be told so." },
         impact: { manpower: 0, munitions: 0, will: -2 },
         setFlags: { gqg_link: "paris" },
         next: "gqg_1918_10_doullens",
@@ -4611,8 +4589,7 @@ CAMPAIGNS.gqg.nodes = {
       "The army that stands at the armistice was rebuilt after 1917 rather than " +
       "merely disciplined, was not spent to prove points in the autumn, and was " +
       "committed once, at the right moment, under a command that could move it.\n\n" +
-      "The departments come back. So do more of the men who took them, and that is the " +
-      "whole of what was available to be won here.",
+      "The departments come back. So do more of the men who took them.",
     ending: { family: "victory-with-the-army-preserved", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The outcome of the war was not in the gift of this headquarters " +
@@ -4633,12 +4610,10 @@ CAMPAIGNS.gqg.nodes = {
     title: "Waiting Correctly",
     advisors: ["petain"],
     situation:
-      "The German offensives stopped without being counterattacked, which is what they " +
-      "were going to do. The reserve was preserved, the line held, and the initiative " +
+      "The German offensives stopped without being counterattacked. The reserve was preserved, the line held, and the initiative " +
       "was left where it lay.\n\n" +
       "It was not wrong. The army is intact and the front is unbroken and the argument " +
-      "for waiting was sound every single time it was made. The war simply goes on " +
-      "being fought by whoever is willing to start something.",
+      "for waiting was sound every single time it was made. The war goes on being fought by whoever is willing to start something.",
     ending: { family: "defensive-into-1919", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. Husbanding an army is a defensible doctrine and this is what it " +
@@ -4659,8 +4634,7 @@ CAMPAIGNS.gqg.nodes = {
     advisors: ["painleve"],
     situation:
       "With the army in open indiscipline and the Chamber told none of it, an approach " +
-      "is made. It is made from a country holding a line it can hold, with ten " +
-      "departments still under occupation, which is the whole difficulty: any terms " +
+      "is made. It is made from a country holding a line it can hold, with ten departments still under occupation: any terms " +
       "available now leave some of France where it currently is.\n\n" +
       "That is why this was never seriously attempted. It is not that nobody thought of " +
       "it.",
@@ -5269,7 +5243,7 @@ CAMPAIGNS.stavka.nodes = {
         id: "silesia",
         label: "Press on into Silesia and let the Second Army hold Lodz with what it has",
         advisor: { name: "Ruzsky", position:
-          "The way to answer a blow at our flank is to be in Germany before it lands. The plan was to cross the frontier, and the army that crosses it is the one the enemy has to answer." },
+          "The way to answer a blow at our flank is to be in Germany before it lands. The plan was to cross the frontier, and the army that crosses it is the one the enemy must answer." },
         gate: (m) => m.will >= -1,
         disabledReason: "Nobody at headquarters will answer for leaving the flank open",
         impact: { manpower: -1, munitions: -1, will: 2 },
@@ -5335,9 +5309,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The Tenth Army falls back toward the Niemen before the blow, and " +
           "the Germans, when they attack, find less to surround. The " +
           "Twentieth Corps is out of the forest and in the line, and the border that " +
-          "was to be the anchor of the position is given up without a battle. It " +
-          "is a retreat made on a subordinate's warning, which is what the front " +
-          "commander said it would be.",
+          "was to be the anchor of the position is given up without a battle. It is a retreat made on a subordinate's warning.",
       },
       {
         id: "reinforce",
@@ -5555,8 +5527,7 @@ CAMPAIGNS.stavka.nodes = {
               "Speculative. The Emperor at headquarters is visible to the army in a way he " +
               "has not been, the operations are conducted by a professional, and the " +
               "arrangements in the capital hold together better than they historically did. " +
-              "It requires the court to behave differently, which is the part of this that " +
-              "is speculation. The ministers who warned him against going to the front have " +
+              "It requires the court to behave differently. The ministers who warned him against going to the front have " +
               "to be shown wrong, and the Empress, who has been left in charge, has to be " +
               "content with her part." },
         ],
@@ -5857,9 +5828,7 @@ CAMPAIGNS.stavka.nodes = {
         setFlags: { stavka_brusilov: "supported" },
         next: "stavka_1916_12_kovel",
         outcome:
-          "Speculative. The supporting attacks are made and made seriously. The " +
-          "Austrian front does not merely bend, and the German divisions sent to shore " +
-          "it up come from somewhere they were needed. The other front commanders, who " +
+          "Speculative. The supporting attacks are made and made seriously. The Austrian front breaks, and the German divisions sent to shore it up come from somewhere they were needed. The other front commanders, who " +
           "have said they will not be ready, are overruled by Stavka and told to attack " +
           "on the day, and whether they obey, and with what, is the whole of the risk. " +
           "The offensive is no longer the work of one front.",
@@ -5970,9 +5939,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The order to the Guards and the Special Army is not given. The " +
           "weight of the front shifts south, toward ground the Russian armies know from " +
           "1914 and 1915, and the staffs begin to draw up what a drive on Lemberg would " +
-          "need. The marsh at the Stokhod stays where it was. The Guards are told that " +
-          "they will not be wanted there, and the Supreme Command now has to say what " +
-          "they are wanted for.",
+          "need. The marsh at the Stokhod stays where it was. The Guards are told that they will not be wanted there.",
       },
     ],
   },
@@ -6213,9 +6180,7 @@ CAMPAIGNS.stavka.nodes = {
       "Russian government, how the summer's offensives are to be coordinated and how " +
       "Russia is to be supplied with the equipment it has been asking for. At Port " +
       "Romanov thousands of tons of munitions are lying on the docks.\n\n" +
-      "Stavka is asked what to tell them about the spring. The Allies want a Russian " +
-      "offensive to go in with their own, and the High Command has to say whether " +
-      "it can be made.",
+      "Stavka is asked what to tell them about the spring. The Allies want a Russian offensive to go in with their own.",
     context:
       "The conference is meant to do the thing Chantilly did not: to put dates on " +
       "the promises. Russia is the one partner whose answer depends on the " +
@@ -6621,7 +6586,7 @@ CAMPAIGNS.stavka.nodes = {
               "Speculative. Alekseyev reaches Petrograd on the evening of the 28th and is " +
               "received by Kerensky the same night. The corps is halted at Luga while the " +
               "two men are brought to speak, and it does not collapse because it has not " +
-              "been tested. Kornilov is dismissed, and arrested later, quietly. The " +
+              "been tested. Kornilov is dismissed, and arrested later. The " +
               "soviets were not called out, and the Bolsheviks have no counter-revolution to " +
               "claim they defeated." },
           { weight: 50, title: "The mediator is too late, and the affair runs its course",
@@ -6712,9 +6677,7 @@ CAMPAIGNS.stavka.nodes = {
         next: "stavka_end_civilwar",
         outcome:
           "Speculative. The headquarters declines to recognise the new authority. " +
-          "Formations divide according to what their soldiers' committees decide, which " +
-          "is the same thing as saying the war at the front has become the war behind " +
-          "it, several months earlier than it historically did. The officers who go to " +
+          "Formations divide according to what their soldiers' committees decide: the war at the front has become the war behind it. The officers who go to " +
           "the Don with their men carry the German war with them as an afterthought, " +
           "and the Germans, who see an army turn on itself, wait for it to finish.",
       },
@@ -7250,9 +7213,7 @@ CAMPAIGNS.bef.nodes = {
           "Speculative. The fear of invasion is outweighed, and the two divisions held back " +
           "for home defence go with the others. The army that assembles at Maubeuge is " +
           "half as strong again as the one that went, and the army at home is that much " +
-          "weaker against a landing that does not come. The French, who counted on six, are " +
-          "not disappointed, and the War Office has to answer for a decision that leaves " +
-          "the coast to the Territorial Force.",
+          "weaker against a landing that does not come. The French, who counted on six, are not disappointed, and the coast is left to the Territorial Force.",
       },
     ],
   },
@@ -7412,9 +7373,7 @@ CAMPAIGNS.bef.nodes = {
         next: "bef_1915_05_shells",
         outcome:
           "The division sails on 10 March. The fleet attacks on the 18th and loses three " +
-          "battleships, and its commander calls off the attempt. The decision to try " +
-          "again by land has been taken in effect before the fleet has failed, and the " +
-          "troops go ashore on 25 April. The Cabinet has started a campaign in a second " +
+          "battleships, and its commander calls off the attempt. The decision to try again by land has been taken before the fleet has failed, and the troops go ashore on 25 April. The Cabinet has started a campaign in a second " +
           "theatre while the first is short of shells.",
       },
       {
@@ -7553,9 +7512,7 @@ CAMPAIGNS.bef.nodes = {
           "Speculative. The army tells Kitchener that it will not attack at Loos and " +
           "offers a smaller operation farther north. The French are given less than " +
           "they asked for, and say so. The army saves the casualties of the battle and " +
-          "pays for them in the French staff's opinion of its ally. The Secretary of " +
-          "State, who gave the order, has been told by his own generals that it will " +
-          "not be carried out, and has to decide what to do about it.",
+          "pays for them in the French staff's opinion of its ally. The Secretary of State, who gave the order, has been told by his own generals that it will not be carried out.",
       },
     ],
   },
@@ -7650,7 +7607,7 @@ CAMPAIGNS.bef.nodes = {
       "has come to agree. " +
       (flags.bef_dardanelles === "navy"
         ? "No army was ever landed, and the question that is put to the Cabinet is different: whether to begin a campaign at all."
-        : "Winter is coming, and the Cabinet has to decide whether to stay.") +
+        : "Winter is coming.") +
       "\n\nThe army in Gallipoli numbers some 93,000 men and 200 guns. The alternative " +
       "to evacuating is to reinforce it, with divisions that France and Salonika are also " +
       "asking for.",
@@ -7672,9 +7629,7 @@ CAMPAIGNS.bef.nodes = {
           "The Cabinet decides on 22 November to evacuate Anzac and Suvla. The evacuation " +
           "of Anzac begins on 15 December, with 36,000 men taken off in five nights, and " +
           "the last party leaves in the early hours of 20 December. The British leave " +
-          "Helles on the night of 8 January 1916. Some hundred thousand men are taken off " +
-          "secretly and with very small loss, which is the most successful part of the " +
-          "whole campaign, and which is also its end.",
+          "Helles on the night of 8 January 1916. Some hundred thousand men are taken off secretly and with very small loss, and the campaign ends.",
       },
       {
         id: "stay",
@@ -8064,11 +8019,7 @@ CAMPAIGNS.bef.nodes = {
         setFlags: { bef_calais: "refused", xc_calais: "refused" },
         next: "bef_1917_14_convoy",
         outcome:
-          "Speculative. The Cabinet is told that the army will not serve under Nivelle, " +
-          "and the Prime Minister has to decide whether to overrule his generals or " +
-          "give way. The offensive goes forward with the British under their own " +
-          "commander, and the French are told they have an ally who will cooperate " +
-          "and will not obey. Lloyd George's opinion of his generals is confirmed.",
+          "Speculative. The Cabinet is told that the army will not serve under Nivelle. The offensive goes forward with the British under their own commander, and the French are told they have an ally who will cooperate and will not obey. Haig keeps his own army and its plan, and Nivelle must fit the offensive to what he will agree. Lloyd George's opinion of his generals is confirmed.",
       },
     ],
   },
@@ -8209,8 +8160,7 @@ CAMPAIGNS.bef.nodes = {
           "summer on smaller operations. The French, who were expecting the British to " +
           "relieve them, are told that they must wait. The Prime Minister has used his " +
           "authority over the generals once, and has made it clear that he will use it " +
-          "again. Haig and Robertson have to decide whether to accept the decision or " +
-          "to resign, and the Cabinet has to decide what it will do if they do.",
+          "again. Haig and Robertson may resign rather than accept the decision.",
       },
       {
         id: "limited",
@@ -8505,8 +8455,7 @@ CAMPAIGNS.bef.nodes = {
           "Commander-in-Chief keeps his own command. The gap between the armies is a " +
           "matter of goodwill under shellfire, and each army considers its own line of " +
           "retreat first. The Germans have the time that the Allied headquarters take " +
-          "to agree, and use it. Milner, who was sent to settle the matter, goes home " +
-          "without having settled it, and has to say why.",
+          "to agree, and use it. Milner, who was sent to settle the matter, goes home without having settled it.",
       },
     ],
   },
@@ -8641,9 +8590,7 @@ CAMPAIGNS.bef.nodes = {
           "Speculative. The attacks are halted for some weeks and the army rests, and " +
           "the Cabinet is relieved. The Germans use the time to reach the Hindenburg " +
           "Line and settle behind it. The assault on it, when it comes, comes against a " +
-          "line that is held, with the winter near. Foch, who has ordered the attacks " +
-          "to go on, has to be told that the British are not going to attack, and has " +
-          "to decide what to make of the news.",
+          "line that is held, with the winter near. Foch, who has ordered the attacks to go on, has to be told that the British are not going to attack.",
       },
     ],
   },
@@ -9321,9 +9268,7 @@ CAMPAIGNS.aok.nodes = {
         outcome:
           "Speculative. The Third Army is held at the San while the First and Fourth go north. " +
           "The blow in the north is weaker by a corps and a half, and the flank that was " +
-          "meant to be turned is covered by an army that has not yet fought. The Russians " +
-          "have not shown which of the two armies they mean to hit, and the General Staff " +
-          "has to say what the Third Army is waiting for.",
+          "meant to be turned is covered by an army that has not yet fought. The Russians have not shown which of the two armies they mean to hit.",
       },
     ],
   },
@@ -9390,9 +9335,7 @@ CAMPAIGNS.aok.nodes = {
               "Speculative. The corps arrive on different days by different roads and " +
               "are put in as they come. The Russians, who have the whole of two armies " +
               "in hand, beat them one at a time, and the Third Army is lost as it was in " +
-              "the record with two corps more. The Fourth Army has been weakened for " +
-              "nothing, and the General Staff has to explain why it divided its force " +
-              "between two fronts and was strong on neither." },
+              "the record with two corps more. The Fourth Army has been weakened for nothing: the force was divided between two fronts and was strong on neither." },
         ],
       },
       {
@@ -9928,7 +9871,7 @@ CAMPAIGNS.aok.nodes = {
         label: "Launch the Trentino offensive with the army's own troops, taking the divisions from Galicia",
         historical: true,
         advisor: { name: "Conrad", position:
-          "Italy has to be punished for the betrayal, and the Galician front is quiet enough to be thinned. This is the chance." },
+          "Italy has to be punished for the betrayal, and the Galician front is quiet enough to be thinned." },
         impact: { manpower: -2, munitions: -1, will: 0 },
         setFlags: { aok_strafe: "launched" },
         next: "aok_1916_08_brusilov",
@@ -10153,9 +10096,7 @@ CAMPAIGNS.aok.nodes = {
         nextIf: (m) => (m.will >= -3 ? "aok_end_separate" : null),
         next: "aok_1917_11_caporetto",
         outcome:
-          "Speculative. The Emperor tells Berlin that the monarchy needs peace and means to " +
-          "have it, and the German command has to decide whether to meet him or to " +
-          "overrule him. The French, who have heard the same message by another road, " +
+          "Speculative. The Emperor tells Berlin that the monarchy needs peace and means to have it. Berlin reads it as a threat and asks what the monarchy means to do. The French, who have heard the same message by another road, " +
           "are in no hurry to answer. The alliance, which had been held together " +
           "by what neither partner said to the other, has to survive the saying of it.",
       },
@@ -10573,8 +10514,7 @@ CAMPAIGNS.aok.nodes = {
     title: "Out, Early",
     advisors: ["karl"],
     situation:
-      "The Emperor told his ally what he intended, and the ally has to decide what to do " +
-      "about it. The German command has the power to occupy the monarchy and does not " +
+      "The Emperor told his ally what he intended. The German command has the power to occupy the monarchy and does not " +
       "use it. The French and the British, who were not waiting for the offer, have to " +
       "consider whether they believe it, and whether a peace on those terms leaves them " +
       "with an enemy or with an ally.\n\n" +
@@ -11081,9 +11021,7 @@ CAMPAIGNS.otto.nodes = {
           "Speculative. Enver agrees to a month. The quartermasters are given until the middle " +
           "of January to find coats, boots and mules, and the staff is told to plan again for " +
           "the corps that will march. The Russians, who read a calendar as well as anybody, " +
-          "use the same weeks to bring up a corps by the railway. The Third Army will be " +
-          "better fit to march and the plan harder to surprise, and Enver has to say why a " +
-          "victory has been put off.",
+          "use the same weeks to bring up a corps by the railway. The Third Army will be better fit to march and the plan harder to surprise.",
       },
     ],
   },
@@ -11247,9 +11185,7 @@ CAMPAIGNS.otto.nodes = {
         outcome:
           "Speculative. The Fourth Army stays where it is and the British on the canal are " +
           "left to wonder what it intends. The 30,000 men and the aeroplanes stay on guard and " +
-          "are not sent anywhere else. The Ottoman force is not diminished by the march, " +
-          "and Djemal, who has been promised an operation, has to explain to Enver " +
-          "and to Berlin why there has not been one.",
+          "are not sent anywhere else. The Ottoman force is not diminished by the march, and Djemal, who has been promised an operation, has not had one.",
       },
       {
         id: "raid",
@@ -11500,7 +11436,7 @@ CAMPAIGNS.otto.nodes = {
           "and its guns to the Russians, who enter an empty city. The army is smaller than it " +
           "was, but whole, and it holds a line some distance to the west. The fortress, " +
           "whose fall would have been the defeat of the winter, is given up as a loss of " +
-          "ground only. Constantinople has to explain to the east why it left the town.",
+          "ground only.",
       },
       {
         id: "counter",
@@ -11760,8 +11696,7 @@ CAMPAIGNS.otto.nodes = {
           "Speculative. Khalil is ordered to leave Baghdad at once, and the Sixth Army marches north " +
           "with its guns, its stores and nearly all its men. The British enter the city a few days " +
           "earlier than it did and without a shot. The army that falls back on Mosul is the " +
-          "whole Sixth Army, and the empire has given up its chief city in Mesopotamia without a " +
-          "battle, which Enver, who wanted to fight, has to explain.",
+          "whole Sixth Army, and the empire has given up its chief city in Mesopotamia without a battle, though Enver wanted to fight.",
       },
     ],
   },
@@ -12518,8 +12453,7 @@ CAMPAIGNS.otto.nodes = {
       "The Allies broke out of the beaches and seized the heights above the forts, and from " +
       "them their guns look down on the Narrows. The minefield cannot be kept while it " +
       "is being shot at, and the fleet is at the entrance.\n\n" +
-      "The empire's capital is a day's steaming from a fleet that cannot now be stopped, and " +
-      "the Ottoman government has to decide whether to leave it. Whatever it decides, " +
+      "The empire's capital is a day's steaming from a fleet that cannot now be stopped, and the Ottoman government can only decide whether to leave it. Whatever it decides, " +
       "the war in the Straits is lost.",
     ending: { family: "straits-lost", badge: BADGES.SPECULATIVE },
     epilogue: () =>
@@ -13319,7 +13253,7 @@ export const RISKS = {
     "Speculative. Divisions are taken from the quiet sectors to prepare another attack, and the quiet sectors are not quiet for long. French and British patrols find the new troops, the guns are counted from the air, and the attack goes in against an enemy who is waiting for it. The reserve that was meant to be kept for the winter is now in the line, and the army begins the autumn with nothing behind it."),
   "ohl_1918_11_request/openterms": R(55, "The approach is heard and terms are named", "The approach is taken for weakness and the terms harden",
     { manpower: 0, munitions: 0, will: -2 },
-    "Speculative. The approach is made, and the Allies read it as the first crack. They do not refuse to talk, but they ask for more than they would have asked of an army that was still fighting, and the Chief has to explain to the Chancellor why an offer made from strength has been answered as one made from fear."),
+    "Speculative. The approach is made, and the Allies read it as the first crack. They do not refuse to talk, but they ask for more than they would have asked of an army that was still fighting, and an offer made from strength has been answered as one made from fear. The terms are the Allies' to set, and the army has nothing to bargain with."),
   "ohl_1918_10_salient/shorten": R(60, "The line is shortened in good order", "The retirement is taken for a defeat at home",
     { manpower: 1, munitions: 0, will: -4 },
     "Speculative. The armies come back to the shorter line, and the retirement is reported in the papers as a defeat. The reserve that was gained is real, but the Chancellor and the Reichstag are told by their own constituents that the front is going back, and the Supreme Command spends its credit at home to explain what it has done on the map."),
@@ -17260,7 +17194,7 @@ BATTLES.ypresGerman = {
 export const THEME_IDS = ["sepia", "paper", "night", "contrast"];
 export const THEME_LABELS = { sepia: "Sepia", paper: "Paper", night: "Night", contrast: "High contrast", auto: "Match my device" };
 /** The theme a new player sees. */
-export const DEFAULT_THEME = "paper";
+export const DEFAULT_THEME = "night";
 
 /** Tokens common to a theme. Text and ground pairs are listed in THEME_PAIRS. */
 export const THEME_TOKENS = {
@@ -18060,8 +17994,8 @@ export const EVENTS = [
     title: "The Roads Behind the Front",
     when: (f, m) => m.will <= 0,
     paras: [
-      "The army is falling back, and the roads and railways behind it are full of people. Many have been ordered out by the army itself, with their villages burned, and many more have simply fled.",
-      "The towns of the interior cannot house or feed them, and the trains the army needs for its supplies are blocked by trains of refugees. The ministers in Petrograd say plainly what the war is doing to the country.",
+      "The army is falling back, and the roads and railways behind it are full of people. Many have been ordered out by the army itself, with their villages burned, and many more have fled.",
+      "The towns of the interior cannot house or feed them, and the trains the army needs for its supplies are blocked by trains of refugees. The ministers in Petrograd say what the war is doing to the country.",
     ],
   },
   {
@@ -19310,6 +19244,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           {rank && <RankPanel result={rank} />}
           <FileStrip campaignId={campaignId} endingId={nodeId} flags={flags} taken={taken || []} hard={hardState.enabled} />
           {rank && <ShareCard campaignId={campaignId} endingId={nodeId} rank={rank} taken={taken || []} flags={flags || {}} mode={mode} />}
+          {DEMO && <p><a className="dg-btn dg-go dg-link" href={FULL_GAME_URL} target="_blank" rel="noopener noreferrer">Play the other five commands in the full game</a></p>}
           <button className="dg-btn" onClick={onHome}>Return to file</button>
         </>
       ) : (
@@ -19630,7 +19565,7 @@ function RecordScreen({ record, onBack }) {
 export default function App() {
   const [settings, setSettings] = useState(loadSettings);
   const [record, setRecord] = useState(loadRecord);
-  const [savedRun, setSavedRun] = useState(() => { const s = loadSavedRun(); return DEMO && s && (s.campaignId !== DEMO_COMMAND || (Array.isArray(s.taken) ? s.taken.length : 0) >= DEMO_DECISIONS) ? null : s; });
+  const [savedRun, setSavedRun] = useState(() => { const s = loadSavedRun(); return DEMO && s && s.campaignId !== DEMO_COMMAND ? null : s; });
   const [signals, setSignals] = useState("cipher"); // the briefing's choice: "cipher" or "clear"
   const [press, setPress] = useState("free"); // the briefing's choice: "free" or "censored"
   const [rigOn, setRigOn] = useState(false); // a battle opened from the battle rig (a dev build): nothing of it is saved
@@ -19831,8 +19766,6 @@ export default function App() {
 
   const cont = () => {
     if (rigOn) { setRigOn(false); setPending(null); setScreen("rig"); return; }
-    // the free demo stops after its last order, whatever comes next
-    if (DEMO && taken.length >= DEMO_DECISIONS) { clearSavedRun(); setSavedRun(null); setPending(null); setScreen("demoend"); return; }
     setNodeId(pending?.nextId ?? null);
     if (pending && pending.event) { setScreen("event"); return; }
     setPending(null);
@@ -19878,7 +19811,6 @@ export default function App() {
         <BriefingScreen key={campaignId} campaignId={campaignId} mode={mode} onMode={setMode} signals={signals} onSignals={setSignals} press={press} onPress={setPress} settings={settings} onSettings={setSettings}
           onEnter={() => start(campaignId)} onBack={home} />
       )}
-      {screen === "demoend" && campaignId && <DemoEndScreen campaignId={campaignId} onHome={home} />}
       {screen === "rig" && <BattleRigScreen onFight={rigFight} onBack={home} />}
       {screen === "howto" && <HowToScreen onBack={() => { setScreen(howBack || cameFrom); setHowBack(null); }} />}
       {screen === "settings" && <SettingsScreen settings={settings} onSettings={setSettings} onBack={() => setScreen(cameFrom)} onHowTo={() => { setHowBack("settings"); setScreen("howto"); }} />}
@@ -19920,12 +19852,11 @@ export default function App() {
 // How to play, reached from Settings, holds what the game is and what it leaves out; Settings holds what is kept on the device.
 // The text is in 66-briefings.jsx and 60-glossary.jsx.
 
-// The free demo (build.mjs makes it with DEMO_BUILD true): one command, its first DEMO_DECISIONS orders, the standard file only, and an ending screen that
-// points to the full game. The French command is the demo because its first six orders carry the whole game in small: contested orders, the staff's
-// beliefs, the Marne as an Order of Battle, and a front that moves. RIG is the battle rig (DEV_RIG true, dist/rig): a menu entry that opens any battle at once.
+// The free demo (build.mjs makes it with DEMO_BUILD true): the German command in full, from the first day to any of its endings, the standard file only, and a link
+// to the full game on the ending screen. The other five commands are listed and locked. The German command is the demo because it opens the war, carries the
+// whole of the game (contested orders, the staff's beliefs, Orders of Battle, documents and newspapers) and has the widest range of endings. RIG is the battle rig (DEV_RIG true, dist/rig): a menu entry that opens any battle at once.
 const DEMO = DEMO_BUILD;
-const DEMO_COMMAND = "gqg";
-const DEMO_DECISIONS = 6;
+const DEMO_COMMAND = "ohl";
 const FULL_GAME_URL = "https://dispatches.itch.io/dispatches-1914";
 const RIG = DEV_RIG;
 
@@ -19978,7 +19909,7 @@ function MenuScreen({ onPick, onRecord, onSettings, onRig, savedRun, onResume, o
       <p className="dg-sub">{"\u201C"}This war, like the next war, is a war to end war.{"\u201D"}</p>
       <p className="dg-sub-by">David Lloyd George<span>1916</span></p>
       <hr className="dg-rule" />
-      {DEMO && <p className="dg-demo-note"><b>Free demo.</b> Play the first {DEMO_DECISIONS} orders of the French command. The full game has six commands and 71 endings.</p>}
+      {DEMO && <p className="dg-demo-note"><b>Free demo.</b> The German command is open in full. The full game has six commands and 71 endings.</p>}
 
       {saved && (
         <section className="dg-banner" aria-label="Saved file">
@@ -20107,22 +20038,6 @@ function ReadAloud({ id, text }) {
     setOn(true);
   };
   return <button className="dg-btn dg-read" onClick={toggle}>{on ? "Stop reading" : "Read aloud"}</button>;
-}
-
-/** The end of the free demo: where the file stops, and what the full game is. */
-function DemoEndScreen({ campaignId, onHome }) {
-  const c = CAMPAIGNS[campaignId];
-  return (
-    <main {...rootProps(campaignId, "demoend")}>
-      <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
-      <div className="dg-docrow"><span>{c.docLabel} · END OF THE DEMO</span></div>
-      <h1 className="dg-node-title">The demo ends here</h1>
-      <p className="dg-prose dg-lede">You have given the first {DEMO_DECISIONS} orders of the French command, from the covering of the frontier to the race to the sea. The war has four years to run, and the file goes on to Verdun, the Nivelle offensive, the mutinies and the armistice.</p>
-      <p className="dg-prose">The full game has six headquarters (German, French, Russian, British, Austro-Hungarian and Ottoman), over 200 decisions and 71 endings, with real documents at the head of the reports, the Order of Battle, and the Easy and Hard files.</p>
-      <p><a className="dg-btn dg-go dg-link" href={FULL_GAME_URL} target="_blank" rel="noopener noreferrer">Get the full game</a></p>
-      <button className="dg-btn" onClick={onHome}>Back to the commands</button>
-    </main>
-  );
 }
 
 /** The battle rig (a dev build only): every Order of Battle in a list, to open at once with the enemy's setup, the strain on the command and the mode chosen. */

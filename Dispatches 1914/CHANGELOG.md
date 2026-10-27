@@ -5,6 +5,12 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## 1.4.3 (2026-10-27)
+### Changed: Night is the default look, and the text says less
+- **Night is the default theme.** Anyone who has not chosen a look now gets Night (it was Paper), and the page itself opens dark so that nothing flashes light first. A look that a player has chosen is kept.
+- **The demo is the German command, in full.** The French command is locked, along with the other four. The German command plays from the first day to any of its endings, and the ending screen links to the full game. The six-order cap and its end screen are gone.
+- **Less text.** About fifty sentences that closed a report on who has to decide or explain, restated the decision, or ended on a remark (that is the point of it, which is the whole difficulty, said plainly) are cut or shortened, and five outcomes that fell below the length floor gained a sentence from what the report already says. `check-live-voice.js` now also flags a sentence that closes on who has to decide or explain.
+
 ## 1.4.2 (2026-10-23)
 ### Added: the sketch of the ground and the day in bulletins, and the conditions of a report
 - **The sketch of the ground.** An Order of Battle is planned on a sketch: one numbered sector for each of the four arms, the enemy above and our own side below, and the line between them. A counter is placed by pressing a sector and taken back by pressing the counter; the buttons under each arm still do the same for a keyboard or a screen reader.

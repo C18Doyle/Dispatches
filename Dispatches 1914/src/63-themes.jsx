@@ -10,7 +10,7 @@
 export const THEME_IDS = ["sepia", "paper", "night", "contrast"];
 export const THEME_LABELS = { sepia: "Sepia", paper: "Paper", night: "Night", contrast: "High contrast", auto: "Match my device" };
 /** The theme a new player sees. */
-export const DEFAULT_THEME = "paper";
+export const DEFAULT_THEME = "night";
 
 /** Tokens common to a theme. Text and ground pairs are listed in THEME_PAIRS. */
 export const THEME_TOKENS = {

@@ -238,9 +238,7 @@ CAMPAIGNS.bef.nodes = {
           "Speculative. The fear of invasion is outweighed, and the two divisions held back " +
           "for home defence go with the others. The army that assembles at Maubeuge is " +
           "half as strong again as the one that went, and the army at home is that much " +
-          "weaker against a landing that does not come. The French, who counted on six, are " +
-          "not disappointed, and the War Office has to answer for a decision that leaves " +
-          "the coast to the Territorial Force.",
+          "weaker against a landing that does not come. The French, who counted on six, are not disappointed, and the coast is left to the Territorial Force.",
       },
     ],
   },
@@ -400,9 +398,7 @@ CAMPAIGNS.bef.nodes = {
         next: "bef_1915_05_shells",
         outcome:
           "The division sails on 10 March. The fleet attacks on the 18th and loses three " +
-          "battleships, and its commander calls off the attempt. The decision to try " +
-          "again by land has been taken in effect before the fleet has failed, and the " +
-          "troops go ashore on 25 April. The Cabinet has started a campaign in a second " +
+          "battleships, and its commander calls off the attempt. The decision to try again by land has been taken before the fleet has failed, and the troops go ashore on 25 April. The Cabinet has started a campaign in a second " +
           "theatre while the first is short of shells.",
       },
       {
@@ -541,9 +537,7 @@ CAMPAIGNS.bef.nodes = {
           "Speculative. The army tells Kitchener that it will not attack at Loos and " +
           "offers a smaller operation farther north. The French are given less than " +
           "they asked for, and say so. The army saves the casualties of the battle and " +
-          "pays for them in the French staff's opinion of its ally. The Secretary of " +
-          "State, who gave the order, has been told by his own generals that it will " +
-          "not be carried out, and has to decide what to do about it.",
+          "pays for them in the French staff's opinion of its ally. The Secretary of State, who gave the order, has been told by his own generals that it will not be carried out.",
       },
     ],
   },
@@ -638,7 +632,7 @@ CAMPAIGNS.bef.nodes = {
       "has come to agree. " +
       (flags.bef_dardanelles === "navy"
         ? "No army was ever landed, and the question that is put to the Cabinet is different: whether to begin a campaign at all."
-        : "Winter is coming, and the Cabinet has to decide whether to stay.") +
+        : "Winter is coming.") +
       "\n\nThe army in Gallipoli numbers some 93,000 men and 200 guns. The alternative " +
       "to evacuating is to reinforce it, with divisions that France and Salonika are also " +
       "asking for.",
@@ -660,9 +654,7 @@ CAMPAIGNS.bef.nodes = {
           "The Cabinet decides on 22 November to evacuate Anzac and Suvla. The evacuation " +
           "of Anzac begins on 15 December, with 36,000 men taken off in five nights, and " +
           "the last party leaves in the early hours of 20 December. The British leave " +
-          "Helles on the night of 8 January 1916. Some hundred thousand men are taken off " +
-          "secretly and with very small loss, which is the most successful part of the " +
-          "whole campaign, and which is also its end.",
+          "Helles on the night of 8 January 1916. Some hundred thousand men are taken off secretly and with very small loss, and the campaign ends.",
       },
       {
         id: "stay",
@@ -1052,11 +1044,7 @@ CAMPAIGNS.bef.nodes = {
         setFlags: { bef_calais: "refused", xc_calais: "refused" },
         next: "bef_1917_14_convoy",
         outcome:
-          "Speculative. The Cabinet is told that the army will not serve under Nivelle, " +
-          "and the Prime Minister has to decide whether to overrule his generals or " +
-          "give way. The offensive goes forward with the British under their own " +
-          "commander, and the French are told they have an ally who will cooperate " +
-          "and will not obey. Lloyd George's opinion of his generals is confirmed.",
+          "Speculative. The Cabinet is told that the army will not serve under Nivelle. The offensive goes forward with the British under their own commander, and the French are told they have an ally who will cooperate and will not obey. Haig keeps his own army and its plan, and Nivelle must fit the offensive to what he will agree. Lloyd George's opinion of his generals is confirmed.",
       },
     ],
   },
@@ -1197,8 +1185,7 @@ CAMPAIGNS.bef.nodes = {
           "summer on smaller operations. The French, who were expecting the British to " +
           "relieve them, are told that they must wait. The Prime Minister has used his " +
           "authority over the generals once, and has made it clear that he will use it " +
-          "again. Haig and Robertson have to decide whether to accept the decision or " +
-          "to resign, and the Cabinet has to decide what it will do if they do.",
+          "again. Haig and Robertson may resign rather than accept the decision.",
       },
       {
         id: "limited",
@@ -1493,8 +1480,7 @@ CAMPAIGNS.bef.nodes = {
           "Commander-in-Chief keeps his own command. The gap between the armies is a " +
           "matter of goodwill under shellfire, and each army considers its own line of " +
           "retreat first. The Germans have the time that the Allied headquarters take " +
-          "to agree, and use it. Milner, who was sent to settle the matter, goes home " +
-          "without having settled it, and has to say why.",
+          "to agree, and use it. Milner, who was sent to settle the matter, goes home without having settled it.",
       },
     ],
   },
@@ -1629,9 +1615,7 @@ CAMPAIGNS.bef.nodes = {
           "Speculative. The attacks are halted for some weeks and the army rests, and " +
           "the Cabinet is relieved. The Germans use the time to reach the Hindenburg " +
           "Line and settle behind it. The assault on it, when it comes, comes against a " +
-          "line that is held, with the winter near. Foch, who has ordered the attacks " +
-          "to go on, has to be told that the British are not going to attack, and has " +
-          "to decide what to make of the news.",
+          "line that is held, with the winter near. Foch, who has ordered the attacks to go on, has to be told that the British are not going to attack.",
       },
     ],
   },
