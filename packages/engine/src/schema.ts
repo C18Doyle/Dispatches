@@ -235,6 +235,10 @@ export interface InterludeTrigger {
   onEnterNodes: NodeId[];
   /** Optional: the interlude is only offered while this condition holds (a document that depends on what the player did). */
   when?: Condition;
+  /** Optional: applied when the interlude is offered (through the coupling rules), and shown on the card. A deadline missed, an answer from an enemy. */
+  stamps?: PartialStamps;
+  /** Optional: flags set when the interlude is offered. */
+  setFlags?: FlagId[];
 }
 
 export interface AssistConfig {

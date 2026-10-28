@@ -27,6 +27,7 @@ import { PlateView, plateForEnding, plateForInterlude } from "./art";
 import { MapView } from "./map";
 import { CalendarView } from "./calendar";
 import { BoardView } from "./board";
+import { IS_DEMO, isDemoStop } from "./demo";
 import { MINOR_BRANCHES, VOLUMES, volumeOfBranch, volumeOfEnding, volumeStats } from "./casebook";
 
 type Resource = string;
@@ -189,6 +190,8 @@ function saveLedger(ledger: Ledger) {
  * so a player can tell which words are Doyle's. (This game uses imagined lines only.)
  */
 function QuoteLine({ quote, className }: { quote: Quote; className: string }) {
+  // an option may be silent: no one speaks, and the line is not drawn
+  if (!quote.text) return null;
   const novel = quote.kind === "novel" && !!quote.source;
   return (
     <p className={className}>
@@ -200,27 +203,74 @@ function QuoteLine({ quote, className }: { quote: Quote; className: string }) {
   );
 }
 
-const RUN_SAVE_KEY = "sherlock_run_save_v1";
+/**
+ * One saved run per volume of the Case-Book, so that the long case can be left half-played while a minor case is finished. The old single save
+ * (key v1) is moved to its volume the first time it is seen. `latest` names the volume saved most recently, which the title screen resumes.
+ */
+const LEGACY_SAVE_KEY = "sherlock_run_save_v1";
+const SAVE_PREFIX = "sherlock_run_save_v2:";
+const LATEST_KEY = SAVE_PREFIX + "latest";
+const volumeOfState = (s: GameState) => volumeOfBranch(s.activeBranch)?.id ?? VOLUMES[0].id;
 
-function loadRunSave(): GameState | null {
+function migrateLegacySave() {
   try {
-    return parseRunSave(localStorage.getItem(RUN_SAVE_KEY), def.content.nodes);
+    const raw = localStorage.getItem(LEGACY_SAVE_KEY);
+    if (raw === null) return;
+    const old = parseRunSave(raw, def.content.nodes);
+    if (old && old.currentNodeId !== "0") {
+      const key = SAVE_PREFIX + volumeOfState(old);
+      if (localStorage.getItem(key) === null) {
+        localStorage.setItem(key, serializeRunSave(old));
+        localStorage.setItem(LATEST_KEY, volumeOfState(old));
+      }
+    }
+    localStorage.removeItem(LEGACY_SAVE_KEY);
   } catch {
-    return null; // storage unavailable
+    /* storage unavailable */
   }
+}
+
+/** The saved run of each volume that has one. */
+function loadRunSaves(): Record<string, GameState> {
+  const out: Record<string, GameState> = {};
+  try {
+    migrateLegacySave();
+    for (const v of VOLUMES) {
+      const s = parseRunSave(localStorage.getItem(SAVE_PREFIX + v.id), def.content.nodes);
+      if (s && s.currentNodeId !== "0") out[v.id] = s;
+    }
+  } catch {
+    /* storage unavailable */
+  }
+  return out;
+}
+
+/** The run saved most recently, or any saved run if the record of which was lost. */
+function loadRunSave(): GameState | null {
+  const saves = loadRunSaves();
+  try {
+    const latest = localStorage.getItem(LATEST_KEY);
+    if (latest && saves[latest]) return saves[latest];
+  } catch {
+    /* ignore */
+  }
+  return Object.values(saves)[0] ?? null;
 }
 
 function saveRunSave(state: GameState) {
   try {
-    localStorage.setItem(RUN_SAVE_KEY, serializeRunSave(state));
+    const id = volumeOfState(state);
+    localStorage.setItem(SAVE_PREFIX + id, serializeRunSave(state));
+    localStorage.setItem(LATEST_KEY, id);
   } catch {
-    /* autosave is a convenience, not a guarantee — never block on it */
+    /* autosave is a convenience, not a guarantee, never block on it */
   }
 }
 
-function clearRunSave() {
+/** A finished run is not something to resume: its volume's save goes, the others stay. */
+function clearRunSave(state: GameState) {
   try {
-    localStorage.removeItem(RUN_SAVE_KEY);
+    localStorage.removeItem(SAVE_PREFIX + volumeOfState(state));
   } catch {
     /* ignore */
   }
@@ -285,7 +335,7 @@ function Meter({ resource, value }: { resource: Resource; value: number }) {
   return (
     <div className="flex-1 min-w-0" role="meter" aria-label={RESOURCE_LABELS[resource]} aria-valuemin={range.min} aria-valuemax={range.max} aria-valuenow={value} aria-valuetext={`${value}${inCrisis ? ", in crisis" : ""}`}>
       <div className="flex items-baseline justify-between mb-1 sm:mb-1.5 gap-1">
-        <span className="font-heading text-[0.52rem] xs:text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">
+        <span className="font-heading text-[0.6rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">
           {RESOURCE_LABELS[resource]}
         </span>
         <span className={`font-heading text-[0.65rem] sm:text-xs font-bold tabular-nums shrink-0 ${inCrisis ? "text-blood" : "text-ink"}`}>
@@ -310,6 +360,27 @@ function Meter({ resource, value }: { resource: Resource; value: number }) {
   );
 }
 
+/** The six gauges as a slim strip that stays at the top of the screen once the full gauge card has scrolled out of sight, so that a long scene never hides them. */
+function GaugeStrip({ resources }: { resources: Record<string, number> }) {
+  return (
+    <div className="fixed top-0 inset-x-0 z-30 pointer-events-none" aria-hidden="true">
+      <div className="max-w-[600px] mx-auto pl-2 pr-12 pt-1">
+        <div className="parchment-card flex items-stretch justify-between gap-1 px-2 py-1 text-ink shadow-lg">
+          {RESOURCE_IDS.map((r) => {
+            const v = resources[r] ?? 0;
+            return (
+              <div key={r} className="flex-1 min-w-0 text-center leading-tight">
+                <p className="font-heading text-[0.56rem] uppercase tracking-wider text-ink-soft">{(RESOURCE_LABELS[r] ?? r).slice(0, 3)}</p>
+                <p className={`font-heading text-xs font-bold ${isInCrisis(r, v) ? "text-blood" : "text-ink"}`}>{v > 0 ? `+${v}` : v}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function StrandMeter({ resources }: { resources: Record<string, number> }) {
   const lines = STRAND_IDS.map((id) => ({ id, range: def.config.resources.find((r) => r.id === id)!, value: resources[id] ?? 0 }));
   if (!lines.length) return null;
@@ -329,7 +400,7 @@ function StrandMeter({ resources }: { resources: Record<string, number> }) {
       aria-valuetext={`${lines.map((l) => `${RESOURCE_LABELS[l.id]} ${l.value}`).join(", ")}${crisis ? ", in crisis" : ""}`}
     >
       <div className="flex items-baseline justify-between mb-1 sm:mb-1.5 gap-1">
-        <span className="font-heading text-[0.52rem] xs:text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">The Strand</span>
+        <span className="font-heading text-[0.6rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">The Strand</span>
         <span className={`font-heading text-[0.65rem] sm:text-xs font-bold tabular-nums shrink-0 ${crisis ? "text-blood" : "text-ink"}`}>{low > 0 ? `+${low}` : low}</span>
       </div>
       <div className="gauge-track relative h-1.5 sm:h-2 rounded-sm bg-black/60 border border-brass-dim/70 overflow-hidden">
@@ -345,7 +416,7 @@ function StrandMeter({ resources }: { resources: Record<string, number> }) {
           const bad = isInCrisis(l.id, l.value);
           return (
             <li key={l.id} className="flex items-center gap-1">
-              <span className="w-[2.1rem] shrink-0 font-heading text-[0.5rem] uppercase tracking-wider text-ink-soft">{RESOURCE_LABELS[l.id]}</span>
+              <span className="w-[2.1rem] shrink-0 font-heading text-[0.6rem] uppercase tracking-wider text-ink-soft">{RESOURCE_LABELS[l.id]}</span>
               <span className="relative h-[3px] flex-1 bg-black/50 overflow-hidden rounded-sm">
                 <span className="absolute inset-y-0 w-px bg-brass/40" style={{ left: "50%" }} />
                 <span
@@ -353,7 +424,7 @@ function StrandMeter({ resources }: { resources: Record<string, number> }) {
                   style={{ left: l.value >= 0 ? "50%" : `${p}%`, right: l.value >= 0 ? `${100 - p}%` : "50%" }}
                 />
               </span>
-              <span className={`w-3 text-right font-heading text-[0.55rem] tabular-nums ${bad ? "text-blood" : "text-ink"}`}>{l.value}</span>
+              <span className={`w-3 text-right font-heading text-[0.6rem] tabular-nums ${bad ? "text-blood" : "text-ink"}`}>{l.value}</span>
             </li>
           );
         })}
@@ -468,6 +539,37 @@ const CARD_KIND: Record<string, string> = {
   CRISIS_HOURS: "card-guide",
   CRISIS_HANDS: "card-note",
   CRISIS_WIRES: "card-telegram",
+  DEADLINE_RAIDS_LATE: "card-telegram",
+  DEADLINE_TIDE_LATE: "card-note",
+  DEADLINE_HOTEL_LATE: "card-calling",
+  DEADLINE_CABINET_LATE: "card-telegram",
+  DEADLINE_RAIDS_EARLY: "card-journal",
+  DEADLINE_TIDE_EARLY: "card-guide",
+  DEADLINE_HOTEL_EARLY: "card-journal",
+  DEADLINE_CABINET_EARLY: "card-telegram",
+  ANSWER_CABS: "card-note",
+  ANSWER_MOLE: "card-calling",
+  ANSWER_PAPER: "card-note",
+  ANSWER_BANK: "card-note",
+  ANSWER_CABLES: "card-telegram",
+};
+/** What each kind of card is called in its corner (the class is the kind; no class is a newspaper). */
+const CARD_TAG: Record<string, string> = {
+  "": "Newspaper",
+  "card-telegram": "Telegram",
+  "card-note": "Note",
+  "card-calling": "Calling card",
+  "card-journal": "Journal",
+  "card-guide": "Guide",
+};
+/** The stamp on a telegram, where it is not the usual RECEIVED: a message that came too late or never came. An empty string draws no stamp. */
+const CARD_STAMP: Record<string, string> = {
+  CRISIS_WIRES: "UNDELIVERED",
+  DEADLINE_RAIDS_LATE: "TOO LATE",
+  DEADLINE_CABINET_LATE: "TOO LATE",
+  DEADLINE_CABINET_EARLY: "",
+  DEADLINE_RAIDS_EARLY: "",
+  ANSWER_CABLES: "",
 };
 const EXAM_SCENES = new Set(["X1", "X2", "X3", "YX1", "YX2", "YX3"]);
 const ALLY_SPEAKERS: Record<string, string> = { Watson: "Dr Watson", Lestrade: "Inspector Lestrade", Mycroft: "Mycroft Holmes", Wiggins: "Wiggins" };
@@ -536,10 +638,25 @@ export default function App() {
     }
   }, [theme]);
   const [overlay, setOverlay] = useState<"SETTINGS" | "RESEARCH" | "LEDGER" | null>(null);
-  const screen: string = overlay ?? state.phase;
+  // The demo build locks the long case on arriving at the first scene of a road (src/demo.ts); the full game never does.
+  const demoStop = IS_DEMO && state.phase === "NODE" && isDemoStop(def, state.currentNodeId);
+  const screen: string = overlay ?? (demoStop ? "DEMO_END" : state.phase);
   const rules = def.config.difficulties[state.difficulty];
   const interlude = state.activeInterludeId ? def.content.interludes[state.activeInterludeId] : undefined;
   const shellRef = useRef<HTMLElement>(null);
+  // the gauge card, and whether it has scrolled out of sight (then the slim strip takes its place)
+  const gaugeRef = useRef<HTMLDivElement>(null);
+  const [gaugesOut, setGaugesOut] = useState(false);
+  useEffect(() => {
+    const el = gaugeRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setGaugesOut(false);
+      return;
+    }
+    const io = new IntersectionObserver(([entry]) => setGaugesOut(!entry.isIntersecting && entry.boundingClientRect.top < 0));
+    io.observe(el);
+    return () => io.disconnect();
+  }, [screen, state.currentNodeId]);
   const [favorPanelOpen, setFavorPanelOpen] = useState(false);
   const [houseTab, setHouseTab] = useState<"HOUSE" | "COMPANY" | "BOARD" | "MAP" | "CALENDAR" | null>(null);
   // browsers keep a page silent until the player has acted on it, so the atmosphere waits for the first click
@@ -635,7 +752,7 @@ export default function App() {
     if (IN_RUN_SCREENS.has(state.phase)) {
       if (state.currentNodeId !== "0") saveRunSave(state);
     }
-    else if (state.phase === "ENDING") clearRunSave();
+    else if (state.phase === "ENDING") clearRunSave(state);
   }, [state]);
 
   // Re-reads localStorage every time the menu is reached, rather than only
@@ -891,6 +1008,33 @@ export default function App() {
         </div>
       </VoidScreen>
     );
+  } else if (screen === "DEMO_END" && def.flavor.demoEnd) {
+    const demoEnd = def.flavor.demoEnd;
+    content = (
+      <VoidScreen>
+        {settingsButton}
+        <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative">
+          <CornerFlourishes />
+          <h1 className="font-heading text-2xl sm:text-3xl font-bold mb-5">{demoEnd.title}</h1>
+          <div className="space-y-4 text-[1.05rem] leading-relaxed">
+            {demoEnd.body.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button
+              onClick={() => {
+                click();
+                dispatch({ type: "RESTART" });
+              }}
+              className="px-5 py-2.5 bg-blood text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-blood-bright transition-colors"
+            >
+              {demoEnd.restart}
+            </button>
+          </div>
+        </div>
+      </VoidScreen>
+    );
   } else if (screen === "LEDGER") {
     const endingIds = Object.keys(def.content.endings);
     const found = endingIds.filter((id) => endingsSeen.has(id) || (ledger.endings[id] ?? 0) > 0);
@@ -899,7 +1043,7 @@ export default function App() {
         <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative max-h-[85vh] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="ledger-title">
           <CornerFlourishes />
           <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">Kept in this browser</p>
-          <h1 id="ledger-title" className="font-heading text-2xl font-bold mb-1">The Case-Book</h1>
+          <h1 id="ledger-title" className="font-heading text-2xl font-bold mb-1">The Ledger</h1>
           <p className="font-heading text-xs uppercase tracking-widest text-ink-soft mb-6">
             {found.length} / {endingIds.length} endings found
           </p>
@@ -1014,7 +1158,7 @@ export default function App() {
               }}
               className="mt-3 w-full sm:w-auto block mx-auto px-10 py-2.5 border border-brass-dim/70 text-ash font-heading uppercase text-xs tracking-[0.2em] hover:border-brass hover:text-parchment transition-colors"
             >
-              Resume the Case
+              Resume the Case{volumeOfBranch(resumableSave.activeBranch) ? `: ${volumeOfBranch(resumableSave.activeBranch)!.title}` : ""}
             </button>
           )}
           <div className="mt-4 flex gap-3 justify-center">
@@ -1044,7 +1188,7 @@ export default function App() {
                 }}
                 className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
               >
-                Case-Book
+                Ledger
               </button>
             )}
           </div>
@@ -1293,14 +1437,20 @@ export default function App() {
     const paper = interlude;
     content = (
       <VoidScreen>
-        <div className={`max-w-xl w-full bg-parchment border-4 border-double border-ink p-6 sm:p-8 font-broadsheet text-ink shadow-2xl relative ${CARD_KIND[paper.id] ?? ""}`}>
+        <div className={`max-w-xl w-full bg-parchment border-4 border-double border-ink p-6 sm:p-8 font-broadsheet text-ink shadow-2xl relative ${CARD_KIND[paper.id] ?? ""}`} data-stamp={CARD_STAMP[paper.id] ?? "RECEIVED"}>
           <div className="flex items-center justify-between border-b-2 border-ink pb-2 mb-4">
             <span className="text-xs uppercase tracking-[0.25em] font-bold">{paper.source}</span>
-            <span className="text-xs uppercase tracking-widest text-ink/60">{paper.kind}</span>
+            <span className="text-xs uppercase tracking-widest text-ink/60">{CARD_TAG[CARD_KIND[paper.id] ?? ""]}</span>
           </div>
           {plateForInterlude(paper.id) && <PlateView id={plateForInterlude(paper.id)!} />}
           <h1 className="text-2xl sm:text-3xl font-bold leading-tight mb-3">{paper.headline}</h1>
           <p className="font-body text-sm leading-relaxed columns-1 sm:columns-2 gap-6 whitespace-pre-line">{paper.bodyText}</p>
+          {state.pendingOutcomeStamps && Object.values(state.pendingOutcomeStamps).some(Boolean) && (
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <span className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/80">What changed</span>
+              {Object.entries(state.pendingOutcomeStamps).map(([resource, delta]) => (delta ? <StampBadge key={resource} resource={resource as Resource} delta={delta} /> : null))}
+            </div>
+          )}
           <button
             onClick={() => {
               pageTurn();
@@ -1435,8 +1585,8 @@ export default function App() {
     const onShelf = state.currentNodeId === "0";
     const shelfStats = onShelf ? volumeStats(endingsSeen) : [];
     // an unfinished case from an earlier visit, which the shelf offers to take up again (the shelf itself is never saved)
-    const savedCase = onShelf ? loadRunSave() : null;
-    const openCase = savedCase && savedCase.currentNodeId !== "0" ? savedCase : null;
+    // each volume keeps its own unfinished case; the shelf offers to take it up again (starting the volume afresh replaces that volume's save only)
+    const savedCases = onShelf ? loadRunSaves() : {};
     const tabButton = (id: "HOUSE" | "COMPANY" | "BOARD" | "MAP" | "CALENDAR", label: string) => (
       <button
         role="tab"
@@ -1465,7 +1615,7 @@ export default function App() {
           </header>
 
           {!onShelf && (
-          <div className="parchment-card p-4 sm:p-5 mb-6 relative">
+          <div ref={gaugeRef} className="parchment-card p-4 sm:p-5 mb-6 relative">
             <CornerFlourishes />
             {rules.enforceMoney && (
               <div className="flex items-center gap-1.5 mb-3 text-brass-dim">
@@ -1662,25 +1812,6 @@ export default function App() {
                 Take Watson's Suggestion
               </button>
             )}
-            {onShelf && openCase && (
-              <div className="mb-5 border border-brass-dim p-3 bg-black/[0.04]">
-                <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-1">A Case Is Open</p>
-                <p className="text-sm text-ink/90">
-                  {volumeOfBranch(openCase.activeBranch)?.title ?? "The Final Problem"}:{" "}
-                  <span className="font-semibold">{def.content.nodes[openCase.currentNodeId]?.title}</span>. {openCase.history.length} choices so far.
-                </p>
-                <button
-                  onClick={() => {
-                    select();
-                    dispatch({ type: "HYDRATE", state: openCase });
-                  }}
-                  className="mt-2 px-4 py-2 border border-ink/40 text-ink font-heading uppercase text-xs tracking-widest hover:border-ink hover:bg-ink hover:text-parchment transition-colors"
-                >
-                  Resume it
-                </button>
-                <p className="mt-2 text-xs text-ink/70">Opening a volume below puts this case away for good.</p>
-              </div>
-            )}
             <div className="space-y-4">
               {node.options.map((option, i) => {
                 // An option that is not on offer at this difficulty (or in this state) is not shown; the index stays the option's own.
@@ -1782,6 +1913,23 @@ export default function App() {
                       </p>
                     )}
                   </button>
+                  {onShelf && savedCases[VOLUMES[i]?.id] && (
+                    <div className="-mt-2 border border-t-0 border-ink/30 bg-black/[0.04] p-3">
+                      <p className="text-sm text-ink/90">
+                        An unfinished case: <span className="font-semibold">{def.content.nodes[savedCases[VOLUMES[i].id].currentNodeId]?.title}</span>, {savedCases[VOLUMES[i].id].history.length} choices so far.
+                      </p>
+                      <button
+                        onClick={() => {
+                          select();
+                          dispatch({ type: "HYDRATE", state: savedCases[VOLUMES[i].id] });
+                        }}
+                        className="mt-2 px-4 py-2 border border-ink/40 text-ink font-heading uppercase text-xs tracking-widest hover:border-ink hover:bg-ink hover:text-parchment transition-colors"
+                      >
+                        Resume it
+                      </button>
+                      <p className="mt-2 text-xs text-ink/70">Starting this volume again puts that case away. The other volumes keep theirs.</p>
+                    </div>
+                  )}
                   </Fragment>
                 );
               })}
@@ -1797,6 +1945,7 @@ export default function App() {
       <main className="app-shell" ref={shellRef}>
         {content}
       </main>
+      {gaugesOut && screen === "NODE" && <GaugeStrip resources={state.resources} />}
     </>
   );
 }

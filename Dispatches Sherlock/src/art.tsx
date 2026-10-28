@@ -519,6 +519,65 @@ export const PLATES = {
       <text x="190" y="22" fontSize="8" fill="currentColor" stroke="none" textAnchor="middle" style={{ fontFamily: "Rokkitt, Georgia, serif" }}>WIRES</text>
     </Plate>
   ),
+  sack: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M96 92c-14-6-22-22-18-40 4-14 14-22 22-26l-4-12 24 0-4 12c8 4 18 12 22 26 4 18-4 34-18 40-8 4-16 4-26 0Z" />
+      <path d="M96 26c8 6 24 6 32 0" strokeWidth="1.4" />
+      <path d="M92 26l-8-6M132 26l8-6M112 20v-8" strokeWidth="0.8" />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <path key={i} d={`M${90 + i * 8} ${54 + (i % 2) * 8}l4 4-4 4`} strokeWidth="0.7" />
+      ))}
+      <path d="M150 96V60h30v36Z" />
+      <path d="M154 60c0-8 22-8 22 0" />
+      <path d="M156 70h18M156 78h18M156 86h18" strokeWidth="0.7" />
+      <path d="M40 100V84h14v16M36 84h22" />
+      <circle cx="47" cy="78" r="5" />
+      <path d="M44 74c2-4 6-4 6 0" strokeWidth="0.6" />
+    </Plate>
+  ),
+  seal: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M62 94V22l116-6 6 78Z" />
+      <path d="M72 36h96M72 46h96M72 56h80M72 66h60" strokeWidth="0.8" />
+      <circle cx="150" cy="76" r="12" />
+      <circle cx="150" cy="76" r="9" strokeWidth="0.7" />
+      <path d="M143 76l4-6 3 4 3-4 4 6Z" strokeWidth="0.8" />
+      <path d="M144 88l-6 12M156 88l6 12" />
+      <path d="M200 98c4-20 10-36 24-50l4 4c-8 14-12 28-14 48" />
+      <path d="M224 48l-4-12 8 6Z" />
+    </Plate>
+  ),
+  table: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M20 62h200M20 66h200" />
+      <path d="M26 66v34M214 66v34" />
+      <path d="M44 62c4 10 12 10 16 0M180 62c4 10 12 10 16 0" strokeWidth="0.8" />
+      <ellipse cx="60" cy="58" rx="18" ry="4" />
+      <ellipse cx="180" cy="58" rx="18" ry="4" />
+      <path d="M92 58c0-10 8-16 20-16h24c8 0 14 4 14 10l8-8-2 14c0 4-4 6-12 6Z" strokeWidth="1.1" />
+      <path d="M142 36h10l-2 6" />
+      <circle cx="148" cy="39" r="1.2" fill="currentColor" stroke="none" />
+      <path d="M118 28V18M114 18h8M112 28h12" />
+      <path d="M118 14c-2-3 2-4 0-8" strokeWidth="0.8" opacity="0.7" />
+      <path d="M22 54l4-14h6l4 14M204 54l4-14h6l4 14" />
+      <path d="M80 28l6-10 6 10-6 12Z" strokeDasharray="2 2" />
+    </Plate>
+  ),
+  umbrella: (
+    <Plate>
+      <path d="M0 100H240" strokeWidth="0.6" />
+      <path d="M60 72C60 40 90 22 120 22s60 18 60 50c-8-8-14-8-20 0-6-8-14-8-20 0-6-8-14-8-20 0-6-8-14-8-20 0-6-8-14-8-20 0Z" />
+      <path d="M120 22V8M120 22L96 72M120 22l24 50M120 22L68 70M120 22l52 48" strokeWidth="0.8" />
+      <path d="M120 72v24c0 6 6 6 8 0" />
+      <path d="M26 100h70v-6H26ZM144 100h70v-6h-70Z" />
+      <path d="M96 100c8 4 40 4 48 0" strokeDasharray="3 2" />
+      <path d="M110 94c-6-10-2-18 4-20 4 4 4 8 6 8 2 0 4-4 6-8 6 2 10 10 4 20" strokeWidth="1" />
+      {hatch(30, 96, 60, 2, 2.5)}
+    </Plate>
+  ),
 } as const;
 
 export type PlateId = keyof typeof PLATES;
@@ -594,6 +653,14 @@ export function plateForEnding(id: string): PlateId {
       return "cuffs";
     case "ENDING_THE_STONE_LOST":
       return "hat";
+    case "ENDING_THE_ADDER_AT_THE_INQUEST":
+      return "sack";
+    case "ENDING_THE_UNDERTAKING":
+      return "seal";
+    case "ENDING_THE_GOOSE_CLUB":
+      return "table";
+    case "ENDING_THE_UMBRELLA":
+      return "umbrella";
     case "ENDING_THE_LEAGUE_DISSOLVED":
       return "vault";
     case "ENDING_THE_TUNNEL_OPEN":

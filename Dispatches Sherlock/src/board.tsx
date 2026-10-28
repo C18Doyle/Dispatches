@@ -21,8 +21,12 @@ export const BOARD_SECTIONS: Section[] = [
     flags: ["larchTalks", "larchLost", "secretaryTalks", "pawnbrokerTalks", "moleUsed", "moleExposed", "governessSafe", "governessBait", "boyFound", "boyLost", "greavesKnown", "fofClerk", "ministerTurned", "ministerHeld", "printerTurns", "adlerMet", "adlerAbroad", "mycroftAlone", "adlerStatement", "adlerWarned", "adlerDecoy", "adlerWatch", "wharfCarter"],
   },
   {
+    title: "What Went Wrong",
+    flags: ["raidsEarly", "tideMissed", "professorEarly", "cabinetStarted", "answeredCabs", "answeredMole", "answeredBank", "answeredPaper", "answeredCables"],
+  },
+  {
     title: "Moves",
-    flags: ["houseTaken", "docksTaken", "bankRun", "rivalry", "cabStopped", "moranDown", "warrantsSworn", "watchSet", "homeOfficeWarrant", "readSecond", "lawClause", "crownTerms", "adlerBait", "dsPriest", "dsSailor", "dsClerk"],
+    flags: ["houseTaken", "docksTaken", "bankRun", "rivalry", "cabStopped", "moranDown", "warrantsSworn", "watchSet", "homeOfficeWarrant", "readSecond", "lawClause", "crownTerms", "adlerBait", "dsPriest", "dsSailor", "dsClerk", "dayInHand"],
   },
 ];
 
@@ -61,20 +65,23 @@ interface Arm {
   cut: string[];
   /** What he does about it, once it is cut. */
   answer: string;
+  /** Some answers have a cost in play (an event in the story): the flag it sets, and the flag that makes you ready for it. */
+  answeredBy?: string;
+  readyWith?: string;
 }
 
 export const ARMS: Arm[] = [
   { id: "moran", name: "The Colonel", known: ["moranSeen", "moranMarked", "moranHabits"], cut: ["moranDown"], answer: "He has told the Colonel's cousin to walk behind the Colonel, and the Colonel to walk where he cannot be seen." },
-  { id: "cabs", name: "The cab-yard", known: ["fitchNamed", "yardLearned", "dogcart"], cut: ["cabStopped"], answer: "He has bought the cab-yard through a third name and put its foremen on wages, so that none of them is anybody's man but his." },
-  { id: "paper", name: "The printer", known: ["governessSafe", "governessBait"], cut: ["printerTurns"], answer: "He has changed his printer. The new one has no machine, only a very good memory." },
-  { id: "bank", name: "The bank", known: ["ledger", "larchTalks"], cut: ["bankRun"], answer: "He has moved his account to a bank that keeps no book, and told his lieutenants to carry what they need." },
+  { id: "cabs", name: "The cab-yard", known: ["fitchNamed", "yardLearned", "dogcart"], cut: ["cabStopped"], answer: "He has bought the cab-yard through a third name and put its foremen on wages, so that none of them is anybody's man but his.", answeredBy: "answeredCabs", readyWith: "watchSet" },
+  { id: "paper", name: "The printer", known: ["governessSafe", "governessBait"], cut: ["printerTurns"], answer: "He has changed his printer. The new one has no machine, only a very good memory.", answeredBy: "answeredPaper", readyWith: "boysStand" },
+  { id: "bank", name: "The bank", known: ["ledger", "larchTalks"], cut: ["bankRun"], answer: "He has moved his account to a bank that keeps no book, and told his lieutenants to carry what they need.", answeredBy: "answeredBank", readyWith: "routeKnown" },
   { id: "clerks", name: "The clerks", known: ["larchTalks", "larchLost"], cut: ["secretaryTalks", "pawnbrokerTalks"], answer: "He has made his clerks write to one another in cipher, and has stopped them speaking at the table." },
-  { id: "mole", name: "The Yard's man", known: ["moleUsed"], cut: ["moleExposed"], answer: "He has let the Yard's man go with an excellent reference, and bought the next one before the first had cleared his desk." },
+  { id: "mole", name: "The Yard's man", known: ["moleUsed"], cut: ["moleExposed"], answer: "He has let the Yard's man go with an excellent reference, and bought the next one before the first had cleared his desk.", answeredBy: "answeredMole", readyWith: "warrantsSworn" },
   { id: "docks", name: "The warehouse", known: ["routeKnown", "wharfMarks", "wharfTide"], cut: ["docksTaken"], answer: "He has changed the hour at the wharf, and left the lamp-oil out in the open, as one leaves bait." },
   { id: "house", name: "The study", known: ["clueDoor", "clueGuide"], cut: ["houseTaken", "studyRead"], answer: "He has moved the study's papers to the second house, and left in the first a drawer of very convincing nothing." },
   { id: "men", name: "The lieutenants", known: ["secretaryTalks", "pawnbrokerTalks"], cut: ["rivalry"], answer: "He has put his lieutenants on separate floors, and made each one afraid of the next." },
   { id: "minister", name: "The minister", known: ["ministerHeld", "ministerTurned"], cut: ["readSecond"], answer: "He has written to the Minister, kindly, and enclosed a small and very precise list of dates." },
-  { id: "cables", name: "The cables", known: ["clueBook", "clueTitle"], cut: ["cipherBroken"], answer: "He has begun to alter his cipher every Monday, which is the sort of thing a man does who has been read." },
+  { id: "cables", name: "The cables", known: ["clueBook", "clueTitle"], cut: ["cipherBroken"], answer: "He has begun to alter his cipher every Monday, which is the sort of thing a man does who has been read.", answeredBy: "answeredCables", readyWith: "lawClause" },
 ];
 
 /** What the Professor does about the arms you have cut: the web is his, and he notices. */
@@ -206,6 +213,7 @@ export function BoardView({ state, road }: { state: GameState; road: string }) {
               {ARMS.filter((a) => armStatus(state, a) === "cut").map((a) => (
                 <li key={a.id}>
                   <span className="font-semibold">{a.name}:</span> {a.answer}
+                  {a.answeredBy && state.flags[a.answeredBy] ? " It cost you." : a.readyWith && state.flags[a.readyWith] ? " You had made ready for it, and it came to nothing." : ""}
                 </li>
               ))}
             </ul>

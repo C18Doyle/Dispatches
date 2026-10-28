@@ -2,3 +2,5 @@ node_modules/
 dist/
 releases/
 tests/ui-runs/
+tests/transcripts/
+tests/visual/last/

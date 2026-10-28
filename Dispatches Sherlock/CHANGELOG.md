@@ -2,7 +2,35 @@
 
 Player-facing and rules-facing changes only. Newest first. Add an entry in the same commit as the change.
 
-## 0.5.0 (unreleased)
+## 0.7.0 (unreleased)
+### Changed
+- **A copy-edit pass over the whole text.** The habits that read as machine-written are thinned out by rules that run on every build (`gen/polish.mjs`) and by 65 hand-written rewrites (`gen/rewrites.mjs`): "very" 316 times to about 40, "a man who" similes and epigrams about a quarter fewer, "It is the most/first/only" openers 62 to 17, "a good deal", "perfectly", "quite" and "rather" roughly halved, and sentences over 40 words 95 to 49. Some outcomes no longer end on a reflective "It is..." line.
+- **Not every choice ends on a line of dialogue.** 37 options are silent now, and 28 long scenes break into two paragraphs.
+- **Each speaker sounds like themselves.** Wiggins, Lestrade, Mrs Hudson, Mycroft, Moriarty, Mrs Norton and Watson have a length limit, and Mycroft and Moriarty do not contract while Wiggins, Lestrade and Mrs Hudson do (`gen/voices.mjs`).
+- **Names and labels.** The endings record on the title screen is the Ledger; the Case-Book is the shelf. Cards are tagged by what they are (Telegram, Note, Calling card, Journal, Guide, Newspaper), and a telegram's stamp says what became of it (RECEIVED, TOO LATE, UNDELIVERED, or none).
+- **Gauge labels are readable**: the smallest were 8.8 px and are now at least 10 px.
+### Added
+- **A sticky gauge strip**: once the gauge card has scrolled out of sight, a slim strip of the six gauges stays at the top of the screen.
+- **A style lint** (`npm run check:style`, in `npm test`): phrase budgets that may not grow, a limit on run-on sentences, each speaker's voice, the conventions for labels and titles, and a glossary (one name for each thing).
+- **A continuity check** (`npm run check:continuity`, in `npm test`) against a bible (`claims/continuity.json`): no link goes back in time, and no scene description names a character before every path to it has introduced them.
+- **A layout check** in a real browser (`npm run check:layout`; not in `npm test`, it needs Chromium): 13 screens at 320, 375 and 600 px, failing on horizontal scroll, overflow, small tap targets and tiny text, with screenshots and a recorded height per screen.
+- **Transcripts**: `npx tsx scripts/transcripts.ts 30 0` writes readable random playthroughs to `tests/transcripts/` for a person to read for contradictions.
+
+## 0.6.0 (unreleased)
+### Added
+- **Hours are a real deadline.** The story's dated moments come whether or not you are ready: the Monday raids (Yard), the tide on the Tuesday (street), the Professor's arrival at Meiringen (flight) and the Cabinet's sitting (Whitehall). With Hours short a card says what you lost; with Hours in hand, a card says what you gained. Each shows its cost on the card.
+- **The Professor answers a cut.** Five arms of his web (the cab-yard, the Yard's man, the bank, the printer, the cipher) answer in the story, with a card and a cost, unless you made ready beforehand (a watch set, warrants sworn, the route known, the boys in place, the law written into the terms). The board says which answered and which came to nothing.
+- **A hidden fourth ending for each minor case**: take the snake alive (Speckled Band), go to her door in your own name (Bohemia), ask them all to dinner (Blue Carbuncle), give Mr Wilson the cellar key (Red-Headed League). Each is locked, with its reason, until you have made the right choices earlier in that case; four new ending plates.
+- **One saved case per volume.** You can leave the long case half-played and finish a minor one; the shelf shows each volume's unfinished case with a Resume button. The old single save moves to its volume.
+- **A demo and a download.** The demo is the Case-Book with the long case locked at the choice of road (the four minor cases are complete, hidden endings and all); it stops on a screen that says so. The full game also comes as a download (index.html and a README, one file, no network). The release builds both (`npm run build` writes dist/demo too, and `npm run check:demo` plays both).
+- **Cards say what they cost**: an interlude with consequences lists its stamps, and cards are labelled Notice, Report or Warning.
+### Changed
+- **The generator is in the repo** (`gen/`) and is the source of the content files; `npm run gen` writes them and `npm run check:gen` fails if they differ.
+- **A writing lint** (`npm run check:prose`, part of `npm test` and CI) holds the house rules: no dashes, UK dates, UK spellings, no placeholders.
+- **Every Doyle claim is checked against the text** (Project Gutenberg, 2026-10-24). Twenty-six claims are now "primary". The check found and fixed: "commuting a felony", not "compounding"; the Alpine-stock, the silver cigarette-case and the three-page note; the Baker Street fire (no great harm done); Moran as chief of staff, and that he drops rocks at the Falls; the Irregulars' shilling; and Mycroft's "occasionally he is the British government".
+- Engine 0.8.0: an interlude trigger may carry stamps and flags.
+
+## 0.5.0 (2026-10-23)
 ### Added
 - **The shelf is split into one major case and four minor ones**, each card showing how many of its endings you have found, and a card that offers to resume an unfinished case (opening a volume over it puts it away). The ending screen says which volume you finished, how many of its endings you have found, how many volumes you have finished, and what is next on the shelf.
 - **The Red-Headed League** (1890): the fifth volume. Four scenes and three endings, with the vault, the card on the door and the half-wage assistant.

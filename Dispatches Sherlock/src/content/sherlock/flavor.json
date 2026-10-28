@@ -12,7 +12,7 @@
   "howToPlay": [
     {
       "heading": "Your Part",
-      "body": "The Case-Book on your table holds five volumes. The thick one is the major case, The Final Problem of 1891. The four thin ones are minor cases that stand alone: The Speckled Band (1883), A Scandal in Bohemia (1888), The Blue Carbuncle (1889) and The Red-Headed League (1890). A minor case is four scenes long, shares nothing with the major case, and is a good way to learn the game. The shelf remembers which endings you have found, and offers to resume an unfinished case. The rest of this page is about The Final Problem. You are Sherlock Holmes, from the first week of January 1891, hunting a man who has never been charged with a crime. Each scene is a dated report. You read it, and choose how to answer. Tap an option once to mark it, and again to confirm it. What you choose changes what comes next, and some doors open only for a detective who has done the right things earlier. You choose your road early, within a few scenes."
+      "body": "The Case-Book on your table holds five volumes. The thick one is the major case, The Final Problem of 1891. The four thin ones are minor cases that stand alone: The Speckled Band (1883), A Scandal in Bohemia (1888), The Blue Carbuncle (1889) and The Red-Headed League (1890). A minor case is four scenes long, with four endings (the fourth is hidden until you have made the right choices), shares nothing with the major case, and is a good way to learn the game. The shelf remembers which endings you have found, and offers to resume an unfinished case. The rest of this page is about The Final Problem. You are Sherlock Holmes, from the first week of January 1891, hunting a man who has never been charged with a crime. Each scene is a dated report. You read it, and choose how to answer. Tap an option once to mark it, and again to confirm it. What you choose changes what comes next, and some doors open only for a detective who has done the right things earlier. You choose your road early, within a few scenes."
     },
     {
       "heading": "Evidence, Standing and Nerve",
@@ -313,15 +313,15 @@
     "ENDING_NAPOLEON_ESCAPES": "In the Canon: this is the story's own turn. The Yard arrests the gang, Moriarty slips away, and Holmes has to leave England. The game lets you play the part that happens off the page.",
     "ENDING_REASON_OF_STATE": "In the Canon: there is no such bargain. Doyle's Mycroft is a government man of great reach in later stories, and the closed hearing, the second ledger and the list of names are this game's invention.",
     "ENDING_PRIVATE_WAR": "In the Canon: Holmes does not fight a street war against Moriarty. The Baker Street Irregulars, led by Wiggins, are Holmes's street-boy agents in earlier stories, and he pays them a shilling a day.",
-    "ENDING_BAKER_STREET_BURNS": "In the Canon: Holmes tells Watson that his rooms were set on fire the night before they leave. The attempt fails to kill him. In this game the fire is the Professor's answer to the Shadow War.",
+    "ENDING_BAKER_STREET_BURNS": "In the Canon: Holmes tells Watson that the Professor's men set fire to the Baker Street rooms the night before; no great harm was done. In this game the fire is the Professor's answer to the Shadow War.",
     "ENDING_THE_COMPACT": "In the Canon: Holmes never takes Moriarty's money. In the story the Professor visits Baker Street to warn him off, and Holmes refuses. The compact is this game's temptation, and its darkest reading of the man.",
     "ENDING_THE_FALL": "In the Canon: this is Watson's account of The Final Problem. He is decoyed away by a false message about a dying Englishwoman. He returns to find a note, a cigarette-case and a stick, and footprints that go to the edge and not back. Holmes and Moriarty are taken to have fallen together.",
     "ENDING_THE_EMPTY_GRAVE": "In the Canon: this is the secret told in The Empty House (1903), up to the point where Holmes chooses not to come home. In the story he wrote the note with Moriarty's leave, escaped the Falls, travelled in Tibet, Persia and Khartoum, worked in a laboratory at Montpellier, and returned in 1894; Mycroft alone knew, and supplied him with money. The game lets you stay away.",
     "ENDING_WATSON_STANDS": "In the Canon: Watson is not at the Falls. Doyle sent him away, and the whole force of the story falls on the empty path. Watson at Holmes's side is this game's alternative, and the one he deserved.",
-    "ENDING_FATAL_SHOT": "In the Canon: Colonel Sebastian Moran is Moriarty's chief lieutenant and a celebrated shot. In The Empty House he is the man who fires an air-gun, and Holmes catches him. At the Falls, Doyle gives him no shot at all. Here he fires one.",
+    "ENDING_FATAL_SHOT": "In the Canon: Colonel Sebastian Moran, once chief of the staff to Moriarty and the best heavy-game shot in the Eastern Empire, fires an air-gun in The Empty House, and Holmes catches him. At the Falls, in Holmes's later account, he only drops rocks from above. Here he fires a shot.",
     "ENDING_THE_RETURN": "In the Canon: this is the opening of The Empty House (1903). Holmes returns to London in April 1894, with the Park Lane murder of Ronald Adair as his occasion. He reveals himself to Watson, who faints, and explains afterwards where he has been. The game gives you the choice of how.",
-    "ENDING_HER_MAJESTYS_SERVICE": "In the Canon: Holmes does work for the Government in later stories, through Mycroft, as in The Bruce-Partington Plans. He is never given a commission, and the game's quiet office off Whitehall is its own invention.",
-    "ENDING_THE_SECOND_LEDGER": "In the Canon: nothing like this. Doyle's Holmes never exposes the powerful to the press, and in Charles Augustus Milverton he burns a blackmailer's letters rather than publish them. The great scandal is this game's invention.",
+    "ENDING_HER_MAJESTYS_SERVICE": "In the Canon: Holmes does work for the Government in later stories, through Mycroft, as in The Bruce-Partington Plans, where Mycroft calls on him to take up a government matter. The game's quiet office off Whitehall is its own invention.",
+    "ENDING_THE_SECOND_LEDGER": "In the Canon: nothing like this. Doyle's Holmes never exposes the powerful to the press, and in Charles Augustus Milverton he burns a blackmailer's letters rather than hand them to the police. The great scandal is this game's invention.",
     "ENDING_THE_WOMAN": "In the Canon: A Scandal in Bohemia (1891, but set in March 1888). Holmes's one defeat. Irene Adler leaves a letter and her own photograph, and the King offers an emerald ring. Holmes asks for the photograph instead.",
     "ENDING_THE_STRONGBOX": "Invented. In the story Holmes does not catch Adler; she leaves England with her husband before he can act.",
     "ENDING_THE_KING_WAITS": "Invented. In the story the King accepts that the matter is closed.",
@@ -331,9 +331,13 @@
     "ENDING_THE_CHRISTMAS_MERCY": "In the Canon: The Adventure of the Blue Carbuncle (1892, set at Christmas 1889). Holmes lets Ryder go, saying that it is the season of forgiveness, and that he is 'commuting a felony'.",
     "ENDING_THE_STONE_RETURNED": "Invented. In the story Holmes does not call the police.",
     "ENDING_THE_STONE_LOST": "Invented. In the story Ryder is frightened and Holmes lets him go; the stone is recovered.",
-    "ENDING_THE_LEAGUE_DISSOLVED": "In the Canon: The Adventure of the Red-Headed League (1891, set in autumn 1890). Holmes and Peter Jones take John Clay in the cellar of the City and Suburban Bank. In the story it is Holmes who seizes Clay, and Clay's accomplice escapes through the tunnel and is taken by Jones's men at the shop; Holmes says it is all an attempt to escape from the commonplace.",
+    "ENDING_THE_LEAGUE_DISSOLVED": "In the Canon: The Adventure of the Red-Headed League (1891, set in autumn 1890). Holmes seizes John Clay by the collar in the vault of the City and Suburban Bank and knocks the revolver from his wrist with a hunting-crop; Clay's accomplice dives down the tunnel and is taken at the shop door by three police. Holmes says that his life is one long effort to escape from the commonplaces of existence, and that such problems help him to do it.",
     "ENDING_THE_TUNNEL_OPEN": "Invented. In the story the robbery is prevented and the gold is saved.",
     "ENDING_THE_ENCYCLOPAEDIA": "Invented. In the story the arrest is public and goes to Scotland Yard; the bank is not kept quiet.",
+    "ENDING_THE_ADDER_AT_THE_INQUEST": "Invented. In the story the snake turns on Roylott and no one is tried.",
+    "ENDING_THE_UNDERTAKING": "Invented. In the story Adler leaves England with her husband, and Holmes never speaks to her again.",
+    "ENDING_THE_GOOSE_CLUB": "Invented. In the story Holmes lets Ryder go alone, and the dinner is Holmes and Watson's.",
+    "ENDING_THE_UMBRELLA": "Invented. In the story it is Holmes who seizes Clay.",
     "ENDING_CRISIS_STRAND": "In the Canon: Holmes is never short of time, helpers or word of the world for long: he has Watson, the Irregulars, Lestrade, his brother and the telegraph. Running out of any of them is this game's invention."
   },
   "endingHints": {
@@ -365,6 +369,10 @@
     "ENDING_THE_LEAGUE_DISSOLVED": "In the Red-Headed League, take Clay in the cellar, or let the Yard do it.",
     "ENDING_THE_TUNNEL_OPEN": "In the Red-Headed League, be a half-second late, or go home to bed.",
     "ENDING_THE_ENCYCLOPAEDIA": "In the Red-Headed League, take Clay quietly and keep the bank's name out of the papers.",
+    "ENDING_THE_ADDER_AT_THE_INQUEST": "In The Speckled Band, learn the motive at dawn, find the dummy rope, and take the snake alive.",
+    "ENDING_THE_UNDERTAKING": "In A Scandal in Bohemia, hear the King's whole story, play the groom, and go to her door in your own name.",
+    "ENDING_THE_GOOSE_CLUB": "In The Blue Carbuncle, tell Henry Baker the truth, find Mrs Oakshott, and ask them all to dinner.",
+    "ENDING_THE_UMBRELLA": "In The Red-Headed League, hear Mr Wilson's whole story, see the assistant's knees, and give Mr Wilson the key.",
     "ENDING_CRISIS_STRAND": "Spend your Hours, your Hands or your Wires down to nothing: work slowly, work alone, or cut yourself off."
   },
   "flagNotes": {
@@ -494,6 +502,16 @@
     "leagueVault": "Mr Merryweather lent you the vault key.",
     "leagueMen": "Mr Jones brought four men and handcuffs.",
     "leagueAlone": "You said that you would wait in the cellar alone.",
+    "raidsEarly": "You were slow, and the Yard raided the eleven houses without you.",
+    "dayInHand": "You were ahead of the hour, and had a day in hand.",
+    "tideMissed": "The barge came up on the tide before you were ready.",
+    "professorEarly": "The Professor reached Meiringen before you were ready.",
+    "cabinetStarted": "The Cabinet sat without you.",
+    "answeredCabs": "He answered the stopped cab-yard with a decoy cab.",
+    "answeredMole": "He answered the exposed mole with a new man at the Yard.",
+    "answeredBank": "He answered the run on his bank by moving the money, and a boy is missing.",
+    "answeredPaper": "He answered the turned printer with a better press in Southwark.",
+    "answeredCables": "He answered the broken cipher by changing the key.",
     "leanYard": "You took it to Scotland Yard first.",
     "leanStreet": "You sent for the boys first.",
     "leanMycroft": "You went to your brother's club first.",
@@ -534,5 +552,13 @@
     "adlerSafe": "You told Mrs Norton to stay out of court and out of London.",
     "adlerDecoy": "Mrs Norton dined with Mr Dunmore at the Café Royal and learned the door and the hour.",
     "adlerHurt": "Mr Dunmore saw through Mrs Norton at the Café Royal."
+  },
+  "demoEnd": {
+    "title": "The Case Continues",
+    "body": [
+      "You have been through the whole of the opening of The Final Problem: the brick in Vere Street, the first move, and the choice of how to meet the Professor's net.",
+      "The door ahead is locked in the demo. The full game goes on down the road that you chose, through the Yard, the street, Whitehall or the flight to the Falls, to the last choice on each road, with seventeen endings in the long case and the Case-Book that keeps the ones you have found. The four minor cases on the shelf are complete in the demo, hidden endings and all. The full game is on the game's page, to download."
+    ],
+    "restart": "Back to the Title"
   }
 }
