@@ -15,6 +15,7 @@
     { "name": "37-map-front", "start": "^const FRONT_WATCH_EAST = " },
     { "name": "40-select-briefing-end-screens", "start": "^function SelectScreen\\(" },
     { "name": "45-dossiers-objectives", "start": "^const ADVISOR_DOSSIERS = \\{" },
+    { "name": "46-grand-soviet", "start": "^const GS_MERGE = " },
     { "name": "50-app", "start": "^function WW2CommandInner\\(" }
   ]
 }
