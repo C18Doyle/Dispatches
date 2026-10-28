@@ -21,7 +21,6 @@ function collect(node) {
   const add = (label, v) => { if (typeof v === "string" && v.length) out.push([label, v]); };
   add("title", node.title);
   add("situation", node.situation);
-  add("context", node.context);
   add("epilogue", node.epilogue);
   if (node.bulletin && typeof node.bulletin === "object") { add("bulletin", node.bulletin.text); add("bulletin source", node.bulletin.source); }
   for (const ch of node.choices ?? []) {

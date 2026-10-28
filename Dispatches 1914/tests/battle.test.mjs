@@ -3,7 +3,7 @@
 //   - an order that hosts a battle (the French attack on the Marne) opens the planning screen, with an intelligence line, a pool of chits and the formations
 //   - the plan cannot be issued until the pool is placed and an approach chosen; the staff can plan it
 //   - issuing it ends in the outcome with an after-action report, and the next report reads how the battle was fought
-//   - "Back to the order" returns to the order without spending it
+//   - "Back" returns to the order without spending it
 //   - with the planning switched off the same order resolves at once, with no screen and no report
 //   - a file saved on the outcome screen resumes with its report
 //
@@ -96,7 +96,7 @@ await ctx.click(btn(ctx, /Place the counters/));
 check(/6 of 6 counters left/.test(ctx.text()), "the plan can be cleared");
 
 // back to the order, nothing spent
-await ctx.click(btn(ctx, /^Back to the order/));
+await ctx.click(btn(ctx, /^Back$/));
 check(orders(ctx).some((b) => /Turn and attack/.test(ctx.lab(b))), "back to the order returns to the node with its orders");
 
 // the staff plan, then issue

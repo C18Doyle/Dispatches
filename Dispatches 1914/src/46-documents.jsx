@@ -23,7 +23,7 @@ export const DOCUMENTS = {
     text: "The German government requests that the President of the United States of America take the initiative in bringing about peace, that he inform all the belligerent states of this request, and that he invite them to send plenipotentiaries for purposes of beginning negotiations. In order to avoid further bloodshed, the German government requests the immediate conclusion of an armistice on land, at sea, and in the air.",
   },
   gqg_1917_08_mutinies: {
-    by: "General Petain, as reported",
+    by: "General Pétain, as reported",
     date: "1917",
     source: "Wikipedia, French Army mutinies",
     text: "I am waiting for the tanks and the Americans.",

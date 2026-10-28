@@ -6,7 +6,7 @@
 // the orders, so a departure from the record is marked beside it: a place held or taken that the record did not hold or take ("gained"), or a place
 // given up or never taken that the record held or took ("lost"). A mark is read from one flag the orders set (the flag and the values that mark it) and
 // is drawn once the flag is set. The ledger feeds the command rank (59-rank.jsx), is listed with the expanded map, and is drawn at the head of the
-// file on the ending screen. Every mark is speculative: it begins "Speculative." when it is shown. Places are [longitude, latitude].
+// file on the ending screen. Every mark is speculative: it carries the tag "Not in the record" when it is shown. Places are [longitude, latitude].
 // =============================================================================
 
 const G = (id, flag, at, name, kind, values, text) => ({ id, flag, at, name, kind, values, text });
@@ -47,7 +47,7 @@ export const MAP_GROUND = {
     G("stavka-gumbinnen", "stavka_prussia", [22.2, 54.58], "Gumbinnen", "lost", ["concentrated"], "East Prussia is not invaded in the first fortnight."),
     G("stavka-koenigsberg", "stavka_1914theatre", [20.5, 54.7], "Konigsberg", "gained", ["prussia"], "The weight goes to Prussia and the army advances toward Konigsberg."),
     G("stavka-lemberg", "stavka_1914theatre", [24.03, 49.84], "Lemberg", "lost", ["prussia"], "With the weight in Prussia, Lemberg is not taken in 1914."),
-    G("stavka-przemysl", "stavka_przemysl", [22.77, 49.78], "Przemysl", "gained", ["stormed"], "The fortress is stormed and taken early."),
+    G("stavka-przemysl", "stavka_przemysl", [22.77, 49.78], "Przemyśl", "gained", ["stormed"], "The fortress is stormed and taken early."),
     G("stavka-augustow", "stavka_masuria", [23.0, 53.85], "Augustow", "lost", ["pulled"], "The army pulls back from the Masurian line and the forest is given up."),
     G("stavka-warsaw", "stavka_1915", [21.0, 52.23], "Warsaw", "gained", ["held"], "The army stands in Poland and Warsaw is not given up."),
     G("stavka-vilna", "stavka_sventsiany", [25.28, 54.69], "Vilna", "lost", ["withdrew"], "There is no counterstroke and Vilna is given up to the advance."),
@@ -74,10 +74,10 @@ export const MAP_GROUND = {
   aok: [
     G("aok-sabac", "aok_serbia", [19.7, 44.75], "Sabac", "lost", ["galicia"], "The first blow falls on Galicia and Serbia is not invaded in August."),
     G("aok-lemberg", "aok_serbia", [24.03, 49.84], "Lemberg", "gained", ["galicia"], "A stronger army in Galicia holds Lemberg longer."),
-    G("aok-krasnik", "aok_galicia", [22.22, 50.92], "Krasnik", "lost", ["defensive", "cover"], "The army stays on the San and Krasnik is not attacked."),
+    G("aok-krasnik", "aok_galicia", [22.22, 50.92], "Kraśnik", "lost", ["defensive", "cover"], "The army stays on the San and Kraśnik is not attacked."),
     G("aok-rawa", "aok_rawa", [23.6, 50.25], "Rawa Ruska", "lost", ["brokeoff"], "The battle of Rawa is broken off and the ground is not held."),
     G("aok-valjevo", "aok_kolubara", [19.9, 44.27], "Valjevo", "lost", ["declined"], "Serbia is not invaded again and Valjevo is not taken."),
-    G("aok-przemysl", "aok_przemyslend", [22.77, 49.78], "Przemysl", "gained", ["third"], "A third relief holds the fortress."),
+    G("aok-przemysl", "aok_przemyslend", [22.77, 49.78], "Przemyśl", "gained", ["third"], "A third relief holds the fortress."),
     G("aok-gorizia", "aok_isonzo", [13.62, 45.94], "Gorizia", "gained", ["attacked"], "The Isonzo is attacked in the summer and Gorizia is threatened."),
     G("aok-lovcen", "aok_montenegro", [18.83, 42.4], "Lovcen", "lost", ["halted"], "The Montenegro campaign halts and Lovcen is not taken."),
     G("aok-asiago", "aok_strafe", [11.5, 45.88], "Asiago", "lost", ["cancelled"], "The Trentino offensive is cancelled and the plateau is not attacked."),
@@ -86,7 +86,7 @@ export const MAP_GROUND = {
     G("aok-odessa", "aok_ukraine", [30.73, 46.48], "Odessa", "lost", ["kept"], "The army does not enter Ukraine and Odessa is not reached."),
   ],
   otto: [
-    G("otto-sarikamis", "otto_sarikamis", [42.58, 40.33], "Sarikamis", "lost", ["held", "postponed"], "The offensive is not made in the snow and Sarikamis is not attacked."),
+    G("otto-sarikamis", "otto_sarikamis", [42.58, 40.33], "Sarıkamış", "lost", ["held", "postponed"], "The offensive is not made in the snow and Sarıkamış is not attacked."),
     G("otto-suez", "otto_suez", [32.35, 30.5], "the Suez Canal", "lost", ["kept", "raided"], "The canal is not attacked in force."),
     G("otto-kut", "otto_kut", [46.03, 32.5], "Kut", "gained", ["storm"], "Kut is stormed and taken early."),
     G("otto-erzurum", "otto_erzurum", [41.27, 39.9], "Erzurum", "lost", ["withdrew"], "Erzurum is given up without a defence."),
