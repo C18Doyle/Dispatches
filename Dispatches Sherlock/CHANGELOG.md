@@ -2,6 +2,20 @@
 
 Player-facing and rules-facing changes only. Newest first. Add an entry in the same commit as the change.
 
+## 0.7.0 (unreleased)
+### Changed
+- **A copy-edit pass over the whole text.** The habits that read as machine-written are thinned out by rules that run on every build (`gen/polish.mjs`) and by 65 hand-written rewrites (`gen/rewrites.mjs`): "very" 316 times to about 40, "a man who" similes and epigrams about a quarter fewer, "It is the most/first/only" openers 62 to 17, "a good deal", "perfectly", "quite" and "rather" roughly halved, and sentences over 40 words 95 to 49. Some outcomes no longer end on a reflective "It is..." line.
+- **Not every choice ends on a line of dialogue.** 37 options are silent now, and 28 long scenes break into two paragraphs.
+- **Each speaker sounds like themselves.** Wiggins, Lestrade, Mrs Hudson, Mycroft, Moriarty, Mrs Norton and Watson have a length limit, and Mycroft and Moriarty do not contract while Wiggins, Lestrade and Mrs Hudson do (`gen/voices.mjs`).
+- **Names and labels.** The endings record on the title screen is the Ledger; the Case-Book is the shelf. Cards are tagged by what they are (Telegram, Note, Calling card, Journal, Guide, Newspaper), and a telegram's stamp says what became of it (RECEIVED, TOO LATE, UNDELIVERED, or none).
+- **Gauge labels are readable**: the smallest were 8.8 px and are now at least 10 px.
+### Added
+- **A sticky gauge strip**: once the gauge card has scrolled out of sight, a slim strip of the six gauges stays at the top of the screen.
+- **A style lint** (`npm run check:style`, in `npm test`): phrase budgets that may not grow, a limit on run-on sentences, each speaker's voice, the conventions for labels and titles, and a glossary (one name for each thing).
+- **A continuity check** (`npm run check:continuity`, in `npm test`) against a bible (`claims/continuity.json`): no link goes back in time, and no scene description names a character before every path to it has introduced them.
+- **A layout check** in a real browser (`npm run check:layout`; not in `npm test`, it needs Chromium): 13 screens at 320, 375 and 600 px, failing on horizontal scroll, overflow, small tap targets and tiny text, with screenshots and a recorded height per screen.
+- **Transcripts**: `npx tsx scripts/transcripts.ts 30 0` writes readable random playthroughs to `tests/transcripts/` for a person to read for contradictions.
+
 ## 0.6.0 (unreleased)
 ### Added
 - **Hours are a real deadline.** The story's dated moments come whether or not you are ready: the Monday raids (Yard), the tide on the Tuesday (street), the Professor's arrival at Meiringen (flight) and the Cabinet's sitting (Whitehall). With Hours short a card says what you lost; with Hours in hand, a card says what you gained. Each shows its cost on the card.

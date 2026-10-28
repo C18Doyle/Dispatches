@@ -201,7 +201,7 @@ button.group {
   padding-bottom: 0.4rem;
 }
 .card-telegram::after {
-  content: "RECEIVED";
+  content: attr(data-stamp);
   position: absolute;
   bottom: 1.3rem;
   right: 1rem;
@@ -355,3 +355,8 @@ button.group {
 :root[data-theme="paper"] .flicker { text-shadow: none; animation: none; }
 :root[data-theme="paper"] .hover\:border-brass:hover { border-color: #3d2a0c; }
 :root[data-theme="paper"] [class*="text-brass/"] { color: #6e4d10; }
+
+/* a telegram's stamp says what became of it (the card sets data-stamp; an empty one draws nothing) */
+.card-telegram[data-stamp=""]::after {
+  display: none;
+}

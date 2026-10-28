@@ -22,6 +22,7 @@ import { extras, extraOptions } from "./extras.mjs";
 import { moreNodes, moreOptions, tweakFinales } from "./more.mjs";
 import { leagueNodes, leagueEndings, leagueInterlude, leagueTrigger, leagueFlavor } from "./league.mjs";
 import { hiddenOptions, hiddenEndings, hiddenFlavor } from "./hidden.mjs";
+import { polish } from "./polish.mjs";
 import { reactionInterludes, reactionTriggers, reactionEchoes, reactionFlagNotes } from "./reactions.mjs";
 import { shelf, caseNodes, caseEndings, caseInterludes, caseTriggers, caseFlavor } from "./cases.mjs";
 import { interludes, triggers } from "./meta.mjs";
@@ -630,6 +631,10 @@ const strandLines = {
   ],
 };
 for (const [k, lines] of Object.entries(strandLines)) flavorOut.creatureReportLines["strand_" + k] = lines;
+
+// the copy-edit pass (gen/polish.mjs): house style as rules, applied to every scene alike
+const polishStats = polish({ nodes, endings: endingMap, interludes: interludeMap, flavor: flavorOut });
+if (process.env.POLISH_REPORT) console.log("polish:", JSON.stringify(polishStats));
 
 const dir = join(out, "src/content/sherlock");
 const text = (data) => JSON.stringify(data, null, 2) + String.fromCharCode(10);

@@ -1,6 +1,6 @@
 {
   "name": "sherlock-final-problem",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "validate:schema": "tsx ../packages/engine/tools/validate_schema.ts sherlock",
     "verify:baseline": "tsx ../packages/engine/tools/verify_baseline.ts sherlock",
     "check:boundaries": "node ../packages/engine/tools/check_boundaries.mjs",
-    "test": "npm run typecheck && npm run check:boundaries && npm run check:gen && npm run validate:schema && npm run check:prose && npm run check:claims && npm run check:map && npm run check:calendar && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check:demo && npm run check-a11y",
+    "test": "npm run typecheck && npm run check:boundaries && npm run check:gen && npm run validate:schema && npm run check:prose && npm run check:style && npm run check:claims && npm run check:continuity && npm run check:map && npm run check:calendar && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check:demo && npm run check-a11y",
     "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
     "build:js": "node esbuild.config.mjs",
     "build": "npm run build:css && npm run build:js && node scripts/fonts.mjs && node scripts/inline.mjs && npm run build:demo",
@@ -29,7 +29,10 @@
     "check:gen": "node gen/build.mjs --check",
     "check:prose": "node scripts/check_prose.mjs",
     "build:demo": "node esbuild.config.mjs --demo && node scripts/inline.mjs --demo",
-    "check:demo": "node scripts/check_demo.mjs"
+    "check:demo": "node scripts/check_demo.mjs",
+    "check:style": "node scripts/check_style.mjs",
+    "check:continuity": "node scripts/check_continuity.mjs",
+    "check:layout": "tsx scripts/check_layout.ts"
   },
   "dependencies": {
     "react": "^18.3.1",

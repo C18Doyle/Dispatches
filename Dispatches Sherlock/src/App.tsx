@@ -190,6 +190,8 @@ function saveLedger(ledger: Ledger) {
  * so a player can tell which words are Doyle's. (This game uses imagined lines only.)
  */
 function QuoteLine({ quote, className }: { quote: Quote; className: string }) {
+  // an option may be silent: no one speaks, and the line is not drawn
+  if (!quote.text) return null;
   const novel = quote.kind === "novel" && !!quote.source;
   return (
     <p className={className}>
@@ -333,7 +335,7 @@ function Meter({ resource, value }: { resource: Resource; value: number }) {
   return (
     <div className="flex-1 min-w-0" role="meter" aria-label={RESOURCE_LABELS[resource]} aria-valuemin={range.min} aria-valuemax={range.max} aria-valuenow={value} aria-valuetext={`${value}${inCrisis ? ", in crisis" : ""}`}>
       <div className="flex items-baseline justify-between mb-1 sm:mb-1.5 gap-1">
-        <span className="font-heading text-[0.52rem] xs:text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">
+        <span className="font-heading text-[0.6rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">
           {RESOURCE_LABELS[resource]}
         </span>
         <span className={`font-heading text-[0.65rem] sm:text-xs font-bold tabular-nums shrink-0 ${inCrisis ? "text-blood" : "text-ink"}`}>
@@ -358,6 +360,27 @@ function Meter({ resource, value }: { resource: Resource; value: number }) {
   );
 }
 
+/** The six gauges as a slim strip that stays at the top of the screen once the full gauge card has scrolled out of sight, so that a long scene never hides them. */
+function GaugeStrip({ resources }: { resources: Record<string, number> }) {
+  return (
+    <div className="fixed top-0 inset-x-0 z-30 pointer-events-none" aria-hidden="true">
+      <div className="max-w-[600px] mx-auto pl-2 pr-12 pt-1">
+        <div className="parchment-card flex items-stretch justify-between gap-1 px-2 py-1 text-ink shadow-lg">
+          {RESOURCE_IDS.map((r) => {
+            const v = resources[r] ?? 0;
+            return (
+              <div key={r} className="flex-1 min-w-0 text-center leading-tight">
+                <p className="font-heading text-[0.56rem] uppercase tracking-wider text-ink-soft">{(RESOURCE_LABELS[r] ?? r).slice(0, 3)}</p>
+                <p className={`font-heading text-xs font-bold ${isInCrisis(r, v) ? "text-blood" : "text-ink"}`}>{v > 0 ? `+${v}` : v}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function StrandMeter({ resources }: { resources: Record<string, number> }) {
   const lines = STRAND_IDS.map((id) => ({ id, range: def.config.resources.find((r) => r.id === id)!, value: resources[id] ?? 0 }));
   if (!lines.length) return null;
@@ -377,7 +400,7 @@ function StrandMeter({ resources }: { resources: Record<string, number> }) {
       aria-valuetext={`${lines.map((l) => `${RESOURCE_LABELS[l.id]} ${l.value}`).join(", ")}${crisis ? ", in crisis" : ""}`}
     >
       <div className="flex items-baseline justify-between mb-1 sm:mb-1.5 gap-1">
-        <span className="font-heading text-[0.52rem] xs:text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">The Strand</span>
+        <span className="font-heading text-[0.6rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">The Strand</span>
         <span className={`font-heading text-[0.65rem] sm:text-xs font-bold tabular-nums shrink-0 ${crisis ? "text-blood" : "text-ink"}`}>{low > 0 ? `+${low}` : low}</span>
       </div>
       <div className="gauge-track relative h-1.5 sm:h-2 rounded-sm bg-black/60 border border-brass-dim/70 overflow-hidden">
@@ -393,7 +416,7 @@ function StrandMeter({ resources }: { resources: Record<string, number> }) {
           const bad = isInCrisis(l.id, l.value);
           return (
             <li key={l.id} className="flex items-center gap-1">
-              <span className="w-[2.1rem] shrink-0 font-heading text-[0.5rem] uppercase tracking-wider text-ink-soft">{RESOURCE_LABELS[l.id]}</span>
+              <span className="w-[2.1rem] shrink-0 font-heading text-[0.6rem] uppercase tracking-wider text-ink-soft">{RESOURCE_LABELS[l.id]}</span>
               <span className="relative h-[3px] flex-1 bg-black/50 overflow-hidden rounded-sm">
                 <span className="absolute inset-y-0 w-px bg-brass/40" style={{ left: "50%" }} />
                 <span
@@ -401,7 +424,7 @@ function StrandMeter({ resources }: { resources: Record<string, number> }) {
                   style={{ left: l.value >= 0 ? "50%" : `${p}%`, right: l.value >= 0 ? `${100 - p}%` : "50%" }}
                 />
               </span>
-              <span className={`w-3 text-right font-heading text-[0.55rem] tabular-nums ${bad ? "text-blood" : "text-ink"}`}>{l.value}</span>
+              <span className={`w-3 text-right font-heading text-[0.6rem] tabular-nums ${bad ? "text-blood" : "text-ink"}`}>{l.value}</span>
             </li>
           );
         })}
@@ -530,6 +553,24 @@ const CARD_KIND: Record<string, string> = {
   ANSWER_BANK: "card-note",
   ANSWER_CABLES: "card-telegram",
 };
+/** What each kind of card is called in its corner (the class is the kind; no class is a newspaper). */
+const CARD_TAG: Record<string, string> = {
+  "": "Newspaper",
+  "card-telegram": "Telegram",
+  "card-note": "Note",
+  "card-calling": "Calling card",
+  "card-journal": "Journal",
+  "card-guide": "Guide",
+};
+/** The stamp on a telegram, where it is not the usual RECEIVED: a message that came too late or never came. An empty string draws no stamp. */
+const CARD_STAMP: Record<string, string> = {
+  CRISIS_WIRES: "UNDELIVERED",
+  DEADLINE_RAIDS_LATE: "TOO LATE",
+  DEADLINE_CABINET_LATE: "TOO LATE",
+  DEADLINE_CABINET_EARLY: "",
+  DEADLINE_RAIDS_EARLY: "",
+  ANSWER_CABLES: "",
+};
 const EXAM_SCENES = new Set(["X1", "X2", "X3", "YX1", "YX2", "YX3"]);
 const ALLY_SPEAKERS: Record<string, string> = { Watson: "Dr Watson", Lestrade: "Inspector Lestrade", Mycroft: "Mycroft Holmes", Wiggins: "Wiggins" };
 
@@ -603,6 +644,19 @@ export default function App() {
   const rules = def.config.difficulties[state.difficulty];
   const interlude = state.activeInterludeId ? def.content.interludes[state.activeInterludeId] : undefined;
   const shellRef = useRef<HTMLElement>(null);
+  // the gauge card, and whether it has scrolled out of sight (then the slim strip takes its place)
+  const gaugeRef = useRef<HTMLDivElement>(null);
+  const [gaugesOut, setGaugesOut] = useState(false);
+  useEffect(() => {
+    const el = gaugeRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setGaugesOut(false);
+      return;
+    }
+    const io = new IntersectionObserver(([entry]) => setGaugesOut(!entry.isIntersecting && entry.boundingClientRect.top < 0));
+    io.observe(el);
+    return () => io.disconnect();
+  }, [screen, state.currentNodeId]);
   const [favorPanelOpen, setFavorPanelOpen] = useState(false);
   const [houseTab, setHouseTab] = useState<"HOUSE" | "COMPANY" | "BOARD" | "MAP" | "CALENDAR" | null>(null);
   // browsers keep a page silent until the player has acted on it, so the atmosphere waits for the first click
@@ -989,7 +1043,7 @@ export default function App() {
         <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative max-h-[85vh] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="ledger-title">
           <CornerFlourishes />
           <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">Kept in this browser</p>
-          <h1 id="ledger-title" className="font-heading text-2xl font-bold mb-1">The Case-Book</h1>
+          <h1 id="ledger-title" className="font-heading text-2xl font-bold mb-1">The Ledger</h1>
           <p className="font-heading text-xs uppercase tracking-widest text-ink-soft mb-6">
             {found.length} / {endingIds.length} endings found
           </p>
@@ -1134,7 +1188,7 @@ export default function App() {
                 }}
                 className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
               >
-                Case-Book
+                Ledger
               </button>
             )}
           </div>
@@ -1383,10 +1437,10 @@ export default function App() {
     const paper = interlude;
     content = (
       <VoidScreen>
-        <div className={`max-w-xl w-full bg-parchment border-4 border-double border-ink p-6 sm:p-8 font-broadsheet text-ink shadow-2xl relative ${CARD_KIND[paper.id] ?? ""}`}>
+        <div className={`max-w-xl w-full bg-parchment border-4 border-double border-ink p-6 sm:p-8 font-broadsheet text-ink shadow-2xl relative ${CARD_KIND[paper.id] ?? ""}`} data-stamp={CARD_STAMP[paper.id] ?? "RECEIVED"}>
           <div className="flex items-center justify-between border-b-2 border-ink pb-2 mb-4">
             <span className="text-xs uppercase tracking-[0.25em] font-bold">{paper.source}</span>
-            <span className="text-xs uppercase tracking-widest text-ink/60">{paper.kind === "transition" ? "Notice" : paper.kind === "lore" ? "Report" : "Warning"}</span>
+            <span className="text-xs uppercase tracking-widest text-ink/60">{CARD_TAG[CARD_KIND[paper.id] ?? ""]}</span>
           </div>
           {plateForInterlude(paper.id) && <PlateView id={plateForInterlude(paper.id)!} />}
           <h1 className="text-2xl sm:text-3xl font-bold leading-tight mb-3">{paper.headline}</h1>
@@ -1561,7 +1615,7 @@ export default function App() {
           </header>
 
           {!onShelf && (
-          <div className="parchment-card p-4 sm:p-5 mb-6 relative">
+          <div ref={gaugeRef} className="parchment-card p-4 sm:p-5 mb-6 relative">
             <CornerFlourishes />
             {rules.enforceMoney && (
               <div className="flex items-center gap-1.5 mb-3 text-brass-dim">
@@ -1891,6 +1945,7 @@ export default function App() {
       <main className="app-shell" ref={shellRef}>
         {content}
       </main>
+      {gaugesOut && screen === "NODE" && <GaugeStrip resources={state.resources} />}
     </>
   );
 }

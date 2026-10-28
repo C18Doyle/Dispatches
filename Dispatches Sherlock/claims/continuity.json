@@ -1,0 +1,28 @@
+{
+  "_comment": "The continuity bible. people: a character who must be introduced before any scene description names them (introducedAt is the list of scenes that introduce them; 'canon' means every reader of the stories knows them; volumes limits the check to those volumes; except lists scenes that only a flag can reach, which a check on the graph cannot see). facts: a pattern that must never appear in the same scene as its contradiction. scripts/check_continuity.mjs reads this file.",
+  "people": [
+    { "name": "Tobias Larch", "pattern": "\\bLarch\\b", "introducedAt": ["6"] },
+    { "name": "Sergeant Pike", "pattern": "\\bPike\\b", "introducedAt": ["Y3"] },
+    { "name": "Alf", "pattern": "\\bAlf\\b", "introducedAt": ["S4"] },
+    { "name": "Superintendent Greaves", "pattern": "\\bGreaves\\b", "introducedAt": ["M4"] },
+    { "name": "Mr Fenn", "pattern": "\\bFenn\\b", "introducedAt": ["MX1"] },
+    { "name": "Lord Harcastle", "pattern": "\\bHarcastle\\b", "introducedAt": ["M5"] },
+    { "name": "Mr Dunmore", "pattern": "\\bDunmore\\b", "introducedAt": ["K8"], "volumes": ["FINAL"], "except": ["AY"] },
+    { "name": "Mrs Norton", "pattern": "\\bNorton\\b", "introducedAt": ["K7"], "volumes": ["FINAL"], "except": ["AY", "AC"] },
+    { "name": "Hallam", "pattern": "\\bHallam\\b", "introducedAt": ["7D"] },
+    { "name": "Quill", "pattern": "\\bQuill\\b", "introducedAt": ["S5B"] },
+    { "name": "Alderson", "pattern": "\\bAlderson\\b", "introducedAt": ["Y2B"] },
+    { "name": "Aldous", "pattern": "\\bAldous\\b", "introducedAt": ["M1"] },
+    { "name": "Miss Crewe", "pattern": "\\bCrewe\\b", "introducedAt": ["K5"] },
+    { "name": "Colonel Moran", "pattern": "\\bMoran\\b", "introducedAt": "canon" },
+    { "name": "Wiggins", "pattern": "\\bWiggins\\b", "introducedAt": "canon" },
+    { "name": "Mycroft", "pattern": "\\bMycroft\\b", "introducedAt": "canon" },
+    { "name": "Lestrade", "pattern": "\\bLestrade\\b", "introducedAt": "canon" },
+    { "name": "Mrs Hudson", "pattern": "\\bHudson\\b", "introducedAt": "canon" },
+    { "name": "Watson", "pattern": "\\bWatson\\b", "introducedAt": "canon" }
+  ],
+  "facts": [
+    { "what": "the Professor is called James Moriarty, never John or Jim", "pattern": "Professor Moriarty", "contradicts": "\\b(?:John|Jim|Jack) Moriarty\\b" },
+    { "what": "the rooms are 221B Baker Street, up seventeen steps, never sixteen or eighteen", "pattern": "seventeen steps", "contradicts": "\\b(?:sixteen|eighteen|fifteen|nineteen) steps\\b" }
+  ]
+}
