@@ -13,6 +13,8 @@ const strict = process.argv.includes("--strict");
 const dir = join("src", "content", seat);
 const events = JSON.parse(readFileSync(join(dir, "events.json"), "utf8"));
 const flavor = JSON.parse(readFileSync(join(dir, "flavor.json"), "utf8"));
+const uiJson = JSON.parse(readFileSync(join(dir, "ui.json"), "utf8"));
+const bookJson = JSON.parse(readFileSync(join(dir, "book.json"), "utf8"));
 const checks = JSON.parse(readFileSync(join(dir, "checks.json"), "utf8"));
 const alternatives = checks.alternativeNodes ?? []; // groups of scenes that are the same moment told two ways, never both in one run
 const decisionNodes = checks.decisionNodes ?? []; // the same decision offered from two scenes: only the first is counted
@@ -52,6 +54,8 @@ for (const e of Object.values(events.endings)) {
 }
 for (const it of Object.values(events.interludes)) add(`${it.id}`, it.id, "ANY", it.bodyText, "prose");
 for (const p of flavor.prologue) add("prologue", "prologue", "ANY", p, "prose");
+for (const [k, t] of Object.entries(uiJson.tracks ?? {})) add(`ui.tracks.${k}`, `ui-${k}`, "ANY", t.epigraph, "prose");
+for (const [k, n] of Object.entries(bookJson.road ?? {})) add(`book ${k}`, `book-${k}`, events.nodes[k] && events.nodes[k].branch !== "UNIVERSAL" ? events.nodes[k].branch : "ANY", n.note, "prose");
 for (const r of Object.values(flavor.epilogueReadings)) add(`epilogue ${r.label}`, "epilogue", "ANY", r.epilogue, "prose");
 const together = (a, b) => a.scene !== b.scene && !alternatives.some((g) => g.includes(a.scene) && g.includes(b.scene)) && (a.track === b.track || a.track === "ANY" || b.track === "ANY");
 

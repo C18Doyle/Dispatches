@@ -18,6 +18,8 @@ const npx = win ? "npx.cmd" : "npx";
 run("schema", npx, ["tsx", "../packages/engine/tools/validate_schema.ts", "mina"]);
 run("writing", "node", ["scripts/check_writing.mjs"], { GAME: "mina" });
 run("repetition", "node", ["scripts/check_repetition.mjs", "--strict"], { GAME: "mina" });
+run("names", "node", ["scripts/check_names.mjs"], { GAME: "mina" });
+run("voice", "node", ["scripts/check_voice.mjs", "--strict"], { GAME: "mina" });
 run("behaviour baseline", npx, ["tsx", "../packages/engine/tools/verify_baseline.ts", "mina"], { BASELINE: "tests/fixtures/mina-baseline.json" });
 run("validator", npx, ["tsx", "scripts/validate.ts"], { GAME: "mina" });
 run("balance", npx, ["tsx", "scripts/balance_check.ts"], { GAME: "mina" });

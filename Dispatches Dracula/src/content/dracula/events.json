@@ -5,7 +5,7 @@
       "id": "1",
       "branch": "UNIVERSAL",
       "title": "A Guest from Exeter",
-      "description": "Six months of letters from Exeter have been civil and exact. Mr Hawkins has bought you a house at Purfleet, called Carfax, with a ruined chapel in its grounds and a private asylum on the other side of the wall. His junior partner is coming to settle the deeds. Jonathan Harker comes up the pass in the last of the light in a calèche, with a stranger in a long cloak on the box and wolves keeping pace along the ridge. You are the stranger. You keep no servants, so you drove him yourself. Now you stand in the courtyard with a lamp in your hand. You have not needed a man from England so badly, or let one in.",
+      "description": "Six months of letters from Exeter have been civil and exact. Mr Hawkins has bought you a house at Purfleet, called Carfax, with a ruined chapel in its grounds and a private asylum on the other side of the wall. His junior partner is coming to settle the deeds. Jonathan Harker comes up the pass in the last of the light in a calèche, with a stranger in a long cloak on the box and wolves keeping pace along the ridge. You are the stranger. You keep no servants, so you drove him yourself. Now you stand in the courtyard with a lamp in your hand. Never before have you needed a man from England so badly, or let one in.",
       "options": [
         {
           "label": "Receive him as a host receives an honoured friend.",
@@ -20,7 +20,7 @@
             "kind": "novel",
             "source": "Chapter II"
           },
-          "outcome": "You carry his bags up the stair yourself and set a table for one. He is tired and grateful, and he asks no questions that night. You learn the first thing about him: he writes down everything.",
+          "outcome": "You carry his bags up the stair yourself and set a table for one. He is tired and grateful, and he asks no questions that night. The first thing to learn about him is that he writes down everything.",
           "nextNodeId": "2",
           "setFlags": [
             "hostWarm"
@@ -66,7 +66,8 @@
             "success": {
               "outcome": "He blinks, smiles and sets down his bag. Whatever he saw on the road is gone from his face. He eats, and sleeps, and in the morning he remembers a pleasant journey. His own mind is easy to read now, like a letter left open on a desk.",
               "stamps": {
-                "dominion": 1
+                "dominion": 1,
+                "strength": 1
               },
               "setFlags": [
                 "harkerBlunted"
@@ -91,7 +92,7 @@
       "id": "2",
       "branch": "UNIVERSAL",
       "title": "What the Solicitor Knows",
-      "description": "For a week you do what you have done for centuries by other means: you read. The library has Bradshaw's railway guide, a London directory, Whitaker's Almanack, the Army and Navy List and a shelf of English law. What the books do not give you is how an Englishman thinks, and Harker is the first one you have kept in the house. In the evenings you put your questions to him over the fire, a dozen a night. You have a month before the boxes sail, which is time to learn one subject well and the rest badly.",
+      "description": "For a week you do what you have done for centuries by other means: you read. The library has Bradshaw's railway guide, a London directory, Whitaker's Almanack, the Army and Navy List and a shelf of English law. What the books do not give you is how an Englishman thinks. Harker is the first one you have kept in the house. In the evenings you put your questions to him over the fire, a dozen a night. You have a month before the boxes sail, which is time to learn one subject well and the rest badly.",
       "options": [
         {
           "label": "The law: title, lease, survey, and what a solicitor can be made to overlook.",
@@ -115,7 +116,8 @@
           "label": "The manner: how an Englishman greets, dresses, dines and lies.",
           "detail": "Forks, bows and vowels. Harker corrects you each evening and does not ask why you need it.",
           "stamps": {
-            "dominion": 1
+            "dominion": 1,
+            "secrecy": 1
           },
           "quote": {
             "speaker": "Jonathan",
@@ -164,7 +166,10 @@
         {
           "label": "Take his journal from the table while he sleeps, and read it.",
           "detail": "He keeps it in shorthand, and he puts down everything he sees. It would tell you what he has seen.",
-          "stamps": {},
+          "stamps": {
+            "secrecy": 1,
+            "dominion": 1
+          },
           "quote": {
             "speaker": "Jonathan Harker",
             "text": "I keep a journal, Count, in shorthand. It is a habit of the office."
@@ -183,14 +188,15 @@
       "id": "3",
       "branch": "UNIVERSAL",
       "title": "The Looking-Glass",
-      "description": "In the third week Harker shaves at the window with a small glass hung on the shutter. You come into the room behind him and he does not hear you. In the glass there is the window, the room and Harker's own back, and nothing standing behind him. The crucifix at his throat catches the lamp. He starts, the razor slips, and a thread of blood runs down his chin into the soap. You have not fed in nine days.",
+      "description": "In the third week Harker shaves at the window with a small glass hung on the shutter. Behind him, you come into the room, and he does not hear you. In the glass there is the window, the room and Harker's own back, and nothing standing behind him. The crucifix at his throat catches the lamp. He starts, the razor slips, and a thread of blood runs down his chin into the soap. You have not fed in nine days.",
       "options": [
         {
           "label": "Take the glass from him and break it, and say that you allow none in the house.",
           "detail": "Fury is quick, and he will believe it. He will also remember it.",
           "stamps": {
             "dominion": 1,
-            "secrecy": -1
+            "secrecy": -1,
+            "strength": 1
           },
           "quote": {
             "speaker": "The Count",
@@ -217,7 +223,7 @@
             "speaker": "Jonathan",
             "text": "He had no looking-glass in any room but mine, and by evening mine was gone. I told myself that the house was old."
           },
-          "outcome": "You keep your eyes on his face and off his chin. You wish him good morning, remark on the weather, and have every glass out of every room before dark. Harker says nothing and keeps his collar buttoned.",
+          "outcome": "Eyes on his face and off his chin, you wish him good morning, remark on the weather, and have every glass out of every room before dark. Harker says nothing and keeps his collar buttoned.",
           "nextNodeId": "4",
           "setFlags": [
             "mirrorsGone"
@@ -237,7 +243,7 @@
             "speaker": "You",
             "text": "A man is a guest in your house, and you are a very old host. That was the only thing you held on to."
           },
-          "outcome": "You are on the stair before he has turned round. You stand there for a long time with your back to the wall. When you come down at dusk you are very civil, and he is a little afraid of you, and does not know why.",
+          "outcome": "You are on the stair before he has turned round, and there you stand for a long time with your back to the wall. When you come down at dusk you are very civil, and he is a little afraid of you, and does not know why.",
           "nextNodeId": "4",
           "setFlags": [
             "heldBack"
@@ -305,9 +311,10 @@
               "max": 0.85
             },
             "success": {
-              "outcome": "The first letter reaches Exeter and is read aloud at the breakfast table. Exeter remarks on nothing. The second is shown to a bank manager and the third to a niece. You have stopped needing Harker for anything but the walls.",
+              "outcome": "The first letter reaches Exeter and is read aloud at the breakfast table. Exeter remarks on nothing. A bank manager is shown the second and a niece the third. You have stopped needing Harker for anything but the walls.",
               "stamps": {
-                "dominion": 1
+                "dominion": 1,
+                "secrecy": 1
               },
               "setFlags": [
                 "forgedHand"
@@ -344,7 +351,7 @@
               "max": 0.85
             },
             "success": {
-              "outcome": "You find the line in the margin, in a shorthand you can read as easily as English. You say nothing. You cross it out, hand him a fresh sheet and wait while he copies the letter without it. He does not remember writing it.",
+              "outcome": "You find the line in the margin, in a shorthand you can read as easily as English. Saying nothing, you cross it out, hand him a fresh sheet and wait while he copies the letter without it. He does not remember writing it.",
               "stamps": {
                 "dominion": 1,
                 "secrecy": 1
@@ -391,14 +398,15 @@
       "id": "5",
       "branch": "UNIVERSAL",
       "title": "The Three Sisters",
-      "description": "Harker has wandered, against your word, into the old east wing and fallen asleep on a sofa. You know it before you see it, as you know a door has been opened in a house. When you reach the room the three who live in the east wing are already standing round him: one fair, two dark, all of them smiling. One of them has bent down to his throat. You have not seen them so eager for a long time. They turn to you, and they are not afraid.",
+      "description": "Harker has wandered, against your word, into the old east wing and fallen asleep on a sofa. It comes to you before you see it, as it comes to you that a door has been opened in a house. When you reach the room the three who live in the east wing are already standing round him: one fair, two dark, all of them smiling. One of them has bent down to his throat. You have not seen them so eager for a long time. They turn to you, and they are not afraid.",
       "options": [
         {
           "label": "Order them back. He is yours, and not until you say.",
           "detail": "They have never been refused in this house. Expect a grudge.",
           "stamps": {
             "dominion": 1,
-            "strength": -1
+            "strength": -1,
+            "secrecy": 1
           },
           "quote": {
             "speaker": "The Count",
@@ -464,7 +472,7 @@
             "speaker": "Slovak headman",
             "text": "Fifty, master. It is a great deal of earth for a man who owns a mountain."
           },
-          "outcome": "The Slovaks load the wagons for three nights. The headman asks nothing, because he has been paid for not asking, and because he has seen the three in the east wing. The last wagon goes down the pass at dawn.",
+          "outcome": "The Slovaks load the wagons for three nights. Their headman asks nothing, because he has been paid for not asking, and because he has seen the three in the east wing. The last wagon goes down the pass at dawn.",
           "nextNodeId": "7",
           "setFlags": [
             "fullHold"
@@ -507,7 +515,10 @@
         {
           "label": "First go down to the courtyard and settle the carrying with the Szgany yourself.",
           "detail": "An hour at their fires before you choose. The headman is waiting.",
-          "stamps": {},
+          "stamps": {
+            "strength": -1,
+            "dominion": 1
+          },
           "quote": {
             "speaker": "Szgany headman",
             "text": "The wagons are loaded in the dark, master, and the dark is not free."
@@ -538,7 +549,7 @@
             "speaker": "Jonathan",
             "text": "I heard the carts go. I heard him go. I do not know why I was still alive in the morning."
           },
-          "outcome": "You lock the door and hang the key on a nail where it can be reached from the window with a long enough rod. You go down to the crypt without looking back. By the time he finds the key, you will be a hundred miles away.",
+          "outcome": "You lock the door and hang the key on a nail where it can be reached from the window with a long enough rod. Without looking back, you go down to the crypt. By the time he finds the key, you will be a hundred miles away.",
           "nextNodeId": "8",
           "setFlags": [
             "harkerLocked"
@@ -552,13 +563,14 @@
           "detail": "He wants to go home, and he will tell Exeter everything he has seen.",
           "stamps": {
             "dominion": -1,
-            "secrecy": -1
+            "secrecy": -1,
+            "strength": 1
           },
           "quote": {
             "speaker": "Jonathan",
             "text": "I walked out at dawn and nobody stopped me. I did not know what to make of it. I still do not."
           },
-          "outcome": "You call off the wolves in a word and leave the north room open. The sisters are asleep in the east wing and will not wake until dusk. He will have a whole day. You pay for him, in some coin that you cannot name, and you do not look for the reason.",
+          "outcome": "You call off the wolves in a word and leave the north room open. The sisters are asleep in the east wing and will not wake until dusk. He will have a whole day. It costs you, in some coin that you cannot name, in some coin that you cannot name, and you do not look for the reason.",
           "nextNodeId": "8",
           "setFlags": [
             "harkerFree"
@@ -573,7 +585,7 @@
           "detail": "Hawkins will ask after him within the month. The sisters will be fed.",
           "stamps": {
             "strength": 2,
-            "secrecy": -1
+            "secrecy": -2
           },
           "quote": {
             "speaker": "Mr Hawkins",
@@ -644,7 +656,7 @@
       "id": "8",
       "branch": "UNIVERSAL",
       "title": "The Hold of the Demeter",
-      "description": "The Demeter is a Russian schooner out of Varna, with a captain, two mates, a cook and five hands, who have been told she carries silver sand and boxes of mould for a firm in Whitby. You lie in your own earth under the hatches, with the crew's feet over your head and the sea against the planks. The passage is long: the Bosphorus, the Dardanelles, the Mediterranean, Gibraltar, Biscay, the Channel and the North Sea. You will be hungry before it is done, and a ship is a small place to be hungry in.",
+      "description": "The Demeter is a Russian schooner out of Varna, with a captain, two mates, a cook and five hands, who have been told she carries silver sand and boxes of mould for a firm in Whitby. In your own earth under the hatches you lie, with the crew's feet over your head and the sea against the planks. The passage is long: the Bosphorus, the Dardanelles, the Mediterranean, Gibraltar, Biscay, the Channel and the North Sea. You will be hungry before it is done, and a ship is a small place to be hungry in.",
       "options": [
         {
           "label": "Keep to the earth and ask nothing of the crew.",
@@ -657,7 +669,7 @@
             "speaker": "Ship's mate",
             "text": "There is something wrong with the hold, captain. The men say it smells of a church-yard. I say it is the earth."
           },
-          "outcome": "You lie still for fourteen days. The crew grow uneasy about the boxes in the hold, as men do about things they have been told to leave alone, but none of them opens one. You arrive weak and unseen.",
+          "outcome": "For fourteen days you lie still. The crew grow uneasy about the boxes in the hold, as men do about things they have been told to leave alone, but none of them opens one. You arrive weak and unseen.",
           "nextNodeId": "9",
           "setFlags": [
             "crewSpared"
@@ -679,7 +691,7 @@
             "kind": "novel",
             "source": "Chapter VII"
           },
-          "outcome": "By Biscay the watch has a man short, and the mate has taken to carrying a knife. By the Channel there are only the captain and the mate. You do not enjoy it. You do it all the same, and later you will call it necessary.",
+          "outcome": "By Biscay the watch has a man short, and the mate has taken to carrying a knife. By the Channel there are only the captain and the mate. You do not enjoy it, and you do it all the same, and later you will call it necessary.",
           "nextNodeId": "9",
           "setFlags": [
             "crewTaken"
@@ -717,7 +729,7 @@
               ]
             },
             "failure": {
-              "outcome": "The wind answers, and then does not stop. For two nights the schooner runs before a gale that you cannot turn. The mate is sure it is the box. He is not wrong. You will pay for the effort in a long hunger, and in the way the crew look at the hatch.",
+              "outcome": "The wind answers, and then does not stop. For two nights the schooner runs before a gale that you cannot turn. The mate is sure it is the box, and he is not wrong. You will pay for the effort in a long hunger, and in the way the crew look at the hatch.",
               "stamps": {
                 "strength": -1,
                 "secrecy": -1
@@ -816,10 +828,11 @@
               "max": 0.9
             },
             "success": {
-              "outcome": "The schooner drives onto the sand below the churchyard and holds. The crowd comes down the cliff path with lanterns. You are one more shadow among them, and then you are not there at all.",
+              "outcome": "The schooner drives onto the sand below the churchyard and holds. Down the cliff path comes the crowd with lanterns. You are one more shadow among them, and then you are not there at all.",
               "stamps": {
                 "strength": -1,
-                "secrecy": -1
+                "secrecy": -1,
+                "dominion": 1
               },
               "setFlags": [
                 "wreckLanded"
@@ -872,7 +885,7 @@
       "id": "10",
       "branch": "UNIVERSAL",
       "title": "The Seat on the East Cliff",
-      "description": "The churchyard of St Mary's stands on the cliff above the town, with a bench over a suicide's grave looking out to sea. The old man who sits there every evening has watched you twice and has begun to nod. Two young women walk up most evenings and sit on the next bench: one dark, one fair. The fair one, Lucy, walks in her sleep and is to be married. The dark one, Mina, writes in a notebook in a script that only she can read. She is to marry the man you left in the castle.",
+      "description": "The churchyard of St Mary's stands on the cliff above the town, with a bench over a suicide's grave looking out to sea. An old man sits there every evening. He has watched you twice and has begun to nod. Two young women walk up most evenings and sit on the next bench: one dark, one fair. The fair one, Lucy, walks in her sleep and is to be married. Mina, the dark one, writes in a notebook in a script that only she can read. She is to marry the man you left in the castle.",
       "options": [
         {
           "label": "Pass them all by, and keep to the dark.",
@@ -917,7 +930,8 @@
               "outcome": "For three nights you visit her window and the fair head turns on the pillow. By the fourth she walks out in her nightdress to meet you and you sit on the bench together in the dark. She wakes at dawn with two small marks at her throat and a dream she will not tell her friend.",
               "stamps": {
                 "dominion": 1,
-                "secrecy": -1
+                "secrecy": -1,
+                "strength": 1
               },
               "setFlags": [
                 "lucyMarked"
@@ -1010,7 +1024,7 @@
       "id": "11",
       "branch": "UNIVERSAL",
       "title": "Carfax",
-      "description": "Carfax stands at the edge of Purfleet behind a wall, an old stone house with a chapel at the back. On the far side of the wall are the lit windows of a private asylum. Carter, Paterson and Company's carts bring your boxes up the drive, one after another, and a man in a leather apron signs for them. In the asylum next door a patient lifts his head at his window the moment you walk through the gate. You feel him before you see him: a small, hungry mind. You have a house in England and a month to decide what you are going to be in it.",
+      "description": "Carfax stands at the edge of Purfleet behind a wall, an old stone house with a chapel at the back. On the far side of the wall are the lit windows of a private asylum. Carter, Paterson and Company's carts bring your boxes up the drive, one after another, and a man in a leather apron signs for them. In the asylum next door a patient lifts his head at his window the moment you walk through the gate. He is felt before he is seen: a small, hungry mind. A house in England is yours, with a month to decide what you are going to be in it.",
       "options": [
         {
           "label": "Be a neighbour: take the house quietly, buy a second, disturb nothing, and let London forget you.",
@@ -1023,7 +1037,7 @@
             "speaker": "Mr Billington",
             "text": "Count Dracula is the quietest tenant we have ever had, sir. One might almost say he is not there."
           },
-          "outcome": "You take a second house through Billington and Son. You buy the right kinds of newspaper. You walk in your own garden at night and draw no attention. The city is vast and has plenty else to look at.",
+          "outcome": "You take a second house through Billington and Son and buy the right kinds of newspaper. In your own garden you walk at night and draw no attention. The city is vast and has plenty else to look at.",
           "nextNodeId": "12A",
           "axisDelta": {
             "longing": 1
@@ -1039,7 +1053,7 @@
             "speaker": "Mr Billington",
             "text": "A foreign nobleman of the very first rank, sir, and a perfect gentleman. He asks after everyone."
           },
-          "outcome": "You have your cards printed. You hire a box for the Season. You let it be known, discreetly, that the new owner of Carfax is a gentleman of ancient family who is in need of society. The invitations arrive within the week.",
+          "outcome": "You have your cards printed and hire a box for the Season. Discreetly, you let it be known that the new owner of Carfax is a gentleman of ancient family who is in need of society. The invitations arrive within the week.",
           "nextNodeId": "12B",
           "axisDelta": {
             "manner": 1
@@ -1057,7 +1071,7 @@
             "speaker": "Renfield",
             "text": "The Master is coming. The Master has come. The Master will have all the flies."
           },
-          "outcome": "You put on your oldest face. You go out on the third night with the fog behind you and a grey wolf at your heel. The first constable who sees you will not describe what he saw.",
+          "outcome": "On the third night you put on your oldest face and go out with the fog behind you and a grey wolf at your heel. The first constable who sees you will not describe what he saw.",
           "nextNodeId": "12C",
           "axisDelta": {
             "manner": -1
@@ -1067,7 +1081,9 @@
           "label": "First, find out who is next door.",
           "detail": "The mind at the asylum window. It seems to know you already.",
           "stamps": {
-            "strength": -1
+            "strength": -1,
+            "secrecy": 1,
+            "dominion": 1
           },
           "quote": {
             "speaker": "You",
@@ -1181,7 +1197,7 @@
             "speaker": "Harbour clerk",
             "text": "A Count Dracula, sir? We have the bill of lading. I am sorry, sir, for your loss."
           },
-          "outcome": "The clerk has the paper and the carter has the cart. The boxes are counted again and signed for, and you are driven away in a hired fly with the earth under a tarpaulin. It is humiliating, and it works.",
+          "outcome": "Clerk and carter have the paper and the cart. The boxes are counted again and signed for, and you are driven away in a hired fly with the earth under a tarpaulin. It is humiliating, and it works.",
           "nextNodeId": "11",
           "setFlags": [
             "claimedBoxes"
@@ -1219,7 +1235,7 @@
             "speaker": "Harbour clerk",
             "text": "Twelve are missing from the count, sir, but the sea takes what it likes."
           },
-          "outcome": "You work all night with a cart you have borrowed, and you have saved what you can. Twelve of the chests stay on the sand to be dug over by children. You will be twelve beds short in London.",
+          "outcome": "All night you work with a cart you have borrowed, and you save what you can. Twelve of the chests stay on the sand to be dug over by children. You will be twelve beds short in London.",
           "nextNodeId": "11",
           "setFlags": [
             "boxesShort"
@@ -1231,7 +1247,7 @@
       "id": "10-QUIET",
       "branch": "UNIVERSAL",
       "title": "The Night Train South",
-      "description": "The luggage van smells of fish and coal. Your boxes are stacked against the wall under a tarpaulin and a Great Northern porter, who has been given a sovereign by Billington and Son, has not looked at them. The train runs south through the dark, through York and Doncaster and Peterborough. You have never travelled so fast, and you are, at last, in the country you have spent half a year reading. It is smaller than the books suggest, and better lit.",
+      "description": "The luggage van smells of fish and coal. Your boxes are stacked against the wall under a tarpaulin and a Great Northern porter, who has been given a sovereign by Billington and Son, has not looked at them. South through the dark runs the train, through York and Doncaster and Peterborough. You have never travelled so fast, and you are, at last, in the country you have spent half a year reading. It is smaller than the books suggest, and better lit.",
       "options": [
         {
           "label": "Ride in the luggage van with the boxes, in the dark.",
@@ -1244,7 +1260,7 @@
             "speaker": "Porter",
             "text": "A lot of boxes, sir. I never saw such a lot of boxes. Heavy, too."
           },
-          "outcome": "You lie in the van among the boxes and the train carries you south. You rest, though you do not sleep. At King's Cross the van is shunted, and no one has seen you.",
+          "outcome": "You lie in the van among the boxes and the train carries you south. Rest comes, though not sleep. At King's Cross the van is shunted, and no one has seen you.",
           "nextNodeId": "11"
         },
         {
@@ -1257,7 +1273,7 @@
             "speaker": "Guard",
             "text": "First-class to King's Cross, sir. We have an hour at Peterborough. Will you take tea?"
           },
-          "outcome": "You read the Dailygraph and the Times, and are asked at Peterborough whether you will take tea. You say that you will not, but thank him for the thought. He remembers you as a very correct gentleman. He will not remember much else.",
+          "outcome": "The Dailygraph and the Times fill the journey, and you are asked at Peterborough whether you will take tea. You say that you will not, but thank him for the thought. He remembers you as a very correct gentleman. He will not remember much else.",
           "nextNodeId": "11",
           "axisDelta": {
             "manner": 1
@@ -1268,13 +1284,13 @@
           "detail": "There is a cathedral in York. You have not been in one for a long time.",
           "stamps": {
             "strength": -1,
-            "dominion": 1
+            "dominion": 2
           },
           "quote": {
             "speaker": "Cab-driver",
             "text": "York Minster, sir? At this hour? It is shut, sir. Everything is shut."
           },
-          "outcome": "You walk in the lee of the Minster for an hour. The doors are locked and the bells are silent. Nothing is asked of you. You have never seen a city so quiet, and you board the next train as if you had left something behind.",
+          "outcome": "In the lee of the Minster you walk for an hour. The doors are locked and the bells are silent. Nothing is asked of you. You have never seen a city so quiet, and you board the next train as if you had left something behind.",
           "nextNodeId": "11",
           "setFlags": [
             "sawMinster"
@@ -1304,7 +1320,7 @@
             "kind": "novel",
             "source": "Chapter VIII"
           },
-          "outcome": "You tell him through the wall that if he is faithful he will have lives. You tell him which ones: sparrows first, then others. He weeps, and promises, and a little of Renfield's will leaks into your own. You have a servant.",
+          "outcome": "You tell him through the wall that if he is faithful he will have lives, and which ones: sparrows first, then others. He weeps, and promises, and a little of Renfield's will leaks into your own. You have a servant.",
           "nextNodeId": "11-PLAN",
           "setFlags": [
             "renfieldBound"
@@ -1334,7 +1350,8 @@
           "detail": "Tell him he was wrong. He will stop watching, and he may stop believing in you.",
           "stamps": {
             "dominion": -1,
-            "secrecy": 1
+            "secrecy": 1,
+            "strength": 1
           },
           "quote": {
             "speaker": "Renfield",
@@ -1355,7 +1372,7 @@
       "id": "11-PLAN",
       "branch": "UNIVERSAL",
       "title": "Three Ways to Take a City",
-      "description": "You sit in the study at Carfax with the lamp turned low and the map of London on the table. The boxes are in the chapel. The deed is in the strong-room. There are the books, the money, the long nights and the whole of an enormous city to learn. You have come a long way in miles and a longer way in years. It is time to decide, once, how to be here.",
+      "description": "In the study at Carfax, with the lamp turned low and the map of London on the table, you sit. In the chapel are the boxes, in the strong-room the deed. There are the books, the money, the long nights and the whole of an enormous city to learn. It has been a long way in miles and a longer way in years. It is time to decide, once, how to be here.",
       "options": [
         {
           "label": "Be a neighbour: take the house quietly, buy a second, disturb nothing, and let London forget you.",
@@ -1368,7 +1385,7 @@
             "speaker": "Mr Billington",
             "text": "Count Dracula is the quietest tenant we have ever had, sir. One might almost say he is not there."
           },
-          "outcome": "You take a second house through Billington and Son. You buy the right kinds of newspaper. You walk in your own garden at night and draw no attention. The city is vast and has plenty else to look at.",
+          "outcome": "You take a second house through Billington and Son and buy the right kinds of newspaper. In your own garden you walk at night and draw no attention. The city is vast and has plenty else to look at.",
           "nextNodeId": "12A",
           "axisDelta": {
             "longing": 1
@@ -1384,7 +1401,7 @@
             "speaker": "Mr Billington",
             "text": "A foreign nobleman of the very first rank, sir, and a perfect gentleman. He asks after everyone."
           },
-          "outcome": "You have your cards printed. You hire a box for the Season. You let it be known, discreetly, that the new owner of Carfax is a gentleman of ancient family who is in need of society. The invitations arrive within the week.",
+          "outcome": "You have your cards printed and hire a box for the Season. Discreetly, you let it be known that the new owner of Carfax is a gentleman of ancient family who is in need of society. The invitations arrive within the week.",
           "nextNodeId": "12B",
           "axisDelta": {
             "manner": 1
@@ -1402,7 +1419,7 @@
             "speaker": "Renfield",
             "text": "The Master is coming. The Master has come. The Master will have all the flies."
           },
-          "outcome": "You put on your oldest face. You go out on the third night with the fog behind you and a grey wolf at your heel. The first constable who sees you will not describe what he saw.",
+          "outcome": "On the third night you put on your oldest face and go out with the fog behind you and a grey wolf at your heel. The first constable who sees you will not describe what he saw.",
           "nextNodeId": "12C",
           "axisDelta": {
             "manner": -1
@@ -1434,7 +1451,7 @@
       "id": "12A",
       "branch": "QUIET",
       "title": "A Second House",
-      "description": "Carfax is a good house and a known one. The boxes can rest there, but a prudent man keeps a second door. A firm of house agents has shown you a tall house in Piccadilly with its blinds down and a cellar that has been dry since the Regency. They have also shown you a lodging-house yard at Mile End, which is cheaper and not much of a residence. You can have either by the end of the month. You can have both if you are willing to be seen paying for them.",
+      "description": "Carfax is a good house and a known one. The boxes can rest there, but a prudent man keeps a second door. A firm of house agents has shown you a tall house in Piccadilly with its blinds down and a cellar that has been dry since the Regency. They have also shown you a lodging-house yard at Mile End, which is cheaper and not much of a residence. Either is yours by the end of the month. Both are, if you are willing to be seen paying for them.",
       "options": [
         {
           "label": "Buy Piccadilly by the book: survey, searches, a solicitor's letter, and a lease no one reads.",
@@ -1447,7 +1464,7 @@
             "speaker": "House agent",
             "text": "The title is perfectly clear, Count. I do not think any one will ever ask a question about it."
           },
-          "outcome": "The agents do it properly. The searches are made, the survey is signed, and the deed goes into the strong-room at Carfax with a small stain on one corner. The house in Piccadilly is yours in a fortnight, and the street does not know who bought it.",
+          "outcome": "The agents do it properly. Searches are made, the survey is signed, and the deed goes into the strong-room at Carfax with a small stain on one corner. The house in Piccadilly is yours in a fortnight, and the street does not know who bought it.",
           "nextNodeId": "13A",
           "setFlags": [
             "piccadillyBought"
@@ -1583,7 +1600,7 @@
             "speaker": "Dr Seward",
             "text": "I do not know when I have had so agreeable an evening. He knows a good deal about the world, and a great deal about asylums."
           },
-          "outcome": "You dine in Dr Seward's study on a joint and a pudding and an ordinary claret, and you eat a little of each in the proper order. He talks about his patient. You talk about the drains. He sees you to the gate himself and hopes that you will call again.",
+          "outcome": "In Dr Seward's study you dine on a joint and a pudding and an ordinary claret, and you eat a little of each in the proper order. He talks about his patient. You talk about the drains. He sees you to the gate himself and hopes that you will call again.",
           "nextNodeId": "14A",
           "setFlags": [
             "dinedWithSeward"
@@ -1610,7 +1627,7 @@
             "speaker": "Lucy",
             "text": "I slept so well last night. I do not know why I ever worried. There was nothing at the window at all."
           },
-          "outcome": "You keep to your own side of the wall. You eat very little. A week on, you are lean and slow, and Lucy Westenra is sleeping through the night. You do not know whether you have done right. You are sure only that you have done no harm.",
+          "outcome": "You keep to your own side of the wall and eat very little. A week on, you are lean and slow, and Lucy Westenra is sleeping through the night. Whether you have done right you do not know. You are sure only that you have done no harm.",
           "nextNodeId": "15A",
           "setFlags": [
             "lucySpared"
@@ -1697,7 +1714,7 @@
       "id": "15A",
       "branch": "QUIET",
       "title": "The Doctor from Amsterdam",
-      "description": "Dr Seward has written to his old master in Amsterdam, a physician and philosopher named Abraham Van Helsing. The old man arrives by the evening boat-train with two bags and a small leather case. He examines the girl, or the patient, with an attention you have not met in a doctor for several centuries. Then he asks the household for garlic, and they bring it, because he asks quietly and does not explain. He is not a man who is surprised by things. He is looking, with great patience, for you.",
+      "description": "Dr Seward has written to his old master in Amsterdam, a physician and philosopher named Abraham Van Helsing. The Professor arrives by the evening boat-train with two bags and a small leather case. He examines the girl, or the patient, with an attention you have not met in a doctor for several centuries. Then he asks the household for garlic, and they bring it, because he asks quietly and does not explain. He is not a man who is surprised by things. He is looking, with great patience, for you.",
       "options": [
         {
           "label": "Come to him in a dream, and learn how much he knows.",
@@ -1718,7 +1735,7 @@
               "max": 0.85
             },
             "success": {
-              "outcome": "The old man dreams and you step into the dream as into a room. He knows about Whitby. He knows about the Demeter. He knows that you can be turned back by a cross and a flower, and has not yet decided to believe it. You wake knowing his plan, and he wakes knowing nothing.",
+              "outcome": "The Professor dreams and you step into the dream as into a room. He knows about Whitby. He knows about the Demeter. He knows that you can be turned back by a cross and a flower, and has not yet decided to believe it. You wake knowing his plan, and he wakes knowing nothing.",
               "stamps": {
                 "dominion": 1,
                 "strength": -1
@@ -1728,7 +1745,7 @@
               ]
             },
             "failure": {
-              "outcome": "The old man dreams of a tall man at the foot of his bed. He wakes at once, and does not turn on a light. He takes down a crucifix from his bag and hangs it on the bedpost. You are shut out of the dream like a door.",
+              "outcome": "The Professor dreams of a tall man at the foot of his bed. He wakes at once. He does not turn on a light. He takes down a crucifix from his bag and hangs it on the bedpost. You are shut out of the dream like a door.",
               "stamps": {
                 "strength": -1,
                 "dominion": -1
@@ -1742,7 +1759,7 @@
           }
         },
         {
-          "label": "Keep your wolves from Seward's gate, and your own face from the windows. Let the old man find nothing.",
+          "label": "Keep your wolves from Seward's gate, and your own face from the windows. Let the Professor find nothing.",
           "detail": "Keep every animal and every light away from Seward's gate. He finds nothing to hunt.",
           "stamps": {
             "secrecy": 2,
@@ -1752,7 +1769,7 @@
             "speaker": "Van Helsing",
             "text": "Nothing, Seward. There is nothing at all. That is what troubles me. There is a great deal of nothing in this garden."
           },
-          "outcome": "You do not go out. The wolves are sent to the hills, the rats are sent to the cellars, and the fog is asked to stay in the river. The old man walks the grounds at night and finds an empty house with no light in it. He does not believe it.",
+          "outcome": "You do not go out. Wolves are sent to the hills, rats to the cellars, and the fog is asked to stay in the river. The Professor walks the grounds at night and finds an empty house with no light in it. He does not believe it.",
           "nextNodeId": "16A",
           "setFlags": [
             "layLow"
@@ -1769,7 +1786,7 @@
             "speaker": "Van Helsing",
             "text": "A delightful man. We spoke for an hour about the Voivodes, and he knew a great deal about their customs. I wish I could remember his name."
           },
-          "outcome": "The old man is in a bookshop in Charing Cross Road on a wet afternoon, looking for a seventeenth-century herbal. You talk for an hour. He is delighted. He tells you a number of things he has not told anyone, and you tell him a number of things that are quite true. He leaves without noticing that you have not given him your card.",
+          "outcome": "The Professor is in a bookshop in Charing Cross Road on a wet afternoon, looking for a seventeenth-century herbal. You talk for an hour. He is delighted. He tells you a number of things he has not told anyone, and you tell him a number of things that are quite true. He leaves without noticing that you have not given him your card.",
           "nextNodeId": "16A",
           "setFlags": [
             "metVanHelsing"
@@ -1789,7 +1806,7 @@
           "when": {
             "flag": "metSeward"
           },
-          "text": "Dr Seward thinks well of you, which is why the old man has been so careful to ask about you."
+          "text": "Dr Seward thinks well of you, which is why the Professor has been so careful to ask about you."
         },
         {
           "when": {
@@ -1801,7 +1818,7 @@
           "when": {
             "flag": "lucyTaken"
           },
-          "text": "The old man is at Hillingham already, asking about the window."
+          "text": "The Professor is at Hillingham already, asking about the window."
         },
         {
           "when": {
@@ -1815,7 +1832,7 @@
       "id": "15A-X",
       "branch": "QUIET",
       "title": "The Cross at the Pillow",
-      "description": "You are in the earth at Carfax with the lid pulled down, and you cannot sleep. Something in the old man's mind has turned you out like a dog from a church. In the house at Hampstead he has hung a cross at the head of his bed and a wreath of white flowers on the window, and the air in the room smells of garlic. You can feel it from across the river. A day of sleep has been lost, and a night of hunting, and the old man now knows exactly what he is looking for.",
+      "description": "In the earth at Carfax, with the lid pulled down, you cannot sleep. Something in Van Helsing's mind has turned you out like a dog from a church. In the house at Hampstead he has hung a cross at the head of his bed and a wreath of white flowers on the window, and the air in the room smells of garlic. It can be felt from across the river. A day of sleep has been lost, and a night of hunting, and the Professor now knows exactly what he is looking for.",
       "options": [
         {
           "label": "Retreat into the earth and give him a week's quiet.",
@@ -1828,7 +1845,7 @@
             "speaker": "Van Helsing",
             "text": "He has gone to ground, Seward. A thing of that sort does when it is frightened, and I would rather he were angry."
           },
-          "outcome": "You lie in your box and keep your mind shut. For a week the old man hunts nothing, and begins to doubt himself. He sends for his friends all the same.",
+          "outcome": "You lie in your box and keep your mind shut. For a week the Professor hunts nothing, and begins to doubt himself. He sends for his friends all the same.",
           "nextNodeId": "16A",
           "setFlags": [
             "lyingLow"
@@ -1852,7 +1869,7 @@
           ]
         },
         {
-          "label": "Send the rats to the old man's room and the wolf to the garden gate.",
+          "label": "Send the rats to the Professor's room and the wolf to the garden gate.",
           "detail": "Rats in his room, a wolf at his gate. It will tire him, and tell him nothing new.",
           "stamps": {
             "strength": -1,
@@ -1863,7 +1880,7 @@
             "speaker": "Dr Seward",
             "text": "The professor says there were rats in the walls all night. I had the house inspected in the afternoon. It is perfectly sound."
           },
-          "outcome": "The rats go in by the thousand and the wolf sits at the gate. The old man does not sleep. In the morning he looks ten years older, and he has made a list.",
+          "outcome": "Rats go in by the thousand and the wolf sits at the gate. The Professor does not sleep. In the morning he looks ten years older, and he has made a list.",
           "nextNodeId": "16A",
           "setFlags": [
             "ratsSent"
@@ -1875,7 +1892,7 @@
       "id": "16A",
       "branch": "QUIET",
       "title": "The Boxes at Carfax",
-      "description": "They come by day, five men with a locksmith and a lantern, and a young woman with a typewriter waiting at the gate. Lord Godalming opens the door because it is his right to open any door. They find the chapel and the boxes in the chapel, and the old man kneels in the dust of the nave with a silver case and lays a fragment of white bread in every chest. You know it the moment it begins. In the cellars across the city, you feel each of the beds go dead like a tooth, one after another.",
+      "description": "They come by day, five men with a locksmith and a lantern, and a young woman with a typewriter waiting at the gate. Lord Godalming opens the door because it is his right to open any door. They find the chapel and the boxes in the chapel, and Van Helsing kneels in the dust of the nave with a silver case and lays a fragment of white bread in every chest. You know it the moment it begins. In the cellars across the city, you feel each of the beds go dead like a tooth, one after another.",
       "options": [
         {
           "label": "Move what you can to the other house the night before, each box a lair saved.",
@@ -1900,7 +1917,7 @@
               "outcome": "You work through the night with a hired cart and two men who are paid not to wonder. By dawn eleven boxes have been moved and the rest are left for the hunters. It is a poor trade, but you have saved eleven beds out of twenty-nine.",
               "stamps": {
                 "strength": -1,
-                "secrecy": -1
+                "secrecy": 0
               },
               "setFlags": [
                 "movedBoxes",
@@ -1908,7 +1925,7 @@
               ]
             },
             "failure": {
-              "outcome": "The cart is late and the dawn is early. You get four boxes into the cellar before the sky greys, and you finish the night in a coal-hole with your hand over your eyes. Seven boxes are left in the chapel for the old man.",
+              "outcome": "The cart is late and the dawn is early. You get four boxes into the cellar before the sky greys, and you finish the night in a coal-hole with your hand over your eyes. Seven boxes are left in the chapel for the Professor.",
               "stamps": {
                 "strength": -2,
                 "secrecy": -1
@@ -1993,43 +2010,43 @@
           "when": {
             "flag": "vhKnown"
           },
-          "text": "You know the old man's plan, and he does not know you do."
+          "text": "You know the Professor's plan, and he does not know you do."
         },
         {
           "when": {
             "flag": "vhWoke"
           },
-          "text": "The old man woke in his dream, and has been wary since."
+          "text": "The Professor woke in his dream, and has been wary since."
         },
         {
           "when": {
             "flag": "layLow"
           },
-          "text": "You have not left the house for a week. The old man is puzzled."
+          "text": "You have not left the house for a week. The Professor is puzzled."
         },
         {
           "when": {
             "flag": "metVanHelsing"
           },
-          "text": "The old man liked you, and does not know why that troubles him."
+          "text": "The Professor liked you, and does not know why that troubles him."
         },
         {
           "when": {
             "flag": "lyingLow"
           },
-          "text": "You have kept still for a week, and so has the old man."
+          "text": "You have kept still for a week, and so has the Professor."
         },
         {
           "when": {
             "flag": "showedFace"
           },
-          "text": "The old man has seen your face at his window."
+          "text": "The Professor has seen your face at his window."
         },
         {
           "when": {
             "flag": "ratsSent"
           },
-          "text": "The old man sits up with rats in the walls, and is tired."
+          "text": "The Professor sits up with rats in the walls, and is tired."
         }
       ]
     },
@@ -2050,7 +2067,7 @@
             "speaker": "Mina",
             "text": "I shall type it once more, Jonathan, and then I shall put it in a locked drawer. I do not think it will be needed."
           },
-          "outcome": "You keep away from Purfleet and from the house where the Harkers are lodging. You are lean, and tired, and not at all a figure of terror. By the spring you are almost a man who has given something up.",
+          "outcome": "Purfleet and the house where the Harkers are lodging see nothing of you. You are lean, and tired, and not at all a figure of terror. By the spring you are almost a man who has given something up.",
           "nextNodeId": "18A",
           "setFlags": [
             "minaSpared"
@@ -2142,7 +2159,7 @@
           "when": {
             "flag": "movedFew"
           },
-          "text": "Only four beds got out of Carfax, and seven are left for the old man."
+          "text": "Only four beds got out of Carfax, and seven are left for Van Helsing."
         },
         {
           "when": {
@@ -2204,7 +2221,7 @@
             "speaker": "Van Helsing",
             "text": "He is still in London, my friends. I can feel it. He has gone to ground like a fox in a drain."
           },
-          "outcome": "You settle in one of the East End cellars with a box and a candle that you do not light. The city goes on overhead. You can hear the carts, the church bells and the cries of a street where your name means nothing. You have waited in worse.",
+          "outcome": "You settle in one of the East End cellars with a box and a candle that you do not light. The city goes on overhead. From there you can hear the carts, the church bells and the cries of a street where your name means nothing. You have waited in worse.",
           "nextNodeId": "19A",
           "setFlags": [
             "wentToGround"
@@ -2246,10 +2263,11 @@
             },
             "about": "strength",
             "success": {
-              "outcome": "You walk the streets every night from cellar to cellar, with your box carried ahead of you in a cart by men who forget your face as soon as they have been paid. You are never in the same place for two days. You have never been so tired.",
+              "outcome": "You walk the streets every night from cellar to cellar, with your box carried ahead of you in a cart by men who forget your face as soon as they have been paid. You are never in the same place for two days, and you have never been so tired.",
               "stamps": {
                 "secrecy": 2,
-                "strength": -1
+                "strength": -1,
+                "dominion": 1
               },
               "setFlags": [
                 "fogWalker"
@@ -2288,11 +2306,11 @@
       "id": "19A",
       "branch": "QUIET",
       "title": "Three Roads Out of London",
-      "description": "The year has turned. The hunters have sealed every house they know, and some they do not, and the list in the old man's notebook is almost a list of the places you are. London is cold and wet and large. There are three roads out of this: a ship, a cellar or the sun. Whichever you take, it is the last decision you will make in England.",
+      "description": "The year has turned. Hunters have sealed every house they know, and some they do not, and the list in Van Helsing's notebook is almost a list of the places you are. London is cold and wet and large. There are three roads out of this: a ship, a cellar or the sun. Whichever you take, it is the last decision you will make in England.",
       "options": [
         {
           "label": "Stay in London, in the last house they have not found, and wait for the hunt to tire.",
-          "detail": "Lie low through the winter. The old man will tire, or he will not.",
+          "detail": "Lie low through the winter. The Professor will tire, or he will not.",
           "stamps": {
             "secrecy": 1,
             "strength": -1
@@ -2434,7 +2452,7 @@
               ]
             },
             "failure": {
-              "outcome": "The third act has hardly begun when somebody in the next box catches sight of you. You are not looking at the stage. You are looking at the throat of the lady in front. You turn your head, and you smile, and it is too late. The dinner invitations come all the same, but the people who send them have begun to talk.",
+              "outcome": "The third act has hardly begun when somebody in the next box catches sight of you. You are looking at the throat of the lady in front, and not at the stage. Then you turn your head and smile. It is too late. The dinner invitations come all the same, but the people who send them have begun to talk.",
               "stamps": {
                 "dominion": -1,
                 "secrecy": -1
@@ -2456,7 +2474,7 @@
             "speaker": "Banker",
             "text": "A most agreeable foreign gentleman. He asks very sensible questions, and he never accepts a second glass."
           },
-          "outcome": "You dine with each in turn at a good club, and you listen. Within the month you have a solicitor who will write a letter, a banker who will honour a draft and a doctor who will certify that you are in excellent health. You eat nothing at any of the dinners and the waiters do not remark on it.",
+          "outcome": "With each in turn you dine at a good club, and you listen. Within the month you have a solicitor who will write a letter, a banker who will honour a draft and a doctor who will certify that you are in excellent health. You eat nothing at any of the dinners and the waiters do not remark on it.",
           "nextNodeId": "13B",
           "setFlags": [
             "threeFriends"
@@ -2638,7 +2656,7 @@
             },
             "about": "dominion",
             "success": {
-              "outcome": "You write to her under a name she thinks she has made up. You call in daylight, with a card. On the fourth night you stand at her window and she opens it herself. When she wakes in the morning she is pale and she smiles at her mother and says she has slept better than she has in a year.",
+              "outcome": "She gets a letter under a name she thinks she has made up. You call in daylight, with a card. On the fourth night you stand at her window and she opens it herself. When she wakes in the morning she is pale and she smiles at her mother and says she has slept better than she has in a year.",
               "stamps": {
                 "dominion": 1,
                 "strength": 1,
@@ -2691,7 +2709,7 @@
             "speaker": "Arthur",
             "text": "She is getting better, Seward. I cannot tell you how thankful I am. She slept through the night for the first time in a week."
           },
-          "outcome": "You keep to your side of the city. The girl at Hillingham mends, or seems to, and her suitors send flowers. You are the only one who knows that it is not a miracle, and you do not like how little that helps.",
+          "outcome": "Your side of the city is the one you keep to. The girl at Hillingham mends, or seems to, and her suitors send flowers. You are the only one who knows that it is not a miracle, and you do not like how little that helps.",
           "nextNodeId": "15B",
           "setFlags": [
             "lucyLeftAlone"
@@ -2758,7 +2776,7 @@
             "speaker": "Mrs Westenra",
             "text": "The room smells like a drain, Lucy, and I will not have it. I shall take them away myself, and open the window for you."
           },
-          "outcome": "You do not need to enter the room. You turn her thoughts in the night, as you might turn a key. In the morning she takes down the flowers with her own hands, opens the window and leaves her daughter asleep. She is kind. She does not remember why.",
+          "outcome": "There is no need to enter the room. In the night you turn her thoughts, as you might turn a key. In the morning she takes down the flowers with her own hands, opens the window and leaves her daughter asleep. She is kind. She does not remember why.",
           "nextNodeId": "16B",
           "setFlags": [
             "flowersRemoved"
@@ -2772,7 +2790,8 @@
           "detail": "The wolf comes through the glass. The mother may not survive the fright.",
           "stamps": {
             "dominion": 1,
-            "secrecy": -2
+            "secrecy": -2,
+            "strength": 1
           },
           "quote": {
             "speaker": "Zookeeper",
@@ -2788,7 +2807,7 @@
           }
         },
         {
-          "label": "Stay away. The old man's flowers are strong. Let the girl be.",
+          "label": "Stay away. The Professor's flowers are strong. Let the girl be.",
           "detail": "Stay clear of the flowers. Let him sit up through his nights.",
           "stamps": {
             "secrecy": 1,
@@ -2798,7 +2817,7 @@
             "speaker": "Van Helsing",
             "text": "Nothing came last night. Nothing came the night before. I do not trust nothing, Seward."
           },
-          "outcome": "You do not go. The flowers wither and are replaced. The old man sits up through the nights with a book in his lap, and in the day he walks the grounds and looks at the wall. You are beginning to find his patience more tiresome than his flowers.",
+          "outcome": "The flowers wither and are replaced, and you do not go. Van Helsing sits up through the nights with a book in his lap, and in the day he walks the grounds and looks at the wall. You are beginning to find his patience more tiresome than his flowers.",
           "nextNodeId": "16B",
           "setFlags": [
             "stayedAway"
@@ -2885,7 +2904,8 @@
               "outcome": "She listens. She asks three questions, and they are the right ones, and you answer them truly. She says that she cannot say yes, and does not say no. She says she will think about it. You leave by the window with something that you cannot account for, and which you will carry for a long time.",
               "stamps": {
                 "dominion": 1,
-                "strength": -1
+                "strength": -1,
+                "secrecy": 1
               },
               "setFlags": [
                 "minaListened"
@@ -2971,7 +2991,7 @@
           "when": {
             "flag": "stayedAway"
           },
-          "text": "The old man's flowers wither and are replaced, every night."
+          "text": "Van Helsing's flowers wither and are replaced, every night."
         },
         {
           "when": {
@@ -2985,7 +3005,7 @@
       "id": "16B-X",
       "branch": "COURT",
       "title": "A Room Full of Garlic",
-      "description": "You are in the earth at Carfax with your mind going round and round the same point. She screamed because she had decided to, and that was worse than if she had been frightened. They have put garlic on the window and a cross on the pillow. Five men have heard what you said to her, and one of them is an old man with a notebook. You have lost a night, and you have lost something you did not know you had.",
+      "description": "In the earth at Carfax your mind goes round and round the same point. She screamed because she had decided to, and that was worse than if she had been frightened. They have put garlic on the window and a cross on the pillow. Five men have heard what you said to her, and one of them is Van Helsing, with his notebook. You have lost a night, and you have lost something you did not know you had.",
       "options": [
         {
           "label": "Retreat. Let a week go by and think again.",
@@ -3009,7 +3029,7 @@
         },
         {
           "label": "Go back the next night and take her anyway.",
-          "detail": "Past the cross and the garlic. It will hurt, and the old man will be waiting.",
+          "detail": "Past the cross and the garlic. It will hurt, and Van Helsing will be waiting.",
           "stamps": {
             "strength": 1,
             "dominion": 1,
@@ -3019,7 +3039,7 @@
             "speaker": "Van Helsing",
             "text": "He came again, my friends. He came to her window, and the cross burned him. I have seen him. I know now what he is."
           },
-          "outcome": "You come at the window on the second night, past the cross and the garlic, in the shape of a mist. The old man is waiting. The cross burns your hand, but you take her anyway, and you go with the taste of her in your mouth and a mark on your palm.",
+          "outcome": "You come at the window on the second night, past the cross and the garlic, in the shape of a mist. The Professor is waiting. The cross burns your hand, but you take her anyway, and you go with the taste of her in your mouth and a mark on your palm.",
           "nextNodeId": "17B",
           "setFlags": [
             "minaMarked",
@@ -3055,7 +3075,7 @@
       "id": "17B",
       "branch": "COURT",
       "title": "The Court Disperses",
-      "description": "The hunters have found the lairs. They go from house to house with their white bread and their locksmith, and every day there are fewer of your boxes and fewer of your people. A court is made of the things it holds and the people who agree to be held. One by one you can feel yours loosen. The girl at Hillingham is dead, or has changed. The patient in the asylum is silent. The woman at Purfleet is typing. You have a short night to decide what is worth keeping.",
+      "description": "The hunters have found the lairs. They go from house to house with their white bread and their locksmith, and every day there are fewer of your boxes and fewer of your people. A court is made of the things it holds and the people who agree to be held. One by one you can feel yours loosen. The girl at Hillingham is dead, or has changed. In the asylum the patient is silent. At Purfleet the woman is typing. You have a short night to decide what is worth keeping.",
       "options": [
         {
           "label": "Break Renfield out of the asylum and keep him at Carfax.",
@@ -3087,7 +3107,7 @@
             "speaker": "Van Helsing",
             "text": "He is deserted, my friends. Every one of his creatures has gone. It is a thing I have seen before. It is always the moment he is most dangerous."
           },
-          "outcome": "You let every thread go. The servants you have marked, the butlers you have flattered, the friends you have made at dinner, all go quietly back to their own lives. You are left with a house, a few boxes, and the long night. It is quiet, and the quiet is almost a relief.",
+          "outcome": "Every thread is let go. The servants you have marked, the butlers you have flattered, the friends you have made at dinner, all go quietly back to their own lives. You are left with a house, a few boxes, and the long night. It is quiet, and the quiet is almost a relief.",
           "nextNodeId": "18B",
           "setFlags": [
             "courtDismissed"
@@ -3162,7 +3182,7 @@
       "id": "18B",
       "branch": "COURT",
       "title": "The Last Night in London",
-      "description": "There are only a few nights left. The hunters have found Piccadilly and are working through the rest, and in the old man's notebook there is a list of your houses with most of them crossed through. London is cold and the Thames is high. The Czarina Catherine will sail for Varna on the next tide. You can take a household abroad, or a box, or no one. You can stay and make a stand. Each is a way to be at the end of the road, and each has a price.",
+      "description": "There are only a few nights left. The hunters have found Piccadilly and are working through the rest, and in Van Helsing's notebook there is a list of your houses with most of them crossed through. London is cold and the Thames is high. The Czarina Catherine will sail for Varna on the next tide. You can take a household abroad, or a box, or no one. You can stay and make a stand. Each is a way to be at the end of the road, and each has a price.",
       "options": [
         {
           "label": "Hold Carfax to the last night with the servants you have left.",
@@ -3216,7 +3236,7 @@
             "speaker": "Lloyd's agent",
             "text": "A single box and a single gentleman for Varna, sir. We have no passengers, but I dare say the captain can find you a berth."
           },
-          "outcome": "The Czarina Catherine is a plain steamer with a plain captain and a hold of general cargo. You take a berth under another name and go aboard at dusk with one large box. London falls behind you. You learned a good deal of it, and not enough.",
+          "outcome": "The Czarina Catherine is a plain steamer with a plain captain and a hold of general cargo. Under another name you take a berth and go aboard at dusk with one large box. London falls behind you. You learned a good deal of it, and not enough.",
           "nextNodeId": "19B",
           "setFlags": [
             "czarinaBooked"
@@ -3264,7 +3284,7 @@
           "label": "Take Mina with you, home, by the road.",
           "detail": "Take Mina with you on the Czarina Catherine. The hunters follow by another ship.",
           "stamps": {
-            "dominion": 1,
+            "dominion": 2,
             "strength": -1,
             "secrecy": -1
           },
@@ -3302,7 +3322,7 @@
             "speaker": "Mina",
             "text": "He let us go. He stood in the hall and he told us we could go. I do not know what it cost him. I think it cost a great deal."
           },
-          "outcome": "You call them into the hall one night: the servants, the marked, the creatures, and Renfield in his nightshirt. You have not asked anything of them for a long time.",
+          "outcome": "One night you call them into the hall: the servants, the marked, the creatures, and Renfield in his nightshirt. Nothing has been asked of them for a long time.",
           "nextNodeId": "ENDING_2D",
           "requires": {
             "all": [
@@ -3409,7 +3429,7 @@
             "speaker": "Policeman",
             "text": "Never seen anything like it. A fog in September, in a clear sky, and it will not move. It stands in the lane like a wall."
           },
-          "outcome": "You go up onto the chapel roof and lift your hands. The fog begins to rise from the river and creep through the streets of Purfleet. It will stay as long as you wish, and it will cost you a night of strength to start it. The wolf, behind the Heath, has come out of his cage on his own account.",
+          "outcome": "You go up onto the chapel roof and lift your hands. The fog begins to rise from the river and creep through the streets of Purfleet. It will stay as long as you wish. Starting it costs a night of strength. The wolf, behind the Heath, has come out of his cage on his own account.",
           "nextNodeId": "13C",
           "setFlags": [
             "fogFirst"
@@ -3421,7 +3441,7 @@
       "id": "13C",
       "branch": "STORM",
       "title": "The Asylum Under Siege",
-      "description": "The fog has been in Purfleet for three days. Dr Seward and his friends are gathering in the house next to Carfax: the young men with their guns, the old professor with his bag, and in an upper room a young woman with a typewriter. You stand at the wall at night and look at the lit windows. Every one of them is afraid, and every one of them is sitting up. The question is how much of a siege you intend to make, and how long you can afford to keep it.",
+      "description": "The fog has been in Purfleet for three days. Dr Seward and his friends are gathering in the house next to Carfax: the young men with their guns, the Professor with his bag, and in an upper room a young woman with a typewriter. You stand at the wall at night and look at the lit windows. Every one of them is afraid, and every one of them is sitting up. The question is how much of a siege you intend to make, and how long you can afford to keep it.",
       "options": [
         {
           "label": "Send the rats into the walls of the asylum: let them hear it in the plaster.",
@@ -3434,7 +3454,7 @@
             "speaker": "Dr Seward",
             "text": "The rats are in the walls and under the floor, and in the study. I have had the house inspected. It is entirely sound. I do not know what they want."
           },
-          "outcome": "The rats go in at every drain and gutter. By the second night every wall in the house is full of scratching, and the doctor has taken to sleeping on the stair with a shotgun. In the morning the old professor looks at the plaster and says nothing.",
+          "outcome": "The rats go in at every drain and gutter. By the second night every wall in the house is full of scratching, and the doctor has taken to sleeping on the stair with a shotgun. In the morning the Professor looks at the plaster and says nothing.",
           "nextNodeId": "14C",
           "setFlags": [
             "ratSiege"
@@ -3472,7 +3492,7 @@
             "speaker": "Van Helsing",
             "text": "Nothing came last night, Seward. I do not trust nothing. A wolf that does not howl is a wolf that is waiting."
           },
-          "outcome": "You go to ground for three nights and keep the animals still. The hunters sit up and listen to silence. By the third night one of them has fallen asleep at his post, and the old man is looking at him with the expression of a general who has just found his sentry drunk.",
+          "outcome": "You go to ground for three nights and keep the animals still. The hunters sit up and listen to silence. By the third night one of them has fallen asleep at his post, and Van Helsing is looking at him with the expression of a general who has just found his sentry drunk.",
           "nextNodeId": "14C",
           "setFlags": [
             "waited"
@@ -3510,7 +3530,7 @@
       "id": "14C",
       "branch": "STORM",
       "title": "The Window at Hillingham",
-      "description": "On a hill in Hampstead stands a house called Hillingham, where a girl called Lucy Westenra is ill and her mother sits up with her. The old professor has put garlic on the window, and the window is bolted. It has not kept the girl from sleeping, and it will not keep a wolf from the glass. A house in which the mother is awake is a house in which the child is not alone. You have a choice of ways in, and none of them is kind.",
+      "description": "On a hill in Hampstead stands a house called Hillingham, where a girl called Lucy Westenra is ill and her mother sits up with her. The Professor has put garlic on the window, and the window is bolted. It has not kept the girl from sleeping, and it will not keep a wolf from the glass. A house in which the mother is awake is a house in which the child is not alone. You have a choice of ways in, and none of them is kind.",
       "options": [
         {
           "label": "Send the wolf through the window, and take what you came for in the confusion.",
@@ -3524,7 +3544,7 @@
             "speaker": "Zookeeper",
             "text": "He put his head through the glass as if it were paper, and the mother died of the shock. I never knew such a thing."
           },
-          "outcome": "The wolf goes through the window at midnight in a shower of glass. The mother, in her chair, has time to rise and no more. In the confusion you take what you came for. You are much stronger afterwards, and you will not think about what you have done.",
+          "outcome": "The wolf goes through the window at midnight in a shower of glass. The mother, in her chair, has time to rise and no more. In the confusion you take what you came for. You are much stronger afterwards. You will not think of it.",
           "nextNodeId": "15C",
           "setFlags": [
             "lucyAtWindow"
@@ -3595,10 +3615,10 @@
       "id": "15C",
       "branch": "STORM",
       "title": "The Garlic and the Cross",
-      "description": "The old man from Amsterdam has taken command. He has put up garlic on every window at Purfleet, a cross on every door, and a silver box of small white wafers in the pocket of his coat. He is patient, unflinching and well read. His friends are afraid of him in the way that men are afraid of a surgeon who is going to save them. You have a good many animals and he has a good many flowers. The next move is yours, and he will not be fooled twice.",
+      "description": "Van Helsing has taken command. He has put up garlic on every window at Purfleet, a cross on every door, and a silver box of small white wafers in the pocket of his coat. He is patient, unflinching and well read. His friends are afraid of him in the way that men are afraid of a surgeon who is going to save them. You have a good many animals and he has a good many flowers. The next move is yours, and he will not be fooled twice.",
       "options": [
         {
-          "label": "Strike at the old man himself: he is the brain of them.",
+          "label": "Strike at the Professor himself: he is the brain of them.",
           "detail": "Go for Van Helsing himself, at his window. He is the one who knows.",
           "stamps": {},
           "quote": {
@@ -3617,7 +3637,7 @@
             },
             "about": "dominion",
             "success": {
-              "outcome": "You go to him as a grey breath on the glass and, for the length of a breath, you reach him. His mind is old and orderly and shut like a library. You take a little of his strength and he takes a great deal more of your measure. When he speaks one word of Latin you retreat, but not before you have learned what he fears.",
+              "outcome": "As a grey breath on the glass you go to him and, for the length of a breath, reach him. His mind is old and shut like a library. You take a little of his strength and he takes a great deal more of your measure. When he speaks one word of Latin you retreat, but not before you have learned what he fears.",
               "stamps": {
                 "dominion": 1,
                 "strength": -1,
@@ -3628,7 +3648,7 @@
               ]
             },
             "failure": {
-              "outcome": "Garlic on the sill, and the old man awake behind it.",
+              "outcome": "Garlic on the sill, and the Professor awake behind it.",
               "stamps": {
                 "strength": -1
               },
@@ -3637,17 +3657,18 @@
           }
         },
         {
-          "label": "Go to the asylum by night and try the old man's bread at a door, to learn what it does.",
+          "label": "Go to the asylum by night and try the Professor's bread at a door, to learn what it does.",
           "detail": "Touch the wafer at a doorway and learn exactly what it does. It will hurt, and he will see the mark.",
           "stamps": {
             "strength": -2,
-            "secrecy": -1
+            "secrecy": -1,
+            "dominion": 2
           },
           "quote": {
             "speaker": "Van Helsing",
             "text": "A burn, Seward, on the door, in the shape of a hand. I could not have devised a better experiment myself."
           },
-          "outcome": "You lay your palm against the door where he has set the wafer. The pain is quite unlike anything you have felt, and it lasts for a night. You know now what it does and how far it reaches, and so does he. The mark on the wood is in the shape of a hand.",
+          "outcome": "Your palm goes against the door where he has set the wafer. The pain is quite unlike anything you have felt. It lasts for a night. You know now what it does and how far it reaches, and so does he. The mark on the wood is in the shape of a hand.",
           "nextNodeId": "16C",
           "setFlags": [
             "triedHost"
@@ -3664,7 +3685,7 @@
             "speaker": "Quincey",
             "text": "I am not a nervous man, Doc. But I cannot say I like the way the shadows have been behaving."
           },
-          "outcome": "You go round the house at night and put a thought into the window of each young man in turn: a small cold fear, a footstep on the stair, the sense of being looked at. They do not sleep. Within a week they are quarrelling, and the old man is spending the days keeping them together.",
+          "outcome": "You go round the house at night and put a thought into the window of each young man in turn: a small cold fear, a footstep on the stair, the sense of being looked at. They do not sleep. Within a week they are quarrelling, and the Professor is spending the days keeping them together.",
           "nextNodeId": "16C",
           "setFlags": [
             "unnervedThem"
@@ -3674,7 +3695,7 @@
           }
         },
         {
-          "label": "Send the old professor a perfectly courteous card proposing a meeting: unsettle him with civility.",
+          "label": "Send the Professor a perfectly courteous card proposing a meeting: unsettle him with civility.",
           "detail": "A calling card in your best hand. Courtesy from you may unsettle him more than fear.",
           "stamps": {
             "dominion": 1
@@ -3683,7 +3704,7 @@
             "speaker": "Van Helsing",
             "text": "A card, Seward, from the gentleman at Carfax, in a very good hand. He asks me to dine. I begin to think that he is laughing at us."
           },
-          "outcome": "You write it on your best paper, in a hand that has not changed in centuries. A servant of Lord Godalming brings it up at breakfast. The old man reads it three times and puts it in his pocket. He does not reply. For two days he is very quiet, and his friends do not know what to make of it.",
+          "outcome": "You write it on your best paper, in a hand that has not changed in centuries. A servant of Lord Godalming brings it up at breakfast. The Professor reads it three times and puts it in his pocket. He does not reply. For two days he is very quiet, and his friends do not know what to make of it.",
           "nextNodeId": "16C",
           "setFlags": [
             "sentCard"
@@ -3692,7 +3713,7 @@
           "requiresFlagHint": "NEEDS WHAT MR HARKER TAUGHT YOU OF MANNERS"
         },
         {
-          "label": "Read the old man's own paper on the subject in a library. A doctor's habit, and cheaper than a burnt hand.",
+          "label": "Read the Professor's own paper on the subject in a library. A doctor's habit, and cheaper than a burnt hand.",
           "detail": "He will have written it down. Men of his sort always do.",
           "stamps": {
             "secrecy": 1
@@ -3701,7 +3722,7 @@
             "speaker": "Van Helsing",
             "text": "I wrote a paper once for the Medical Society of Amsterdam. Nobody read it. I did not think anyone ever would."
           },
-          "outcome": "You find it in the library of a medical society in Bloomsbury, bound in grey cloth and uncut. It is thirty pages on the effect of consecrated bread on the unquiet dead. It is careful and exact. You know what the old man knows, and he does not know that you know it.",
+          "outcome": "In the library of a medical society in Bloomsbury you find it, bound in grey cloth and uncut. It is thirty pages on the effect of consecrated bread on the unquiet dead. It is careful and exact. You know what the Professor knows, and he does not know that you know it.",
           "nextNodeId": "16C",
           "setFlags": [
             "readHisPaper"
@@ -3758,13 +3779,14 @@
           "detail": "Show her what you are and let her decide what it means. She may help you, or write you down.",
           "stamps": {
             "dominion": 1,
-            "secrecy": -1
+            "secrecy": -1,
+            "strength": 1
           },
           "quote": {
             "speaker": "Mina",
             "text": "He stood at the foot of the bed and spoke very quietly. I do not remember all of it. I remember he did not touch me."
           },
-          "outcome": "You come in as a thin grey mist and take your own shape in the corner of the room. She sits up and looks at you. You speak very quietly, in your best English. She does not cry out. When you have finished, you go out of the window as you came, and she goes back to her typewriter.",
+          "outcome": "As a thin grey mist you come in and take your own shape in the corner of the room. She sits up and looks at you. You speak very quietly, in your best English. She does not cry out. When you have finished, you go out of the window as you came, and she goes back to her typewriter.",
           "nextNodeId": "17C",
           "setFlags": [
             "minaSpoken"
@@ -3784,7 +3806,7 @@
             "speaker": "Mina",
             "text": "The typescript was on the desk, Jonathan. It is gone. The whole of it, and your journal. I do not think it was a burglar."
           },
-          "outcome": "You take the journal, the typescript and the carbon, and fold the pages into your coat. The woman at the desk does not wake. You could have done a great deal more, and she will not forgive even this.",
+          "outcome": "Journal, typescript and carbon go into your coat, folded. The woman at the desk does not wake. You could have done a great deal more, and she will not forgive even this.",
           "nextNodeId": "17C",
           "setFlags": [
             "papersTaken"
@@ -3808,25 +3830,25 @@
           "when": {
             "flag": "struckVH"
           },
-          "text": "The old man looked you in the face and said a word in Latin."
+          "text": "Van Helsing looked you in the face and said a word in Latin."
         },
         {
           "when": {
             "flag": "unnervedThem"
           },
-          "text": "The young men are quarrelling, and the old man is keeping them together."
+          "text": "The young men are quarrelling, and the Professor is keeping them together."
         },
         {
           "when": {
             "flag": "ratsAtDoor"
           },
-          "text": "The old man has a page that says what you did in the order you did it."
+          "text": "The Professor has a page that says what you did in the order you did it."
         },
         {
           "when": {
             "flag": "letHimWin"
           },
-          "text": "The old man tells his friends he has driven you off. He does not believe it."
+          "text": "The Professor tells his friends he has driven you off. He does not believe it."
         },
         {
           "when": {
@@ -3838,13 +3860,13 @@
           "when": {
             "flag": "sentCard"
           },
-          "text": "The old man has your card in his pocket, and has not replied."
+          "text": "The Professor has your card in his pocket, and has not replied."
         },
         {
           "when": {
             "flag": "readHisPaper"
           },
-          "text": "You know what the old man knows, and he does not know that you know it."
+          "text": "You know what the Professor knows, and he does not know that you know it."
         }
       ]
     },
@@ -3852,7 +3874,7 @@
       "id": "17C",
       "branch": "STORM",
       "title": "The Siege of Carfax",
-      "description": "They come at noon, five men and a locksmith, with a cart of bread and flowers. You are in the chapel in your box with the lid down. Your animals are outside, and the fog has not yet lifted. You hear Lord Godalming open the door of the house, because it is his right to open any door. The old man is on his knees in the dust of the nave with a silver box. Somewhere in the garden a rat is crying like a child. The first of your beds goes dead like a tooth.",
+      "description": "They come at noon, five men and a locksmith, with a cart of bread and flowers. In the chapel, in your box, with the lid down, you wait. Your animals are outside, and the fog has not yet lifted. You hear Lord Godalming open the door of the house, because it is his right to open any door. Van Helsing is on his knees in the dust of the nave with a silver box. Somewhere in the garden a rat is crying like a child. The first of your beds goes dead like a tooth.",
       "options": [
         {
           "label": "Fight: the rats at the doors, the wolf in the garden, and the fog in the lane.",
@@ -3866,7 +3888,7 @@
             "speaker": "Quincey",
             "text": "Mr Harker, mind the left. The Doc has the door. Ma'am, stay behind the Doc."
           },
-          "outcome": "The rats come out of the walls and the wolf comes round the end of the chapel. For ten minutes the nave is a battle: the old man's wafers, the young men's guns, the locksmith's crowbar. The hunters hold the door. You are unhurt, and the house is lost.",
+          "outcome": "The rats come out of the walls and the wolf comes round the end of the chapel. For ten minutes the nave is a battle: the Professor's wafers, the young men's guns, the locksmith's crowbar. The hunters hold the door. You are unhurt, and the house is lost.",
           "nextNodeId": "18C",
           "setFlags": [
             "foughtAtCarfax",
@@ -3933,7 +3955,7 @@
             "speaker": "Van Helsing",
             "text": "They are sealed, my friends, every one of them. We have closed a door in his house. There are others."
           },
-          "outcome": "You leave the chapel by the crypt and go across the fields in the shape of a wolf. The hunters seal the chapel and the boxes in it, and are content. You watch from beyond the wall. You have other houses, and plenty of fog.",
+          "outcome": "You leave the chapel by the crypt and go across the fields in the shape of a wolf. The hunters seal the chapel and the boxes in it, and are content. From beyond the wall you watch. You have other houses, and plenty of fog.",
           "nextNodeId": "18C",
           "setFlags": [
             "carfaxLost",
@@ -3950,7 +3972,7 @@
             "speaker": "Mr Billington",
             "text": "I have the honour to inform you that you are trespassing, my lord. I should be obliged if you would withdraw."
           },
-          "outcome": "A clerk in a bowler hat arrives at noon with a paper and a formal manner. Lord Godalming reads it twice. For the next four hours the hunters are lawyers, and the old man is heard to say several things in Dutch. It is a small delay. You use it.",
+          "outcome": "A clerk in a bowler hat arrives at noon with a paper and a formal manner. Lord Godalming reads it twice. For the next four hours the hunters are lawyers, and the Professor is heard to say several things in Dutch. It is a small delay. You use it.",
           "nextNodeId": "18C",
           "setFlags": [
             "noticeServed",
@@ -4010,7 +4032,7 @@
               ]
             },
             "failure": {
-              "outcome": "The wind comes, and it will not be told when to stop. For two nights the Channel is a place of wreckage and rope. The steamer is forced back into Gravesend and loses a day. When she goes out again, it is on a clear night, and there are men on the pier.",
+              "outcome": "The wind comes, and it will not be told when to stop. For two nights the Channel is wreckage and rope. The steamer is forced back into Gravesend and loses a day. When she goes out again, it is on a clear night, and there are men on the pier.",
               "stamps": {
                 "strength": -2,
                 "secrecy": -2
@@ -4034,15 +4056,15 @@
             "speaker": "Lloyd's agent",
             "text": "A single box for Varna, sir. We have no passengers, but I dare say the captain can find you a berth."
           },
-          "outcome": "You take a berth under another name and go aboard at dusk with one large box. The fog is on the river and the captain is glad of it. The steamer goes down the Thames at a walking pace, and the quays cannot see her.",
+          "outcome": "Under another name you take a berth and go aboard at dusk with one large box. The fog is on the river and the captain is glad of it. The steamer goes down the Thames at a walking pace, and the quays cannot see her.",
           "nextNodeId": "19C",
           "setFlags": [
             "czarinaBooked"
           ]
         },
         {
-          "label": "Stay. Finish the old man first.",
-          "detail": "Kill the old man before you leave. The plan is good, and the risk is high.",
+          "label": "Stay. Finish the Professor first.",
+          "detail": "Kill Van Helsing before you leave. The plan is good, and the risk is high.",
           "stamps": {
             "dominion": 1,
             "secrecy": -2
@@ -4051,7 +4073,7 @@
             "speaker": "Van Helsing",
             "text": "He is not leaving, my friends. He is coming for me. I knew he would. I only hoped he would not do it so soon."
           },
-          "outcome": "You decide not to run. The old man is the brain of them, and the brain can be taken. You spend the last night in London planning. It is a good plan, and a bad idea, and you carry it out with great energy.",
+          "outcome": "Running is out of the question. The Professor is the brain of them, and the brain can be taken. You spend the last night in London planning. It is a good plan, and a bad idea, and you carry it out with great energy.",
           "nextNodeId": "19C",
           "setFlags": [
             "stayedToFight"
@@ -4108,8 +4130,8 @@
           "requiresFlagHint": "NEEDS THE STORM RAISED"
         },
         {
-          "label": "Go back to Purfleet and finish it: the old man first, and then the rest.",
-          "detail": "Return to Purfleet and strike at the old man. It may end the hunt, or you.",
+          "label": "Go back to Purfleet and finish it: the Professor first, and then the rest.",
+          "detail": "Return to Purfleet and strike at Van Helsing. It may end the hunt, or you.",
           "stamps": {
             "dominion": 1,
             "strength": -1,
@@ -4222,7 +4244,7 @@
             "speaker": "Coastguard",
             "text": "I took my cap off before I would touch him, sir. I never saw a man look so frightened, and his neck was broken."
           },
-          "outcome": "The coastguard finds him at six, on the seat with his face to the sea and his neck broken. The doctor says he fell. The coastguard takes off his cap and does not say what he thinks. You are on the railway by evening, and you are not proud of it.",
+          "outcome": "The coastguard finds him at six, on the seat with his face to the sea and his neck broken. The doctor says he fell. Taking off his cap, the coastguard does not say what he thinks. You are on the railway by evening, and you are not proud of it.",
           "nextNodeId": "11",
           "setFlags": [
             "swalesDead"
@@ -4254,7 +4276,7 @@
       "id": "12B-X",
       "branch": "COURT",
       "title": "A Gaffe at Dinner",
-      "description": "The dinner is in Belgrave Square, and the fish has not yet gone round when it happens. A footman bends to fill your glass and you do not move, and you do not move for so long that the lady on your left looks from your face to your plate and back. You have eaten nothing. You have said so three times. She has begun to tell the man on her other side.",
+      "description": "The dinner is in Belgrave Square, and the fish has not yet gone round when it happens. A footman bends to fill your glass and you do not move, and you do not move for so long that the lady on your left looks from your face to your plate and back. Nothing has been eaten, as you have said three times. She has begun to tell the man on her other side.",
       "options": [
         {
           "label": "Laugh, and say that you keep the hours of your own country.",
@@ -4312,20 +4334,20 @@
       "id": "16A-X",
       "branch": "QUIET",
       "title": "They Were Waiting",
-      "description": "The first man through the door is not alone. Dr Seward's friends have posted a watcher in the crypt with a lantern and a cross, a plain young man in a coat too big for him, and he has stayed awake all night. He lifts the cross as you come at him out of the dark, and for a moment you have nothing to say. The others come up behind him with the old man and his silver box. They knew that you would be here. It is the first time that anyone has.",
+      "description": "The first man through the door is not alone. Dr Seward's friends have posted a watcher in the crypt with a lantern and a cross, a plain young man in a coat too big for him, and he has stayed awake all night. He lifts the cross as you come at him out of the dark, and for a moment you have nothing to say. The others come up behind him with Van Helsing and his silver box. They knew that you would be here. It is the first time that anyone has.",
       "options": [
         {
           "label": "Go back into the walls as a mist, and give them the empty crypt.",
-          "detail": "Give them the empty crypt. The old man will feel you there all the same.",
+          "detail": "Give them the empty crypt. The Professor will feel you there all the same.",
           "stamps": {
-            "strength": -1,
+            "strength": 0,
             "secrecy": -1
           },
           "quote": {
             "speaker": "Van Helsing",
             "text": "He was here, my friends. The air is cold as a church. He has gone into the wall like a draught."
           },
-          "outcome": "You pour yourself into a crack in the stone as a cold draught, and lie in the wall for an hour. The old man walks the crypt with a candle and says that he can feel you. He is right. He lays a wafer on every ledge he can reach, and you lie in the dark between two stones and do not move.",
+          "outcome": "You pour yourself into a crack in the stone as a cold draught, and lie in the wall for an hour. The Professor walks the crypt with a candle and says that he can feel you. He is right. He lays a wafer on every ledge he can reach, and you lie in the dark between two stones and do not move.",
           "nextNodeId": "17A",
           "setFlags": [
             "mistedOut"
@@ -4343,7 +4365,7 @@
             "speaker": "Watcher",
             "text": "They were all over the floor. I dropped the lantern. I never saw so many, sir, and they were not afraid of the cross."
           },
-          "outcome": "The rats come out of the walls and over the floor, and the lantern goes out. In the dark the wolf is on the stair. The young man drops the cross and the old man picks it up. By the time a match is struck you are in the garden, and the crypt is full of rats, and not a man has been hurt.",
+          "outcome": "The rats come out of the walls and over the floor, and the lantern goes out. In the dark the wolf is on the stair. The young man drops the cross and the Professor picks it up. By the time a match is struck you are in the garden, and the crypt is full of rats, and not a man has been hurt.",
           "nextNodeId": "17A",
           "setFlags": [
             "ratsAtCarfax"
@@ -4360,7 +4382,7 @@
             "speaker": "Watcher",
             "text": "I could not move, sir. I could not lower my arm. I think I could have stood there until morning."
           },
-          "outcome": "He holds the cross out at arm's length and it shakes like a reed. You hold his eyes. It takes everything you have, and when the old man puts a hand on the boy's shoulder, you are tired. The hunters have learned that there is something in the crypt that can be looked at and not looked away from.",
+          "outcome": "He holds the cross out at arm's length and it shakes like a reed. You hold his eyes. It takes everything you have, and when the Professor puts a hand on the boy's shoulder, you are tired. The hunters have learned that there is something in the crypt that can be looked at and not looked away from.",
           "nextNodeId": "17A",
           "setFlags": [
             "staredDown"
@@ -4372,7 +4394,7 @@
       "id": "15C-X",
       "branch": "STORM",
       "title": "The Word in Latin",
-      "description": "You come to his window as a mist, and the flowers on the sill turn you back like a hand on a door. The old man sits up, opens the shutter and looks you in the face. He pronounces a single word of Latin, a short one, and it goes through you like cold water through a net. When you have gathered yourself in the garden you are lighter than you were, and he is writing in his notebook.",
+      "description": "You come to his window as a mist, and the flowers on the sill turn you back like a hand on a door. Van Helsing sits up, opens the shutter and looks you in the face. He pronounces a single word of Latin, a short one, and it goes through you like cold water through a net. When you have gathered yourself in the garden you are lighter than you were, and he is writing in his notebook.",
       "options": [
         {
           "label": "Send the rats to his room and the wolf under his window while he writes.",
@@ -4385,7 +4407,7 @@
             "speaker": "Van Helsing",
             "text": "They are at the door and under the sill, Seward. It is exactly what he would do. I wrote it down before he did it."
           },
-          "outcome": "The rats go up the pipes and the wolf lies down under the sill. The old man does not stop writing. Now and then he looks up, and says something in Dutch, and goes on. In the morning he has a page that says what you did, in the order you did it.",
+          "outcome": "The rats go up the pipes and the wolf lies down under the sill. The Professor does not stop writing. Now and then he looks up, and says something in Dutch, and goes on. In the morning he has a page that says what you did, in the order you did it.",
           "nextNodeId": "16C",
           "setFlags": [
             "ratsAtDoor"
@@ -4402,17 +4424,17 @@
             "speaker": "Van Helsing",
             "text": "He is gone, my friends. I do not believe it. A thing of that kind does not go away because it has been told to."
           },
-          "outcome": "You go back to Carfax by the fields and lie down in your own earth. The old man tells his friends that he has driven you off. He does not believe it, and neither do you, and the quiet that follows is the most careful of the whole campaign.",
+          "outcome": "You go back to Carfax by the fields and lie down in your own earth. The Professor tells his friends that he has driven you off. He does not believe it, and neither do you, and the quiet that follows is the most careful of the whole campaign.",
           "nextNodeId": "16C",
           "setFlags": [
             "letHimWin"
           ]
         },
         {
-          "label": "Go round to the young men's windows instead. The old man cannot be at all of them.",
-          "detail": "Go to the young men's windows. The old man cannot guard all of them.",
+          "label": "Go round to the young men's windows instead. The Professor cannot be at all of them.",
+          "detail": "Go to the young men's windows. The Professor cannot guard all of them.",
           "stamps": {
-            "dominion": 1,
+            "dominion": 2,
             "strength": -1,
             "secrecy": -1
           },
@@ -4420,7 +4442,7 @@
             "speaker": "Quincey",
             "text": "Something was at my window, Doc. I did not see it. I felt it the way you feel a rattlesnake in the dark."
           },
-          "outcome": "You go from window to window with the fog at your back. The old man cannot be at all of them, and he is not. By morning every one of the young men has felt something, and the only thing they can agree on is that they would rather not discuss it.",
+          "outcome": "You go from window to window with the fog at your back. The Professor cannot be at all of them, and he is not. By morning every one of the young men has felt something, and the only thing they can agree on is that they would rather not discuss it.",
           "nextNodeId": "16C",
           "setFlags": [
             "aroundHim"
@@ -4473,7 +4495,7 @@
           "label": "Put it back unopened. A guest's papers are a guest's.",
           "detail": "He will trust a host who does not read his things.",
           "stamps": {
-            "dominion": 1,
+            "dominion": 2,
             "secrecy": -1
           },
           "quote": {
@@ -4719,12 +4741,12 @@
       "title": "A Quiet Neighbour",
       "kind": "narrative",
       "headline": "THE HOUSE AT PURFLEET: STILL UNLET",
-      "text": "You close the door of the last cellar and lie down in the last box. Over your head the hunt goes on for a month, and then for another. The old man searches Carfax, and the chapel, and the second house, and each time finds an empty room. Eventually he goes home to Amsterdam. You do not come out until the spring. London is large and has plenty to look at, and it looks at something else.",
+      "text": "You close the door of the last cellar and lie down in the last box. Over your head the hunt goes on for a month, and then for another. The Professor searches Carfax, and the chapel, and the second house, and each time finds an empty room. Eventually he goes home to Amsterdam. You do not come out until the spring. London is large and has plenty to look at, and it looks at something else.",
       "variants": [
         {
           "flag": "piccadillyBought",
           "headline": "A GENTLEMAN OF PICCADILLY: THE RATEPAYER WHO WAS NEVER SEEN",
-          "text": "You close the door of the last cellar and lie down in the last box. Over your head the hunt goes on for a month, and then for another. The old man searches Carfax and the chapel, and finds nothing but a house with a clean title. In Piccadilly there is a ratepayer who has never been seen, and a deed in the strong-room of a firm of solicitors with no cause to open it. You come out in the spring. You are a quiet neighbour, in a large city, and you stay."
+          "text": "You close the door of the last cellar and lie down in the last box. Over your head the hunt goes on for a month, and then for another. The Professor searches Carfax and the chapel, and finds nothing but a house with a clean title. In Piccadilly there is a ratepayer who has never been seen, and a deed in the strong-room of a firm of solicitors with no cause to open it. In the spring you come out, a quiet neighbour in a large city, and you stay."
         }
       ]
     },
@@ -4733,7 +4755,7 @@
       "title": "The Road Home",
       "kind": "narrative",
       "headline": "STEAMER FOR VARNA LEAVES THE THAMES",
-      "text": "The Czarina Catherine goes down the river on the ebb with one large box in her hold. The hunters are a quarter of an hour late at the quay. They stand on the pier and watch her go. At Varna the agent has the box on a lighter before the pilot has come aboard. You are in the castle, in your own earth, within the month. The door is open and the wind is in the corridors. It is quiet, and you are tired, and you are home.",
+      "text": "The Czarina Catherine goes down the river on the ebb with one large box in her hold. A quarter of an hour late, the hunters reach the quay. They stand on the pier and watch her go. At Varna the agent has the box on a lighter before the pilot has come aboard. You are in the castle, in your own earth, within the month. The door is open and the wind is in the corridors. It is quiet, and you are tired, and you are home.",
       "variants": [
         {
           "flag": "sistersPromised",
@@ -4761,7 +4783,7 @@
       "title": "The Long Sleep",
       "kind": "narrative",
       "headline": "A CASTLE IN THE CARPATHIANS FOUND UNOCCUPIED",
-      "text": "You go home by the oldest road, and nobody follows. In the crypt of the old chapel the ten boxes are waiting, and the door is where you left it. You lie down in the nearest and draw the lid over you. You leave the key in the lock on the inside. For a long time there is nothing, and then there is more of it. The castle is empty. The wolves go down to the village. The sisters sleep in the east wing, and in the morning they find that you are not to be woken.",
+      "text": "You go home by the oldest road, and nobody follows. In the crypt of the old chapel the ten boxes are waiting, and the door is where you left it. You lie down in the nearest and draw the lid over you, and leave the key in the lock on the inside. For a long time there is nothing, and then there is more of it. The castle is empty. Down in the village the wolves go. The sisters sleep in the east wing, and in the morning they find that you are not to be woken.",
       "variants": [
         {
           "flag": "heldBack",
@@ -4817,12 +4839,12 @@
       "title": "The Release",
       "kind": "narrative",
       "headline": "A FOREIGN GENTLEMAN LEAVES A HOUSE AT PURFLEET",
-      "text": "You stand in the hall at Carfax and tell each of them they are free. Some weep. Some do not understand. A man in a nightshirt asks if he may have a bird. You open the doors and walk down the drive. In the morning the hall is empty and the house is cold. A woman in the house at Purfleet puts a hand to her forehead, as if something had been taken from it, and sits down. You go home alone. It is a long road, and a quiet one, and for the first time in centuries nobody is waiting at the end of it.",
+      "text": "You stand in the hall at Carfax and tell each of them they are free. Some weep. Some do not understand. A man in a nightshirt asks if he may have a bird. Then you open the doors and walk down the drive. In the morning the hall is empty and the house is cold. A woman in the house at Purfleet puts a hand to her forehead, as if something had been taken from it, and sits down. You go home alone, down a long road and a quiet one, and for the first time in centuries nobody is waiting at the end of it.",
       "variants": [
         {
           "flag": "renfieldRescued",
           "headline": "A MADMAN RETURNS TO HIS ASYLUM, UNREPENTANT",
-          "text": "You stand in the hall at Carfax and tell each of them they are free. The man you took out of the asylum asks whether he may have a bird. You say that he may have a great many, and that he must now find them himself. You open the doors and walk down the drive. Dr Seward finds his patient asleep on the steps of the asylum the next morning, in a nightshirt, with a sparrow in his hands. You go home alone, and the road is long."
+          "text": "You stand in the hall at Carfax and tell each of them they are free. The man you took out of the asylum asks whether he may have a bird. He may have a great many, you say, but he must now find them himself. Then you open the doors and walk down the drive. Dr Seward finds his patient asleep on the steps of the asylum the next morning, in a nightshirt, with a sparrow in his hands. You go home alone, and the road is long."
         }
       ]
     },
@@ -4831,12 +4853,12 @@
       "title": "Home on the Gale",
       "kind": "narrative",
       "headline": "GREAT GALE IN THE CHANNEL: STEAMER REPORTED SAFE AT VARNA",
-      "text": "The Czarina Catherine runs before the gale for six days. In Varna the agent has your box on a lighter before the pilot has put his foot on the quay. Up the river and over the pass nothing is in your way. The hunters arrive two weeks later and find an empty castle with the door open and a fire still lit in the hall. You are in the crypt, in your own earth, asleep. The wind has dropped, and nobody knows where you are.",
+      "text": "The Czarina Catherine runs before the gale for six days. In Varna the agent has your box on a lighter before the pilot has put his foot on the quay. Up the river and over the pass nothing is in your way. The hunters arrive two weeks later and find an empty castle with the door open and a fire still lit in the hall. You are in the crypt, in your own earth, asleep. Now the wind has dropped, and nobody knows where you are.",
       "variants": [
         {
           "flag": "harkerFree",
           "headline": "AN ENGLISH SOLICITOR'S PENCIL MARK, ON A CASTLE WALL",
-          "text": "The Czarina Catherine runs before the gale for six days, and nothing is in your way up the river and over the pass. The hunters arrive two weeks later and find an empty castle with the door open. On the wall of the north room, in pencil, a young man has scratched a date and a line of shorthand. The old man copies it into his notebook. You are in the crypt, asleep, and you do not mind. You let him go, and he went home."
+          "text": "The Czarina Catherine runs before the gale for six days, and nothing is in your way up the river and over the pass. The hunters arrive two weeks later and find an empty castle with the door open. On the wall of the north room, in pencil, a young man has scratched a date and a line of shorthand. In his notebook the Professor copies it. You are in the crypt, asleep, and you do not mind. You let him go, and he went home."
         }
       ]
     },
@@ -4845,12 +4867,12 @@
       "title": "Cornered at Purfleet",
       "kind": "narrative",
       "headline": "FIGHT AT A MADHOUSE: THE NOBLEMAN AND THE PROFESSOR",
-      "text": "You come back to Purfleet in the dark with the wolf at your heel, the rats in the walls and the fog behind you. The house is lit. The old man is at the door with his silver box, and Dr Seward has a shotgun and Lord Godalming a lamp. It is a very short fight and neither side wins it. At dawn the fog lifts. You are in the chapel at Carfax with the lid half closed, and a long grey light is coming in at the door, and they are coming up the drive with the last of the bread.",
+      "text": "You come back to Purfleet in the dark with the wolf at your heel, the rats in the walls and the fog behind you. The house is lit. The Professor is at the door with his silver box, and Dr Seward has a shotgun and Lord Godalming a lamp. It is a very short fight and neither side wins it. At dawn the fog lifts. You are in the chapel at Carfax with the lid half closed, and a long grey light is coming in at the door, and they are coming up the drive with the last of the bread.",
       "variants": [
         {
           "flag": "triedHost",
           "headline": "A PROFESSOR'S EXPERIMENT, AND ITS CONCLUSION",
-          "text": "You come back to Purfleet with the wolf at your heel and the fog behind you. You know what the old man's bread does, because you have felt it on your palm. It is a very short fight, and when it is over you are in the chapel at Carfax with a hand that will not close. The old man comes up the drive with the last of his wafers. He says it was a good experiment. He says that he is sorry it has to end so."
+          "text": "You come back to Purfleet with the wolf at your heel and the fog behind you. You know what the Professor's bread does, because you have felt it on your palm. It is a very short fight, and when it is over you are in the chapel at Carfax with a hand that will not close. The Professor comes up the drive with the last of his wafers. He says it was a good experiment. He says that he is sorry it has to end so."
         }
       ]
     },
@@ -4859,12 +4881,12 @@
       "title": "The Pass by Night",
       "kind": "narrative",
       "headline": "WOLVES SEEN ON THE ROAD FROM VARNA",
-      "text": "You go home by night, by a road that is on no map, and sleep each day in a different farm cellar with the lid shut over you. The hunters follow the sea, the railway and the river. They do not follow the wolves. You reach the castle a week before they do. At the pass the old man draws a ring of white bread in the grass around a woman who holds a rifle she does not know how to use, and stays inside it all night. In the morning he goes into the castle with a stake and a hammer. He finds the three in the east wing. You feel them go.",
+      "text": "You go home by night, by a road that is on no map, and sleep each day in a different farm cellar with the lid shut over you. The hunters follow the sea, the railway and the river. They do not follow the wolves. A week before they do, you reach the castle. At the pass the Professor draws a ring of white bread in the grass around a woman who holds a rifle she does not know how to use, and stays inside it all night. In the morning he goes into the castle with a stake and a hammer. In the east wing he finds the three, and you feel them go.",
       "variants": [
         {
           "flag": "sistersFed",
           "headline": "THREE WOMEN FOUND IN A CHAPEL, WITH THEIR LOSS",
-          "text": "You go home by night, and the hunters follow the sea. At the pass, an old man and a woman sit all night in a ring of bread, and in the morning he goes into the castle with a stake and a hammer. He finds the three in the east wing. They are asleep, and well fed, and quite happy. You feel them go, one after another. You have done a thing that most of those who loved you will not forgive. You are alive, and alone, and you did not turn round."
+          "text": "You go home by night, and the hunters follow the sea. At the pass, Van Helsing and a woman sit all night in a ring of bread, and in the morning he goes into the castle with a stake and a hammer. He finds the three in the east wing. They are asleep, and well fed, and quite happy. You feel them go, one after another. Most of those who loved you will not forgive what you have done. You are alive, and alone, and you did not turn round."
         }
       ]
     },
@@ -4887,21 +4909,21 @@
       "title": "The Box Left Closed",
       "kind": "failure",
       "headline": "A CHEST IS OPENED IN A CELLAR AT NOON",
-      "text": "You have taken too little and spent too much. A night comes when you reach for the lid and it does not move. You lie in the earth and hear the street above you, the carts, the footsteps and a church bell striking late. Nobody finds you for a week. On the eighth day somebody does. It is noon, and the lid comes up, and a woman with a typewriter looks down at what is in the box. The old man says a word in Latin. It is a very short one."
+      "text": "You have taken too little and spent too much. A night comes when you reach for the lid and it does not move. You lie in the earth and hear the street above you, the carts, the footsteps and a church bell striking late. Nobody finds you for a week. On the eighth day somebody does. It is noon, and the lid comes up, and a woman with a typewriter looks down at what is in the box. The Professor says a word in Latin. It is a very short one."
     },
     "ENDING_CRISIS_SECRECY": {
       "id": "ENDING_CRISIS_SECRECY",
       "title": "The Hue and Cry",
       "kind": "failure",
       "headline": "A FOREIGN GENTLEMAN HUNTED THROUGH THE EAST END",
-      "text": "Nobody has seen you in a month, and now everybody has. The newspapers have a drawing of you and the police have a description. A constable at Purfleet has seen a man go through a locked gate, and a cabman in Camden Town has seen a man with no reflection in the window of a shop. They come with torches and dogs and handbills. The old man says that you must be a very great fool, and he does not say it unkindly. The crowd is waiting at the gate of Carfax at dawn."
+      "text": "Nobody has seen you in a month, and now everybody has. There is a drawing of you in the newspapers, and the police have a description. A constable at Purfleet has seen a man go through a locked gate, and a cabman in Camden Town has seen a man with no reflection in the window of a shop. They come with torches and dogs and handbills. The Professor says that you must be a very great fool, and he does not say it unkindly. At dawn a crowd is waiting at the gate of Carfax."
     },
     "ENDING_CRISIS_DOMINION": {
       "id": "ENDING_CRISIS_DOMINION",
       "title": "Alone at Carfax",
       "kind": "failure",
       "headline": "A HOUSE AT PURFLEET STANDS EMPTY, WITH ALL ITS DOORS OPEN",
-      "text": "One by one they let go. The servants you flattered go back to their own lives. The friends you made at dinner stop returning your letters. Renfield sits at his window and looks the other way, and the wolf will not come when you call. At the end you sit in the chapel at Carfax beside a single box, with a candle and nobody. There is no siege. The house has only ever held people who did not agree to be in it. The hunters walk in by the front door."
+      "text": "One by one they let go. The servants you flattered go back to their own lives. Friends you made at dinner stop returning your letters. Renfield sits at his window and looks the other way, and the wolf will not come when you call. At the end you sit in the chapel at Carfax beside a single box, with a candle and nobody. There is no siege. It has only ever held people who did not agree to be in it. The hunters walk in by the front door."
     }
   }
 }

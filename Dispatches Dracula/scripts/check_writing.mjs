@@ -9,7 +9,8 @@ import { join } from "node:path";
 
 const strict = process.argv.includes("--strict");
 const dir = join("src", "content", process.env.GAME ?? "dracula");
-const FILES = ["events.json", "flavor.json", "config.json"];
+// every file whose words a player can read: the story, the help and endings, the rules (labels), the seat's own words and the book's road notes
+const FILES = ["events.json", "flavor.json", "config.json", "ui.json", "book.json"];
 
 const STOCK = [
   "tapestry", "testament", "pivotal", "stark", "sobering", "unprecedented", "delve", "underscore", "nuanced", "intricate", "ever-evolving",

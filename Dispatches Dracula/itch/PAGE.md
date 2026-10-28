@@ -54,7 +54,7 @@ All of it is drawn by the game's own artwork code (`src/art.tsx`) in the game's 
 > ### What is in it
 > - **48 scenes** for the Count in three tracks (the Quiet Colony, the Court at Carfax, the Storm), **40 more** for Mina, and **30 endings** between them, each with its own picture.
 > - **Three optional rooms in Act I:** Harker's journal by lamplight, the Szgany in the courtyard and the harbour office at Whitby. Each is an hour you can spend or save, and what you learn comes back later.
-> - **Easy and Hard that change the game**, not only what you can see: Easy starts you stronger and eases the strain of a short reserve; Hard starts you weakened and doubles it.
+> - **Easy and Hard that change the game**, not only what you can see: Easy starts you stronger and eases the strain of a short reserve; Hard starts you badly weakened and triples it.
 > - **Ventures** whose odds you can see before you take them, and a hold on the clock: some choices are a race against the sun.
 > - **Documents the way the novel keeps them**: letters, newspaper clippings, Dr Seward's phonograph, the Demeter's log, a notebook page, Mrs Harker's typescript. Which ones you meet depends on what you did.
 > - **Facts you can trust.** Every claim the game makes about the book is checked against the 1897 text, and every line of Stoker's own is marked.
@@ -87,6 +87,11 @@ All of it is drawn by the game's own artwork code (`src/art.tsx`) in the game's 
 
 > **0.3.0: three ways to get it, and a harder (and gentler) passage.**
 > The game now comes three ways on this page: play the whole thing in the browser, download it (it works offline, and from an https host you can add it to your phone's home screen), or try the demo, which is the Count's Act I only. Easy and Hard now change the numbers (Easy begins stronger, Hard begins weakened and feels strain twice as hard). Act I has three optional rooms you can step into and back out of. Each Act II track opens with its own plate and colours the page. Mina has counters of her own (the Host she has left, the tie with the Count, the leads in her record), and every document can be read aloud with Hear it.
+
+## Devlog post for 0.4.0
+
+> **0.4.0: a harder Hard, a picture for every ending, and a careful read.**
+> Hard is now properly hard: you begin four points down in every reserve and a short reserve costs you three times as much. Easy and Medium are unchanged. Scenes set indoors have rooms to be set in (a study, a library, a bedchamber, a ward, a ship's hold, a tomb, an opera box, a chapel) and each of Mina's fifteen endings has a picture of its own. Both stories were read through again for sentences that sound machine-made, and "the old man" is now only Mr Swales on the bench at Whitby. Every button is at least 44 pixels to tap. Tell me where Hard goes wrong.
 
 ## The day it goes public
 

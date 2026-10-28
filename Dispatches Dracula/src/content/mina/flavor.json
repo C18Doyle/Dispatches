@@ -25,7 +25,7 @@
     },
     {
       "heading": "Difficulty",
-      "body": "The Schoolmistress is shown the sums before she answers, begins with two points in every reserve, and feels a short reserve half as much. The Stenographer writes it down and finds out afterwards. The Purse-Keeper has sixty pounds of the party's money, begins two points down in every reserve, and feels a short reserve twice as much; a few options cost money, or are only offered to someone who can pay. You choose when you begin a run."
+      "body": "The Schoolmistress is shown the sums before she answers, begins with two points in every reserve, and feels a short reserve half as much. The Stenographer writes it down and finds out afterwards. The Purse-Keeper has sixty pounds of the party's money, begins four points down in every reserve, and feels a short reserve three times as much; a few options cost money, or are only offered to someone who can pay. You choose when you begin a run."
     },
     {
       "heading": "Ventures",
@@ -280,7 +280,7 @@
     },
     "HARD": {
       "label": "The Purse-Keeper",
-      "blurb": "As the Stenographer, plus sixty pounds of the party's money. Some choices cost money you cannot get back, some are only offered to someone who can pay, and the bills are read out at breakfast. You begin a little weakened, two points down in every reserve, and a short reserve costs you twice as much."
+      "blurb": "As the Stenographer, plus sixty pounds of the party's money. Some choices cost money you cannot get back, some are only offered to someone who can pay, and the bills are read out at breakfast. You begin badly weakened, four points down in every reserve, and a short reserve costs you three times as much."
     }
   },
   "novelNotes": {

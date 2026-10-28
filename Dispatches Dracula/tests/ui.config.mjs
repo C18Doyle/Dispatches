@@ -10,6 +10,8 @@ const SEAT = process.env.SEAT ?? "dracula";
 const read = (f) => JSON.parse(readFileSync(`src/content/${SEAT}/${f}`, "utf8"));
 const ui = read("ui.json");
 const flavor = read("flavor.json");
+// the screen labels: the shared deck (src/labels.json), as the seat may say them
+const LB = { ...JSON.parse(readFileSync("src/labels.json", "utf8")), ...(ui.labels ?? {}) };
 const exact = (s) => new RegExp("^" + s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "$");
 const starts = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -36,7 +38,7 @@ export default {
     const baseSettle = ctx.settle;
     ctx.settle = async () => {
       await baseSettle();
-      for (let i = 0; i < 400 && /Waiting…/.test(ctx.text()); i++) {
+      for (let i = 0; i < 400 && new RegExp(starts(LB.waiting)).test(ctx.text()); i++) {
         await new Promise((r) => setTimeout(r, 25));
         await baseSettle();
       }
@@ -57,13 +59,13 @@ export default {
     const t = ctx.text();
     const bs = ctx.buttons().filter((b) => !/^Settings$/i.test(ctx.lab(b)));
     const by = (re) => bs.find((b) => re.test(ctx.lab(b)));
-    if (/A Venture/.test(t)) return by(/^Take the Chance/) || null;
-    if (by(/^Turn the Page/)) return by(/^Turn the Page/);
+    if (new RegExp(starts(LB.venture)).test(t)) return by(new RegExp("^" + starts(LB.takeChance))) || null;
+    if (by(new RegExp("^" + starts(LB.turnPage)))) return by(new RegExp("^" + starts(LB.turnPage)));
     const options = bs.filter((b) => b.classList.contains("group"));
-    if (!options.length) return by(/^Continue/) || by(/^Enter/) || null;
+    if (!options.length) return by(new RegExp("^" + starts(LB.continue))) || by(new RegExp("^" + starts(LB.enter))) || null;
 
     // an option that was armed by the last tap is confirmed
-    const armed = options.find((b) => /Tap again to confirm/.test(b.textContent));
+    const armed = options.find((b) => new RegExp(starts(LB.tapAgain)).test(b.textContent));
     if (armed) return armed;
 
     // the adviser: at most two calls on him per scene, so a run cannot loop in his panel

@@ -1,0 +1,15 @@
+{
+  "rules": [
+    {
+      "phrase": "the old man",
+      "means": "Mr Swales, who sits on the bench at Whitby",
+      "allowedIn": [
+        "10",
+        "10-X",
+        "11",
+        "flagNote:leftWhitby"
+      ],
+      "instead": "Van Helsing (first mention in a passage) or the Professor"
+    }
+  ]
+}

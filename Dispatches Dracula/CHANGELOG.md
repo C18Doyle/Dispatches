@@ -7,6 +7,18 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
 ## Unreleased
 
+## 0.4.0 (2026-10-28)
+### Changed
+- **Hard is harder.** Hard now begins four points down in every reserve (was two) and feels a short reserve three times as much (was twice). A sensible player who cannot see the numbers loses about one Hard run in six; on Easy almost none. The mode descriptions say so.
+- **Names are fixed.** "The old man" meant both Mr Swales on the Whitby bench and Van Helsing. Van Helsing is now Van Helsing, then the Professor; the old man is only Mr Swales.
+- **Prose.** Both seats were read through for machine-written habits: strings of sentences opening with "You" or "The", lists of three, even rhythm and tidy last lines. Mina's seat had the most.
+- **Twenty-four choices now cost something or gain something their neighbours lack.** Before, a choice could be worse than another in the same scene on every reserve, with no reason to take it.
+- **Every control is at least 44 pixels each way** and the settings button is larger.
+- Words on the screens (headings, buttons, notes) come from one copy deck (`src/labels.json`), in one capitalisation style: Title Case for headings and buttons, sentence case for notes. "Hear It" and "Your Last Runs" changed to match.
+### Added
+- **Eight room plates** (a study, a library, a bedchamber, a ward, a ship's hold, a tomb, an opera box, a chapel) for scenes set indoors, so London is no longer the picture for two scenes in five, and **a plate of its own for each of Mina's fifteen endings**.
+- Checks: `check:names`, `check:voice`, `check:labels`, `check:layout` (every screen, both seats, four looks, phone and desktop; `check:layout:all` for the full run), a fallible player and players set on ruin in `check:balance`, and a check for choices that are worse than a neighbour on every reserve.
+
 ## 0.3.0 (2026-10-19)
 ### Added
 - **Real Easy and Hard modes.** The three difficulties used to differ only in whether you could see the sums and whether gold mattered. Now they change the game itself (engine 0.7.0: `strainScale` and `startBonus`). The Householder (Easy) begins with two points in every reserve and feels a short reserve half as much. The Exile (Hard) begins two points down and feels a short reserve twice as much, with gold on top. A random player collapses in about 6% of Easy runs, 15% of Medium and 26% of Hard; `npm run check:balance` now reports that and fails if Easy is not easier than Medium, or Medium than Hard. Mina's seat has the same.

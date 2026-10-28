@@ -225,11 +225,11 @@
       "enforceMoney": true,
       "startingMoney": 60,
       "adviceEnabled": true,
-      "strainScale": 2,
+      "strainScale": 3,
       "startBonus": {
-        "strength": -2,
-        "secrecy": -2,
-        "dominion": -2
+        "strength": -4,
+        "secrecy": -4,
+        "dominion": -4
       }
     }
   },

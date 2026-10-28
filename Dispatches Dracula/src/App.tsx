@@ -19,6 +19,7 @@ import {
 } from "@dispatches/engine";
 import type { Action, Difficulty, GameState, Quote, UiPrefs } from "@dispatches/engine";
 import { def, ui, book } from "./game";
+import { L, fill } from "./labels";
 import { IS_DEMO, isDemoStop } from "./demo";
 import { IN_RUN_SCREENS, parseRunSave, serializeRunSave } from "./runSave";
 import { ledgerKey, carriedNotes, count, parseLedger, recordRun, runRecord, summaryText } from "./ledger";
@@ -262,7 +263,7 @@ function Meter({ resource, value }: { resource: Resource; value: number }) {
     ? "shadow-[0_0_8px_rgba(92,146,105,0.6)]"
     : "shadow-[0_0_8px_rgba(179,40,31,0.55)]";
   return (
-    <div className="flex-1 min-w-0" role="meter" aria-label={RESOURCE_LABELS[resource]} aria-valuemin={range.min} aria-valuemax={range.max} aria-valuenow={value} aria-valuetext={`${value}${inCrisis ? ", in crisis" : ""}`}>
+    <div className="flex-1 min-w-0" role="meter" aria-label={RESOURCE_LABELS[resource]} aria-valuemin={range.min} aria-valuemax={range.max} aria-valuenow={value} aria-valuetext={`${value}${inCrisis ? L.crisisSuffix : ""}`}>
       <div className="flex items-baseline justify-between mb-1 sm:mb-1.5 gap-1">
         <span className="font-heading text-[0.52rem] xs:text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate inline-flex items-center gap-1">
           <ResourceIcon id={resource} className="w-3 h-3 shrink-0" />
@@ -341,7 +342,7 @@ function HearButton({ text }: { text: string }) {
       onClick={toggle}
       className="px-4 py-2 border border-ink/40 text-ink-soft font-heading font-semibold uppercase text-xs tracking-widest hover:border-ink hover:text-ink transition-colors"
     >
-      {speaking ? "Stop" : "Hear it"}
+      {speaking ? L.stop : L.hear}
     </button>
   );
 }
@@ -596,8 +597,8 @@ export default function App() {
         click();
         setOverlay("SETTINGS");
       }}
-      aria-label="Settings"
-      className="fixed top-4 right-4 z-40 p-2 rounded-full border border-brass-dim/70 bg-black/50 text-brass hover:text-brass-bright hover:border-brass transition-colors"
+      aria-label={L.settings}
+      className="fixed top-3 right-3 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-brass-dim/70 bg-black/50 text-brass hover:text-brass-bright hover:border-brass transition-colors"
     >
       <GearIcon className="w-4 h-4" />
     </button>
@@ -610,10 +611,10 @@ export default function App() {
       <VoidScreen>
         <div className="parchment-card max-w-sm w-full p-7 font-body text-ink relative" role="dialog" aria-modal="true" aria-labelledby="settings-title">
           <CornerFlourishes />
-          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1" aria-hidden="true">Settings</p>
+          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1" aria-hidden="true">{L.settings}</p>
           <h1 id="settings-title" className="font-heading text-2xl font-bold mb-5">{ui.settingsTitle}</h1>
 
-          <p id="look-label" className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Look</p>
+          <p id="look-label" className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">{L.look}</p>
           <div role="radiogroup" aria-labelledby="look-label" className="space-y-2 mb-7">
             {THEMES.map((t) => (
               <button
@@ -642,7 +643,7 @@ export default function App() {
             ))}
           </div>
 
-          <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Font Size</p>
+          <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">{L.fontSize}</p>
           <div className="flex gap-2 mb-7">
             {(["small", "medium", "large"] as FontSize[]).map((size) => (
               <button
@@ -657,12 +658,12 @@ export default function App() {
                     : "border-ink/30 text-ink/70 hover:border-ink/60"
                 }`}
               >
-                {size}
+                {L.sizes[size]}
               </button>
             ))}
           </div>
 
-          <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Music</p>
+          <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">{L.music}</p>
           <div className="flex gap-2 mb-4">
             <button
               onClick={() => {
@@ -673,7 +674,7 @@ export default function App() {
                 prefs.musicEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
               }`}
             >
-              On
+              {L.on}
             </button>
             <button
               onClick={() => setPrefs((p) => ({ ...p, musicEnabled: false }))}
@@ -681,12 +682,12 @@ export default function App() {
                 !prefs.musicEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
               }`}
             >
-              Off
+              {L.off}
             </button>
           </div>
           <label className="block mb-7">
             <span className="font-heading text-[0.65rem] uppercase tracking-widest text-ink-soft/70">
-              Volume: {Math.round(prefs.musicVolume * 100)}%
+              {fill(L.volume, { n: Math.round(prefs.musicVolume * 100) })}
             </span>
             <input
               type="range"
@@ -700,7 +701,7 @@ export default function App() {
             />
           </label>
 
-          <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Sound Effects</p>
+          <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">{L.soundEffects}</p>
           <div className="flex gap-2 mb-4">
             <button
               onClick={() => {
@@ -711,7 +712,7 @@ export default function App() {
                 prefs.sfxEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
               }`}
             >
-              On
+              {L.on}
             </button>
             <button
               onClick={() => setPrefs((p) => ({ ...p, sfxEnabled: false }))}
@@ -719,12 +720,12 @@ export default function App() {
                 !prefs.sfxEnabled ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
               }`}
             >
-              Off
+              {L.off}
             </button>
           </div>
           <label className="block mb-7">
             <span className="font-heading text-[0.65rem] uppercase tracking-widest text-ink-soft/70">
-              Volume: {Math.round(prefs.sfxVolume * 100)}%
+              {fill(L.volume, { n: Math.round(prefs.sfxVolume * 100) })}
             </span>
             <input
               type="range"
@@ -738,7 +739,7 @@ export default function App() {
             />
           </label>
 
-          <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Dispatches</p>
+          <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">{L.series}</p>
           <p className="text-xs text-ink/70 mb-3 leading-relaxed">
             {ui.seriesBlurb}
           </p>
@@ -749,7 +750,7 @@ export default function App() {
             onClick={() => click()}
             className="mb-7 block w-full text-center px-5 py-2.5 border border-ink/40 text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:border-ink hover:bg-ink hover:text-parchment transition-colors"
           >
-            See the Rest of the Series
+            {L.seeSeries}
           </a>
 
           <button
@@ -759,7 +760,7 @@ export default function App() {
             }}
             className="w-full px-5 py-2.5 bg-blood text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-blood-bright transition-colors"
           >
-            Close
+            {L.close}
           </button>
         </div>
       </VoidScreen>
@@ -771,10 +772,10 @@ export default function App() {
       <VoidScreen>
         <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative max-h-[85vh] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="ledger-title">
           <CornerFlourishes />
-          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">Kept in this browser</p>
-          <h1 id="ledger-title" className="font-heading text-2xl font-bold mb-1">The Ledger</h1>
+          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">{L.ledgerKept}</p>
+          <h1 id="ledger-title" className="font-heading text-2xl font-bold mb-1">{L.ledgerTitle}</h1>
           <p className="font-heading text-xs uppercase tracking-widest text-ink-soft mb-6">
-            {found.length} / {endingIds.length} endings found
+            {fill(L.endingsFound, { found: found.length, total: endingIds.length })}
           </p>
           <ul className="space-y-3">
             {endingIds.map((id) => {
@@ -786,13 +787,13 @@ export default function App() {
                     <>
                       <h2 className="font-heading text-sm font-bold">
                         {def.content.endings[id].title}
-                        {times > 1 ? <span className="text-ink-soft font-normal"> · reached {times} times</span> : null}
+                        {times > 1 ? <span className="text-ink-soft font-normal">{fill(L.reached, { n: times })}</span> : null}
                       </h2>
                       {def.flavor.novelNotes?.[id] && <p className="text-sm text-ink/80 mt-1">{def.flavor.novelNotes[id]}</p>}
                     </>
                   ) : (
                     <>
-                      <h2 className="font-heading text-sm font-bold text-ink-soft">Not yet found</h2>
+                      <h2 className="font-heading text-sm font-bold text-ink-soft">{L.notYetFound}</h2>
                       {def.flavor.endingHints?.[id] && <p className="text-sm text-ink/80 mt-1">{def.flavor.endingHints[id]}</p>}
                     </>
                   )}
@@ -802,7 +803,7 @@ export default function App() {
           </ul>
           {ledger.runs.length > 0 && (
             <>
-              <h2 className="font-heading text-sm uppercase tracking-widest text-blood font-bold mt-7 mb-2">Your last runs</h2>
+              <h2 className="font-heading text-sm uppercase tracking-widest text-blood font-bold mt-7 mb-2">{L.lastRuns}</h2>
               <ol className="space-y-1.5 text-sm">
                 {ledger.runs.map((r, i) => (
                   <li key={i}>
@@ -823,7 +824,7 @@ export default function App() {
             }}
             className="mt-8 px-6 py-2.5 bg-ink text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink-soft transition-colors"
           >
-            Back
+            {L.back}
           </button>
         </div>
       </VoidScreen>
@@ -833,8 +834,8 @@ export default function App() {
       <VoidScreen>
         <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative max-h-[85vh] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="research-title">
           <CornerFlourishes />
-          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">How To</p>
-          <h1 id="research-title" className="font-heading text-2xl font-bold mb-6">How to Play</h1>
+          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">{L.howTo}</p>
+          <h1 id="research-title" className="font-heading text-2xl font-bold mb-6">{L.howToHeading}</h1>
           <div className="space-y-5">
             {def.flavor.howToPlay.map((section) => (
               <div key={section.heading}>
@@ -852,7 +853,7 @@ export default function App() {
             }}
             className="mt-8 px-6 py-2.5 bg-ink text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink-soft transition-colors"
           >
-            Back
+            {L.back}
           </button>
         </div>
       </VoidScreen>
@@ -863,7 +864,7 @@ export default function App() {
         <div className="relative">
           <TitleScene variant={ui.art?.title ?? "castle"} />
           <div className="absolute inset-x-0 bottom-0 px-4 pb-1 text-center">
-            <p className="title-kicker font-heading text-[0.65rem] uppercase tracking-[0.5em] mb-1">A Dispatches Chronicle</p>
+            <p className="title-kicker font-heading text-[0.65rem] uppercase tracking-[0.5em] mb-1">{L.kicker}</p>
             <h1 className="title-text flicker font-display text-6xl sm:text-7xl font-bold leading-none mb-2">
               {ui.title}
             </h1>
@@ -904,7 +905,7 @@ export default function App() {
               }}
               className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-bone transition-colors"
             >
-              How To
+              {L.howTo}
             </button>
             <button
               onClick={() => {
@@ -913,7 +914,7 @@ export default function App() {
               }}
               className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-bone transition-colors"
             >
-              Settings
+              {L.settings}
             </button>
             {endingsSeen.size > 0 && (
               <button
@@ -923,13 +924,13 @@ export default function App() {
                 }}
                 className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-bone transition-colors"
               >
-                Ledger
+                {L.ledger}
               </button>
             )}
           </div>
           {endingsSeen.size > 0 && (
             <p className="mt-6 font-heading text-[0.65rem] uppercase tracking-[0.2em] text-ash">
-              {endingsSeen.size} / {TOTAL_ENDINGS} Endings Discovered
+              {fill(L.endingsDiscovered, { n: endingsSeen.size, total: TOTAL_ENDINGS })}
             </p>
           )}
           {CAN_SWITCH_SEAT && ui.switchSeat && SEATS[ui.switchSeat.to] && (
@@ -975,7 +976,7 @@ export default function App() {
             }}
             className="mt-8 px-6 py-2.5 bg-ink text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink-soft transition-colors"
           >
-            Continue
+            {L.continue}
           </button>
         </div>
       </VoidScreen>
@@ -990,7 +991,7 @@ export default function App() {
           </h1>
           <p className="font-heading text-xs uppercase tracking-[0.4em] text-brass/80 mb-8">{def.flavor.chapterCard.subtitle}</p>
 
-          <p className="font-heading text-xs uppercase tracking-[0.3em] text-ash mb-3">Choose Your Difficulty</p>
+          <p className="font-heading text-xs uppercase tracking-[0.3em] text-ash mb-3">{L.chooseDifficulty}</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
             {(["EASY", "MEDIUM", "HARD"] as Difficulty[]).map((d) => (
               <button
@@ -1019,7 +1020,7 @@ export default function App() {
             }}
             className="mt-4 px-8 py-3 border border-brass text-bone font-heading uppercase text-sm tracking-[0.25em] hover:bg-brass hover:text-on-brass transition-colors"
           >
-            Enter
+            {L.enter}
           </button>
           {endingsSeen.size > 0 && (
             <div className="mt-6">
@@ -1033,9 +1034,7 @@ export default function App() {
                 {ui.skipLabel}
               </button>
               <p className="text-ash/70 text-sm italic mt-2 max-w-xs mx-auto">
-                Jumps straight to the first choice that decides your track. Your reserves reset to zero
-                {rules.enforceMoney ? ", your purse refills to its full starting sum," : ""} and any
-                option that depended on an earlier choice is out of reach for the rest of this run.
+                {fill(L.skipNote, { purse: rules.enforceMoney ? L.skipPurse : "" })}
               </p>
             </div>
           )}
@@ -1072,7 +1071,7 @@ export default function App() {
               onClick={() => click()}
               className="px-5 py-2.5 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
             >
-              See the Rest of the Series
+              {L.seeSeries}
             </a>
           </div>
         </div>
@@ -1097,7 +1096,7 @@ export default function App() {
           </p>
           <h1 className="font-heading text-3xl sm:text-4xl font-bold mb-1 leading-tight">{ending.title}</h1>
           <p className="font-heading text-[0.65rem] uppercase tracking-[0.2em] text-brass-dim font-semibold mb-4">
-            {isNewEnding ? "New Ending Discovered" : "An Ending You've Reached Before"} · {endingsSeen.size} / {TOTAL_ENDINGS}
+            {isNewEnding ? L.newEnding : L.seenEnding} · {endingsSeen.size} / {TOTAL_ENDINGS}
           </p>
           <p className="font-heading text-sm uppercase tracking-wide text-ink-soft font-bold mb-6 border-b border-ink/20 pb-4">
             {ending.headline}
@@ -1116,18 +1115,18 @@ export default function App() {
           )}
 
           <div className="mt-7 pt-5 border-t border-ink/20">
-            <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-3">Your Record</p>
+            <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-3">{L.yourRecord}</p>
             <div className={`grid grid-cols-2 gap-3 text-sm ${rules.enforceMoney ? "sm:grid-cols-4" : "sm:grid-cols-3"}`}>
               <div>
-                <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">Track</p>
+                <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">{L.track}</p>
                 <p className="font-semibold">{BRANCH_LABELS[state.activeBranch]?.split("· ")[1] ?? state.activeBranch}</p>
               </div>
               <div>
-                <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">Choices Made</p>
+                <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">{L.choicesMade}</p>
                 <p className="font-semibold">{state.history.length}</p>
               </div>
               <div>
-                <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">Difficulty</p>
+                <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">{L.difficulty}</p>
                 <p className="font-semibold">{DIFFICULTY_INFO[state.difficulty].label}</p>
               </div>
               {rules.enforceMoney && (
@@ -1151,7 +1150,7 @@ export default function App() {
 
           {carried.length > 0 && (
             <div className="mt-6">
-              <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">What You Carried</p>
+              <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">{L.carried}</p>
               <ul className="list-disc pl-5 space-y-1 text-sm text-ink/90">
                 {carried.map((line) => (
                   <li key={line}>{line}</li>
@@ -1198,13 +1197,13 @@ export default function App() {
                   <h2 className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">{book.heading}</h2>
                   <p className="text-sm text-ink-soft mb-2">{book.intro}</p>
                   <p className="text-sm text-ink/90 mb-2">
-                    You went with the book at {withBook.length} of the {visited.length} scenes you played that it marks.
+                    {fill(L.bookTally, { withBook: withBook.length, of: visited.length })}
                   </p>
                   {away.length > 0 && (
                     <ul className="list-disc pl-5 space-y-1 text-sm text-ink/90">
                       {away.map((h) => (
                         <li key={h.nodeId}>
-                          <span className="font-semibold">{def.content.nodes[h.nodeId].title}.</span> In the book: {book.road[h.nodeId].note.charAt(0).toLowerCase() + book.road[h.nodeId].note.slice(1)}
+                          <span className="font-semibold">{def.content.nodes[h.nodeId].title}.</span> {L.inTheBook} {book.road[h.nodeId].note.charAt(0).toLowerCase() + book.road[h.nodeId].note.slice(1)}
                         </li>
                       ))}
                     </ul>
@@ -1229,13 +1228,13 @@ export default function App() {
                 click();
                 const text = summaryText(def, thisRun, ending.title);
                 navigator.clipboard.writeText(text).then(
-                  () => setCopyNote("Summary copied."),
-                  () => setCopyNote("Could not copy. Select the record above instead."),
+                  () => setCopyNote(L.summaryCopied),
+                  () => setCopyNote(L.copyFailed),
                 );
               }}
               className="px-5 py-2.5 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
             >
-              Copy Summary
+              {L.copySummary}
             </button>
             <button
               onClick={async () => {
@@ -1249,24 +1248,24 @@ export default function App() {
                     headline: ending.headline,
                     remembered: ending.epilogueLabel ? `${ui.endText.remembered}: ${ending.epilogueLabel}` : undefined,
                     stats: [
-                      { label: "Track", value: BRANCH_LABELS[state.activeBranch]?.split("· ")[1] ?? state.activeBranch },
-                      { label: "Choices", value: String(state.history.length) },
-                      { label: "Difficulty", value: DIFFICULTY_INFO[state.difficulty].label },
+                      { label: L.track, value: BRANCH_LABELS[state.activeBranch]?.split("· ")[1] ?? state.activeBranch },
+                      { label: L.choices, value: String(state.history.length) },
+                      { label: L.difficulty, value: DIFFICULTY_INFO[state.difficulty].label },
                     ],
                     reserves: RESOURCE_IDS.map((r) => ({ label: RESOURCE_LABELS[r], value: `${state.resources[r] > 0 ? "+" : ""}${state.resources[r]}` })),
-                    footer: `dispatches.itch.io/dispatches-dracula  ·  ${endingsSeen.size} of ${TOTAL_ENDINGS} endings found`,
+                    footer: fill(L.cardFooter, { site: L.site, n: endingsSeen.size, total: TOTAL_ENDINGS }),
                   },
                   document.querySelector<SVGSVGElement>("main .art-banner"),
                 );
                 if (!blob) {
-                  setCopyNote("Could not make the card.");
+                  setCopyNote(L.cardFailed);
                   return;
                 }
                 setCopyNote(await shareOrSave(blob, `${def.config.id}-${(state.endingId ?? "ending").toLowerCase()}.png`, `${ui.title}: ${ending.title}`));
               }}
               className="px-5 py-2.5 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
             >
-              Save Card
+              {L.saveCard}
             </button>
             <span role="status" className="text-sm text-ink-soft">
               {copyNote}
@@ -1287,7 +1286,7 @@ export default function App() {
           }}
           className="px-4 py-2 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
         >
-          Turn the Page
+          {L.turnPage}
         </button>
         <HearButton text={`${paper.source}. ${paper.headline}. ${paper.bodyText}`} />
       </div>
@@ -1296,7 +1295,7 @@ export default function App() {
       <VoidScreen>
         {kind === "news" && (
           <div className="paper paper-news max-w-xl w-full p-6 sm:p-8 font-broadsheet">
-            <p className="text-center text-[0.7rem] uppercase tracking-[0.3em] text-ink/70 border-b border-ink/60 pb-1 mb-2">{paper.kind === "crisis" ? "Letters to the Editor" : "Latest Intelligence"}</p>
+            <p className="text-center text-[0.7rem] uppercase tracking-[0.3em] text-ink/70 border-b border-ink/60 pb-1 mb-2">{paper.kind === "crisis" ? L.lettersHeading : L.latestHeading}</p>
             <p className="text-center font-display text-3xl sm:text-4xl leading-none border-b-2 border-ink pb-2 mb-4">{paper.source}</p>
             <h1 className="text-2xl sm:text-3xl font-bold leading-tight mb-3">{paper.headline}</h1>
             <p className="font-body text-sm leading-relaxed columns-1 sm:columns-2 gap-6 whitespace-pre-line [column-rule:1px_solid_rgb(var(--c-ink)/0.35)]">{paper.bodyText}</p>
@@ -1338,7 +1337,7 @@ export default function App() {
         {settingsButton}
         <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative text-center">
           <CornerFlourishes />
-          <h1 className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-4">A Venture</h1>
+          <h1 className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-4">{L.venture}</h1>
           {state.pendingOptionLabel && (
             <h2 className="font-heading text-xl font-bold mb-3">{state.pendingOptionLabel}</h2>
           )}
@@ -1349,10 +1348,10 @@ export default function App() {
             >
               {pct}%
             </span>
-            <p className="font-heading text-xs uppercase tracking-widest text-ink-soft mt-1">Chance of Success</p>
+            <p className="font-heading text-xs uppercase tracking-widest text-ink-soft mt-1">{L.chance}</p>
             {strainPct > 0 && strainAbout && (
               <p className="font-heading text-xs uppercase tracking-widest text-blood font-bold mt-2">
-                Strain: {RESOURCE_LABELS[strainAbout]} is short, so the odds are {strainPct} points worse
+                {fill(L.strainLine, { resource: RESOURCE_LABELS[strainAbout], n: strainPct })}
               </p>
             )}
           </div>
@@ -1376,7 +1375,7 @@ export default function App() {
                 : "bg-blood text-parchment hover:bg-blood-bright"
             }`}
           >
-            {rolling ? "Waiting…" : "Take the Chance"}
+            {rolling ? L.waiting : L.takeChance}
           </button>
         </div>
       </VoidScreen>
@@ -1384,10 +1383,10 @@ export default function App() {
   } else if (screen === "OUTCOME") {
     const kindLabel =
       state.pendingOutcomeKind === "SUCCESS"
-        ? "The Venture Succeeds"
+        ? L.ventureWins
         : state.pendingOutcomeKind === "FAILURE"
-        ? "The Venture Fails"
-        : "The Outcome";
+        ? L.ventureFails
+        : L.outcome;
     const kindColor =
       state.pendingOutcomeKind === "SUCCESS"
         ? "text-verdigris-bright"
@@ -1406,7 +1405,7 @@ export default function App() {
             Object.values(state.pendingOutcomeStamps).some((d) => !!d) && (
               <div className="mt-5 pt-4 border-t border-ink/15">
                 <p className="font-heading text-[0.6rem] uppercase tracking-[0.2em] text-ink-soft/70 font-semibold mb-2">
-                  What Changed
+                  {L.whatChanged}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {Object.entries(state.pendingOutcomeStamps).map(([resource, delta]) =>
@@ -1422,7 +1421,7 @@ export default function App() {
             }}
             className="mt-8 px-6 py-2.5 bg-ink text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink-soft transition-colors"
           >
-            Continue
+            {L.continue}
           </button>
         </div>
       </VoidScreen>
@@ -1480,7 +1479,7 @@ export default function App() {
                 }}
                 className="px-4 py-2 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-bone transition-colors"
               >
-                {mapOpen ? "Hide the Map" : "Map"}
+                {mapOpen ? L.hideMap : L.map}
               </button>
               {mapOpen && (
                 <div className="parchment-card p-4 sm:p-5 mt-3 relative">
@@ -1521,7 +1520,7 @@ export default function App() {
                   >
                     {state.adviceRevealed
                       ? ui.adviser.advisedLabel
-                      : `${ui.adviser.askLabel} (${state.adviceUsesLeft} left)`}
+                      : fill(L.usesLeft, { label: ui.adviser.askLabel, n: state.adviceUsesLeft })}
                   </button>
                 )}
                 {!state.favorUsed && (
@@ -1590,7 +1589,7 @@ export default function App() {
                         }}
                         className="flex-1 px-3 py-2 border border-blood/50 text-blood font-heading uppercase text-xs tracking-widest hover:bg-blood hover:text-parchment transition-colors"
                       >
-                        Boost {RESOURCE_LABELS[r]}
+                        {fill(L.boost, { resource: RESOURCE_LABELS[r] })}
                       </button>
                     ))}
                   </div>
@@ -1676,7 +1675,7 @@ export default function App() {
                         )}
                       {option.roll && (
                         <span className="stamp text-brass-dim border-brass-dim">
-                          {Math.round(effectiveRollChance(option.roll, state.resources, strainFor(def.config, state.difficulty)) * 100)}% VENTURE
+                          {fill(L.ventureStamp, { n: Math.round(effectiveRollChance(option.roll, state.resources, strainFor(def.config, state.difficulty)) * 100) }).toUpperCase()}
                         </span>
                       )}
                       {option.tag && ui.tags?.[option.tag] && (
@@ -1687,29 +1686,27 @@ export default function App() {
                       )}
                       {option.roll && rollStrain(option.roll, state.resources, strainFor(def.config, state.difficulty)) > 0 && (
                         <span className="stamp text-blood border-blood">
-                          <span aria-hidden="true">▼ </span>STRAIN: {RESOURCE_LABELS[option.roll.about ?? option.roll.scaling?.resource ?? ""]} SHORT, -{Math.round(rollStrain(option.roll, state.resources, strainFor(def.config, state.difficulty)) * 100)} POINTS
+                          <span aria-hidden="true">▼ </span>{fill(L.strainStamp, { resource: RESOURCE_LABELS[option.roll.about ?? option.roll.scaling?.resource ?? ""], n: Math.round(rollStrain(option.roll, state.resources, strainFor(def.config, state.difficulty)) * 100) }).toUpperCase()}
                         </span>
                       )}
                       {option.gate && (
                         <span className="stamp text-brass-dim border-brass-dim">
-                          <LockIcon className="w-3 h-3" /> REQUIRES {RESOURCE_LABELS[option.gate.resource].toUpperCase()}{" "}
-                          {"≥"}{" "}
-                          {option.gate.minThreshold >= 0 ? `+${option.gate.minThreshold}` : option.gate.minThreshold}
+                          <LockIcon className="w-3 h-3" /> {fill(L.requiresStamp, { resource: RESOURCE_LABELS[option.gate.resource], n: option.gate.minThreshold >= 0 ? `+${option.gate.minThreshold}` : option.gate.minThreshold }).toUpperCase()}
                         </span>
                       )}
                       {option.requires && (
                         <span className="stamp text-brass-dim border-brass-dim">
-                          <LockIcon className="w-3 h-3" /> {condLocked ? option.requiresHint : "OPEN TO YOU"}
+                          <LockIcon className="w-3 h-3" /> {condLocked ? option.requiresHint : L.openToYou.toUpperCase()}
                         </span>
                       )}
                       {option.requiresFlag && (
                         <span className="stamp text-brass-dim border-brass-dim">
-                          <LockIcon className="w-3 h-3" /> {flagLocked ? option.requiresFlagHint ?? "REQUIRES AN EARLIER CHOICE" : "UNLOCKED BY AN EARLIER CHOICE"}
+                          <LockIcon className="w-3 h-3" /> {flagLocked ? option.requiresFlagHint ?? L.needsEarlier.toUpperCase() : L.unlockedEarlier.toUpperCase()}
                         </span>
                       )}
                       {rules.enforceMoney && option.moneyCost ? (
                         <span className={`stamp ${affordLocked ? "text-blood-bright border-blood-bright" : "text-brass-dim border-brass-dim"}`}>
-                          <CoinIcon className="w-3 h-3" /> COST {option.moneyCost}
+                          <CoinIcon className="w-3 h-3" /> {fill(L.costStamp, { n: option.moneyCost }).toUpperCase()}
                         </span>
                       ) : null}
                       {rules.enforceMoney && option.moneyDelta ? (
@@ -1729,7 +1726,7 @@ export default function App() {
                     <QuoteLine quote={option.quote} className="mt-2 text-sm italic text-ink/70" />
                     {armed && (
                       <p className="mt-2 text-[0.7rem] uppercase tracking-widest text-blood-bright font-heading font-semibold">
-                        Tap again to confirm
+                        {L.tapAgain}
                       </p>
                     )}
                     </div>

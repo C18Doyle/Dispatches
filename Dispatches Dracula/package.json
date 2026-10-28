@@ -1,6 +1,6 @@
 {
   "name": "dracula-the-passage",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "validate:schema": "tsx ../packages/engine/tools/validate_schema.ts dracula",
     "verify:baseline": "tsx ../packages/engine/tools/verify_baseline.ts dracula",
     "check:boundaries": "node ../packages/engine/tools/check_boundaries.mjs",
-    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run check:writing && npm run check:repetition && npm run check:fonts && npm run check:quotations && npm run check:claims && npm run check:map && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check:demo && npm run check-a11y && npm run check:mina",
+    "test": "npm run typecheck && npm run check:boundaries && npm run validate:schema && npm run check:writing && npm run check:repetition && npm run check:names && npm run check:voice && npm run check:labels && npm run check:fonts && npm run check:quotations && npm run check:claims && npm run check:map && npm run verify:baseline && npm run validate && npm run check:balance && npm run test:saves && npm run test:ledger && npm run verify:ui && npm run check:demo && npm run check-a11y && npm run check:mina",
     "build:css": "tailwindcss -i ./src/index.css -o ./dist/styles.css --minify",
     "build:js": "node esbuild.config.mjs",
     "build": "npm run build:css && npm run build:js && node scripts/inline.mjs && node scripts/inline.mjs --pwa && node scripts/package_download.mjs && npm run build:demo",
@@ -26,6 +26,11 @@
     "check:demo": "node scripts/check_demo.mjs",
     "check:writing": "node scripts/check_writing.mjs && node ../tools/check-writing.mjs . --strict",
     "check:repetition": "node scripts/check_repetition.mjs --strict",
+    "check:layout": "node scripts/check_layout.mjs --quick",
+    "check:layout:all": "node scripts/check_layout.mjs",
+    "check:labels": "node scripts/check_labels.mjs",
+    "check:names": "node scripts/check_names.mjs",
+    "check:voice": "node scripts/check_voice.mjs --strict",
     "build:mina": "npm run build:css && node esbuild.config.mjs --seat=mina && node scripts/inline.mjs --seat=mina",
     "check:mina": "node scripts/check_mina.mjs",
     "check:quotations": "node scripts/check_quotations.mjs",

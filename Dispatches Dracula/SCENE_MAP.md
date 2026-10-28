@@ -387,8 +387,8 @@ flowchart TD
 | `sistersForbidden` | 5.0 | 7 (echo) | You forbade the sisters to touch him. |
 | `sistersPromised` | 5.2 | ENDING_1B (variant) | You promised the sisters that he would be theirs. |
 | `staredDown` | 16A-X.2 | 17A (echo) | You stared down the watcher in the crypt. |
-| `stayedAway` | 15B.2 | 16B (echo) | You stayed away from the old man's flowers. |
-| `stayedToFight` | 18C.2 | 19C (echo) | You decided to stay and finish the old man. |
+| `stayedAway` | 15B.2 | 16B (echo) | You stayed away from the Professor's flowers. |
+| `stayedToFight` | 18C.2 | 19C (echo) | You decided to stay and finish the Professor. |
 | `stormRaised` | 8.2 | 9 (echo) | A gale you raised ran out of your hands. |
 | `struckVH` | 15C.0 | 16C (echo) | You struck at Van Helsing and were turned back. |
 | `swalesDead` | 10-X.1 | 11 (echo) | Old Mr Swales was found on his seat with his neck broken. |
@@ -399,7 +399,7 @@ flowchart TD
 | `szganySettled` | 6-SZGANY.0, 6-SZGANY.1, 6-SZGANY.2 | 6.3 (shown when) | You settled the carrying with the Szgany in the courtyard. |
 | `szganyTold` | 6-SZGANY.2 | 8 (echo) | You sat at the Szgany's fire and asked what the road says. |
 | `threeFriends` | 12B.1 | 13B (echo) | You made friends of a solicitor, a banker and a doctor. |
-| `triedHost` | 15C.1 | ENDING_3B (variant) | You laid your hand on the old man's bread. |
+| `triedHost` | 15C.1 | ENDING_3B (variant) | You laid your hand on the Professor's bread. |
 | `unnervedThem` | 15C.2 | 16C (echo) | You went for the young men's nerves. |
 | `usedTheNight` | the adviser's remedy | ENDING_3D (variant), epilogue | You let the pack hunt for you. |
 | `vhKnown` | 15A.0 | 16A (echo) | You learned how much Van Helsing knew. |

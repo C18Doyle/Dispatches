@@ -229,6 +229,8 @@ function StormShip({ id }: { id: string }) {
 }
 
 function PlaceArt({ id, place }: { id: string; place: string }) {
+  const plate = plateFor(id, place);
+  if (plate) return plate;
   switch (place) {
     case "castle":
       return (
@@ -721,6 +723,544 @@ function PlaceArt({ id, place }: { id: string; place: string }) {
           <path className="a-sil" d="M0 120 V100 L80 94 L200 102 L320 94 L400 100 V120Z" />
         </>
       );
+  }
+}
+
+/** Rows of books on a shelf unit from x to x+w: the heights are fixed by position, so the picture never changes. */
+function Shelves({ x, w, top, bottom }: { x: number; w: number; top: number; bottom: number }) {
+  const rows = Math.floor((bottom - top) / 16);
+  const out: ReactNode[] = [];
+  for (let r = 0; r < rows; r++) {
+    const y = top + r * 16 + 14;
+    out.push(<rect key={`s${r}`} className="a-far" x={x} y={y} width={w} height="1.6" />);
+    let bx = x + 2;
+    for (let i = 0; bx < x + w - 4; i++) {
+      const bw = 2.2 + ((i * 7 + r * 3) % 4);
+      const bh = 7 + ((i * 5 + r * 2) % 6);
+      out.push(<rect key={`b${r}-${i}`} className="a-far" x={bx} y={y - bh} width={bw} height={bh} opacity={0.55 + ((i + r) % 3) * 0.15} />);
+      bx += bw + 0.8;
+    }
+  }
+  return <g>{out}</g>;
+}
+
+/** A tall arched window, lit from outside, with its mullions. */
+function ArchWindow({ x, y, w, h }: { x: number; y: number; w: number; h: number }) {
+  return (
+    <g>
+      <path className="a-moon" opacity="0.85" d={`M${x} ${y + h} V${y + w / 2} Q${x} ${y} ${x + w / 2} ${y} Q${x + w} ${y} ${x + w} ${y + w / 2} V${y + h}Z`} />
+      <path className="a-stroke" fill="none" strokeWidth="1.6" d={`M${x + w / 2} ${y} V${y + h} M${x} ${y + h * 0.45} H${x + w}`} />
+    </g>
+  );
+}
+
+/** The plates for rooms (a study, a library, a bedchamber, a ward, a hold, a tomb, an opera box, a chapel) and for Mina's fifteen endings. Null for any other place. */
+function plateFor(id: string, place: string): ReactNode {
+  switch (place) {
+    case "study":
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          <rect className="a-far" x="96" y="0" width="212" height="104" />
+          <Shelves x={0} w={92} top={4} bottom={100} />
+          <Shelves x={308} w={92} top={4} bottom={100} />
+          <ArchWindow x={126} y={16} w={48} h={62} />
+          <rect className="a-sil" x="206" y="20" width="56" height="38" />
+          <path className="a-wave" fill="none" strokeWidth="1" opacity="0.6" d="M212 30 H256 M212 38 H250 M212 46 H258" />
+          <polygon className="a-moon" opacity="0.1" points="126,78 174,78 214,104 90,104" />
+          <circle cx="268" cy="70" r="34" fill={`url(#${id}-glow)`} />
+          <g className="a-sil">
+            <rect x="112" y="82" width="196" height="7" />
+            <rect x="120" y="89" width="6" height="16" />
+            <rect x="296" y="89" width="6" height="16" />
+            <polygon points="258,70 278,70 274,62 262,62" />
+            <rect x="0" y="104" width="400" height="16" />
+            <Figure x={190} y={82} s={1.5} cloak />
+          </g>
+          <rect className="a-win-fill" x="264" y="72" width="8" height="10" />
+        </>
+      );
+    case "library":
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          <rect className="a-far" x="130" y="0" width="140" height="104" opacity="0.5" />
+          <Shelves x={0} w={130} top={2} bottom={104} />
+          <Shelves x={270} w={130} top={2} bottom={104} />
+          <ArchWindow x={160} y={10} w={80} h={72} />
+          <path className="a-stroke" fill="none" strokeWidth="1.6" d="M96 100 L112 8 M110 100 L126 8 M100 80 H116 M103 60 H119 M106 40 H122 M108 22 H124" />
+          <polygon className="a-moon" opacity="0.1" points="160,82 240,82 290,104 110,104" />
+          <circle cx="232" cy="74" r="30" fill={`url(#${id}-glow)`} />
+          <g className="a-sil">
+            <rect x="150" y="84" width="104" height="6" />
+            <rect x="158" y="90" width="5" height="16" />
+            <rect x="241" y="90" width="5" height="16" />
+            <rect x="0" y="104" width="400" height="16" />
+          </g>
+          <path className="a-moon" opacity="0.85" d="M178 84 L198 79 L218 84 L198 86Z" />
+          <rect className="a-win-fill" x="229" y="76" width="5" height="8" />
+        </>
+      );
+    case "chamber":
+      return (
+        <>
+          <rect className="a-far" x="0" y="0" width="400" height="120" />
+          <ArchWindow x={44} y={14} w={56} h={70} />
+          <polygon className="a-moon" opacity="0.1" points="44,84 100,84 160,104 14,104" />
+          <g className="a-sil">
+            <path d="M32 8 Q46 40 38 92 H50 Q58 44 56 8Z" />
+            <path d="M112 8 Q98 40 106 92 H94 Q86 44 88 8Z" />
+            <rect x="0" y="100" width="400" height="20" />
+            <rect x="236" y="70" width="150" height="30" />
+            <rect x="378" y="46" width="14" height="54" />
+            <rect x="232" y="62" width="6" height="38" />
+            <rect x="192" y="76" width="26" height="3" />
+            <rect x="202" y="79" width="3" height="24" />
+            <rect x="311" y="16" width="3" height="26" />
+            <rect x="304" y="22" width="17" height="3" />
+          </g>
+          <rect className="a-moon" opacity="0.55" x="346" y="63" width="30" height="9" rx="3" />
+          <circle cx="205" cy="70" r="26" fill={`url(#${id}-glow)`} />
+          <rect className="a-win-fill" x="203" y="68" width="3" height="7" />
+        </>
+      );
+    case "asylum":
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          <polygon className="a-far" opacity="0.55" points="0,0 170,34 170,90 0,120" />
+          <polygon className="a-far" opacity="0.55" points="400,0 230,34 230,90 400,120" />
+          <polygon className="a-far" opacity="0.35" points="0,120 170,90 230,90 400,120" />
+          <rect className="a-far" x="170" y="34" width="60" height="56" />
+          <rect className="a-sil" x="188" y="44" width="24" height="46" />
+          <rect className="a-win-fill" x="195" y="52" width="10" height="12" />
+          <path className="a-stroke" fill="none" strokeWidth="1" d="M198 52 V64 M202 52 V64" />
+          <g className="a-sil">
+            <polygon points="36,22 72,30 72,100 36,110" />
+            <polygon points="100,34 124,38 124,92 100,98" />
+            <polygon points="364,22 328,30 328,100 364,110" />
+            <polygon points="300,34 276,38 276,92 300,98" />
+          </g>
+          <g className="a-win-fill" opacity="0.8">
+            <polygon points="46,36 62,38 62,50 46,48" />
+            <polygon points="354,36 338,38 338,50 354,48" />
+          </g>
+          <path className="a-stroke" fill="none" strokeWidth="1" d="M0 0 H400" />
+          <Torch id={id} x={200} y={22} />
+          <g className="a-sil">
+            <Figure x={200} y={90} s={0.8} />
+          </g>
+        </>
+      );
+    case "hold":
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          <g className="a-stroke" fill="none" strokeWidth="3" opacity="0.5">
+            <path d="M20 0 Q70 60 20 120" />
+            <path d="M70 0 Q110 60 70 120" />
+            <path d="M330 0 Q290 60 330 120" />
+            <path d="M380 0 Q340 60 380 120" />
+          </g>
+          <polygon className="a-moon" opacity="0.14" points="170,0 230,0 270,104 130,104" />
+          <rect className="a-far" x="0" y="104" width="400" height="16" opacity="0.6" />
+          <g className="a-far">
+            <rect x="60" y="84" width="40" height="20" />
+            <rect x="120" y="70" width="44" height="34" />
+            <rect x="164" y="82" width="36" height="22" />
+            <rect x="206" y="64" width="52" height="40" />
+            <rect x="262" y="84" width="30" height="20" />
+          </g>
+          <path className="a-wave" fill="none" strokeWidth="1" opacity="0.4" d="M120 70 L164 104 M164 70 L120 104 M206 64 L258 104 M258 64 L206 104" />
+          <path className="a-stroke" fill="none" strokeWidth="1" d="M330 0 V56" />
+          <Torch id={id} x={330} y={60} />
+        </>
+      );
+    case "tomb":
+      return (
+        <>
+          <Moon id={id} cx={330} cy={28} r={9} />
+          <Bats at={[[300, 20, 0.7], [270, 40, 0.6]]} />
+          <path className="a-far" d="M0 96 Q80 84 160 94 T320 92 T400 96 V120 H0Z" />
+          <g className="a-sil">
+            <rect x="120" y="44" width="160" height="76" />
+            <polygon points="110,44 200,20 290,44" />
+            <rect x="198" y="6" width="3" height="16" />
+            <rect x="193" y="11" width="13" height="3" />
+            <rect x="0" y="104" width="400" height="16" />
+            <rect x="160" y="98" width="80" height="6" />
+            <rect x="150" y="104" width="100" height="4" />
+            <Pine x={40} y={110} h={56} />
+            <Pine x={66} y={112} h={40} />
+            <Pine x={350} y={112} h={48} />
+            <rect x="320" y="94" width="8" height="12" />
+            <rect x="344" y="96" width="8" height="10" />
+          </g>
+          <path className="a-far" d="M170 98 V68 Q170 54 200 54 Q230 54 230 68 V98Z" />
+          <polygon className="a-sil" points="170,98 170,68 184,64 184,96" />
+          <rect className="a-moon" opacity="0.5" x="188" y="82" width="38" height="8" />
+          <Torch id={id} x={208} y={76} />
+        </>
+      );
+    case "opera":
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          <rect className="a-far" x="0" y="0" width="400" height="84" opacity="0.8" />
+          <path className="a-far" d="M0 0 H400 V16 Q350 36 300 16 Q250 36 200 16 Q150 36 100 16 Q50 36 0 16Z" />
+          <rect className="a-win-fill" x="120" y="50" width="160" height="30" opacity="0.22" />
+          <path className="a-stroke" fill="none" strokeWidth="1.4" d="M200 0 V30 M184 36 H216" />
+          <Torch id={id} x={200} y={38} />
+          <g className="a-far" opacity="0.7">
+            <rect x="0" y="44" width="70" height="3" />
+            <rect x="330" y="44" width="70" height="3" />
+            <rect x="0" y="60" width="52" height="3" />
+            <rect x="348" y="60" width="52" height="3" />
+          </g>
+          <g className="a-sil">
+            <Figure x={200} y={80} s={1.1} cloak />
+            <rect x="0" y="84" width="400" height="36" />
+            {Array.from({ length: 14 }, (_, i) => (
+              <circle key={i} cx={14 + i * 28} cy={96 + (i % 2) * 3} r="5" />
+            ))}
+          </g>
+          <rect className="a-far" x="0" y="82" width="400" height="5" />
+          <g className="a-sil">
+            <Figure x={338} y={116} s={1.7} cloak />
+          </g>
+        </>
+      );
+    case "chapel":
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          {[40, 170, 300].map((x) => (
+            <path key={x} className="a-far" d={`M${x} 104 V44 Q${x} 14 ${x + 30} 14 Q${x + 60} 14 ${x + 60} 44 V104 H${x + 50} V48 Q${x + 50} 24 ${x + 30} 24 Q${x + 10} 24 ${x + 10} 48 V104Z`} />
+          ))}
+          <polygon className="a-moon" opacity="0.16" points="190,0 230,0 270,104 150,104" />
+          <rect className="a-far" x="0" y="104" width="400" height="16" opacity="0.5" />
+          <g className="a-far">
+            <rect x="110" y="88" width="40" height="16" />
+            <rect x="158" y="92" width="30" height="12" />
+            <rect x="210" y="86" width="44" height="18" />
+            <rect x="262" y="92" width="30" height="12" />
+          </g>
+          <Bats at={[[120, 30, 0.8], [250, 22, 0.7], [320, 50, 0.6]]} />
+        </>
+      );
+    case "mina-ENDING_1A":
+      return (
+        <>
+          <rect x="0" y="0" width="400" height="120" fill={`url(#${id}-dawn)`} opacity="0.8" />
+          <circle className="a-moon" cx="300" cy="80" r="16" opacity="0.9" />
+          <path className="a-far" d="M0 90 L60 70 L120 86 L190 62 L250 82 L320 74 L400 88 V120 H0Z" />
+          <g className="a-sil">
+            <path d="M0 120 V100 L100 96 L220 102 L340 96 L400 100 V120Z" />
+            <rect x="150" y="84" width="36" height="12" />
+            <rect x="156" y="76" width="24" height="8" />
+            <circle cx="158" cy="100" r="6" />
+            <circle cx="180" cy="100" r="6" />
+            <Figure x={110} y={100} s={1.1} />
+            <Figure x={124} y={100} s={1.1} />
+            <Figure x={206} y={100} s={1.1} />
+            <Figure x={220} y={100} s={1.1} />
+            <Figure x={234} y={100} s={1.1} />
+          </g>
+          <path className="a-stroke" fill="none" strokeWidth="1.2" d="M104 86 L112 96 M240 86 L232 96" />
+        </>
+      );
+    case "mina-ENDING_1B":
+      return (
+        <>
+          <Moon id={id} cx={330} cy={28} r={10} />
+          <path className="a-far" d="M0 92 L70 72 L140 90 L220 66 L300 88 L400 74 V120 H0Z" />
+          <g className="a-sil">
+            <rect x="0" y="100" width="400" height="20" />
+            <rect x="176" y="88" width="48" height="14" />
+            <polygon points="176,88 224,88 232,78 184,78" />
+            {[120, 140, 160, 240, 260, 280].map((x) => (
+              <Figure key={x} x={x} y={102} s={1.05} />
+            ))}
+            <Figure x={200} y={100} s={1.25} />
+          </g>
+          <rect className="a-moon" x="196" y="84" width="8" height="5" />
+          <Torch id={id} x={110} y={84} />
+          <Torch id={id} x={292} y={84} />
+        </>
+      );
+    case "mina-ENDING_1C":
+      return (
+        <>
+          <Moon id={id} cx={70} cy={28} r={10} />
+          <path className="a-far" d="M0 90 Q100 74 200 90 T400 86 V120 H0Z" />
+          <g className="a-sil">
+            <rect x="0" y="100" width="400" height="20" />
+            <rect x="236" y="62" width="74" height="38" />
+            <polygon points="230,62 273,42 316,62" />
+            <rect x="312" y="40" width="18" height="60" />
+            <polygon points="310,40 321,14 332,40" />
+            <rect x="350" y="76" width="30" height="24" />
+            <polygon points="346,76 365,62 384,76" />
+            <path d="M100 100 L184 100 L192 92 L186 92 L180 96 L106 96Z" />
+            <rect x="124" y="84" width="38" height="12" />
+            <Figure x={84} y={100} s={1.1} />
+            <Figure x={70} y={100} s={1.1} />
+          </g>
+          <path className="a-stroke" fill="none" strokeWidth="1" d="M124 90 H162 M143 84 V96" />
+          <circle cx="266" cy="82" r="22" fill={`url(#${id}-glow)`} />
+          <rect className="a-win-fill" x="262" y="76" width="7" height="12" />
+        </>
+      );
+    case "mina-ENDING_1D":
+      return (
+        <>
+          <rect x="0" y="0" width="400" height="120" fill={`url(#${id}-dawn)`} opacity="0.7" />
+          <circle className="a-moon" cx="320" cy="84" r="12" opacity="0.85" />
+          <path className="a-far" d="M0 92 L80 74 L150 90 L230 70 L310 88 L400 76 V120 H0Z" />
+          <polygon className="a-moon" opacity="0.12" points="190,0 236,0 222,88 196,88" />
+          <g className="a-sil">
+            <rect x="0" y="100" width="400" height="20" />
+            <rect x="180" y="88" width="46" height="14" />
+            <polygon points="180,88 226,88 232,66 186,66" />
+            <Figure x={150} y={102} s={1.0} />
+          </g>
+          <path className="a-moon" fill="none" strokeWidth="1.4" d="M206 84 q10 -8 20 -2" />
+        </>
+      );
+    case "mina-ENDING_2A":
+      return (
+        <>
+          <Moon id={id} cx={70} cy={30} r={10} />
+          <path className="a-far" d="M0 90 L70 74 L150 88 L230 68 L320 86 L400 72 V120 H0Z" />
+          <g className="a-sil">
+            <path d="M0 120 V104 L400 96 V120Z" />
+            <g transform="rotate(-6 200 92)">
+              <rect x="164" y="76" width="60" height="16" />
+              <rect x="176" y="66" width="36" height="10" />
+              <circle cx="176" cy="96" r="7" />
+              <circle cx="214" cy="96" r="7" />
+            </g>
+            <Figure x={104} y={100} s={0.95} />
+            <Figure x={128} y={102} s={0.95} />
+            <Figure x={262} y={98} s={0.95} />
+            <Figure x={286} y={96} s={0.95} />
+            <Figure x={340} y={96} s={1.1} />
+            <Pine x={30} y={112} h={44} />
+          </g>
+          <path className="a-stroke" fill="none" strokeWidth="1.4" d="M340 84 L356 78" />
+        </>
+      );
+    case "mina-ENDING_2B":
+      return (
+        <>
+          <Moon id={id} cx={330} cy={26} r={10} />
+          <path className="a-far" d="M0 70 Q100 62 200 70 T400 66 V120 H0Z" />
+          <Waves y={80} rows={5} />
+          <g className="a-sil">
+            <path d="M150 80 L240 80 L230 92 L160 92Z" />
+            <rect x="190" y="58" width="3" height="22" />
+            <rect x="170" y="68" width="24" height="12" />
+            <Figure x={214} y={80} s={0.95} />
+            <Figure x={226} y={80} s={0.95} />
+            <path d="M0 70 Q20 54 14 40 M24 70 Q40 56 34 42" fill="none" className="a-stroke" strokeWidth="1.6" />
+          </g>
+          <g className="a-wave" fill="none" strokeWidth="0.9">
+            <ellipse cx="300" cy="94" rx="10" ry="3" />
+            <ellipse cx="300" cy="94" rx="22" ry="6" opacity="0.7" />
+            <ellipse cx="300" cy="94" rx="38" ry="10" opacity="0.45" />
+          </g>
+          <path className="a-stroke" fill="none" strokeWidth="1" strokeDasharray="2 2" d="M240 80 Q270 84 296 92" />
+        </>
+      );
+    case "mina-ENDING_2C":
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          <rect className="a-far" x="110" y="14" width="180" height="90" />
+          <rect className="a-moon" opacity="0.3" x="122" y="22" width="156" height="82" />
+          <path className="a-stroke" fill="none" strokeWidth="2" d="M0 14 L200 -6 L400 14" />
+          <g className="a-sil">
+            <rect x="54" y="84" width="62" height="5" />
+            <rect x="60" y="89" width="4" height="16" />
+            <rect x="106" y="89" width="4" height="16" />
+            <rect x="168" y="80" width="64" height="24" />
+            <rect x="0" y="104" width="400" height="16" />
+            <Figure x={140} y={104} s={1.25} />
+            <Figure x={262} y={104} s={1.25} />
+            <Figure x={84} y={84} s={1} />
+          </g>
+          <circle className="a-win-fill" cx="200" cy="90" r="3.5" />
+          <rect className="a-moon" opacity="0.8" x="66" y="82" width="14" height="3" />
+        </>
+      );
+    case "mina-ENDING_2D":
+      return (
+        <>
+          <rect x="0" y="0" width="400" height="120" fill={`url(#${id}-dawn)`} opacity="0.7" />
+          <circle className="a-moon" cx="200" cy="74" r="12" opacity="0.8" />
+          <path className="a-far" d="M0 88 L90 72 L160 86 L240 70 L320 86 L400 74 V120 H0Z" />
+          <g className="a-sil">
+            <polygon points="0,104 196,98 204,98 400,104 400,108 204,102 196,102 0,108" />
+            <polygon points="192,98 208,98 262,120 138,120" />
+            <Figure x={40} y={106} s={1} />
+            <Figure x={52} y={106} s={1} />
+            <Figure x={356} y={106} s={1} />
+            <Figure x={368} y={106} s={1} />
+            <Figure x={200} y={98} s={0.7} />
+            <Figure x={188} y={118} s={1.2} />
+            <rect x="300" y="50" width="2" height="52" />
+            <rect x="290" y="56" width="22" height="2" />
+          </g>
+          <path className="a-wave" fill="none" strokeWidth="0.9" opacity="0.7" d="M0 56 Q150 70 300 56 T400 54" />
+        </>
+      );
+    case "mina-ENDING_3A":
+      return (
+        <>
+          <Moon id={id} cx={60} cy={28} r={9} />
+          <g className="a-wave" fill="none" strokeWidth="1" opacity="0.5">
+            <circle cx="290" cy="36" r="24" />
+            <path d="M290 8 V64 M262 36 H318" />
+          </g>
+          <polygon className="a-moon" opacity="0.7" points="290,14 294,36 290,58 286,36" />
+          <path className="a-far" d="M0 92 L70 76 L150 90 L240 72 L330 88 L400 78 V120 H0Z" />
+          <g className="a-sil">
+            <path d="M0 120 V104 L140 100 L250 94 L400 98 V120Z" />
+            <g transform="translate(330 94) scale(0.5)">
+              <Castle />
+            </g>
+            <Figure x={110} y={106} s={1.6} cloak />
+          </g>
+          <path className="a-stroke" fill="none" strokeWidth="1.6" d="M94 90 L128 90" />
+        </>
+      );
+    case "mina-ENDING_3B":
+      return (
+        <>
+          <rect x="0" y="0" width="400" height="120" fill={`url(#${id}-dawn)`} opacity="0.6" />
+          <circle className="a-moon" cx="330" cy="72" r="12" opacity="0.8" />
+          <path className="a-far" d="M0 90 L80 72 L160 88 L250 70 L330 86 L400 76 V120 H0Z" />
+          <g className="a-sil">
+            <path d="M0 120 V104 L120 100 L260 98 L400 102 V120Z" />
+            <Figure x={150} y={106} s={1.6} />
+            <ellipse cx="150" cy="86" rx="9" ry="2" />
+            <Figure x={174} y={106} s={1.7} />
+            <Pine x={50} y={112} h={36} />
+            <Pine x={360} y={112} h={40} />
+          </g>
+        </>
+      );
+    case "mina-ENDING_3C":
+      return (
+        <>
+          <Moon id={id} cx={330} cy={26} r={10} />
+          <path className="a-far" d="M0 90 L80 74 L150 88 L240 70 L330 88 L400 78 V120 H0Z" />
+          <g className="a-sil">
+            <path d="M0 120 V104 L400 100 V120Z" />
+            <Pine x={30} y={112} h={52} />
+            <Pine x={58} y={114} h={40} />
+            <Pine x={90} y={112} h={46} />
+            <Pine x={312} y={112} h={48} />
+            <Pine x={342} y={114} h={38} />
+            <Pine x={376} y={112} h={50} />
+            <Figure x={174} y={106} s={1.6} cloak />
+            <Figure x={214} y={106} s={2.1} cloak />
+          </g>
+          <path className="a-stroke" fill="none" strokeWidth="1.4" d="M184 88 L204 86" />
+          <path className="a-wave" fill="none" strokeWidth="1.4" d="M60 80 l8 -10 M338 82 l-8 -10" />
+        </>
+      );
+    case "mina-ENDING_3D":
+      return (
+        <>
+          <Moon id={id} cx={80} cy={28} r={10} />
+          <circle cx="296" cy="74" r="50" fill={`url(#${id}-glow)`} />
+          <path className="a-far" d="M0 94 L90 78 L170 92 L260 70 L400 82 V120 H0Z" />
+          <g className="a-sil">
+            <path d="M0 120 V110 L150 102 L260 76 L282 76 L274 86 L190 108 L400 112 V120Z" />
+            <g transform="translate(262 78) scale(0.9)">
+              <Castle />
+            </g>
+            <Figure x={190} y={104} s={1.1} />
+            <Figure x={206} y={102} s={1.5} cloak />
+            <Figure x={56} y={110} s={1} />
+            <Figure x={74} y={110} s={1} />
+            <Figure x={92} y={112} s={0.8} />
+          </g>
+        </>
+      );
+    case "mina-ENDING_CRISIS_NERVE":
+      return (
+        <>
+          <rect className="a-far" x="0" y="0" width="400" height="120" />
+          <g className="a-sil" opacity="0.5">
+            {Array.from({ length: 6 }, (_, r) =>
+              Array.from({ length: 16 }, (_, c) => <path key={`${r}-${c}`} d={`M${c * 26} ${r * 22 + 11} l13 -11 l13 11 l-13 11Z`} />)
+            )}
+          </g>
+          <rect className="a-win-fill" x="170" y="16" width="60" height="28" opacity="0.85" />
+          <g className="a-sil">
+            {[180, 191, 202, 213, 224].map((x) => (
+              <rect key={x} x={x} y="16" width="3" height="28" />
+            ))}
+          </g>
+          <rect className="a-sil" x="0" y="100" width="400" height="20" />
+          <g className="a-sil">
+            <rect x="66" y="78" width="68" height="4" />
+            <rect x="72" y="82" width="4" height="22" />
+            <rect x="124" y="82" width="4" height="22" />
+            <Figure x={300} y={104} s={0.85} />
+          </g>
+          <path className="a-moon" d="M96 76 L80 54 L108 54Z" />
+          <rect className="a-moon" x="104" y="71" width="14" height="5" />
+        </>
+      );
+    case "mina-ENDING_CRISIS_BLOOD":
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          <rect x="0" y="0" width="400" height="120" fill={`url(#${id}-dawn)`} opacity="0.35" />
+          <ArchWindow x={256} y={14} w={44} h={62} />
+          <g className="a-far">
+            <rect x="40" y="78" width="180" height="6" />
+            <rect x="48" y="84" width="5" height="20" />
+            <rect x="206" y="84" width="5" height="20" />
+            <rect x="100" y="64" width="44" height="14" />
+            <rect x="104" y="60" width="36" height="4" />
+            <rect x="236" y="90" width="144" height="14" />
+            <rect x="186" y="72" width="6" height="6" />
+          </g>
+          <rect className="a-moon" x="114" y="40" width="18" height="24" />
+          <rect className="a-moon" opacity="0.5" x="340" y="84" width="30" height="8" />
+          <rect className="a-sil" x="0" y="104" width="400" height="16" />
+          <Torch id={id} x={189} y={68} />
+        </>
+      );
+    case "mina-ENDING_CRISIS_FELLOWSHIP":
+      return (
+        <>
+          <rect className="a-sil" x="0" y="0" width="400" height="120" />
+          <ArchWindow x={170} y={8} w={60} h={44} />
+          <rect x="0" y="30" width="400" height="40" fill={`url(#${id}-fog)`} />
+          <polygon className="a-far" points="40,88 360,88 382,106 18,106" />
+          <g className="a-far">
+            {[56, 116, 176, 236, 296].map((x) => (
+              <g key={x}>
+                <rect x={x} y="58" width="18" height="30" />
+                <rect x={x - 2} y="86" width="22" height="4" />
+              </g>
+            ))}
+          </g>
+          <g className="a-moon" opacity="0.7">
+            <rect x="96" y="94" width="14" height="4" />
+            <rect x="262" y="96" width="14" height="4" />
+            <rect x="330" y="92" width="12" height="4" />
+          </g>
+          <Torch id={id} x={200} y={74} />
+        </>
+      );
+    default:
+      return null;
   }
 }
 

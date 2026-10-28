@@ -209,11 +209,11 @@
       "enforceMoney": true,
       "startingMoney": 60,
       "adviceEnabled": true,
-      "strainScale": 2,
+      "strainScale": 3,
       "startBonus": {
-        "nerve": -2,
-        "blood": -2,
-        "fellowship": -2
+        "nerve": -4,
+        "blood": -4,
+        "fellowship": -4
       }
     }
   },

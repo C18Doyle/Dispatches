@@ -18,6 +18,14 @@
     height: 100%;
   }
 
+  /* every control is at least 44 pixels each way to tap (scripts/check_layout.mjs measures it) */
+  main button,
+  main a[href],
+  main input[type="range"] {
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+  }
+
   body {
     background-color: rgb(var(--c-void, 11 7 8));
     background-image:

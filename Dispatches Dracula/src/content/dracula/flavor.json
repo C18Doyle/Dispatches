@@ -29,7 +29,7 @@
     },
     {
       "heading": "Difficulty",
-      "body": "The Householder is told the sums before he answers, begins with two points in every reserve, and feels a short reserve half as much. The Nobleman finds out afterwards. The Exile has sixty pieces of gold from the castle chest and no more where they came from, begins two points down in every reserve, and feels a short reserve twice as much; a few options cost gold, or are only offered to a man who can pay. You choose when you begin a run."
+      "body": "The Householder is told the sums before he answers, begins with two points in every reserve, and feels a short reserve half as much. The Nobleman finds out afterwards. The Exile has sixty pieces of gold from the castle chest and no more where they came from, begins four points down in every reserve, and feels a short reserve three times as much; a few options cost gold, or are only offered to a man who can pay. You choose when you begin a run."
     },
     {
       "heading": "Ventures",
@@ -136,7 +136,7 @@
         "flag": "lucyTaken"
       },
       "lines": [
-        "An owl at Hillingham: They are saying she will not live out the month. The old man from Amsterdam is in the house. He has put garlic on the sill."
+        "An owl at Hillingham: They are saying she will not live out the month. the Professor is in the house. He has put garlic on the sill."
       ]
     },
     {
@@ -193,7 +193,7 @@
     },
     "pos_neg": {
       "label": "Courtly and Cold",
-      "epilogue": "He is remembered as the most perfectly mannered man in the whole of the Season, and the one nobody quite liked. Hostesses who had him to dinner say that the room became cooler when he spoke. A footman says that he never once looked at the food, or at anyone's face for long. A great many people wrote to the Times to say that they had always felt there was something wrong."
+      "epilogue": "He is remembered as the most perfectly mannered man in the whole of the Season, and the one nobody quite liked. Hostesses say the room cooled when he spoke. A footman says that he never once looked at the food, or at anyone's face for long. A great many people wrote to the Times to say that they had always felt there was something wrong."
     },
     "neutral_pos": {
       "label": "Lonely",
@@ -269,7 +269,7 @@
     },
     "HARD": {
       "label": "The Exile",
-      "blurb": "As the Nobleman, plus sixty pieces of gold from the castle chest and no more where they came from. Some choices cost gold you cannot replace, and some are only offered to a man who can pay. You begin a little weakened, two points down in every reserve, and a short reserve costs you twice as much."
+      "blurb": "As the Nobleman, plus sixty pieces of gold from the castle chest and no more where they came from. Some choices cost gold you cannot replace, and some are only offered to a man who can pay. You begin badly weakened, four points down in every reserve, and a short reserve costs you three times as much."
     }
   },
   "novelNotes": {
@@ -394,7 +394,7 @@
     "lucyLeftAlone": "You left Lucy Westenra to her doctors.",
     "flowersRemoved": "You had Lucy's mother take down the garlic.",
     "wolfSent": "You sent the wolf through Lucy's window.",
-    "stayedAway": "You stayed away from the old man's flowers.",
+    "stayedAway": "You stayed away from the Professor's flowers.",
     "minaListened": "You told Mina Harker honestly what you were, and she listened.",
     "minaScreamed": "Mina Harker screamed, and the house woke.",
     "withdrewFromMina": "You withdrew from Mina Harker for a week.",
@@ -414,14 +414,14 @@
     "mistVisit": "You visited Lucy Westenra as a mist.",
     "lucyAbandoned": "You left Lucy Westenra to the doctors.",
     "struckVH": "You struck at Van Helsing and were turned back.",
-    "triedHost": "You laid your hand on the old man's bread.",
+    "triedHost": "You laid your hand on the Professor's bread.",
     "unnervedThem": "You went for the young men's nerves.",
     "minaSpoken": "You spoke to Mina Harker and showed her what you were.",
     "papersTaken": "You took Mina Harker's typescript.",
     "foughtAtCarfax": "You fought for Carfax and lost it.",
     "gale": "You raised a gale on the Channel to cover your voyage.",
     "galeFailed": "The gale you raised on the Channel failed you.",
-    "stayedToFight": "You decided to stay and finish the old man.",
+    "stayedToFight": "You decided to stay and finish the Professor.",
     "usedTheNight": "You let the pack hunt for you.",
     "swalesSaw": "Old Mr Swales saw you at the girl's window.",
     "swalesTalked": "You let old Mr Swales tell what he saw.",

@@ -529,5 +529,39 @@
       "place": "carfax",
       "tint": "#3f8f9a"
     }
+  },
+  "art": {
+    "at": {
+      "2": "library",
+      "3": "chamber",
+      "4": "library",
+      "8": "hold",
+      "2-JOURNAL": "library",
+      "11-PLAN": "study",
+      "13A": "study",
+      "15A": "study",
+      "16B": "study",
+      "17A": "study",
+      "17B": "study",
+      "16C": "study",
+      "13B": "study",
+      "14A": "chamber",
+      "15A-X": "chamber",
+      "14B": "chamber",
+      "15B": "chamber",
+      "14C": "chamber",
+      "15C": "chamber",
+      "11-ASYLUM": "asylum",
+      "13C": "asylum",
+      "12B": "opera",
+      "12B-X": "opera",
+      "16A": "chapel",
+      "16A-X": "chapel",
+      "16B-X": "chapel",
+      "17C": "chapel",
+      "19B": "chapel"
+    },
+    "defaultAt": "london",
+    "title": "castle"
   }
 }
