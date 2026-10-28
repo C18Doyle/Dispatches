@@ -53,8 +53,8 @@ async function step(ctx) {
   check(/Where things stand/.test(b) && /Your seat/.test(b) && !/What you will be asked/.test(b) && /Set up the file/.test(b), "a command opens its briefing");
   check(/1 August 1914/.test(b), "the Russian command's prelude is dated in the Western calendar (19 July Old Style is 1 August)");
   check(/Old Style|Julian/.test(b) === false || /thirteen days/.test(b), "the briefing explains the calendar if it mentions it");
-  await ctx.click(btn(ctx, /^Back to the commands$/));
-  check(/The Central Powers/.test(ctx.text()), "Back to the commands returns to the menu");
+  await ctx.click(btn(ctx, /^Back$/));
+  check(/The Central Powers/.test(ctx.text()), "Back returns from the briefing to the menu");
   await ctx.click(btn(ctx, /Germany/));
   await ctx.click(btn(ctx, /^Enter the war room$/));
   check(/1 August 1914/.test(ctx.text()) && /The Kaiser's Question/.test(ctx.text()) && orders(ctx).length >= 2, "the war room opens on the command's prelude, with its orders");

@@ -1,6 +1,6 @@
 {
   "name": "dispatches-1914",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Dispatches 1914: the Great War from OHL, GQG and STAVKA.",
   "scripts": {
     "build": "node build.mjs",
@@ -30,7 +30,8 @@
     "playthrough": "node tools/playthrough.mjs",
     "review:build": "node tools/claims-review.mjs",
     "review:status": "node tools/claims-review.mjs --status",
-    "review:apply": "node tools/apply-review.mjs"
+    "review:apply": "node tools/apply-review.mjs",
+    "visual": "node tools/visual.mjs"
   },
   "license": "UNLICENSED",
   "dependencies": {

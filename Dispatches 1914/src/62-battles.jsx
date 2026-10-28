@@ -45,14 +45,14 @@ BATTLES.marneFrench = {
     {
       id: "gap", name: "The Fifth Army and the BEF at the Gap", meter: "will",
       units: [
-        "Franchet d'Esperey's Fifth Army, which he took over from Lanrezac on 3 September",
+        "Franchet d'Espèrey's Fifth Army, which he took over from Lanrezac on 3 September",
         "Sir John French's British Expeditionary Force, about 100,000 men on the eve of the battle",
         "The aeroplanes that watched the German columns and found the gap",
       ],
       real:
         "Kluck's turn to the north-west opened a gap of about 50 kilometres between the German First and Second Armies, and French aircraft saw it. The BEF, " +
         "sent north-west into it, outnumbered the Germans there ten to one and advanced only about 40 kilometres in three days, ending 6 September some 12 " +
-        "kilometres short of its objectives; Franchet d'Esperey and other French commanders were furious. His Fifth Army fought the battle of the Two Morins " +
+        "kilometres short of its objectives; Franchet d'Espèrey and other French commanders were furious. His Fifth Army fought the battle of the Two Morins " +
         "on 6 September, crossed the Petit Morin by the 8th and the Marne on the 9th.",
       context:
         "The gap is where the battle turns. Each commitment pushes more of the Fifth Army and the British toward the hole between the two German armies, and makes the " +
@@ -92,7 +92,7 @@ BATTLES.marneFrench = {
   commanders: [
     { id: "gallieni", name: "Gallieni", role: "Military Governor of Paris", category: "sixth",
       note: "He has been arguing for the attack on the open flank for two days." },
-    { id: "franchet", name: "Franchet d'Esperey", role: "Commander of the Fifth Army from 3 September", category: "gap",
+    { id: "franchet", name: "Franchet d'Espèrey", role: "Commander of the Fifth Army from 3 September", category: "gap",
       note: "He replaced Lanrezac four days ago and will not forgive a slow ally." },
     { id: "foch", name: "Foch", role: "Commander of the Ninth Army", category: "ninth",
       note: "His army was formed in the retreat, and holds the centre." },
@@ -128,7 +128,7 @@ BATTLES.marneFrench = {
     },
     commander: {
       gallieni: "Gallieni's part in the plan is remembered in Paris.",
-      franchet: "Franchet d'Esperey's army is remembered as the one that went into the gap.",
+      franchet: "Franchet d'Espèrey's army is remembered as the one that went into the gap.",
       foch: "Foch's army is remembered as the one that held.",
     },
   },
@@ -487,16 +487,16 @@ BATTLES.galiciaAustro = {
     "The end of August, in the heat. The armies march from railheads: Austria-Hungary can run 152 trains a day to this front, and Russia 260.",
   categories: [
     {
-      id: "first", name: "The First Army at Krasnik", meter: "manpower",
+      id: "first", name: "The First Army at Kraśnik", meter: "manpower",
       units: [
         "Dankl's First Army, on the northern wing",
-        "Its advance toward Krasnik against the Russian Fourth Army",
+        "Its advance toward Kraśnik against the Russian Fourth Army",
         "The Russian Fourth Army's position in front of it",
       ],
       real:
-        "Dankl's First Army drove back the Russian Fourth Army at Krasnik and took about 6,000 prisoners. It was one of the two battles in the north that the Austro-Hungarian armies won, and the Russian Fourth Army's commander, Salza, was replaced by Evert afterward.",
+        "Dankl's First Army drove back the Russian Fourth Army at Kraśnik and took about 6,000 prisoners. It was one of the two battles in the north that the Austro-Hungarian armies won, and the Russian Fourth Army's commander, Salza, was replaced by Evert afterward.",
       context:
-        "The First Army is the northern wing of the blow. Each commitment puts more of it into the advance on Krasnik.",
+        "The First Army is the northern wing of the blow. Each commitment puts more of it into the advance on Kraśnik.",
     },
     {
       id: "fourth", name: "The Fourth Army at Komarow", meter: "manpower",
@@ -527,10 +527,10 @@ BATTLES.galiciaAustro = {
       units: [
         "The Second Army, recalled from Serbia and on its way north",
         "The railways: 152 trains a day against Russia's 260",
-        "Przemysl, the fortress behind the line of retreat",
+        "Przemyśl, the fortress behind the line of retreat",
       ],
       real:
-        "The Second Army was recalled from Serbia and arrived too late to stop the collapse. Russia could bring 260 trains a day to its front, against 152 for Austria-Hungary, and the siege of Przemysl began once the army had fallen back.",
+        "The Second Army was recalled from Serbia and arrived too late to stop the collapse. Russia could bring 260 trains a day to its front, against 152 for Austria-Hungary, and the siege of Przemyśl began once the army had fallen back.",
       context:
         "The railways decide how fast the army can be strengthened where it is weak. Each commitment puts more trains, shells and reserves behind the line.",
     },
@@ -576,7 +576,7 @@ BATTLES.galiciaAustro = {
       rail: "The Second Army and the railways were left short, and help came too late.",
     },
     commander: {
-      dankl: "Dankl's army is remembered as the one that won at Krasnik.",
+      dankl: "Dankl's army is remembered as the one that won at Kraśnik.",
       auffenberg: "Auffenberg's army is remembered as the one that won at Komarow.",
       kovess: "Kovess's group is remembered as the one on the flank.",
     },
@@ -906,20 +906,20 @@ BATTLES.piaveAustro = {
   campaign: "aok",
   title: "Order of Battle: the Piave",
   flavor:
-    "The last offensive of the monarchy: 946,000 men and some 6,800 guns, and two army-group commanders who want different battles. Boroevic wants to cross the Piave, and Conrad wants to come down " +
+    "The last offensive of the monarchy: 946,000 men and some 6,800 guns, and two army-group commanders who want different battles. Boroević wants to cross the Piave, and Conrad wants to come down " +
     "from the mountains onto the plain.",
   conditions:
     "Mid-June, with the Piave swollen. Bridges have to be thrown across a river that the Italian guns can reach.",
   categories: [
     {
-      id: "boroevic", name: "Boroevic's Thrust on the Piave", meter: "manpower",
+      id: "boroevic", name: "Boroević's Thrust on the Piave", meter: "manpower",
       units: [
-        "Army Group Boroevic: the Fifth Army (Wurm) and the Sixth (the Archduke Joseph)",
+        "Army Group Boroević: the Fifth Army (Wurm) and the Sixth (the Archduke Joseph)",
         "The crossing of the Piave toward the Adriatic coast",
         "The bridgehead on the far bank",
       ],
       real:
-        "Boroevic's army group crossed the Piave on 15 June. It held a bridgehead about 24 kilometres wide and 8 deep until Diaz counter-attacked its flank on 19 June, which the Italians had retaken in full by 23 June.",
+        "Boroević's army group crossed the Piave on 15 June. It held a bridgehead about 24 kilometres wide and 8 deep until Diaz counter-attacked its flank on 19 June, which the Italians had retaken in full by 23 June.",
       context:
         "The Piave thrust is the one that can get across. Each commitment puts more of the army on the river, and takes it from the mountains.",
     },
@@ -964,7 +964,7 @@ BATTLES.piaveAustro = {
   // A game judgment, not a measurement.
   effectiveness: { boroevic: 2.3, secrecy: 2.2, conrad: 1.8, guns: 1.6 },
   commanders: [
-    { id: "boroevic", name: "Boroevic", role: "Commander of the army group on the Piave", category: "boroevic",
+    { id: "boroevic", name: "Boroević", role: "Commander of the army group on the Piave", category: "boroevic",
       note: "He wants the whole army on the river." },
     { id: "conrad", name: "Conrad", role: "Commander of the army group in the mountains", category: "conrad",
       note: "He wants the attack from the mountains, and will not be told it is the lesser one." },
@@ -1001,7 +1001,7 @@ BATTLES.piaveAustro = {
       secrecy: "The day was left to leak, and the Italians were ready.",
     },
     commander: {
-      boroevic: "Boroevic's thrust is remembered as the one that got across.",
+      boroevic: "Boroević's thrust is remembered as the one that got across.",
       conrad: "Conrad's thrust is remembered as the one that was left alone.",
       arz: "Arz's plan is the one that the army is arguing about.",
     },
@@ -1025,7 +1025,7 @@ BATTLES.caporettoAustro = {
       units: [
         "Otto von Below's Fourteenth Army: nine Austro-Hungarian and six to eight German divisions",
         "The German divisions, Ludendorff's general reserve, lent for the offensive",
-        "Army Group Boroevic, held ready on the Isonzo for the offensive",
+        "Army Group Boroević, held ready on the Isonzo for the offensive",
       ],
       real:
         "The army struck at the northern end of the Isonzo front and broke the Italian line between the IV and XXVII Corps. Some units advanced 25 kilometres on the first day, and by 10 November the Central Powers had come about 150 kilometres to the Piave.",
@@ -1076,7 +1076,7 @@ BATTLES.caporettoAustro = {
       note: "He has the army that has been made for the blow." },
     { id: "krafft", name: "Krafft von Dellmensingen", role: "German lieutenant general, mountain-warfare expert", category: "storm",
       note: "He reconnoitred the ground and chose where the army would go in." },
-    { id: "boroevic", name: "Boroevic", role: "Commander of the Army Group on the Isonzo", category: "pursuit",
+    { id: "boroevic", name: "Boroević", role: "Commander of the Army Group on the Isonzo", category: "pursuit",
       note: "He has held the Isonzo for two years, and will lead the pursuit." },
   ],
   approaches: [
@@ -1111,7 +1111,7 @@ BATTLES.caporettoAustro = {
     commander: {
       below: "Below's army is the one that is spoken of as having broken the line.",
       krafft: "Krafft's choice of ground is the one that is spoken of as having won it.",
-      boroevic: "Boroevic's pursuit is the one that is spoken of as having followed it.",
+      boroevic: "Boroević's pursuit is the one that is spoken of as having followed it.",
     },
   },
 };

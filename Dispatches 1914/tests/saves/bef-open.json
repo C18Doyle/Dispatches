@@ -7,9 +7,9 @@
   "dispatches1914_save_v1": "{\"schemaVersion\":1,\"campaignId\":\"bef\",\"nodeId\":\"bef_1915_05_shells\",\"flags\":{\"bef_landing\":\"maubeuge\",\"bef_seine\":\"stayed\",\"bef_ypres\":\"withdrew\",\"bef_dardanelles\":\"navy\"},\"meters\":{\"manpower\":1,\"munitions\":1,\"will\":-3},\"hardState\":{\"enabled\":false,\"erosion\":0},\"visited\":[\"bef_1914_01_warcouncil\",\"bef_1914_02_seine\",\"bef_1914_03_ypres\",\"bef_1915_04_dardanelles\",\"bef_1915_05_shells\"],\"pendingNextId\":null,\"pendingOutcome\":null,\"pendingRecord\":null,\"savedAt\":1791148696886}"
  },
  "expect": {
-  "menuHash": "GvgIKz6M:1055",
+  "menuHash": "fg_vnw79:1055",
   "resumeControl": "Resume file",
-  "afterResumeHash": "UMv1LMWF:1293",
+  "afterResumeHash": "v8HM4gsJ:1294",
   "errors": []
  }
 }

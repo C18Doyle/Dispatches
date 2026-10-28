@@ -427,10 +427,6 @@ CAMPAIGNS.ohl.nodes = {
       "He asks whether the whole army can be sent east against Russia, and the French left " +
       "alone. The railway division has an old plan for it, revised each year until 1913. The " +
       "plan for the west, with its timetable, is the one the whole army has been trained to carry out.",
-    context:
-      "Moltke has the deployment in his hand. Every train, every bridge and every halt in it " +
-      "has been timed for years, and a change tonight is a change to all of them. The ambassador's " +
-      "telegram is a promise of a kind, and nobody in Berlin has yet asked what it means.",
     choices: [
       {
         id: "west",
@@ -520,12 +516,6 @@ CAMPAIGNS.ohl.nodes = {
         : flags.ohl_kaiser === "wait"
         ? "\n\nThe order was held for a day, and every corps is a day behind the timetable."
         : ""),
-    context:
-      "Supreme Command will direct this from Koblenz, and later from Luxembourg — " +
-      "hundreds of kilometres behind armies it cannot see. There is no army group " +
-      "headquarters between the Chief and seven army commanders. Wireless between the " +
-      "Supreme Command and the individual armies is not reliably established, and what " +
-      "there is will contend with interference from Paris.",
     choices: [
       {
         id: "right",
@@ -591,10 +581,6 @@ CAMPAIGNS.ohl.nodes = {
       "the plan does not have to spare. Moltke has said that an army improvised on " +
       "the railways is a crowd. What has to be settled now is how much the Kaiser's " +
       "request may be allowed to disturb a mobilisation that is already moving.",
-    context:
-      "The deployment in the west was written down years ago, down to the hour at each " +
-      "bridge, and has been revised every spring since. Whether it could have been " +
-      "changed in August 1914 is argued still. Moltke said it could not.",
     choices: [
       {
         id: "hold",
@@ -700,10 +686,6 @@ CAMPAIGNS.ohl.nodes = {
           "taken from it now is taken from a wing that was already lighter than the plan assumed."
         : "The right went forward at the weight the plan asked for, so any corps taken " +
           "from it now is a corps the plan counted on."),
-    context:
-      "The Supreme Command holds no reserve of its own. Anything sent east has to be " +
-      "taken from an army in the line and put on a train, and a corps on a train is " +
-      "fighting nowhere for as long as the journey lasts.",
     choices: [
       {
         id: "send",
@@ -771,10 +753,6 @@ CAMPAIGNS.ohl.nodes = {
         : "") +
       "\n\nWhat to order is not the difficulty. Knowing what to order is." +
       (flags.xc_marne_french === "delayed" ? "\n\nThere is no French attack on the flank. The armies on the left are still withdrawing, and the only pressure on the gap is the one the German armies have made themselves." : ""),
-    context:
-      "An officer sent forward with oral instructions and the authority of the " +
-      "Supreme Command can act on what he finds. He can also close the campaign " +
-      "on his own judgment, in the Chief's name, before the Chief has heard of it.",
     choices: [
       {
         id: "hentsch",
@@ -852,10 +830,6 @@ CAMPAIGNS.ohl.nodes = {
         : "The armies are intact on the Aisne. The change is made anyway.") +
       "\n\nThe new Chief brings no new plan. He brings the recognition that the old one has been spent, and that the war now has to be won by some " +
       "method nobody in this building has yet described.",
-    context:
-      "Tappen stays at the head of the Operations Division across the transition. " +
-      "The office continues; the man does not. Every commitment made before today is " +
-      "inherited whole.",
     choices: [
       {
         id: "west",
@@ -923,10 +897,6 @@ CAMPAIGNS.ohl.nodes = {
       "mass and lost very heavily for little ground.\n\n" +
       "The east is asking for every corps that can be spared. Winter is close, and with " +
       "it the end of the season for attacking anywhere.",
-    context:
-      "Falkenhayn took the General Staff to find a way of winning, and the coast is the " +
-      "last open place for it in the west. A Chief who stops here has to say what he " +
-      "will do instead.",
     choices: [
       {
   id: "press",
@@ -1017,10 +987,6 @@ CAMPAIGNS.ohl.nodes = {
       "to cut off the Russian armies in Poland. Falkenhayn thinks it would take more " +
       "divisions than he can spare and commit the army to the depths of Russia, where " +
       "no end can be reached.",
-    context:
-      "A breakthrough pushes the enemy back. An envelopment, if it works, destroys him. " +
-      "The first costs a few corps and a few weeks. The second costs more of both, and " +
-      "needs the enemy to stay where he is while it is prepared.",
     choices: [
       {
         id: "gorlice",
@@ -1095,10 +1061,6 @@ CAMPAIGNS.ohl.nodes = {
       "of both.\n\n" +
       "The price is divisions taken from other fronts in the season when the Allies " +
       "attack in the west.",
-    context:
-      "The Serbian army has turned back three Austro-Hungarian invasions. A campaign " +
-      "against it has to be fast, and finished before the weather closes the mountain " +
-      "roads.",
     choices: [
       {
         id: "serbia",
@@ -1156,10 +1118,6 @@ CAMPAIGNS.ohl.nodes = {
       "city. The other is that Verdun is a fortress and fortresses are taken. The " +
       "Fifth Army has been given a directive that can be read either way, and its " +
       "commander has read it the second way.",
-    context:
-      "Two and a half million shells are laid up. Five divisions are promised to " +
-      "Fifth Army. Whichever reading is correct, the artillery programme is the same " +
-      "for the first week — which is exactly why the ambiguity has survived this long.",
     choices: [
       {
         id: "attrition",
@@ -1240,10 +1198,6 @@ CAMPAIGNS.ohl.nodes = {
           "little.") +
       "\n\nThe question put to the Chief is a rule rather than an operation. Either " +
       "every yard lost is to be retaken at once, or the line may bend.",
-    context:
-      "A position that is retaken the day after it is lost is held at the price of the " +
-      "counter-attack. A position that is given up is held by fewer men, but only if " +
-      "the line behind it is ready.",
     choices: [
       {
         id: "hold",
@@ -1307,10 +1261,6 @@ CAMPAIGNS.ohl.nodes = {
           "tenure on 29 August.") +
       "\n\nHindenburg takes the General Staff. Ludendorff comes with him as First " +
       "Quartermaster General, formally subordinate, in practice not.",
-    context:
-      "The plan to win the war before 1917 is finished. What replaces it is not a " +
-      "plan to win in 1917 but a decision about what the army is for now that it " +
-      "cannot force a result on the ground.",
     choices: [
       {
         id: "defensive",
@@ -1369,10 +1319,6 @@ CAMPAIGNS.ohl.nodes = {
       "law can do.\n\n" +
       "The War Ministry and the industrialists say the targets cannot be met. The " +
       "railways and the coal supply are already stretched.",
-    context:
-      "A programme this size will be tested not against what factories can make, but " +
-      "against the coal that heats them, the wagons that move the coal, and the food " +
-      "the workers eat. The Supreme Command has authority over none of the three.",
     choices: [
       {
         id: "full",
@@ -1430,11 +1376,6 @@ CAMPAIGNS.ohl.nodes = {
       "The Chancellor's objection is the United States: this brings them in, the figures assume everything runs as projected, and " +
       "that if the five months pass without Britain breaking, there is no second plan " +
       "and a new enemy with no upper limit on its manpower.",
-    context:
-      "Bethmann Hollweg has maintained throughout that the decision belongs to the " +
-      "Kaiser rather than to the Supreme Command. The Crown Council at Pless is the " +
-      "form that insistence finally takes. The Kaiser had resisted the memorandum; " +
-      "the Entente's rejection of the December peace offer moved him.",
     choices: [
       {
         id: "unrestricted",
@@ -1515,10 +1456,6 @@ CAMPAIGNS.ohl.nodes = {
           "to be fought with what the line can spare.") +
       "\n\nIf the army goes back, the ground it leaves will be of use to whoever " +
       "follows it. The only argument is about whether it should be.",
-    context:
-      "The retirement would take about six weeks to prepare. What is left behind has " +
-      "to be decided before it begins, since the order will have to go out down to the " +
-      "pioneers who carry it out.",
     choices: [
       {
         id: "devastate",
@@ -1597,11 +1534,6 @@ CAMPAIGNS.ohl.nodes = {
           "that beat it, which is its own kind of problem for this headquarters."
         : "Bethmann Hollweg carried the January council and the Americans stayed out. " +
           "The Supreme Command lost that argument and has not forgotten it."),
-    context:
-      "Removing a Chancellor is not a military act and the General Staff has no " +
-      "constitutional power to do it. What it has is the threat of resignation by the " +
-      "two men whose names the country believes in, and the knowledge that the throne " +
-      "will not survive choosing a civilian over them.",
     choices: [
       {
         id: "force",
@@ -1659,10 +1591,6 @@ CAMPAIGNS.ohl.nodes = {
           "view of the matter into account.") +
       "\n\nDivisions sent to Italy are divisions not in reserve behind the line in " +
       "Flanders, where the British have been attacking since July.",
-    context:
-      "An Italian collapse would not end the war. It might keep Austria-Hungary in it. " +
-      "The alternative is to leave Vienna to its own front and decide later what that " +
-      "costs.",
     choices: [
       {
         id: "send",
@@ -1715,10 +1643,6 @@ CAMPAIGNS.ohl.nodes = {
         : "The divisions that did not go to Italy are where they were.") +
       " Every division that stays in the east is one that is not in France in March." +
       (flags.xc_ukraine === "kept" ? "\n\nVienna has told Berlin that no Austro-Hungarian division will go into Ukraine. The occupation, and the grain, will be German work alone." : ""),
-    context:
-      "The advance, if it is made, needs no plan. The Russian army is not resisting. " +
-      "What it needs is a decision about how much of the east the Empire will hold " +
-      "when it stops.",
     choices: [
       {
         id: "advance",
@@ -1792,10 +1716,6 @@ CAMPAIGNS.ohl.nodes = {
       "garrison left behind is a division not on the Western Front in the spring.\n\n" +
       "The army has two hundred and forty-one divisions. The number that can be in " +
       "France in March is the whole of the coming year's argument.",
-    context:
-      "Roughly fifty divisions can be moved west if the eastern settlement is kept " +
-      "narrow. A settlement that takes everything available to be taken will need a " +
-      "large part of them to stay where they are and administer it.",
     choices: [
       {
         id: "harsh",
@@ -1855,10 +1775,6 @@ CAMPAIGNS.ohl.nodes = {
       "the Oise, wheel north, roll the British against the Channel and destroy them — " +
       "that is the operational plan. There is also a view in this headquarters that the " +
       "breakthrough is the plan, that a hole is made and what follows will follow.",
-    context:
-      "Amiens is a railway junction, and taking it separates the British from the " +
-      "French. It is one of the few objectives on this front whose capture would decide " +
-      "something rather than merely gain ground.",
     choices: [
       {
         id: "adaptive",
@@ -1946,9 +1862,6 @@ CAMPAIGNS.ohl.nodes = {
       "\n\nDivisions held back for Flanders have already been sent south to feed the " +
       "advance." +
       (flags.xc_command1918 === "national" ? "\n\nIntelligence from the other side shows two Allied commands still giving separate orders, and the reserves going where each thinks best, not where the whole front needs them." : ""),
-    context:
-      "A diversion that succeeds becomes a second main effort, and takes the divisions " +
-      "meant for the first. What is spent here cannot be used in Flanders.",
     choices: [
       {
         id: "exploit",
@@ -2008,9 +1921,6 @@ CAMPAIGNS.ohl.nodes = {
       "are the divisions that were supposed to hold them, and American formations are " +
       "now arriving faster than they can be counted.\n\n" +
       "Giving up ground bought at this price raises the problem of what can be said at home.",
-    context:
-      "A shortened line can be held by fewer men, with the reserve restored. It also " +
-      "concedes, in front of the whole country, that the spring bought nothing.",
     choices: [
       {
         id: "shorten",
@@ -2068,10 +1978,6 @@ CAMPAIGNS.ohl.nodes = {
       "there, and so are the two soldiers who spent the spring promising a decision " +
       "in the west." +
       (flags.xc_command1918 === "national" ? "\n\nThe attack at Amiens fell on a front where the British and French commands had not been put under one hand, and it shows in how slowly the French reserves came up." : ""),
-    context:
-      "A command that declares the offensive over has to say what it will do instead. " +
-      "One answer is to stand on the defensive and let the country find out why. The " +
-      "other is to try again before the Americans arrive in strength.",
     choices: [
       {
         id: "defensive",
@@ -2130,13 +2036,6 @@ CAMPAIGNS.ohl.nodes = {
         ? "The line is short and held, and the reserve exists. It buys months. It does not buy a different answer."
         : "The divisions that took the salients in the spring are the divisions that were spent holding them.") +
       "\n\nWhether an armistice is sought is already settled. What is decided now is who is recorded as having sought it.",
-    context: (flags) =>
-      flags.ohl_chancellor === "removed"
-        ? "There is no civil authority left with standing of its own. It was removed in " +
-          "July, by this headquarters, precisely so that it could not act independently — " +
-          "and now something is needed that only an independent civil authority can do."
-        : "A civil government with its own authority still exists, and can carry a " +
-          "request that does not belong to the army alone.",
     choices: [
       {
         id: "military",
@@ -2223,10 +2122,6 @@ CAMPAIGNS.ohl.nodes = {
       "the army's.\n\n" +
       "Telegrams to the armies go out over the Supreme Command's signature, and nobody " +
       "else's.",
-    context:
-      "An order to the army that contradicts the government's course is a political " +
-      "act. It is also something the Supreme Command has the power to issue without " +
-      "anyone's agreement.",
     choices: [
       {
         id: "order",
@@ -2322,7 +2217,7 @@ CAMPAIGNS.ohl.nodes = {
       "The third American note: " + (flags.ohl_wilson === "accepted" ? "left to the government." : "answered by an order to the army, and Ludendorff's resignation.") + "\n\n" +
         "What actually happened: The request went to President Wilson on 3 and 4 " +
         "October, the Kaiser's abdication was announced on 9 November, and the " +
-        "armistice was signed at Compiegne on the morning of 11 November. The peace " +
+        "armistice was signed at Compiègne on the morning of 11 November. The peace " +
         "was signed at Versailles on 28 June 1919. The Supreme Command's account, " +
         "that an undefeated army had been betrayed at home, was in print within a " +
         "year.",
@@ -2430,7 +2325,7 @@ CAMPAIGNS.ohl.nodes = {
   },
 
   ohl_end_worseterms: {
-    year: 1918, date: "1918-11-11", city: "Compiegne",
+    year: 1918, date: "1918-11-11", city: "Compiègne",
     title: "Terms, Later",
     advisors: ["hindenburg"],
     situation:
@@ -2442,7 +2337,7 @@ CAMPAIGNS.ohl.nodes = {
     ending: { family: "armistice-on-worse-terms", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The terms depend on more than the armies: they are made by what the asking side still has when it asks.\n\nWhat actually happened: The armistice " +
-      "was signed in the railway carriage at Compiegne at about five in the morning " +
+      "was signed in the railway carriage at Compiègne at about five in the morning " +
       "of 11 November, by a delegation led by the civilian politician Matthias " +
       "Erzberger and not by a soldier, who had been given seventy-two hours to " +
       "accept. The terms required the evacuation of occupied territory and of the " +
@@ -2521,7 +2416,7 @@ CAMPAIGNS.ohl.nodes = {
       hardModeOnly: true,
     },
     epilogue: () =>
-      "The office continues. The occupant does not.\n\nWhat actually happened: " +
+      "The office continues without its occupant.\n\nWhat actually happened: " +
       "Ludendorff was dismissed on 26 October 1918, after the order to the army " +
       "that answered Wilson's third note, and Hindenburg stayed. Groener took his " +
       "place as First Quartermaster General, and on 9 November he told the Kaiser " +
@@ -2552,7 +2447,7 @@ CAMPAIGNS.gqg.startNode = "gqg_1914_17_covering";
 CAMPAIGNS.gqg.commanders = [
   { id: "joffre", name: "Joffre", title: "Commander-in-Chief", from: "1914-07-30", to: "1916-12-12" },
   { id: "nivelle", name: "Nivelle", title: "Commander-in-Chief", from: "1916-12-12", to: "1917-05-15" },
-  { id: "petain", name: "Petain", title: "Commander-in-Chief", from: "1917-05-15", to: "1918-11-11" },
+  { id: "petain", name: "Pétain", title: "Commander-in-Chief", from: "1917-05-15", to: "1918-11-11" },
 ];
 
 CAMPAIGNS.gqg.advisors = [
@@ -2568,10 +2463,10 @@ CAMPAIGNS.gqg.advisors = [
     dossier: { role: "Military Governor of Paris; later Minister of War",
       bio: "Held Paris in September 1914 and pressed for the counterattack against the exposed German flank.",
       fate: "Left the war ministry in 1916 on grounds of health and died that May." } },
-  { id: "petain", name: "Petain", from: "1914-07-30", to: "1918-11-11",
+  { id: "petain", name: "Pétain", from: "1914-07-30", to: "1918-11-11",
     dossier: { role: "Commander at Verdun; Commander-in-Chief from May 1917",
       bio: "Made his reputation on the defence of Verdun and the rotation system that fed the army through it. Took the command in May 1917 with the army in open indiscipline.",
-      fate: "Restored the army through leave, rest and limited-objective operations. His later history is not this war's." } },
+      fate: "Restored the army through leave, rest and limited-objective operations. He later headed the Vichy regime." } },
   { id: "nivelle", name: "Nivelle", from: "1916-12-12", to: "1917-05-15",
     dossier: { role: "Commander-in-Chief, December 1916 to May 1917",
       bio: "Came to prominence at Verdun in late 1916 and offered the governments what they wanted to hear: a rupture of the German line in forty-eight hours at a cost of around ten thousand men.",
@@ -2580,7 +2475,7 @@ CAMPAIGNS.gqg.advisors = [
     dossier: { role: "Corps and army commander",
       bio: "Supported the Nivelle plan and fell with it in April 1917. Returned to command and led the counterattack of July 1918.",
       fate: "Survived the war." } },
-  { id: "painleve", name: "Painleve", from: "1917-03-20", to: "1917-11-16",
+  { id: "painleve", name: "Painlevé", from: "1917-03-20", to: "1917-11-16",
     dossier: { role: "Minister of War from March 1917",
       bio: "Sceptical of the Nivelle plan from the start. Extracted the promise that the offensive would stop if it had not broken through in forty-eight hours.",
       fate: "Briefly Prime Minister in late 1917." } },
@@ -2621,10 +2516,6 @@ CAMPAIGNS.gqg.nodes = {
       "from the frontier, so that no patrol can start a fight, and so that Britain can see it.\n\n" +
       "The Commander-in-Chief thinks the order is a mistake, since it gives ground that will not " +
       "be easy to take back, and it delays the order to mobilise, which cannot wait.",
-    context:
-      "A covering force is the part of the army that has to be in place before the rest can " +
-      "assemble behind it. Ten kilometres is a small distance on a map, and it is the width of the " +
-      "ground that the plan assumes it holds.",
     choices: [
       {
         id: "obey",
@@ -2711,10 +2602,6 @@ CAMPAIGNS.gqg.nodes = {
         : flags.gqg_covering === "clash"
         ? "\n\nA frontier clash in the last days of July has been laid at France's door, and the Cabinet is not pleased with the army."
         : ""),
-    context:
-      "Reserve formations are the question underneath the question. The plan assumes " +
-      "the Germans will not put reserve corps in the front line. If they do, the right " +
-      "wing sweeping through Belgium is half again as strong as anyone has allowed for.",
     choices: [
       {
         id: "attack",
@@ -2782,10 +2669,6 @@ CAMPAIGNS.gqg.nodes = {
       "Every day of the delay is a day the German right comes on. What is not known is " +
       "whether it is the main blow or only a flank guard, and nobody who has flown over " +
       "it will say so with certainty.",
-    context:
-      "The plan assumed that the Germans would put no reserve corps into the front line. " +
-      "If they have, the right wing is stronger by about half than the staff allowed for, " +
-      "and the left of the French line is where it will be felt.",
     choices: [
       {
         id: "attack",
@@ -2877,10 +2760,6 @@ CAMPAIGNS.gqg.nodes = {
       "\n\nThe armies cannot be held where they stand, because the line is being turned. " +
       "They can be taken back in order, to a line from which they can fight again, and " +
       "a new army can be made from the divisions that Lorraine no longer needs.",
-    context:
-      "A retreat that is ordered keeps the army in one piece. One that is forced on " +
-      "it by the enemy does not. The difficulty is to say so in a country that has " +
-      "been told the frontier battles were going well.",
     choices: [
       {
         id: "withdraw",
@@ -2936,10 +2815,6 @@ CAMPAIGNS.gqg.nodes = {
       "\n\nThe army was built on the belief that the attack would win the war, and the " +
       "officers promoted by that belief are the ones it failed. Removing them says that " +
       "the doctrine failed too.",
-    context:
-      "A Commander-in-Chief who sacks a general during a retreat takes the " +
-      "responsibility for the replacement. The man who is put in may do no better, and " +
-      "the army will watch what happens to the next one.",
     choices: [
       {
         id: "relieve",
@@ -2952,9 +2827,9 @@ CAMPAIGNS.gqg.nodes = {
         next: "gqg_1914_02_marne",
         outcome:
           "Lanrezac is relieved of the Fifth Army on 3 September and replaced by Franchet " +
-          "d'Esperey. In the first months of the war three army commanders, ten corps " +
+          "d'Espèrey. In the first months of the war three army commanders, ten corps " +
           "commanders and thirty-eight division commanders are removed, and officers such " +
-          "as Foch, Petain and Nivelle rise to fill their places. The army learns that " +
+          "as Foch, Pétain and Nivelle rise to fill their places. The army learns that " +
           "failure costs a command, and the officers who remain act as men who know it.",
       },
       {
@@ -2999,10 +2874,6 @@ CAMPAIGNS.gqg.nodes = {
         : flags.gqg_sack === "kept"
           ? "\n\nThe commanders who were not equal to August are still in their commands."
           : ""),
-    context:
-      "The Military Government of Paris has been arguing for the attack for two days. " +
-      "The armies that would make it are the armies that have been walking backwards " +
-      "since Charleroi.",
     choices: [
       {
         id: "attack",
@@ -3076,10 +2947,6 @@ CAMPAIGNS.gqg.nodes = {
       "the sea. Whoever extends the line first with fresh troops can outflank the other " +
       "on that side, and both headquarters have seen it. The French Second Army, under " +
       "Castelnau, is being brought from Lorraine to do it.",
-    context:
-      "Each attempt to turn the flank is answered by an attempt to turn the new flank, and " +
-      "the line grows by the length of the extension. The ports and the coalfields lie " +
-      "at its end.",
     choices: [
       {
         id: "extend",
@@ -3169,10 +3036,6 @@ CAMPAIGNS.gqg.nodes = {
       "country whose territory is not being administered by the enemy, and France is " +
       "not that country. That fact has decided every offensive of this year and will " +
       "be produced again whenever the arithmetic is raised.",
-    context:
-      "There is a school inside the army arguing that the material simply is not there " +
-      "yet for a rupture, and that offensives should be limited to what artillery can " +
-      "actually guarantee. It is not a popular school.",
     choices: [
       {
         id: "press",
@@ -3193,7 +3056,7 @@ CAMPAIGNS.gqg.nodes = {
       {
         id: "limited",
         label: "Limit operations to what the guns can guarantee and build the artillery park",
-        advisor: { name: "Petain", position:
+        advisor: { name: "Pétain", position:
           "Fire wins ground and men hold it. In that order, or not at all." },
         gate: (m) => m.will >= -1,
         disabledReason: "A year without an attempt to liberate the occupied departments cannot be defended in the Chamber",
@@ -3228,9 +3091,6 @@ CAMPAIGNS.gqg.nodes = {
       "\n\nThe officer proposed to command the force is General Sarrail, whom Joffre " +
       "dismissed from the Third Army in July. Sarrail has friends in the Chamber, and " +
       "the government would rather not quarrel with them.",
-    context:
-      "The expedition is a political decision. The generals are being asked to carry out " +
-      "an operation they did not choose, from forces they were planning to use elsewhere.",
     choices: [
       {
         id: "send",
@@ -3284,10 +3144,6 @@ CAMPAIGNS.gqg.nodes = {
       "military representatives of France, Britain, Russia, Italy and Serbia. His proposal " +
       "is to attack on every front at about the same time in 1916, so that the Germans " +
       "cannot move their reserves from one to the other.",
-    context:
-      "Coordination is easy to agree and hard to carry out. It binds the French army to " +
-      "a date set with allies who have their own difficulties, and the date will arrive " +
-      "whatever has happened to the French army by then.",
     choices: [
       {
         id: "combined",
@@ -3341,16 +3197,12 @@ CAMPAIGNS.gqg.nodes = {
       "would also mean announcing that Verdun has been abandoned, and no government in " +
       "France survives that announcement." +
       (flags.xc_naroch === "refused" ? "\n\nJoffre has asked the Russians for an offensive and been told that it will come with the others in the summer, not before. Until then the Germans can take what they need from the east." : ""),
-    context:
-      "One road runs into the sector. Everything that reaches Verdun — men, shells, " +
-      "food — reaches it along that road, and the battle will be as long as the road " +
-      "can be kept working.",
     choices: [
       {
         id: "hold",
         label: "Hold both banks and feed the sector through the road",
         historical: true,
-        advisor: { name: "Petain", position:
+        advisor: { name: "Pétain", position:
           "The sector can be held if units are rotated through it rather than left in it. Nothing else about this is negotiable." },
         impact: { manpower: -3, munitions: -2, will: 2 },
         setFlags: { gqg_verdun: "held" },
@@ -3396,9 +3248,6 @@ CAMPAIGNS.gqg.nodes = {
         : "Verdun has consumed the divisions that were to make it. What France can now put into the Somme is a fraction of what was promised.") +
       "\n\nThe British will attack either way. They attack either beside an ally or in place of one." +
       (flags.xc_chantilly === "declined" ? "\n\nThe Russian representative at Chantilly gave no date for an offensive in the east, and the Somme is the only combined blow the Allies are certain to make." : ""),
-    context:
-      "Relieving Verdun is one argument for the Somme. Keeping the coalition intact is " +
-      "the other, and it is the one that will still matter in 1918.",
     choices: [
       {
         id: "commit",
@@ -3461,9 +3310,6 @@ CAMPAIGNS.gqg.nodes = {
       "proposes to retake Douaumont with three divisions behind a creeping barrage after " +
       "a bombardment of several days. It would be the first French attack at Verdun that " +
       "was meant to win ground rather than to hold it.",
-    context:
-      "An attack that succeeds at Verdun would be worth more in the country than in " +
-      "the line. One that fails would cost divisions the army has been trying to rest.",
     choices: [
       {
   id: "retake",
@@ -3537,11 +3383,8 @@ CAMPAIGNS.gqg.nodes = {
       "with a Marshal's baton to make the going look like something else.\n\n" +
       "Nivelle came out of Verdun with a reputation and a method, and he is offering " +
       "what nobody else will offer: rupture of the German line in forty-eight hours, " +
-      "at a cost he puts around ten thousand. The alternative on the table is Petain's, " +
+      "at a cost he puts around ten thousand. The alternative on the table is Pétain's, " +
       "which is that the war cannot be won quickly and should be fought accordingly.",
-    context:
-      "The Minister of War will not carry the Nivelle plan and will resign rather than " +
-      "do it. That is a warning available to anyone who wants to read it as one.",
     choices: [
       {
         id: "nivelle",
@@ -3554,7 +3397,7 @@ CAMPAIGNS.gqg.nodes = {
         next: "gqg_1917_12_calais",
         outcome:
           "Nivelle takes the command in December. Lyautey leaves the war ministry after a quarrel in the Chamber " +
-          "in March and is replaced by Painleve, who is no " +
+          "in March and is replaced by Painlevé, who is no " +
           "more convinced but stays to argue. The army is told that the rupture will " +
           "take forty-eight hours, and it believes what it is told, because it has been " +
           "waiting two and a half years to be told it. The promise that is made is the " +
@@ -3562,8 +3405,8 @@ CAMPAIGNS.gqg.nodes = {
       },
       {
         id: "petain",
-        label: "Give the command to Petain and the doctrine of limited objectives",
-        advisor: { name: "Petain", position:
+        label: "Give the command to Pétain and the doctrine of limited objectives",
+        advisor: { name: "Pétain", position:
           "I can promise the government ground taken at a price it can afford. I cannot promise it the war in two days." },
         gate: (m) => m.will >= -1,
         disabledReason: "A commander offering only a long war cannot be sold to this Chamber",
@@ -3596,9 +3439,6 @@ CAMPAIGNS.gqg.nodes = {
       "directing both armies. He has argued for it since taking the command, and the " +
       "British prime minister is offering it to him." +
       (flags.xc_calais === "refused" ? "\n\nThe British Commander-in-Chief and the Chief of the Imperial General Staff have already told London that they will not serve under a French general, and Nivelle has to settle how far he can go without them." : ""),
-    context:
-      "A subordination that is carried out against the wishes of the commander subordinated " +
-      "does not stay carried out. Whatever is agreed here will be argued over the next day.",
     choices: [
       {
         id: "accept",
@@ -3656,10 +3496,6 @@ CAMPAIGNS.gqg.nodes = {
       "Stopping means admitting the promise was worthless. Continuing means the men on " +
       "the ridge pay for the promise." +
       (flags.xc_petrograd === "promised" ? "\n\nThe Allied missions at Petrograd were given a date for a Russian offensive in the spring, and the staff in Paris expects it in the east in these same weeks. An attack stopped here is stopped while the Allies have been told to expect two." : ""),
-    context:
-      "The army has been told this attack ends the war. It has been told that " +
-      "explicitly, by name, in orders. Whatever happens on this ridge happens to an " +
-      "army that was given a date.",
     choices: [
       {
         id: "continue",
@@ -3707,7 +3543,7 @@ CAMPAIGNS.gqg.nodes = {
       {
         id: "halt",
         label: "Halt at the undertaking given — stop the offensive",
-        advisor: { name: "Painleve", position:
+        advisor: { name: "Painlevé", position:
           "The promise was forty-eight hours. It is the third day. There is nothing further to discuss." },
         impact: { manpower: -1, munitions: -1, will: -1 },
         setFlags: { gqg_chemin: "halted", gqg_mutinyScale: "contained" },
@@ -3724,11 +3560,11 @@ CAMPAIGNS.gqg.nodes = {
 
   // ---------------------------------------------------------------- 1917-05
   gqg_1917_13_directive: {
-    year: 1917, date: "1917-05-19", city: "Compiegne",
+    year: 1917, date: "1917-05-19", city: "Compiègne",
     title: "Battles That Can Be Won",
     advisors: ["petain", "painleve"],
     situation: (flags) =>
-      "Petain has been Commander-in-Chief for four days. Nivelle has gone, and Foch is " +
+      "Pétain has been Commander-in-Chief for four days. Nivelle has gone, and Foch is " +
       "Chief of the General Staff. " +
       (flags.gqg_chemin === "halted"
         ? "The offensive was stopped at the undertaking the government had been given."
@@ -3741,16 +3577,12 @@ CAMPAIGNS.gqg.nodes = {
       "objectives, where the guns do the work and the infantry stops at what it has " +
       "taken." +
       (flags.xc_usw === "restricted" ? "\n\nThe Americans are not in the war and will not be, which leaves the recovery of the army to France's own resources alone." : ""),
-    context:
-      "The remedy for the army has several parts, and leave and the hearing of " +
-      "grievances are the part the soldiers will notice. The directive is the part the " +
-      "staff will read.",
     choices: [
       {
         id: "limited",
         label: "Issue the directive: limited objectives only, until the army has recovered",
         historical: true,
-        advisor: { name: "Petain", position:
+        advisor: { name: "Pétain", position:
           "The army must be given battles it can win, with the guns doing most of the work. It cannot be given another rupture to attempt." },
         impact: { manpower: 1, munitions: 0, will: 1 },
         setFlags: { gqg_directive: "limited" },
@@ -3784,7 +3616,7 @@ CAMPAIGNS.gqg.nodes = {
   },
 
   gqg_1917_08_mutinies: {
-    year: 1917, date: "1917-05-29", city: "Compiegne",
+    year: 1917, date: "1917-05-29", city: "Compiègne",
     title: "The Army Is Bargaining",
     advisors: ["petain", "painleve", "mangin"],
     bulletin: {
@@ -3806,17 +3638,12 @@ CAMPAIGNS.gqg.nodes = {
       "families. It resembles a strike more than it resembles a collapse.\n\n" +
       "An army that will defend but will not attack is still an army. It is not an " +
       "army that can be ordered to do anything.",
-    context:
-      "The affair is being kept out of the press entirely. The full extent will not be " +
-      "established until archives open two-thirds of a century from now. That secrecy " +
-      "is a decision, and it is being taken now, and it means whatever is done here is " +
-      "done without any public account of why.",
     choices: [
       {
         id: "both",
         label: "Concede the grievances and try the ringleaders",
         historical: true,
-        advisor: { name: "Petain", position:
+        advisor: { name: "Pétain", position:
           "Repression applied without remedy produces a second mutiny. Remedy without repression produces no army at all. It has to be both, and the remedy has to be visible first." },
         impact: { manpower: 1, munitions: 0, will: 3 },
         setFlags: { gqg_mutinyResponse: "both" },
@@ -3855,7 +3682,7 @@ CAMPAIGNS.gqg.nodes = {
       {
         id: "report",
         label: "Report to the government that the army cannot be relied on to attack",
-        advisor: { name: "Painleve", position:
+        advisor: { name: "Painlevé", position:
           "If that is the true state of the army, the Ministry must be told." },
         gate: (m) => m.will <= -2,
         disabledReason: "The army's condition does not yet warrant telling the government the offensive instrument is gone",
@@ -3894,16 +3721,12 @@ CAMPAIGNS.gqg.nodes = {
       "operation limited to what the artillery can guarantee is the doctrine's test " +
       "case: an attack with an announced objective, which stops when it reaches it.\n\n" +
       "It is also, quietly, the only kind of offensive this army will currently accept.",
-    context:
-      "Clemenceau takes the government in November committed to prosecuting the war " +
-      "without negotiation, and to the proposition that the command answers to the " +
-      "civil power. Both halves of that are about to matter.",
     choices: [
       {
         id: "limited",
         label: "Attack with a limited objective and stop at it",
         historical: true,
-        advisor: { name: "Petain", position:
+        advisor: { name: "Pétain", position:
           "The men will be told exactly where the attack stops, and then it will stop there." },
         impact: { manpower: -1, munitions: -2, will: 3 },
         setFlags: { gqg_malmaison: "limited" },
@@ -3944,30 +3767,27 @@ CAMPAIGNS.gqg.nodes = {
     advisors: ["petain", "clemenceau"],
     situation:
       "The German offensive opened on the British Fifth and Third Armies on 21 March, " +
-      "and the British are being driven back. Haig asked Petain on the first evening for " +
+      "and the British are being driven back. Haig asked Pétain on the first evening for " +
       "three divisions, and the French Fifth Corps was sent. On the 22nd he asked for " +
-      "three more and Petain ordered the Third Army forward. Haig now asks for twenty " +
+      "three more and Pétain ordered the Third Army forward. Haig now asks for twenty " +
       "divisions at Amiens.\n\n" +
-      "Petain is afraid that the attack on the British is a diversion and that the " +
+      "Pétain is afraid that the attack on the British is a diversion and that the " +
       "main blow will fall on the French in Champagne. By Haig's account, the " +
       "government has told him to cover Paris. If the British keep falling back, the French will have to choose " +
       "between staying in contact with them and covering the capital, and the two lie " +
       "in different directions.",
-    context:
-      "Each army has a line of retreat that it cannot give up. They diverge, and the " +
-      "gap between them is where the Germans are going.",
     choices: [
       {
         id: "reserve",
         label: "Put two armies in reserve in the Somme valley and refuse the twenty divisions",
         historical: true,
-        advisor: { name: "Petain", position:
+        advisor: { name: "Pétain", position:
           "I can give what I can spare. I cannot strip Champagne and the road to Paris on the strength of one attack." },
         impact: { manpower: 0, munitions: 0, will: -1 },
         setFlags: { gqg_link: "reserve" },
         dispute:
           "The account of the meeting at Dury on the evening of 24 March comes mainly " +
-          "from Haig's diary and reports, in which Petain, back from a Cabinet meeting " +
+          "from Haig's diary and reports, in which Pétain, back from a Cabinet meeting " +
           "at which he had been told to cover Paris, says he may have to break contact with " +
           "the British. French accounts and later historians differ about whether he " +
           "threatened it or only explained the limits that the government's order and " +
@@ -3977,7 +3797,7 @@ CAMPAIGNS.gqg.nodes = {
         next: "gqg_1918_10_doullens",
         outcome:
           "Two French armies under Fayolle are placed in reserve in the Somme valley, and " +
-          "Petain presses the British Fifth Army to keep in touch with the French Fifth " +
+          "Pétain presses the British Fifth Army to keep in touch with the French Fifth " +
           "Corps on its right. The twenty divisions are not sent. Haig comes away believing " +
           "that the French may let the link go to cover Paris. The question of a single " +
           "commander for both armies is put at Doullens two days later.",
@@ -3999,7 +3819,7 @@ CAMPAIGNS.gqg.nodes = {
       {
         id: "paris",
         label: "Cover Paris first: tell Haig in writing that the French reserve will fall back on the capital if the retreat goes on",
-        advisor: { name: "Petain", position:
+        advisor: { name: "Pétain", position:
           "The government's order is to cover Paris. If it comes to a choice, I shall have to obey it, and Haig must be told so." },
         impact: { manpower: 0, munitions: 0, will: -2 },
         setFlags: { gqg_link: "paris" },
@@ -4009,7 +3829,7 @@ CAMPAIGNS.gqg.nodes = {
           "it as an intention and sends it to London that night. The British Cabinet, which " +
           "has been looking for a way to put a French general over both armies, finds one in " +
           "the French army's own statement that it may step aside. Foch is sent for to " +
-          "Doullens, and Petain's letter will be quoted against him there for as long as the " +
+          "Doullens, and Pétain's letter will be quoted against him there for as long as the " +
           "argument over the command goes on.",
       },
     ],
@@ -4044,9 +3864,6 @@ CAMPAIGNS.gqg.nodes = {
             ? "\n\nHaig has been told in writing that the French reserve may fall back on Paris, " +
               "and the warning is already in London."
             : ""),
-    context:
-      "The Americans are arriving and the question of who commands them is the same " +
-      "question, deferred. Whatever is agreed here sets the shape of it.",
     choices: [
       {
         id: "unified",
@@ -4062,7 +3879,7 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Coordinating authority over the Allied armies goes to Foch, and grows into " +
           "general command. The two retreats become one defence. What has been given up " +
-          "is the independence of the French command, and it is not given back. Petain " +
+          "is the independence of the French command, and it is not given back. Pétain " +
           "goes on commanding the French armies, and Foch decides where they and the " +
           "British will fight. Haig accepts the arrangement, because he is losing, and " +
           "the arrangement lasts because it works.",
@@ -4070,7 +3887,7 @@ CAMPAIGNS.gqg.nodes = {
       {
         id: "national",
         label: "Keep national command and coordinate by agreement",
-        advisor: { name: "Petain", position:
+        advisor: { name: "Pétain", position:
           "I will not have French divisions committed to cover a British withdrawal by a man who does not answer to France." },
         gate: (m) => m.will >= -2,
         disabledReason: "The crisis is past the point where coordination by agreement can be defended",
@@ -4105,18 +3922,15 @@ CAMPAIGNS.gqg.nodes = {
         : "The two commands are coordinating, and the reserves are where each put them.") +
       "\n\nPetain's order is defence in depth: a lightly held front line, and the battle " +
       "fought behind it, out of reach of the guns. The commander of the Sixth Army, " +
-      "General Duchene, does not accept it. He has packed his divisions into the front " +
+      "General Duchêne, does not accept it. He has packed his divisions into the front " +
       "line, because he is not willing to give up an inch of French ground without a " +
       "fight.",
-    context:
-      "An army commander who disobeys his orders on the eve of the battle cannot easily " +
-      "be replaced before it begins. The man who replaces him will not know the ground.",
     choices: [
       {
         id: "leave",
         label: "Leave the Sixth Army's dispositions as its commander has made them",
         historical: true,
-        advisor: { name: "Petain", position:
+        advisor: { name: "Pétain", position:
           "The order is clear, and I have given it. Whether it is being carried out is for the army commander to answer for." },
         impact: { manpower: -1, munitions: 0, will: -1 },
         setFlags: { gqg_aisne: "forward" },
@@ -4124,7 +3938,7 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "The bombardment on 27 May falls on a front line packed with men. The line " +
           "breaks, and the Germans cross the Aisne and take nineteen kilometres in " +
-          "three days, with Paris within their reach. Duchene is relieved of his " +
+          "three days, with Paris within their reach. Duchêne is relieved of his " +
           "command by Clemenceau on 9 June. The order that would have prevented it had " +
           "been given, and not obeyed. The army learns again what a bombardment does to " +
           "a trench that is full, and the lesson costs it a great many men.",
@@ -4139,7 +3953,7 @@ CAMPAIGNS.gqg.nodes = {
           "Speculative. The front line is cleared of all but a screen, and the " +
           "divisions are moved back behind the ridge. The bombardment falls on little " +
           "and the attack still comes and still gains ground, but it comes on into " +
-          "depth, and the army is not broken on the first morning. Duchene is told to " +
+          "depth, and the army is not broken on the first morning. Duchêne is told to " +
           "carry out an order he has publicly despised, and may do so unwillingly.",
       },
       {
@@ -4151,7 +3965,7 @@ CAMPAIGNS.gqg.nodes = {
         setFlags: { gqg_duchene: "relieved" },
         dispute:
           "Whether defence in depth could have been enforced at the last moment is disputed. " +
-          "Those around Petain say the order was clear and that only disobedience lost the " +
+          "Those around Pétain say the order was clear and that only disobedience lost the " +
           "Aisne. Others say that the French army had little practice in an elastic defence, " +
           "and that a hurried change of command would have done no more good than the order " +
           "did.",
@@ -4255,7 +4069,7 @@ CAMPAIGNS.gqg.nodes = {
       {
         id: "hold",
         label: "Hold the reserve and let the offensives exhaust themselves",
-        advisor: { name: "Petain", position:
+        advisor: { name: "Pétain", position:
           "They will run out without our help. Spending the last reserve to prove a point we can wait for is how this army was ruined before." },
         impact: { manpower: 1, munitions: 1, will: -2 },
         setFlags: { gqg_1918: "husbanded" },
@@ -4288,21 +4102,18 @@ CAMPAIGNS.gqg.nodes = {
       "Pershing will not accept it. He has said throughout that the Americans will fight " +
       "as an army. The French and British armies are tired, and every American division " +
       "that is put into their lines is a division they do not have to find.",
-    context:
-      "An army fights better under its own commander, in its own sector. A division " +
-      "that is lent can be used at once, and lent divisions go where they are needed.",
     choices: [
       {
         id: "army",
         label: "Back Pershing: an American army with its own sector in the Meuse and the Argonne",
         historical: true,
-        advisor: { name: "Petain", position:
+        advisor: { name: "Pétain", position:
           "The Americans will do more as an army with a front of their own than as battalions scattered through other armies." },
         impact: { manpower: 0, munitions: 0, will: 1 },
         setFlags: { gqg_americans: "army" },
         next: "gqg_1918_15_grand",
         outcome:
-          "On 2 September Petain and Pershing meet Foch. Supported by Petain, Pershing " +
+          "On 2 September Pétain and Pershing meet Foch. Supported by Pétain, Pershing " +
           "offers to take responsibility for the whole sector from Pont-a-Mousson, " +
           "through the valley of the Meuse, to the Argonne forest, and the dispute is " +
           "resolved on that basis. The American First Army pinches out the Saint-Mihiel " +
@@ -4347,10 +4158,6 @@ CAMPAIGNS.gqg.nodes = {
       "whole line advance.\n\n" +
       "The French army is asked to attack with the rest, and it is the army that was " +
       "nursed through the summer of 1917 that has to do it.",
-    context:
-      "A general offensive uses every reserve at the same time. If it fails, there is " +
-      "nothing behind it, and the army has been told since May 1917 that it would not " +
-      "be asked for a rupture again.",
     choices: [
       {
         id: "concentric",
@@ -4398,14 +4205,11 @@ CAMPAIGNS.gqg.nodes = {
       "called a conference at Senlis and has put the question to each of the " +
       "commanders in turn.\n\n" +
       "Haig has urged moderation, telling the British government that the German army " +
-      "is far from beaten. Petain's view is harder than Haig's. Pershing's is harder " +
+      "is far from beaten. Pétain's view is harder than Haig's. Pershing's is harder " +
       "than either: he would push the Germans back into Germany, so that the people at " +
       "home understand that their army has been beaten in the field.\n\n" +
       "The terms have to be strong enough that the Germans cannot go back to the war, " +
       "and not so strong that they refuse them.",
-    context:
-      "An armistice that leaves the German army on French ground and in good order is " +
-      "an invitation to start again. One that is refused costs another winter.",
     choices: [
       {
         id: "bridgeheads",
@@ -4456,11 +4260,11 @@ CAMPAIGNS.gqg.nodes = {
 
   // ---------------------------------------------------------------- endings
   gqg_end_victory: {
-    year: 1918, date: "1918-11-11", city: "Compiegne",
+    year: 1918, date: "1918-11-11", city: "Compiègne",
     title: "The Ten Departments",
     advisors: ["foch", "clemenceau"],
     situation:
-      "The armistice is signed in a railway carriage in the forest at Compiegne and " +
+      "The armistice is signed in a railway carriage in the forest at Compiègne and " +
       "the occupied departments come back. That was the war aim from the first week " +
       "and it has been achieved, and there is no version of this morning that feels " +
       "like the word victory is doing honest work.\n\n" +
@@ -4498,13 +4302,13 @@ CAMPAIGNS.gqg.nodes = {
         "What actually happened: The armistice came into force at eleven o'clock on " +
         "the morning of 11 November 1918. France recovered Alsace-Lorraine and the " +
         "occupied departments, and about 1.4 million French soldiers had been " +
-        "killed. Foch received his baton as Marshal of France and Petain his in " +
+        "killed. Foch received his baton as Marshal of France and Pétain his in " +
         "December; Clemenceau, who had held the government together, lost the " +
         "presidential election of January 1920 and left politics.",
   },
 
   gqg_end_armybreaks: {
-    year: 1918, date: "1918-06-01", city: "Compiegne",
+    year: 1918, date: "1918-06-01", city: "Compiègne",
     title: "It Does Not Come Back",
     advisors: ["petain"],
     situation:
@@ -4520,7 +4324,7 @@ CAMPAIGNS.gqg.nodes = {
       "credit the pairing — leave, rest, and the promise, alongside a repression " +
       "deliberately kept narrow. Removing half of that pairing is the " +
       "counterfactual, and the evidence points where this ending points.\n\nWhat " +
-      "actually happened: The army recovered in weeks. Petain stopped the " +
+      "actually happened: The army recovered in weeks. Pétain stopped the " +
       "offensives, gave the men regular leave and better food, visited the " +
       "divisions himself and listened to the grievances, and the courts-martial of " +
       "the summer handed down several hundred death sentences, of which between twenty-six and forty-nine, by different counts, " +
@@ -4556,7 +4360,7 @@ CAMPAIGNS.gqg.nodes = {
   },
 
   gqg_end_costlier: {
-    year: 1918, date: "1918-11-11", city: "Compiegne",
+    year: 1918, date: "1918-11-11", city: "Compiègne",
     title: "The Same Ending, Later",
     advisors: ["foch"],
     situation:
@@ -4582,7 +4386,7 @@ CAMPAIGNS.gqg.nodes = {
   },
 
   gqg_end_intact: {
-    year: 1918, date: "1918-11-11", city: "Compiegne",
+    year: 1918, date: "1918-11-11", city: "Compiègne",
     title: "An Army That Was Kept",
     advisors: ["petain", "foch"],
     situation:
@@ -4593,7 +4397,7 @@ CAMPAIGNS.gqg.nodes = {
     ending: { family: "victory-with-the-army-preserved", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The outcome of the war was not in the gift of this headquarters " +
-      "by 1918. What the ledger looked like at the end of it was.\n\nWhat actually " +
+      "by 1918.\n\nWhat actually " +
       "happened: The French army that fought in 1918 had been rebuilt after the " +
       "mutinies, but it was short of men, and its commanders husbanded it in the " +
       "summer and spent it in the autumn. France ended the war with some 1.4 " +
@@ -4645,7 +4449,7 @@ CAMPAIGNS.gqg.nodes = {
       "actually happened: No French government approached Germany in 1917. The " +
       "spring brought the Sixtus affair, a private approach by the Austrian Emperor " +
       "through his brother-in-law, Prince Sixtus of Bourbon-Parma, which came to " +
-      "nothing and was exposed in April 1918. Painleve's brief ministry in the " +
+      "nothing and was exposed in April 1918. Painlevé's brief ministry in the " +
       "autumn of 1917 gave way to Clemenceau's on 16 November, which was formed to " +
       "make war to the end and did. A negotiated peace in 1917 would have left " +
       "Germany in occupation of northern France and most of Belgium, and no French " +
@@ -4667,8 +4471,8 @@ CAMPAIGNS.gqg.nodes = {
     ending: { family: "german-1918-reaches-further", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The historical German offensives came near enough to Paris to " +
-      "be shelled from range and no nearer. What kept them there was reserves " +
-      "committed at moments somebody chose.\n\nWhat actually happened: The German " +
+      "be shelled from range and no nearer. They were held there by reserves " +
+      "committed where the French staff judged the danger greatest.\n\nWhat actually happened: The German " +
       "offensive of the spring reached the Marne at Chateau-Thierry at the end of " +
       "May, within about sixty kilometres of Paris, and was stopped in early June " +
       "by French and American divisions. Paris was shelled by a long-range gun from " +
@@ -4692,9 +4496,9 @@ CAMPAIGNS.gqg.nodes = {
       "now.",
     ending: { family: "hard-mode-relieved", badge: BADGES.CONTESTED, hardModeOnly: true },
     epilogue: () =>
-      "Command in a republic is held on terms. The terms were always the casualty " +
-      "list.\n\nWhat actually happened: Clemenceau removed General Duchene after " +
-      "the Aisne but kept Petain as Commander-in-Chief of the French armies to the " +
+      "The government removes its Commander-in-Chief, and the casualty list is the " +
+      "reason it gives.\n\nWhat actually happened: Clemenceau removed General Duchêne after " +
+      "the Aisne but kept Pétain as Commander-in-Chief of the French armies to the " +
       "end of the war, under Foch. The Chamber's committees went on supervising the " +
       "command closely, and the Prime Minister visited the front. The fall that " +
       "this ending describes did not happen. France went into the autumn of 1918 " +
@@ -4802,10 +4606,6 @@ CAMPAIGNS.stavka.nodes = {
       "The French want everything sent against Germany, to draw troops from the west. The " +
       "generals in the south want everything sent against Austria, which is the weaker enemy " +
       "and is certain to come into Galicia.",
-    context:
-      "The plan that was made in peace was a compromise between two schools in the army, and " +
-      "a compromise is what is likely to come out of the next days. What has to be settled is how " +
-      "the army is divided, not whether it is.",
     choices: [
       {
         id: "both",
@@ -4897,10 +4697,6 @@ CAMPAIGNS.stavka.nodes = {
         : flags.stavka_plan === "austria"
         ? "\n\nOnly a screen has been left in the north, and the army that would have joined these two is in Galicia."
         : ""),
-    context:
-      "Waiting three weeks produces two armies that can operate together. It also " +
-      "means the French fight the opening of the war alone, having been promised they " +
-      "would not, and they are not likely to forget which it was.",
     choices: [
       {
         id: "advance",
@@ -4957,9 +4753,6 @@ CAMPAIGNS.stavka.nodes = {
       "that they are marching away from their railheads and their bread. The two armies " +
       "are too far apart to help each other, and the wireless messages that pass between " +
       "them are sent in clear.",
-    context:
-      "The question put to this headquarters is whether to let the orders of the front " +
-      "commander stand. Nothing in the situation will be clearer in a week than it is today.",
     choices: [
       {
         id: "press",
@@ -5056,10 +4849,6 @@ CAMPAIGNS.stavka.nodes = {
       "Reinforcing success in Galicia means accepting that East Prussia stays a " +
       "German victory. Renewing in the north means taking the better front's divisions " +
       "to repair the worse one.",
-    context:
-      "Austria-Hungary can be beaten and Germany, on present evidence, cannot. That is " +
-      "an argument for Galicia and it is also an argument for a war that never touches " +
-      "the enemy who matters.",
     choices: [
       {
         id: "galicia",
@@ -5105,7 +4894,7 @@ CAMPAIGNS.stavka.nodes = {
     title: "The Fortress Behind Our Lines",
     advisors: ["grandduke", "brusilov"],
     situation: (flags) =>
-      "On 28 October (10 November in the west) the Austro-Hungarian fortress of Przemysl " +
+      "On 28 October (10 November in the west) the Austro-Hungarian fortress of Przemyśl " +
       "is cut off again, with a garrison of about 120,000 men inside it. The first siege " +
       "was lifted when the relieving army came up, and the assault the Third Army ordered " +
       "before that, after a short bombardment, got nowhere and cost some forty thousand men in " +
@@ -5115,11 +4904,6 @@ CAMPAIGNS.stavka.nodes = {
       "and the army that would storm it is the army that is needed to hold the line " +
       "outside." +
       (flags.xc_kolubara === "declined" ? "\n\nRussian intelligence reports that the Austro-Hungarian divisions meant for a third invasion of Serbia have been kept in Galicia, and that the relief of the fortress will be made in more strength than it would otherwise have been." : ""),
-    context:
-      "A fortress that is starved costs the besiegers an army and a winter. A fortress " +
-      "that is stormed costs them men, and the first attempt showed what that price " +
-      "is. Neither is free, and the garrison inside will eat the winter's stores " +
-      "while the choice is argued.",
     choices: [
       {
         id: "invest",
@@ -5191,23 +4975,18 @@ CAMPAIGNS.stavka.nodes = {
       "frontier, and the Grand Duke has approved the plan.\n\n" +
       "Meanwhile the German Ninth Army has been moved by rail to the Thorn area and has " +
       "struck the right flank of the Russian line, in the neighbourhood of Wloclawek " +
-      "and Kutno. It is aimed at the city of Lodz, at cutting it off from Warsaw and " +
+      "and Kutno. It is aimed at the city of Łódź, at cutting it off from Warsaw and " +
       "surrounding the troops in it. The Fifth Army, under Plehve, is the one that can " +
       "meet it, and it is facing the wrong way.",
-    context:
-      "Turning the Fifth Army north gives up the invasion of Silesia on the day it " +
-      "begins, and it asks a hundred kilometres of marching of men who are not " +
-      "expecting it. Going on into Silesia leaves the Second Army to meet a German " +
-      "army with what it has.",
     choices: [
       {
         id: "turn",
         label: "Turn the Fifth Army north against the German thrust and give up the Silesian offensive",
         historical: true,
         advisor: { name: "Grand Duke Nikolai Nikolaevich", position:
-          "The German army is on our flank and Lodz is the point. Silesia can wait until the flank is safe, and the Fifth Army is the only one near enough to make it safe." },
+          "The German army is on our flank and Łódź is the point. Silesia can wait until the flank is safe, and the Fifth Army is the only one near enough to make it safe." },
         dispute:
-          "Lodz is read two ways. On the field the Russian armies avoided the " +
+          "Łódź is read two ways. On the field the Russian armies avoided the " +
           "encirclement that was intended for them and a German corps was surrounded " +
           "and broke out; the Russians kept the city until they chose to leave it and " +
           "fell back to the Bzura only at the end of November. At the level of the " +
@@ -5222,7 +5001,7 @@ CAMPAIGNS.stavka.nodes = {
             outcome:
               "The Fifth Army covers some hundred and sixteen kilometres in two days and " +
               "strikes the German flank. The Germans are not able to close the ring " +
-              "round Lodz, and one of their own corps is nearly surrounded and " +
+              "round Łódź, and one of their own corps is nearly surrounded and " +
               "breaks out. At the end of November the Russian line falls back to the " +
               "Bzura and the Rawka. The Silesian offensive is not made, and the winter " +
               "will be spent on the defensive. The army has kept itself and lost its chance." },
@@ -5241,7 +5020,7 @@ CAMPAIGNS.stavka.nodes = {
       },
       {
         id: "silesia",
-        label: "Press on into Silesia and let the Second Army hold Lodz with what it has",
+        label: "Press on into Silesia and let the Second Army hold Łódź with what it has",
         advisor: { name: "Ruzsky", position:
           "The way to answer a blow at our flank is to be in Germany before it lands. The plan was to cross the frontier, and the army that crosses it is the one the enemy must answer." },
         gate: (m) => m.will >= -1,
@@ -5251,7 +5030,7 @@ CAMPAIGNS.stavka.nodes = {
         next: "stavka_1915_01_masuria",
         outcome:
           "Speculative. The Fifth Army crosses the frontier and the Second is left to meet " +
-          "the German Ninth Army alone at Lodz. It is a gamble on the two armies " +
+          "the German Ninth Army alone at Łódź. It is a gamble on the two armies " +
           "passing in the night, and the Germans, who had expected the Russians to " +
           "turn, have to decide what to do. A Russian army on German soil is something " +
           "the war has not seen, and whether it can stay there is " +
@@ -5273,11 +5052,6 @@ CAMPAIGNS.stavka.nodes = {
       "The front commander, Ruzsky, is not persuaded. The border line is the anchor of " +
       "the whole position in East Prussia, and Plehve's Twelfth Army is assembling " +
       "a hundred kilometres to the south-west to take the offensive in its turn.",
-    context:
-      "Giving up the border gives up the anchor that Stavka has been planning " +
-      "round, and gives it up on a warning. Holding it risks the army that holds " +
-      "it, in forest, in winter, and a long way from the nearest road that would " +
-      "carry it out.",
     choices: [
       {
         id: "hold",
@@ -5348,10 +5122,10 @@ CAMPAIGNS.stavka.nodes = {
   // ---------------------------------------------------------------- 1915-03
   stavka_1915_12_carpathians: {
     year: 1915, date: "1915-03-09", city: "Baranovichi",
-    title: "Przemysl Has Fallen",
+    title: "Przemyśl Has Fallen",
     advisors: ["grandduke", "brusilov"],
     situation: (flags) =>
-      "Przemysl has fallen today, 9 March (22 March in the west), after a siege that " +
+      "Przemyśl has fallen today, 9 March (22 March in the west), after a siege that " +
       "began in September. About 117,000 men and nine generals are taken. " +
       (flags.stavka_1914theatre === "prussia"
         ? "Divisions were taken from the south in the autumn for the northern effort, and the Carpathian armies are thinner than they would have been."
@@ -5364,10 +5138,6 @@ CAMPAIGNS.stavka.nodes = {
       "easier to make good.\n\n" +
       "The question for Stavka is what the armies in the mountains are to do now that " +
       "the fortress they were covering is gone.",
-    context:
-      "A crossing of the Carpathians would put Russian armies on the Hungarian plain. " +
-      "It would also stretch a line that is short of shells and short of rifles, over " +
-      "passes that are blocked with snow.",
     choices: [
       {
         id: "press",
@@ -5392,7 +5162,7 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The armies hold the passes they have and stop attacking. The " +
           "rifles and shells that would have been spent in the snow are kept, and the " +
-          "Austrians have the spring to recover. Przemysl has been taken and nothing " +
+          "Austrians have the spring to recover. Przemyśl has been taken and nothing " +
           "more is asked of it. The army is less tired, and the shells it has saved are few.",
       },
     ],
@@ -5410,7 +5180,7 @@ CAMPAIGNS.stavka.nodes = {
         "confidence in the valour of the army.",
     },
     situation:
-      "The breakthrough at Gorlice-Tarnow is being made with an artillery weight this " +
+      "The breakthrough at Gorlice-Tarnów is being made with an artillery weight this " +
       "army cannot answer, and it cannot answer it because the shells are not there. " +
       "Brusilov reports men going into action without rifles, waiting for casualties " +
       "among their comrades to supply them.\n\n" +
@@ -5418,11 +5188,6 @@ CAMPAIGNS.stavka.nodes = {
       "it. Giving it up means giving up Warsaw and a great deal of the Empire's western " +
       "territory, and saying so to a court that regards territory as the thing being " +
       "defended.",
-    context:
-      "The war ministry that presided over the munitions position is still in office. " +
-      "The public bodies and war-industry committees offering to fix it are exactly the " +
-      "organisations the court most distrusts, because organising anything creates " +
-      "people who have organised something.",
     choices: [
       {
         id: "withdraw",
@@ -5484,9 +5249,6 @@ CAMPAIGNS.stavka.nodes = {
       "The case for is not nothing. The Grand Duke's authority was extraordinary and " +
       "answerable to nobody except the Emperor. Civil and military authority in the " +
       "border regions have not been coordinated at all.",
-    context:
-      "Whoever holds the title, Alekseyev will run the operations. Orders still come from headquarters. What changes with this decision is where blame goes, and what happens in the capital while the Emperor is four hundred miles " +
-      "away at headquarters.",
     choices: [
       {
         id: "assume",
@@ -5567,10 +5329,6 @@ CAMPAIGNS.stavka.nodes = {
       "fronts.\n\n" +
       "The Emperor has been in command for six days. The only force at hand to send " +
       "against the breach is a newly raised army that has not yet been under fire.",
-    context:
-      "Cavalry with no infantry or artillery to support it runs out of strength " +
-      "quickly. It also runs a long way before it does, and into ground where the " +
-      "railway the army depends on is only a day's ride off.",
     choices: [
       {
         id: "counter",
@@ -5662,11 +5420,6 @@ CAMPAIGNS.stavka.nodes = {
       "The conference sets no date. The Russian representative is being asked to " +
       "accept the principle. In 1915, when the Russian line broke at Gorlice, the " +
       "Western Allies were not ready to help.",
-    context:
-      "Russia can say yes and mean it as an obligation, or say yes and mean it as an " +
-      "aspiration, and the French will take it as the first. Saying no leaves the " +
-      "armies of the largest ally outside the plan, at the moment when they have " +
-      "just lost Poland.",
     choices: [
       {
         id: "commit",
@@ -5721,11 +5474,6 @@ CAMPAIGNS.stavka.nodes = {
       "and Western Fronts, round Lake Naroch, where Kuropatkin has 266,000 infantry " +
       "and Evert 643,000, against some 495,000 Germans, behind lakes and marsh " +
       "that are still frozen.",
-    context:
-      "The ground is a thaw away from impassable. The French are fighting for their " +
-      "lives and have a claim on the alliance. The Chantilly undertaking was to " +
-      "attack together in the summer, and this would be an offensive made months " +
-      "ahead of it.",
     choices: [
       {
         id: "launch",
@@ -5812,10 +5560,6 @@ CAMPAIGNS.stavka.nodes = {
       "reserves rather than trying to outweigh them.\n\n" +
       "The other fronts are meant to attack in support. Whether they will is a " +
       "question about the men commanding them, not about the plan.",
-    context:
-      "This is the one offensive design of the war that solves the problem everyone " +
-      "has been failing at. Whether it can be exploited depends entirely on whether " +
-      "the rest of the army moves when this front does.",
     choices: [
       {
         id: "support",
@@ -5893,9 +5637,6 @@ CAMPAIGNS.stavka.nodes = {
       "the railway junction that would carry the front west toward Brest-Litovsk. The " +
       "ground in front of it is marsh and river, and the Germans have been bringing " +
       "divisions to hold it.",
-    context:
-      "The offensive has already done more than anyone expected of it. Going on costs " +
-      "the Guards, who are the best troops left in the army.",
     choices: [
       {
         id: "kovel",
@@ -5958,10 +5699,6 @@ CAMPAIGNS.stavka.nodes = {
       "The offensive has been going for two months. The armies have lost heavily, the " +
       "supply is stretched, and every day gives the Germans time to bring divisions " +
       "from the west.",
-    context:
-      "Brusilov wants a decision before the German reserves arrive. Alekseyev wants an " +
-      "army that is still there in the autumn. Romania is about to declare, and what " +
-      "Russia has left is what it will have to give her.",
     choices: [
       {
         id: "stop",
@@ -6058,9 +5795,6 @@ CAMPAIGNS.stavka.nodes = {
       "has a long frontier and an army that is short of guns and of the experience of " +
       "the war. Russia has promised to help, and the help has to come from the same " +
       "armies that are fighting in Galicia.",
-    context:
-      "A force sent to Romania is a force taken from the front, where Brusilov has been " +
-      "told to stop. A force not sent is an ally left to its own frontier.",
     choices: [
       {
         id: "small",
@@ -6118,11 +5852,6 @@ CAMPAIGNS.stavka.nodes = {
       "and what it is for is not settled: it may hold the Romanian front, " +
       "under a command that is partly Romanian, or only the Russian frontier " +
       "behind it.",
-    context:
-      "Taking over the Romanian front lengthens the line the army has to hold, " +
-      "in the middle of a winter, with the divisions that were to be spared for the " +
-      "spring. Not taking it over leaves the Romanians to be overrun, and the " +
-      "alliance that brought them in is the alliance that is asked to rescue them.",
     choices: [
       {
         id: "take",
@@ -6181,11 +5910,6 @@ CAMPAIGNS.stavka.nodes = {
       "Russia is to be supplied with the equipment it has been asking for. At Port " +
       "Romanov thousands of tons of munitions are lying on the docks.\n\n" +
       "Stavka is asked what to tell them about the spring. The Allies want a Russian offensive to go in with their own.",
-    context:
-      "The conference is meant to do the thing Chantilly did not: to put dates on " +
-      "the promises. Russia is the one partner whose answer depends on the " +
-      "weather, the railways and the temper of the capital, and the delegates know " +
-      "it, and have come to judge for themselves.",
     choices: [
       {
         id: "postpone",
@@ -6244,10 +5968,6 @@ CAMPAIGNS.stavka.nodes = {
       "the dynasty it swore to. Refusing makes it the last institution standing " +
       "between the crowds and the throne, which is a war behind the front while there " +
       "is a war in front of it.",
-    context:
-      "Whatever government follows will issue orders to this army. Within days, one " +
-      "of them will make the authority of officers subject to soldiers' committees. " +
-      "Nobody in this room knows that yet, and everybody in it can see the shape of it.",
     choices: [
       {
         id: "advise",
@@ -6312,10 +6032,6 @@ CAMPAIGNS.stavka.nodes = {
       "executing them, and some debate them instead. An offensive requires men to " +
       "leave a trench and walk toward machine guns because they were told to, and the " +
       "mechanism by which men are told to do that has been formally dismantled.",
-    context:
-      "The command's position is that this cannot be done. The government's position " +
-      "is that the alternative is a government that has done nothing, in a capital " +
-      "where doing nothing is being noticed by people with a plan.",
     choices: [
       {
         id: "attack",
@@ -6395,10 +6111,6 @@ CAMPAIGNS.stavka.nodes = {
       "against it. The Minister of War is being asked whether the orders of the " +
       "command can still be enforced, and the committees will take the answer as " +
       "an answer to the question of who commands the army.",
-    context:
-      "A penalty that is ordered and not carried out is worse than none. A penalty " +
-      "that is carried out by an officer on a soldier who belongs to a committee has " +
-      "consequences that the order does not describe.",
     choices: [
       {
         id: "restore",
@@ -6445,11 +6157,6 @@ CAMPAIGNS.stavka.nodes = {
       "The Supreme Commander wants Riga held. The commanders on the spot want " +
       "to take the army out of it before it is surrounded, and a rearguard " +
       "of the Forty-third Corps would have to do the holding.",
-    context:
-      "Riga is a city, a bridge and a symbol, and the Supreme Commander has judged " +
-      "most of the infantry to be in poor condition and likely to run. To " +
-      "hold it is to find out whether that is true, with the army that has the " +
-      "most to lose by the answer.",
     choices: [
       {
         id: "withdraw",
@@ -6524,10 +6231,6 @@ CAMPAIGNS.stavka.nodes = {
         : "The Supreme Commander is the officer whose demand was refused in July.") +
       "\n\nKornilov is at this headquarters, and the corps is on the road. The order to " +
       "stop it can come from one of two men, and they are not speaking to each other.",
-    context:
-      "Whether this is a coup or a misunderstanding is not clear from here, and is not " +
-      "going to be settled in the next three days. The corps will arrive at Petrograd " +
-      "or it will not.",
     choices: [
       {
         id: "refuse",
@@ -6636,10 +6339,6 @@ CAMPAIGNS.stavka.nodes = {
       "\n\nWhat is left to decide is what this headquarters does with the fact that " +
       "it no longer has a government it recognises and still has an enemy in front of " +
       "it.",
-    context:
-      "Whatever is chosen, the officers in this building will shortly be choosing " +
-      "sides in a different war, on ground that runs from the Don to Siberia. Some of " +
-      "them are already choosing.",
     choices: [
       {
         id: "standdown",
@@ -6697,10 +6396,6 @@ CAMPAIGNS.stavka.nodes = {
       "commands them by the courtesy of their committees. The men who gave the order " +
       "say they speak for the soldiers and the people, and the soldiers' committees " +
       "have not said that they do not.",
-    context:
-      "To obey is to recognise the new authority and to open a negotiation the army " +
-      "cannot stop. To refuse is to be dismissed, and a headquarters that has been " +
-      "dismissed by wireless has nobody it can command.",
     choices: [
       {
         id: "refuse",
@@ -6765,8 +6460,8 @@ CAMPAIGNS.stavka.nodes = {
       "Romania: " + (flags.stavka_romania === "army" ? "an army sent at once." : "three divisions sent.") + "\n" +
       "The death penalty: " + (flags.stavka_deathpenalty === "refused" ? "not restored." : "restored at the front on 12 July 1917.") + "\n" +
       "The Kornilov affair: " + (flags.stavka_kornilov === "obeyed" ? "the dismissal obeyed." : flags.stavka_kornilov === "mediated" ? "a mediator sent, and the corps halted at Luga." : "the dismissal refused, and the march collapsed.") + "\n" +
-      "Przemysl, winter 1914: " + (flags.stavka_przemysl === "stormed" ? "assaulted." : flags.stavka_przemysl === "watched" ? "watched by a covering force." : "invested and starved out.") + "\n" +
-      "Lodz, November 1914: " + (flags.stavka_lodz === "silesia" ? "the Silesian offensive pressed on." : flags.stavka_lodzResult === "covered" ? "the Fifth Army turned north and covered the flank." : "the Fifth Army turned north and the Silesian offensive was given up.") + "\n" +
+      "Przemyśl, winter 1914: " + (flags.stavka_przemysl === "stormed" ? "assaulted." : flags.stavka_przemysl === "watched" ? "watched by a covering force." : "invested and starved out.") + "\n" +
+      "Łódź, November 1914: " + (flags.stavka_lodz === "silesia" ? "the Silesian offensive pressed on." : flags.stavka_lodzResult === "covered" ? "the Fifth Army turned north and covered the flank." : "the Fifth Army turned north and the Silesian offensive was given up.") + "\n" +
       "East Prussia, February 1915: " + (flags.stavka_masuria === "pulled" ? "the Tenth Army was drawn back to the Niemen." : flags.stavka_masuria === "reinforced" ? "the Tenth Army was reinforced at the border." : "the border line was held and the Twentieth Corps lost.") + "\n" +
       "Sventsiany, September 1915: " + (flags.stavka_sventsiany === "withdrew" ? "the line was shortened." : flags.stavka_sventsiany === "partial" ? "the breach was met by a part of the new army, the rest held back." : "the breach was met by counterattack.") + "\n" +
       "Chantilly, December 1915: " + (flags.stavka_chantilly === "declined" ? "no commitment was made." : "Russia joined the plan for simultaneous offensives.") + "\n" +
@@ -6777,7 +6472,7 @@ CAMPAIGNS.stavka.nodes = {
       "The order to open talks: " + (flags.stavka_armistice === "obeyed" ? "carried out." : "declined; Dukhonin dismissed and killed.") + "\n" +
       "October 1917: " + (flags.stavka_october === "resisted" ? "the new authority was refused recognition." : "the headquarters took no side.") + "\n\n" +
       "The officers of this headquarters disperse toward the Don, toward Siberia, and " +
-      "toward the new Republic's own army. What they do next is not this war." +
+      "toward the new Republic's own army." +
       "\n\n" +
       "What actually happened: The treaty was signed on 3 March 1918 and ratified " +
       "in the weeks after. It was annulled by the armistice of 11 November, and " +
@@ -6796,8 +6491,8 @@ CAMPAIGNS.stavka.nodes = {
       "The front is vacated rather than broken.",
     ending: { family: "disintegration-without-defeat", badge: BADGES.CONTESTED },
     epilogue: () =>
-      "An army is an agreement about who gives orders. Once that agreement lapses, " +
-      "nothing in the field replaces it.\n\nWhat actually happened: The front did " +
+      "Orders from this headquarters are no longer obeyed at the front, and nothing " +
+      "there takes their place.\n\nWhat actually happened: The front did " +
       "dissolve. Desertion had been heavy since the summer, and after the " +
       "revolution of October the armistice signed at Brest-Litovsk on 2 December " +
       "(15 December in the west) only recognised what had occurred. The old army " +
@@ -6937,8 +6632,7 @@ CAMPAIGNS.stavka.nodes = {
     ending: { family: "coalition-obligations-honoured", badge: BADGES.CONTESTED },
     epilogue: () =>
       "Whether Russia was spent for the alliance or by its own arrangements is the " +
-      "oldest argument about this front. It is not going to be settled " +
-      "here.\n\nWhat actually happened: Russia kept its obligations to the Allies " +
+      "oldest argument about this front.\n\nWhat actually happened: Russia kept its obligations to the Allies " +
       "through 1917. The Provisional Government pledged to fight on and ordered the " +
       "offensive of June, whose failure left the army incapable of another, and the " +
       "Allies continued to supply it and to lend to its government until the " +
@@ -6959,8 +6653,8 @@ CAMPAIGNS.stavka.nodes = {
       "the successor regime keeps.",
     ending: { family: "hard-mode-relieved", badge: BADGES.CONTESTED, hardModeOnly: true },
     epilogue: () =>
-      "The staff is dispersed to other duties. The war continues without them and " +
-      "does not go better.\n\nWhat actually happened: Alekseyev was Supreme " +
+      "The staff is dispersed to other duties, and the war continues without " +
+      "them.\n\nWhat actually happened: Alekseyev was Supreme " +
       "Commander from 2 March to 22 May 1917, when Brusilov replaced him. Brusilov " +
       "was replaced by Kornilov in July, and Kornilov was dismissed in August and " +
       "arrested. The Supreme Command changed hands several times in six months, and " +
@@ -7069,10 +6763,6 @@ CAMPAIGNS.bef.nodes = {
       "taken the chair and has not made up his mind.\n\n" +
       "The Admiralty is afraid of a German landing on the east coast, and the Territorial " +
       "Force, which is meant to defend the country, has not yet been called out.",
-    context:
-      "The French have been promised six divisions, and a smaller army is a broken promise. The " +
-      "fear of invasion is real, and so is the arithmetic: the divisions that go to France " +
-      "are the ones that cannot be at home.",
     choices: [
       {
         id: "four",
@@ -7163,11 +6853,6 @@ CAMPAIGNS.bef.nodes = {
       "army too small and too precious to be put so far forward, and would have it " +
       "assemble at Amiens, farther back, where it could strike once the route of the " +
       "German advance is known. Haig takes the same view.",
-    context:
-      "The office that sits at this table hears the Cabinet and the field commanders " +
-      "both. It has no army of its own to command. It decides what the Cabinet decides, " +
-      "and what the Cabinet can be made to hear from the generals, in the order they " +
-      "arrive.",
     choices: [
       {
         id: "maubeuge",
@@ -7241,10 +6926,6 @@ CAMPAIGNS.bef.nodes = {
       "Joffre has urged him not to, and so has the President of the Republic, through " +
       "the British ambassador. Kitchener has crossed to Paris to see him, in the " +
       "uniform of a field marshal, and has put the matter in front of the Cabinet.",
-    context:
-      "The army has been the whole of Britain's land force in the field. Taking it out " +
-      "of the line, even for a week, tells the French that the British are leaving the " +
-      "alliance's battle at its worst moment.",
     choices: [
       {
         id: "stay",
@@ -7302,9 +6983,6 @@ CAMPAIGNS.bef.nodes = {
       "Today German reserve corps made up of volunteers have begun to attack at " +
       "Langemarck in dense columns. They lose very heavily and gain little. Behind them " +
       "the German command is assembling fresh divisions for a larger blow.",
-    context:
-      "The ports are the army's supply line. A line farther back would be easier to " +
-      "hold and would give up Ypres, and the Belgian coast with it.",
     choices: [
       {
         id: "hold",
@@ -7357,10 +7035,6 @@ CAMPAIGNS.bef.nodes = {
       "division in Britain, to Lemnos as a back-up if the fleet should need an army. " +
       "Four days later he delayed its departure, and the War Council was not told. It " +
       "has still not sailed. Its release is the Cabinet's to give.",
-    context:
-      "The Navy's attack needs no soldiers. If it succeeds, the army was not wanted. If " +
-      "it fails, the army is the only way left to try again, and it will have to go " +
-      "by sea to a coast the enemy has had weeks to prepare.",
     choices: [
       {
         id: "release",
@@ -7413,10 +7087,6 @@ CAMPAIGNS.bef.nodes = {
       "The article will be in tomorrow's paper. The government has said the supply is " +
       "in hand. The Admiralty is in a quarrel over the Dardanelles that has already " +
       "put the Cabinet under strain.",
-    context:
-      "The shortage is real, and the War Office has not made it known. A statement " +
-      "from the army to the press that the government is failing it is an act of war " +
-      "against the government, whether it is meant as one or not.",
     choices: [
       {
         id: "tell",
@@ -7475,10 +7145,6 @@ CAMPAIGNS.bef.nodes = {
         : "The shell supply is still the army's chief grievance. ") +
       "Kitchener's view on 21 August is that the British must support the French " +
       "offensive, whatever the army thinks of the ground.",
-    context:
-      "The alliance is under strain. The French have been carrying most of the war " +
-      "on the Western Front for a year, and have made it clear what they think of " +
-      "British commitment.",
     choices: [
       {
         id: "attack",
@@ -7536,9 +7202,6 @@ CAMPAIGNS.bef.nodes = {
       "Haig, whose First Army is making the attack, wants the reserve close behind it, " +
       "so that it can go through if the line breaks. Foch has the same view. The two " +
       "new divisions have only just landed in France and have marched a long way.",
-    context:
-      "A reserve that is near can be used when the opening comes. One that is far has to " +
-      "march to it, and the opening is not there when it arrives.",
     choices: [
       {
         id: "keep",
@@ -7611,10 +7274,6 @@ CAMPAIGNS.bef.nodes = {
       "\n\nThe army in Gallipoli numbers some 93,000 men and 200 guns. The alternative " +
       "to evacuating is to reinforce it, with divisions that France and Salonika are also " +
       "asking for.",
-    context:
-      "The decision belongs to the Cabinet, and this office carries it out. An " +
-      "evacuation in the face of the enemy is the hardest operation in war, and the " +
-      "estimates of what it would cost run as high as half the force.",
     choices: [
       {
         id: "evacuate",
@@ -7681,10 +7340,6 @@ CAMPAIGNS.bef.nodes = {
       "their opinion of who should take his place, and the opinion of the army " +
       "commanders is for Haig. The other name is Robertson's, who is Chief of Staff of " +
       "the army and has no wish to leave the War Office.",
-    context:
-      "A change of Commander-in-Chief changes what the army will be asked to do. Haig " +
-      "believes more strongly than French in the possibility of a decisive blow, and " +
-      "is less willing to be told otherwise.",
     choices: [
       {
         id: "haig",
@@ -7735,10 +7390,6 @@ CAMPAIGNS.bef.nodes = {
       "are, and he is about to bring in a Bill to compel the single. Many Liberals and " +
       "the whole of the Labour movement are against compulsion on principle, and the " +
       "Home Secretary is going to resign.",
-    context:
-      "The army needs men for the offensive that has been agreed with the French for the " +
-      "summer. Compulsion is the way to get them, and a political price must be paid " +
-      "for it.",
     choices: [
       {
         id: "compel",
@@ -7811,10 +7462,6 @@ CAMPAIGNS.bef.nodes = {
       "breakthrough. His plan is for limited advances to take the high ground, a pause " +
       "to break up the German counter-attacks, and then another advance. He has " +
       "submitted it and Haig has said it is not ambitious enough.",
-    context:
-      "A plan that tries for a breakthrough needs more men, more guns and more reserves " +
-      "than the army has, and is judged by whether the gap opens. One that tries for " +
-      "a bite is judged by the ground it holds, and is a smaller thing to promise.",
     choices: [
       {
         id: "compromise",
@@ -7890,10 +7537,6 @@ CAMPAIGNS.bef.nodes = {
       "The Somme has been going on for ten weeks, and the army needs a success. Haig is " +
       "eager to try the new machines as soon as they are ready, and the Fourth Army's " +
       "attack on the 15th is the next chance.",
-    context:
-      "A weapon can be used once for the first time. Spent in small numbers on a " +
-      "difficult field, it teaches the enemy what to expect, and held back, it is " +
-      "not available when it is needed.",
     choices: [
       {
         id: "now",
@@ -7989,10 +7632,6 @@ CAMPAIGNS.bef.nodes = {
       "that will carry the spring offensive. Lloyd George, with the approval of the " +
       "War Cabinet, has a different purpose: to place the British army under Nivelle for " +
       "the duration of the offensive. He has not told Haig or Robertson.",
-    context:
-      "A Prime Minister who can put the army under a foreign general is a Prime " +
-      "Minister who can put it under anyone. Haig and Robertson have to decide what " +
-      "they will accept, and what they will resign over.",
     choices: [
       {
         id: "accept",
@@ -8048,10 +7687,6 @@ CAMPAIGNS.bef.nodes = {
       "ports could not handle the arrivals. Its anti-submarine division has " +
       "recommended it, and the First Sea Lord, Jellicoe, has approved a trial. The Prime " +
       "Minister is going to the Admiralty to see for himself.",
-    context:
-      "Britain has some weeks of wheat in the country. A decision about convoy is a " +
-      "decision about whether the war can be kept going at all, and the Cabinet has " +
-      "to decide how hard to press it.",
     choices: [
       {
         id: "convoy",
@@ -8118,10 +7753,6 @@ CAMPAIGNS.bef.nodes = {
       "superiority in Flanders and parity in artillery, and the Americans are coming. " +
       "He would rather wait. Robertson backs Haig, and is the Cabinet's military " +
       "adviser.",
-    context:
-      "A Prime Minister can veto an offensive. He cannot replace the Commander-in-Chief " +
-      "and the Chief of the Imperial General Staff together without a political " +
-      "crisis, and the War Cabinet is divided about whether it would be worth one.",
     choices: [
       {
         id: "authorise",
@@ -8194,10 +7825,6 @@ CAMPAIGNS.bef.nodes = {
       "Germans are tired. The Prime Minister believes that the first step has shown " +
       "what the army can do and that a second would show what it cannot. The weather " +
       "has begun to break.",
-    context:
-      "A limited attack that succeeds is the hardest kind to stop. The ground that has " +
-      "been taken is a base for the next step, and every argument for going on is " +
-      "made by a man who has just been proved right.",
     choices: [
       {
         id: "goon",
@@ -8283,14 +7910,10 @@ CAMPAIGNS.bef.nodes = {
       "to Barisis, a line that would need six more divisions in the front. The French " +
       "have been carrying the war for longer and are in worse condition." +
       (flags.xc_usw === "restricted" ? "\n\nThe Americans are not coming. The United States is not at war with Germany, and the Allies cannot count on a single division from her in 1918." : ""),
-    context:
-      "To take the front is to go into the spring with a longer line and fewer men to " +
-      "hold it. To refuse is to tell the French that their ally is keeping its men " +
-      "for itself.",
     choices: [
       {
         id: "extend",
-        label: "Take over the line to Barisis as Petain asks, with the men the Cabinet allows",
+        label: "Take over the line to Barisis as Pétain asks, with the men the Cabinet allows",
         historical: true,
         advisor: { name: "Haig", position:
           "The French are asking what they need. We will take the line, and I will ask the Cabinet for the men to hold it." },
@@ -8325,7 +7948,7 @@ CAMPAIGNS.bef.nodes = {
           "Speculative. The extension is delayed, and the French are told that they " +
           "must hold what they have for some weeks longer. The British line is shorter " +
           "when the German offensive comes, and the French line is longer. Clemenceau " +
-          "and Petain say what they think of an ally who takes the French armies' " +
+          "and Pétain say what they think of an ally who takes the French armies' " +
           "losses and gives them nothing in return.",
       },
       {
@@ -8338,7 +7961,7 @@ CAMPAIGNS.bef.nodes = {
         next: "bef_1918_17_reserve",
         outcome:
           "Speculative. The British take over a shorter sector, as far as the Oise, and tell the French " +
-          "that the rest will follow when the reinforcements arrive. Petain, who has asked for Barisis, " +
+          "that the rest will follow when the reinforcements arrive. Pétain, who has asked for Barisis, " +
           "is not pleased, and puts a French division where a British one would have stood. The Fifth " +
           "Army has fewer miles to hold when the German blow falls in March, and the French have more, " +
           "and Clemenceau, who was told that the army would help, says what he thinks.",
@@ -8361,12 +7984,8 @@ CAMPAIGNS.bef.nodes = {
         : "Robertson resigned on 11 February over the general reserve, and Henry Wilson is Chief of the Imperial General Staff.") +
       "\n\nThe Council has asked each army to contribute divisions to the general " +
       "reserve. Haig has been told to find them, from an army that is short of men " +
-      "and holding a longer front than it did. Petain and Clemenceau are against the " +
+      "and holding a longer front than it did. Pétain and Clemenceau are against the " +
       "scheme too.",
-    context:
-      "A Commander-in-Chief who refuses a decision of the Supreme War Council is " +
-      "refusing the government that sent him. He has Petain and Clemenceau on his " +
-      "side, and the Prime Minister has to decide whether to dismiss him.",
     choices: [
       {
         id: "refuse",
@@ -8380,7 +7999,7 @@ CAMPAIGNS.bef.nodes = {
         next: "bef_1918_18_doullens",
         outcome:
           "In the first days of March Haig refuses to carry out the Council's order. " +
-          "With Petain and Clemenceau, who also oppose the measure, he defeats the " +
+          "With Pétain and Clemenceau, who also oppose the measure, he defeats the " +
           "scheme. The Prime Minister decides it is too late, with a great German " +
           "attack expected, to replace him. The general reserve is never formed, and " +
           "the offensive opens on 21 March against armies that have no common reserve.",
@@ -8416,10 +8035,6 @@ CAMPAIGNS.bef.nodes = {
       "said that he wanted General Foch, or some other determined general, given " +
       "supreme command of the operations. Milner has been sent by the Prime Minister, " +
       "with the powers to settle the matter.",
-    context:
-      "A British Commander-in-Chief who accepts a French general's orders is " +
-      "giving up what no British commander has given up before. The alternative is " +
-      "two armies falling back in different directions.",
     choices: [
       {
         id: "foch",
@@ -8478,10 +8093,6 @@ CAMPAIGNS.bef.nodes = {
       "Channel ports. The army has been fighting for three weeks, and the reserves " +
       "that were to have come from France are not yet in the line.\n\n" +
       "The commanders in the north are asking for orders. The ports are not far away.",
-    context:
-      "An order that forbids any retirement may save a position and may waste a " +
-      "division that was holding it. An order that permits one may be read as a " +
-      "signal that the whole line is giving way.",
     choices: [
       {
         id: "order",
@@ -8543,10 +8154,6 @@ CAMPAIGNS.bef.nodes = {
       "said, would become anxious if the army suffered heavy punishment in attacking it " +
       "without success. The Cabinet is also worried about keeping troops at home, " +
       "because of a police strike.",
-    context:
-      "To pause is to give the Germans time to fall back and consolidate behind the " +
-      "strongest line on the front. To go on is to attack the Hindenburg Line against " +
-      "the wishes of the Cabinet that the army serves.",
     choices: [
       {
         id: "attack",
@@ -8608,10 +8215,6 @@ CAMPAIGNS.bef.nodes = {
       "and has fought hard, and its command still has men and guns. The French and " +
       "the Americans, he believes, are asking for more than the Germans will " +
       "accept. His advice is moderate.",
-    context:
-      "Terms that are too hard will be refused and the war will go on into the winter. " +
-      "Terms that are too soft will be called a betrayal by the people who have " +
-      "carried it for four years, and a pause for the German army to recover in.",
     choices: [
       {
         id: "moderate",
@@ -8841,7 +8444,7 @@ CAMPAIGNS.bef.nodes = {
     ending: { family: "unified-reserve", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The general reserve was proposed by the Supreme War Council and " +
-      "defeated by Haig, Petain and Clemenceau. What actually happened: Robertson, " +
+      "defeated by Haig, Pétain and Clemenceau. What actually happened: Robertson, " +
       "who opposed it, was forced to resign on 11 February 1918 and replaced by " +
       "Wilson. In the first days of March Haig refused to carry out the order. " +
       "After the German offensive began on 21 March, Foch was given the " +
@@ -8923,7 +8526,7 @@ CAMPAIGNS.bef.nodes = {
 CAMPAIGNS.aok.startNode = "aok_1914_15_mobilise";
 
 CAMPAIGNS.aok.commanders = [
-  { id: "conrad", name: "Conrad von Hotzendorf", title: "Chief of the General Staff",
+  { id: "conrad", name: "Conrad von Hötzendorf", title: "Chief of the General Staff",
     from: "1914-07-28", to: "1917-02-28" },
   { id: "arz", name: "Arz von Straussenburg", title: "Chief of the General Staff",
     from: "1917-03-01", to: "1918-11-03" },
@@ -8958,7 +8561,7 @@ CAMPAIGNS.aok.advisors = [
     dossier: { role: "Prime Minister of Hungary, 1913-1917",
       bio: "Held the Hungarian half of the monarchy to the war, and was the strongest voice in the common ministers' councils against concessions to the Slav nationalities.",
       fate: "Resigned in May 1917. Assassinated in October 1918." } },
-  { id: "boroevic", name: "Boroevic", from: "1915-05-23", to: "1918-11-03",
+  { id: "boroevic", name: "Boroević", from: "1915-05-23", to: "1918-11-03",
     dossier: { role: "Commander on the Isonzo front; army group commander in 1918",
       bio: "A Croat from the old military border who held the Isonzo through eleven battles, and quarrelled with Conrad over the plan for the offensive of June 1918.",
       fate: "Retired in 1919." } },
@@ -8990,10 +8593,6 @@ CAMPAIGNS.aok.nodes = {
       "The mobilisation against Russia is a different timetable from the one that is running, and " +
       "it cannot be begun without stopping trains that are already moving. The Chief of the General " +
       "Staff has to say when it begins.",
-    context:
-      "A railway timetable is a thing that is made once. A train that is started for one " +
-      "front can be turned to another only at the cost of the day it takes to unload and " +
-      "load, and the days are not many.",
     choices: [
       {
         id: "fourth",
@@ -9079,10 +8678,6 @@ CAMPAIGNS.aok.nodes = {
         : flags.aok_mobilise === "serbia"
         ? "\n\nThe mobilisation against Russia has been held back, and Berlin has not been told why."
         : ""),
-    context:
-      "The railways have been timetabled for months, and a train that is sent the " +
-      "wrong way cannot easily be sent back. An army that goes to Serbia first is " +
-      "not in Galicia when the Russians cross the frontier.",
     choices: [
       {
         id: "serbia",
@@ -9122,7 +8717,7 @@ CAMPAIGNS.aok.nodes = {
 
   // ---------------------------------------------------------------- 1914-08
   aok_1914_02_recall: {
-    year: 1914, date: "1914-08-18", city: "Przemysl",
+    year: 1914, date: "1914-08-18", city: "Przemyśl",
     title: "Too Late to Be Wanted",
     advisors: ["conrad", "potiorek"],
     situation: (flags) =>
@@ -9134,10 +8729,6 @@ CAMPAIGNS.aok.nodes = {
       "\n\nThe Chief of the General Staff has to decide whether the Second Army is to be " +
       "taken out of the Balkan campaign and sent north. It will take days by rail, and " +
       "the Balkan commander has asked that it be allowed to finish what it has begun.",
-    context:
-      "An army that leaves one campaign for another arrives with its men tired by " +
-      "the journey and its place in the line already taken by the formations that " +
-      "were there.",
     choices: [
       {
         id: "recall",
@@ -9177,7 +8768,7 @@ CAMPAIGNS.aok.nodes = {
 
   // ---------------------------------------------------------------- 1914-08
   aok_1914_03_galicia: {
-    year: 1914, date: "1914-08-22", city: "Przemysl",
+    year: 1914, date: "1914-08-22", city: "Przemyśl",
     title: "Into Russian Poland",
     advisors: ["conrad", "friedrich"],
     bulletin: {
@@ -9196,10 +8787,6 @@ CAMPAIGNS.aok.nodes = {
       "armies as they come forward, before they have concentrated. The Russians are " +
       "stronger than he expected and have two armies on his southern flank that his plan " +
       "has not accounted for. The alternative is to wait behind the San and let them come.",
-    context:
-      "The army was built to attack, and its training, its doctrine and its Chief " +
-      "of Staff believe in it. The army that waits behind a river is not the army " +
-      "that has been prepared.",
     choices: [
       {
         id: "offensive",
@@ -9222,11 +8809,11 @@ CAMPAIGNS.aok.nodes = {
             setFlags: { aok_galiciaResult: "lemberg" },
             next: "aok_1914_04_rawa",
             outcome:
-              "The First Army wins at Krasnik, taking some 6,000 prisoners, and the Fourth " +
+              "The First Army wins at Kraśnik, taking some 6,000 prisoners, and the Fourth " +
               "wins at Komarow, taking some 20,000. Then the southern flank gives way: " +
               "the Russians under Brusilov and Ruzsky break the Third Army at the Gnila Lipa " +
               "and take Lemberg. The army falls back a hundred miles to the Carpathians, " +
-              "leaving the fortress of Przemysl behind it, and has lost a great part of its " +
+              "leaving the fortress of Przemyśl behind it, and has lost a great part of its " +
               "regular officers and men." },
           { weight: 30, title: "The offensive is checked early and the army keeps its line",
             impact: { manpower: 1 },
@@ -9252,7 +8839,7 @@ CAMPAIGNS.aok.nodes = {
         next: "aok_1914_04_rawa",
         outcome:
           "Speculative. The army stands behind the San and takes the Russian attack there, " +
-          "with the fortress of Przemysl on its flank. It loses fewer men in the first " +
+          "with the fortress of Przemyśl on its flank. It loses fewer men in the first " +
           "weeks than in the offensive, and the Russians come on at their own pace. The " +
           "Germans, who were told that the Austro-Hungarian army would take the " +
           "initiative in the south, are told instead that it will defend.",
@@ -9275,7 +8862,7 @@ CAMPAIGNS.aok.nodes = {
 
   // ---------------------------------------------------------------- 1914-08 (a detour: the southern flank)
   aok_1914_06_flank: {
-    year: 1914, date: "1914-08-30", city: "Przemysl",
+    year: 1914, date: "1914-08-30", city: "Przemyśl",
     title: "The Southern Flank",
     advisors: ["conrad", "friedrich"],
     situation:
@@ -9286,10 +8873,6 @@ CAMPAIGNS.aok.nodes = {
       "If the Third Army is attacked in strength it will have to give ground. How much, " +
       "and what the armies in the north do about it, is what Conrad has to settle today. " +
       "Every corps that goes south is a corps taken from the blow that is going well.",
-    context:
-      "The railways in Galicia can move some corps and not at the speed the Russians " +
-      "are advancing. The General Staff has little information about the Russian " +
-      "advance south of Lemberg, and what it has is a day old.",
     choices: [
       {
         id: "leave",
@@ -9358,7 +8941,7 @@ CAMPAIGNS.aok.nodes = {
 
   // ---------------------------------------------------------------- 1914-09
   aok_1914_04_rawa: {
-    year: 1914, date: "1914-09-06", city: "Przemysl",
+    year: 1914, date: "1914-09-06", city: "Przemyśl",
     title: "A Decisive Blow Meets Another",
     advisors: ["conrad", "friedrich"],
     situation: (flags) =>
@@ -9376,10 +8959,6 @@ CAMPAIGNS.aok.nodes = {
         ? "\n\nThe Third Army was held back at the San in the opening week, and the northern " +
           "armies have fought without a corps and a half that would have stood beside them."
         : ""),
-    context:
-      "Breaking off now is a retreat in the middle of the first great battle, with " +
-      "the northern flank open and the fortress of Przemysl behind it. Going on is a " +
-      "gamble that the Fourth Army wins before the flank is turned.",
     choices: [
       {
         id: "blow",
@@ -9394,7 +8973,7 @@ CAMPAIGNS.aok.nodes = {
           "The blow meets the Russian advance and does not break it. On 9 September " +
           "Auffenberg begins to retreat west toward the San, outnumbered two to one " +
           "and with his northern flank exposed, and the armies fall back to the " +
-          "Dunajec and the Biala. Przemysl is left behind them to be besieged by " +
+          "Dunajec and the Biala. Przemyśl is left behind them to be besieged by " +
           "the Russians. The plan has been tried in the place where it was meant " +
           "to work, and it has not worked.",
       },
@@ -9431,10 +9010,6 @@ CAMPAIGNS.aok.nodes = {
       "at the beginning of November.\n\n" +
       "Every division that goes into Serbia is a division that is not in Galicia, " +
       "where the Russians have driven the armies back since the Rawa battle.",
-    context:
-      "A third attempt on Serbia is the one the monarchy went to war to make. " +
-      "Declining it means telling the Emperor that the war's first purpose " +
-      "has to wait.",
     choices: [
       {
         id: "invade",
@@ -9496,11 +9071,11 @@ CAMPAIGNS.aok.nodes = {
     bulletin: {
       voice: "aok", date: "1915-01-21", source: "Communique of the General Staff",
       text:
-        "The fortress of Przemysl continues to hold. In the Carpathians our troops " +
+        "The fortress of Przemyśl continues to hold. In the Carpathians our troops " +
         "have repulsed several attacks. The weather is severe.",
     },
     situation: (flags) =>
-      "Przemysl has been surrounded by the Russians since the autumn, with a garrison " +
+      "Przemyśl has been surrounded by the Russians since the autumn, with a garrison " +
       "of about 127,000 soldiers and 18,000 civilians. " +
       (flags.aok_galiciaResult === "checked"
         ? "The army was not driven back so far in the summer, and has more to attempt with."
@@ -9509,13 +9084,10 @@ CAMPAIGNS.aok.nodes = {
       "dead of winter, over passes under snow, with troops that have fought since " +
       "August and are short of everything. The fortress's supplies are running down, and the " +
       "army's honour, as the General Staff reads it, is in the garrison.",
-    context:
-      "The fortress is useless if it is not relieved and a disaster if it falls. The " +
-      "relief may cost more men than the fortress holds.",
     choices: [
       {
         id: "relieve",
-        label: "Press the winter offensive through the Carpathians to relieve Przemysl",
+        label: "Press the winter offensive through the Carpathians to relieve Przemyśl",
         historical: true,
         advisor: { name: "Conrad", position:
           "The garrison has to be relieved. An army that leaves 130,000 men to be taken has lost more than the battle." },
@@ -9526,7 +9098,7 @@ CAMPAIGNS.aok.nodes = {
           "The offensives through the mountains go on from January to April and fail. " +
           "Austro-Hungarian casualties in the Carpathians in those months are reported as " +
           "some 800,000, most of them from the weather and disease, and the garrison of " +
-          "Przemysl surrenders on 22 March with some 117,000 men. About half of the army " +
+          "Przemyśl surrenders on 22 March with some 117,000 men. About half of the army " +
           "that went to war in 1914 is gone, and what is left is a mixture of the old " +
           "regiments and raw drafts.",
       },
@@ -9556,20 +9128,16 @@ CAMPAIGNS.aok.nodes = {
     title: "Telling the Fortress",
     advisors: ["conrad", "friedrich"],
     situation: (flags) =>
-      "The fortress of Przemysl has been shut in for months, with a garrison of well " +
+      "The fortress of Przemyśl has been shut in for months, with a garrison of well " +
       "over a hundred thousand men, and the winter in the Carpathians is costing " +
       "the army heavily, mostly in cold and sickness.\n\n" +
       (flags.aok_carpathians === "held"
         ? "The passes were held in January and the fortress left to itself, and the " +
           "commandant, Kusmanek, has heard it from nobody. "
-        : "The relief attempts have been made through the snow, and Boroevic's Third " +
+        : "The relief attempts have been made through the snow, and Boroević's Third " +
           "Army has pressed forward again in February without breaking through. ") +
       "By the end of the month Conrad has to tell Kusmanek whether any further " +
       "attempt to relieve him will be made.",
-    context:
-      "Telling a garrison that nothing more is coming is telling it to " +
-      "surrender or break out. Not telling it is leaving it to eat its stores while " +
-      "the army that would relieve it is spent in the passes.",
     choices: [
       {
         id: "none",
@@ -9621,13 +9189,9 @@ CAMPAIGNS.aok.nodes = {
       "\n\nConrad has told Berlin that the monarchy cannot go on without help, and the German " +
       "Chief of Staff, Falkenhayn, has concluded that Vienna may look for a separate " +
       "peace if it is not given some. Falkenhayn's plan is a concentrated German " +
-      "offensive in western Galicia, at Gorlice and Tarnow, under a German commander. " +
+      "offensive in western Galicia, at Gorlice and Tarnów, under a German commander. " +
       "The Austro-Hungarian Fourth Army is to be placed under the new German army." +
       (flags.xc_gorlice === "envelop" ? "\n\nBerlin has not accepted Falkenhayn's plan. The weight of the German effort is going north, to an envelopment out of East Prussia and Courland, and what is offered in Galicia is smaller." : ""),
-    context:
-      "The army that accepts a German commander is saved by him. It is also an army " +
-      "that has been shown it cannot defend its own frontier, and the shadow of that does " +
-      "not go away.",
     choices: [
       {
         id: "accept",
@@ -9679,22 +9243,18 @@ CAMPAIGNS.aok.nodes = {
       "Conrad has never believed that Italy would stay out and has wanted a war with " +
       "her for years. He has not got the army for it now. What has to be decided is what to move " +
       "south, and how much of the Galician front to give up to move it.",
-    context:
-      "The ground on the Isonzo favours the defender, and the Italians have a long " +
-      "way to climb. An army that holds there can be small, and one that attacks " +
-      "from the Tyrol has to be much larger.",
     choices: [
       {
         id: "isonzo",
-        label: "Hold the Isonzo line with the army that can be spared, under Boroevic, and attack nowhere",
+        label: "Hold the Isonzo line with the army that can be spared, under Boroević, and attack nowhere",
         historical: true,
-        advisor: { name: "Boroevic", position:
+        advisor: { name: "Boroević", position:
           "The Isonzo is a position that a small army can hold if it holds it with its whole heart. It must not be spent in attacks." },
         impact: { manpower: -1, munitions: -1, will: 0 },
         setFlags: { aok_isonzo: "held" },
         next: "aok_1915_08_pless",
         outcome:
-          "Boroevic's army digs in on the heights above the Isonzo and holds them against " +
+          "Boroević's army digs in on the heights above the Isonzo and holds them against " +
           "the Italian attacks that begin in June. There are eleven battles on the Isonzo " +
           "before the autumn of 1917, and each is fought on ground that the defender has " +
           "had time to prepare. The front is held, and costs the army a great many men " +
@@ -9738,12 +9298,6 @@ CAMPAIGNS.aok.nodes = {
           "time. ") +
       "Serbia has been beaten off three times by the monarchy's own " +
       "armies, and nobody at the table has to be reminded of it.",
-    context:
-      "A German commander over Austro-Hungarian troops is a thing the " +
-      "monarchy has said it would not accept, and has accepted. The case " +
-      "for refusing is that the attack on Serbia is the monarchy's own " +
-      "war. The case for accepting is that Falkenhayn has the divisions " +
-      "and the monarchy has not.",
     choices: [
       {
         id: "mackensen",
@@ -9797,10 +9351,6 @@ CAMPAIGNS.aok.nodes = {
       "Conrad has other plans for the spring, in the Trentino. The divisions that " +
       "would take Montenegro are divisions that cannot be moved to Italy, and " +
       "the campaign would open tomorrow.",
-    context:
-      "Montenegro is small and its army is not large, and the campaign " +
-      "against it would be short. A short campaign still costs the divisions " +
-      "that are in the Balkans something, and a month.",
     choices: [
       {
         id: "attack",
@@ -9861,10 +9411,6 @@ CAMPAIGNS.aok.nodes = {
       " To make the attack with Austro-Hungarian troops alone Conrad has taken six or eight " +
       "of his best divisions out of Galicia, with all his mountain artillery, and " +
       "put raw recruits in their places.",
-    context:
-      "The Russians have not attacked since the summer of 1915, and the General Staff " +
-      "believes that they cannot. If it is right, the offensive in the Tyrol is a " +
-      "bargain. If it is wrong, the Galician front has been left bare.",
     choices: [
       {
         id: "strafe",
@@ -9917,10 +9463,6 @@ CAMPAIGNS.aok.nodes = {
         : "The divisions that would have held the line are in the Tyrol, and the raw recruits in their places have not held.") +
       "\n\nThe offensive in the Trentino is still going on, in mountains and rain. The German " +
       "command is pressing Conrad to stop it and send his divisions back.",
-    context:
-      "A front that has broken has to be mended from somewhere, and the only place " +
-      "with troops is the one the army was trying to win. An ally that has been " +
-      "refused is now being asked for help.",
     choices: [
       {
         id: "halt",
@@ -9991,10 +9533,6 @@ CAMPAIGNS.aok.nodes = {
       "pretence that the monarchy commands its own armies, though it would only " +
       "put into words what the summer has made plain. The Hungarian Prime Minister does " +
       "not want the Hungarian regiments under a foreign commander.",
-    context:
-      "To refuse is to keep a command that cannot be used. To accept is to say, " +
-      "in writing and in front of the other allies, that the monarchy's army is " +
-      "no longer commanded from Vienna.",
     choices: [
       {
         id: "accept",
@@ -10056,9 +9594,6 @@ CAMPAIGNS.aok.nodes = {
       "apart. Through his brother-in-law, Prince Sixtus of Bourbon-Parma, an officer " +
       "in the Belgian army, he has opened a channel to the French President. He is " +
       "about to write a letter, and he has told the army and the foreign minister.",
-    context:
-      "A peace that Berlin does not know about is a peace made behind an ally's back. " +
-      "A peace that Berlin does know about does not happen.",
     choices: [
       {
         id: "secret",
@@ -10117,9 +9652,6 @@ CAMPAIGNS.aok.nodes = {
       "winter. They would form a new army, under a German general, with Austro-Hungarian " +
       "divisions in it, and attack at the northern end of the Isonzo front." +
       (flags.xc_caporetto === "refused" ? "\n\nBerlin has already answered that it will send guns and staff officers and no divisions, so what is left to settle is whether the army can do anything on the Isonzo alone." : ""),
-    context:
-      "An army that asks for help on a front that it has held alone for two years " +
-      "is asking the ally to take the front's best success from it.",
     choices: [
       {
   id: "german",
@@ -10162,7 +9694,7 @@ CAMPAIGNS.aok.nodes = {
       {
         id: "defend",
         label: "Stay on the defensive on the Isonzo and ask only for guns",
-        advisor: { name: "Boroevic", position:
+        advisor: { name: "Boroević", position:
           "The Isonzo can be held, as it has been before, if the army is given the guns and left to do it." },
         gate: (m) => m.manpower >= -6,
         disabledReason: "The army has not the divisions left to hold a twelfth battle on its own",
@@ -10192,16 +9724,12 @@ CAMPAIGNS.aok.nodes = {
       "short of food; the Germans who made the breakthrough have the same trouble. " +
       "The question for the Emperor's staff is whether the line that has been reached " +
       "is the line to hold.",
-    context:
-      "An army that stops lets the enemy dig in and rebuild. An army that goes on " +
-      "has to do it from the end of a railway that cannot carry what it needs, " +
-      "against an enemy that is now fighting on its own ground.",
     choices: [
       {
         id: "push",
         label: "Mount one more push over the Piave and on Monte Grappa",
         historical: true,
-        advisor: { name: "Boroevic", position:
+        advisor: { name: "Boroević", position:
           "The enemy is beaten and has not yet dug in. A pause now gives him the weeks he needs, and a line that is not pushed will have to be fought for later." },
         impact: { manpower: -1, munitions: -1, will: 0 },
         setFlags: { aok_pursuit: "push" },
@@ -10248,10 +9776,6 @@ CAMPAIGNS.aok.nodes = {
       "The monarchy is short of food. The divisions that would go east are " +
       "divisions that are not on the Italian front, where an offensive is " +
       "wanted for the summer.",
-    context:
-      "The grain is in Ukraine and will be taken by somebody. A German occupation " +
-      "alone takes what the Germans need first. An Austro-Hungarian army in " +
-      "the country has a claim to some, and it is paid for in divisions.",
     choices: [
       {
         id: "occupy",
@@ -10325,13 +9849,9 @@ CAMPAIGNS.aok.nodes = {
         ? "The army has the memory of Caporetto to go on, and the Germans have taken their divisions away again."
         : "The army has the memory of eleven defensive battles and no victory to go on.") +
       "\n\nConrad, commanding in the Tyrol, wants to attack from the mountains toward Asiago and " +
-      "Vicenza. Boroevic, on the Piave, wants to attack across the river. Each says " +
+      "Vicenza. Boroević, on the Piave, wants to attack across the river. Each says " +
       "his is the right way. They cannot be reconciled, and the army has one army's " +
       "worth of reserves.",
-    context:
-      "An offensive on two fronts with half the force on each is two attacks that " +
-      "may be too weak. One that goes on a single axis means one of the two commanders " +
-      "has been refused.",
     choices: [
       {
         id: "divide",
@@ -10375,7 +9895,7 @@ CAMPAIGNS.aok.nodes = {
       {
         id: "concentrate",
         label: "Choose one thrust, and concentrate every available division on it",
-        advisor: { name: "Boroevic", position:
+        advisor: { name: "Boroević", position:
           "Only one plan can be carried out with the army that is left. The Piave is the place, and the whole army should be put into it." },
         gate: (m) => m.manpower >= -6,
         disabledReason: "The army has not the reserves to hold a concentrated attack and a defensive front at once",
@@ -10405,13 +9925,9 @@ CAMPAIGNS.aok.nodes = {
         ? "The army made one great attack in June and is weaker than it would have been."
         : "The army lost the June offensive and has never recovered.") +
       "\n\nThe Italians attacked on 24 October, the anniversary of Caporetto, and the " +
-      "units of the army are refusing orders, one nationality after another. Boroevic's " +
+      "units of the army are refusing orders, one nationality after another. Boroević's " +
       "counter-attack on the 27th failed because his troops would not obey. " +
       "The Chief of the General Staff has to say what the army is to do.",
-    context:
-      "An army that cannot be ordered to attack can still be ordered to retire. One " +
-      "that cannot be ordered to do either is asking for terms in the only way it " +
-      "can, by dissolving.",
     choices: [
       {
         id: "armistice",
@@ -10491,8 +10007,8 @@ CAMPAIGNS.aok.nodes = {
       "The offensive into Russian Poland: " + (flags.aok_galicia === "defensive" ? "refused, and the army stood behind the San." : flags.aok_galicia === "cover" ? "launched with the Third Army held back at the San to cover the southern flank." : flags.aok_galiciaResult === "checked" ? "launched, and checked before the flank was turned." : "launched, and ended at Lemberg.") + "\n" +
       "Rawa, September 1914: " + (flags.aok_rawa === "brokeoff" ? "the battle broken off and the army drawn back behind the San." : "the decisive blow left to go on, and the retreat to the Dunajec.") + "\n" +
       "Serbia, autumn 1914: " + (flags.aok_kolubara === "declined" ? "the third invasion declined." : flags.aok_kolubara === "limited" ? "the advance stopped on the Kolubara." : "the third invasion made, and Belgrade lost again.") + "\n" +
-      "Przemysl, 1915: " + (flags.aok_carpathians === "held" ? "the passes held, and the fortress left to its fate." : "relief pressed through the Carpathian winter.") + "\n" +
-      "Przemysl, February 1915: " + (flags.aok_przemyslend === "third" ? "a third relief attempt ordered." : "the fortress told that no more relief would come.") + "\n" +
+      "Przemyśl, 1915: " + (flags.aok_carpathians === "held" ? "the passes held, and the fortress left to its fate." : "relief pressed through the Carpathian winter.") + "\n" +
+      "Przemyśl, February 1915: " + (flags.aok_przemyslend === "third" ? "a third relief attempt ordered." : "the fortress told that no more relief would come.") + "\n" +
       "Gorlice: " + (flags.aok_gorlice === "own" ? "an Austro-Hungarian command insisted on." : "a German commander accepted.") + "\n" +
       "Italy: " + (flags.aok_isonzo === "attacked" ? "attacked at once." : "the Isonzo held.") + "\n" +
       "Serbia, September 1915: " + (flags.aok_pless === "own" ? "the attack made under AOK's own orders." : "the attack made under Mackensen.") + "\n" +
@@ -10673,7 +10189,7 @@ CAMPAIGNS.otto.commanders = [
 CAMPAIGNS.otto.advisors = [
   { id: "enver", name: "Enver", from: "1914-07-29", to: "1918-10-13",
     dossier: { role: "Minister of War from January 1914; Deputy Commander-in-Chief",
-      bio: "The architect of the German alliance and of the empire's entry into the war. Ordered the raid on the Russian Black Sea ports, planned and took command of the winter offensive at Sarikamis, and later sent the Army of Islam into the Caucasus. After Sarikamis he blamed the Armenians for the defeat.",
+      bio: "The architect of the German alliance and of the empire's entry into the war. Ordered the raid on the Russian Black Sea ports, planned and took command of the winter offensive at Sarıkamış, and later sent the Army of Islam into the Caucasus. After Sarıkamış he blamed the Armenians for the defeat.",
       fate: "Dismissed as Minister of War in October 1918. Left Constantinople on 1 or 2 November aboard a German submarine. Killed in Central Asia on 4 August 1922." } },
   { id: "liman", name: "Liman von Sanders", from: "1914-07-29", to: "1918-10-30",
     dossier: { role: "German general at the head of the military mission; commander of the Fifth Army at Gallipoli; commander of the Yildirim Army Group from February 1918",
@@ -10731,10 +10247,6 @@ CAMPAIGNS.otto.nodes = {
       "Only a handful of ministers know of the offer, and the cabinet has not met. The " +
       "treaty that Germany has drafted is a defensive one, and it commits the empire to fight " +
       "beside Germany if Russia attacks her.",
-    context:
-      "An alliance with the strongest army in Europe is a protection the empire cannot buy " +
-      "anywhere else. It is also a promise to go to war on the word of another government, and " +
-      "the army that would have to keep it is not ready.",
     choices: [
       {
         id: "sign",
@@ -10826,11 +10338,6 @@ CAMPAIGNS.otto.nodes = {
       "Grand Vizier asked Berlin to pretend that the Goeben had been sold to the Ottoman " +
       "navy, so that her entry would look like a purchase; Berlin refused. The ships are " +
       "waiting for an answer.",
-    context:
-      "A neutral state that lets a belligerent's warships pass its Straits has stopped being " +
-      "neutral, and the Entente will say so. The empire's debt of about 716 million dollars " +
-      "is held mostly in France, and its navy cannot match the Greek one. Two modern ships " +
-      "with trained crews are worth a great deal to an empire that has neither.",
     choices: [
       {
         id: "admit",
@@ -10890,10 +10397,6 @@ CAMPAIGNS.otto.nodes = {
       "attack if a suitable opportunity arises. The cabinet, the Grand Vizier among them, has " +
       "not been told. The Germans want the war opened now, while the Russian fleet in the " +
       "Black Sea is unready.",
-    context:
-      "A declaration of war would need the cabinet. An attack by a squadron at sea needs " +
-      "only an admiral. Once the first shell is fired at a Russian port the cabinet's views " +
-      "will no longer matter, and Enver knows it.",
     choices: [
       {
         id: "raid",
@@ -10941,18 +10444,13 @@ CAMPAIGNS.otto.nodes = {
     situation:
       "The Third Army holds the frontier with Russia in the high country round Erzurum, " +
       "and the Russians have a railway to within about 24 kilometres of the border at " +
-      "Sarikamis. Enver has a plan to destroy the Russian Caucasus Army in one stroke: the " +
+      "Sarıkamış. Enver has a plan to destroy the Russian Caucasus Army in one stroke: the " +
       "XI Corps is to hold the Russians in place, and the X and IX Corps, some 68,000 men " +
       "between them, are to cross the mountains by night and fall on their flank and rear.\n\n" +
       "The mountains are 1,500 to 2,000 metres high and it is the middle of December. The " +
       "men have no winter clothing and are to carry dry bread and olives. The Third Army's " +
       "commander, Hasan Izzet, has told Enver he doubts the plan and asked on the 18th to " +
       "be relieved. Enver has said that he will command it himself.",
-    context:
-      "The plan is a good one on a map and was drawn up from German principles. Everything " +
-      "that can go wrong with it is a matter of weather and supply, and the weather " +
-      "will not be consulted. The alternative is to wait for the Russians in the fortress " +
-      "line at Erzurum, which means leaving the winter to them.",
     choices: [
       {
   id: "launch",
@@ -10964,7 +10462,7 @@ CAMPAIGNS.otto.nodes = {
   erodes: "overextend",
   setFlags: { otto_sarikamis: "launched" },
   dispute:
-    "Historians differ on whether the plan at Sarikamis could have succeeded. Some " +
+    "Historians differ on whether the plan at Sarıkamış could have succeeded. Some " +
     "hold that it was impossible in that season and on that ground. Others point to " +
     "the confusion of the Russian command in the first days, when one corps " +
     "commander wanted to fall back on Kars, and argue that better preparation " +
@@ -10975,12 +10473,12 @@ CAMPAIGNS.otto.nodes = {
       next: "otto_1915_01_suez",
       outcome:
         "The offensive begins on 22 December. A snowstorm on the 25th and 26th catches the " +
-        "columns on the heights and the Russians hold Sarikamis. On 4 January the IX Corps " +
+        "columns on the heights and the Russians hold Sarıkamış. On 4 January the IX Corps " +
         "surrenders, and the X Corps withdraws that night. Enver leaves the army in the " +
         "second week of January. Estimates of the army's losses run from 30,000 to 80,000, " +
         "most of them from cold and disease and many from typhus in the hospitals. " +
         "The Third Army has ceased to be able to attack anywhere." },
-    { weight: 20, title: "The Russians give up Sarikamis, and the army freezes on the heights",
+    { weight: 20, title: "The Russians give up Sarıkamış, and the army freezes on the heights",
       impact: { manpower: -2, munitions: 0, will: 1 },
       next: "otto_1915_01_suez",
       outcome:
@@ -11037,13 +10535,9 @@ CAMPAIGNS.otto.nodes = {
       "mules for the mountain tracks. The staff has planned again for the passes the " +
       "columns will use.\n\n" +
       "The Russians have used the month as well. A new corps has come up by the railway " +
-      "to Sarikamis, and their patrols have been found on the tracks that the plan " +
+      "to Sarıkamış, and their patrols have been found on the tracks that the plan " +
       "needs. The month has made the army better fit to march and the plan harder to " +
       "surprise.",
-    context:
-      "A plan that depends on surprise loses what it depends on when it is delayed, and " +
-      "gains what an army needs to march at all. Which matters more in the high country in " +
-      "January is not something that can be settled from a map.",
     choices: [
       {
         id: "hold",
@@ -11067,7 +10561,7 @@ CAMPAIGNS.otto.nodes = {
           "The army that went in December would have been lost to the cold. The army that goes now is clothed. The plan is the same plan, and the Russians still do not expect it." },
         impact: { manpower: -2, munitions: 0, will: 0 },
         dispute:
-          "Historians differ on whether the Sarikamis plan could have succeeded with " +
+          "Historians differ on whether the Sarıkamış plan could have succeeded with " +
           "better preparation or was impossible in the season and on the ground. Russian " +
           "accounts stress the confusion of their own command in the first days, " +
           "Ottoman accounts the weather. A delay of a month would have helped the " +
@@ -11078,7 +10572,7 @@ CAMPAIGNS.otto.nodes = {
             next: "otto_1915_01_suez",
             outcome:
               "Speculative. The columns, clothed and fed, cross the mountains by night and " +
-              "reach the heights above Sarikamis, where the Russian line has been thinned " +
+              "reach the heights above Sarıkamış, where the Russian line has been thinned " +
               "to feed the corps that came up by rail. The battle that follows is a hard fight in the snow that the Russians " +
               "lose by a little, and the Third Army has its victory at the price of a " +
               "third of its men." },
@@ -11130,10 +10624,6 @@ CAMPAIGNS.otto.nodes = {
           "winter offensive in the Caucasus has been settled one way or the other. The empire's " +
           "attention is turning south."
         : ""),
-    context:
-      "The canal is the road to India and the object of the whole attack. An army that " +
-      "reaches it at the end of a supply line of that length can do very little once there. " +
-      "Kress himself thinks of it as a forcible reconnaissance, and not an invasion.",
     choices: [
       {
   id: "attack",
@@ -11237,11 +10727,6 @@ CAMPAIGNS.otto.nodes = {
       "same government that is deciding how to meet the landings. The command whose file this " +
       "is bears its share of the responsibility, and nothing in the choices below can touch " +
       "it, because the office never offered one.",
-    context:
-      "Sanders can keep his reserve far from the beaches, so that it is not destroyed by " +
-      "the fleet's guns and can reach the landing wherever it comes. That depends on " +
-      "moving men and orders quickly over bad roads, and on the commander being where he " +
-      "is needed. The other course is to put the divisions on the heights above every beach.",
     choices: [
       {
         id: "reserve",
@@ -11316,11 +10801,6 @@ CAMPAIGNS.otto.nodes = {
       "force is being gathered at Basra. In the west the Allies are leaving Gallipoli, which " +
       "will free the divisions of the Fifth Army, and the Russians are pressing on " +
       "the Third Army in the Caucasus.",
-    context:
-      "A town that is stormed can be taken in days and at a cost in lives. A town that is " +
-      "besieged keeps the army tied to it for as long as the garrison can eat. Either way, " +
-      "the divisions that are used at Kut cannot be used in the east, and the east is " +
-      "also asking.",
     choices: [
       {
         id: "siege",
@@ -11399,11 +10879,6 @@ CAMPAIGNS.otto.nodes = {
       "returned from Constantinople on the 29th.\n\n" +
       "The Russians have 130,000 infantry and 35,000 cavalry, and 160,000 more in reserve. " +
       "They are moving on a wide front, and the nearest reserves are a long way off.",
-    context:
-      "A fortress holds an army in place and protects the road behind it for as long as the " +
-      "army inside is not cut off. Fortresses have a way of becoming the places where " +
-      "armies are lost. Behind Erzurum there is nothing to stop the Russians until the " +
-      "coast and the plains of Anatolia.",
     choices: [
       {
         id: "defend",
@@ -11440,7 +10915,7 @@ CAMPAIGNS.otto.nodes = {
       },
       {
         id: "counter",
-        label: "Counter-attack the Russian columns on the road at Koprukoy, with the Third Army outside the fortress",
+        label: "Counter-attack the Russian columns on the road at Köprüköy, with the Third Army outside the fortress",
         advisor: { name: "Enver", position:
           "A fortress is a place to be besieged in. The Russians are strung out in the snow, and an army that waits behind its forts gives up the chance to hit them on the road." },
         impact: { manpower: -2, munitions: -1, will: 0 },
@@ -11454,7 +10929,7 @@ CAMPAIGNS.otto.nodes = {
             setFlags: { otto_erzurum: "fought" },
             next: "otto_1916_02_medina",
             outcome:
-              "Speculative. The Third Army turns on the leading Russian columns at Koprukoy and checks them " +
+              "Speculative. The Third Army turns on the leading Russian columns at Köprüköy and checks them " +
               "for a week in the snow. It falls back to Erzurum with a third of its men gone, and the fortress is held a little longer by an army that still has some fight left. " +
               "The Russians have lost time, and when they come to the forts they come to a garrison that knows the ground." },
           { weight: 70, title: "The army is beaten in the open",
@@ -11486,10 +10961,6 @@ CAMPAIGNS.otto.nodes = {
       "governs with full powers. The railway can carry only a small part of what both " +
       "need. The revolt is a rising against the sultan-caliph by the guardian of " +
       "the holy places, and the empire has declared a holy war.",
-    context:
-      "A city held at the end of a single railway can be cut by a few men with explosives " +
-      "and a few camels. The garrison it takes to hold the line is a force that the rest " +
-      "of the empire does without.",
     choices: [
       {
         id: "hold",
@@ -11544,10 +11015,6 @@ CAMPAIGNS.otto.nodes = {
       (flags.otto_medina === "held"
         ? "\n\nThe Hejaz railway and Medina are taking the troops that Djemal might have sent here."
         : ""),
-    context:
-      "A force that marches at night over sand with the water it can carry has a few days " +
-      "of fighting in it. If the British are not beaten in those days, the march home is " +
-      "the real battle.",
     choices: [
       {
         id: "strike",
@@ -11630,9 +11097,6 @@ CAMPAIGNS.otto.nodes = {
       "Ctesiphon, below the city, and has not finished.\n\n" +
       "He has three courses: to stand in front of Baghdad, to meet the British below it, or to " +
       "give the city up and save the army. Constantinople has to say which it wants.",
-    context:
-      "A city on a river can be held for a few days by an army that is not strong enough to " +
-      "hold it for a month. What matters is what is left of the army when the days are over.",
     choices: [
       {
         id: "diyala",
@@ -11717,10 +11181,6 @@ CAMPAIGNS.otto.nodes = {
       "\n\nThe line now runs from Gaza on the coast to Beersheba, some forty kilometres inland, " +
       "and it is thin at the eastern end, where the desert is. Two more divisions are on the way. " +
       "The British have lost a battle and not the war, and they will be back.",
-    context:
-      "A line that is held by redoubts and few men is strong where it has been attacked and " +
-      "weak where it has not. What is done with the divisions that are coming decides where " +
-      "the next attack will fall.",
     choices: [
       {
         id: "line",
@@ -11802,9 +11262,6 @@ CAMPAIGNS.otto.nodes = {
       "where there is a blockhouse. The nearest force of any size is at Ma'an, some days away, and " +
       "the army in Palestine, where the British are expected to attack again, wants every man." +
       (flags.otto_medina === "held" ? "\n\nThe garrison of Medina is at the other end of the same railway, and the same raiders are cutting it." : ""),
-    context:
-      "A port is worth what can be landed in it. In Arab hands Aqaba would take stores and guns from " +
-      "the British in Egypt, and the railway would be struck from its landward side as well as from the desert.",
     choices: [
       {
         id: "leave",
@@ -11898,11 +11355,6 @@ CAMPAIGNS.otto.nodes = {
         : flags.otto_gaza === "struck"
         ? "The British, who were beaten at Gaza in April, are about to attack again."
         : "The British are about to attack at Gaza."),
-    context:
-      "The railway to Baghdad is unfinished, and the last of the way is a road across " +
-      "the desert. Supplying an army group that far is a different campaign from " +
-      "fighting one. In Palestine the railways are shorter, and so is the distance " +
-      "from the British.",
     choices: [
       {
         id: "palestine",
@@ -11975,10 +11427,6 @@ CAMPAIGNS.otto.nodes = {
         : flags.otto_aqaba === "abandoned"
         ? "\n\nAqaba was given up in the summer, and the Arabs and the British have the port."
         : ""),
-    context:
-      "A garrison that is fed from a railway lives as long as the railway runs. Trucks sent to Medina " +
-      "are trucks not sent to Gaza, and a garrison brought out is a garrison that has given up the city " +
-      "that the Sultan's claim to be caliph rests on.",
     choices: [
       {
         id: "live",
@@ -12069,11 +11517,6 @@ CAMPAIGNS.otto.nodes = {
       "infantry divisions have lost some 28,000 men and 100 guns.\n\n" +
       "The question for the army group is Jerusalem. Defended, it holds the road to Nablus " +
       "and the holy city; given up, it saves the army from a battle fought for a name.",
-    context:
-      "The city has shrines holy to three faiths, and fighting among them will be held " +
-      "against whoever fights. An army that stays to defend it will be shelled by an " +
-      "enemy who has more guns, and it will not be able to retreat if the hills behind it " +
-      "are cut.",
     choices: [
       {
         id: "withdraw",
@@ -12124,10 +11567,6 @@ CAMPAIGNS.otto.nodes = {
       "Jerusalem fell on 9 December, and Djemal and the Germans want every division that can be spared " +
       "in Palestine. The Third Army is hungry, ill-clothed and half the size on paper that it was, " +
       "and it is the winter in the mountains.",
-    context:
-      "An enemy that is going home is an enemy that cannot be fought and cannot be trusted to stay " +
-      "gone. A ceasefire gives the Third Army the winter, and the Russians the same, and what " +
-      "the spring brings is not something that can be known now.",
     choices: [
       {
         id: "sign",
@@ -12216,11 +11655,6 @@ CAMPAIGNS.otto.nodes = {
         : flags.otto_erzincan === "palestine"
         ? "\n\nTwo divisions of the Third Army went to Palestine in January, and the Caucasus is held more thinly."
         : ""),
-    context:
-      "Baku is five hundred kilometres from the nearest Ottoman railway, and a long way " +
-      "from any front where the war will be decided. The divisions that are sent to the " +
-      "Caspian are divisions that Palestine does not have, in the summer that the British " +
-      "are expected to attack there.",
     choices: [
       {
         id: "baku",
@@ -12280,10 +11714,6 @@ CAMPAIGNS.otto.nodes = {
       "The commander of the XXII Corps on the coast, Refet, thinks an attack is coming " +
       "and wants to withdraw his corps to a shorter line before it begins. Liman believes " +
       "the information is a bluff.",
-    context:
-      "A corps that retires without being attacked gives ground it might have held, and a " +
-      "corps that does not retire may be destroyed where it stands. Behind the line there " +
-      "are two roads, a railway, and 150 kilometres to Damascus.",
     choices: [
       {
   id: "hold",
@@ -12361,10 +11791,6 @@ CAMPAIGNS.otto.nodes = {
       "Straits forts be occupied, that the army be demobilised, and that the Allies " +
       "may occupy any territory in the event of disorder. The delegation has asked for " +
       "instructions.",
-    context:
-      "The terms are hard and loosely drawn. The government is told it can refuse them and " +
-      "fall back on Anatolia, which it has no army to defend, or sign them and trust what " +
-      "the British say about the intentions behind them.",
     choices: [
       {
         id: "sign",
@@ -12421,7 +11847,7 @@ CAMPAIGNS.otto.nodes = {
     epilogue: (flags) =>
       "The German ships, August 1914: " + (flags.otto_straits === "closed" ? "kept out of the Straits." : "admitted to the Straits and taken into the navy.") + "\n" +
       "Entering the war, 1914: " + (flags.otto_blacksea === "held" ? "the fleet kept in the Bosphorus." : "the Black Sea raid, and war with Russia.") + "\n" +
-      "Sarikamis, December 1914: " + (flags.otto_sarikamis === "held" ? "the Erzurum line held through the winter." : flags.otto_sarikamis === "postponed" ? "the offensive postponed for a month for clothing, and then decided on the new facts." : "the offensive in the snow.") + "\n" +
+      "Sarıkamış, December 1914: " + (flags.otto_sarikamis === "held" ? "the Erzurum line held through the winter." : flags.otto_sarikamis === "postponed" ? "the offensive postponed for a month for clothing, and then decided on the new facts." : "the offensive in the snow.") + "\n" +
       "The Suez Canal, February 1915: " + (flags.otto_suez === "kept" ? "the Fourth Army kept in Palestine." : flags.otto_suez === "raided" ? "a small column sent to raid the canal." : "the attack across Sinai.") + "\n" +
       "Gallipoli, April 1915: " + (flags.otto_gallipoli === "forward" ? "the divisions placed above the beaches." : "the reserve kept inland, and the landings contained.") + "\n" +
       "Kut, winter of 1915-16: " + (flags.otto_kut === "storm" ? "the town stormed." : flags.otto_kutResult === "relieved" ? "the siege broken by the relief force." : "the siege kept, and the British surrender.") + "\n" +
@@ -12483,7 +11909,7 @@ CAMPAIGNS.otto.nodes = {
     ending: { family: "core-defence", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The empire's army fought the war on every front it could reach. What " +
-      "actually happened: the offensive at Sarikamis, the attack on the canal, the garrison " +
+      "actually happened: the offensive at Sarıkamış, the attack on the canal, the garrison " +
       "of the Hejaz and the Army of Islam were all commitments beyond what the railways and " +
       "the stores could carry, and each cost men the empire could not replace. Whether " +
       "a war confined to Anatolia and the Straits would have saved the empire cannot " +
@@ -12574,7 +12000,7 @@ export const MAP_TOKENS = {
 export const MAP_VIEW = { width: 600, height: 354, lon: [-9, 46], lat: [42, 62] };
 
 /** City -> [x, y] in MAP_VIEW units. Every node's `city` must be here (check-maps.js). */
-export const MAP_CITIES = {"Amiens":[123.3,214.3],"Antwerp":[146.2,190.8],"Avesnes":[141.1,210.3],"Bad Homburg":[192.2,208.3],"Baden":[275.2,247.6],"Bar-sur-Aube":[149.6,243.7],"Baranovichi":[382,157],"Belgrade":[321.4,304.1],"Berdichev":[410,214.2],"Berlin":[244.4,167.8],"Bombon":[128.7,236.8],"Brest-Litovsk":[356.5,175.2],"Calais":[118.5,195.6],"Chantilly":[125.1,226.7],"Charleville":[149.7,216.5],"Chatillon-sur-Seine":[148,250.3],"Chemin des Dames":[138.5,222.1],"Compiegne":[129.1,222.7],"Doullens":[123.7,209.6],"Dury":[123.1,215.9],"Gorlice":[329,218.4],"Kiev":[431.1,204.4],"Koblenz":[181,206],"Kreuznach":[184,215.1],"La Malmaison":[137.1,221.8],"London":[96.8,185.7],"Luxembourg":[165.1,219.3],"Lvov":[360.3,215.2],"Mogilev":[429.2,143.4],"Montreuil":[117.4,204.3],"Novocherkassk":[535.6,258.1],"Paris":[123.8,232.6],"Petrograd":[429.2,36.6],"Pless":[304.9,212.9],"Provins":[134.2,237.9],"Przemysl":[346.6,216.3],"Pskov":[407.2,74],"Saint-Omer":[122.8,199.1],"Saint-Quentin":[134.1,215.1],"Senlis":[126.3,226.4],"Soissons":[134.5,223.4],"Spa":[162.1,203.7],"Tarnopol":[377.3,220.4],"Teschen":[301.4,216.8],"Verdun":[156.9,227.3],"Vienna":[276.8,244.1],"Villa Giusti":[227.8,293.6],"Villers-Cotterets":[132,225.7],"Vitry-le-Francois":[148.1,235.1],"Ypres":[129.7,197.4]};
+export const MAP_CITIES = {"Amiens":[123.3,214.3],"Antwerp":[146.2,190.8],"Avesnes":[141.1,210.3],"Bad Homburg":[192.2,208.3],"Baden":[275.2,247.6],"Bar-sur-Aube":[149.6,243.7],"Baranovichi":[382,157],"Belgrade":[321.4,304.1],"Berdichev":[410,214.2],"Berlin":[244.4,167.8],"Bombon":[128.7,236.8],"Brest-Litovsk":[356.5,175.2],"Calais":[118.5,195.6],"Chantilly":[125.1,226.7],"Charleville":[149.7,216.5],"Chatillon-sur-Seine":[148,250.3],"Chemin des Dames":[138.5,222.1],"Compiègne":[129.1,222.7],"Doullens":[123.7,209.6],"Dury":[123.1,215.9],"Gorlice":[329,218.4],"Kiev":[431.1,204.4],"Koblenz":[181,206],"Kreuznach":[184,215.1],"La Malmaison":[137.1,221.8],"London":[96.8,185.7],"Luxembourg":[165.1,219.3],"Lvov":[360.3,215.2],"Mogilev":[429.2,143.4],"Montreuil":[117.4,204.3],"Novocherkassk":[535.6,258.1],"Paris":[123.8,232.6],"Petrograd":[429.2,36.6],"Pless":[304.9,212.9],"Provins":[134.2,237.9],"Przemyśl":[346.6,216.3],"Pskov":[407.2,74],"Saint-Omer":[122.8,199.1],"Saint-Quentin":[134.1,215.1],"Senlis":[126.3,226.4],"Soissons":[134.5,223.4],"Spa":[162.1,203.7],"Tarnopol":[377.3,220.4],"Teschen":[301.4,216.8],"Verdun":[156.9,227.3],"Vienna":[276.8,244.1],"Villa Giusti":[227.8,293.6],"Villers-Cotterets":[132,225.7],"Vitry-le-Francois":[148.1,235.1],"Ypres":[129.7,197.4]};
 
 export const MAP_LAND_PATH = "M344.9 59.8L345.7 60.2L346.4 60.1L347.1 59.8L348.7 60.1L352.3 62.2L352.6 62.8L350.5 63.1L350.0 63.8L349.5 64.2L348.9 64.4L347.8 65.3L346.4 66.2L346.1 66.7L343.6 66.6L342.2 67.0L341.1 68.0L340.7 69.9L339.8 71.4L339.0 71.9L338.2 72.0L337.9 71.4L339.8 68.8L340.2 68.1L339.3 67.7L338.6 67.0L336.9 66.2L336.6 65.5L337.4 65.2L337.8 64.6L338.0 64.0L336.7 62.0L337.4 61.7L338.2 61.8L339.1 62.3L340.0 61.7L341.1 61.8L341.8 60.5L343.3 60.1L344.1 59.7L344.9 59.8ZM306.3 73.7L305.4 74.1L304.9 75.4L304.1 75.6L303.4 76.0L303.2 79.9L304.5 81.5L303.8 81.7L303.1 82.1L302.7 82.8L302.2 84.2L300.4 85.0L299.8 85.6L298.8 87.0L298.3 88.9L297.3 89.7L296.1 89.9L296.8 88.3L297.7 87.0L296.8 86.2L296.3 84.7L295.7 83.7L296.2 82.5L295.9 80.6L296.0 78.7L296.8 77.7L297.6 76.9L299.0 75.1L300.4 73.8L302.4 73.2L303.3 73.7L303.7 72.6L304.4 72.3L305.0 72.6L306.3 73.7ZM235.3 110.0L235.3 111.8L234.6 112.6L233.5 113.0L232.6 113.5L231.7 114.4L231.5 115.7L232.1 116.6L233.3 117.1L233.6 118.8L232.6 119.7L230.1 120.6L229.8 122.7L229.9 124.3L229.8 125.5L229.6 127.2L227.6 127.9L226.3 125.4L226.3 124.4L225.8 123.2L225.8 122.2L225.3 120.6L223.4 120.2L222.6 120.1L221.6 120.4L220.0 118.1L220.3 115.7L219.6 114.4L219.5 113.3L219.0 112.8L218.3 112.5L217.9 111.1L218.7 110.8L220.6 111.0L221.7 110.6L223.2 108.3L223.4 107.2L225.0 107.0L225.8 107.8L225.6 109.2L225.7 111.0L226.7 111.5L227.5 110.2L227.8 109.6L228.4 108.0L228.2 107.3L227.6 106.8L229.5 105.3L231.5 104.1L232.6 104.0L233.8 104.3L234.8 104.7L235.4 105.1L235.7 105.6L235.0 106.9L234.8 107.6L235.3 110.0ZM214.3 113.1L214.8 114.0L215.3 116.0L216.2 118.2L215.8 119.1L216.1 120.3L215.8 121.6L214.1 123.0L212.1 123.0L210.1 122.4L207.1 121.0L206.9 120.3L205.7 117.6L205.8 114.8L207.2 114.4L210.4 113.1L211.1 113.3L211.9 114.0L212.8 114.0L214.1 113.0ZM201.6 339.7L201.3 342.3L201.5 343.1L201.9 343.6L202.1 344.2L202.4 351.1L201.3 354.0L192.6 354.0L193.1 353.2L193.1 352.3L192.5 351.9L191.9 351.1L191.6 350.1L192.1 349.4L192.8 349.0L192.3 347.9L191.6 347.7L192.4 346.4L193.2 344.3L194.3 343.2L196.3 342.6L196.9 342.3L197.3 341.5L197.9 341.0L198.5 341.1L199.1 341.4L199.8 341.4L200.0 340.4L199.9 339.6L200.0 337.3L200.3 336.0L201.4 336.6L201.4 337.3L201.6 338.8L201.6 339.7ZM64.3 61.7L64.3 63.1L64.0 64.1L63.1 65.1L61.0 66.6L57.0 69.9L54.6 71.5L54.3 72.3L54.2 73.4L55.6 73.6L56.1 74.0L55.8 74.6L53.7 76.5L53.1 78.3L54.7 78.2L56.0 77.9L58.6 76.8L61.0 76.0L62.2 75.9L64.5 76.6L66.0 76.3L67.0 76.3L73.7 76.4L75.5 76.1L76.8 76.5L77.8 77.7L78.8 79.8L78.2 81.1L77.1 82.3L76.1 83.9L75.9 84.8L75.7 85.8L75.4 86.7L73.5 90.9L71.7 93.3L70.9 94.9L69.9 96.3L68.9 97.1L67.9 97.6L64.9 98.3L64.1 98.7L63.1 99.4L62.1 99.8L63.3 99.7L64.5 99.3L66.7 99.2L69.3 100.6L69.0 101.7L68.0 102.6L65.7 102.8L63.5 104.8L62.5 105.4L61.5 105.7L60.2 105.6L57.9 105.1L56.8 104.5L57.8 105.4L58.8 105.9L64.9 107.0L67.2 105.7L69.8 105.7L74.8 107.9L76.2 109.6L78.2 112.0L79.3 112.9L80.1 113.8L80.6 115.1L81.6 119.3L82.6 123.4L84.1 127.9L84.7 129.1L85.6 130.0L89.9 132.0L90.9 132.7L92.5 134.6L94.2 136.7L95.6 138.2L97.3 139.5L96.5 140.2L95.9 141.2L96.4 142.6L97.0 144.0L98.3 146.2L99.5 148.5L98.6 148.0L98.0 148.0L96.3 147.2L95.2 146.3L93.1 146.6L92.0 146.5L91.0 146.5L92.9 147.0L95.0 147.1L99.6 151.0L101.1 153.4L102.1 156.5L101.4 157.9L100.4 158.8L99.5 159.8L98.7 161.0L101.2 162.7L102.4 162.4L102.9 161.8L103.8 160.4L104.3 159.9L105.9 159.7L107.2 159.8L108.5 160.1L109.7 160.0L112.1 160.6L113.2 161.2L116.3 163.6L116.9 165.0L117.2 166.8L117.2 168.7L116.7 170.5L116.1 172.1L115.8 174.1L115.6 174.9L115.2 175.4L113.6 177.1L112.5 177.8L111.6 177.5L112.1 178.7L112.1 179.7L111.2 180.5L110.2 180.8L108.6 180.4L106.4 181.8L108.0 182.5L108.3 183.3L107.9 184.6L106.9 185.2L105.8 185.4L104.6 185.5L103.7 185.8L102.8 186.4L103.9 186.1L104.7 186.4L105.2 187.5L107.9 188.3L109.2 188.3L111.9 188.0L113.2 188.1L113.6 189.2L113.4 191.5L109.6 193.9L108.8 195.2L108.6 196.0L106.6 195.9L105.7 196.7L104.0 197.3L102.7 197.9L101.5 198.7L100.4 198.9L96.0 198.0L93.3 198.1L89.6 198.9L88.7 198.7L87.3 198.0L85.8 197.4L84.2 197.2L82.7 196.5L83.6 197.9L81.6 199.2L80.7 199.4L79.8 199.4L77.8 199.8L76.0 199.6L76.3 200.5L76.8 201.3L76.0 201.7L72.6 201.1L71.7 201.8L70.4 201.5L69.2 200.6L67.9 199.9L66.5 199.6L65.4 199.7L61.0 201.2L60.1 202.7L59.7 204.8L59.1 206.7L58.0 208.1L56.8 208.4L55.6 207.3L53.4 206.2L52.6 205.5L51.3 206.1L50.4 206.1L49.0 206.4L46.6 207.3L45.6 207.9L43.5 209.6L43.1 210.0L42.4 211.7L41.2 212.0L40.1 210.9L38.9 210.5L37.6 210.9L36.9 211.5L36.5 210.1L37.4 208.9L39.9 208.0L42.1 205.8L43.2 204.4L43.6 203.6L44.1 203.1L44.8 202.9L45.1 202.1L48.2 198.6L48.4 197.9L48.6 196.5L48.8 195.1L51.3 194.2L52.5 191.4L56.3 190.6L58.8 190.7L61.4 191.2L62.7 191.3L64.0 191.1L65.0 190.3L66.7 187.5L67.7 186.3L68.9 185.2L69.9 183.9L71.7 181.6L70.5 182.4L69.1 183.7L68.3 184.4L65.7 185.2L64.6 185.9L62.6 187.6L59.3 187.4L57.1 185.2L55.7 184.2L55.2 184.1L54.6 184.4L53.3 184.7L52.0 184.6L52.6 183.6L53.5 183.0L51.5 182.6L51.0 182.3L50.3 181.6L48.8 181.5L48.0 181.7L46.7 182.6L44.7 183.6L42.3 182.2L41.8 181.6L41.8 180.4L41.5 179.4L40.8 179.1L41.6 177.9L42.7 177.1L44.9 176.2L48.4 174.3L50.4 173.5L52.2 172.1L52.9 171.2L53.5 170.0L54.0 168.6L54.8 167.4L54.0 167.1L53.7 166.2L53.8 165.3L54.1 164.5L53.8 163.5L53.3 162.5L53.3 161.7L53.4 160.8L52.1 160.9L50.6 161.1L49.4 161.7L48.2 162.6L47.1 162.7L47.1 162.1L47.6 161.2L48.8 160.1L50.1 159.1L50.6 158.3L51.0 157.4L51.6 156.7L53.4 155.4L56.6 153.9L58.4 154.0L59.7 153.8L60.8 153.3L61.9 153.1L64.4 154.7L63.6 152.3L64.7 151.8L66.4 153.9L66.9 154.1L68.2 153.8L67.7 153.4L66.4 153.1L65.8 152.4L64.7 150.2L64.8 148.9L65.5 147.6L66.3 146.3L65.6 146.1L65.1 145.6L65.0 144.4L65.2 143.3L66.5 142.3L66.9 140.8L67.1 139.2L66.9 138.5L65.5 138.6L64.9 138.9L64.3 139.4L63.6 139.3L62.0 137.5L61.0 136.2L59.2 133.3L59.0 131.6L60.4 127.9L62.5 125.5L65.1 124.7L60.7 124.5L59.4 124.8L58.3 125.8L57.6 126.1L56.9 126.2L56.3 126.7L55.7 127.4L55.0 127.8L53.7 127.7L53.1 127.8L52.3 126.8L51.2 126.8L50.1 127.7L48.9 128.2L47.5 127.6L45.6 126.6L44.8 127.9L44.6 129.4L43.3 128.1L42.2 126.4L41.8 125.4L41.8 124.2L42.4 123.7L43.0 124.1L44.0 121.2L46.0 117.5L46.7 116.5L47.1 115.0L47.1 114.1L46.6 113.3L44.8 111.5L44.8 110.1L45.0 108.4L45.5 107.4L48.2 107.3L47.2 106.8L45.3 105.3L45.8 103.4L45.2 104.2L44.4 105.7L42.6 106.4L42.4 107.2L41.5 107.4L41.3 108.2L40.9 107.4L40.9 106.2L41.2 105.0L41.7 104.1L43.7 102.1L42.7 102.7L40.5 104.6L39.4 105.9L39.1 106.6L39.6 109.3L39.4 110.3L37.6 117.0L37.2 117.7L36.6 118.1L35.7 118.0L35.2 117.5L35.4 116.1L36.2 112.9L36.5 112.0L37.1 111.1L38.1 109.7L37.4 109.9L36.9 109.5L37.0 105.2L37.6 103.8L37.8 101.8L38.3 100.0L38.9 98.7L39.4 97.1L40.0 96.4L40.2 95.3L41.0 94.1L41.6 92.8L37.5 96.2L36.5 96.8L35.2 96.6L34.2 96.3L33.4 95.5L33.0 94.0L32.1 94.0L31.3 93.7L32.3 92.7L34.1 92.4L35.7 91.1L34.2 90.2L35.6 89.2L37.2 86.7L37.5 84.4L36.7 83.3L36.5 82.6L35.0 81.8L34.7 80.8L35.4 79.7L36.1 79.2L37.3 78.8L36.2 78.4L35.8 77.9L35.5 77.1L36.1 74.7L36.4 73.9L37.0 72.9L39.8 73.0L40.5 72.5L41.9 72.9L39.3 70.0L39.8 68.3L39.8 67.0L40.7 66.3L43.0 66.4L43.3 65.5L42.7 64.7L42.7 64.0L42.8 63.4L42.8 62.1L43.5 60.8L44.5 60.4L45.7 60.7L46.8 61.8L48.7 60.9L49.8 61.7L52.5 60.9L56.1 60.6L58.2 60.1L60.5 59.9L62.6 59.3L64.9 59.6L64.8 60.4L64.3 61.7ZM19.9 122.9L20.7 123.1L21.5 122.5L22.4 120.7L23.0 120.6L23.7 120.7L25.1 120.5L27.5 119.6L28.6 119.6L30.2 120.0L31.3 120.0L32.3 121.3L32.9 123.4L34.1 125.4L35.8 127.1L35.9 128.2L35.3 128.8L34.0 129.5L34.1 130.2L34.9 129.8L35.6 129.7L37.3 129.8L37.9 130.6L38.3 131.8L38.5 132.7L38.3 133.8L37.4 132.5L36.9 132.1L36.3 131.9L36.6 133.1L36.5 134.9L37.6 135.0L37.0 136.8L35.9 137.3L34.6 137.4L34.3 138.1L34.1 138.9L33.4 140.0L32.5 140.7L31.4 140.6L30.3 140.0L30.8 140.7L31.0 141.3L30.2 141.5L29.4 141.4L28.9 142.6L29.2 143.7L29.8 144.4L30.2 146.1L30.6 147.9L31.2 149.1L31.3 150.5L31.2 151.1L31.3 152.4L31.2 154.0L31.9 156.4L32.2 157.7L32.4 160.6L31.9 161.7L31.3 162.7L30.9 163.9L30.6 165.2L30.4 167.4L29.0 169.9L28.4 170.5L27.7 170.9L29.2 172.6L27.9 173.4L26.6 173.7L25.1 173.2L24.2 173.3L23.3 173.9L22.8 174.0L22.2 172.6L21.8 174.1L20.9 174.5L19.5 174.4L17.0 174.8L16.1 175.3L15.7 175.9L15.4 176.7L14.5 177.4L12.7 177.9L11.4 179.4L10.3 180.1L9.3 180.3L8.5 179.6L7.8 178.9L6.5 179.0L7.1 179.7L7.2 180.7L7.1 181.6L6.5 182.1L5.7 182.2L4.5 183.2L2.9 183.4L2.0 184.4L0.0 184.9L0.0 165.8L2.4 165.0L0.8 164.4L0.1 163.6L0.0 156.4L0.8 155.6L0.0 155.3L0.0 136.5L2.8 136.9L4.5 137.5L4.7 136.2L4.1 135.5L4.8 134.5L5.8 133.8L6.4 133.4L7.8 133.0L8.4 132.6L8.8 131.3L9.4 130.2L5.9 130.8L2.6 129.5L3.1 128.7L3.8 128.1L5.0 127.7L5.8 126.9L6.8 125.9L6.4 124.5L6.6 123.5L7.4 122.9L7.6 122.0L7.9 121.3L9.4 121.1L10.9 120.4L13.1 120.4L13.6 120.6L13.5 119.5L14.5 119.4L15.1 120.4L15.6 120.9L15.7 121.7L15.4 122.4L14.9 122.9L15.4 123.5L14.6 124.4L15.5 124.0L16.6 123.1L16.6 122.3L16.4 121.3L16.0 120.5L16.2 119.5L16.8 118.9L18.5 118.6L17.8 117.5L18.4 117.4L19.1 117.7L20.1 118.5L21.1 119.2L22.2 119.7L21.2 120.8L19.9 121.5L19.4 122.3L19.9 122.9ZM600.0 0.0L600.0 354.0L461.1 354.0L462.3 353.7L465.2 354.0L478.4 354.0L480.1 352.9L481.7 353.5L553.6 354.0L552.7 351.4L551.8 347.0L550.8 342.3L550.0 340.9L546.9 339.3L546.1 337.5L543.7 335.2L540.3 334.2L539.6 333.7L536.6 330.8L534.3 328.9L533.2 327.9L529.3 323.4L527.2 320.4L520.5 313.5L519.7 313.0L516.1 312.0L514.7 311.2L511.1 306.2L509.5 306.9L508.1 306.7L507.2 306.3L506.3 305.6L505.7 304.7L504.9 302.6L504.0 301.4L501.2 299.7L498.0 298.7L497.6 297.6L500.4 296.5L501.2 295.8L499.8 294.9L498.8 294.3L499.6 293.7L500.4 293.3L501.6 294.1L503.0 295.5L504.2 296.1L504.7 295.4L508.9 294.2L509.2 293.3L509.2 292.2L508.5 292.1L508.5 290.9L509.1 289.3L511.0 286.7L512.0 283.2L512.9 282.3L513.5 282.9L513.5 283.7L513.6 284.3L514.2 283.1L514.7 281.5L516.1 281.5L517.1 281.8L518.1 281.6L516.2 278.9L513.6 276.2L512.5 276.4L511.8 276.0L510.6 273.8L510.2 271.9L511.3 272.0L512.4 272.3L514.5 271.0L515.2 270.8L516.5 271.2L518.2 271.4L518.1 270.2L517.5 268.8L519.6 267.8L521.4 267.2L525.0 265.1L526.6 264.7L526.8 263.6L526.3 262.0L525.8 260.7L523.9 260.7L522.9 262.4L520.0 263.0L518.7 262.8L519.8 261.7L520.7 261.3L519.0 261.3L518.0 262.4L515.0 263.9L510.8 263.8L507.7 264.2L505.5 267.0L504.2 267.0L502.3 267.7L501.1 268.6L499.6 270.5L498.4 269.7L497.0 269.7L495.6 270.2L494.0 271.5L493.0 271.8L491.2 271.4L489.0 272.1L484.4 276.4L482.8 279.6L482.2 280.2L481.4 281.0L480.6 281.4L482.4 279.1L483.0 278.3L483.2 277.6L483.2 276.6L482.5 275.4L480.7 278.5L479.7 278.9L478.4 279.8L478.3 281.9L478.4 283.4L479.0 285.4L480.3 288.5L482.8 293.0L484.1 294.6L485.0 295.3L486.1 295.4L488.2 294.0L489.1 293.8L491.1 294.3L491.8 293.4L492.8 292.9L494.1 292.8L495.6 293.2L497.2 293.9L496.5 295.5L495.8 296.8L495.6 298.2L495.2 299.7L493.4 300.4L491.5 300.4L489.5 300.8L488.8 300.2L488.3 299.6L487.4 299.1L486.2 298.8L485.2 299.2L483.9 301.3L481.7 302.7L481.0 304.4L478.8 304.0L476.9 304.3L474.2 305.8L472.2 309.1L469.9 311.1L468.1 311.8L466.4 311.5L465.3 310.9L463.1 308.8L463.2 308.0L464.0 306.6L464.9 302.5L464.7 301.2L464.2 299.2L462.5 297.6L461.0 297.9L460.2 297.5L457.3 294.7L455.7 294.5L453.9 295.1L453.3 294.7L452.8 293.7L456.3 290.4L459.7 287.6L461.2 287.4L463.3 286.1L465.4 284.1L465.1 282.6L464.7 281.5L463.6 281.8L462.9 282.2L461.0 281.0L460.4 280.1L457.6 281.0L456.0 280.9L452.5 281.7L450.9 280.9L447.7 278.6L446.5 278.1L445.4 278.2L444.9 277.5L445.6 277.1L446.4 277.0L447.2 276.8L447.4 275.6L445.7 275.0L444.2 274.9L443.2 274.2L442.4 273.4L444.2 273.4L445.9 274.0L448.7 274.2L451.2 274.8L451.9 274.0L453.3 272.7L451.1 273.2L448.7 272.6L447.8 271.8L447.0 270.6L446.7 269.3L446.9 268.1L446.6 265.8L445.8 263.8L445.5 262.7L444.6 261.7L445.5 264.0L445.8 265.4L446.3 266.8L446.2 270.4L445.9 271.7L444.9 272.0L443.5 271.8L442.2 271.4L442.5 269.4L441.8 270.1L440.7 272.1L439.8 272.4L437.9 272.1L434.1 273.4L433.9 274.8L433.3 276.7L432.8 277.8L432.6 278.5L431.0 281.3L427.9 285.5L425.5 286.8L424.4 287.6L423.5 287.9L422.0 287.5L421.4 288.1L421.1 288.8L421.1 290.3L421.9 291.3L422.5 294.8L422.2 296.3L422.0 297.5L421.9 298.2L421.5 301.2L421.1 302.4L420.6 303.7L415.1 305.2L415.4 304.5L415.3 303.2L415.1 302.2L415.6 301.3L414.4 301.0L413.8 301.5L413.4 302.4L413.7 304.3L413.1 305.3L412.9 305.9L412.9 307.3L412.5 307.9L412.4 308.6L413.3 308.4L412.9 309.6L411.2 312.0L410.7 313.4L410.8 318.9L410.1 322.2L410.0 323.2L409.8 327.4L408.7 329.4L407.1 328.7L405.1 329.3L404.0 331.5L403.4 332.2L402.8 333.0L402.5 335.9L402.4 340.7L401.7 341.3L401.0 341.5L398.0 345.7L399.7 346.9L400.4 347.8L401.7 350.3L403.4 353.2L403.6 354.0L307.2 354.0L306.8 352.9L304.3 349.6L301.4 347.3L301.4 346.5L300.6 346.4L298.2 344.7L296.3 342.8L292.6 339.9L290.0 339.2L286.4 336.9L284.1 336.0L285.0 335.8L286.0 335.8L291.5 338.9L290.9 338.1L290.0 337.4L289.5 337.0L287.2 334.3L285.1 332.6L282.6 329.4L279.3 328.1L277.0 326.7L275.7 326.9L274.1 327.3L273.2 327.4L272.6 327.1L272.1 326.2L272.2 325.6L272.1 324.7L270.8 323.3L269.0 321.9L267.3 320.2L263.9 315.6L263.1 314.1L263.8 313.8L264.9 313.5L265.9 313.5L267.0 313.8L266.0 312.8L264.8 311.8L261.6 307.9L260.7 306.1L260.6 304.1L260.8 301.4L260.2 299.5L257.8 296.9L256.9 295.6L255.1 294.9L254.3 294.9L253.8 295.9L253.5 298.1L251.9 300.9L251.4 302.2L250.5 303.8L249.8 303.9L248.1 301.1L246.9 299.0L246.7 298.0L246.6 296.8L245.6 292.4L246.3 291.8L247.0 291.4L247.9 290.5L248.5 289.8L246.9 287.3L246.1 287.3L245.1 288.3L242.3 287.2L241.7 287.7L241.3 288.6L240.3 289.6L239.0 290.1L237.4 291.3L235.8 292.1L234.5 292.7L233.8 292.6L235.0 291.3L232.9 292.2L232.1 293.0L231.8 294.4L231.5 296.6L232.2 297.2L233.4 300.2L234.8 301.5L234.5 302.7L234.2 303.6L233.3 304.5L232.6 303.9L231.8 305.8L232.4 311.0L233.4 314.6L234.4 316.2L236.6 318.7L239.0 320.0L243.2 324.2L245.6 325.5L246.1 326.2L247.6 329.4L248.8 333.1L250.1 338.9L251.0 341.8L252.9 345.0L256.8 349.7L260.4 353.1L261.8 354.0L228.7 354.0L227.0 352.6L225.1 348.9L223.6 347.6L221.4 346.5L220.2 347.0L219.3 346.6L219.7 346.1L220.0 344.5L217.5 340.9L216.0 339.8L215.6 339.0L215.3 338.1L215.0 337.4L214.3 337.0L212.9 336.9L212.9 335.1L213.1 333.8L213.0 332.7L212.2 329.7L210.8 327.2L210.0 321.2L209.3 319.5L207.8 318.2L204.3 316.8L199.5 313.0L198.5 312.9L195.6 311.4L193.8 311.1L191.5 312.5L188.6 316.2L186.3 320.0L185.5 320.8L182.6 322.1L179.9 322.7L177.4 324.0L176.5 324.6L173.1 328.5L171.4 329.7L171.1 330.4L170.8 331.7L169.9 332.8L169.0 333.3L167.0 333.8L164.9 335.0L164.0 334.5L161.5 334.6L160.1 333.1L157.2 332.2L156.2 330.2L154.9 330.1L154.0 330.1L153.4 329.1L153.4 328.4L152.5 328.7L151.8 328.7L151.0 329.3L150.4 329.2L149.6 329.7L148.7 329.5L146.3 328.4L144.3 327.8L143.6 327.4L143.1 326.3L142.4 325.8L140.9 326.3L140.3 327.1L139.5 328.1L133.7 332.9L132.7 334.9L131.5 337.8L131.4 339.2L131.9 343.5L133.1 345.8L133.5 347.5L134.1 347.9L134.3 348.9L133.3 349.4L132.6 351.1L133.4 352.0L133.6 354.0L1.3 354.0L1.2 352.1L2.5 350.3L3.4 349.1L2.0 349.0L2.1 348.1L2.5 347.7L3.0 346.7L2.5 346.3L2.1 345.7L2.1 344.0L2.2 343.4L2.1 342.7L0.1 343.6L0.0 341.6L0.7 340.4L0.0 339.7L0.0 331.8L1.4 330.4L3.6 330.7L5.0 330.3L6.3 329.5L7.0 329.3L8.2 328.5L8.1 327.5L7.8 326.7L8.1 326.0L9.4 325.2L10.9 324.0L12.5 323.8L14.2 322.8L15.3 323.4L16.3 323.2L17.5 324.0L18.9 325.8L21.1 326.5L22.9 325.9L26.0 325.8L27.5 326.0L30.3 325.6L31.9 325.8L34.4 324.9L36.4 326.0L40.2 326.5L42.5 327.4L48.8 328.9L51.2 329.0L54.4 328.1L55.7 327.5L57.0 327.9L58.8 327.1L59.8 327.2L60.9 328.3L65.0 329.7L66.0 328.5L66.8 328.3L69.7 329.0L72.7 330.5L74.2 330.6L76.4 330.2L78.3 329.2L80.4 328.6L82.0 326.3L83.5 318.2L84.6 308.7L85.4 306.9L86.4 306.4L85.6 305.1L85.1 305.7L84.9 306.4L85.2 298.0L85.6 294.8L86.4 291.5L87.9 292.8L89.2 294.1L89.8 295.3L90.7 299.2L91.3 300.1L92.2 300.9L91.8 300.0L91.2 299.3L90.2 294.1L89.6 292.6L88.6 291.4L85.4 288.8L85.1 288.2L85.0 287.3L86.0 287.3L86.9 287.8L86.5 286.7L86.1 284.5L85.8 279.6L85.8 278.7L85.7 277.7L84.7 277.5L83.9 277.4L83.0 277.0L78.7 274.1L77.2 271.1L75.7 268.9L75.3 267.9L75.4 266.9L76.2 264.8L75.5 263.5L74.8 263.3L74.2 262.6L74.8 261.5L75.2 260.8L76.1 260.7L77.2 260.9L78.3 261.5L79.2 261.7L76.6 260.0L72.5 260.6L71.6 260.3L70.9 260.0L70.6 258.7L71.2 258.2L71.7 257.2L71.1 256.4L70.3 256.2L69.1 256.2L68.0 256.4L68.4 254.8L67.8 254.4L67.0 254.6L65.8 254.8L64.7 254.5L63.7 253.2L63.1 253.2L61.9 252.9L61.1 252.8L59.9 252.2L55.6 250.7L53.8 250.5L52.1 251.2L51.2 250.9L50.4 250.0L49.9 248.4L47.1 247.1L47.7 246.3L49.0 246.1L50.4 245.5L51.0 244.8L49.8 243.9L49.0 243.7L48.2 242.7L48.8 242.3L50.1 242.6L51.9 242.4L51.3 241.7L50.6 241.5L48.8 241.2L48.2 241.5L46.7 241.4L46.4 240.5L46.2 239.8L46.7 238.3L48.8 236.8L53.9 235.3L56.1 235.5L57.7 235.2L59.5 234.3L60.3 233.4L62.9 232.9L65.4 233.8L67.7 237.1L68.8 238.3L71.5 236.3L75.5 236.4L76.3 237.5L76.6 236.6L77.4 235.5L78.0 236.0L78.3 236.6L82.5 236.4L83.2 236.3L82.0 235.5L81.1 233.6L80.9 226.5L79.7 224.6L78.4 221.4L77.8 219.6L77.7 218.9L77.9 218.0L79.6 218.0L80.8 218.3L83.3 217.6L84.5 218.1L84.4 219.5L84.7 221.4L85.2 222.2L85.8 223.2L87.7 223.1L89.8 223.7L92.5 223.8L96.4 224.9L98.0 224.2L99.7 223.0L102.7 222.2L101.2 221.9L99.6 221.1L99.4 220.2L99.6 219.4L100.2 217.7L104.9 214.8L108.3 214.0L111.8 212.4L113.5 210.8L114.7 208.8L115.6 207.9L115.1 207.2L115.4 199.3L115.8 197.9L116.4 196.7L117.5 195.9L119.1 194.9L124.9 193.5L125.7 193.0L130.5 190.0L133.4 188.5L134.7 188.0L135.6 187.7L137.4 187.6L138.7 188.2L140.5 188.4L142.0 187.7L143.1 188.3L144.3 187.9L143.3 187.6L141.9 186.8L139.9 187.5L138.5 186.7L137.3 186.7L136.6 186.1L135.8 185.1L136.4 184.5L139.0 184.1L140.6 184.5L143.4 186.6L144.1 186.6L144.8 186.4L144.4 185.8L143.7 185.5L142.7 184.9L141.9 184.1L143.8 183.9L143.3 182.8L141.2 180.4L141.6 179.7L142.1 178.3L142.7 177.1L144.1 176.0L145.9 173.5L147.1 171.5L148.0 169.2L149.2 162.7L149.6 161.6L150.2 160.3L151.0 160.6L151.5 160.9L153.4 160.0L156.6 157.6L157.6 155.5L158.5 154.6L162.3 152.6L164.3 152.1L167.5 151.9L169.8 151.6L172.5 151.5L173.6 152.6L174.2 153.5L175.2 154.0L176.7 154.3L176.2 153.5L175.1 152.6L175.4 150.8L175.7 149.5L176.8 147.7L177.7 147.2L181.4 147.0L185.5 147.1L187.3 149.7L186.6 151.0L187.6 151.6L188.5 150.3L188.7 149.0L190.4 149.5L190.8 150.2L190.8 152.3L191.3 149.5L191.0 147.4L191.2 145.5L191.8 144.4L192.2 143.8L195.2 144.5L198.6 144.1L199.9 144.9L202.7 148.7L203.7 149.3L204.9 149.5L203.3 148.7L199.8 144.1L198.7 143.5L197.1 143.4L196.1 142.9L195.5 142.2L195.3 141.6L195.4 137.0L194.7 136.3L193.9 136.1L192.5 136.4L192.3 135.3L192.5 134.6L194.5 134.0L195.8 133.3L195.9 132.1L195.0 131.1L194.1 129.3L192.9 127.6L192.7 124.1L192.4 123.1L191.7 121.5L192.8 121.2L192.6 118.1L192.2 116.5L189.2 114.9L186.9 113.3L187.4 107.9L187.7 106.5L186.8 103.7L186.9 100.5L187.2 95.5L188.0 95.3L190.6 96.2L191.5 96.3L192.1 97.1L192.8 97.4L193.3 96.6L193.5 95.1L195.1 93.2L196.3 92.5L197.1 92.1L197.9 92.9L198.5 93.8L198.7 91.9L199.1 88.3L197.6 87.7L196.3 88.2L195.0 90.5L193.9 93.4L192.0 93.6L190.6 94.5L189.2 93.6L188.4 92.9L188.4 91.8L188.6 91.1L190.1 88.8L192.2 86.5L194.3 86.6L195.8 85.8L196.8 85.8L199.6 85.9L201.1 85.4L202.4 84.4L205.3 80.0L206.9 78.2L210.1 77.6L213.1 75.5L213.9 75.5L212.5 77.0L212.3 77.6L212.1 78.5L213.1 80.6L212.9 81.8L213.0 84.2L212.1 85.4L211.0 88.1L210.5 88.5L210.4 91.6L210.5 92.4L210.4 95.2L211.5 96.4L212.6 97.0L216.5 97.0L216.9 97.5L217.4 98.4L217.0 99.9L216.6 101.0L215.5 101.9L214.1 102.6L213.2 102.7L211.9 101.3L211.3 101.7L210.8 102.4L209.7 106.1L209.3 108.6L208.4 108.4L207.5 108.4L206.2 109.0L206.9 109.5L207.5 110.4L206.2 111.4L205.2 112.4L204.8 113.1L203.6 114.0L202.8 115.2L203.2 116.6L203.3 117.8L203.7 119.2L203.4 120.3L201.9 121.8L201.3 123.2L202.6 123.2L203.4 123.5L203.9 123.9L204.4 124.5L204.0 125.2L204.5 127.3L206.1 127.8L206.8 128.5L207.5 129.7L207.6 131.3L206.6 132.5L205.8 133.2L208.8 133.0L209.1 133.6L209.6 134.4L211.2 133.8L215.2 136.0L217.7 134.9L218.3 134.9L218.9 136.6L218.3 138.4L216.1 140.3L216.6 141.4L217.3 141.7L219.3 141.4L222.5 142.6L223.2 142.2L225.8 139.6L226.9 139.0L230.3 138.6L230.9 137.6L232.3 136.6L233.2 135.5L235.4 133.3L237.6 133.7L238.9 134.1L240.3 134.3L241.6 136.6L244.9 139.1L247.9 138.9L249.0 141.2L249.4 144.2L250.4 145.1L251.2 145.7L253.6 146.3L256.2 147.4L257.3 148.0L257.1 147.3L257.1 145.9L257.0 144.7L254.7 144.1L252.8 143.8L251.4 144.0L250.1 143.7L249.8 142.7L250.1 141.6L249.5 141.0L249.0 140.5L249.0 139.3L251.3 141.0L253.2 142.5L255.1 142.9L258.7 141.3L265.0 139.1L271.6 137.1L273.2 136.9L274.8 136.5L275.3 135.7L275.9 135.2L276.8 133.9L278.8 131.8L282.4 131.0L283.7 130.1L286.5 128.7L292.8 127.1L295.5 126.8L298.1 126.8L300.4 128.0L302.8 129.5L303.3 130.4L302.0 129.8L300.0 128.5L299.3 128.4L301.0 132.5L301.8 134.0L303.7 135.1L305.2 135.4L309.9 134.8L311.6 133.9L312.0 133.5L313.7 132.0L314.8 130.4L315.7 128.3L315.9 126.9L316.1 125.3L317.5 124.7L320.7 124.7L322.1 124.0L323.8 122.1L325.6 119.8L326.2 118.8L327.4 116.8L327.9 115.5L328.2 113.6L328.5 113.0L328.5 113.8L328.4 115.3L327.6 117.7L325.7 120.7L322.8 124.2L323.7 124.7L324.8 124.8L326.1 125.5L327.2 125.6L329.3 125.1L329.7 122.0L329.8 119.1L329.5 117.8L329.9 115.8L329.1 113.0L327.9 109.5L327.9 105.8L327.8 105.0L327.4 101.6L327.6 94.9L328.1 91.6L330.1 89.7L331.1 88.2L331.7 86.2L331.9 84.3L332.3 82.8L335.2 78.4L337.6 77.9L340.7 76.7L344.2 75.7L344.9 77.0L345.3 78.0L349.5 81.5L350.6 82.8L352.2 86.9L356.1 89.0L359.2 88.3L360.6 87.3L363.1 85.4L364.2 84.1L364.4 82.7L364.0 77.1L363.3 74.6L363.5 73.1L363.6 72.4L365.1 68.9L365.3 66.2L365.8 65.8L365.8 64.5L364.3 64.0L363.1 65.0L362.6 65.7L361.3 66.1L360.1 65.4L357.5 64.4L356.8 63.1L356.6 61.8L355.2 60.6L354.7 59.1L354.9 58.1L356.1 57.5L356.5 56.9L354.9 57.0L354.5 56.3L353.8 54.5L354.4 53.8L354.7 53.1L354.2 52.5L354.3 51.9L354.7 51.2L354.5 49.7L356.1 48.8L357.6 48.2L360.9 47.9L360.6 46.5L361.9 46.5L364.2 44.7L366.4 45.0L369.6 43.9L375.7 43.9L376.6 43.2L376.5 42.5L376.5 41.8L377.6 42.0L379.6 41.9L386.9 43.3L388.6 43.3L391.1 44.7L392.4 45.1L396.4 45.1L402.5 45.8L403.7 44.8L404.3 43.3L404.1 41.6L403.8 40.3L404.3 39.3L405.1 39.2L405.9 40.3L407.3 40.8L408.3 40.1L408.6 38.7L409.3 38.1L410.2 38.6L411.8 38.8L413.1 38.7L414.0 38.4L414.4 38.0L414.7 37.1L415.4 36.1L416.2 35.4L421.9 36.2L426.8 37.6L427.2 37.1L427.3 36.2L426.1 35.4L425.2 34.9L424.1 33.3L422.4 32.0L420.8 31.8L418.6 32.3L415.3 32.0L412.5 29.5L410.7 28.8L409.3 26.9L409.0 25.8L410.4 26.7L410.6 25.8L410.7 24.6L410.0 23.8L409.2 23.4L405.6 25.3L401.4 25.9L400.0 26.6L398.4 26.7L397.8 27.2L395.4 25.9L393.5 26.1L392.2 27.1L389.7 27.3L388.4 27.7L387.6 28.1L387.5 27.1L387.8 25.7L388.4 24.9L388.0 24.3L387.2 25.6L386.8 27.1L386.0 27.9L384.1 28.2L382.2 27.0L381.3 27.0L381.9 27.9L382.3 28.8L381.2 29.2L380.1 29.8L379.2 30.7L378.1 29.5L376.9 30.0L375.9 30.8L373.8 31.0L372.6 32.0L370.4 32.6L369.3 32.6L366.6 33.4L365.7 34.6L364.9 35.0L363.7 34.7L360.3 35.2L357.0 36.0L355.6 36.0L354.1 35.6L352.7 36.7L351.1 38.2L349.3 38.7L348.7 38.5L349.2 37.7L350.3 37.0L351.2 35.9L351.2 35.0L350.7 34.7L350.0 34.6L349.0 33.6L348.1 31.7L347.4 32.1L347.1 33.6L346.4 34.4L345.8 34.7L343.2 34.9L343.0 34.1L343.3 32.8L343.3 31.8L344.3 31.8L344.6 30.9L343.8 30.8L344.5 29.0L343.9 28.7L341.0 28.3L337.5 26.5L336.6 26.5L336.0 24.9L335.2 25.1L334.0 26.0L333.0 25.3L332.0 24.9L331.8 24.1L331.8 23.1L331.7 21.8L331.4 20.4L331.2 18.3L331.4 16.6L332.2 15.5L332.5 14.7L332.9 12.7L333.0 10.4L332.7 9.6L333.4 9.1L333.0 8.4L332.7 7.9L333.7 7.6L333.3 5.9L333.2 5.2L332.4 3.3L331.5 1.5L330.1 0.2L288.4 0.0L288.1 0.6L287.7 2.4L288.0 3.9L288.2 4.6L288.7 5.6L287.3 5.5L285.8 4.9L286.0 6.1L285.1 7.5L285.2 8.8L285.4 9.6L285.1 10.9L285.6 11.4L285.8 12.2L285.4 12.8L285.7 15.1L286.0 17.9L285.8 18.6L286.7 21.0L286.5 21.9L286.4 23.0L287.6 24.1L288.6 24.1L289.7 24.0L290.5 25.0L290.8 25.9L291.7 25.9L293.2 25.1L294.1 24.9L294.7 26.4L296.3 28.2L297.3 29.0L298.9 29.4L300.6 30.9L300.4 32.7L301.1 33.3L303.1 34.0L303.8 34.9L304.2 35.8L304.7 36.4L305.4 38.4L305.1 39.7L304.3 40.1L302.4 41.5L301.5 42.5L300.9 43.1L298.9 44.4L298.2 44.7L297.6 45.3L296.9 45.7L296.3 45.5L294.2 46.7L296.0 47.5L296.8 47.2L297.5 46.6L298.2 46.5L298.8 46.6L299.6 46.1L300.7 46.1L301.3 47.3L300.0 47.9L299.1 48.0L298.6 49.9L298.1 50.8L295.6 52.0L294.3 53.1L292.7 53.9L292.0 53.7L291.0 54.6L288.6 55.6L287.4 57.0L284.7 58.2L283.4 59.2L279.7 59.3L276.2 59.1L275.0 59.5L276.2 59.7L277.0 60.2L278.0 59.9L280.2 60.2L281.3 60.4L282.8 62.1L281.7 62.7L279.8 63.1L280.5 65.4L281.1 67.0L280.4 68.0L280.3 72.3L279.3 72.3L278.8 74.1L279.1 75.0L279.1 77.2L279.3 78.4L279.8 79.6L279.6 80.9L277.9 83.8L278.0 85.2L278.3 86.0L278.5 87.3L277.7 89.8L277.2 91.9L276.5 93.7L275.1 95.8L274.4 97.3L272.7 102.3L271.9 103.2L270.8 104.0L269.7 103.3L268.6 102.9L267.4 103.0L265.4 103.5L262.4 103.1L259.5 103.3L258.7 103.8L259.1 105.6L258.0 105.9L257.0 105.3L256.1 105.9L255.3 106.6L253.8 108.2L253.3 109.2L253.1 111.0L253.9 112.6L254.6 114.5L252.8 116.9L251.8 116.9L248.8 116.3L243.5 117.8L238.8 116.6L239.3 115.4L239.3 114.5L239.6 113.1L239.7 111.6L239.7 110.6L239.3 109.6L238.2 108.3L235.5 103.8L234.8 101.9L234.2 101.1L236.8 102.0L237.8 101.5L237.2 100.1L236.6 99.4L236.2 98.4L237.5 98.1L238.4 98.2L239.1 97.1L238.7 95.3L237.7 94.7L236.9 94.5L235.3 91.6L233.7 90.1L230.7 84.5L229.7 80.6L228.7 81.0L228.2 79.3L227.8 77.6L227.8 76.5L226.2 75.8L226.2 75.0L225.8 71.3L224.2 70.8L223.1 68.7L222.9 64.8L221.8 64.1L220.9 64.3L220.9 63.3L221.1 62.4L220.6 58.8L220.5 55.5L220.0 54.5L219.8 53.3L220.0 52.3L220.3 51.7L221.4 51.6L222.4 52.4L222.2 51.2L219.6 50.6L218.2 50.2L217.6 50.1L216.4 49.8L215.4 47.9L214.3 46.2L214.2 45.5L214.2 42.4L213.9 41.1L213.8 39.6L213.1 40.8L213.5 42.7L212.6 43.5L211.6 43.9L211.7 45.0L212.3 46.4L212.0 48.1L209.9 52.0L209.2 52.9L208.2 52.6L206.8 53.7L205.6 53.8L205.1 52.6L203.3 51.0L202.4 51.1L203.2 51.9L204.0 52.9L203.5 53.6L203.1 54.0L202.4 54.3L199.8 55.6L200.7 56.5L199.9 57.6L199.0 57.7L198.5 58.2L198.3 58.8L195.6 60.7L191.2 65.5L188.8 66.8L187.3 68.2L185.9 68.2L184.1 69.4L179.6 70.4L176.7 70.0L174.6 70.4L173.5 69.6L173.3 69.0L173.6 68.3L172.4 68.1L172.0 69.3L170.1 69.1L169.7 68.6L170.2 67.7L171.2 66.8L170.8 66.2L169.0 66.2L167.9 66.1L164.2 64.2L163.4 63.1L160.4 61.5L159.1 59.8L158.4 57.9L158.4 56.2L158.8 53.6L159.4 52.9L162.1 53.8L164.7 55.4L166.0 54.1L167.6 53.1L164.7 54.0L163.8 53.3L162.4 52.0L162.4 51.4L163.1 50.7L163.3 49.8L163.0 48.9L163.1 47.8L164.2 46.6L165.8 45.3L167.0 44.2L168.2 43.4L166.7 43.6L165.4 44.4L163.8 45.8L161.9 46.9L160.6 47.3L159.9 47.6L158.9 48.0L157.8 49.5L156.7 50.1L154.6 50.2L154.2 49.1L154.8 45.1L155.4 43.1L156.1 41.7L157.1 41.5L157.9 40.5L158.5 40.5L159.0 41.0L161.2 41.4L162.2 40.1L163.6 39.9L166.0 38.6L164.3 38.7L163.3 38.7L161.8 39.0L161.0 38.8L160.7 37.8L161.3 36.9L163.6 34.8L164.4 33.9L164.8 33.1L165.2 31.3L167.4 29.2L169.3 28.2L169.9 29.0L169.4 31.6L169.4 32.7L170.9 28.9L171.5 28.0L172.2 27.4L174.0 26.9L174.5 26.3L172.4 26.5L167.4 28.0L165.3 29.3L164.7 30.3L163.3 31.8L162.6 32.7L162.3 34.2L161.5 34.9L160.3 35.2L158.8 37.0L158.1 38.5L156.6 39.6L155.6 40.5L154.8 41.7L153.9 41.3L153.9 40.2L154.0 38.3L154.8 37.1L155.1 35.8L154.6 34.6L155.0 33.9L155.6 33.9L156.8 34.2L158.1 34.2L160.3 33.2L159.9 32.7L159.0 32.6L157.3 32.7L155.9 31.8L154.7 30.0L154.2 27.5L154.6 26.8L158.7 24.3L159.8 23.2L159.2 23.1L157.6 24.5L155.4 25.3L154.0 24.1L153.3 22.9L152.8 20.2L153.0 18.8L152.8 17.0L153.8 16.4L154.8 16.7L155.9 16.9L158.3 16.7L163.5 15.6L166.8 16.3L168.2 16.2L170.3 15.3L172.1 15.2L173.5 15.9L174.2 16.7L174.4 17.8L175.0 18.5L175.1 17.4L175.0 16.1L180.5 14.6L181.1 14.0L178.9 13.8L178.3 12.4L179.5 10.3L178.2 11.1L177.6 12.7L177.8 13.9L177.6 14.5L176.4 14.8L173.9 14.9L172.3 14.3L170.8 14.0L170.3 13.6L170.5 12.7L169.6 13.4L169.0 15.0L167.8 15.3L164.5 14.7L159.8 15.1L157.7 15.9L156.3 15.8L153.9 14.4L152.9 13.3L152.6 11.0L152.8 10.0L154.6 9.6L155.5 9.6L156.4 9.1L155.7 8.8L154.6 8.1L153.8 6.7L152.7 6.3L151.9 5.1L151.7 3.4L152.0 2.1L152.6 1.7L154.0 2.0L157.8 1.8L161.4 3.1L163.8 3.8L168.7 3.4L171.6 2.3L168.0 2.6L165.1 2.6L160.0 1.4L157.9 0.9L155.7 1.1L154.5 0.8L154.0 0.0ZM285.8 334.1L285.0 334.2L280.2 334.1L278.7 333.8L277.2 332.8L278.4 332.2L279.9 332.5L280.4 333.2L284.3 333.8L285.8 334.1ZM447.4 279.6L448.9 280.5L447.4 280.2L444.0 279.4L442.5 278.6L442.1 277.8L441.9 276.6L442.7 277.8L443.3 278.4L447.4 279.6ZM348.3 56.2L347.4 57.0L346.8 56.7L345.4 58.3L344.1 58.6L343.3 58.2L343.4 57.5L342.7 55.5L341.5 54.9L340.0 54.9L338.8 54.1L343.2 53.6L343.7 52.6L344.6 51.6L345.3 51.6L345.9 51.8L345.9 52.5L348.1 53.2L348.9 54.5L349.2 56.0L348.3 56.2ZM50.1 138.3L47.9 140.6L47.0 140.2L46.2 140.4L46.4 139.5L46.9 137.6L47.9 136.9L49.0 134.9L49.9 134.4L50.4 134.6L50.9 136.8L50.2 137.6L50.1 138.3ZM42.5 116.0L41.1 116.0L40.0 115.4L39.4 112.9L39.6 112.1L40.2 111.4L40.9 111.2L41.6 111.7L42.5 113.7L42.6 115.2L42.5 116.0ZM35.2 100.1L30.8 101.1L29.3 101.0L29.5 100.2L30.7 99.9L31.2 97.5L29.4 96.4L29.4 95.6L30.7 94.8L31.6 94.8L32.4 95.4L33.3 96.7L34.5 96.9L35.3 97.5L35.2 100.1ZM31.3 107.4L31.7 109.7L32.1 111.1L31.8 112.3L30.0 113.2L29.4 112.9L29.8 112.0L29.4 111.0L29.6 110.2L27.8 111.4L27.6 110.3L27.7 109.6L28.2 108.8L29.0 108.4L30.4 107.9L31.3 107.4ZM33.0 109.5L32.3 109.6L31.9 108.9L31.9 108.1L32.3 107.5L33.7 106.6L33.0 106.3L33.4 105.4L34.9 104.3L35.7 104.1L34.9 106.1L33.0 109.5ZM83.9 25.9L84.1 27.1L84.7 26.8L85.6 28.0L86.7 27.5L86.5 28.6L85.8 31.7L85.5 33.2L85.1 35.3L84.6 35.9L84.2 37.4L83.4 37.0L84.0 34.7L84.3 33.4L84.1 32.7L83.7 32.1L82.8 32.0L82.0 32.3L81.8 31.5L80.6 31.3L80.1 30.8L81.0 30.1L81.9 30.2L83.2 29.5L82.4 27.1L81.3 26.9L81.2 26.2L81.8 26.0L82.8 24.8L84.0 24.6L83.9 25.9ZM52.4 153.6L54.0 153.9L53.6 154.6L52.4 155.4L51.5 156.2L50.5 156.9L50.0 156.2L48.5 154.7L48.4 152.5L49.5 151.9L51.1 151.9L52.4 153.6ZM64.8 52.6L65.5 53.0L66.7 53.4L67.5 53.4L68.0 53.9L67.7 54.8L66.9 55.0L65.5 54.2L63.6 54.5L63.0 54.2L62.9 53.3L62.1 53.7L61.6 52.8L61.7 52.0L62.1 50.8L62.7 50.5L63.8 50.7L64.9 51.3L65.3 52.1L64.8 52.6ZM30.6 64.4L29.2 67.4L28.1 68.3L26.7 69.2L28.0 69.2L28.3 70.1L26.4 71.8L25.3 72.4L24.1 73.9L23.4 73.9L22.8 74.8L22.3 75.2L21.7 75.0L20.9 74.1L22.3 73.2L23.4 72.1L21.8 71.3L21.2 70.7L22.0 69.9L21.4 69.5L20.8 69.1L20.8 68.4L20.9 67.6L21.5 66.9L22.4 67.0L23.1 67.6L23.9 67.3L24.8 67.4L24.1 65.8L24.6 65.1L26.8 64.0L29.5 62.2L30.1 61.9L30.6 63.1L30.6 64.4ZM31.2 79.5L31.1 80.3L30.9 81.3L31.2 82.3L31.2 82.9L32.0 83.5L34.0 83.9L36.0 83.7L36.3 84.5L35.0 85.9L33.7 87.4L32.9 87.7L32.3 84.9L31.0 85.3L29.8 85.2L29.2 84.9L28.8 84.3L27.9 82.7L25.3 82.1L24.6 81.2L24.4 80.7L25.0 79.7L25.7 79.9L26.4 79.5L26.0 78.7L28.6 77.8L28.8 76.7L30.0 77.0L30.9 78.1L31.2 79.5ZM19.6 76.4L20.8 77.4L19.8 79.1L18.3 79.1L16.2 77.9L16.4 77.2L17.0 76.9L18.3 76.8L18.9 76.9L19.6 76.4ZM316.2 29.2L317.3 29.2L318.2 29.8L319.0 30.4L318.5 32.0L317.7 31.9L317.1 32.0L316.7 32.7L316.7 33.7L314.2 33.9L313.6 33.6L312.8 31.3L312.9 30.7L313.5 30.4L314.0 31.6L314.7 31.5L314.9 30.7L314.9 30.0L314.3 29.5L314.4 28.5L315.1 28.2L315.8 29.1ZM278.5 101.1L277.9 101.9L277.1 100.7L277.0 97.6L277.2 96.1L279.6 90.7L280.7 90.2L282.2 86.9L282.5 85.4L283.2 84.1L283.6 82.9L284.6 82.6L284.2 83.5L284.3 84.4L282.4 88.8L281.9 91.3L281.2 92.0L278.5 101.1ZM262.8 123.5L260.6 123.3L258.4 122.1L258.7 119.7L259.3 118.6L263.3 121.3L263.3 122.4L262.8 123.5ZM247.8 134.8L248.0 136.0L247.7 136.6L246.5 135.6L245.2 135.6L244.5 137.2L242.1 135.8L241.8 135.1L242.0 132.6L241.9 132.0L242.5 131.3L242.6 130.3L243.7 129.3L244.6 129.2L244.9 130.1L245.4 130.7L246.9 131.4L247.3 132.1L246.6 133.0L246.6 134.1L247.8 134.8ZM235.1 124.5L233.0 124.6L231.1 125.8L230.4 125.4L230.7 124.6L231.5 124.0L231.9 123.5L232.1 122.8L233.7 123.3L234.2 123.6L235.1 124.5ZM222.1 125.8L224.1 126.9L225.4 126.9L226.2 127.3L226.5 128.0L226.5 129.6L225.6 130.0L224.6 129.9L223.2 130.5L218.6 127.9L218.7 125.8L218.8 125.0L221.0 124.7L222.1 125.8ZM215.3 128.3L214.1 127.0L214.8 125.6L215.3 124.6L216.6 123.0L217.4 121.1L217.3 122.8L215.6 127.5L215.3 128.3ZM188.8 127.7L188.7 125.5L189.9 122.9L189.9 123.6L189.5 125.1L192.3 125.8L189.2 126.6L188.8 127.7ZM86.6 200.2L85.6 200.8L85.4 201.5L84.5 202.0L81.7 200.6L81.6 199.9L83.1 199.4L83.9 198.7L85.7 199.4L86.6 200.2ZM259.7 301.3L258.4 301.7L257.8 301.0L256.5 300.3L255.8 299.5L256.6 298.3L257.1 296.9L257.8 297.7L258.6 299.3L259.0 299.7L259.7 301.3ZM263.9 312.6L262.9 312.2L262.2 311.6L261.8 310.9L260.9 310.0L260.6 309.0L259.2 306.8L259.0 306.3L259.7 307.1L260.2 307.7L261.9 309.1L263.1 310.9L264.4 312.4L263.9 312.6ZM263.9 320.0L263.3 320.2L260.6 316.4L260.4 315.6L261.3 316.5L263.9 320.0ZM256.2 306.9L256.2 307.6L255.5 306.7L255.1 305.2L254.3 302.7L254.2 302.0L254.6 301.2L254.6 300.5L254.0 298.3L254.8 297.9L254.9 299.5L255.2 300.4L256.0 301.4L255.8 303.2L256.0 305.8L256.2 306.9ZM340.1 28.8L341.5 29.2L342.0 29.1L342.7 30.0L341.6 30.6L341.5 31.4L342.0 31.8L342.1 32.5L341.0 32.5L340.5 31.9L340.2 31.2L339.7 30.7L339.0 30.3L339.4 29.8L339.6 29.1Z";
 
@@ -12586,7 +12012,7 @@ export const MAP_COUNTRIES = [{"id":"Isle of Man","d":"M50.2 137.6L50.9 136.8L50
 // Natural Earth land (public domain). City -> [x, y] in MAP_NEAR.view units.
 export const MAP_NEAR = {
   view: { width: 600, height: 567, lon: [22, 51], lat: [22, 45] },
-  cities: {"Constantinople":[144.4,98.4],"Gallipoli":[96.6,113.2],"Erzurum":[398.7,125.7],"Sarikamis":[425.8,115.1],"Trabzon":[366.6,98.6],"Kut":[497.4,308.2],"Baghdad":[462.8,288.2],"Basra":[533.4,357.2],"Aleppo":[313.7,216.9],"Damascus":[295.7,283.3],"Jerusalem":[273.5,326.1],"Gaza":[258,332.8],"Beersheba":[264.6,339],"Medina":[364.3,506.1],"Ismailia":[212.5,355],"Baku":[576.6,113.2],"Kars":[436.1,108.5],"Batum":[406.3,82.6],"Eskisehir":[176.3,128.9],"Nablus":[274.3,315.1],"Mudros":[67.7,126.2],"Ankara":[224.5,125],"Nazareth":[275.2,303.2]},
+  cities: {"Constantinople":[144.4,98.4],"Gallipoli":[96.6,113.2],"Erzurum":[398.7,125.7],"Sarıkamış":[425.8,115.1],"Trabzon":[366.6,98.6],"Kut":[497.4,308.2],"Baghdad":[462.8,288.2],"Basra":[533.4,357.2],"Aleppo":[313.7,216.9],"Damascus":[295.7,283.3],"Jerusalem":[273.5,326.1],"Gaza":[258,332.8],"Beersheba":[264.6,339],"Medina":[364.3,506.1],"Ismailia":[212.5,355],"Baku":[576.6,113.2],"Kars":[436.1,108.5],"Batum":[406.3,82.6],"Eskisehir":[176.3,128.9],"Nablus":[274.3,315.1],"Mudros":[67.7,126.2],"Ankara":[224.5,125],"Nazareth":[275.2,303.2]},
   countries: [{"id":"Turkey","d":"M82.3 118.9L81.1 117.4L80.2 117.5L77.4 118.4L75.9 119.9L77.3 120.7L82.1 119.9ZM401.6 88.2L394.8 92.2L392.3 93.4L389.4 93.9L386.6 96.0L377.9 99.6L375.1 100.0L372.5 99.2L370.6 99.4L368.4 99.0L360.5 96.0L348.7 98.2L342.6 100.2L338.9 100.5L329.2 98.6L326.2 96.6L319.3 95.8L311.7 94.1L310.2 91.8L305.7 89.7L303.0 89.9L301.8 90.6L300.2 92.2L298.0 91.9L295.4 90.3L293.3 88.1L290.7 81.8L289.2 81.2L288.0 81.0L280.5 83.0L275.1 80.6L273.3 79.0L271.5 76.7L271.3 75.0L271.9 74.2L272.2 73.3L269.1 72.4L263.8 75.0L252.2 74.9L235.5 73.5L233.5 73.8L226.5 76.6L218.1 78.7L213.2 80.6L208.7 84.1L195.7 90.7L193.4 94.7L191.5 96.0L182.3 96.5L172.7 93.7L163.8 94.9L151.5 93.0L147.9 93.2L146.8 94.2L146.2 96.1L145.8 98.4L146.5 99.5L147.2 100.2L150.2 102.4L152.4 103.3L161.4 104.5L162.4 104.5L155.3 105.8L145.9 107.3L143.9 107.7L140.4 110.1L141.6 110.9L142.7 111.4L144.3 111.8L145.9 112.8L145.0 113.6L139.4 113.6L137.2 114.0L130.1 113.3L123.4 114.1L122.6 113.9L123.4 112.5L124.0 111.8L121.5 110.6L119.4 110.7L118.6 111.4L121.0 113.8L119.8 114.6L118.5 115.2L113.3 115.4L110.3 114.0L110.0 113.0L109.3 112.0L105.9 112.1L103.7 113.5L98.1 113.4L92.6 118.4L89.3 122.7L86.5 123.5L85.8 126.4L86.0 131.7L84.9 133.9L84.7 135.1L85.1 136.4L90.0 136.0L92.8 135.1L99.8 134.0L101.3 134.3L101.6 135.2L99.6 137.6L97.5 139.5L96.9 140.7L97.6 141.5L100.4 145.0L100.4 146.5L99.5 147.6L99.6 148.9L100.7 149.8L101.8 149.5L102.8 149.9L103.7 150.7L101.6 153.4L99.1 154.4L98.6 155.1L99.0 156.3L99.2 157.1L100.1 158.8L101.6 160.7L102.8 161.5L106.4 161.4L105.5 162.3L100.6 163.4L98.7 163.0L97.8 162.3L97.2 162.6L96.7 164.3L96.0 163.9L95.1 162.3L95.4 160.6L94.9 158.8L93.4 157.0L91.9 156.8L90.6 157.2L90.5 158.7L91.6 161.7L91.4 163.5L89.9 163.4L88.7 165.7L89.6 166.6L91.6 167.3L93.6 168.6L94.8 168.9L95.6 168.2L96.9 167.7L99.5 169.1L101.0 171.2L102.3 171.0L106.8 172.9L108.3 173.1L108.7 175.5L108.1 179.3L105.1 180.3L104.8 181.0L106.5 182.3L107.7 185.1L108.0 187.6L109.4 188.6L111.2 188.8L111.8 189.6L114.2 191.1L114.5 193.2L111.1 194.2L109.7 194.1L108.6 195.2L108.9 197.8L109.9 197.6L110.6 196.7L117.3 197.0L126.9 196.5L129.2 196.5L128.8 197.3L125.8 199.2L124.3 201.4L122.8 201.9L116.5 202.5L115.0 203.2L113.1 203.5L112.9 204.3L114.7 205.0L117.0 205.2L120.1 203.7L125.9 203.3L124.4 205.3L124.6 206.2L126.4 205.9L128.2 205.0L130.5 201.8L134.2 202.1L139.0 204.6L141.0 205.2L142.7 205.3L144.2 204.2L145.6 204.8L146.0 206.1L146.2 207.3L147.2 209.0L147.8 212.1L149.4 213.9L152.1 215.5L159.1 218.0L161.1 217.7L167.2 215.7L170.3 214.3L171.6 214.8L173.5 215.9L174.8 215.2L175.5 214.2L176.0 210.7L177.1 208.9L177.5 202.2L178.9 200.5L185.2 200.9L191.2 201.6L193.5 202.1L202.3 206.8L207.3 208.7L209.6 210.8L212.8 215.3L214.7 217.3L218.0 219.4L223.3 221.0L226.1 219.5L229.7 219.3L236.7 218.1L238.4 218.3L242.0 217.4L247.3 214.6L248.7 213.5L254.5 207.0L260.7 202.5L262.8 201.8L265.0 202.2L267.8 204.0L272.6 206.2L277.1 207.7L280.1 207.1L281.9 205.8L282.6 204.0L284.2 203.0L285.5 202.7L287.7 201.0L290.7 199.4L292.5 200.9L293.3 202.0L293.6 203.5L293.6 205.6L290.3 209.0L287.2 211.9L285.8 214.2L287.3 217.9L288.7 221.9L287.5 223.9L289.0 224.1L292.3 226.0L293.8 223.4L294.8 222.6L296.9 221.8L297.4 217.6L298.3 216.9L299.5 216.4L301.3 216.3L302.8 216.1L303.0 215.4L300.8 210.6L300.9 209.4L302.0 204.6L302.7 202.7L303.3 202.1L305.7 202.3L309.1 203.2L310.0 204.5L311.7 205.8L314.2 205.7L317.1 205.9L319.3 206.0L321.2 205.1L325.2 203.5L327.2 203.0L329.1 202.3L335.0 199.7L337.4 199.8L339.0 200.2L340.2 200.6L343.0 202.4L345.3 204.2L346.9 204.8L349.8 204.7L354.0 205.1L359.1 205.0L362.1 204.6L365.9 203.7L372.7 201.5L381.8 197.0L387.0 194.8L389.3 194.6L392.3 194.5L395.2 195.1L398.6 195.5L400.2 195.5L403.7 195.0L408.5 194.1L411.5 193.4L415.1 192.1L417.3 190.1L418.0 189.9L418.9 190.2L420.3 191.6L421.2 194.5L423.2 194.0L427.0 191.1L429.1 188.3L429.8 188.1L431.7 189.0L433.2 189.2L436.4 188.1L438.3 188.7L439.9 189.4L440.8 189.5L445.1 191.2L446.3 191.4L448.5 191.6L451.8 191.7L453.9 190.6L455.4 189.5L456.5 189.5L457.5 189.8L458.4 190.2L459.1 191.1L459.4 192.2L459.4 195.9L459.7 196.9L460.3 197.6L461.0 197.8L461.9 197.0L463.5 195.8L465.4 194.5L466.9 193.3L467.7 192.9L469.1 192.9L470.3 193.2L471.0 193.7L470.8 191.9L471.7 190.6L469.9 188.4L467.6 186.8L467.0 184.7L467.1 183.4L466.9 182.2L466.4 181.5L467.3 179.7L466.7 178.9L463.4 176.8L462.1 175.7L459.8 175.5L459.5 174.8L459.9 173.4L460.7 171.6L462.0 169.9L462.4 169.0L462.9 167.4L463.0 166.3L464.4 164.7L464.1 163.7L462.9 163.4L461.8 163.3L461.2 162.2L461.3 158.8L460.9 156.8L460.5 155.3L460.8 151.9L460.0 151.3L458.7 149.5L458.2 148.0L458.7 146.5L458.9 145.3L458.9 144.4L457.7 143.5L456.8 142.5L456.7 141.5L456.4 140.3L455.9 139.3L456.1 138.2L457.7 137.9L460.1 138.1L462.1 138.2L463.2 137.5L464.6 131.5L465.9 129.9L467.3 129.0L470.2 131.1L471.4 131.9L472.1 131.9L471.4 131.1L470.3 129.5L466.7 126.0L463.5 123.3L461.2 122.3L458.9 122.4L455.3 122.9L453.9 122.7L450.9 121.5L448.3 120.1L449.2 119.2L448.5 117.4L447.1 114.5L447.2 113.5L446.8 112.3L446.3 111.4L448.3 109.1L449.2 107.3L449.5 105.5L448.9 103.7L447.5 100.4L446.7 99.4L445.2 98.5L443.9 97.0L443.6 96.0L443.4 94.8L442.8 94.2L441.9 93.9L440.2 94.0L438.7 93.7L437.6 92.8L437.4 92.1L438.0 91.5L435.7 89.9L432.6 87.1L430.8 86.5L430.1 84.7L429.4 84.3L427.9 84.1L426.4 84.3L425.6 84.8L424.3 87.0L423.5 87.8L421.3 87.4L419.6 86.9L418.2 86.6L415.4 86.4L412.2 86.4L410.1 88.0L409.2 87.7L407.6 87.0L405.0 86.3L403.7 85.9ZM121.7 74.3L120.7 74.4L120.0 75.0L118.8 74.9L117.1 74.9L115.5 75.6L114.5 75.9L113.2 75.2L110.9 73.3L109.5 72.0L108.5 71.7L107.4 72.0L103.7 72.5L102.8 73.3L101.0 74.2L99.3 74.6L96.8 74.9L95.5 74.8L94.8 75.2L94.1 76.5L93.7 77.7L90.2 78.8L89.6 79.6L89.3 80.3L91.3 81.5L92.3 82.3L93.0 83.0L94.0 83.6L94.8 83.8L95.4 86.0L95.7 88.7L95.2 89.9L93.9 90.1L89.6 92.7L89.5 95.1L89.6 96.2L89.6 97.0L90.1 97.7L90.1 98.7L89.6 99.7L87.8 101.5L86.4 102.9L85.0 104.8L84.2 105.0L83.5 105.3L84.1 106.4L84.9 108.2L87.4 108.0L90.2 108.3L94.7 107.9L99.2 107.8L97.7 109.8L92.0 112.3L90.1 113.6L88.0 115.5L88.0 117.1L88.1 118.3L87.4 119.8L87.0 121.4L88.4 120.9L89.6 120.2L92.5 116.8L98.7 111.0L102.9 109.4L108.8 106.3L112.4 102.6L113.8 99.3L118.9 98.3L122.6 98.8L125.9 97.1L127.7 96.6L130.2 96.9L140.3 99.3L143.9 98.4L144.8 97.1L145.5 95.1L146.0 93.0L143.7 92.5L131.3 87.1L128.2 84.9L125.2 80.6L123.9 77.5L124.4 74.7Z"},{"id":"Syria","d":"M286.3 225.6L284.8 232.4L287.6 236.2L287.9 237.9L288.0 239.2L288.5 241.0L287.4 245.0L287.3 247.8L287.5 250.2L289.2 255.7L292.8 255.7L295.1 255.6L295.8 254.4L297.6 254.9L298.6 256.1L297.7 257.2L296.4 258.5L297.4 259.0L299.1 259.7L300.1 260.5L301.8 265.7L300.7 267.9L299.1 269.8L297.0 270.9L295.8 272.2L295.4 273.0L295.5 273.8L297.1 274.8L296.9 275.4L295.5 275.2L293.8 275.1L292.8 275.1L291.6 275.3L290.1 276.5L289.4 277.3L288.4 279.4L289.1 280.5L290.2 281.1L290.1 282.0L289.0 282.6L288.1 283.5L287.9 284.3L286.9 285.2L286.6 286.7L286.3 287.7L286.3 289.0L286.7 289.7L287.3 291.1L287.7 292.5L286.9 293.6L287.0 294.9L287.2 295.9L287.8 297.1L286.7 299.2L285.5 301.2L285.2 302.4L287.5 302.9L288.7 304.0L290.9 307.3L294.2 308.3L295.5 309.2L297.4 310.9L299.6 311.6L306.6 312.6L312.2 309.0L316.9 305.9L322.3 302.4L326.0 300.0L332.2 295.9L336.3 293.4L341.7 290.0L347.1 286.7L352.9 283.2L357.3 280.5L363.4 276.9L369.3 273.4L374.9 270.0L381.2 266.3L386.7 263.0L391.7 261.6L392.9 260.6L395.2 256.1L397.1 252.2L397.3 251.3L397.3 245.8L397.6 239.4L398.2 236.0L399.4 233.0L400.5 230.7L400.5 228.7L400.4 226.6L399.3 223.4L398.1 220.1L398.3 216.9L398.5 215.1L399.2 212.4L400.5 210.4L401.7 209.2L406.6 207.9L409.4 207.1L413.3 203.6L415.5 201.5L418.7 198.2L421.0 195.7L421.2 194.9L420.3 191.6L419.4 190.4L418.0 189.9L417.3 190.1L415.1 192.1L411.5 193.4L408.5 194.1L403.7 195.0L400.2 195.5L398.6 195.5L395.2 195.1L392.3 194.5L389.3 194.6L387.0 194.8L381.8 197.0L372.7 201.5L365.9 203.7L362.1 204.6L359.1 205.0L354.0 205.1L349.8 204.7L346.9 204.8L345.3 204.2L343.0 202.4L340.2 200.6L339.0 200.2L337.4 199.8L335.0 199.7L329.1 202.3L327.2 203.0L325.2 203.5L321.2 205.1L319.3 206.0L317.1 205.9L314.2 205.7L311.7 205.8L310.0 204.5L309.1 203.2L305.7 202.3L303.3 202.1L302.7 202.7L302.0 204.6L300.9 209.4L300.8 210.6L303.0 215.4L302.8 216.1L301.3 216.3L299.5 216.4L298.3 216.9L297.4 217.6L296.9 221.8L294.8 222.6L293.8 223.4L292.8 226.0L289.0 224.1L287.5 223.9Z"},{"id":"Sudan","d":"M195.2 567.0L195.9 564.9L196.3 563.3L195.8 562.3L194.5 562.0L193.6 562.4L191.6 566.9Z"},{"id":"Serbia","d":"M0.0 66.2L1.1 66.4L3.0 66.0L4.9 65.1L5.8 65.3L6.6 66.0L8.7 65.8L9.2 65.1L10.8 63.1L11.0 62.1L9.8 60.6L9.0 58.4L9.6 56.5L9.6 55.4L9.1 54.4L9.6 53.2L10.8 52.5L11.6 52.3L14.6 52.2L16.6 49.7L17.8 48.8L19.0 47.4L19.5 46.9L20.0 45.8L20.2 44.7L17.8 43.1L16.9 41.9L15.9 40.6L14.4 39.7L11.5 38.1L10.3 36.5L9.8 34.5L9.0 32.9L8.2 31.9L8.0 31.0L7.6 30.1L7.6 28.0L8.2 25.4L8.7 24.5L9.7 24.2L12.4 22.8L12.5 21.0L13.0 19.9L13.8 19.2L14.6 18.8L14.1 17.6L13.4 16.9L12.0 16.3L11.0 15.3L10.2 13.9L10.4 12.6L11.4 11.4L12.8 10.8L14.5 11.0L15.2 10.6L14.9 9.7L13.3 8.6L10.3 7.2L7.3 8.0L4.1 10.8L1.9 11.3L0.6 9.4Z"},{"id":"Saudi Arabia","d":"M309.4 482.8L308.8 482.5L305.1 479.3L301.8 477.7L301.1 477.1L300.7 476.1L300.1 477.1L300.6 478.2L304.6 479.9L305.5 480.7L306.3 481.9L307.8 483.6ZM600.0 503.7L598.5 503.0L597.0 500.9L596.0 498.2L594.3 496.3L593.1 493.9L590.8 490.9L589.8 485.5L588.8 482.6L585.1 479.1L584.3 477.7L583.2 474.4L582.0 472.2L581.0 469.4L580.0 465.7L581.3 465.5L582.1 465.9L583.8 460.8L583.2 458.4L581.6 457.2L579.9 455.4L579.5 453.4L579.5 451.7L581.1 451.7L582.1 452.2L579.0 448.0L573.5 444.8L569.8 440.0L567.0 439.3L564.5 436.1L562.2 432.9L563.5 431.6L561.9 430.7L560.4 430.2L556.6 428.2L554.4 425.9L554.6 424.9L555.2 424.0L554.6 421.6L554.0 420.1L550.9 415.8L548.8 410.3L548.2 408.0L547.1 405.7L543.5 405.8L538.9 405.8L535.3 405.9L531.1 405.9L529.3 403.6L528.7 401.1L528.0 398.4L526.2 394.7L520.1 393.8L516.9 393.3L511.5 392.6L507.6 392.1L503.9 392.9L495.5 392.1L486.2 391.2L476.9 390.3L470.0 389.7L462.7 383.7L457.2 379.2L450.5 373.5L443.6 367.7L436.6 361.9L431.5 357.6L425.4 352.1L419.7 347.1L415.4 343.2L409.6 339.7L405.2 337.0L398.7 333.1L393.6 329.9L389.1 327.2L382.4 323.1L380.0 322.0L373.0 320.6L366.3 319.4L359.3 318.2L354.7 317.4L351.7 320.3L350.9 320.6L347.0 321.8L338.8 324.2L333.3 325.9L326.3 328.0L320.5 329.7L314.8 331.4L309.5 333.0L312.5 336.4L317.2 341.5L320.2 344.9L323.9 349.4L327.2 353.3L330.6 357.4L328.2 358.9L324.2 361.2L323.4 362.1L321.8 366.2L320.5 369.5L314.5 371.1L308.8 372.3L305.3 373.1L304.2 373.9L301.9 378.0L299.5 382.2L295.5 385.7L291.0 389.5L290.0 389.8L286.8 389.2L281.3 388.2L276.0 387.2L272.3 386.5L268.0 385.7L264.8 401.3L264.4 406.6L262.4 412.6L261.0 415.4L261.2 417.5L263.2 415.9L265.4 416.4L270.6 416.9L272.7 418.2L277.7 425.7L281.0 433.1L284.8 437.3L286.6 442.0L290.3 446.7L291.6 449.5L294.8 453.7L300.4 465.8L303.6 467.4L304.2 470.8L305.4 474.5L307.4 476.0L308.7 477.2L313.5 485.9L314.9 489.3L315.4 491.2L315.8 494.0L314.9 496.1L314.1 497.5L317.3 502.5L319.3 506.4L321.6 510.5L323.5 510.9L325.1 510.9L327.3 513.1L329.4 513.1L330.6 514.6L333.0 516.3L337.0 519.9L340.6 524.8L342.3 528.6L345.6 534.8L346.7 537.6L347.5 541.2L348.3 542.6L350.5 545.3L349.3 545.2L350.5 547.2L351.9 548.0L351.7 549.8L353.0 552.4L353.7 557.3L353.2 559.7L352.4 562.0L352.2 566.2L352.0 567.0L600.0 567.0Z"},{"id":"Russia","d":"M313.0 0.0L314.6 0.7L316.2 2.3L317.6 5.2L318.8 6.5L320.6 7.5L322.2 8.1L324.9 8.4L328.0 7.4L334.8 14.3L337.5 15.4L344.2 16.8L345.9 17.6L358.5 27.2L362.4 31.4L369.8 37.6L371.9 39.0L372.9 37.4L374.2 35.7L375.5 35.3L379.5 35.9L383.2 36.7L385.9 36.1L389.0 37.5L391.9 39.0L394.8 40.1L400.5 41.1L402.6 42.5L405.1 43.9L414.8 44.6L415.6 44.4L416.3 44.2L419.6 43.7L422.4 43.8L425.5 45.5L427.4 45.4L429.5 45.1L432.2 46.0L434.3 47.0L434.5 48.1L436.4 49.6L441.6 51.8L446.0 53.1L447.4 54.1L450.7 55.6L451.0 56.6L450.0 57.7L449.8 58.7L450.2 59.3L451.6 59.9L454.3 60.0L455.3 59.3L457.3 58.8L459.3 57.8L462.0 56.6L465.6 55.5L467.1 55.5L468.5 55.9L469.5 56.5L471.1 58.8L472.8 55.6L474.7 55.9L477.3 56.8L479.2 57.3L480.2 58.0L483.0 60.9L487.5 60.7L489.4 61.2L490.4 61.7L490.9 62.2L490.1 65.1L489.0 68.2L489.1 68.9L490.9 70.0L493.3 71.3L494.7 72.2L495.6 73.1L497.6 73.7L499.9 74.1L500.9 74.2L502.1 74.9L505.0 76.3L507.7 77.2L508.0 78.6L509.3 78.7L510.8 78.1L512.0 78.6L513.6 80.3L515.8 82.1L517.0 83.3L517.5 84.1L518.6 84.9L520.2 85.9L521.5 87.4L522.6 90.8L523.8 91.6L528.0 93.0L529.5 93.2L533.6 93.7L535.0 93.3L537.2 90.4L539.1 87.3L540.9 86.7L544.1 85.2L546.0 83.8L546.8 82.3L548.7 79.4L549.8 77.8L547.8 76.3L546.7 75.8L545.8 75.1L544.2 72.0L542.6 69.5L539.6 65.2L534.2 58.8L533.2 58.0L532.3 57.2L531.9 54.0L530.4 51.7L528.2 50.1L527.4 49.3L526.9 48.5L527.8 43.9L527.8 42.6L527.4 39.9L527.7 36.7L529.0 32.4L530.2 29.5L530.7 27.5L528.9 28.7L526.8 35.6L526.1 30.1L524.7 24.8L523.6 22.1L522.0 19.9L519.8 18.2L517.7 16.2L515.5 15.1L512.1 14.3L511.4 13.5L511.2 12.3L511.4 10.8L512.2 8.5L514.0 6.9L516.4 5.4L516.9 4.3L517.3 3.0L518.1 4.0L519.0 4.5L519.6 2.3L520.6 0.7L521.3 0.0ZM239.9 0.0L240.2 2.3L238.5 7.9L237.8 9.4L237.2 9.9L236.9 11.0L241.1 14.0L243.2 14.8L246.4 15.1L249.9 14.2L254.1 11.4L258.0 6.9L263.1 4.8L266.6 4.3L270.8 4.8L272.2 2.5L276.4 0.5Z"},{"id":"Romania","d":"M0.0 9.1L1.9 11.3L4.1 10.8L7.3 8.0L10.3 7.2L13.3 8.6L14.9 9.7L15.2 10.6L14.5 11.0L12.8 10.8L11.4 11.4L10.4 12.6L10.2 13.9L11.0 15.3L12.0 16.3L13.4 16.9L14.1 17.6L14.3 18.5L16.0 19.8L19.5 21.5L21.3 22.7L21.2 23.5L20.4 24.2L18.9 25.0L18.0 25.9L17.7 27.1L18.0 28.0L19.0 28.7L25.4 27.7L31.8 28.3L40.3 29.9L46.1 30.5L50.3 29.7L58.1 31.1L65.4 32.4L72.4 32.7L76.2 31.8L79.0 30.4L81.4 27.8L87.3 24.5L92.9 22.6L100.3 21.1L105.3 20.5L105.9 21.1L112.3 24.1L115.0 24.1L117.3 24.7L118.2 25.5L121.7 25.0L123.1 26.7L125.2 29.0L128.7 30.3L131.9 31.0L132.9 31.0L136.3 31.0L136.3 29.6L137.8 25.0L137.5 17.3L138.6 15.4L141.8 12.2L142.5 10.5L140.8 10.7L141.0 9.8L141.6 9.0L141.7 7.0L142.1 6.2L143.3 4.7L142.6 2.0L143.4 0.8L144.5 0.2L146.8 0.6L145.8 1.9L146.2 3.2L146.5 5.0L145.8 6.0L156.4 3.9L157.3 2.1L157.9 0.5L0.0 0.0Z"},{"id":"Qatar","d":"M600.0 469.1L598.0 475.2L597.3 478.0L595.9 480.8L595.1 482.1L594.9 483.2L595.4 488.7L596.8 495.8L596.6 496.7L596.0 498.2L597.0 500.9L598.5 503.0L599.3 503.6Z"},{"id":"Macedonia","d":"M0.0 95.4L2.9 95.1L3.8 94.7L4.9 94.8L8.3 95.6L10.2 95.7L12.5 95.1L15.0 94.2L15.6 90.9L16.2 90.4L17.8 90.3L19.0 90.3L19.7 83.7L20.8 80.9L20.5 80.0L19.5 79.5L18.8 78.0L17.3 74.1L16.5 73.3L14.1 72.5L12.0 71.4L10.3 69.9L7.1 66.2L5.8 65.3L4.9 65.1L3.0 66.0L1.1 66.4L0.0 66.2Z"},{"id":"Libya","d":"M61.6 567.0L61.6 561.6L61.6 556.0L61.6 550.5L61.6 545.0L61.6 539.4L61.6 533.9L61.6 528.3L61.6 522.8L61.6 517.3L61.6 511.7L61.6 506.2L61.6 500.7L61.6 495.1L61.6 489.6L61.6 484.1L61.6 478.5L61.6 473.0L61.6 467.5L61.6 461.9L61.6 456.4L61.6 450.8L61.6 445.3L61.6 439.8L61.6 434.2L61.6 428.7L61.6 423.2L61.6 417.6L61.6 412.1L61.6 406.6L61.6 401.0L61.6 395.5L61.6 390.0L61.5 388.9L60.4 385.2L59.3 380.4L58.1 374.5L58.0 372.6L56.1 366.6L55.9 364.8L56.4 363.6L59.5 358.5L60.4 356.0L61.3 353.0L61.6 350.6L60.6 347.0L59.5 343.6L59.2 340.2L59.0 336.9L60.6 334.6L62.5 332.5L63.3 331.2L64.4 329.7L65.2 329.0L64.5 327.6L62.6 323.3L61.0 321.6L59.5 320.9L55.5 320.1L51.3 320.6L44.1 320.3L42.2 319.6L39.3 317.3L37.2 316.6L26.6 315.2L22.9 312.3L23.0 310.7L23.3 309.4L22.5 305.2L19.0 303.5L15.6 302.2L10.8 300.9L7.0 298.8L3.9 297.8L0.0 298.0L0.0 567.0Z"},{"id":"Lebanon","d":"M289.2 257.7L288.1 259.0L285.6 260.4L282.4 265.0L281.7 270.4L279.6 274.1L275.9 283.4L274.1 286.1L273.2 289.4L272.2 291.9L271.2 293.8L273.6 293.6L275.3 293.8L277.5 294.0L279.2 292.9L280.0 289.7L281.0 289.1L281.4 289.9L282.0 289.1L284.2 287.6L285.2 286.7L286.3 285.6L286.9 285.2L287.9 284.3L288.1 283.5L289.0 282.6L290.1 282.0L290.2 281.1L289.1 280.5L288.4 279.4L289.0 277.8L290.1 276.5L291.6 275.3L292.8 275.1L293.8 275.1L295.5 275.2L296.9 275.4L297.1 274.8L295.5 273.8L295.4 273.0L295.8 272.2L297.0 270.9L298.4 269.9L300.7 267.9L301.8 265.7L300.1 260.5L299.1 259.7L297.4 259.0L296.5 258.8L297.7 257.2L298.6 256.1L297.6 254.9L295.8 254.4L295.1 255.6L292.8 255.7L289.2 255.7Z"},{"id":"Kuwait","d":"M545.0 377.3L545.1 375.1L542.6 371.4L541.8 370.3L541.2 370.8L540.8 372.3L540.3 373.0L539.6 374.7L540.9 378.0L541.7 379.4L542.4 379.6L543.6 379.1ZM546.0 403.5L545.6 402.0L545.0 400.3L543.2 396.9L541.8 394.9L540.0 389.2L539.7 387.7L539.0 385.7L537.9 384.9L536.6 385.4L534.8 385.4L532.2 384.7L534.2 382.4L537.3 379.2L538.9 379.7L539.8 380.2L540.9 380.3L540.8 379.2L539.5 376.8L538.0 373.8L537.4 371.1L537.5 370.2L532.8 367.9L531.2 367.4L527.9 367.4L524.1 367.8L521.9 368.7L520.3 369.8L519.6 370.8L518.1 374.1L516.7 377.9L515.3 381.2L512.5 385.9L510.9 388.0L507.6 392.1L511.5 392.6L516.9 393.3L520.1 393.8L526.2 394.7L528.0 398.4L528.7 401.1L529.3 403.6L531.1 405.9L535.3 405.9L538.9 405.8L543.5 405.8L547.1 405.7Z"},{"id":"Kazakhstan","d":"M579.6 0.0L579.2 1.6L581.3 4.2L582.4 4.3L583.1 3.6L581.4 2.9L580.1 1.3L580.2 0.0ZM600.0 10.9L597.1 9.2L592.8 9.0L587.8 9.3L585.5 10.3L584.8 11.7L584.6 13.3L584.5 14.6L585.0 15.9L586.1 16.6L589.0 17.4L593.5 18.1L595.5 19.0L596.5 19.9L598.7 25.7L600.0 28.2Z"},{"id":"Jordan","d":"M284.2 302.5L281.6 303.6L280.8 304.7L280.4 310.7L280.8 314.6L280.0 317.9L279.9 320.9L280.5 326.2L279.3 328.6L278.6 331.3L278.3 333.3L277.7 337.1L277.3 339.4L278.1 341.9L276.9 345.5L275.6 348.6L275.1 350.0L273.8 353.2L272.6 356.8L271.9 359.4L272.0 360.3L271.7 365.0L271.9 366.3L270.4 370.3L270.0 372.3L269.4 375.0L268.4 380.8L268.6 382.5L268.0 385.7L272.3 386.5L276.0 387.2L281.3 388.2L286.8 389.2L290.0 389.8L291.0 389.5L295.5 385.7L299.5 382.2L301.9 378.0L304.2 373.9L305.3 373.1L308.8 372.3L314.5 371.1L320.1 369.9L321.8 366.2L323.4 362.1L324.2 361.2L328.2 358.9L330.6 357.4L327.2 353.3L323.9 349.4L320.2 344.9L317.2 341.5L312.5 336.4L309.5 333.0L314.8 331.4L320.5 329.7L326.3 328.0L333.3 325.9L338.8 324.2L347.0 321.8L350.9 320.6L351.7 320.3L354.7 317.4L357.8 314.5L356.8 311.8L354.6 312.3L352.6 312.9L351.4 308.8L352.9 308.3L351.4 303.0L350.0 297.4L348.5 292.1L347.1 286.7L341.7 290.0L336.3 293.4L332.2 295.9L326.0 300.0L322.3 302.4L316.9 305.9L312.2 309.0L306.6 312.6L299.6 311.6L297.4 310.9L295.5 309.2L294.2 308.3L290.9 307.3L288.7 304.0L287.5 302.9L285.2 302.4Z"},{"id":"Israel","d":"M286.3 285.6L285.2 286.7L284.2 287.6L282.0 289.1L281.4 289.9L281.0 289.1L280.0 289.7L279.2 292.9L277.5 294.0L275.3 293.8L273.6 293.6L271.2 293.8L270.6 296.6L269.1 300.1L267.4 305.3L264.9 315.6L262.3 323.0L258.3 330.5L259.1 331.8L255.5 336.2L255.5 337.9L253.4 340.0L255.1 345.2L256.6 349.4L258.4 355.1L259.0 357.3L259.2 358.8L261.9 365.1L263.5 370.2L264.7 374.4L266.2 380.5L267.0 382.7L268.4 380.8L269.4 375.0L270.0 372.3L270.4 370.3L271.9 366.3L271.7 365.0L272.0 360.3L271.9 359.4L272.6 356.8L273.8 353.2L275.1 350.0L275.6 348.6L276.9 345.5L278.1 341.9L277.4 339.9L277.7 337.1L278.3 333.3L277.4 333.2L274.7 334.7L271.1 336.1L267.1 336.5L266.5 336.0L266.3 335.4L267.5 331.9L268.0 330.3L269.7 328.5L272.1 327.0L273.2 326.6L271.6 325.0L270.0 324.5L268.6 325.0L268.0 324.4L268.5 323.8L268.8 322.6L268.5 320.7L268.4 318.3L268.0 316.5L268.9 313.5L269.2 312.1L270.3 309.1L272.9 307.3L275.3 307.8L276.4 308.0L277.3 309.4L279.0 310.6L280.4 310.7L280.8 305.2L281.3 304.0L284.2 302.5L285.2 302.4L285.5 301.2L286.7 299.2L287.8 297.1L287.2 295.9L287.0 294.9L286.9 293.6L287.7 292.5L287.3 291.1L286.7 289.7L286.3 289.0L286.3 287.7L286.6 286.7L286.9 285.2Z"},{"id":"Palestine","d":"M256.3 333.2L252.4 337.2L252.7 337.9L253.4 340.0L255.5 337.9L255.5 336.2L259.2 332.2L258.1 330.7ZM279.0 310.6L277.3 309.4L277.0 308.3L275.3 307.8L272.9 307.3L270.3 309.1L269.2 312.1L268.9 313.5L268.0 316.5L268.4 318.3L268.5 320.7L268.8 322.6L268.5 323.8L268.0 324.4L268.6 325.0L270.0 324.5L271.6 325.0L273.1 326.0L272.1 327.0L269.7 328.5L268.0 330.3L267.5 331.9L266.3 335.4L266.5 336.0L267.1 336.5L271.1 336.1L274.7 334.7L277.4 333.2L278.3 333.3L278.6 331.3L279.3 328.6L280.5 326.2L279.9 320.9L280.0 317.9L280.8 314.6L280.4 310.7Z"},{"id":"Iraq","d":"M421.2 194.9L421.0 195.7L418.7 198.2L415.5 201.5L413.3 203.6L409.4 207.1L406.6 207.9L401.7 209.2L400.5 210.4L399.2 212.4L398.5 215.1L398.3 216.9L398.1 220.1L399.3 223.4L400.4 226.6L400.5 228.7L400.5 230.7L399.4 233.0L398.2 236.0L397.6 239.4L397.3 245.8L397.3 251.3L397.1 252.2L395.2 256.1L392.9 260.6L391.7 261.6L386.7 263.0L381.2 266.3L374.9 270.0L369.3 273.4L363.4 276.9L357.3 280.5L352.9 283.2L347.1 286.7L348.5 292.1L350.0 297.4L351.4 303.0L352.9 308.3L351.4 308.8L352.6 312.9L354.6 312.3L356.8 311.8L357.8 314.5L354.7 317.4L359.3 318.2L366.3 319.4L373.0 320.6L380.0 322.0L382.4 323.1L389.1 327.2L393.6 329.9L398.7 333.1L405.2 337.0L409.6 339.7L415.4 343.2L419.7 347.1L425.4 352.1L431.5 357.6L436.6 361.9L443.6 367.7L450.5 373.5L457.2 379.2L462.7 383.7L469.4 389.5L476.9 390.3L486.2 391.2L495.5 392.1L503.9 392.9L507.6 392.1L510.9 388.0L512.5 385.9L515.3 381.2L516.7 377.9L518.1 374.1L519.3 371.3L520.3 369.8L521.9 368.7L524.1 367.8L527.9 367.4L530.6 367.4L532.8 367.9L537.5 370.2L539.4 368.7L540.9 368.8L545.3 370.8L547.3 371.3L549.2 370.7L547.9 369.7L546.9 368.9L546.1 367.1L545.9 365.8L546.2 365.1L545.8 364.1L544.8 362.8L543.7 362.0L542.6 361.9L541.7 361.0L541.0 359.5L539.3 358.5L538.3 358.3L538.2 353.6L538.2 349.5L538.2 345.4L534.5 345.2L531.3 345.1L531.3 341.7L531.3 335.3L532.8 330.3L534.4 325.6L532.0 322.1L529.5 318.3L527.8 316.7L525.9 312.1L524.9 310.0L524.1 309.3L523.1 308.8L519.8 309.0L516.6 306.5L512.9 303.5L508.3 299.9L504.4 297.6L502.7 297.1L498.8 296.9L498.3 295.1L498.3 293.7L499.4 291.5L499.6 290.2L497.0 285.6L496.2 284.2L493.9 283.7L494.4 282.4L494.4 281.5L494.1 280.8L492.9 280.4L491.1 281.0L489.8 278.9L485.7 273.0L484.3 272.3L485.1 270.1L486.8 267.4L487.1 265.9L486.8 264.1L484.9 260.9L485.4 259.6L486.2 258.0L486.2 256.8L487.5 257.0L489.0 257.0L489.5 256.1L489.5 252.7L489.9 251.5L494.9 245.8L497.4 244.5L499.3 243.4L499.7 241.7L499.4 240.8L499.0 239.5L498.8 238.6L496.8 236.0L496.0 234.7L495.9 233.6L496.5 231.5L497.4 229.9L500.3 229.0L502.0 228.2L502.2 227.5L500.0 226.3L495.3 225.9L491.9 226.3L490.8 225.9L489.2 223.6L487.5 222.4L485.9 221.7L484.3 221.8L483.4 221.5L483.1 220.5L480.8 213.1L480.2 212.1L479.1 211.8L478.2 211.8L477.6 211.3L477.0 210.2L476.5 208.9L476.5 207.1L476.6 205.6L476.3 204.7L475.5 203.7L474.3 203.0L473.4 202.2L471.7 195.6L471.0 193.9L470.3 193.2L469.1 192.9L467.7 192.9L466.9 193.3L465.4 194.5L463.5 195.8L461.9 197.0L461.0 197.8L460.3 197.6L459.7 196.9L459.4 195.9L459.4 192.2L459.1 191.1L458.4 190.2L457.5 189.8L456.5 189.5L455.4 189.5L453.9 190.6L451.8 191.7L448.5 191.6L446.3 191.4L445.1 191.2L440.8 189.5L439.9 189.4L438.3 188.7L436.4 188.1L433.2 189.2L431.7 189.0L429.8 188.1L429.1 188.3L427.0 191.1L423.2 194.0L421.2 194.5Z"},{"id":"Iran","d":"M600.0 202.5L598.5 201.9L590.3 196.9L586.3 193.5L583.8 188.8L582.9 187.8L582.0 187.2L578.9 186.3L573.6 185.4L568.3 185.0L566.3 184.4L562.2 182.4L560.3 180.7L559.0 178.1L557.8 175.3L557.1 172.2L556.6 169.0L556.0 162.9L555.9 161.8L551.1 162.7L550.2 162.4L546.6 158.1L545.8 157.6L544.3 157.5L543.3 156.7L542.6 155.6L542.2 154.7L538.4 152.4L537.9 151.5L537.8 150.8L538.3 150.1L539.0 149.5L540.8 148.9L542.9 148.4L543.6 148.1L544.0 147.4L544.0 146.5L543.6 145.5L540.6 143.7L540.2 142.9L540.1 142.0L540.3 141.0L540.7 140.2L543.2 139.1L544.6 138.1L543.8 136.9L541.1 134.1L537.9 131.1L535.7 131.0L533.3 131.9L529.3 134.5L527.1 135.6L524.2 137.5L521.1 139.5L518.6 141.7L517.0 143.5L514.2 144.2L512.8 145.8L508.0 150.3L506.7 150.2L503.1 150.1L500.0 151.1L498.9 150.9L494.9 150.2L487.8 148.6L485.8 147.7L484.0 145.6L482.8 144.5L481.1 143.1L479.8 142.6L478.8 141.6L478.2 140.2L477.3 139.0L475.8 137.5L472.5 132.4L471.4 131.9L470.2 131.1L467.3 129.0L465.9 129.9L464.6 131.5L463.2 137.5L462.1 138.2L460.1 138.1L457.7 137.9L456.1 138.2L455.9 139.3L456.4 140.3L456.7 141.5L456.8 142.5L457.7 143.5L458.9 144.4L458.9 145.3L458.7 146.5L458.5 147.5L458.7 149.5L460.0 151.3L460.8 151.9L460.5 155.3L460.9 156.8L461.3 158.8L461.2 162.2L461.4 163.0L462.9 163.4L464.1 163.7L464.5 164.3L463.0 166.3L462.9 167.4L462.4 169.0L462.0 169.9L460.7 171.6L459.9 173.4L459.5 174.8L459.8 175.5L462.1 175.7L463.4 176.8L466.7 178.9L467.3 179.7L466.4 181.0L466.9 182.2L467.1 183.4L467.0 184.7L467.0 186.5L469.9 188.4L471.6 190.1L470.8 191.9L471.1 193.4L471.7 195.6L473.4 202.2L474.3 203.0L475.5 203.7L476.3 204.7L476.6 205.6L476.5 207.1L476.5 208.9L477.0 210.2L477.6 211.3L478.2 211.8L479.1 211.8L480.2 212.1L480.8 213.1L483.1 220.5L483.4 221.5L484.3 221.8L485.9 221.7L487.5 222.4L489.2 223.6L490.8 225.9L491.9 226.3L495.3 225.9L500.0 226.3L502.2 227.5L502.0 228.2L500.3 229.0L497.4 229.9L496.5 231.5L495.9 233.6L496.0 234.7L496.8 236.0L498.8 238.6L499.0 239.5L499.4 240.8L499.7 241.7L499.3 243.4L497.4 244.5L494.9 245.8L489.9 251.5L489.5 252.7L489.5 256.1L489.0 257.0L487.5 257.0L486.2 256.8L486.2 258.0L485.4 259.6L484.9 260.9L486.8 264.1L487.1 265.9L486.8 267.4L485.1 270.1L484.1 271.9L485.7 273.0L489.8 278.9L491.1 281.0L492.9 280.4L494.1 280.8L494.4 281.5L494.4 282.4L493.9 283.7L496.2 284.2L497.0 285.6L499.6 290.2L499.4 291.5L498.3 293.7L498.3 295.1L498.5 296.4L502.7 297.1L504.4 297.6L508.3 299.9L512.9 303.5L516.6 306.5L519.8 309.0L523.1 308.8L524.1 309.3L524.9 310.0L525.9 312.1L527.8 316.7L529.5 318.3L532.0 322.1L534.4 325.6L532.8 330.3L531.3 335.3L531.3 341.7L531.3 345.1L534.5 345.2L538.2 345.4L538.2 349.5L538.2 353.6L538.3 358.3L539.3 358.5L541.0 359.5L541.7 361.0L542.6 361.9L543.7 362.0L544.8 362.8L545.8 364.1L546.2 365.1L545.9 365.8L546.1 367.1L546.9 368.9L547.9 369.7L549.2 370.7L550.2 370.4L551.8 369.1L555.2 368.9L555.9 368.2L556.9 366.8L556.7 363.8L556.4 361.7L556.9 360.0L559.4 358.7L558.7 357.3L561.3 357.2L563.3 358.1L563.7 359.6L562.5 360.5L560.6 359.8L559.6 360.0L558.7 360.6L559.2 361.6L559.8 362.2L567.5 366.6L570.1 369.1L579.0 364.6L580.8 364.9L582.0 368.6L582.8 371.7L584.1 372.9L587.3 377.7L590.5 380.9L592.8 384.1L593.1 386.1L592.7 389.2L593.3 390.8L595.8 391.6L597.5 392.9L597.5 394.3L596.7 396.2L597.2 397.6L600.0 399.5Z"},{"id":"Greece","d":"M27.1 147.1L26.0 147.1L23.7 147.8L20.4 150.0L18.0 151.1L19.3 151.9L21.3 151.0L23.6 151.7L25.9 152.8L28.2 154.5L30.3 156.4L31.2 157.5L32.1 158.2L33.5 159.0L34.1 161.7L36.4 162.7L39.0 162.7L42.2 162.9L42.7 164.3L43.5 164.7L44.4 166.6L45.3 167.5L45.4 168.8L45.8 169.7L47.9 171.1L48.8 172.1L50.0 172.1L51.1 173.0L51.8 173.3L52.5 173.1L53.4 172.1L53.6 169.5L53.1 168.9L51.0 169.0L48.8 168.5L47.1 167.1L45.9 164.2L45.2 161.1L45.8 160.2L45.5 159.2L44.6 158.1L44.1 156.6L43.5 156.0L38.8 155.7L35.0 153.7L33.8 153.6L31.5 152.5L30.4 151.6L29.3 148.9ZM33.0 142.8L34.4 145.6L35.9 145.9L36.8 145.1ZM40.1 143.0L40.8 141.3L39.1 142.4L38.1 144.3L39.1 144.0ZM53.4 150.9L53.1 149.3L51.4 148.4L50.9 150.7L53.1 152.1L52.5 153.1L55.4 152.6ZM57.3 107.0L57.7 105.9L57.4 105.2L56.3 103.9L54.3 103.7L53.5 104.3L52.1 106.3L52.0 107.3L54.8 109.0L57.4 108.1ZM22.7 215.8L20.7 213.8L19.7 212.4L18.7 214.0L18.9 216.4L19.5 217.5L21.6 218.3L21.8 217.2ZM108.3 234.7L107.7 232.7L106.7 231.0L107.7 228.9L108.0 226.3L106.7 227.1L106.7 228.6L104.9 231.8L105.9 233.9L105.5 235.3L106.3 236.4L107.1 235.0ZM104.2 197.8L103.8 197.0L102.7 195.9L101.2 195.1L102.2 196.6L101.8 198.6L103.9 198.2ZM104.2 202.9L106.5 202.7L107.4 201.9L110.7 200.5L108.9 199.6L107.9 199.7L104.7 201.2L102.5 202.8L101.8 204.0ZM74.1 196.2L74.2 193.4L73.8 192.6L73.0 192.4L69.5 195.5L70.3 197.6L71.5 199.0L73.4 198.0ZM67.7 195.2L67.7 193.8L66.9 193.5L65.1 194.6L64.2 196.4L64.8 197.2L66.2 197.4L67.8 195.5ZM71.8 211.1L70.5 210.2L70.6 211.0L70.6 211.9L70.3 212.5L69.8 213.0L71.1 213.5L72.1 212.2ZM70.5 204.2L68.2 202.4L67.4 203.2L68.0 204.1L69.6 205.6ZM98.1 177.3L96.0 178.0L94.8 179.4L95.4 179.7L97.7 179.8L99.1 181.0L100.2 181.3L103.0 180.0L104.6 179.7L104.2 178.2L103.0 178.0L99.8 177.2ZM87.0 183.2L88.9 181.9L90.0 180.6L87.1 181.5L84.6 181.6L82.7 183.3L82.4 184.2L83.4 184.2ZM82.4 200.2L84.1 199.6L82.8 198.8L81.6 200.0L79.7 201.0L78.5 202.0L77.4 202.4L79.9 202.4ZM91.5 206.5L90.4 206.1L90.7 206.9L89.7 207.6L88.4 207.2L88.4 208.4L89.6 209.3L90.7 208.0L92.3 207.4ZM49.6 181.2L49.2 180.4L48.0 180.5L47.1 182.4L47.3 184.2L48.7 183.0ZM51.4 187.2L50.7 186.1L50.3 185.5L49.6 186.1L49.0 186.9L49.6 187.8L49.2 189.5L50.4 188.7ZM50.9 203.5L50.2 204.3L48.7 203.5L48.1 205.7L52.4 205.0L52.5 203.0ZM61.6 177.6L61.0 176.1L61.2 174.9L59.1 174.7L57.8 172.8L55.9 173.5L56.2 175.0L57.2 175.7L57.9 176.9L59.7 178.2L61.3 180.1L61.9 178.5ZM66.7 181.7L63.9 181.3L62.9 180.4L62.0 180.5L62.4 181.3L63.1 182.1L65.3 183.8L66.6 184.0L67.4 182.5ZM84.9 166.8L85.0 165.7L86.0 165.1L85.8 161.0L86.1 159.3L85.0 159.1L83.0 157.7L79.6 158.4L79.7 160.0L82.0 162.3L82.6 163.8L81.7 165.1L80.2 165.9L80.6 166.6L82.7 168.6L84.7 167.2ZM89.9 138.5L86.2 138.7L86.1 139.7L84.6 140.4L83.3 140.9L80.9 140.8L79.5 143.0L80.8 144.5L84.3 145.6L86.4 143.1L88.4 143.0L87.8 143.8L85.0 145.9L86.1 147.3L90.8 148.6L92.5 148.6L94.1 148.0L93.1 147.1L92.8 146.1L93.7 146.3L94.9 147.1L94.7 145.2L93.7 143.7L90.9 141.2L91.3 139.8ZM75.8 111.8L75.0 111.2L73.8 110.6L71.3 111.4L73.9 113.4L76.2 112.7ZM71.4 122.4L69.8 122.9L69.3 123.6L68.0 124.3L66.9 123.1L63.3 123.3L63.4 125.5L63.3 126.9L64.7 127.5L65.9 127.5L66.7 125.9L67.3 126.9L67.5 127.6L68.3 128.1L69.5 128.0L69.8 126.0L70.3 124.5L71.1 123.7ZM71.5 186.2L69.3 184.7L68.6 185.1L68.4 187.0L70.4 186.9ZM123.5 220.7L126.0 220.2L125.5 218.7L127.1 216.7L128.9 212.8L129.0 211.2L127.7 211.4L122.3 213.3L120.3 215.1L119.5 216.6L118.2 217.6L118.3 218.4L119.1 220.2L118.2 222.9L118.9 224.0L120.9 223.6ZM37.1 232.8L36.6 230.9L35.9 230.4L35.5 231.6L35.5 233.0L34.6 233.8L33.6 233.5L33.3 232.6L32.5 233.3L32.0 236.3L32.3 239.2L33.0 240.2L33.9 240.7L35.3 240.8L39.0 240.4L41.3 241.0L51.0 242.6L53.4 243.7L56.0 244.3L56.6 245.1L56.8 246.2L56.8 247.8L57.9 248.1L66.3 247.5L74.7 246.3L79.2 245.9L83.8 246.2L86.2 246.0L87.8 245.4L88.1 244.2L88.6 242.6L89.0 239.9L89.4 238.8L88.7 238.9L86.2 241.2L83.3 241.2L80.6 242.1L79.4 243.3L78.5 243.5L77.5 243.0L77.3 242.0L77.7 238.5L77.2 237.9L73.8 238.4L71.9 239.0L68.2 238.2L64.2 238.0L62.2 236.4L56.3 236.0L54.3 236.4L52.5 237.1L50.6 237.5L48.7 237.7L47.9 237.6L47.0 237.0L46.7 236.1L46.7 235.0L45.1 235.2L43.9 234.6L45.5 233.3L44.8 231.8L43.3 231.9L42.1 233.3L39.7 233.5L38.3 233.3ZM0.0 162.6L4.7 163.9L6.6 163.7L8.0 163.1L8.7 161.7L12.1 164.0L15.6 165.4L16.2 166.1L17.2 166.8L19.3 167.6L20.6 167.3L21.4 167.6L22.6 167.7L23.8 168.2L24.5 169.3L23.9 170.2L23.2 170.8L19.8 170.7L18.5 171.3L19.0 172.4L19.0 173.6L17.5 173.4L16.6 173.0L14.7 171.4L11.5 169.8L5.0 167.9L0.0 165.2L0.0 197.0L1.7 196.5L2.8 198.1L3.4 199.6L4.8 200.1L7.8 204.6L7.9 205.9L7.8 209.2L8.8 210.1L10.2 210.9L10.1 207.9L12.6 202.7L14.9 202.3L16.1 202.5L17.2 204.9L20.4 208.9L21.9 209.9L22.9 210.7L24.0 210.8L23.0 208.4L21.6 206.0L22.2 202.8L21.9 200.8L20.6 196.8L17.6 190.1L15.8 187.5L15.0 183.9L16.0 182.8L17.6 184.1L19.5 184.5L21.0 185.4L22.7 186.3L22.8 188.2L24.0 189.0L24.9 188.6L25.9 187.9L30.8 186.3L30.2 185.0L29.2 183.9L28.9 182.9L27.9 182.5L26.1 182.5L24.8 181.9L23.7 179.5L23.7 177.6L22.5 176.2L21.4 175.6L22.5 174.7L24.7 173.6L29.4 172.8L31.1 171.7L31.8 171.8L32.7 172.3L35.9 175.4L38.8 178.0L40.8 180.5L41.8 180.5L42.5 179.7L42.6 178.1L42.6 177.1L42.0 173.7L41.9 169.1L41.5 167.0L40.7 165.8L38.0 164.6L34.8 163.9L32.5 160.5L28.3 159.6L26.0 156.3L23.6 156.1L21.1 154.3L16.0 152.8L14.3 151.6L13.1 151.6L11.8 151.2L12.3 150.6L14.0 150.4L16.6 150.4L19.3 149.2L22.1 147.0L20.0 147.1L19.4 145.2L18.4 143.7L17.4 141.5L19.0 140.4L20.5 139.7L24.0 141.5L24.2 142.7L23.2 144.6L23.9 145.4L25.2 145.3L27.4 143.6L26.6 140.8L25.5 139.1L22.8 135.8L20.2 134.0L19.0 132.4L17.3 128.2L12.2 122.4L11.8 120.3L12.5 116.5L13.3 114.2L12.9 112.7L13.0 111.0L15.4 110.0L16.8 109.0L19.1 108.7L18.5 110.3L17.6 111.2L18.6 113.4L22.8 115.8L27.1 117.9L27.4 121.0L28.9 123.5L33.7 125.1L34.7 124.3L30.3 121.4L29.7 120.4L28.7 117.8L29.5 116.8L34.4 117.7L37.9 122.7L40.3 124.1L41.0 123.4L41.4 122.7L40.7 120.4L39.7 119.5L37.7 118.2L35.6 116.2L35.8 115.1L37.7 114.2L39.6 114.4L42.6 115.8L44.6 116.4L46.2 118.0L48.4 119.6L47.4 117.3L45.8 115.2L42.0 113.2L40.0 113.2L38.6 112.9L37.9 111.4L38.8 109.8L36.8 107.8L36.1 106.6L36.5 104.8L40.3 104.8L43.1 105.4L46.2 103.9L49.3 100.8L51.3 99.9L52.9 100.2L55.4 101.8L57.8 102.1L62.2 99.4L64.2 98.7L67.2 100.3L68.8 100.0L72.4 101.4L79.8 102.5L83.0 104.3L83.5 105.3L84.2 105.0L85.0 104.8L86.4 102.9L87.8 101.5L89.6 99.7L90.1 98.7L90.1 97.7L89.6 97.0L89.6 96.2L89.5 95.1L89.6 92.7L93.9 90.1L95.2 89.9L95.7 88.7L95.4 86.0L94.8 83.8L94.0 83.6L93.0 83.0L92.3 82.3L91.3 81.5L89.4 80.9L86.9 80.3L84.9 80.7L84.1 82.0L84.3 82.8L85.1 83.6L85.8 85.7L86.0 87.9L85.5 89.1L84.1 90.0L81.1 90.9L78.3 90.5L77.0 90.8L75.0 91.0L73.0 91.2L70.0 92.1L67.3 92.6L64.8 90.8L61.9 89.6L58.9 88.9L57.8 89.4L54.9 88.3L53.7 87.7L53.1 87.1L52.1 85.0L49.4 85.7L47.4 85.6L46.1 85.5L42.6 85.6L42.0 87.1L40.9 87.4L38.9 87.4L36.5 88.4L33.8 89.1L31.8 89.1L29.7 88.8L28.4 89.0L25.7 89.1L23.9 90.7L21.2 90.6L19.0 90.3L17.8 90.3L16.2 90.4L15.6 90.9L15.0 94.2L12.5 95.1L10.2 95.7L8.3 95.6L4.9 94.8L3.8 94.7L2.9 95.1L0.0 95.4Z"},{"id":"Georgia","d":"M444.6 95.7L447.8 95.7L450.9 95.4L453.3 94.7L456.8 94.1L458.2 93.6L459.9 93.3L465.0 93.9L466.8 93.5L472.6 93.4L472.0 92.5L475.4 91.8L480.4 88.2L481.6 87.5L484.6 88.1L490.7 90.3L490.3 91.5L490.9 92.2L492.3 93.1L494.9 94.0L497.2 94.5L498.3 94.1L500.1 93.7L502.4 94.8L504.4 96.2L505.5 96.7L507.6 96.4L509.5 94.7L510.2 92.5L510.5 91.6L509.4 90.1L507.0 88.6L504.5 87.3L502.9 86.1L501.8 83.8L500.8 83.5L500.3 82.4L500.3 81.3L500.7 80.4L501.8 80.1L502.8 80.0L503.8 79.1L505.0 77.5L505.5 76.7L502.1 74.9L500.9 74.2L499.9 74.1L497.6 73.7L495.6 73.1L494.7 72.2L493.3 71.3L490.9 70.0L489.1 68.9L489.0 68.2L490.1 65.1L490.9 62.2L490.4 61.7L489.4 61.2L487.5 60.7L483.0 60.9L480.2 58.0L479.2 57.3L477.3 56.8L474.7 55.9L473.2 55.3L471.1 58.8L469.5 56.5L468.5 55.9L467.1 55.5L465.6 55.5L462.0 56.6L459.3 57.8L457.3 58.8L455.3 59.3L454.3 60.0L451.6 59.9L450.2 59.3L449.8 58.7L450.0 57.7L451.0 56.6L450.7 55.6L447.4 54.1L446.0 53.1L441.6 51.8L436.4 49.6L434.5 48.1L434.3 47.0L432.2 46.0L429.5 45.1L427.4 45.4L425.5 45.5L422.4 43.8L419.6 43.7L416.3 44.2L415.6 44.4L414.8 44.6L405.1 43.9L402.6 42.5L400.5 41.1L394.8 40.1L391.9 39.0L389.0 37.5L385.9 36.1L383.2 36.7L379.5 35.9L375.5 35.3L374.2 35.7L372.9 37.4L371.9 39.0L376.3 41.6L382.0 45.7L383.3 46.3L389.7 47.7L394.3 51.0L395.8 53.5L401.8 55.8L403.2 57.7L405.1 64.2L406.9 70.3L408.9 74.7L408.9 76.8L408.8 78.5L407.6 81.2L403.7 85.9L405.0 86.3L407.6 87.0L409.2 87.7L410.1 88.0L412.2 86.4L415.4 86.4L418.2 86.6L419.6 86.9L421.3 87.4L423.5 87.8L424.3 87.0L425.6 84.8L426.4 84.3L427.9 84.1L429.4 84.3L430.1 84.7L430.8 86.5L432.6 87.1L435.7 89.9L437.5 91.0L437.4 92.1L437.6 92.8L438.7 93.7L440.2 94.0L441.9 93.9L442.8 94.2L443.4 94.8L443.6 95.5Z"},{"id":"Egypt","d":"M191.3 567.0L193.6 562.4L194.5 562.0L195.8 562.3L196.3 563.3L195.9 564.9L195.2 567.0L307.7 567.0L306.8 564.6L298.3 557.3L294.4 551.5L287.8 548.8L286.5 547.6L285.5 546.1L283.4 543.7L280.6 535.6L279.8 531.5L279.4 523.2L279.6 521.6L280.2 519.6L281.3 519.1L282.0 518.9L285.2 519.2L281.9 516.0L278.8 513.9L277.2 511.0L273.0 506.0L265.9 489.6L262.4 482.2L260.0 476.0L255.1 467.8L249.3 454.8L247.4 452.4L246.1 442.5L245.2 439.2L244.2 437.1L242.0 435.3L241.2 433.1L239.0 428.8L239.1 426.4L238.9 421.6L237.9 419.7L235.3 417.8L231.8 413.9L228.0 408.2L225.5 405.2L224.6 403.5L224.1 401.7L223.1 399.7L220.5 396.2L220.0 394.6L220.1 389.9L219.3 386.5L218.6 384.9L215.1 381.3L214.3 378.9L215.4 376.0L217.0 373.5L216.7 371.6L218.6 370.4L220.3 374.7L221.8 381.6L222.7 383.3L223.7 384.6L224.9 387.4L229.1 392.6L230.3 395.0L231.8 399.9L231.8 402.0L232.7 405.1L236.2 409.5L239.9 412.8L243.3 417.9L249.2 423.3L252.8 424.9L254.8 421.8L256.6 418.7L257.2 416.5L257.5 410.3L261.0 400.4L263.5 387.7L265.9 383.8L267.0 382.7L266.2 380.5L264.7 374.4L263.5 370.2L261.9 365.1L259.2 358.8L259.0 357.3L258.4 355.1L256.6 349.4L255.1 345.2L253.4 340.0L252.7 337.9L252.4 337.2L246.3 340.7L241.4 341.9L235.4 341.9L231.6 343.1L230.9 342.0L230.3 341.0L225.6 342.4L224.6 342.2L221.0 343.3L219.4 343.5L217.9 342.6L213.6 338.8L212.1 337.8L211.3 337.9L211.9 339.0L212.8 340.2L211.2 342.2L209.0 342.9L208.3 341.4L207.1 339.7L204.9 339.2L202.2 337.9L204.3 334.9L204.6 333.2L208.4 336.6L209.7 336.7L206.1 332.8L204.6 331.8L203.6 332.2L198.8 333.9L197.0 333.8L190.2 330.7L188.0 330.3L187.3 330.5L186.8 332.6L186.2 333.7L182.9 334.3L180.0 335.2L177.2 334.8L183.8 332.2L184.6 331.2L177.3 333.5L173.7 333.9L172.6 335.2L172.0 336.3L171.0 337.3L170.2 338.7L168.1 338.8L166.5 338.6L164.0 339.5L157.0 344.9L153.7 346.9L150.6 348.4L148.1 349.2L146.3 349.3L144.2 348.7L140.8 346.5L134.8 343.9L123.5 342.7L120.6 340.3L116.3 340.4L114.6 339.9L108.6 335.8L98.6 333.5L92.2 332.5L80.6 329.8L70.0 332.5L66.8 332.0L65.2 329.0L64.4 329.7L63.3 331.2L62.5 332.5L60.6 334.6L59.0 336.9L59.2 340.2L59.5 343.6L60.6 347.0L61.6 350.6L61.3 353.0L60.4 356.0L59.5 358.5L56.4 363.6L55.9 364.8L56.1 366.6L58.0 372.6L58.1 374.5L59.3 380.4L60.4 385.2L61.5 388.9L61.6 390.0L61.6 395.5L61.6 401.0L61.6 406.6L61.6 412.1L61.6 417.6L61.6 423.2L61.6 428.7L61.6 434.2L61.6 439.8L61.6 445.3L61.6 450.8L61.6 456.4L61.6 461.9L61.6 467.5L61.6 473.0L61.6 478.5L61.6 484.1L61.6 489.6L61.6 495.1L61.6 500.7L61.6 506.2L61.6 511.7L61.6 517.3L61.6 522.8L61.6 528.3L61.6 533.9L61.6 539.4L61.6 545.0L61.6 550.5L61.6 556.0L61.6 561.6L61.6 567.0Z"},{"id":"N. Cyprus","d":"M246.9 243.1L246.4 241.6L247.1 239.3L257.9 231.9L259.8 230.2L256.8 231.0L253.9 232.5L252.2 233.1L249.6 234.8L240.2 237.8L237.1 238.3L234.0 238.1L230.1 237.7L226.4 236.9L226.1 239.7L225.1 242.1L222.9 242.6L221.6 242.3L223.1 243.6L224.9 244.3L225.9 244.4L227.3 243.6L229.2 242.9L231.5 242.2L232.7 242.7L234.4 242.8L235.6 242.5L236.4 243.1L237.0 244.0L237.2 246.4L238.5 245.6L240.3 246.0L241.6 246.1L242.6 245.6L244.0 245.3L244.8 244.8L245.5 244.2L246.3 244.4L247.5 245.1L248.4 244.9Z"},{"id":"Cyprus","d":"M220.4 242.0L218.4 242.7L216.7 244.3L215.0 245.3L213.1 244.5L213.4 247.7L215.4 252.0L216.2 253.2L217.4 253.7L221.2 255.2L222.4 255.2L224.8 254.9L225.8 255.5L226.4 257.0L227.7 257.1L228.1 256.4L228.1 255.5L228.8 254.5L230.0 254.0L231.2 254.0L233.7 253.5L236.1 252.7L238.2 251.3L242.0 247.2L243.3 247.2L244.6 247.4L246.9 247.2L249.3 246.8L248.7 245.4L247.5 245.1L246.3 244.4L245.5 244.2L244.8 244.8L244.0 245.3L243.2 245.5L241.6 246.1L240.3 246.0L238.5 245.6L237.4 246.5L237.0 244.0L236.4 243.1L235.6 242.5L234.4 242.8L232.7 242.7L231.5 242.2L229.2 242.9L227.3 243.6L225.9 244.4L224.9 244.3L223.1 243.6L221.8 242.9Z"},{"id":"Bulgaria","d":"M123.8 72.8L120.5 68.8L118.1 65.3L116.7 64.1L113.5 62.4L119.1 56.5L120.4 56.3L121.8 55.5L122.0 48.8L122.6 44.7L123.7 43.6L124.9 42.7L126.9 39.6L130.8 38.8L133.7 39.7L135.7 36.9L136.3 31.0L132.9 31.0L131.9 31.0L128.7 30.3L125.2 29.0L123.1 26.7L121.7 25.0L118.8 25.7L117.3 24.7L115.0 24.1L112.3 24.1L105.9 21.1L105.3 20.5L100.3 21.1L92.9 22.6L87.3 24.5L81.4 27.8L79.0 30.4L76.2 31.8L72.4 32.7L65.4 32.4L58.1 31.1L50.3 29.7L46.1 30.5L40.3 29.9L31.8 28.3L25.4 27.7L19.0 28.7L18.0 28.0L17.7 27.1L18.0 25.9L18.9 25.0L20.4 24.2L21.2 23.5L21.3 22.7L19.5 21.5L16.0 19.8L14.6 18.8L13.8 19.2L13.0 19.9L12.5 21.0L12.4 22.8L9.7 24.2L8.7 24.5L8.2 25.4L7.6 28.0L7.6 30.1L8.0 31.0L8.2 31.9L9.0 32.9L9.8 34.5L10.3 36.5L11.5 38.1L14.4 39.7L15.9 40.6L16.9 41.9L17.8 43.1L20.2 44.7L20.0 45.8L19.5 46.9L19.0 47.4L17.8 48.8L16.6 49.7L14.6 52.2L11.6 52.3L10.8 52.5L9.6 53.2L9.1 54.4L9.6 55.4L9.6 56.5L9.0 58.4L9.8 60.6L10.8 61.6L10.8 63.1L9.2 65.1L8.7 65.8L7.1 66.2L10.3 69.9L12.0 71.4L14.1 72.5L16.5 73.3L17.3 74.1L18.8 78.0L19.5 79.5L20.5 80.0L20.8 80.9L19.7 83.7L19.3 89.8L21.2 90.6L23.9 90.7L25.7 89.1L28.4 89.0L29.7 88.8L31.8 89.1L33.8 89.1L36.5 88.4L38.9 87.4L40.9 87.4L41.6 87.3L42.6 85.6L46.1 85.5L47.4 85.6L49.4 85.7L51.5 84.9L53.1 87.1L53.7 87.7L54.9 88.3L57.4 89.8L58.9 88.9L61.9 89.6L64.8 90.8L67.3 92.6L70.0 92.1L73.0 91.2L75.0 91.0L77.0 90.8L78.3 90.5L81.1 90.9L84.1 90.0L85.5 89.1L86.0 87.9L85.8 85.7L85.1 83.6L84.3 82.8L84.1 82.0L84.5 81.2L86.9 80.3L89.4 80.9L89.6 79.6L90.2 78.8L93.4 78.2L94.1 76.5L94.8 75.2L95.5 74.8L96.8 74.9L99.3 74.6L101.0 74.2L102.8 73.3L103.7 72.5L107.4 72.0L108.5 71.7L109.5 72.0L110.9 73.3L113.2 75.2L114.5 75.9L115.5 75.6L117.1 74.9L118.8 74.9L120.0 75.0L120.7 74.4L121.7 74.3L124.4 74.7Z"},{"id":"Bahrain","d":"M592.1 468.3L592.0 465.3L590.8 463.5L591.4 462.5L589.0 462.8L588.7 463.7L589.4 467.0L589.0 469.2L590.5 472.5L591.2 473.2L591.9 471.3Z"},{"id":"Azerbaijan","d":"M472.5 132.4L475.8 137.5L477.3 139.0L478.2 140.2L478.8 141.6L479.8 142.6L481.1 143.1L482.8 144.5L484.0 145.6L485.8 147.7L487.8 148.6L494.9 150.2L498.9 150.9L498.2 149.0L497.5 147.5L495.6 143.5L496.1 141.9L495.0 141.0L492.4 139.3L491.7 138.6L492.1 137.6L492.4 135.9L492.1 134.5L491.4 134.0L490.1 134.0L488.5 134.3L485.3 135.7L483.1 134.9L481.8 134.0L481.1 133.2L479.4 133.8L479.0 131.7L478.4 130.8L477.5 129.6L476.5 129.0L473.1 130.2L471.1 130.6L472.1 131.9ZM555.5 152.5L557.1 148.9L557.8 146.0L558.9 144.6L560.9 145.8L560.9 147.2L562.0 147.2L562.8 146.1L564.2 140.9L565.3 139.8L566.1 139.3L566.3 138.1L565.4 135.5L565.4 132.9L567.2 127.2L568.5 121.1L570.1 118.5L572.4 117.1L575.0 116.2L577.7 115.5L582.3 115.3L586.9 116.4L585.6 113.1L584.4 111.9L583.1 110.8L581.7 110.1L579.1 109.1L576.2 109.0L574.7 108.9L573.5 108.3L570.1 105.6L568.0 103.5L563.3 98.0L562.2 95.7L561.6 93.2L560.8 91.2L559.7 89.4L555.0 83.1L551.7 79.2L549.8 77.8L548.7 79.4L546.8 82.3L546.0 83.8L544.1 85.2L540.9 86.7L539.1 87.3L537.2 90.4L535.0 93.3L533.6 93.7L529.5 93.2L528.0 93.0L523.8 91.6L522.6 90.8L521.5 87.4L520.2 85.9L518.6 84.9L517.5 84.1L517.0 83.3L515.8 82.1L513.6 80.3L512.0 78.6L510.8 78.1L509.3 78.7L508.4 78.9L507.7 77.2L505.5 76.7L505.0 77.5L503.8 79.1L502.8 80.0L501.8 80.1L500.7 80.4L500.3 81.3L500.3 82.4L500.5 83.2L501.8 83.8L502.9 86.1L504.5 87.3L507.0 88.6L509.4 90.1L510.5 91.6L510.2 92.5L509.5 94.7L507.6 96.4L506.0 96.9L504.4 96.2L502.4 94.8L500.1 93.7L498.3 94.1L497.2 94.5L494.9 94.0L492.3 93.1L490.9 92.2L490.3 91.5L490.7 90.3L484.6 88.1L481.6 87.5L480.4 88.2L475.9 91.4L476.4 92.5L477.6 93.8L479.0 94.3L479.8 95.0L477.3 96.1L478.1 96.9L481.5 98.4L483.5 98.5L484.5 99.0L485.1 99.9L486.7 101.1L488.0 102.4L487.8 103.4L484.2 105.8L483.7 106.7L483.7 107.5L485.3 110.1L487.7 113.0L491.1 115.1L495.8 117.5L495.9 118.9L495.1 120.7L494.5 121.9L494.2 122.7L488.9 122.9L488.2 123.2L487.8 123.8L489.5 124.3L492.2 126.2L493.7 128.0L495.3 128.8L497.1 130.2L498.5 131.5L500.7 133.3L503.2 132.7L506.5 134.2L506.7 135.3L506.4 136.2L504.4 137.2L504.1 138.0L505.6 139.3L507.0 140.6L508.7 142.4L507.9 143.0L506.4 143.0L505.3 142.8L504.9 143.8L506.4 145.2L506.7 146.2L506.6 148.0L506.7 150.2L508.0 150.3L512.8 145.8L514.2 144.2L517.0 143.5L518.6 141.7L521.1 139.5L524.2 137.5L527.1 135.6L529.3 134.5L533.3 131.9L535.7 131.0L537.9 131.1L541.1 134.1L543.8 136.9L544.6 138.1L543.2 139.1L540.7 140.2L540.3 141.0L540.1 142.0L540.2 142.9L540.6 143.7L543.6 145.5L544.0 146.5L544.0 147.4L543.6 148.1L542.9 148.4L540.8 148.9L539.0 149.5L538.3 150.1L537.8 150.8L537.9 151.5L538.4 152.4L542.2 154.7L542.6 155.6L543.3 156.7L544.3 157.5L545.8 157.6L546.6 158.1L550.2 162.4L551.1 162.7L555.3 161.8Z"},{"id":"Armenia","d":"M473.1 130.2L476.5 129.0L477.5 129.6L478.4 130.8L479.0 131.7L479.0 133.5L481.1 133.2L481.8 134.0L483.1 134.9L485.3 135.7L488.5 134.3L490.1 134.0L491.4 134.0L492.1 134.5L492.4 135.9L492.1 137.6L491.7 138.6L492.4 139.3L495.0 141.0L496.1 141.9L495.6 143.5L497.5 147.5L498.2 149.0L498.9 150.9L500.0 151.1L503.1 150.1L506.7 150.2L506.6 148.0L506.7 146.2L506.4 145.2L504.9 143.8L505.3 142.8L506.4 143.0L507.9 143.0L508.7 142.4L507.0 140.6L505.6 139.3L504.4 138.5L504.1 137.6L506.4 136.2L506.7 135.3L506.5 134.2L503.2 132.7L500.7 133.3L498.5 131.5L497.1 130.2L495.3 128.8L493.7 128.0L492.2 126.2L489.5 124.3L487.8 123.8L488.2 123.2L488.9 122.9L493.6 123.0L494.5 121.9L495.1 120.7L495.9 118.9L495.8 117.5L491.1 115.1L487.7 113.0L485.3 110.1L483.7 107.5L483.7 106.7L484.2 105.8L487.8 103.4L488.1 102.8L486.7 101.1L485.1 99.9L484.5 99.0L483.5 98.5L481.5 98.4L478.1 96.9L477.3 96.7L479.8 95.5L479.0 94.3L477.6 93.8L476.4 92.5L475.9 91.4L472.0 92.2L472.7 93.2L466.8 93.5L465.0 93.9L459.9 93.3L458.2 93.6L456.8 94.1L453.3 94.7L450.9 95.4L447.8 95.7L444.6 95.7L443.6 96.0L443.9 97.0L445.2 98.5L446.7 99.4L447.5 100.4L448.9 103.7L449.5 105.5L449.2 107.3L448.3 109.1L446.3 111.4L446.8 112.3L447.2 113.5L447.1 114.5L448.5 117.4L449.2 119.2L448.3 120.1L450.9 121.5L453.9 122.7L455.3 122.9L458.9 122.4L461.2 122.3L463.5 123.3L466.7 126.0L470.3 129.5L471.1 130.6Z"}],
   land: "M38.3 233.3L37.1 232.8L36.6 230.9L35.9 230.4L35.5 231.6L35.5 233.0L34.6 233.8L33.6 233.5L33.3 232.6L32.5 233.3L32.0 236.3L32.3 239.2L33.0 240.2L33.9 240.7L35.3 240.8L39.0 240.4L41.3 241.0L51.0 242.6L53.4 243.7L56.0 244.3L56.6 245.1L56.8 246.2L56.8 247.8L57.9 248.1L66.3 247.5L74.7 246.3L79.2 245.9L83.8 246.2L86.2 246.0L87.8 245.4L88.1 244.2L88.6 242.6L89.0 239.9L89.4 238.8L88.7 238.9L86.2 241.2L83.3 241.2L80.6 242.1L79.4 243.3L78.5 243.5L77.5 243.0L77.3 242.0L77.7 238.5L77.2 237.9L73.8 238.4L71.9 239.0L68.2 238.2L64.2 238.0L62.2 236.4L56.3 236.0L54.3 236.4L52.5 237.1L50.6 237.5L48.7 237.7L47.9 237.6L47.0 237.0L46.7 236.1L46.7 235.0L45.1 235.2L43.9 234.6L44.0 233.9L45.5 233.3L44.8 231.8L43.3 231.9L42.1 233.3L39.7 233.5L38.3 233.3ZM29.3 148.9L27.1 147.1L26.0 147.1L23.7 147.8L20.4 150.0L18.0 151.1L19.3 151.9L21.3 151.0L23.6 151.7L25.9 152.8L28.2 154.5L30.3 156.4L31.2 157.5L32.1 158.2L33.5 159.0L34.1 161.7L36.4 162.7L39.0 162.7L42.2 162.9L42.7 164.3L43.5 164.7L44.4 166.6L45.3 167.5L45.4 168.8L45.8 169.7L47.9 171.1L48.8 172.1L50.0 172.1L50.6 172.4L51.1 173.0L51.8 173.3L52.5 173.1L53.4 172.1L53.6 169.5L53.1 168.9L51.0 169.0L48.8 168.5L47.1 167.1L45.9 164.2L45.2 161.1L45.8 160.2L45.5 159.2L44.6 158.1L44.1 156.6L43.5 156.0L38.8 155.7L35.0 153.7L33.8 153.6L31.5 152.5L30.4 151.6L29.3 148.9ZM257.9 231.9L259.8 230.2L256.8 231.0L253.9 232.5L252.2 233.1L249.6 234.8L240.2 237.8L237.1 238.3L234.0 238.1L230.1 237.7L226.4 236.9L226.1 239.7L225.1 242.1L222.9 242.6L221.6 242.3L220.4 242.0L218.4 242.7L216.7 244.3L215.0 245.3L213.1 244.5L213.4 247.7L215.4 252.0L216.2 253.2L217.4 253.7L221.2 255.2L222.4 255.2L224.8 254.9L225.8 255.5L226.4 257.0L227.7 257.1L228.1 256.4L228.1 255.5L228.8 254.5L230.0 254.0L231.2 254.0L233.7 253.5L236.1 252.7L238.2 251.3L242.0 247.2L243.3 247.2L244.6 247.4L246.9 247.2L249.3 246.8L248.7 245.4L248.4 244.9L246.9 243.1L246.4 241.6L247.1 239.3L257.9 231.9ZM579.6 0.0L579.2 1.6L581.3 4.2L582.4 4.3L583.1 3.6L581.4 2.9L580.1 1.3L580.2 0.0ZM0.0 162.6L4.7 163.9L6.6 163.7L8.0 163.1L8.7 161.7L12.1 164.0L15.6 165.4L16.2 166.1L17.2 166.8L19.3 167.6L20.6 167.3L21.4 167.6L22.6 167.7L23.8 168.2L24.5 169.3L23.9 170.2L23.2 170.8L19.8 170.7L18.5 171.3L19.0 172.4L19.0 173.6L17.5 173.4L16.6 173.0L14.7 171.4L11.5 169.8L5.0 167.9L0.0 165.2L0.0 197.0L1.7 196.5L2.8 198.1L3.4 199.6L4.8 200.1L7.8 204.6L7.9 205.9L7.8 209.2L8.8 210.1L10.2 210.9L10.1 207.9L12.6 202.7L14.9 202.3L16.1 202.5L17.2 204.9L20.4 208.9L21.9 209.9L22.9 210.7L24.0 210.8L23.0 208.4L21.6 206.0L22.2 202.8L21.9 200.8L20.6 196.8L17.6 190.1L15.8 187.5L15.0 183.9L16.0 182.8L17.6 184.1L19.5 184.5L21.0 185.4L22.7 186.3L22.8 188.2L24.0 189.0L24.9 188.6L25.9 187.9L30.8 186.3L30.2 185.0L29.2 183.9L28.9 182.9L27.9 182.5L26.1 182.5L24.8 181.9L23.7 179.5L23.7 177.6L22.5 176.2L21.4 175.6L21.7 175.0L22.5 174.7L24.7 173.6L29.4 172.8L31.1 171.7L31.8 171.8L32.7 172.3L35.9 175.4L38.8 178.0L40.8 180.5L41.8 180.5L42.5 179.7L42.6 178.1L42.6 177.1L42.0 173.7L41.9 169.1L41.5 167.0L40.7 165.8L38.0 164.6L34.8 163.9L32.5 160.5L28.3 159.6L26.0 156.3L23.6 156.1L21.1 154.3L16.0 152.8L14.3 151.6L13.1 151.6L11.8 151.2L12.3 150.6L14.0 150.4L16.6 150.4L19.3 149.2L22.1 147.0L20.0 147.1L19.4 145.2L18.4 143.7L17.4 141.5L19.0 140.4L20.5 139.7L24.0 141.5L24.2 142.7L23.2 144.6L23.9 145.4L25.2 145.3L27.4 143.6L26.6 140.8L25.5 139.1L22.8 135.8L20.2 134.0L19.0 132.4L17.3 128.2L12.2 122.4L11.8 120.3L12.5 116.5L13.3 114.2L12.9 112.7L13.0 111.0L15.4 110.0L16.8 109.0L19.1 108.7L18.5 110.3L17.6 111.2L18.6 113.4L22.8 115.8L27.1 117.9L27.4 121.0L28.9 123.5L33.7 125.1L34.3 124.9L34.7 124.3L30.3 121.4L29.7 120.4L28.7 117.8L29.5 116.8L34.4 117.7L37.9 122.7L40.3 124.1L41.0 123.4L41.4 122.7L40.7 120.4L39.7 119.5L37.7 118.2L35.6 116.2L35.8 115.1L37.7 114.2L39.6 114.4L42.6 115.8L44.6 116.4L46.2 118.0L48.4 119.6L47.4 117.3L45.8 115.2L42.0 113.2L40.0 113.2L38.6 112.9L37.9 111.4L38.8 109.8L36.8 107.8L36.1 106.6L36.5 104.8L40.3 104.8L43.1 105.4L46.2 103.9L49.3 100.8L51.3 99.9L52.9 100.2L55.4 101.8L57.8 102.1L62.2 99.4L64.2 98.7L67.2 100.3L68.8 100.0L72.4 101.4L79.8 102.5L83.0 104.3L83.5 105.3L84.1 106.4L84.9 108.2L87.4 108.0L90.2 108.3L94.7 107.9L99.2 107.8L97.7 109.8L92.0 112.3L90.1 113.6L88.0 115.5L88.0 117.1L88.1 118.3L87.4 119.8L87.0 121.4L88.4 120.9L89.6 120.2L92.5 116.8L98.7 111.0L102.9 109.4L108.8 106.3L112.4 102.6L113.8 99.3L118.9 98.3L122.6 98.8L125.9 97.1L127.7 96.6L130.2 96.9L140.3 99.3L143.9 98.4L144.8 97.1L145.5 95.1L146.0 93.0L143.7 92.5L131.3 87.1L128.2 84.9L125.2 80.6L123.9 77.5L124.4 74.7L123.8 72.8L120.5 68.8L118.1 65.3L116.7 64.1L113.5 62.4L119.1 56.5L120.4 56.3L121.8 55.5L122.0 48.8L122.6 44.7L123.7 43.6L124.9 42.7L126.9 39.6L130.8 38.8L133.7 39.7L135.7 36.9L136.3 31.0L136.3 29.6L137.8 25.0L137.5 17.3L138.6 15.4L141.8 12.2L142.5 10.5L140.8 10.7L141.0 9.8L141.6 9.0L141.7 7.0L142.1 6.2L143.3 4.7L142.6 2.0L143.4 0.8L144.5 0.2L146.8 0.6L145.8 1.9L146.2 3.2L146.5 5.0L145.8 6.0L156.4 3.9L157.3 2.1L157.9 0.5L0.0 0.0ZM239.9 0.0L240.2 2.3L238.5 7.9L237.8 9.4L237.2 9.9L236.9 11.0L241.1 14.0L243.2 14.8L246.4 15.1L249.9 14.2L254.1 11.4L258.0 6.9L263.1 4.8L266.6 4.3L270.8 4.8L272.2 2.5L276.4 0.5L276.8 0.0ZM313.0 0.0L314.6 0.7L316.2 2.3L317.6 5.2L318.8 6.5L320.6 7.5L322.2 8.1L324.9 8.4L328.0 7.4L334.8 14.3L337.5 15.4L344.2 16.8L345.9 17.6L358.5 27.2L362.4 31.4L369.8 37.6L371.9 39.0L376.3 41.6L382.0 45.7L383.3 46.3L389.7 47.7L394.3 51.0L395.8 53.5L401.8 55.8L403.2 57.7L405.1 64.2L406.9 70.3L408.9 74.7L408.9 76.8L408.8 78.5L407.6 81.2L403.7 85.9L401.6 88.2L394.8 92.2L392.3 93.4L389.4 93.9L386.6 96.0L377.9 99.6L375.1 100.0L372.5 99.2L370.6 99.4L368.4 99.0L360.5 96.0L348.7 98.2L342.6 100.2L338.9 100.5L329.2 98.6L326.2 96.6L319.3 95.8L311.7 94.1L310.2 91.8L305.7 89.7L303.0 89.9L301.8 90.6L300.2 92.2L298.0 91.9L295.4 90.3L293.3 88.1L290.7 81.8L289.2 81.2L288.0 81.0L280.5 83.0L275.1 80.6L273.3 79.0L271.5 76.7L271.3 75.0L271.9 74.2L272.2 73.3L269.1 72.4L263.8 75.0L252.2 74.9L235.5 73.5L233.5 73.8L226.5 76.6L218.1 78.7L213.2 80.6L208.7 84.1L195.7 90.7L193.4 94.7L191.5 96.0L182.3 96.5L172.7 93.7L163.8 94.9L151.5 93.0L147.9 93.2L146.8 94.2L146.2 96.1L145.8 98.4L146.5 99.5L147.2 100.2L150.2 102.4L152.4 103.3L161.4 104.5L162.4 104.5L155.3 105.8L145.9 107.3L143.9 107.7L140.4 110.1L141.6 110.9L142.7 111.4L144.3 111.8L145.9 112.8L145.0 113.6L139.4 113.6L137.2 114.0L130.1 113.3L123.4 114.1L122.6 113.9L123.4 112.5L124.0 111.8L121.5 110.6L119.4 110.7L118.6 111.4L121.0 113.8L119.8 114.6L118.5 115.2L113.3 115.4L110.3 114.0L110.0 113.0L109.3 112.0L105.9 112.1L103.7 113.5L98.1 113.4L92.6 118.4L89.3 122.7L86.5 123.5L85.8 126.4L86.0 131.7L84.9 133.9L84.7 135.1L85.1 136.4L90.0 136.0L92.8 135.1L99.8 134.0L101.3 134.3L101.6 135.2L99.6 137.6L97.5 139.5L96.9 140.7L97.6 141.5L100.4 145.0L100.4 146.5L99.5 147.6L99.6 148.9L100.7 149.8L101.8 149.5L102.8 149.9L103.7 150.7L101.6 153.4L99.1 154.4L98.6 155.1L99.0 156.3L99.2 157.1L100.1 158.8L101.6 160.7L102.8 161.5L106.4 161.4L105.5 162.3L100.6 163.4L98.7 163.0L97.8 162.3L97.2 162.6L96.7 164.3L96.0 163.9L95.1 162.3L95.4 160.6L94.9 158.8L93.4 157.0L91.9 156.8L90.6 157.2L90.5 158.7L91.6 161.7L91.4 163.5L89.9 163.4L88.7 165.7L89.6 166.6L91.6 167.3L93.6 168.6L94.8 168.9L95.6 168.2L96.9 167.7L99.5 169.1L101.0 171.2L102.3 171.0L106.8 172.9L108.3 173.1L108.7 175.5L108.1 179.3L105.1 180.3L104.8 181.0L106.5 182.3L107.7 185.1L108.0 187.6L109.4 188.6L111.2 188.8L111.8 189.6L114.2 191.1L114.5 193.2L111.1 194.2L109.7 194.1L108.6 195.2L108.9 197.8L109.9 197.6L110.6 196.7L117.3 197.0L126.9 196.5L129.2 196.5L128.8 197.3L125.8 199.2L124.3 201.4L122.8 201.9L116.5 202.5L115.0 203.2L113.1 203.5L112.9 204.3L114.7 205.0L117.0 205.2L120.1 203.7L125.9 203.3L124.4 205.3L124.6 206.2L126.4 205.9L128.2 205.0L130.5 201.8L134.2 202.1L139.0 204.6L141.0 205.2L142.7 205.3L144.2 204.2L145.6 204.8L146.0 206.1L146.2 207.3L147.2 209.0L147.8 212.1L149.4 213.9L152.1 215.5L159.1 218.0L161.1 217.7L167.2 215.7L170.3 214.3L171.6 214.8L173.5 215.9L174.8 215.2L175.5 214.2L176.0 210.7L177.1 208.9L177.5 202.2L178.9 200.5L185.2 200.9L191.2 201.6L193.5 202.1L202.3 206.8L207.3 208.7L209.6 210.8L212.8 215.3L214.7 217.3L218.0 219.4L223.3 221.0L226.1 219.5L229.7 219.3L236.7 218.1L238.4 218.3L242.0 217.4L247.3 214.6L248.7 213.5L254.5 207.0L260.7 202.5L262.8 201.8L265.0 202.2L267.8 204.0L272.6 206.2L277.1 207.7L280.1 207.1L281.9 205.8L282.6 204.0L284.2 203.0L285.5 202.7L287.7 201.0L290.7 199.4L292.5 200.9L293.3 202.0L293.6 203.5L293.6 205.6L290.3 209.0L287.2 211.9L285.8 214.2L287.3 217.9L288.7 221.9L287.5 223.9L286.3 225.6L284.8 232.4L287.6 236.2L287.9 237.9L288.0 239.2L288.5 241.0L287.4 245.0L287.3 247.8L287.5 250.2L289.2 255.7L289.2 257.7L288.1 259.0L285.6 260.4L282.4 265.0L281.7 270.4L279.6 274.1L275.9 283.4L274.1 286.1L273.2 289.4L272.2 291.9L271.2 293.8L270.6 296.6L269.1 300.1L267.4 305.3L264.9 315.6L262.3 323.0L258.3 330.5L256.3 333.2L252.4 337.2L251.9 337.6L246.3 340.7L241.4 341.9L235.4 341.9L231.6 343.1L230.9 342.0L230.3 341.0L225.6 342.4L224.6 342.2L221.0 343.3L219.4 343.5L217.9 342.6L213.6 338.8L212.1 337.8L211.3 337.9L211.9 339.0L212.8 340.2L211.2 342.2L209.0 342.9L208.3 341.4L207.1 339.7L204.9 339.2L202.2 337.9L204.3 334.9L204.6 333.2L208.4 336.6L209.7 336.7L206.1 332.8L204.6 331.8L203.6 332.2L198.8 333.9L197.0 333.8L190.2 330.7L188.0 330.3L187.3 330.5L186.8 332.6L186.2 333.7L182.9 334.3L180.0 335.2L177.2 334.8L183.8 332.2L184.6 331.2L177.3 333.5L173.7 333.9L172.6 335.2L172.0 336.3L171.0 337.3L170.2 338.7L168.1 338.8L166.5 338.6L164.0 339.5L157.0 344.9L153.7 346.9L150.6 348.4L148.1 349.2L146.3 349.3L144.2 348.7L140.8 346.5L134.8 343.9L123.5 342.7L120.6 340.3L116.3 340.4L114.6 339.9L108.6 335.8L98.6 333.5L92.2 332.5L80.6 329.8L70.0 332.5L66.8 332.0L65.2 329.0L64.5 327.6L62.6 323.3L61.0 321.6L59.5 320.9L55.5 320.1L51.3 320.6L44.1 320.3L42.2 319.6L39.3 317.3L37.2 316.6L26.6 315.2L22.9 312.3L23.0 310.7L23.3 309.4L22.5 305.2L19.0 303.5L15.6 302.2L10.8 300.9L7.0 298.8L3.9 297.8L0.0 298.0L0.0 567.0L307.7 567.0L306.8 564.6L298.3 557.3L294.4 551.5L287.8 548.8L286.5 547.6L285.5 546.1L283.4 543.7L280.6 535.6L279.8 531.5L279.4 523.2L279.6 521.6L280.2 519.6L281.3 519.1L282.0 518.9L285.2 519.2L281.9 516.0L278.8 513.9L277.2 511.0L273.0 506.0L265.9 489.6L262.4 482.2L260.0 476.0L255.1 467.8L249.3 454.8L247.4 452.4L246.1 442.5L245.2 439.2L244.2 437.1L242.0 435.3L241.2 433.1L239.0 428.8L239.1 426.4L238.9 421.6L237.9 419.7L235.3 417.8L231.8 413.9L228.0 408.2L225.5 405.2L224.6 403.5L224.1 401.7L223.1 399.7L220.5 396.2L220.0 394.6L220.1 389.9L219.3 386.5L218.6 384.9L215.1 381.3L214.3 378.9L215.4 376.0L217.0 373.5L216.7 371.6L218.6 370.4L220.3 374.7L221.8 381.6L222.7 383.3L223.7 384.6L224.9 387.4L229.1 392.6L230.3 395.0L231.8 399.9L231.8 402.0L232.7 405.1L236.2 409.5L239.9 412.8L243.3 417.9L249.2 423.3L252.8 424.9L254.8 421.8L256.6 418.7L257.2 416.5L257.5 410.3L261.0 400.4L263.5 387.7L265.9 383.8L267.0 382.7L268.4 380.8L268.6 382.5L268.0 385.7L264.8 401.3L264.4 406.6L262.4 412.6L261.0 415.4L261.2 417.5L263.2 415.9L265.4 416.4L270.6 416.9L272.7 418.2L277.7 425.7L281.0 433.1L284.8 437.3L286.6 442.0L290.3 446.7L291.6 449.5L294.8 453.7L300.4 465.8L303.6 467.4L304.2 470.8L305.4 474.5L307.4 476.0L308.7 477.2L313.5 485.9L314.9 489.3L315.4 491.2L315.8 494.0L314.9 496.1L314.1 497.5L317.3 502.5L319.3 506.4L321.6 510.5L323.5 510.9L325.1 510.9L327.3 513.1L329.4 513.1L330.6 514.6L333.0 516.3L337.0 519.9L340.6 524.8L342.3 528.6L345.6 534.8L346.7 537.6L347.5 541.2L348.3 542.6L350.5 545.3L349.3 545.2L350.5 547.2L351.9 548.0L351.7 549.8L353.0 552.4L353.7 557.3L353.2 559.7L352.4 562.0L352.2 566.2L352.0 567.0L600.0 567.0L600.0 469.1L598.0 475.2L597.3 478.0L595.9 480.8L595.1 482.1L594.9 483.2L595.4 488.7L596.8 495.8L596.6 496.7L596.0 498.2L594.3 496.3L593.1 493.9L590.8 490.9L589.8 485.5L588.8 482.6L585.1 479.1L584.3 477.7L583.2 474.4L582.0 472.2L581.0 469.4L580.0 465.7L581.3 465.5L582.1 465.9L583.8 460.8L583.2 458.4L581.6 457.2L579.9 455.4L579.5 453.4L579.5 451.7L579.9 451.2L581.1 451.7L582.1 452.2L579.0 448.0L573.5 444.8L569.8 440.0L567.0 439.3L564.5 436.1L562.2 432.9L563.5 431.6L561.9 430.7L560.4 430.2L556.6 428.2L554.4 425.9L554.6 424.9L555.2 424.0L554.6 421.6L554.0 420.1L550.9 415.8L548.8 410.3L548.2 408.0L547.1 405.7L546.0 403.5L545.6 402.0L545.0 400.3L543.2 396.9L541.8 394.9L540.0 389.2L539.7 387.7L539.0 385.7L537.9 384.9L536.6 385.4L534.8 385.4L532.2 384.7L534.2 382.4L537.3 379.2L538.9 379.7L539.8 380.2L540.9 380.3L540.8 379.2L539.5 376.8L538.0 373.8L537.4 371.1L537.5 370.2L537.6 369.5L539.4 368.7L540.9 368.8L545.3 370.8L547.3 371.3L549.2 370.7L550.2 370.4L551.8 369.1L555.2 368.9L555.9 368.2L556.9 366.8L556.7 363.8L556.4 361.7L556.9 360.0L559.4 358.7L558.7 357.3L561.3 357.2L563.3 358.1L563.7 359.6L562.5 360.5L560.6 359.8L559.6 360.0L558.7 360.6L559.2 361.6L559.8 362.2L567.5 366.6L570.1 369.1L579.0 364.6L580.8 364.9L582.0 368.6L582.8 371.7L584.1 372.9L587.3 377.7L590.5 380.9L592.8 384.1L593.1 386.1L592.7 389.2L593.3 390.8L595.8 391.6L597.5 392.9L597.5 394.3L596.7 396.2L597.2 397.6L600.0 399.5L600.0 0.0ZM308.3 483.6L309.4 482.8L308.8 482.5L305.1 479.3L301.8 477.7L301.1 477.1L300.7 476.1L300.1 477.1L300.6 478.2L304.6 479.9L305.5 480.7L306.3 481.9L307.8 483.6ZM591.9 471.3L592.1 468.3L592.0 465.3L590.8 463.5L591.4 462.5L589.0 462.8L588.7 463.7L589.4 467.0L589.0 469.2L590.5 472.5L591.2 473.2L591.9 471.3ZM543.6 379.1L545.0 377.3L545.1 376.7L545.1 375.1L542.6 371.4L541.8 370.3L541.2 370.8L540.8 372.3L540.3 373.0L539.6 374.7L540.9 378.0L541.7 379.4L542.4 379.6L543.6 379.1ZM120.9 223.6L123.5 220.7L126.0 220.2L125.5 218.7L127.1 216.7L128.9 212.8L129.0 211.2L127.7 211.4L122.3 213.3L120.3 215.1L119.5 216.6L118.2 217.6L118.3 218.4L119.1 220.2L118.2 222.9L118.9 224.0L120.9 223.6ZM107.1 235.0L108.3 234.7L107.7 232.7L106.7 231.0L107.7 228.9L108.0 226.3L106.7 227.1L106.7 228.6L104.9 231.8L105.9 233.9L105.5 235.3L106.3 236.4L107.1 235.0ZM102.4 203.9L104.2 202.9L106.5 202.7L107.4 201.9L110.7 200.5L108.9 199.6L107.9 199.7L104.7 201.2L102.5 202.8L101.8 204.0ZM73.4 198.0L74.1 196.2L74.2 193.4L73.8 192.6L73.0 192.4L69.5 195.5L70.3 197.6L71.5 199.0L73.4 198.0ZM67.8 195.5L67.7 193.8L66.9 193.5L65.1 194.6L64.2 196.4L64.8 197.2L66.2 197.4L67.8 195.5ZM99.8 177.2L98.1 177.3L96.0 178.0L94.8 179.4L95.4 179.7L97.7 179.8L99.1 181.0L100.2 181.3L103.0 180.0L104.6 179.7L104.2 178.2L103.0 178.0L102.4 178.0L99.8 177.2ZM83.4 184.2L87.0 183.2L88.9 181.9L90.0 180.6L87.1 181.5L84.6 181.6L82.7 183.3L82.4 184.2L83.4 184.2ZM79.9 202.4L82.4 200.2L84.1 199.6L82.8 198.8L81.6 200.0L79.7 201.0L79.4 201.5L78.5 202.0L77.4 202.4L78.0 202.6L79.9 202.4ZM92.3 207.4L91.5 206.5L90.4 206.1L90.7 206.9L89.7 207.6L88.4 207.2L88.4 208.4L89.6 209.3L90.7 208.0L92.3 207.4ZM61.9 178.5L61.6 177.6L61.0 176.1L61.2 174.9L59.1 174.7L57.8 172.8L55.9 173.5L56.2 175.0L57.2 175.7L57.9 176.9L59.7 178.2L61.3 180.1L61.9 178.5ZM67.4 182.5L66.7 181.7L63.9 181.3L62.9 180.4L62.0 180.5L62.4 181.3L63.1 182.1L65.3 183.8L66.6 184.0L67.4 182.5ZM84.7 167.2L85.0 165.7L86.0 165.1L85.8 161.0L86.1 159.3L85.0 159.1L83.0 157.7L79.6 158.4L79.7 160.0L82.0 162.3L82.6 163.8L81.7 165.1L80.2 165.9L80.6 166.6L82.7 168.6L84.7 167.2ZM91.3 139.8L89.9 138.5L86.2 138.7L86.1 139.7L84.6 140.4L83.3 140.9L80.9 140.8L79.5 143.0L80.8 144.5L84.3 145.6L86.4 143.1L88.4 143.0L87.8 143.8L85.0 145.9L86.1 147.3L90.8 148.6L92.5 148.6L94.1 148.0L93.1 147.1L92.8 146.1L93.7 146.3L94.9 147.1L94.7 145.2L93.7 143.7L90.9 141.2L91.3 139.8ZM36.8 145.1L33.0 142.8L34.4 145.6L35.9 145.9L36.8 145.1ZM55.4 152.6L53.4 150.9L53.1 149.3L51.4 148.4L50.9 150.7L53.1 152.1L52.5 153.1L53.1 153.2L55.4 152.6ZM76.2 112.7L75.8 111.8L75.0 111.2L73.8 110.6L71.3 111.4L73.9 113.4L76.2 112.7ZM71.1 123.7L71.4 122.4L69.8 122.9L69.3 123.6L68.0 124.3L66.9 123.1L63.3 123.3L63.1 123.9L63.4 125.5L63.3 126.9L64.7 127.5L65.9 127.5L66.2 127.0L66.7 125.9L67.3 126.9L67.5 127.6L68.3 128.1L69.5 128.0L69.8 126.0L70.3 124.5L71.1 123.7ZM57.4 108.1L57.3 107.0L57.7 105.9L57.4 105.2L56.3 103.9L54.3 103.7L53.5 104.3L52.1 106.3L52.0 107.3L54.8 109.0L57.4 108.1ZM82.1 119.9L82.3 118.9L81.1 117.4L80.2 117.5L77.4 118.4L75.9 119.9L77.3 120.7L82.1 119.9ZM21.8 217.2L22.7 215.8L20.7 213.8L19.7 212.4L18.7 214.0L18.9 216.4L19.5 217.5L21.6 218.3L21.8 217.2Z",
 };
@@ -12732,28 +12158,6 @@ export function mapDate(campaignId, iso) {
   return iso;
 }
 
-/** A report's situation as text: a situation that is built from the file's flags is read for a file with none. */
-function plainSituation(cid, nid, n) {
-  try {
-    const s = typeof n.situation === "function" ? n.situation({}, emptyMeters(), { flags: {}, meters: emptyMeters(), campaignId: cid, nodeId: nid }) : n.situation;
-    return typeof s === "string" ? s : "";
-  } catch (e) {
-    return "";
-  }
-}
-
-/** The opening sentences of a report's situation, up to about two hundred characters: what that headquarters was facing. */
-function sceneOf(text) {
-  const sentences = String(text || "").replace(/\s+/g, " ").trim().split(/(?<=[.!?])\s+/);
-  let out = "";
-  for (const s of sentences) {
-    if (out && (out + " " + s).length > 220) break;
-    out = out ? out + " " + s : s;
-    if (out.length >= 110) break;
-  }
-  return out;
-}
-
 /**
  * What the other commands were doing: for each of them, its latest report on or before this node's date (Western calendar), as
  * { campaignId, nodeId, title, city, date, daysAgo }. A command with no report yet is left out.
@@ -12768,7 +12172,7 @@ export function meanwhileAt(campaignId, node) {
     for (const [nid, n] of Object.entries(c.nodes)) {
       if (n.ending) continue;
       const d = mapDate(cid, n.date);
-      if (d <= now && (!best || d > best.date)) best = { campaignId: cid, nodeId: nid, title: n.title, city: n.city, date: d, context: sceneOf(plainSituation(cid, nid, n)) };
+      if (d <= now && (!best || d > best.date)) best = { campaignId: cid, nodeId: nid, title: n.title, city: n.city, date: d, context: WIRE[nid] };
     }
     if (best) {
       best.daysAgo = Math.round((new Date(now + "T00:00:00Z") - new Date(best.date + "T00:00:00Z")) / 86400000);
@@ -13106,7 +12510,7 @@ export function mapOpsOf(nodeId) {
 // the orders, so a departure from the record is marked beside it: a place held or taken that the record did not hold or take ("gained"), or a place
 // given up or never taken that the record held or took ("lost"). A mark is read from one flag the orders set (the flag and the values that mark it) and
 // is drawn once the flag is set. The ledger feeds the command rank (59-rank.jsx), is listed with the expanded map, and is drawn at the head of the
-// file on the ending screen. Every mark is speculative: it begins "Speculative." when it is shown. Places are [longitude, latitude].
+// file on the ending screen. Every mark is speculative: it carries the tag "Not in the record" when it is shown. Places are [longitude, latitude].
 // =============================================================================
 
 const G = (id, flag, at, name, kind, values, text) => ({ id, flag, at, name, kind, values, text });
@@ -13147,7 +12551,7 @@ export const MAP_GROUND = {
     G("stavka-gumbinnen", "stavka_prussia", [22.2, 54.58], "Gumbinnen", "lost", ["concentrated"], "East Prussia is not invaded in the first fortnight."),
     G("stavka-koenigsberg", "stavka_1914theatre", [20.5, 54.7], "Konigsberg", "gained", ["prussia"], "The weight goes to Prussia and the army advances toward Konigsberg."),
     G("stavka-lemberg", "stavka_1914theatre", [24.03, 49.84], "Lemberg", "lost", ["prussia"], "With the weight in Prussia, Lemberg is not taken in 1914."),
-    G("stavka-przemysl", "stavka_przemysl", [22.77, 49.78], "Przemysl", "gained", ["stormed"], "The fortress is stormed and taken early."),
+    G("stavka-przemysl", "stavka_przemysl", [22.77, 49.78], "Przemyśl", "gained", ["stormed"], "The fortress is stormed and taken early."),
     G("stavka-augustow", "stavka_masuria", [23.0, 53.85], "Augustow", "lost", ["pulled"], "The army pulls back from the Masurian line and the forest is given up."),
     G("stavka-warsaw", "stavka_1915", [21.0, 52.23], "Warsaw", "gained", ["held"], "The army stands in Poland and Warsaw is not given up."),
     G("stavka-vilna", "stavka_sventsiany", [25.28, 54.69], "Vilna", "lost", ["withdrew"], "There is no counterstroke and Vilna is given up to the advance."),
@@ -13174,10 +12578,10 @@ export const MAP_GROUND = {
   aok: [
     G("aok-sabac", "aok_serbia", [19.7, 44.75], "Sabac", "lost", ["galicia"], "The first blow falls on Galicia and Serbia is not invaded in August."),
     G("aok-lemberg", "aok_serbia", [24.03, 49.84], "Lemberg", "gained", ["galicia"], "A stronger army in Galicia holds Lemberg longer."),
-    G("aok-krasnik", "aok_galicia", [22.22, 50.92], "Krasnik", "lost", ["defensive", "cover"], "The army stays on the San and Krasnik is not attacked."),
+    G("aok-krasnik", "aok_galicia", [22.22, 50.92], "Kraśnik", "lost", ["defensive", "cover"], "The army stays on the San and Kraśnik is not attacked."),
     G("aok-rawa", "aok_rawa", [23.6, 50.25], "Rawa Ruska", "lost", ["brokeoff"], "The battle of Rawa is broken off and the ground is not held."),
     G("aok-valjevo", "aok_kolubara", [19.9, 44.27], "Valjevo", "lost", ["declined"], "Serbia is not invaded again and Valjevo is not taken."),
-    G("aok-przemysl", "aok_przemyslend", [22.77, 49.78], "Przemysl", "gained", ["third"], "A third relief holds the fortress."),
+    G("aok-przemysl", "aok_przemyslend", [22.77, 49.78], "Przemyśl", "gained", ["third"], "A third relief holds the fortress."),
     G("aok-gorizia", "aok_isonzo", [13.62, 45.94], "Gorizia", "gained", ["attacked"], "The Isonzo is attacked in the summer and Gorizia is threatened."),
     G("aok-lovcen", "aok_montenegro", [18.83, 42.4], "Lovcen", "lost", ["halted"], "The Montenegro campaign halts and Lovcen is not taken."),
     G("aok-asiago", "aok_strafe", [11.5, 45.88], "Asiago", "lost", ["cancelled"], "The Trentino offensive is cancelled and the plateau is not attacked."),
@@ -13186,7 +12590,7 @@ export const MAP_GROUND = {
     G("aok-odessa", "aok_ukraine", [30.73, 46.48], "Odessa", "lost", ["kept"], "The army does not enter Ukraine and Odessa is not reached."),
   ],
   otto: [
-    G("otto-sarikamis", "otto_sarikamis", [42.58, 40.33], "Sarikamis", "lost", ["held", "postponed"], "The offensive is not made in the snow and Sarikamis is not attacked."),
+    G("otto-sarikamis", "otto_sarikamis", [42.58, 40.33], "Sarıkamış", "lost", ["held", "postponed"], "The offensive is not made in the snow and Sarıkamış is not attacked."),
     G("otto-suez", "otto_suez", [32.35, 30.5], "the Suez Canal", "lost", ["kept", "raided"], "The canal is not attacked in force."),
     G("otto-kut", "otto_kut", [46.03, 32.5], "Kut", "gained", ["storm"], "Kut is stormed and taken early."),
     G("otto-erzurum", "otto_erzurum", [41.27, 39.9], "Erzurum", "lost", ["withdrew"], "Erzurum is given up without a defence."),
@@ -13309,7 +12713,7 @@ export const RISKS = {
   "gqg_1918_11_counteroffensive/hold": R(55, "The reserve is held and the offensives run out", "The reserve is held too long and the Marne is crossed",
     { manpower: -2, munitions: -1, will: -2 },
     "Speculative. The reserve is kept in hand and the offensives are allowed to exhaust themselves, and the Germans are given the time to cross the Marne in strength. When the reserve is used it is used to close a gap, not to open a counter-stroke, and the initiative stays on the other side. The delay is explained as prudence, and the staff that urged it is not asked why the Marne had to be crossed first."),
-  "gqg_1916_06_nivelle/petain": R(55, "Petain's doctrine is applied a year early", "The army is cautious and the Germans are not",
+  "gqg_1916_06_nivelle/petain": R(55, "Pétain's doctrine is applied a year early", "The army is cautious and the Germans are not",
     { manpower: -1, munitions: -1, will: -2 },
     "Speculative. Limited objectives become the rule, and the army learns them, but the Germans have had a year to learn the defence in depth that they are about to use. Each attack takes its objective and no more, and the government, which had hoped for a victory, asks what the limited method will win. The Chamber that had hoped for a victory in the spring asks for the old plan, and the new doctrine has to be defended against its own critics."),
 
@@ -13343,9 +12747,9 @@ export const RISKS = {
   "stavka_1914_03_przemysl/storm": R(45, "The assault takes the fortress before the Austrians return", "The assault fails on the wire and the guns",
     { manpower: -3, munitions: -1, will: -1 },
     "Speculative. The assault goes in before the heavy guns are up, against forts that are better than the staff supposed. It is broken on the wire in the first days, and the army that was to have taken the fortress is held round it for the winter, as it was, with fewer men. The assault is repeated once and not a third time, and the fortress is left to starve in its own time."),
-  "stavka_1914_04_lodz/silesia": R(40, "The Fifth Army crosses the frontier", "The Second Army is cut off at Lodz",
+  "stavka_1914_04_lodz/silesia": R(40, "The Fifth Army crosses the frontier", "The Second Army is cut off at Łódź",
     { manpower: -3, munitions: -1, will: 0 },
-    "Speculative. The Fifth Army goes into Silesia and the Second is left at Lodz to meet the Ninth German Army with what it has. The Germans come between the two, the Second is surrounded for some days, and the army that was to have entered Silesia has to turn back to get it out. The Fifth Army comes back to the Vistula with its strength intact, and the Second comes out with the loss of its baggage and many of its guns."),
+    "Speculative. The Fifth Army goes into Silesia and the Second is left at Łódź to meet the Ninth German Army with what it has. The Germans come between the two, the Second is surrounded for some days, and the army that was to have entered Silesia has to turn back to get it out. The Fifth Army comes back to the Vistula with its strength intact, and the Second comes out with the loss of its baggage and many of its guns."),
   "stavka_1916_05_brusilov/support": R(50, "The other fronts attack and the Austrians are pulled apart", "The other fronts attack badly and the gain is lost",
     { manpower: -4, munitions: -3, will: 0 },
     "Speculative. The other fronts are made to attack and they do, with the guns they have and the shells that were meant for something else. The attacks are broken one after another against the Germans, and the supporting armies lose more men than Brusilov's army gains. Brusilov is told that the other fronts have done what they could, and his own army is left to hold what it won."),
@@ -13391,18 +12795,18 @@ const DISPUTES = {
   "gqg_1914_12_retreat/stand": "It is argued whether the French armies could have held on the Sambre and the Meuse in August 1914, or whether the retreat saved them.",
   "gqg_1914_02_marne/continue": "Whether the French armies could have turned in September 1914 or needed more time, and whether the German advance would have stalled anyway, is discussed in every account of the Marne.",
   "gqg_1916_06_nivelle/petain": "Historians differ on whether the doctrine of limited objectives could have been adopted a year before it was, and on whether the German defence would have beaten it.",
-  "gqg_1917_09_malmaison/exploit": "Petain insisted on limited objectives at Malmaison, and historians differ on whether an exploitation beyond them could have succeeded or would have repeated the failures of the Chemin des Dames.",
+  "gqg_1917_09_malmaison/exploit": "Pétain insisted on limited objectives at Malmaison, and historians differ on whether an exploitation beyond them could have succeeded or would have repeated the failures of the Chemin des Dames.",
   "gqg_1918_12_link/allin": "The decision of March 1918 about how many French divisions to send north to the British is disputed, and so is whether the junction could have been held at a higher cost.",
   "gqg_1918_13_aisne/depth": "Whether defence in depth, if enforced on the Sixth Army, would have saved the Chemin des Dames in May 1918 is argued, and so is how far its commander could have been made to apply it.",
   "gqg_1918_11_counteroffensive/hold": "Historians disagree about whether Foch's counterattack of July 1918 was made at the right time, and whether waiting for the Americans would have cost or saved lives.",
-  "stavka_1914_03_przemysl/storm": "It is argued whether the Russian army could have taken Przemysl by assault in the autumn of 1914, or whether the fortress was too strong without heavy guns.",
-  "stavka_1914_04_lodz/silesia": "Historians differ on whether the Russian offensive into Silesia in the autumn of 1914 could have succeeded, and on whether the army at Lodz could have been held.",
+  "stavka_1914_03_przemysl/storm": "It is argued whether the Russian army could have taken Przemyśl by assault in the autumn of 1914, or whether the fortress was too strong without heavy guns.",
+  "stavka_1914_04_lodz/silesia": "Historians differ on whether the Russian offensive into Silesia in the autumn of 1914 could have succeeded, and on whether the army at Łódź could have been held.",
   "stavka_1916_05_brusilov/support": "Whether the other Russian fronts could have supported Brusilov's offensive in the summer of 1916 with the guns and the shells they had is argued in the accounts of that summer.",
   "stavka_1916_12_kovel/lemberg": "The decision to go on at Kovel in July 1916 and not toward Lemberg is argued, and so is whether the Guards could have done better elsewhere.",
   "stavka_1916_13_romania/army": "Whether a Russian army could have reached Romania in time in 1916, over the railways that existed, is disputed.",
   "aok_1914_01_serbia/galicia": "Conrad's plan sent the swing force to Serbia first, and historians differ on whether sending it to Galicia from the start was possible within the railway plan.",
   "aok_1914_03_galicia/cover": "Whether the Third Army could have covered the flank while the blow went north is argued, and so is how thin it would have been.",
-  "aok_1915_07_przemysl/third": "A third relief of Przemysl in the winter of 1914 to 1915 is held by some historians to have had no chance and by others to have had a slight one.",
+  "aok_1915_07_przemysl/third": "A third relief of Przemyśl in the winter of 1914 to 1915 is held by some historians to have had no chance and by others to have had a slight one.",
   "aok_1915_06_isonzo/attack": "Historians differ on whether Austria-Hungary could have attacked Italy in the first weeks of the war, and on what it could have won.",
   "aok_1916_08_brusilov/continue": "Whether the Trentino offensive of 1916 could have been kept up while the Russians attacked in Galicia is disputed.",
   "aok_1916_08_brusilov/split": "Historians differ on whether splitting the divisions between the Tyrol and Galicia would have helped either front.",
@@ -13492,7 +12896,7 @@ export const MORE_ENDINGS = [
 
   // ---- the French Grand Quartier General ----
   MORE("gqg", "pursuit", {
-    title: "The Pursuit to the Rhine", year: 1918, date: "1918-11-11", city: "Compiegne", advisors: ["petain", "foch"],
+    title: "The Pursuit to the Rhine", year: 1918, date: "1918-11-11", city: "Compiègne", advisors: ["petain", "foch"],
     family: "pursuit-to-the-rhine", tier: 3, ground: 3,
     at: ["gqg_1918_16_senlis/bridgeheads", "gqg_1918_16_senlis/moderate"],
     when: (m, f) => f.gqg_malmaison === "exploited" && f.gqg_americans === "army",
@@ -13762,7 +13166,7 @@ export const DOCUMENTS = {
     text: "The German government requests that the President of the United States of America take the initiative in bringing about peace, that he inform all the belligerent states of this request, and that he invite them to send plenipotentiaries for purposes of beginning negotiations. In order to avoid further bloodshed, the German government requests the immediate conclusion of an armistice on land, at sea, and in the air.",
   },
   gqg_1917_08_mutinies: {
-    by: "General Petain, as reported",
+    by: "General Pétain, as reported",
     date: "1917",
     source: "Wikipedia, French Army mutinies",
     text: "I am waiting for the tanks and the Americans.",
@@ -13828,7 +13232,7 @@ export const ORDER_NOTES = {
   "gqg_1917_12_calais|agreement": "The British army would stay under Haig, and the two headquarters would coordinate by agreement between them.",
   "gqg_1917_13_directive|offensive": "The army would be told to prepare another great offensive for the summer.",
   "gqg_1918_12_link|allin": "Every division that can be moved would go north to hold the junction with the British, and Champagne would be left thin.",
-  "gqg_1918_13_aisne|depth": "The front line would be thinned to a screen and the divisions drawn back behind the ridge, as Petain's order requires.",
+  "gqg_1918_13_aisne|depth": "The front line would be thinned to a screen and the divisions drawn back behind the ridge, as Pétain's order requires.",
   "gqg_1918_15_grand|limited": "The attacks would go on one front at a time, each on its own date, with the army kept in hand.",
   "stavka_1914_12_tannenberg|halt": "The Second Army would stop at the frontier until its supply and the First Army come up.",
   "stavka_1915_12_carpathians|press": "The armies would go on over the passes into Hungary, in the snow and short of shells.",
@@ -13910,6 +13314,171 @@ export const BOMBARDMENTS = {
 export function bombardmentAt(nodeId) {
   return BOMBARDMENTS[nodeId] ? BOMBARDMENTS[nodeId].text : "";
 }
+
+// =============================================================================
+// THE WIRE
+// =============================================================================
+//
+// One line for every report: what that headquarters is dealing with on its day. The Meanwhile list on the map reads it, so a report is summed up by a person
+// and not clipped from its first sentences. Present tense, one sentence, no long dash. check-wire.js proves every report that is not an ending has its line.
+// =============================================================================
+
+export const WIRE = {
+  // German Supreme Command
+  ohl_1914_16_kaiser: "Mobilisation is ordered, and the Kaiser asks whether the army can march against Russia alone.",
+  ohl_1914_01_aufmarsch: "The army goes west on the Schlieffen plan, with the weight on the right wing through Belgium.",
+  ohl_1914_14_timetable: "The first trains cross the Rhine bridges, and the Kaiser is still arguing about the timetable.",
+  ohl_1914_12_twocorps: "East Prussia is in trouble and the Eighth Army has a new commander.",
+  ohl_1914_02_marne: "A gap has opened between the First and Second Armies, and headquarters has no reliable wire to either.",
+  ohl_1914_03_succession: "Moltke is broken by the retreat, and Falkenhayn is to take the General Staff.",
+  ohl_1914_13_ypres: "The race to the sea is over, and what remains of the plan is the Channel coast.",
+  ohl_1915_14_gorlice: "Austria-Hungary is bled white in the Carpathians and asks for German help in Galicia.",
+  ohl_1915_15_serbia: "Bulgaria has signed, and an army under Mackensen is to open the road to Constantinople.",
+  ohl_1916_04_verdun: "The French have stripped the forts at Verdun, and the Germans plan to bleed their army there.",
+  ohl_1916_14_somme: "The British and French have attacked on the Somme, and the German line has mostly held.",
+  ohl_1916_05_relief: "Verdun has not delivered what was promised, the Somme is open, and the army wants four things at once.",
+  ohl_1916_15_programme: "The new Supreme Command finds the army firing far more than the factories make.",
+  ohl_1917_06_pless: "The Navy promises that unrestricted submarine war will end the war in five months.",
+  ohl_1917_12_alberich: "A shorter line has been built behind the Somme front, and the army can fall back to it.",
+  ohl_1917_07_chancellor: "The Reichstag drafts a peace resolution, and the Supreme Command wants the Chancellor gone.",
+  ohl_1917_13_caporetto: "Vienna asks for guns and divisions to meet another Italian attack on the Isonzo.",
+  ohl_1918_12_faustschlag: "Russia has declared the war over and gone home without signing, and the armistice is ending.",
+  ohl_1918_08_brest: "Russia is out of the war, and every garrison left in the east is a division missing in the west.",
+  ohl_1918_09_michael: "The great spring offensive has opened, and for the first time since 1914 the line has broken.",
+  ohl_1918_13_aisne: "A diversion on the Aisne has gone much further than planned and has reached the Vesle.",
+  ohl_1918_10_salient: "The front in the west is the longest it has ever been, and the offensives have decided nothing.",
+  ohl_1918_14_blackday: "The British attack east of Amiens with tanks, and some German divisions do not fight.",
+  ohl_1918_11_request: "The army retreats in good order on ground it holds, and someone must decide who asks for an armistice.",
+  ohl_1918_15_wilson: "The request has gone to Washington, and the President's replies ask for more each time.",
+
+  // French General Headquarters
+  gqg_1914_17_covering: "Germany has declared imminent danger of war, and the government keeps the covering troops ten kilometres back.",
+  gqg_1914_01_frontieres: "The French army goes into Lorraine on a plan that rests on the will to attack.",
+  gqg_1914_16_week: "Reports show strong German columns west of the Meuse, which the plan did not expect.",
+  gqg_1914_12_retreat: "The attacks in Lorraine and the Ardennes are stopped, and the left wing is beaten on the Sambre.",
+  gqg_1914_13_sack: "After ten days of retreat, several of the generals given armies in August are not equal to them.",
+  gqg_1914_02_marne: "The government has left Paris, and the German First Army has turned inside the capital with its flank open.",
+  gqg_1914_14_race: "The Germans are held on the Aisne, and each side tries to turn the other's open flank to the north.",
+  gqg_1915_03_grignotage: "The line cannot be turned, so it is to be broken, and each attack has so far stopped at the second position.",
+  gqg_1915_14_salonika: "Bulgaria has joined the Central Powers, and the government wants troops sent to Salonika to support Serbia.",
+  gqg_1915_15_chantilly: "The Allies attacked one at a time in 1915, and Joffre proposes that in 1916 they all attack at once.",
+  gqg_1916_04_verdun: "The Germans attack at Verdun into forts whose guns have been taken away.",
+  gqg_1916_05_somme: "The Somme offensive was agreed when France was to carry it, but Verdun has used up the divisions.",
+  gqg_1916_14_douaumont: "The army prepares to take back Fort Douaumont, held by the Germans since February.",
+  gqg_1916_06_nivelle: "After two million casualties the government drops Joffre and looks for a general who promises a short war.",
+  gqg_1917_12_calais: "A conference on railways becomes a proposal to put the British army under a French general.",
+  gqg_1917_07_chemin: "The Nivelle offensive promised forty-eight hours and ten thousand casualties, and the first day cost about forty thousand.",
+  gqg_1917_13_directive: "Pétain has been Commander-in-Chief four days and has to say what battles the army will still fight.",
+  gqg_1917_08_mutinies: "Divisions are refusing to attack, and the refusals are real, repeated and so far limited to a few of them.",
+  gqg_1917_09_malmaison: "The army has been rested and promised no more April, and a small attack is wanted to show the men.",
+  gqg_1918_12_link: "The German offensive drives back the British, and the French must decide which way to fall back.",
+  gqg_1918_10_doullens: "The British and French armies are pushed apart, and someone has to command both.",
+  gqg_1918_13_aisne: "A German attack is expected on the Chemin des Dames, and the front line is full of men.",
+  gqg_1918_11_counteroffensive: "The German salients are overextended, and a counter-attack needs both commands to agree in time.",
+  gqg_1918_14_americans: "Foch wants American divisions put into French and British armies, and Pershing wants an American army.",
+  gqg_1918_15_grand: "The Americans have taken the Saint-Mihiel salient, and Foch plans a battle by all the armies at once.",
+  gqg_1918_16_senlis: "The Germans have asked for an armistice, and Foch asks his commanders what terms they want.",
+
+  // Russian Stavka
+  stavka_1914_16_plans: "The Grand Duke is Supreme Commander, and the army can open against Germany or against Austria-Hungary.",
+  stavka_1914_01_prussia: "The French ask for an offensive into East Prussia before the Russian concentration is finished.",
+  stavka_1914_12_tannenberg: "The Second Army marches into East Prussia, farther from its railheads and its bread each day.",
+  stavka_1914_02_galicia: "East Prussia is going badly, while in Galicia the Austrians are being driven back from Lemberg.",
+  stavka_1914_03_przemysl: "The fortress of Przemyśl is cut off again with about 120,000 men inside.",
+  stavka_1914_04_lodz: "An offensive into Silesia has begun, and an army has just been turned north against the Germans.",
+  stavka_1915_01_masuria: "The Tenth Army warns the front that a German attack is coming on its long line.",
+  stavka_1915_12_carpathians: "Przemyśl has fallen, and about 117,000 men and nine generals are prisoners.",
+  stavka_1915_03_retreat: "The Germans break through at Gorlice-Tarnów, and a third of the men have no rifle.",
+  stavka_1915_04_command: "The Emperor takes the supreme command himself, over the protest of nearly all his ministers.",
+  stavka_1915_05_sventsiany: "The Germans break through at Sventsiany, and cavalry is behind the Russian line.",
+  stavka_1915_06_chantilly: "Joffre proposes that the Allies attack on all fronts at once in 1916.",
+  stavka_1916_02_naroch: "The Germans have attacked at Verdun, and Joffre asks for a Russian offensive to draw them off.",
+  stavka_1916_05_brusilov: "Brusilov proposes to attack on the whole front at once, with no single point of main effort.",
+  stavka_1916_12_kovel: "Brusilov has broken the Austrian line, but the Western Front's own attack gained five kilometres.",
+  stavka_1916_15_lemberg: "The weight of the attack has moved south, against an Austrian front that is bent but not broken.",
+  stavka_1916_13_romania: "Romania enters the war, and the Russians inherit a long new frontier to cover.",
+  stavka_1916_14_romfront: "Bucharest has fallen, and the Russians must hold a front that was never theirs.",
+  stavka_1917_01_petrograd: "The Allied missions have come to Petrograd to coordinate the summer offensives.",
+  stavka_1917_06_february: "The capital is in the hands of the crowds, and the Emperor's train has been stopped at Pskov.",
+  stavka_1917_07_kerensky: "The government wants an offensive to show the allies and the country that Russia is still fighting.",
+  stavka_1917_12_deathpenalty: "The June offensive has become a retreat in Galicia, and units are leaving their positions.",
+  stavka_1917_09_riga: "The Germans cross the Daugava at Riga after a bombardment with gas shells.",
+  stavka_1917_13_kornilov: "Riga has fallen, and Kornilov is dismissed by telegram after ordering cavalry toward Petrograd.",
+  stavka_1917_08_october: "The government in Petrograd has been overthrown, and the front is emptying without any order.",
+  stavka_1917_14_armistice: "The new government orders the army to propose an armistice to the Germans on the whole front.",
+
+  // British Expeditionary Force
+  bef_1914_22_divisions: "Britain is at war a day, and the Cabinet decides how much of the army to send.",
+  bef_1914_01_warcouncil: "The Cabinet has sent four divisions, and has to settle where in France they land.",
+  bef_1914_02_seine: "After Mons and Le Cateau, Sir John French is thinking of taking the army out of the line.",
+  bef_1914_03_ypres: "The army is moved to Flanders to hold the Channel ports and join the line to the sea.",
+  bef_1915_04_dardanelles: "The Navy is bombarding the Dardanelles, and the last regular division is wanted there.",
+  bef_1915_05_shells: "After Aubers Ridge French blames a shell shortage, and The Times is about to print it.",
+  bef_1915_06_loos: "The French want the British to attack at Loos, on ground French and Haig both dislike.",
+  bef_1915_07_reserves: "The attack at Loos has started well, and the reserve is held four and a half miles back.",
+  bef_1915_08_evacuate: "The campaign at Gallipoli has stopped, and the army can neither advance nor leave.",
+  bef_1915_09_succession: "Loos is lost, and the charge against Sir John French is that he mishandled the reserves.",
+  bef_1916_10_conscription: "Volunteers are running out, and the Derby scheme has produced fewer men than expected.",
+  bef_1916_11_somme: "Haig wants a great breakthrough on the Somme, and the army wants a limited attack.",
+  bef_1916_12_tanks: "The first tanks are in France, and forty-nine of the sixty are ready to fight.",
+  bef_1917_13_calais: "Lloyd George has accepted Nivelle's plan for a quick decision and a French general over the British.",
+  bef_1917_14_convoy: "April is the worst month at sea of the war, and the Admiralty resists the convoy.",
+  bef_1917_15_ypres3: "Haig wants a Flanders offensive to take the Belgian coast, and the Prime Minister doubts him.",
+  bef_1917_16_plateau: "The attack on the plateau has gone as planned, at a lower price than the Somme.",
+  bef_1918_16_manpower: "The army is 70,000 men short, and the Cabinet is sending fewer than the army has asked for.",
+  bef_1918_17_reserve: "A general reserve is to be set up under Foch, and Haig does not want to give men to it.",
+  bef_1918_18_doullens: "The Fifth Army is driven back across the old Somme battlefield, and no one commands the whole front.",
+  bef_1918_19_backs: "The Germans attack on the Lys, and the Channel ports are within reach.",
+  bef_1918_20_hundreddays: "The army advances without a pause, and the Cabinet grows anxious about the cost.",
+  bef_1918_21_armistice: "The Germans have asked for an armistice, and Haig is asked what terms he would advise.",
+
+  // Austro-Hungarian High Command
+  aok_1914_15_mobilise: "The monarchy mobilises against Serbia, and Russia has now begun to mobilise as well.",
+  aok_1914_01_serbia: "The army is split in three, with a swing force that can go to Serbia or to Galicia.",
+  aok_1914_02_recall: "The Russians are in Galicia in greater strength than planned, and the swing force is in the wrong place.",
+  aok_1914_03_galicia: "Conrad has gathered about 950,000 men in Galicia to advance into Russian Poland.",
+  aok_1914_06_flank: "The armies are winning in the north, and the Russians are coming up on the southern flank.",
+  aok_1914_04_rawa: "Two decisive blows meet in Galicia, and Conrad's plan rests on the Fourth Army's turn to the south-east.",
+  aok_1914_05_kolubara: "The Emperor has authorised a third invasion of Serbia, after two have failed.",
+  aok_1915_04_carpathians: "Przemyśl is surrounded, and the army tries to relieve it through the Carpathian snow.",
+  aok_1915_07_przemysl: "The fortress is shut in, the relief attempts are failing, and it has to be told.",
+  aok_1915_05_gorlice: "The army has lost half its strength, and a German commander is wanted for the offensive.",
+  aok_1915_06_isonzo: "Italy has declared war, and the Isonzo front is held by a few weak formations.",
+  aok_1915_08_pless: "Falkenhayn and Conrad meet at Pless to sign a convention for an attack on Serbia.",
+  aok_1916_06_montenegro: "The Serbian army and government are crossing the Albanian mountains in winter.",
+  aok_1916_07_strafe: "Conrad's offensive from the Trentino begins tomorrow, and Falkenhayn has refused him German divisions.",
+  aok_1916_08_brusilov: "The Russians have driven a wedge ninety kilometres wide into the front.",
+  aok_1916_09_supreme: "The Germans want one supreme command over all the armies of the Central Powers.",
+  aok_1917_10_sixtus: "The young Emperor has dismissed Conrad and is in secret contact with the French.",
+  aok_1917_11_caporetto: "The army is at the end of what it can do on the Isonzo and asks Berlin for help.",
+  aok_1917_12_pursuit: "The Italians have stood on the Piave, after an advance of more than a hundred kilometres.",
+  aok_1918_14_ukraine: "The treaty with Ukraine brings in German and Austrian troops to secure grain.",
+  aok_1918_12_piave: "A final offensive against Italy is planned with two thrusts and two generals.",
+  aok_1918_13_vittorio: "The Emperor has proclaimed a federal union, and units no longer obey.",
+
+  // Ottoman General Headquarters
+  otto_1914_04_offer: "Enver has proposed an alliance, and Berlin is considering the offer.",
+  otto_1914_01_straits: "Two German ships have come to the Dardanelles, and the empire is officially neutral.",
+  otto_1914_02_blacksea: "The empire has been mobilised twelve weeks, and an order is given in secret.",
+  otto_1914_03_sarikamis: "Enver plans to destroy the Russian Caucasus Army in an envelopment through the winter snow.",
+  otto_1915_04_clothing: "The offensive has been put off a month, and the corps are being given boots and coats.",
+  otto_1915_01_suez: "About 20,000 men are gathered in southern Palestine to attack the Suez Canal.",
+  otto_1915_02_gallipoli: "The Allied fleet has been stopped at the Narrows, and a landing is expected somewhere.",
+  otto_1915_03_kut: "A British Indian division is shut up at Kut in a bend of the Tigris.",
+  otto_1916_01_erzurum: "The Russians have attacked in mid-winter in the Caucasus and are advancing on Erzurum.",
+  otto_1916_02_medina: "The Sharif of Mecca has risen, and the garrison at Mecca is besieged.",
+  otto_1916_03_romani: "The British have run a railway and a pipeline to Romani, forty kilometres from the canal.",
+  otto_1917_03_baghdad: "The British are advancing up the Tigris on Baghdad against a smaller Sixth Army.",
+  otto_1917_04_gaza: "Gaza has held against two British attacks in a month.",
+  otto_1917_05_aqaba: "The Arab revolt needs a port, and Aqaba is the only one that suits it.",
+  otto_1917_01_yildirim: "Baghdad is lost, and Enver wants it back, though Palestine is under threat.",
+  otto_1917_06_hejaz: "The food in Medina is nearly gone, and the railway is cut again and again.",
+  otto_1917_02_jerusalem: "The British have broken the Gaza line, and the Ottoman armies fall back toward Jerusalem.",
+  otto_1917_07_erzincan: "The Russian army in the Caucasus is coming apart after the revolution.",
+  otto_1918_01_caucasus: "The empire has taken back Kars, Ardahan and Batum and looks toward Baku.",
+  otto_1918_02_megiddo: "The army group holds a thin line before Megiddo, with 32,000 infantry against a larger enemy.",
+  otto_1918_03_mudros: "A new government asks for terms, with Bulgaria out and the army beaten in Palestine and Mesopotamia.",
+};
 
 // =============================================================================
 // DERIVED REGISTRIES
@@ -14199,7 +13768,7 @@ export function hardModeForcesEnding(hardState, campaignId) {
 // =============================================================================
 //
 // RECONCILE: 1922's resolveNode(nodeId, flags, meters) returns the whole node
-// with situation/context/bulletin/epilogue optionally built from flags. This
+// with situation/bulletin/epilogue optionally built from flags. This
 // reproduces that contract from the handover description. Verify against the
 // real implementation before content work.
 // =============================================================================
@@ -14240,7 +13809,6 @@ export function resolveNode(nodeId, flags = {}, meters = emptyMeters(), hardStat
     advisorsPresent: advisorsPresentAt(campaignId, node.date),
     meterLabels: meterLabels(campaignId),
     situation: (resolveField(node.situation, ctx) ?? "") + battleEchoText(nodeId, flags),
-    context: resolveField(node.context, ctx),
     bulletin: resolveField(node.bulletin, ctx),
     epilogue: resolveField(node.epilogue, ctx),
     choices,
@@ -14822,7 +14390,7 @@ export const ECHOES = {
     label: "Serbia, October 1914",
     historical: "invaded",
     values: { invaded: "A third invasion of Serbia, as it was.", declined: "The Balkan divisions were held for Galicia." },
-    setBy: "Austro-Hungarian AOK", readBy: "Russian Stavka (Przemysl, October 1914)",
+    setBy: "Austro-Hungarian AOK", readBy: "Russian Stavka (Przemyśl, October 1914)",
   },
   xc_ukraine: {
     label: "Grain from Ukraine, February 1918",
@@ -15125,9 +14693,9 @@ export const GLOSSARY = [
   { id: "bef", term: "BEF", def: "The British Expeditionary Force: the army sent to France in August 1914, and the name for the British forces on the Western Front." },
   { id: "galicia", term: "Galicia", def: "The Austrian province north of the Carpathians, now divided between south-eastern Poland and western Ukraine. It was the main Austro-Russian battlefield." },
   { id: "carpathians", term: "Carpathians", match: "Carpathians?", def: "The mountain range between Galicia and Hungary. Fighting there in the winter of 1914-15 cost both armies heavily." },
-  { id: "przemysl", term: "Przemysl", def: "A fortress city in Galicia. The Russians besieged it from late 1914 and it surrendered in March 1915; German and Austro-Hungarian troops retook it in June." },
+  { id: "przemysl", term: "Przemyśl", def: "A fortress city in Galicia. The Russians besieged it from late 1914 and it surrendered in March 1915; German and Austro-Hungarian troops retook it in June." },
   { id: "lemberg", term: "Lemberg", def: "Now Lviv, the capital of Galicia. The Russians took it in September 1914 and lost it in June 1915." },
-  { id: "gorlice", term: "Gorlice", def: "The town in Galicia where, in May 1915, German and Austro-Hungarian armies broke the Russian front in the Gorlice-Tarnow offensive." },
+  { id: "gorlice", term: "Gorlice", def: "The town in Galicia where, in May 1915, German and Austro-Hungarian armies broke the Russian front in the Gorlice-Tarnów offensive." },
   { id: "isonzo", term: "Isonzo", def: "The river on the Italian-Austrian front, where twelve battles were fought between 1915 and 1917." },
   { id: "trentino", term: "Trentino", def: "The Italian-speaking Alpine region then held by Austria. Austria-Hungary attacked Italy from it in May 1916." },
   { id: "caporetto", term: "Caporetto", def: "The Austro-German offensive of October 1917 that broke the Italian line on the Isonzo." },
@@ -15147,7 +14715,7 @@ export const GLOSSARY = [
   { id: "rumi", term: "Rumi", def: "The Ottoman state's official calendar: the Julian calendar, thirteen days behind the Western, with the year counted from 1 March. This game gives Western dates." },
   { id: "hejaz", term: "Hejaz", def: "The strip of western Arabia along the Red Sea that holds Mecca and Medina. The Hejaz railway ran from Damascus to Medina." },
   { id: "sinai", term: "Sinai", def: "The desert peninsula between Palestine and Egypt, bounded on the west by the Suez Canal." },
-  { id: "sarikamis", term: "Sarikamis", def: "A town in the mountains of north-eastern Anatolia, near the Russian frontier, where the Ottoman winter offensive of December 1914 ended." },
+  { id: "sarikamis", term: "Sarıkamış", def: "A town in the mountains of north-eastern Anatolia, near the Russian frontier, where the Ottoman winter offensive of December 1914 ended." },
   { id: "yildirim", term: "Yildirim", def: "The Ottoman army group formed in 1917 under the German general Falkenhayn. The word is Turkish for lightning." },
   { id: "hundred-days", term: "Hundred Days", def: "The Allied advance from 8 August 1918 to the armistice on 11 November." },
 ];
@@ -15557,14 +15125,14 @@ BATTLES.marneFrench = {
     {
       id: "gap", name: "The Fifth Army and the BEF at the Gap", meter: "will",
       units: [
-        "Franchet d'Esperey's Fifth Army, which he took over from Lanrezac on 3 September",
+        "Franchet d'Espèrey's Fifth Army, which he took over from Lanrezac on 3 September",
         "Sir John French's British Expeditionary Force, about 100,000 men on the eve of the battle",
         "The aeroplanes that watched the German columns and found the gap",
       ],
       real:
         "Kluck's turn to the north-west opened a gap of about 50 kilometres between the German First and Second Armies, and French aircraft saw it. The BEF, " +
         "sent north-west into it, outnumbered the Germans there ten to one and advanced only about 40 kilometres in three days, ending 6 September some 12 " +
-        "kilometres short of its objectives; Franchet d'Esperey and other French commanders were furious. His Fifth Army fought the battle of the Two Morins " +
+        "kilometres short of its objectives; Franchet d'Espèrey and other French commanders were furious. His Fifth Army fought the battle of the Two Morins " +
         "on 6 September, crossed the Petit Morin by the 8th and the Marne on the 9th.",
       context:
         "The gap is where the battle turns. Each commitment pushes more of the Fifth Army and the British toward the hole between the two German armies, and makes the " +
@@ -15604,7 +15172,7 @@ BATTLES.marneFrench = {
   commanders: [
     { id: "gallieni", name: "Gallieni", role: "Military Governor of Paris", category: "sixth",
       note: "He has been arguing for the attack on the open flank for two days." },
-    { id: "franchet", name: "Franchet d'Esperey", role: "Commander of the Fifth Army from 3 September", category: "gap",
+    { id: "franchet", name: "Franchet d'Espèrey", role: "Commander of the Fifth Army from 3 September", category: "gap",
       note: "He replaced Lanrezac four days ago and will not forgive a slow ally." },
     { id: "foch", name: "Foch", role: "Commander of the Ninth Army", category: "ninth",
       note: "His army was formed in the retreat, and holds the centre." },
@@ -15640,7 +15208,7 @@ BATTLES.marneFrench = {
     },
     commander: {
       gallieni: "Gallieni's part in the plan is remembered in Paris.",
-      franchet: "Franchet d'Esperey's army is remembered as the one that went into the gap.",
+      franchet: "Franchet d'Espèrey's army is remembered as the one that went into the gap.",
       foch: "Foch's army is remembered as the one that held.",
     },
   },
@@ -15999,16 +15567,16 @@ BATTLES.galiciaAustro = {
     "The end of August, in the heat. The armies march from railheads: Austria-Hungary can run 152 trains a day to this front, and Russia 260.",
   categories: [
     {
-      id: "first", name: "The First Army at Krasnik", meter: "manpower",
+      id: "first", name: "The First Army at Kraśnik", meter: "manpower",
       units: [
         "Dankl's First Army, on the northern wing",
-        "Its advance toward Krasnik against the Russian Fourth Army",
+        "Its advance toward Kraśnik against the Russian Fourth Army",
         "The Russian Fourth Army's position in front of it",
       ],
       real:
-        "Dankl's First Army drove back the Russian Fourth Army at Krasnik and took about 6,000 prisoners. It was one of the two battles in the north that the Austro-Hungarian armies won, and the Russian Fourth Army's commander, Salza, was replaced by Evert afterward.",
+        "Dankl's First Army drove back the Russian Fourth Army at Kraśnik and took about 6,000 prisoners. It was one of the two battles in the north that the Austro-Hungarian armies won, and the Russian Fourth Army's commander, Salza, was replaced by Evert afterward.",
       context:
-        "The First Army is the northern wing of the blow. Each commitment puts more of it into the advance on Krasnik.",
+        "The First Army is the northern wing of the blow. Each commitment puts more of it into the advance on Kraśnik.",
     },
     {
       id: "fourth", name: "The Fourth Army at Komarow", meter: "manpower",
@@ -16039,10 +15607,10 @@ BATTLES.galiciaAustro = {
       units: [
         "The Second Army, recalled from Serbia and on its way north",
         "The railways: 152 trains a day against Russia's 260",
-        "Przemysl, the fortress behind the line of retreat",
+        "Przemyśl, the fortress behind the line of retreat",
       ],
       real:
-        "The Second Army was recalled from Serbia and arrived too late to stop the collapse. Russia could bring 260 trains a day to its front, against 152 for Austria-Hungary, and the siege of Przemysl began once the army had fallen back.",
+        "The Second Army was recalled from Serbia and arrived too late to stop the collapse. Russia could bring 260 trains a day to its front, against 152 for Austria-Hungary, and the siege of Przemyśl began once the army had fallen back.",
       context:
         "The railways decide how fast the army can be strengthened where it is weak. Each commitment puts more trains, shells and reserves behind the line.",
     },
@@ -16088,7 +15656,7 @@ BATTLES.galiciaAustro = {
       rail: "The Second Army and the railways were left short, and help came too late.",
     },
     commander: {
-      dankl: "Dankl's army is remembered as the one that won at Krasnik.",
+      dankl: "Dankl's army is remembered as the one that won at Kraśnik.",
       auffenberg: "Auffenberg's army is remembered as the one that won at Komarow.",
       kovess: "Kovess's group is remembered as the one on the flank.",
     },
@@ -16418,20 +15986,20 @@ BATTLES.piaveAustro = {
   campaign: "aok",
   title: "Order of Battle: the Piave",
   flavor:
-    "The last offensive of the monarchy: 946,000 men and some 6,800 guns, and two army-group commanders who want different battles. Boroevic wants to cross the Piave, and Conrad wants to come down " +
+    "The last offensive of the monarchy: 946,000 men and some 6,800 guns, and two army-group commanders who want different battles. Boroević wants to cross the Piave, and Conrad wants to come down " +
     "from the mountains onto the plain.",
   conditions:
     "Mid-June, with the Piave swollen. Bridges have to be thrown across a river that the Italian guns can reach.",
   categories: [
     {
-      id: "boroevic", name: "Boroevic's Thrust on the Piave", meter: "manpower",
+      id: "boroevic", name: "Boroević's Thrust on the Piave", meter: "manpower",
       units: [
-        "Army Group Boroevic: the Fifth Army (Wurm) and the Sixth (the Archduke Joseph)",
+        "Army Group Boroević: the Fifth Army (Wurm) and the Sixth (the Archduke Joseph)",
         "The crossing of the Piave toward the Adriatic coast",
         "The bridgehead on the far bank",
       ],
       real:
-        "Boroevic's army group crossed the Piave on 15 June. It held a bridgehead about 24 kilometres wide and 8 deep until Diaz counter-attacked its flank on 19 June, which the Italians had retaken in full by 23 June.",
+        "Boroević's army group crossed the Piave on 15 June. It held a bridgehead about 24 kilometres wide and 8 deep until Diaz counter-attacked its flank on 19 June, which the Italians had retaken in full by 23 June.",
       context:
         "The Piave thrust is the one that can get across. Each commitment puts more of the army on the river, and takes it from the mountains.",
     },
@@ -16476,7 +16044,7 @@ BATTLES.piaveAustro = {
   // A game judgment, not a measurement.
   effectiveness: { boroevic: 2.3, secrecy: 2.2, conrad: 1.8, guns: 1.6 },
   commanders: [
-    { id: "boroevic", name: "Boroevic", role: "Commander of the army group on the Piave", category: "boroevic",
+    { id: "boroevic", name: "Boroević", role: "Commander of the army group on the Piave", category: "boroevic",
       note: "He wants the whole army on the river." },
     { id: "conrad", name: "Conrad", role: "Commander of the army group in the mountains", category: "conrad",
       note: "He wants the attack from the mountains, and will not be told it is the lesser one." },
@@ -16513,7 +16081,7 @@ BATTLES.piaveAustro = {
       secrecy: "The day was left to leak, and the Italians were ready.",
     },
     commander: {
-      boroevic: "Boroevic's thrust is remembered as the one that got across.",
+      boroevic: "Boroević's thrust is remembered as the one that got across.",
       conrad: "Conrad's thrust is remembered as the one that was left alone.",
       arz: "Arz's plan is the one that the army is arguing about.",
     },
@@ -16537,7 +16105,7 @@ BATTLES.caporettoAustro = {
       units: [
         "Otto von Below's Fourteenth Army: nine Austro-Hungarian and six to eight German divisions",
         "The German divisions, Ludendorff's general reserve, lent for the offensive",
-        "Army Group Boroevic, held ready on the Isonzo for the offensive",
+        "Army Group Boroević, held ready on the Isonzo for the offensive",
       ],
       real:
         "The army struck at the northern end of the Isonzo front and broke the Italian line between the IV and XXVII Corps. Some units advanced 25 kilometres on the first day, and by 10 November the Central Powers had come about 150 kilometres to the Piave.",
@@ -16588,7 +16156,7 @@ BATTLES.caporettoAustro = {
       note: "He has the army that has been made for the blow." },
     { id: "krafft", name: "Krafft von Dellmensingen", role: "German lieutenant general, mountain-warfare expert", category: "storm",
       note: "He reconnoitred the ground and chose where the army would go in." },
-    { id: "boroevic", name: "Boroevic", role: "Commander of the Army Group on the Isonzo", category: "pursuit",
+    { id: "boroevic", name: "Boroević", role: "Commander of the Army Group on the Isonzo", category: "pursuit",
       note: "He has held the Isonzo for two years, and will lead the pursuit." },
   ],
   approaches: [
@@ -16623,7 +16191,7 @@ BATTLES.caporettoAustro = {
     commander: {
       below: "Below's army is the one that is spoken of as having broken the line.",
       krafft: "Krafft's choice of ground is the one that is spoken of as having won it.",
-      boroevic: "Boroevic's pursuit is the one that is spoken of as having followed it.",
+      boroevic: "Boroević's pursuit is the one that is spoken of as having followed it.",
     },
   },
 };
@@ -17329,11 +16897,11 @@ export function sepiaCss() {
   const css = `
   /* ---- Sepia: a quiet column ---- */
   [data-theme="sepia"]:not([data-font="plain"]):not([data-font="typewriter"]):not([data-font="dyslexia"]) .dg-root{--mono:${SEPIA_SERIF}}
-  @S .dg-root{${accVars};background-image:none;font-size:19px;line-height:1.5}
+  @S .dg-root{${accVars};background-image:none;font-size:20px;line-height:1.5}
   @S .dg-root[data-campaign]::before,@S .dg-root[data-screen="menu"]::before{display:none}
   @S .dg-root button:focus-visible,@S .dg-root summary:focus-visible,@S .dg-root input:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
-  ${SEPIA_SMALL.map((s) => "@S " + s).join(",")}{font-size:13.5px;letter-spacing:.14em}
-  @S .dg-title{font-weight:500;font-size:56px;text-align:center;letter-spacing:.04em;text-shadow:none;margin:12px 0 10px}
+  ${SEPIA_SMALL.map((s) => "@S " + s).join(",")}{font-size:13px;letter-spacing:.14em}
+  @S .dg-title{font-weight:500;font-size:48px;text-align:center;letter-spacing:.04em;text-shadow:none;margin:12px 0 10px}
   @S .dg-rule,@S .dg-dash{border:0;border-top:1px solid var(--rule);opacity:1;margin:0 0 18px}
   @S .dg-filerow .r{border:0;transform:none;color:var(--ink-soft);padding:0;font-weight:400}
   @S .dg-sect,@S .dg-order{color:var(--ink-soft);font-weight:400;margin:24px 0 0;padding-bottom:5px;border-bottom:1px solid var(--rule)}
@@ -17341,27 +16909,27 @@ export function sepiaCss() {
   @S .dg-count{color:var(--ink-soft)}
   @S .dg-note,@S .dg-entry,@S .dg-attested,@S .dg-banner p,@S .dg-meanwhile{font-size:16px}
   @S .dg-note{color:var(--ink-soft)}
-  @S .dg-stamp{top:14px;right:8px;transform:none;border:0;box-shadow:none;background:none;color:var(--ink-soft);font-weight:400;font-size:13.5px;letter-spacing:.14em;padding:0}
+  @S .dg-stamp{top:14px;right:8px;transform:none;border:0;box-shadow:none;background:none;color:var(--ink-soft);font-weight:400;font-size:13px;letter-spacing:.14em;padding:0}
 
   /* the menu: a list of commands */
   @S .dg-card{border:0;border-top:1px solid var(--rule);background:none;box-shadow:none;padding:12px 8px;margin:0}
   @S .dg-card::before{display:none}
   @S .dg-card:hover{background:none;color:var(--ink);box-shadow:0 0 26px rgba(236,229,208,.12);outline:2px solid var(--ink);outline-offset:-2px}
   @S .dg-card:hover p{color:var(--ink-soft)}
-  @S .dg-card h3{font-weight:400;font-size:25px;margin:0 0 2px}
-  @S .dg-card p{font-size:13.5px;letter-spacing:.1em;text-transform:uppercase}
+  @S .dg-card h3{font-weight:400;font-size:24px;margin:0 0 2px}
+  @S .dg-card p{font-size:13px;letter-spacing:.1em;text-transform:uppercase}
   @S .dg-banner{border:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:none;box-shadow:none;padding:12px 4px}
-  @S .dg-banner .small{font-size:15px}
+  @S .dg-banner .small{font-size:14px}
   @S .dg-btn{border:1px solid var(--ink-soft);box-shadow:none;padding:10px 16px}
   @S .dg-seg button{border-color:var(--rule)}
   @S .dg-seg button:hover:not([aria-pressed="true"]){background:rgba(236,229,208,.1)}
   @S .dg-seg button[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:-3px}
-  @S details summary{border:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:none;font-size:13.5px;letter-spacing:.14em}
+  @S details summary{border:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:none;font-size:13px;letter-spacing:.14em}
   @S details summary:hover{background:var(--ink);color:var(--paper)}
   @S .dg-dossier summary:hover{background:none;color:inherit}
   @S .dg-bulletin{border:1px solid var(--rule);background:none;transform:none;box-shadow:none;font-size:16px}
   @S .dg-bulletin::before{display:none}
-  @S .dg-bulletin .h{color:var(--ink-soft);font-weight:400;font-size:13.5px;letter-spacing:.14em}
+  @S .dg-bulletin .h{color:var(--ink-soft);font-weight:400;font-size:13px;letter-spacing:.14em}
   @S .dg-hard,@S .dg-draft{border:1px solid var(--rule);color:var(--ink);background:none}
 
   /* the report */
@@ -17369,9 +16937,9 @@ export function sepiaCss() {
   @S .dg-timeline span{border:0;padding:2px 6px}
   @S .dg-timeline span.on{transform:none;color:var(--ink);font-weight:400;border:0;border-bottom:2px solid var(--ink);background:none}
   @S .dg-docrow{border-bottom:1px solid var(--rule);font-weight:400;margin:14px 0 14px;padding-bottom:8px}
-  @S .dg-node-date{display:block;transform:none;border:0;padding:0;color:var(--ink-soft);font-size:13.5px;letter-spacing:.14em;font-weight:400;background:none;margin:14px 0 0;text-align:center}
-  @S .dg-node-title{font-weight:500;font-size:44px;text-align:center;letter-spacing:0;margin:2px 0 14px}
-  @S .dg-prose{font-size:19.5px;line-height:1.55}
+  @S .dg-node-date{display:block;transform:none;border:0;padding:0;color:var(--ink-soft);font-size:13px;letter-spacing:.14em;font-weight:400;background:none;margin:14px 0 0;text-align:center}
+  @S .dg-node-title{font-weight:500;font-size:40px;text-align:center;letter-spacing:0;margin:2px 0 14px}
+  @S .dg-prose{font-size:20px;line-height:1.55}
   @S .dg-lede::first-letter{float:none;font:inherit;padding:0;color:inherit}
   @S .dg-quote{font-size:16px;border-top:0;padding-top:0;margin-top:4px}
   @S .dg-mapcard{box-shadow:none;margin:0 0 14px}
@@ -17382,7 +16950,7 @@ export function sepiaCss() {
   @S .dg-gauge{background:rgba(236,229,208,.16);border-color:var(--rule);opacity:1}
   @S .dg-gauge::before{background:var(--ink-soft)}
   @S .dg-gauge i{background:var(--ink);border-color:var(--paper)}
-  @S .dg-readings{border-color:var(--rule);background:none;margin:-10px 0 16px;font-size:14.5px}
+  @S .dg-readings{border-color:var(--rule);background:none;margin:-10px 0 16px;font-size:14px}
   @S .dg-reading.lv0 b,@S .dg-reading.lv1 b,@S .dg-reading.lv4 b{color:var(--ink)}
   @S .dg-rbar{border-color:var(--rule);background:none}
   @S .dg-rbar i,@S .dg-reading.lv0 .dg-rbar i,@S .dg-reading.lv1 .dg-rbar i,@S .dg-reading.lv4 .dg-rbar i{background:var(--ink-soft)}
@@ -17390,17 +16958,17 @@ export function sepiaCss() {
   /* the orders: ruled rows numbered in Roman, framed when pointed at */
   @S .dg-choice{display:grid;grid-template-columns:44px 1fr;border:0;border-bottom:1px solid var(--rule);background:none;box-shadow:none;padding:12px 8px;margin:0}
   @S .dg-choice>*{grid-column:2}
-  @S .dg-choice:not(.dg-opt):not(.dg-issue)::before{content:counter(ord,upper-roman);grid-column:1;grid-row:1 / span 9;align-self:start;font-size:21px;letter-spacing:0;color:var(--ink-soft);font-weight:400;margin:0}
+  @S .dg-choice:not(.dg-opt):not(.dg-issue)::before{content:counter(ord,upper-roman);grid-column:1;grid-row:1 / span 9;align-self:start;font-size:20px;letter-spacing:0;color:var(--ink-soft);font-weight:400;margin:0}
   @S .dg-choice.dg-opt,@S .dg-choice.dg-issue{display:block}
   @S .dg-choice:hover:not(:disabled),@S .dg-choice:focus-visible{background:none;color:var(--ink);box-shadow:0 0 26px rgba(236,229,208,.12);outline:2px solid var(--ink);outline-offset:-2px}
   @S .dg-choice:hover:not(:disabled)::before{color:var(--ink)}
-  @S .dg-choice .lab{font-size:23px;font-weight:400;font-style:italic;margin-bottom:4px;line-height:1.2}
+  @S .dg-choice .lab{font-size:24px;font-weight:400;font-style:italic;margin-bottom:4px;line-height:1.2}
   @S .dg-choice:hover:not(:disabled) .dg-quote,@S .dg-choice:hover:not(:disabled) .dg-attested,@S .dg-choice:hover:not(:disabled) .dg-holdhint,@S .dg-choice:hover:not(:disabled) .dg-strain,@S .dg-choice:hover:not(:disabled) .dg-record-mark{color:var(--ink-soft)}
   @S .dg-choice:hover:not(:disabled) .dg-record-mark{border-color:var(--rule)}
   @S .dg-choice:hover:not(:disabled) .dg-holdbar{background:var(--accent)}
   @S .dg-record-mark{color:var(--ink-soft);border-color:var(--rule)}
-  @S .dg-strain{color:var(--ink);font-size:14.5px}
-  @S .dg-odds{font-size:13.5px;letter-spacing:.1em}
+  @S .dg-strain{color:var(--ink);font-size:14px}
+  @S .dg-odds{font-size:13px;letter-spacing:.1em}
   @S .dg-odds-t{color:var(--accent)}
   @S .dg-dial path{stroke:var(--rule)}
   @S .dg-opt[aria-pressed="true"]{background:rgba(236,229,208,.08);color:var(--ink);outline:2px solid var(--ink);outline-offset:-2px;border-left-color:var(--rule)}
@@ -17426,14 +16994,14 @@ export function sepiaCss() {
   @S .dg-changes li.neg b,@S .dg-changes li.pos b{color:var(--ink)}
   @S .dg-rank{border:2px solid var(--ink);background:none;box-shadow:none}
   @S .dg-rank h2{font-weight:500;color:var(--ink)}
-  @S .dg-rank ul{font-size:15px}
+  @S .dg-rank ul{font-size:14px}
   @S .dg-rank li{border-top-color:var(--rule)}
   @S .dg-note-box{background:none;border-color:var(--rule)}
 
   /* the Order of Battle and the war record */
   @S .dg-bt-arm,@S .dg-rec-card,@S .dg-cmd{border:0;border-top:1px solid var(--rule);border-left:0;background:none;box-shadow:none;padding:12px 4px;margin:0}
   @S .dg-bt-n{color:var(--ink);font-weight:500}
-  @S .dg-bt-head{font-size:22px;letter-spacing:0}
+  @S .dg-bt-head{font-size:20px;letter-spacing:0}
   @S .dg-bt-head b,@S .dg-bt-head strong{font-weight:400}
   @S .dg-check input{accent-color:var(--ink)}
   @S .dg-bt-units{font-size:16px}
@@ -17456,72 +17024,72 @@ export function sepiaCss() {
   @S .dg-badge{background:var(--paper);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px var(--accent)}
 
   /* the question, the steps of a battle plan, the verdict */
-  @S .dg-ask{border-left:2px solid var(--ink);font-size:19.5px}
-  @S .dg-ask b{color:var(--ink-soft);font-weight:400;font-size:13.5px;letter-spacing:.14em}
-  @S .dg-jump{font-size:13.5px;letter-spacing:.14em;color:var(--ink-soft)}
+  @S .dg-ask{border-left:2px solid var(--ink);font-size:20px}
+  @S .dg-ask b{color:var(--ink-soft);font-weight:400;font-size:13px;letter-spacing:.14em}
+  @S .dg-jump{font-size:13px;letter-spacing:.14em;color:var(--ink-soft)}
   @S .dg-step{border:0;border-top:1px solid var(--rule);padding:10px 8px}
   @S .dg-steps li:last-child .dg-step{border-bottom:1px solid var(--rule)}
   @S .dg-steps .now .dg-step{background:none;color:var(--ink);outline:2px solid var(--ink);outline-offset:-2px;box-shadow:0 0 26px rgba(236,229,208,.12)}
   @S .dg-step-n{border-color:var(--ink-soft);font-weight:400}
   @S .dg-step-t b{font-weight:400;font-size:20px}
-  @S .dg-step-t small{font-size:15px;color:var(--ink-soft)}
+  @S .dg-step-t small{font-size:14px;color:var(--ink-soft)}
   @S .dg-bt-bar{border-top:1px solid var(--ink);background:var(--paper)}
   @S .dg-bt-k{font-size:13px;letter-spacing:.14em}
-  @S .dg-bt-stat b{font-weight:500;font-size:19px}
+  @S .dg-bt-stat b{font-weight:500;font-size:20px}
   @S .dg-bt-stat small{font-size:14px}
   @S .dg-bt-bar .dg-choice.dg-issue{margin:0;padding:10px 18px}
   @S .dg-verdict-h{font-weight:500;font-size:32px}
-  @S .dg-kind{border-color:var(--rule);font-size:13.5px;letter-spacing:.14em}
-  @S .dg-chips li{border-color:var(--rule);font-size:15px}
+  @S .dg-kind{border-color:var(--rule);font-size:13px;letter-spacing:.14em}
+  @S .dg-chips li{border-color:var(--rule);font-size:14px}
   @S .dg-chips li.neg{border-color:var(--rule)}
   @S .dg-chips li b{font-weight:500}
-  @S .dg-grade{font-size:15.5px}
+  @S .dg-grade{font-size:16px}
 
   /* the shareable file */
   @S .dg-sharecard{background:none;border-width:1px;border-color:var(--rule);box-shadow:none}
-  @S .dg-sc-end{font-weight:500;font-size:34px}
-  @S .dg-sc-cmd,@S .dg-sc-rank,@S .dg-sc-facts,@S .dg-sc-list{font-size:17px}
-  @S .dg-sc-rank b{font-weight:500;font-size:26px}
+  @S .dg-sc-end{font-weight:500;font-size:32px}
+  @S .dg-sc-cmd,@S .dg-sc-rank,@S .dg-sc-facts,@S .dg-sc-list{font-size:16px}
+  @S .dg-sc-rank b{font-weight:500;font-size:24px}
 
   /* the staff's reading */
-  @S .dg-bel li{border-top:1px solid var(--rule);font-size:16.5px}
+  @S .dg-bel li{border-top:1px solid var(--rule);font-size:16px}
   @S .dg-gtag{border-color:var(--rule)}
   @S .dg-g-firm{border-color:var(--ink-soft)}
-  @S .dg-rests{font-size:14.5px}
+  @S .dg-rests{font-size:14px}
 
   /* the front screens */
   @S .dg-cmd{border:0;border-top:1px solid var(--rule);background:none;padding:18px 8px 14px;margin:0}
   @S .dg-cmd:hover:not(:disabled){background:none;outline:2px solid var(--ink);outline-offset:-2px;box-shadow:0 0 26px rgba(236,229,208,.12)}
   @S .dg-cmd-band{height:4px}
   @S .dg-cmd-seal{border-color:var(--ink-soft);color:var(--ink);font-weight:400}
-  @S .dg-cmd-nation{font-weight:500;font-size:31px}
-  @S .dg-cmd-name{font-weight:400;font-size:17px}
-  @S .dg-cmd-native{font-size:15px}
-  @S .dg-cmd-pitch{font-size:16.5px}
+  @S .dg-cmd-nation{font-weight:500;font-size:32px}
+  @S .dg-cmd-name{font-weight:400;font-size:16px}
+  @S .dg-cmd-native{font-size:14px}
+  @S .dg-cmd-pitch{font-size:16px}
   @S .dg-navbtn{border:0;border-top:1px solid var(--rule);padding:12px 8px}
   @S .dg-navbtn:hover{outline:2px solid var(--ink);outline-offset:-2px}
   @S .dg-navbtn b{font-weight:400}
-  @S .dg-navbtn span{font-size:15.5px}
-  @S .dg-sub{font-size:16.5px;text-align:center}
-  @S .dg-title-sm{font-size:44px}
+  @S .dg-navbtn span{font-size:16px}
+  @S .dg-sub{font-size:16px;text-align:center}
+  @S .dg-title-sm{font-size:40px}
   @S .dg-go{border:1px solid var(--ink);box-shadow:none}
   @S .dg-sw{border-color:var(--rule)}
   @S .dg-fixed{border-color:var(--rule)}
   @S .dg-jumps a{color:var(--ink)}
 
   /* text sizes: serif runs smaller than a typewriter at the same size */
-  @S .dg-fs-m .dg-prose{font-size:21px}
-  @S .dg-fs-l .dg-prose{font-size:23px}
-  @S .dg-fs-m .dg-choice .lab{font-size:25px}
-  @S .dg-fs-l .dg-choice .lab{font-size:27px}
-  @S .dg-fs-m .dg-quote,@S .dg-fs-m .dg-bulletin,@S .dg-fs-m .dg-entry,@S .dg-fs-m .dg-banner p,@S .dg-fs-m .dg-note{font-size:18px}
+  @S .dg-fs-m .dg-prose{font-size:20px}
+  @S .dg-fs-l .dg-prose{font-size:24px}
+  @S .dg-fs-m .dg-choice .lab{font-size:24px}
+  @S .dg-fs-l .dg-choice .lab{font-size:28px}
+  @S .dg-fs-m .dg-quote,@S .dg-fs-m .dg-bulletin,@S .dg-fs-m .dg-entry,@S .dg-fs-m .dg-banner p,@S .dg-fs-m .dg-note{font-size:16px}
   @S .dg-fs-l .dg-quote,@S .dg-fs-l .dg-bulletin,@S .dg-fs-l .dg-entry,@S .dg-fs-l .dg-banner p,@S .dg-fs-l .dg-note{font-size:20px}
   @media (max-width:480px){
     @S .dg-title{font-size:40px}
     @S .dg-node-title{font-size:32px}
     @S .dg-choice{grid-template-columns:34px 1fr}
-    @S .dg-choice .lab{font-size:21px}
-    @S .dg-prose{font-size:18.5px}
+    @S .dg-choice .lab{font-size:20px}
+    @S .dg-prose{font-size:20px}
   }
   `;
   return css.replace(/@S /g, '[data-theme="sepia"] ');
@@ -17578,7 +17146,7 @@ export const ASKS = {
   gqg_1916_04_verdun: "Are both banks of the Meuse held and fed along the one road, or is the east bank given up?",
   gqg_1916_05_somme: "Does France commit what it can find beside the British on the Somme, or let them attack alone?",
   gqg_1916_14_douaumont: "Is Mangin's attack to retake Douaumont authorised, or does the army stay on the defensive at Verdun for the winter?",
-  gqg_1916_06_nivelle: "Who commands from December: Nivelle with his forty-eight hour plan, or Petain with limited objectives?",
+  gqg_1916_06_nivelle: "Who commands from December: Nivelle with his forty-eight hour plan, or Pétain with limited objectives?",
   gqg_1917_12_calais: "Does the British army serve under Nivelle for the offensive, or is the offensive coordinated with Haig by agreement?",
   gqg_1917_07_chemin: "Does the offensive continue after the first days, or halt at the undertaking given to the Minister of War?",
   gqg_1917_13_directive: "Does the army go over to limited objectives only, or keep a great offensive in preparation for the summer?",
@@ -17597,7 +17165,7 @@ export const ASKS = {
   stavka_1914_01_prussia: "Does Russia invade East Prussia now to keep its promise to France, or finish the concentration first?",
   stavka_1914_12_tannenberg: "Do both armies press on under Zhilinsky's orders, does the Second halt for its supply, or does it wheel toward the First?",
   stavka_1914_02_galicia: "Does the weight go to Galicia against the Austrians, or back to East Prussia with divisions taken from the south?",
-  stavka_1914_03_przemysl: "Is Przemysl starved out by investment, or taken by assault before the Austrians can come back?",
+  stavka_1914_03_przemysl: "Is Przemyśl starved out by investment, or taken by assault before the Austrians can come back?",
   stavka_1914_04_lodz: "Does the Fifth Army turn north against the German thrust, or press on into Silesia?",
   stavka_1915_01_masuria: "Does the army hold the border line as the front commander advises, or draw the Tenth Army back to the Niemen?",
   stavka_1915_12_carpathians: "Does the army press on over the Carpathians into Hungary, or halt in the passes to refit?",
@@ -17638,7 +17206,7 @@ export const ASKS = {
   bef_1917_14_convoy: "Is the convoy system tried at once in the Atlantic trade, or left to the Admiralty's patrols and sweeps?",
   bef_1917_15_ypres3: "Does the Cabinet allow Haig's Flanders offensive, allow a limited one, or veto it and wait for the Americans?",
   bef_1917_16_plateau: "With the plateau taken, does Haig go on toward Passchendaele, keep to the limit agreed, or turn to Cambrai?",
-  bef_1918_16_manpower: "Does the army take over the line to Barisis as Petain asks, or refuse until the reinforcements arrive?",
+  bef_1918_16_manpower: "Does the army take over the line to Barisis as Pétain asks, or refuse until the reinforcements arrive?",
   bef_1918_17_reserve: "Does the army give up divisions for a general reserve, or decline to?",
   bef_1918_18_doullens: "Does Foch coordinate all the armies, or does the British command stay independent and agree matters with the French?",
   bef_1918_19_backs: "Does the army order every position held with no retirement, or withdraw in Flanders to a shorter line?",
@@ -17653,7 +17221,7 @@ export const ASKS = {
   aok_1914_06_flank: "Does the Third Army stand alone on the southern flank, get two corps from the north, or fall back behind the Gnila Lipa?",
   aok_1914_04_rawa: "Does the Fourth Army's blow go on as ordered, or is the battle broken off and the army drawn back behind the San?",
   aok_1914_05_kolubara: "Is Potiorek's third invasion of Serbia authorised, or are the Balkan divisions held for Galicia?",
-  aok_1915_04_carpathians: "Is the winter offensive pressed through the Carpathians to relieve Przemysl, or are the passes held and the fortress left to its fate?",
+  aok_1915_04_carpathians: "Is the winter offensive pressed through the Carpathians to relieve Przemyśl, or are the passes held and the fortress left to its fate?",
   aok_1915_07_przemysl: "Is the fortress told that no more relief will come, or is a third relief attempt ordered?",
   aok_1915_05_gorlice: "Does the army accept an offensive under Mackensen with the Fourth Army under German command, or insist on its own general?",
   aok_1915_06_isonzo: "Does the army hold the Isonzo with what can be spared, or attack Italy at once before she is ready?",
@@ -17797,7 +17365,7 @@ export const BRIEFINGS = {
     modes: { easy: "Big Bertha", hard: "The Pickelhaube" },
     title: "German Supreme Army Command",
     side: "central",
-    quote: { text: "You will be home before the leaves have fallen from the trees.", by: "Kaiser Wilhelm II", date: "August 1914" },
+    quote: { text: "You will be home before the leaves have fallen from the trees.", by: "Kaiser Wilhelm II" },
     standing: [
       "Germany is at war with France and Russia, and from 4 August with Britain. The army has one plan for a war on two fronts and has rehearsed little else: beat France in a few weeks by a wide march through Belgium, then send the armies east by rail before Russia is ready. Every railway timetable in the country is written around it.",
       "The plan leaves little room to change course once the trains are running. Belgium's neutrality is guaranteed by treaty, and Britain is one of the guarantors.",
@@ -17809,7 +17377,7 @@ export const BRIEFINGS = {
     modes: { easy: "The Soixante-Quinze", hard: "The Red Trousers" },
     title: "French General Headquarters",
     side: "entente",
-    quote: { text: "France will be heroically defended by all her sons, whose sacred union in the face of the enemy nothing will break.", by: "President Poincare", date: "4 August 1914" },
+    quote: { text: "France will be heroically defended by all her sons, whose sacred union in the face of the enemy nothing will break.", by: "President Poincaré" },
     standing: [
       "France mobilised on 1 August and Germany declared war on 3 August. The army's Plan XVII sends its armies at the German frontier in Lorraine and towards the Ardennes, to recover the provinces lost in 1871. It rests on a doctrine of the offensive that shapes the army's training, its tactics and its officers' careers.",
       "France is bound to Russia, which has promised to take the field within weeks, and to Britain, whose small army is crossing the Channel. Neither can be commanded from Vitry.",
@@ -17821,7 +17389,7 @@ export const BRIEFINGS = {
     modes: { easy: "The Ilya Muromets", hard: "The Shared Rifle" },
     title: "Russian Supreme Command",
     side: "entente",
-    quote: { text: "Let Russia, rising like one man, repel the insolent assault of the enemy.", by: "Tsar Nicholas II", date: "2 August 1914" },
+    quote: { text: "Let Russia, rising like one man, repel the insolent assault of the enemy.", by: "Tsar Nicholas II" },
     standing: [
       "Russia has the largest army in Europe on paper and far fewer railways than its enemies to move it by. It mobilised at the end of July. By treaty, and by years of French loans, it is committed to attack Germany quickly, before its own concentration is finished.",
       "Its enemies are Germany in the north and Austria-Hungary in the south, and the front between the Baltic and the Carpathians is too long to be held everywhere.",
@@ -17833,7 +17401,7 @@ export const BRIEFINGS = {
     modes: { easy: "The Lee-Enfield", hard: "The Mark I" },
     title: "British Army and War Cabinet",
     side: "entente",
-    quote: { text: "The lamps are going out all over Europe; we shall not see them lit again in our lifetime.", by: "Sir Edward Grey", date: "3 August 1914" },
+    quote: { text: "The lamps are going out all over Europe; we shall not see them lit again in our lifetime.", by: "Sir Edward Grey" },
     standing: [
       "Britain declared war on Germany on 4 August, over the invasion of Belgium. Its strength is the fleet, its money and its empire. Its army is small, professional and spread across the world, and it has promised to send a force to fight beside the French.",
       "The government has no plan for a long war, and the country has never raised a mass army without conscription.",
@@ -17845,19 +17413,19 @@ export const BRIEFINGS = {
     modes: { easy: "The Skoda Mortar", hard: "The Horse-Drawn Gun" },
     title: "Austro-Hungarian Army High Command",
     side: "central",
-    quote: { text: "I have examined and weighed everything, and with a serene conscience I set out on the path to which my duty points.", by: "Emperor Franz Joseph", date: "28 July 1914" },
+    quote: { text: "I have examined and weighed everything, and with a serene conscience I set out on the path to which my duty points.", by: "Emperor Franz Joseph" },
     standing: [
       "The monarchy declared war on Serbia on 28 July, after the assassination at Sarajevo. Russia's mobilisation has made it a war on two fronts. The army is short of guns and railways for the war it has planned, and it is made up of soldiers of many nationalities who speak many languages.",
       "Its plan divides the army in three: a group for Serbia, a larger one in Galicia for Russia, and a swing force that can go to either. Everything depends on Germany keeping its promise to engage Russia.",
     ],
-    seat: "You hold the seat of the Chief of the General Staff, and Conrad von Hotzendorf sits in it. Six armies are mobilising: two for Serbia, three in Galicia against Russia, and the Second Army, which can go to either. The Emperor Franz Joseph, who is eighty-four, is above you, and the German ally beside you does not have the same war in mind.",
+    seat: "You hold the seat of the Chief of the General Staff, and Conrad von Hötzendorf sits in it. Six armies are mobilising: two for Serbia, three in Galicia against Russia, and the Second Army, which can go to either. The Emperor Franz Joseph, who is eighty-four, is above you, and the German ally beside you does not have the same war in mind.",
   },
   otto: {
     nation: "The Ottoman Empire",
     modes: { easy: "The Nusret", hard: "The Peabody-Martini" },
     title: "Ottoman General Staff",
     side: "central",
-    quote: { text: "I did not wish to condemn the ships of an allied State to certain destruction.", by: "Enver Pasha", date: "August 1914" },
+    quote: { text: "I did not wish to condemn the ships of an allied State to certain destruction.", by: "Enver Pasha" },
     standing: [
       "The empire has lost Libya and nearly all its European provinces in the wars of 1911 to 1913. It is poor, thinly industrialised, short of railways and short of trained officers. It has signed a secret alliance with Germany and is, for the moment, neutral.",
       "Two German warships, the Goeben and the Breslau, are at the mouth of the Dardanelles and have asked to be let in.",
@@ -17887,7 +17455,7 @@ export const HOW_TO = [
     id: "orders",
     title: "Orders and risk",
     paras: [
-      "Some orders do what they say. Others are contested: the result is rolled and the odds are shown in words. An outcome that begins Speculative is an alternative the game has modelled, not what happened.",
+      "Some orders do what they say. Others are contested: the result is rolled and the odds are shown in words. An outcome marked Not in the record is an alternative the game has modelled, not what happened.",
     ],
   },
   {
@@ -17901,7 +17469,7 @@ export const HOW_TO = [
     id: "modes",
     title: "Modes",
     paras: [
-      "Easy shows what each order does and lets you take back the last one. Hard adds a track for the pressure on the command. A file in progress is kept on this device.",
+      "Easy shows what each order does and lets you take back the last one. Hard adds a track for the pressure on the command, and a file in progress is kept on this device.",
     ],
   },
   {
@@ -18121,7 +17689,7 @@ export const INTEL_ITEMS = {
   ],
   otto_1914_03_sarikamis: [
     { id: "thin", grade: "doubtful", holds: false, relied: ["launch"], source: "Enver's own reading of the front",
-      text: "The Russian line round Sarikamis is thin and has no winter equipment.",
+      text: "The Russian line round Sarıkamış is thin and has no winter equipment.",
       truth: "The Russians had more men in the area than Enver reckoned, and a railway to bring up the rest. It was the Ottoman columns that had no winter clothing." },
   ],
   otto_1915_02_gallipoli: [
@@ -18581,8 +18149,8 @@ const css = `
   .dg-timeline span.on{color:var(--accent);font-weight:700;border-color:var(--accent);transform:rotate(-1.5deg);background:var(--paper)}
   .dg-node-date{display:inline-block;font-size:13px;letter-spacing:.24em;margin:0 0 10px;padding:2px 12px;border:2px solid var(--accent);color:var(--accent);
     font-weight:700;transform:rotate(-1.2deg);background:var(--paper)}
-  .dg-node-title{font-family:${THEME.serif};font-size:36px;font-weight:700;line-height:1.06;margin:0 0 18px;letter-spacing:-.01em}
-  .dg-prose{white-space:pre-wrap;font-size:15.5px;margin-bottom:18px}
+  .dg-node-title{font-family:${THEME.serif};font-size:32px;font-weight:700;line-height:1.06;margin:0 0 18px;letter-spacing:-.01em}
+  .dg-prose{white-space:pre-wrap;font-size:16px;margin-bottom:18px}
   .dg-lede::first-letter{float:left;font-family:${THEME.serif};font-size:3.3em;line-height:.82;font-weight:700;padding:.07em .1em 0 0;color:var(--accent)}
   .dg-order{font-size:12px;letter-spacing:.26em;font-weight:700;margin:26px 0 14px;text-transform:uppercase;display:flex;gap:12px;align-items:center;color:var(--accent)}
   .dg-order::after{content:"";flex:1;border-top:1px solid var(--accent);opacity:.55}
@@ -18594,14 +18162,14 @@ const css = `
   .dg-choice:hover:not(:disabled){background:var(--inverse);color:var(--paper);box-shadow:2px 3px 0 var(--accent)}
   .dg-choice:hover:not(:disabled)::before{color:var(--paper-raised)}
   .dg-choice:disabled{cursor:not-allowed;opacity:.5;box-shadow:none}
-  .dg-choice .lab{font-size:15.5px;margin-bottom:8px;font-weight:700}
+  .dg-choice .lab{font-size:16px;margin-bottom:8px;font-weight:700}
   .dg-quote{font-style:italic;font-size:13px;color:var(--ink-soft);border-top:1px dotted var(--ink-soft);padding-top:8px;margin-top:6px}
   .dg-root summary{list-style:none}
   .dg-root summary::-webkit-details-marker{display:none}
   .dg-map{display:block;width:100%;height:auto;border:1.5px solid var(--rule);background:var(--sea);margin:0;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4.5px var(--rule)}
   .dg-mapcard{margin:0 0 20px;box-shadow:2px 3px 0 rgba(28,26,23,.13)}
   .dg-maphead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 6px}
-  .dg-maphead .t{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+  .dg-maphead .t{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--accent)}
   .dg-sea{fill:var(--sea)}
   .dg-country{stroke:var(--ink-soft);stroke-width:.45;vector-effect:non-scaling-stroke;stroke-opacity:.55}
   .dg-side-cp{fill:var(--cp)}
@@ -18626,9 +18194,9 @@ const css = `
   .dg-swatch{display:inline-block;width:16px;height:11px;border:1px solid var(--ink-soft)}
   .dg-swatch-front{background:none;border:0;border-top:2.5px dashed var(--accent);height:0;width:20px}
   .dg-swatch-hq{border-radius:50%;width:11px;height:11px;border:2px solid var(--ink);background:none}
-  .dg-meanwhile{list-style:none;margin:0 0 12px;padding:0;font-size:12.5px}
+  .dg-meanwhile{list-style:none;margin:0 0 12px;padding:0;font-size:12px}
   .dg-meanwhile li{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-top:1px dotted var(--ink-soft)}
-  .dg-meanwhile b{font-family:${THEME.serif};font-size:15px}
+  .dg-meanwhile b{font-family:${THEME.serif};font-size:14px}
   @media (prefers-reduced-motion:no-preference){
     @keyframes dg-march{to{stroke-dashoffset:-22}}
     @keyframes dg-ping{0%{transform:scale(1);opacity:.45}100%{transform:scale(3.2);opacity:0}}
@@ -18637,15 +18205,15 @@ const css = `
   }
   .dg-attested{font-size:13px;margin-top:8px;color:var(--ink-soft)}
   .dg-attested cite{font-style:normal;font-size:12px}
-  .dg-attested-tag{display:inline-block;border:1px solid currentColor;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:1px 5px}
+  .dg-attested-tag{display:inline-block;border:1px solid currentColor;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:1px 5px}
   .dg-choice:hover:not(:disabled) .dg-quote,.dg-choice:hover:not(:disabled) .dg-attested{color:var(--paper-raised)}
   .dg-cost{display:inline-block;border:1px solid currentColor;font-size:10px;letter-spacing:.14em;padding:3px 7px;margin-bottom:8px}
 
   /* ---- the ledger of meters ---- */
-  .dg-meters{display:flex;gap:16px;border:1.5px solid var(--rule);padding:12px 14px 10px;margin-bottom:20px;font-size:10.5px;letter-spacing:.12em;
+  .dg-meters{display:flex;gap:16px;border:1.5px solid var(--rule);padding:12px 14px 10px;margin-bottom:20px;font-size:10px;letter-spacing:.12em;
     background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--rule)}
   .dg-meters>div{flex:1}
-  .dg-meters b{display:block;font-size:22px;font-family:${THEME.serif};line-height:1.2}
+  .dg-meters b{display:block;font-size:20px;font-family:${THEME.serif};line-height:1.2}
   .dg-meters .neg b{color:var(--accent)}
   .dg-meters .pos b{color:var(--good)}
   .dg-gauge{display:block;position:relative;height:7px;margin:3px 0 6px;border:1px solid var(--ink-soft);
@@ -18659,6 +18227,7 @@ const css = `
     padding:7px 14px;margin-bottom:16px;transform:rotate(-1.5deg);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px var(--accent);background:var(--paper)}
   .dg-badge-contested{border-style:double;border-width:5px;box-shadow:none}
   .dg-badge-speculative{border-style:dashed}
+  .dg-offrecord{display:inline-block;border:1px dashed var(--ink-soft);color:var(--ink-soft);text-transform:uppercase;font-size:10px;font-weight:700;letter-spacing:.14em;padding:2px 7px;margin:0 6px 8px 0}
   .dg-root h1:focus,.dg-root h2:focus{outline:none}
   .dg-note-box{border:1.5px solid var(--rule);padding:12px;margin:14px 0;background:rgba(255,255,255,.25)}
   .dg-note-box textarea{width:100%;box-sizing:border-box;font:inherit;font-size:12px;min-height:110px;background:var(--paper-raised);color:var(--ink);border:1px solid var(--rule)}
@@ -18686,7 +18255,7 @@ const css = `
   .dg-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
   .dg-tabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
   .dg-entry{border-top:1px solid var(--rule);padding:10px 0;font-size:13px}
-  .dg-entry .t{font-family:${THEME.serif};font-size:17px;font-weight:700}
+  .dg-entry .t{font-family:${THEME.serif};font-size:16px;font-weight:700}
   .dg-entry.locked{color:var(--ink-soft)}
   .dg-entry .meta{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
   .dg-count{font-size:11px;letter-spacing:.16em;color:var(--ink-soft);margin:0 0 6px;text-transform:uppercase}
@@ -18700,7 +18269,7 @@ const css = `
 
   /* ---- the report on your command ---- */
   .dg-rank{border:1.5px solid var(--rule);padding:16px 16px 12px;margin:22px 0;background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--rule),2px 3px 0 rgba(28,26,23,.13)}
-  .dg-rank h2{font-family:${THEME.serif};font-size:30px;margin:0 0 4px;color:var(--accent)}
+  .dg-rank h2{font-family:${THEME.serif};font-size:28px;margin:0 0 4px;color:var(--accent)}
   .dg-rank ul{list-style:none;margin:12px 0 0;padding:0;font-size:12px}
   .dg-rank li{display:flex;justify-content:space-between;gap:10px;border-top:1px dotted var(--ink-soft);padding:7px 0}
   .dg-rank li span.n{color:var(--ink-soft)}
@@ -18760,7 +18329,7 @@ const css = `
   .dg-envelope i{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--accent);border:2px solid var(--paper);box-shadow:0 0 0 2px var(--accent)}
   .dg-changes{list-style:none;margin:0 0 20px;padding:0;font-size:13px}
   .dg-changes li{border-top:1px dotted var(--ink-soft);padding:7px 0}
-  .dg-changes li b{display:inline-block;min-width:2.4em;font-family:${THEME.serif};font-size:17px}
+  .dg-changes li b{display:inline-block;min-width:2.4em;font-family:${THEME.serif};font-size:16px}
   .dg-changes li.neg b{color:var(--accent)}
   .dg-changes li.pos b{color:var(--good)}
   @media (prefers-reduced-motion:no-preference){
@@ -18772,7 +18341,7 @@ const css = `
   .dg-rec-card{border:1.5px solid var(--rule);padding:14px;margin:0 0 18px;background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--rule)}
   .dg-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 14px}
   .dg-tile{border:1px solid var(--ink-soft);padding:8px 6px;text-align:center;background:var(--paper)}
-  .dg-tile b{display:block;font-family:${THEME.serif};font-size:26px;line-height:1.1}
+  .dg-tile b{display:block;font-family:${THEME.serif};font-size:24px;line-height:1.1}
   .dg-tile small{font-size:13px;color:var(--ink-soft)}
   .dg-tile span{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
   @media (max-width:420px){.dg-tiles{grid-template-columns:repeat(2,1fr)}}
@@ -18780,14 +18349,14 @@ const css = `
   .dg-rec-bar b{text-align:right}
   .dg-rec-cmd{border:1.5px solid var(--rule);border-left:8px solid var(--accent);padding:12px 14px;margin:0 0 14px;background:rgba(255,255,255,.28);box-shadow:2px 3px 0 rgba(28,26,23,.12)}
   .dg-cmd-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
-  .dg-cmd-head .t{font-family:${THEME.serif};font-size:19px;font-weight:700;line-height:1.15}
+  .dg-cmd-head .t{font-family:${THEME.serif};font-size:20px;font-weight:700;line-height:1.15}
   .dg-cmd-head .meta{font-size:11px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase}
   .dg-seal{flex:none;border:2px solid var(--accent);color:var(--accent);font-size:10px;font-weight:700;letter-spacing:.12em;padding:5px 7px;transform:rotate(-4deg);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3px var(--accent)}
   .dg-cmd-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:8px;padding-top:8px;border-top:1px dotted var(--ink-soft);font-size:12px;color:var(--ink-soft)}
   .dg-avatar{display:inline-flex;align-items:center;justify-content:center;flex:none;width:38px;height:38px;border-radius:50%;margin-right:10px;border:2px solid var(--accent);
-    background:radial-gradient(circle at 35% 30%,var(--paper),var(--paper-raised));color:var(--accent);font-family:${THEME.serif};font-weight:700;font-size:15px;box-shadow:inset 0 0 0 2px var(--paper)}
+    background:radial-gradient(circle at 35% 30%,var(--paper),var(--paper-raised));color:var(--accent);font-family:${THEME.serif};font-weight:700;font-size:14px;box-shadow:inset 0 0 0 2px var(--paper)}
   .dg-avatar.shut{border-style:dashed;color:var(--ink-soft);border-color:var(--ink-soft)}
-  .dg-mw-ctx{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
+  .dg-mw-ctx{display:block;font-size:12px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
   #root{position:relative}
   .dg-read{margin:0 0 14px}
   .dg-agreed{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
@@ -18803,13 +18372,13 @@ const css = `
   .dg-endings{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 0 14px}
   @media (max-width:420px){.dg-endings{grid-template-columns:1fr}}
   .dg-ending{border:2px solid var(--accent);padding:10px 12px;background:var(--paper);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3px var(--accent);min-height:76px}
-  .dg-ending .t{font-family:${THEME.serif};font-size:17px;font-weight:700;line-height:1.2;margin-top:2px}
+  .dg-ending .t{font-family:${THEME.serif};font-size:16px;font-weight:700;line-height:1.2;margin-top:2px}
   .dg-ending .meta{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
   .dg-ending.dg-badge-contested{border-style:double;border-width:5px;box-shadow:none}
   .dg-ending.dg-badge-speculative{border-style:dashed}
   .dg-ending.locked{border:1.5px dashed var(--ink-soft);box-shadow:none;background:none}
   .dg-ending.locked .meta{color:var(--ink-soft)}
-  .dg-ending.locked .t{color:var(--ink-soft);font-size:26px;opacity:.5}
+  .dg-ending.locked .t{color:var(--ink-soft);font-size:24px;opacity:.5}
   .dg-battle{border-left:6px solid var(--accent);padding-left:12px}
   .dg-battle-grade b{text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
 
@@ -18839,11 +18408,11 @@ const css = `
   @media (orientation:landscape) and (max-height:480px){.dg-modal-inner{max-height:96vh}.dg-node-title{font-size:28px}}
 
   /* ---- text sizes ---- */
-  .dg-fs-m .dg-prose,.dg-fs-m .dg-choice .lab{font-size:17px}
-  .dg-fs-m .dg-bulletin,.dg-fs-m .dg-quote,.dg-fs-m .dg-entry,.dg-fs-m .dg-banner p{font-size:15px}
-  .dg-fs-l .dg-prose,.dg-fs-l .dg-choice .lab{font-size:19px}
-  .dg-fs-l .dg-bulletin,.dg-fs-l .dg-quote,.dg-fs-l .dg-entry,.dg-fs-l .dg-banner p{font-size:17px}
-  @media (max-width:420px){.dg-title{font-size:40px}.dg-node-title{font-size:30px}.dg-meters{gap:10px}.dg-meters b{font-size:19px}}
+  .dg-fs-m .dg-prose,.dg-fs-m .dg-choice .lab{font-size:16px}
+  .dg-fs-m .dg-bulletin,.dg-fs-m .dg-quote,.dg-fs-m .dg-entry,.dg-fs-m .dg-banner p{font-size:14px}
+  .dg-fs-l .dg-prose,.dg-fs-l .dg-choice .lab{font-size:20px}
+  .dg-fs-l .dg-bulletin,.dg-fs-l .dg-quote,.dg-fs-l .dg-entry,.dg-fs-l .dg-banner p{font-size:16px}
+  @media (max-width:420px){.dg-title{font-size:40px}.dg-node-title{font-size:28px}.dg-meters{gap:10px}.dg-meters b{font-size:20px}}
 
   /* ---- a stamp comes down on an ending, and an order is signed ---- */
   @media (prefers-reduced-motion:no-preference){
@@ -18860,13 +18429,13 @@ const css = `
   .dg-share{margin:26px 0}
   .dg-sharecard{border:2px solid var(--rule);background:var(--paper-raised);padding:18px 18px 14px;text-align:center}
   .dg-sc-top{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft)}
-  .dg-sc-cmd{margin-top:8px;font-size:15px;color:var(--ink-soft)}
-  .dg-sc-end{font-family:${THEME.serif};font-size:30px;font-weight:700;line-height:1.1;margin:6px 0 8px}
+  .dg-sc-cmd{margin-top:8px;font-size:14px;color:var(--ink-soft)}
+  .dg-sc-end{font-family:${THEME.serif};font-size:28px;font-weight:700;line-height:1.1;margin:6px 0 8px}
   .dg-sc-badge{display:inline-block;border:2px solid var(--accent);color:var(--accent);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:3px 10px}
   .dg-sc-rank{margin-top:12px;font-size:14px}
-  .dg-sc-rank b{display:block;font-size:22px;font-family:${THEME.serif}}
+  .dg-sc-rank b{display:block;font-size:20px;font-family:${THEME.serif}}
   .dg-sc-facts{font-size:14px;margin:12px 0 0}
-  .dg-sc-h{margin-top:12px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-sc-h{margin-top:12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
   .dg-sc-list{list-style:none;margin:6px 0 0;padding:0;font-size:14px;text-align:left}
   .dg-sc-list li{padding:6px 0;border-top:1px dotted var(--ink-soft)}
   .dg-share-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
@@ -18880,29 +18449,29 @@ const css = `
 
   /* ---- the question, the steps of a battle plan, the verdict ---- */
   .dg-ask{border-left:4px solid var(--accent);padding:2px 0 2px 12px;margin:0 0 16px;font-size:16px}
-  .dg-ask b{display:block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+  .dg-ask b{display:block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
   .dg-jump{display:block;margin-top:6px;background:none;border:0;border-bottom:1px solid currentColor;padding:6px 0;font:inherit;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:inherit;cursor:pointer;min-height:44px}
   .dg-steps{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:6px}
   .dg-step{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:none;border:1.5px solid var(--rule);padding:10px 12px;font:inherit;color:inherit;cursor:pointer;min-height:44px}
   .dg-steps .now .dg-step{background:var(--ink);color:var(--paper)}
   .dg-step-n{flex:none;width:28px;height:28px;border:1.5px solid currentColor;border-radius:50%;display:grid;place-items:center;font-weight:700}
   .dg-step-t b{display:block;font-size:14px}
-  .dg-step-t small{display:block;font-size:12.5px;opacity:.85}
+  .dg-step-t small{display:block;font-size:12px;opacity:.85}
   .dg-bt-bar{position:sticky;bottom:0;z-index:5;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--paper);border-top:2px solid var(--rule);padding:10px 14px;margin:18px -20px 0}
-  .dg-bt-stat{display:flex;flex-direction:column;font-size:12.5px}
-  .dg-bt-k{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-bt-stat{display:flex;flex-direction:column;font-size:12px}
+  .dg-bt-k{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
   .dg-bt-stat b{font-size:16px}
   .dg-bt-stat small{font-size:12px;color:var(--ink-soft)}
   .dg-bt-bar .dg-issue{margin:0;width:auto}
   @media (max-width:480px){.dg-bt-bar{grid-template-columns:1fr 1fr}.dg-bt-bar>:last-child{grid-column:1 / -1}}
   .dg-verdict{margin:0 0 18px}
-  .dg-kind{display:inline-block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;border:1.5px solid var(--ink-soft);padding:2px 8px;color:var(--ink-soft)}
-  .dg-verdict-h{font-family:${THEME.serif};font-size:26px;line-height:1.15;margin:10px 0 12px}
+  .dg-kind{display:inline-block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;border:1.5px solid var(--ink-soft);padding:2px 8px;color:var(--ink-soft)}
+  .dg-verdict-h{font-family:${THEME.serif};font-size:24px;line-height:1.15;margin:10px 0 12px}
   .dg-chips{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
   .dg-chips li{border:1.5px solid var(--ink-soft);padding:6px 10px;font-size:13px;display:flex;gap:8px;align-items:baseline}
-  .dg-chips li b{font-size:17px;font-family:${THEME.serif}}
+  .dg-chips li b{font-size:16px;font-family:${THEME.serif}}
   .dg-chips li.neg{border-color:var(--accent)}
-  .dg-grade{margin:0;font-size:13.5px;color:var(--ink-soft)}
+  .dg-grade{margin:0;font-size:13px;color:var(--ink-soft)}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
   /* ---- the Sepia look, over everything above ---- */
@@ -18919,10 +18488,10 @@ const css = `
   .dg-cmd-seal{flex:none;width:58px;height:58px;box-sizing:border-box;display:grid;place-items:center;border:2px solid var(--ink);font-weight:700;font-size:12px;
     letter-spacing:.04em;text-align:center;margin-top:4px;transform:rotate(-3deg)}
   .dg-cmd-body{display:flex;flex-direction:column;gap:3px;min-width:0}
-  .dg-cmd-nation{font-family:${THEME.serif};font-size:27px;font-weight:700;line-height:1.1}
+  .dg-cmd-nation{font-family:${THEME.serif};font-size:28px;font-weight:700;line-height:1.1}
   .dg-cmd-name{font-size:14px;font-weight:700}
   .dg-cmd-native{font-size:12px;color:var(--ink-soft);font-style:italic}
-  .dg-cmd-quote{font-size:14.5px;font-style:italic;margin-top:6px;line-height:1.5}
+  .dg-cmd-quote{font-size:14px;font-style:italic;margin-top:6px;line-height:1.5}
   .dg-cmd-seal.long{font-size:10px;letter-spacing:0;white-space:nowrap}
   .dg-cmd-qdate{display:block;text-transform:none;letter-spacing:.02em;font-size:11px;margin-top:1px}
   .dg-sub-by{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:-6px 0 14px}
@@ -18934,7 +18503,7 @@ const css = `
   .dg-nav{display:flex;flex-direction:column;gap:10px}
   .dg-navbtn{display:flex;flex-direction:column;gap:2px;text-align:left;font:inherit;color:inherit;background:none;border:1.5px solid var(--rule);padding:12px 14px;min-height:44px;cursor:pointer}
   .dg-navbtn b{font-size:14px;letter-spacing:.12em;text-transform:uppercase}
-  .dg-navbtn span{font-size:12.5px;color:var(--ink-soft)}
+  .dg-navbtn span{font-size:12px;color:var(--ink-soft)}
   .dg-navbtn:hover{outline:3px solid var(--ink);outline-offset:-3px}
   .dg-brief{margin:0 0 12px}
   .dg-go{display:block;width:100%;margin-top:18px;padding:14px;font-size:13px;background:var(--ink);color:var(--paper)}
@@ -18950,7 +18519,7 @@ const css = `
     font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-align:center;cursor:pointer;min-height:44px}
   .dg-sw:hover{outline:3px solid var(--ink-soft);outline-offset:-3px}
   .dg-sw[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:-3px}
-  .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:18px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
+  .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:16px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
   .dg-fixed{border:1.5px dashed var(--rule);padding:10px 12px;margin:0}
 
   /* ---- ground held or lost against the record, on the map and in its list ---- */
@@ -18974,13 +18543,13 @@ const css = `
 
   /* ---- a newspaper special ---- */
   .dg-paper{position:relative;border:1px solid var(--rule);background:linear-gradient(90deg,rgba(60,40,10,.10),rgba(60,40,10,0) 5%,rgba(60,40,10,0) 95%,rgba(60,40,10,.12)),var(--paper-raised);padding:16px 18px 10px;margin:6px 0 18px;box-shadow:3px 4px 0 rgba(28,26,23,.18);color:var(--ink)}
-  .dg-paper-mast{font-family:${THEME.serif};font-size:36px;font-weight:700;text-align:center;line-height:1.05;letter-spacing:.03em;text-transform:uppercase;padding-bottom:8px;border-bottom:4px double var(--ink)}
+  .dg-paper-mast{font-family:${THEME.serif};font-size:32px;font-weight:700;text-align:center;line-height:1.05;letter-spacing:.03em;text-transform:uppercase;padding-bottom:8px;border-bottom:4px double var(--ink)}
   .dg-paper-mast.de{font-family:"Old English Text MT","UnifrakturCook","Luminari",${THEME.serif};text-transform:none;font-size:40px;letter-spacing:0}
   .dg-paper-mast.fr{font-style:italic;text-transform:none;font-size:40px}
   .dg-paper-date{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);padding:6px 0;border-bottom:1.5px solid var(--rule)}
   .dg-paper-title{font-family:${THEME.serif};font-size:32px;font-weight:700;line-height:1.08;margin:12px 0 4px;letter-spacing:-.01em}
   .dg-paper-by{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;padding-bottom:8px;border-bottom:1.5px solid var(--rule)}
-  .dg-paper-cols p{margin:0 0 10px;font-family:${THEME.serif};font-size:15.5px;line-height:1.5;text-align:justify;hyphens:auto}
+  .dg-paper-cols p{margin:0 0 10px;font-family:${THEME.serif};font-size:16px;line-height:1.5;text-align:justify;hyphens:auto}
   .dg-paper-first::first-letter{font-family:${THEME.serif};float:left;font-size:3.1em;line-height:.85;padding:4px 6px 0 0;font-weight:700}
   .dg-paper-foot{font-size:11px;font-style:italic;color:var(--ink-soft);text-align:center;margin:6px 0 4px;padding-top:6px;border-top:1px dotted var(--ink-soft)}
   @media (min-width:720px){.dg-paper-cols{column-count:2;column-gap:26px;column-rule:1px solid var(--rule)}.dg-paper-cols p{break-inside:avoid-column}}
@@ -18997,11 +18566,11 @@ const css = `
   .dg-sk-counter{fill:var(--accent);stroke:var(--ink);stroke-width:1;cursor:pointer}
   .dg-sk-hit{fill:transparent;cursor:pointer}
   .dg-cond{display:flex;flex-wrap:wrap;gap:2px 14px;list-style:none;margin:0 0 12px;padding:0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
-  .dg-cond-guns{flex-basis:100%;text-transform:none;letter-spacing:.02em;font-size:12.5px;color:var(--ink)}
-  .dg-bel-src{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+  .dg-cond-guns{flex-basis:100%;text-transform:none;letter-spacing:.02em;font-size:12px;color:var(--ink)}
+  .dg-bel-src{display:block;font-size:11px;color:var(--ink-soft);margin-top:2px}
   .dg-sk-num{font-size:13px;font-weight:700;fill:var(--ink)}
   .dg-bul-n{display:inline-block;min-width:16px;text-align:center;font-size:10px;font-weight:700;border:1px solid var(--ink-soft);margin-right:4px}
-  .dg-sk-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;fill:var(--ink-soft)}
+  .dg-sk-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;fill:var(--ink-soft)}
   .dg-stage{margin:0 0 14px}
   .dg-stage-h{font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin:6px 0 6px;color:var(--accent)}
   .dg-bulletins{list-style:none;margin:0;padding:0}
@@ -19035,10 +18604,10 @@ const css = `
   .dg-strip-maps figcaption{font-size:12px;color:var(--ink-soft);margin-top:4px}
   @media (max-width:640px){.dg-strip-maps{grid-template-columns:1fr}}
   .dg-strip-h{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:18px 0 8px}
-  .dg-strip-list{margin:0;padding-left:20px;font-size:13.5px}
+  .dg-strip-list{margin:0;padding-left:20px;font-size:13px}
   .dg-strip-list li{margin:0 0 7px}
   .dg-strip-list .d{color:var(--ink-soft);font-size:12px}
-  .dg-strip-staff{margin:0;padding-left:18px;font-size:13.5px}
+  .dg-strip-staff{margin:0;padding-left:18px;font-size:13px}
 
   /* ---- the orders on the map ---- */
   .dg-op{fill:none;stroke:currentColor;stroke-linecap:round}
@@ -19058,7 +18627,7 @@ const css = `
   .dg-intel{margin:0 0 6px}
   .dg-bel{list-style:none;margin:0 0 8px;padding:0}
   .dg-bel li{border-top:1px dotted var(--ink-soft);padding:10px 0;font-size:14px}
-  .dg-gtag{display:inline-block;border:1.5px solid var(--ink-soft);padding:1px 8px;margin-right:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-gtag{display:inline-block;border:1.5px solid var(--ink-soft);padding:1px 8px;margin-right:8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
   .dg-g-firm{border-color:var(--ink);color:var(--ink)}
   .dg-fogtag{font-weight:400;letter-spacing:.02em;text-transform:none}
   .dg-rests{display:block;font-size:12px;color:var(--ink-soft);font-style:italic;margin:0 0 8px}
@@ -19193,7 +18762,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow">
         <span>{c.docLabel}</span>
-        <button className="dg-btn" onClick={onHome}>Home</button>
+        <button className="dg-btn" onClick={onHome}>Menu</button>
       </div>
       <div className="dg-timeline">
         {years.map((y) => (
@@ -19225,7 +18794,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </figure>
       ) : node.bulletin && typeof node.bulletin === "object" && (
         <div className="dg-bulletin">
-          <div className="h">{node.bulletin.source} · {node.bulletin.date}</div>
+          <div className="h">{node.bulletin.source} · {/^\d{4}-\d\d(-\d\d)?$/.test(node.bulletin.date) ? ukDate(node.bulletin.date) : node.bulletin.date}</div>
           {node.bulletin.text}
         </div>
       )}
@@ -19245,7 +18814,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           <FileStrip campaignId={campaignId} endingId={nodeId} flags={flags} taken={taken || []} hard={hardState.enabled} />
           {rank && <ShareCard campaignId={campaignId} endingId={nodeId} rank={rank} taken={taken || []} flags={flags || {}} mode={mode} />}
           {DEMO && <p><a className="dg-btn dg-go dg-link" href={FULL_GAME_URL} target="_blank" rel="noopener noreferrer">Play the other five commands in the full game</a></p>}
-          <button className="dg-btn" onClick={onHome}>Return to file</button>
+          <button className="dg-btn" onClick={onHome}>Menu</button>
         </>
       ) : (
         <>
@@ -19341,6 +18910,7 @@ function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, he
           {node && node.city && mapFor(campaignId).cities[node.city] && mapOpsFor(nodeId, orderId).length > 0 && (
             <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} flags={flags} />
           )}
+          {speculative && <p style={{ margin: "0 0 4px" }}><span className="dg-offrecord">Not in the record</span></p>}
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
           {battle && <BattleReport battle={battle} />}
@@ -19394,7 +18964,7 @@ function RecordScreen({ record, onBack }) {
     <main {...rootProps(null, "record")}>
       <div className="dg-docrow">
         <h1 style={{ margin: 0, font: "inherit" }}>WAR RECORD</h1>
-        <button className="dg-btn" onClick={onBack}>Return to file</button>
+        <button className="dg-btn" onClick={onBack}>Menu</button>
       </div>
       <div className="dg-tabs" role="group" aria-label="Record sections">
         {TABS.map(([id, label]) => (
@@ -19836,7 +19406,7 @@ export default function App() {
           <div className="dg-draft">
             Node "{String(nodeId)}" does not resolve. This is a routing bug, not a dead end by design.
           </div>
-          <button className="dg-btn" onClick={home}>Home</button>
+          <button className="dg-btn" onClick={home}>Menu</button>
         </main>
       )}
     </div>
@@ -19959,7 +19529,7 @@ function BriefingScreen({ campaignId, mode, onMode, signals, onSignals, press, o
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow">
         <span>{c.docLabel}</span>
-        <button className="dg-btn" onClick={onBack}>Back to the commands</button>
+        <button className="dg-btn" onClick={onBack}>Back</button>
       </div>
       <h1 className="dg-title dg-title-sm">{b.nation}</h1>
       <p className="dg-sub">{b.title} · {nodeDate(campaignId, c.span.from)}</p>
@@ -20237,7 +19807,7 @@ function SettingsScreen({ settings, onSettings, onBack, onHowTo }) {
 // One event, shown once between two reports (src/67-events.jsx). It has its own screen so that it reads as news from outside the war room and
 // not as another decision: the date, a title, two short paragraphs, and a button back to the file. A paper's front page is set as the paper would set it: a
 // masthead, a dateline with the weekday in the paper's language, a headline, a line saying whom it is from, two justified columns and a drop capital. The page says
-// at its foot, in small type, that it comes from the file and not from the record.
+// at its foot, in small type, that it is not in the record.
 
 const PAPER_LANG = {
   "Le Temps": "fr", "Le Matin": "fr", "Le Figaro": "fr",
@@ -20288,7 +19858,7 @@ function EventScreen({ campaignId, event, onContinue }) {
           <div className="dg-paper-cols">
             {paras.map((p, i) => <p key={i} className={i === 0 ? "dg-paper-first" : ""}>{p}</p>)}
           </div>
-          <p className="dg-paper-foot">A page from your file, not from the record.</p>
+          <p className="dg-paper-foot"><span className="dg-offrecord">Not in the record</span></p>
         </article>
       ) : (
         <>
@@ -20457,7 +20027,7 @@ function FileStrip({ campaignId, endingId, flags, taken, hard }) {
       {ground.length > 0 && (
         <ul className="dg-groundlist" aria-label="Ground against the record">
           {ground.map((g) => (
-            <li key={g.id} className={"dg-ground-" + g.kind}><b>{g.kind === "gained" ? "Held or taken" : "Lost or not taken"}: {g.name}.</b> Speculative. {g.text}</li>
+            <li key={g.id} className={"dg-ground-" + g.kind}><b>{g.kind === "gained" ? "Held or taken" : "Lost or not taken"}: {g.name}.</b> <span className="dg-offrecord">Not in the record</span> {g.text}</li>
           ))}
         </ul>
       )}
@@ -20710,7 +20280,7 @@ function BattleScreen({ campaignId, config, choice, meters, easy, forcePostureId
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow">
         <span>ORDER OF BATTLE</span>
-        <button className="dg-btn" onClick={onBack}>Back to the order</button>
+        <button className="dg-btn" onClick={onBack}>Back</button>
       </div>
       <h1 className="dg-node-title">{config.title}</h1>
       <p className="dg-ask"><b>The task.</b> Plan the battle in {steps.length} {steps.length === 1 ? "step" : "steps"}, or let the staff plan it and change what you like.</p>
@@ -21212,7 +20782,7 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
           <div className="dg-modal-inner">
             <div className="dg-maphead">
               <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
-              <button ref={closer} className="dg-btn" onClick={() => setOpen(false)}>Close the map</button>
+              <button ref={closer} className="dg-btn" onClick={() => setOpen(false)}>Close</button>
             </div>
             <MapCanvas campaignId={campaignId} node={node} visited={visited} full pins={meanwhile} ops={ops} ground={ground} />
             {meanwhile.length > 0 && (
@@ -21241,7 +20811,7 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
                 <h2 className="dg-order">Your file against the record</h2>
                 <ul className="dg-groundlist">
                   {ground.map((g) => (
-                    <li key={g.id} className={"dg-ground-" + g.kind}><b>{g.kind === "gained" ? "Held or taken" : "Lost or not taken"}: {g.name}.</b> Speculative. {g.text}</li>
+                    <li key={g.id} className={"dg-ground-" + g.kind}><b>{g.kind === "gained" ? "Held or taken" : "Lost or not taken"}: {g.name}.</b> <span className="dg-offrecord">Not in the record</span> {g.text}</li>
                   ))}
                 </ul>
               </>

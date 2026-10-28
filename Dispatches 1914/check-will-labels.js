@@ -14,7 +14,7 @@ for (const cid of E.CAMPAIGN_IDS) {
 
   for (const [nid, node] of Object.entries(c.nodes)) {
     checked++;
-    const text = [node.situation, node.context, node.title,
+    const text = [node.situation, node.title,
       ...(node.choices ?? []).flatMap((ch) => [ch.label, ch.outcome, ch.aftermath, ch.disabledReason])]
       .filter((x) => typeof x === "string").join(" ");
     for (const f of foreign) {

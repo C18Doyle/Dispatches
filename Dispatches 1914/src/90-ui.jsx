@@ -94,8 +94,8 @@ const css = `
   .dg-timeline span.on{color:var(--accent);font-weight:700;border-color:var(--accent);transform:rotate(-1.5deg);background:var(--paper)}
   .dg-node-date{display:inline-block;font-size:13px;letter-spacing:.24em;margin:0 0 10px;padding:2px 12px;border:2px solid var(--accent);color:var(--accent);
     font-weight:700;transform:rotate(-1.2deg);background:var(--paper)}
-  .dg-node-title{font-family:${THEME.serif};font-size:36px;font-weight:700;line-height:1.06;margin:0 0 18px;letter-spacing:-.01em}
-  .dg-prose{white-space:pre-wrap;font-size:15.5px;margin-bottom:18px}
+  .dg-node-title{font-family:${THEME.serif};font-size:32px;font-weight:700;line-height:1.06;margin:0 0 18px;letter-spacing:-.01em}
+  .dg-prose{white-space:pre-wrap;font-size:16px;margin-bottom:18px}
   .dg-lede::first-letter{float:left;font-family:${THEME.serif};font-size:3.3em;line-height:.82;font-weight:700;padding:.07em .1em 0 0;color:var(--accent)}
   .dg-order{font-size:12px;letter-spacing:.26em;font-weight:700;margin:26px 0 14px;text-transform:uppercase;display:flex;gap:12px;align-items:center;color:var(--accent)}
   .dg-order::after{content:"";flex:1;border-top:1px solid var(--accent);opacity:.55}
@@ -107,14 +107,14 @@ const css = `
   .dg-choice:hover:not(:disabled){background:var(--inverse);color:var(--paper);box-shadow:2px 3px 0 var(--accent)}
   .dg-choice:hover:not(:disabled)::before{color:var(--paper-raised)}
   .dg-choice:disabled{cursor:not-allowed;opacity:.5;box-shadow:none}
-  .dg-choice .lab{font-size:15.5px;margin-bottom:8px;font-weight:700}
+  .dg-choice .lab{font-size:16px;margin-bottom:8px;font-weight:700}
   .dg-quote{font-style:italic;font-size:13px;color:var(--ink-soft);border-top:1px dotted var(--ink-soft);padding-top:8px;margin-top:6px}
   .dg-root summary{list-style:none}
   .dg-root summary::-webkit-details-marker{display:none}
   .dg-map{display:block;width:100%;height:auto;border:1.5px solid var(--rule);background:var(--sea);margin:0;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4.5px var(--rule)}
   .dg-mapcard{margin:0 0 20px;box-shadow:2px 3px 0 rgba(28,26,23,.13)}
   .dg-maphead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 6px}
-  .dg-maphead .t{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+  .dg-maphead .t{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--accent)}
   .dg-sea{fill:var(--sea)}
   .dg-country{stroke:var(--ink-soft);stroke-width:.45;vector-effect:non-scaling-stroke;stroke-opacity:.55}
   .dg-side-cp{fill:var(--cp)}
@@ -139,9 +139,9 @@ const css = `
   .dg-swatch{display:inline-block;width:16px;height:11px;border:1px solid var(--ink-soft)}
   .dg-swatch-front{background:none;border:0;border-top:2.5px dashed var(--accent);height:0;width:20px}
   .dg-swatch-hq{border-radius:50%;width:11px;height:11px;border:2px solid var(--ink);background:none}
-  .dg-meanwhile{list-style:none;margin:0 0 12px;padding:0;font-size:12.5px}
+  .dg-meanwhile{list-style:none;margin:0 0 12px;padding:0;font-size:12px}
   .dg-meanwhile li{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-top:1px dotted var(--ink-soft)}
-  .dg-meanwhile b{font-family:${THEME.serif};font-size:15px}
+  .dg-meanwhile b{font-family:${THEME.serif};font-size:14px}
   @media (prefers-reduced-motion:no-preference){
     @keyframes dg-march{to{stroke-dashoffset:-22}}
     @keyframes dg-ping{0%{transform:scale(1);opacity:.45}100%{transform:scale(3.2);opacity:0}}
@@ -150,15 +150,15 @@ const css = `
   }
   .dg-attested{font-size:13px;margin-top:8px;color:var(--ink-soft)}
   .dg-attested cite{font-style:normal;font-size:12px}
-  .dg-attested-tag{display:inline-block;border:1px solid currentColor;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:1px 5px}
+  .dg-attested-tag{display:inline-block;border:1px solid currentColor;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:1px 5px}
   .dg-choice:hover:not(:disabled) .dg-quote,.dg-choice:hover:not(:disabled) .dg-attested{color:var(--paper-raised)}
   .dg-cost{display:inline-block;border:1px solid currentColor;font-size:10px;letter-spacing:.14em;padding:3px 7px;margin-bottom:8px}
 
   /* ---- the ledger of meters ---- */
-  .dg-meters{display:flex;gap:16px;border:1.5px solid var(--rule);padding:12px 14px 10px;margin-bottom:20px;font-size:10.5px;letter-spacing:.12em;
+  .dg-meters{display:flex;gap:16px;border:1.5px solid var(--rule);padding:12px 14px 10px;margin-bottom:20px;font-size:10px;letter-spacing:.12em;
     background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--rule)}
   .dg-meters>div{flex:1}
-  .dg-meters b{display:block;font-size:22px;font-family:${THEME.serif};line-height:1.2}
+  .dg-meters b{display:block;font-size:20px;font-family:${THEME.serif};line-height:1.2}
   .dg-meters .neg b{color:var(--accent)}
   .dg-meters .pos b{color:var(--good)}
   .dg-gauge{display:block;position:relative;height:7px;margin:3px 0 6px;border:1px solid var(--ink-soft);
@@ -172,6 +172,7 @@ const css = `
     padding:7px 14px;margin-bottom:16px;transform:rotate(-1.5deg);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px var(--accent);background:var(--paper)}
   .dg-badge-contested{border-style:double;border-width:5px;box-shadow:none}
   .dg-badge-speculative{border-style:dashed}
+  .dg-offrecord{display:inline-block;border:1px dashed var(--ink-soft);color:var(--ink-soft);text-transform:uppercase;font-size:10px;font-weight:700;letter-spacing:.14em;padding:2px 7px;margin:0 6px 8px 0}
   .dg-root h1:focus,.dg-root h2:focus{outline:none}
   .dg-note-box{border:1.5px solid var(--rule);padding:12px;margin:14px 0;background:rgba(255,255,255,.25)}
   .dg-note-box textarea{width:100%;box-sizing:border-box;font:inherit;font-size:12px;min-height:110px;background:var(--paper-raised);color:var(--ink);border:1px solid var(--rule)}
@@ -199,7 +200,7 @@ const css = `
   .dg-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
   .dg-tabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
   .dg-entry{border-top:1px solid var(--rule);padding:10px 0;font-size:13px}
-  .dg-entry .t{font-family:${THEME.serif};font-size:17px;font-weight:700}
+  .dg-entry .t{font-family:${THEME.serif};font-size:16px;font-weight:700}
   .dg-entry.locked{color:var(--ink-soft)}
   .dg-entry .meta{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
   .dg-count{font-size:11px;letter-spacing:.16em;color:var(--ink-soft);margin:0 0 6px;text-transform:uppercase}
@@ -213,7 +214,7 @@ const css = `
 
   /* ---- the report on your command ---- */
   .dg-rank{border:1.5px solid var(--rule);padding:16px 16px 12px;margin:22px 0;background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--rule),2px 3px 0 rgba(28,26,23,.13)}
-  .dg-rank h2{font-family:${THEME.serif};font-size:30px;margin:0 0 4px;color:var(--accent)}
+  .dg-rank h2{font-family:${THEME.serif};font-size:28px;margin:0 0 4px;color:var(--accent)}
   .dg-rank ul{list-style:none;margin:12px 0 0;padding:0;font-size:12px}
   .dg-rank li{display:flex;justify-content:space-between;gap:10px;border-top:1px dotted var(--ink-soft);padding:7px 0}
   .dg-rank li span.n{color:var(--ink-soft)}
@@ -273,7 +274,7 @@ const css = `
   .dg-envelope i{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--accent);border:2px solid var(--paper);box-shadow:0 0 0 2px var(--accent)}
   .dg-changes{list-style:none;margin:0 0 20px;padding:0;font-size:13px}
   .dg-changes li{border-top:1px dotted var(--ink-soft);padding:7px 0}
-  .dg-changes li b{display:inline-block;min-width:2.4em;font-family:${THEME.serif};font-size:17px}
+  .dg-changes li b{display:inline-block;min-width:2.4em;font-family:${THEME.serif};font-size:16px}
   .dg-changes li.neg b{color:var(--accent)}
   .dg-changes li.pos b{color:var(--good)}
   @media (prefers-reduced-motion:no-preference){
@@ -285,7 +286,7 @@ const css = `
   .dg-rec-card{border:1.5px solid var(--rule);padding:14px;margin:0 0 18px;background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--rule)}
   .dg-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 14px}
   .dg-tile{border:1px solid var(--ink-soft);padding:8px 6px;text-align:center;background:var(--paper)}
-  .dg-tile b{display:block;font-family:${THEME.serif};font-size:26px;line-height:1.1}
+  .dg-tile b{display:block;font-family:${THEME.serif};font-size:24px;line-height:1.1}
   .dg-tile small{font-size:13px;color:var(--ink-soft)}
   .dg-tile span{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
   @media (max-width:420px){.dg-tiles{grid-template-columns:repeat(2,1fr)}}
@@ -293,14 +294,14 @@ const css = `
   .dg-rec-bar b{text-align:right}
   .dg-rec-cmd{border:1.5px solid var(--rule);border-left:8px solid var(--accent);padding:12px 14px;margin:0 0 14px;background:rgba(255,255,255,.28);box-shadow:2px 3px 0 rgba(28,26,23,.12)}
   .dg-cmd-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
-  .dg-cmd-head .t{font-family:${THEME.serif};font-size:19px;font-weight:700;line-height:1.15}
+  .dg-cmd-head .t{font-family:${THEME.serif};font-size:20px;font-weight:700;line-height:1.15}
   .dg-cmd-head .meta{font-size:11px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase}
   .dg-seal{flex:none;border:2px solid var(--accent);color:var(--accent);font-size:10px;font-weight:700;letter-spacing:.12em;padding:5px 7px;transform:rotate(-4deg);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3px var(--accent)}
   .dg-cmd-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:8px;padding-top:8px;border-top:1px dotted var(--ink-soft);font-size:12px;color:var(--ink-soft)}
   .dg-avatar{display:inline-flex;align-items:center;justify-content:center;flex:none;width:38px;height:38px;border-radius:50%;margin-right:10px;border:2px solid var(--accent);
-    background:radial-gradient(circle at 35% 30%,var(--paper),var(--paper-raised));color:var(--accent);font-family:${THEME.serif};font-weight:700;font-size:15px;box-shadow:inset 0 0 0 2px var(--paper)}
+    background:radial-gradient(circle at 35% 30%,var(--paper),var(--paper-raised));color:var(--accent);font-family:${THEME.serif};font-weight:700;font-size:14px;box-shadow:inset 0 0 0 2px var(--paper)}
   .dg-avatar.shut{border-style:dashed;color:var(--ink-soft);border-color:var(--ink-soft)}
-  .dg-mw-ctx{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
+  .dg-mw-ctx{display:block;font-size:12px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
   #root{position:relative}
   .dg-read{margin:0 0 14px}
   .dg-agreed{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
@@ -316,13 +317,13 @@ const css = `
   .dg-endings{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 0 14px}
   @media (max-width:420px){.dg-endings{grid-template-columns:1fr}}
   .dg-ending{border:2px solid var(--accent);padding:10px 12px;background:var(--paper);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3px var(--accent);min-height:76px}
-  .dg-ending .t{font-family:${THEME.serif};font-size:17px;font-weight:700;line-height:1.2;margin-top:2px}
+  .dg-ending .t{font-family:${THEME.serif};font-size:16px;font-weight:700;line-height:1.2;margin-top:2px}
   .dg-ending .meta{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
   .dg-ending.dg-badge-contested{border-style:double;border-width:5px;box-shadow:none}
   .dg-ending.dg-badge-speculative{border-style:dashed}
   .dg-ending.locked{border:1.5px dashed var(--ink-soft);box-shadow:none;background:none}
   .dg-ending.locked .meta{color:var(--ink-soft)}
-  .dg-ending.locked .t{color:var(--ink-soft);font-size:26px;opacity:.5}
+  .dg-ending.locked .t{color:var(--ink-soft);font-size:24px;opacity:.5}
   .dg-battle{border-left:6px solid var(--accent);padding-left:12px}
   .dg-battle-grade b{text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
 
@@ -352,11 +353,11 @@ const css = `
   @media (orientation:landscape) and (max-height:480px){.dg-modal-inner{max-height:96vh}.dg-node-title{font-size:28px}}
 
   /* ---- text sizes ---- */
-  .dg-fs-m .dg-prose,.dg-fs-m .dg-choice .lab{font-size:17px}
-  .dg-fs-m .dg-bulletin,.dg-fs-m .dg-quote,.dg-fs-m .dg-entry,.dg-fs-m .dg-banner p{font-size:15px}
-  .dg-fs-l .dg-prose,.dg-fs-l .dg-choice .lab{font-size:19px}
-  .dg-fs-l .dg-bulletin,.dg-fs-l .dg-quote,.dg-fs-l .dg-entry,.dg-fs-l .dg-banner p{font-size:17px}
-  @media (max-width:420px){.dg-title{font-size:40px}.dg-node-title{font-size:30px}.dg-meters{gap:10px}.dg-meters b{font-size:19px}}
+  .dg-fs-m .dg-prose,.dg-fs-m .dg-choice .lab{font-size:16px}
+  .dg-fs-m .dg-bulletin,.dg-fs-m .dg-quote,.dg-fs-m .dg-entry,.dg-fs-m .dg-banner p{font-size:14px}
+  .dg-fs-l .dg-prose,.dg-fs-l .dg-choice .lab{font-size:20px}
+  .dg-fs-l .dg-bulletin,.dg-fs-l .dg-quote,.dg-fs-l .dg-entry,.dg-fs-l .dg-banner p{font-size:16px}
+  @media (max-width:420px){.dg-title{font-size:40px}.dg-node-title{font-size:28px}.dg-meters{gap:10px}.dg-meters b{font-size:20px}}
 
   /* ---- a stamp comes down on an ending, and an order is signed ---- */
   @media (prefers-reduced-motion:no-preference){
@@ -373,13 +374,13 @@ const css = `
   .dg-share{margin:26px 0}
   .dg-sharecard{border:2px solid var(--rule);background:var(--paper-raised);padding:18px 18px 14px;text-align:center}
   .dg-sc-top{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft)}
-  .dg-sc-cmd{margin-top:8px;font-size:15px;color:var(--ink-soft)}
-  .dg-sc-end{font-family:${THEME.serif};font-size:30px;font-weight:700;line-height:1.1;margin:6px 0 8px}
+  .dg-sc-cmd{margin-top:8px;font-size:14px;color:var(--ink-soft)}
+  .dg-sc-end{font-family:${THEME.serif};font-size:28px;font-weight:700;line-height:1.1;margin:6px 0 8px}
   .dg-sc-badge{display:inline-block;border:2px solid var(--accent);color:var(--accent);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:3px 10px}
   .dg-sc-rank{margin-top:12px;font-size:14px}
-  .dg-sc-rank b{display:block;font-size:22px;font-family:${THEME.serif}}
+  .dg-sc-rank b{display:block;font-size:20px;font-family:${THEME.serif}}
   .dg-sc-facts{font-size:14px;margin:12px 0 0}
-  .dg-sc-h{margin-top:12px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-sc-h{margin-top:12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
   .dg-sc-list{list-style:none;margin:6px 0 0;padding:0;font-size:14px;text-align:left}
   .dg-sc-list li{padding:6px 0;border-top:1px dotted var(--ink-soft)}
   .dg-share-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
@@ -393,29 +394,29 @@ const css = `
 
   /* ---- the question, the steps of a battle plan, the verdict ---- */
   .dg-ask{border-left:4px solid var(--accent);padding:2px 0 2px 12px;margin:0 0 16px;font-size:16px}
-  .dg-ask b{display:block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+  .dg-ask b{display:block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
   .dg-jump{display:block;margin-top:6px;background:none;border:0;border-bottom:1px solid currentColor;padding:6px 0;font:inherit;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:inherit;cursor:pointer;min-height:44px}
   .dg-steps{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:6px}
   .dg-step{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:none;border:1.5px solid var(--rule);padding:10px 12px;font:inherit;color:inherit;cursor:pointer;min-height:44px}
   .dg-steps .now .dg-step{background:var(--ink);color:var(--paper)}
   .dg-step-n{flex:none;width:28px;height:28px;border:1.5px solid currentColor;border-radius:50%;display:grid;place-items:center;font-weight:700}
   .dg-step-t b{display:block;font-size:14px}
-  .dg-step-t small{display:block;font-size:12.5px;opacity:.85}
+  .dg-step-t small{display:block;font-size:12px;opacity:.85}
   .dg-bt-bar{position:sticky;bottom:0;z-index:5;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--paper);border-top:2px solid var(--rule);padding:10px 14px;margin:18px -20px 0}
-  .dg-bt-stat{display:flex;flex-direction:column;font-size:12.5px}
-  .dg-bt-k{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-bt-stat{display:flex;flex-direction:column;font-size:12px}
+  .dg-bt-k{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
   .dg-bt-stat b{font-size:16px}
   .dg-bt-stat small{font-size:12px;color:var(--ink-soft)}
   .dg-bt-bar .dg-issue{margin:0;width:auto}
   @media (max-width:480px){.dg-bt-bar{grid-template-columns:1fr 1fr}.dg-bt-bar>:last-child{grid-column:1 / -1}}
   .dg-verdict{margin:0 0 18px}
-  .dg-kind{display:inline-block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;border:1.5px solid var(--ink-soft);padding:2px 8px;color:var(--ink-soft)}
-  .dg-verdict-h{font-family:${THEME.serif};font-size:26px;line-height:1.15;margin:10px 0 12px}
+  .dg-kind{display:inline-block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;border:1.5px solid var(--ink-soft);padding:2px 8px;color:var(--ink-soft)}
+  .dg-verdict-h{font-family:${THEME.serif};font-size:24px;line-height:1.15;margin:10px 0 12px}
   .dg-chips{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
   .dg-chips li{border:1.5px solid var(--ink-soft);padding:6px 10px;font-size:13px;display:flex;gap:8px;align-items:baseline}
-  .dg-chips li b{font-size:17px;font-family:${THEME.serif}}
+  .dg-chips li b{font-size:16px;font-family:${THEME.serif}}
   .dg-chips li.neg{border-color:var(--accent)}
-  .dg-grade{margin:0;font-size:13.5px;color:var(--ink-soft)}
+  .dg-grade{margin:0;font-size:13px;color:var(--ink-soft)}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
   /* ---- the Sepia look, over everything above ---- */
@@ -432,10 +433,10 @@ const css = `
   .dg-cmd-seal{flex:none;width:58px;height:58px;box-sizing:border-box;display:grid;place-items:center;border:2px solid var(--ink);font-weight:700;font-size:12px;
     letter-spacing:.04em;text-align:center;margin-top:4px;transform:rotate(-3deg)}
   .dg-cmd-body{display:flex;flex-direction:column;gap:3px;min-width:0}
-  .dg-cmd-nation{font-family:${THEME.serif};font-size:27px;font-weight:700;line-height:1.1}
+  .dg-cmd-nation{font-family:${THEME.serif};font-size:28px;font-weight:700;line-height:1.1}
   .dg-cmd-name{font-size:14px;font-weight:700}
   .dg-cmd-native{font-size:12px;color:var(--ink-soft);font-style:italic}
-  .dg-cmd-quote{font-size:14.5px;font-style:italic;margin-top:6px;line-height:1.5}
+  .dg-cmd-quote{font-size:14px;font-style:italic;margin-top:6px;line-height:1.5}
   .dg-cmd-seal.long{font-size:10px;letter-spacing:0;white-space:nowrap}
   .dg-cmd-qdate{display:block;text-transform:none;letter-spacing:.02em;font-size:11px;margin-top:1px}
   .dg-sub-by{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:-6px 0 14px}
@@ -447,7 +448,7 @@ const css = `
   .dg-nav{display:flex;flex-direction:column;gap:10px}
   .dg-navbtn{display:flex;flex-direction:column;gap:2px;text-align:left;font:inherit;color:inherit;background:none;border:1.5px solid var(--rule);padding:12px 14px;min-height:44px;cursor:pointer}
   .dg-navbtn b{font-size:14px;letter-spacing:.12em;text-transform:uppercase}
-  .dg-navbtn span{font-size:12.5px;color:var(--ink-soft)}
+  .dg-navbtn span{font-size:12px;color:var(--ink-soft)}
   .dg-navbtn:hover{outline:3px solid var(--ink);outline-offset:-3px}
   .dg-brief{margin:0 0 12px}
   .dg-go{display:block;width:100%;margin-top:18px;padding:14px;font-size:13px;background:var(--ink);color:var(--paper)}
@@ -463,7 +464,7 @@ const css = `
     font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-align:center;cursor:pointer;min-height:44px}
   .dg-sw:hover{outline:3px solid var(--ink-soft);outline-offset:-3px}
   .dg-sw[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:-3px}
-  .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:18px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
+  .dg-sw-chip{display:block;padding:8px 0;border:1.5px solid;font-size:16px;font-family:${THEME.serif};letter-spacing:0;text-transform:none}
   .dg-fixed{border:1.5px dashed var(--rule);padding:10px 12px;margin:0}
 
   /* ---- ground held or lost against the record, on the map and in its list ---- */
@@ -487,13 +488,13 @@ const css = `
 
   /* ---- a newspaper special ---- */
   .dg-paper{position:relative;border:1px solid var(--rule);background:linear-gradient(90deg,rgba(60,40,10,.10),rgba(60,40,10,0) 5%,rgba(60,40,10,0) 95%,rgba(60,40,10,.12)),var(--paper-raised);padding:16px 18px 10px;margin:6px 0 18px;box-shadow:3px 4px 0 rgba(28,26,23,.18);color:var(--ink)}
-  .dg-paper-mast{font-family:${THEME.serif};font-size:36px;font-weight:700;text-align:center;line-height:1.05;letter-spacing:.03em;text-transform:uppercase;padding-bottom:8px;border-bottom:4px double var(--ink)}
+  .dg-paper-mast{font-family:${THEME.serif};font-size:32px;font-weight:700;text-align:center;line-height:1.05;letter-spacing:.03em;text-transform:uppercase;padding-bottom:8px;border-bottom:4px double var(--ink)}
   .dg-paper-mast.de{font-family:"Old English Text MT","UnifrakturCook","Luminari",${THEME.serif};text-transform:none;font-size:40px;letter-spacing:0}
   .dg-paper-mast.fr{font-style:italic;text-transform:none;font-size:40px}
   .dg-paper-date{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);padding:6px 0;border-bottom:1.5px solid var(--rule)}
   .dg-paper-title{font-family:${THEME.serif};font-size:32px;font-weight:700;line-height:1.08;margin:12px 0 4px;letter-spacing:-.01em}
   .dg-paper-by{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;padding-bottom:8px;border-bottom:1.5px solid var(--rule)}
-  .dg-paper-cols p{margin:0 0 10px;font-family:${THEME.serif};font-size:15.5px;line-height:1.5;text-align:justify;hyphens:auto}
+  .dg-paper-cols p{margin:0 0 10px;font-family:${THEME.serif};font-size:16px;line-height:1.5;text-align:justify;hyphens:auto}
   .dg-paper-first::first-letter{font-family:${THEME.serif};float:left;font-size:3.1em;line-height:.85;padding:4px 6px 0 0;font-weight:700}
   .dg-paper-foot{font-size:11px;font-style:italic;color:var(--ink-soft);text-align:center;margin:6px 0 4px;padding-top:6px;border-top:1px dotted var(--ink-soft)}
   @media (min-width:720px){.dg-paper-cols{column-count:2;column-gap:26px;column-rule:1px solid var(--rule)}.dg-paper-cols p{break-inside:avoid-column}}
@@ -510,11 +511,11 @@ const css = `
   .dg-sk-counter{fill:var(--accent);stroke:var(--ink);stroke-width:1;cursor:pointer}
   .dg-sk-hit{fill:transparent;cursor:pointer}
   .dg-cond{display:flex;flex-wrap:wrap;gap:2px 14px;list-style:none;margin:0 0 12px;padding:0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
-  .dg-cond-guns{flex-basis:100%;text-transform:none;letter-spacing:.02em;font-size:12.5px;color:var(--ink)}
-  .dg-bel-src{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+  .dg-cond-guns{flex-basis:100%;text-transform:none;letter-spacing:.02em;font-size:12px;color:var(--ink)}
+  .dg-bel-src{display:block;font-size:11px;color:var(--ink-soft);margin-top:2px}
   .dg-sk-num{font-size:13px;font-weight:700;fill:var(--ink)}
   .dg-bul-n{display:inline-block;min-width:16px;text-align:center;font-size:10px;font-weight:700;border:1px solid var(--ink-soft);margin-right:4px}
-  .dg-sk-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;fill:var(--ink-soft)}
+  .dg-sk-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;fill:var(--ink-soft)}
   .dg-stage{margin:0 0 14px}
   .dg-stage-h{font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin:6px 0 6px;color:var(--accent)}
   .dg-bulletins{list-style:none;margin:0;padding:0}
@@ -548,10 +549,10 @@ const css = `
   .dg-strip-maps figcaption{font-size:12px;color:var(--ink-soft);margin-top:4px}
   @media (max-width:640px){.dg-strip-maps{grid-template-columns:1fr}}
   .dg-strip-h{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:18px 0 8px}
-  .dg-strip-list{margin:0;padding-left:20px;font-size:13.5px}
+  .dg-strip-list{margin:0;padding-left:20px;font-size:13px}
   .dg-strip-list li{margin:0 0 7px}
   .dg-strip-list .d{color:var(--ink-soft);font-size:12px}
-  .dg-strip-staff{margin:0;padding-left:18px;font-size:13.5px}
+  .dg-strip-staff{margin:0;padding-left:18px;font-size:13px}
 
   /* ---- the orders on the map ---- */
   .dg-op{fill:none;stroke:currentColor;stroke-linecap:round}
@@ -571,7 +572,7 @@ const css = `
   .dg-intel{margin:0 0 6px}
   .dg-bel{list-style:none;margin:0 0 8px;padding:0}
   .dg-bel li{border-top:1px dotted var(--ink-soft);padding:10px 0;font-size:14px}
-  .dg-gtag{display:inline-block;border:1.5px solid var(--ink-soft);padding:1px 8px;margin-right:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .dg-gtag{display:inline-block;border:1.5px solid var(--ink-soft);padding:1px 8px;margin-right:8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
   .dg-g-firm{border-color:var(--ink);color:var(--ink)}
   .dg-fogtag{font-weight:400;letter-spacing:.02em;text-transform:none}
   .dg-rests{display:block;font-size:12px;color:var(--ink-soft);font-style:italic;margin:0 0 8px}
@@ -706,7 +707,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow">
         <span>{c.docLabel}</span>
-        <button className="dg-btn" onClick={onHome}>Home</button>
+        <button className="dg-btn" onClick={onHome}>Menu</button>
       </div>
       <div className="dg-timeline">
         {years.map((y) => (
@@ -738,7 +739,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
         </figure>
       ) : node.bulletin && typeof node.bulletin === "object" && (
         <div className="dg-bulletin">
-          <div className="h">{node.bulletin.source} · {node.bulletin.date}</div>
+          <div className="h">{node.bulletin.source} · {/^\d{4}-\d\d(-\d\d)?$/.test(node.bulletin.date) ? ukDate(node.bulletin.date) : node.bulletin.date}</div>
           {node.bulletin.text}
         </div>
       )}
@@ -758,7 +759,7 @@ function NodeScreen({ campaignId, node, meters, hardState, visited, flags, nodeI
           <FileStrip campaignId={campaignId} endingId={nodeId} flags={flags} taken={taken || []} hard={hardState.enabled} />
           {rank && <ShareCard campaignId={campaignId} endingId={nodeId} rank={rank} taken={taken || []} flags={flags || {}} mode={mode} />}
           {DEMO && <p><a className="dg-btn dg-go dg-link" href={FULL_GAME_URL} target="_blank" rel="noopener noreferrer">Play the other five commands in the full game</a></p>}
-          <button className="dg-btn" onClick={onHome}>Return to file</button>
+          <button className="dg-btn" onClick={onHome}>Menu</button>
         </>
       ) : (
         <>
@@ -854,6 +855,7 @@ function OutcomeScreen({ campaignId, node, nodeId, orderId, visited, outcome, he
           {node && node.city && mapFor(campaignId).cities[node.city] && mapOpsFor(nodeId, orderId).length > 0 && (
             <FrontMapPanel campaignId={campaignId} node={node} nodeId={nodeId} visited={visited || []} executed={{ nodeId, choiceId: orderId }} flags={flags} />
           )}
+          {speculative && <p style={{ margin: "0 0 4px" }}><span className="dg-offrecord">Not in the record</span></p>}
           <GlossText key={"o-" + String(outcome).slice(0, 24)} segs={outcomeSegs} />
           <MeterLedger meters={meters} labels={labels} flags={flags} from={from} />
           {battle && <BattleReport battle={battle} />}
@@ -907,7 +909,7 @@ function RecordScreen({ record, onBack }) {
     <main {...rootProps(null, "record")}>
       <div className="dg-docrow">
         <h1 style={{ margin: 0, font: "inherit" }}>WAR RECORD</h1>
-        <button className="dg-btn" onClick={onBack}>Return to file</button>
+        <button className="dg-btn" onClick={onBack}>Menu</button>
       </div>
       <div className="dg-tabs" role="group" aria-label="Record sections">
         {TABS.map(([id, label]) => (
@@ -1349,7 +1351,7 @@ export default function App() {
           <div className="dg-draft">
             Node "{String(nodeId)}" does not resolve. This is a routing bug, not a dead end by design.
           </div>
-          <button className="dg-btn" onClick={home}>Home</button>
+          <button className="dg-btn" onClick={home}>Menu</button>
         </main>
       )}
     </div>

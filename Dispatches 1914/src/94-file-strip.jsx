@@ -78,7 +78,7 @@ function FileStrip({ campaignId, endingId, flags, taken, hard }) {
       {ground.length > 0 && (
         <ul className="dg-groundlist" aria-label="Ground against the record">
           {ground.map((g) => (
-            <li key={g.id} className={"dg-ground-" + g.kind}><b>{g.kind === "gained" ? "Held or taken" : "Lost or not taken"}: {g.name}.</b> Speculative. {g.text}</li>
+            <li key={g.id} className={"dg-ground-" + g.kind}><b>{g.kind === "gained" ? "Held or taken" : "Lost or not taken"}: {g.name}.</b> <span className="dg-offrecord">Not in the record</span> {g.text}</li>
           ))}
         </ul>
       )}
