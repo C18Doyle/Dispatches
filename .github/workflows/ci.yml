@@ -77,6 +77,9 @@ jobs:
           npx playwright install --with-deps chromium webkit
       - name: Real-browser smoke test (Chromium + WebKit, accessibility)
         run: node tools/smoke-browser.mjs
+      - name: "Layout check of Sherlock (phone and desktop widths, overflow, tap targets, tiny text, screen heights)"
+        working-directory: Dispatches Sherlock
+        run: npx tsx scripts/check_layout.ts
       - name: "Firefox smoke test of Dracula (advisory, as the other games have not been looked at in Firefox yet)"
         continue-on-error: true
         run: |
@@ -99,7 +102,9 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: browser-screenshots
-          path: tests/browser-shots/
+          path: |
+            tests/browser-shots/
+            Dispatches Sherlock/tests/visual/last/
           if-no-files-found: ignore
           retention-days: 14
 
