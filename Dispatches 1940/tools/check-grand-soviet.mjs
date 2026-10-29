@@ -48,6 +48,19 @@ for (const id of ids) {
       style(at, o.label);
       style(at, o.outcome);
       for (const u of o.uncertain || []) style(at, u.outcome);
+      // the prose: a position and an outcome of real length, impacts in the game's range, and the outcome opens as the house does
+      const oa = `${at} "${o.label.slice(0, 40)}"`;
+      if (!o.advisor.position || words(o.advisor.position) < 8) problems.push(`${oa}: the adviser's position is under eight words`);
+      if (!o.outcome || words(o.outcome) < 6) problems.push(`${oa}: the outcome is under six words`);
+      for (const [k, v] of Object.entries(o.impact)) if (!Number.isInteger(v) || Math.abs(v) > 2) problems.push(`${oa}: impact ${k} is ${v}`);
+      const parts = o.uncertain ? o.uncertain.map((u) => u.outcome) : [o.outcome];
+      for (const t of parts) {
+        const ok = o.historical ? /^(What happened|Speculative|Alternate history)\./.test(t) : /^(Speculative|Alternate history)\./.test(t);
+        const gsGoLeaf = o.advisor.name === "Stavka";
+        if (!ok && !gsGoLeaf && !o.uncertain) problems.push(`${oa}: the outcome does not open with What happened, Speculative or Alternate history`);
+        if (o.uncertain && !/^(What happened|Speculative|Alternate history)\./.test(t)) problems.push(`${oa}: a roll outcome does not open with a tier word`);
+      }
+      if (o.historical && !o.uncertain && !/^What happened\./.test(o.outcome)) problems.push(`${oa}: the record's order does not open with What happened`);
     }
     style(at, built.title);
     if (words(built.situation) < 8) problems.push(`${at}: the situation is under eight words`);
