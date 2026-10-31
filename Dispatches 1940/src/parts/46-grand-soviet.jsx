@@ -142,7 +142,7 @@ const GS_REPORTS = {};
         position: "A salient whose two shoulders are in German hands is a trap for the army inside it, so Slavyansk and Balakleya are taken first and the bulge is made safe before it is made deeper.",
         outcome: "Speculative. The two shoulders become the objects of the attack. The bulge is a little shallower than it was in the record and the Dnieper is out of reach, but the base of it is wider, and the Soviet armies inside it are less open to being cut off.",
       }),
-      gsO("Timoshenko", "To the Dnieper", ["gsMarUrban"], {
+      gsO("Timoshenko", "To the Dnieper", ["gsMayKharkov2"], {
         otl: true, flags: { gsBarvenkovo: "dnieper" }, imp: [-1, -1, 1],
         position: "The Germans are off balance and the road to the Dnieper is open, so the armies go on while the frost holds and take the river crossings before the Germans can bring up their reserves.",
         outcome: "What happened. The Barvenkovo and Lozovaya operation made a salient about 100 kilometres deep and 90 wide south of Kharkov in a few days. It was then held up, short of supplies and fuel, and did not reach Dnepropetrovsk or Zaporozhye. Both shoulders stayed in German hands, and the bulge stood as a threat to them and an invitation to the Germans.",
@@ -156,7 +156,7 @@ const GS_REPORTS = {};
         position: "A second attack towards Kursk spreads the army's strength over two directions, and neither can then be pushed home, so the northern attack is stopped and its troops are sent to the south.",
         outcome: "Speculative. The northern attack is stopped and its troops go to the main effort in the south, which is a little stronger for them. Kursk and Orel stay in German hands, as they did in the record.",
       }),
-      gsO("Timoshenko", "Attack", ["gsMarUrban"], {
+      gsO("Timoshenko", "Attack", ["gsMayKharkov2"], {
         otl: true, flags: { gsKursk: "attack" }, imp: [-1, 0, 0],
         position: "The Germans have been driven from Moscow's approaches, and the same blow, struck now towards Kursk and Orel, will find them as weak, so the attack goes in.",
         outcome: "What happened. The attacks towards Kursk and Oboyan were made in January and February and gained little. The Germans held the towns, and Kursk and Orel were not recovered until the summer of 1943.",
@@ -468,18 +468,18 @@ const GS_REPORTS = {};
         outcome: "Speculative. The roads and passes are mined and the retreat is slow. The Germans advance more slowly than they did in the record and take longer to bring up their fuel. The ground that is lost is lost later, and the Caucasus is held by a stronger force.",
       }),
     ]),
-  gsR("gsAugWirbelwind", 19420805, "AUGUST 1942", "Wirbelwind",
-    "The Rzhev attack has not been launched. The Germans, who have been waiting for it, find that they have the initiative, and use it. Under the name Wirbelwind they strike at the Soviet forces on the edges of the Rzhev salient, where they are thinnest, and try to roll them up before the Red Army can bring up its reserves. The Soviet commanders on the spot have to decide whether to give ground or to stand.",
+  gsR("gsAugWirbelwind", 19420811, "AUGUST 1942", "Wirbelwind",
+    "The Rzhev attack has not been launched, and the Germans, who have been waiting for it, find that they have the initiative. On 11 August the Fourth Army and the Second Panzer Army open Operation Wirbelwind, the Whirlwind, against the southern wing of the Western Front, in the Zhizdra country south of Sukhinichi, where Belov's 61st Army and Bagramyan's 16th Army hold a long and thin line. The operation is to run until the 24th. The commanders on the spot have to decide whether to give ground or to stand.",
     [
       gsO("Belov", "Pull back", ["gsNovGodOfWar"], {
         flags: { gsWirbel: "back" }, imp: [0, 0, -1],
-        position: "The salient's edges cannot be held against a German attack in strength, and the troops there are worth more to the army than the ground, so they are pulled back before they are cut off.",
-        outcome: "Speculative. The Soviet forces on the edges of the salient fall back in good order. The Germans take some ground, and no prisoners to speak of, and the army that was to be used in the autumn is saved.",
+        position: "The line in the Zhizdra country cannot be held against a German attack in strength, and the troops there are worth more to the army than the ground, so they are pulled back before they are cut off.",
+        outcome: "Speculative. The 61st Army falls back in good order before the German blow. The Germans take some ground, and no prisoners to speak of, and the army that was to be used in the autumn is saved.",
       }),
       gsO("Bagramyan", "Hold", ["gsNovGodOfWar"], {
         flags: { gsWirbel: "hold" }, imp: [-1, 0, 0],
-        position: "To give ground to the Germans at Rzhev is to give them what they want, which is a shorter line and spare divisions, so the Soviet forces hold on.",
-        outcome: "Speculative. The Soviet forces hold on at the edges of the salient, and the German attack, which had been meant to be quick, is a slow and costly one. The Germans take some of the ground at the price of divisions that they would have liked to have sent south.",
+        position: "To give ground to the Germans in the Zhizdra country is to give them what they want, which is a shorter line and spare divisions, so the Soviet forces hold on.",
+        outcome: "Speculative. The Soviet armies hold on in the Zhizdra country, and the German attack, which had been meant to be quick, is a slow and costly one. The Germans take some of the ground at the price of divisions that they would have liked to have sent south.",
       }),
     ], { rec: false }),
   gsR("gsAugDifficulties", 19420810, "AUGUST 1942", "Difficulties",
@@ -498,7 +498,13 @@ const GS_REPORTS = {};
       gsO("Zhukov", "Continue flanking at Karmanovo", ["gsSepSychevka"], {
         flags: { gsRzhev2: "flank" }, imp: [-1, -1, 1],
         position: "The Germans have put their strength in Rzhev, and the way to Sychevka is through Karmanovo, where they are weak, so the attack goes on there and the town is left to wither.",
-        outcome: "Speculative. The attack at Karmanovo goes on, and the Germans have to use their reserves to meet it. The railway to Sychevka, on which the Ninth Army depends, comes within reach of the Soviet guns, and the Germans at Rzhev are brought to a difficult position.",
+        outcome: "The attack at Karmanovo goes on, and the Germans have to use their reserves to meet it.",
+        rolls: [
+          { w: 45, title: "The flank succeeds", flags: { gsKarm: "cut" }, imp: [-1, -1, 1],
+            outcome: "Speculative. The attack at Karmanovo goes on, and the Germans have to use their reserves to meet it. The railway to Sychevka, on which the Ninth Army depends, comes within reach of the Soviet guns, and the Germans at Rzhev are brought to a difficult position." },
+          { w: 55, title: "The flank stalls", flags: { gsKarm: "stalled" }, imp: [-2, -1, 0],
+            outcome: "Speculative. The attack at Karmanovo runs into the German reserves and stalls in the woods and the swamps. The railway to Sychevka stays out of reach, and the Kalinin and Western Fronts have spent what they had." },
+        ],
       }),
     ]),
   gsR("gsMidAugStalingrad", 19420817, "MID-AUGUST 1942", "Stalingrad Approaches",
@@ -566,8 +572,8 @@ const GS_REPORTS = {};
 
   // =============================================================================== SEPTEMBER TO NOVEMBER
   gsR("gsSepSychevka", 19420915, "SEPTEMBER 1942", "The Sychevka Railway Almost Cut",
-    "The flanking attack has gone on, and it has done well. The Soviet guns can now reach the railway from Rzhev to Sychevka and Vyazma, on which the German Ninth Army depends for its supplies, and the Ninth Army's trains are being shelled. The Germans have been forced to bring in reserves that they would have used elsewhere. The front can make one final push to cut the railway, bring down all the artillery that it has on the line, or flank Gzhatsk, still farther back.",
-    [
+    (f) => (f.gsKarm === "stalled" ? "The flanking attack at Karmanovo has stalled in the German reserves, and the railway to Sychevka is as far away as it was. The Kalinin and Western Fronts have lost a great many men for a few kilometres of ground, and nothing more can be asked of them before the autumn." : "The flanking attack has gone on, and it has done well. The Soviet guns can now reach the railway from Rzhev to Sychevka and Vyazma, on which the German Ninth Army depends for its supplies, and the Ninth Army's trains are being shelled. The Germans have been forced to bring in reserves that they would have used elsewhere. The front can make one final push to cut the railway, bring down all the artillery that it has on the line, or flank Gzhatsk, still farther back."),
+    (f) => (f.gsKarm === "stalled" ? gsGo(["gsNovGodOfWar"], {}, "Fall back on the autumn plan", "Speculative. The offensive is given up for the summer, and the armies are kept for the autumn.", [1, 0, -1]) : [
       gsO("Zhukov", "One final push", ["gsNovGodOfWar"], {
         flags: { gsSych: "push" }, imp: [-2, -1, 1],
         position: "The railway is within reach, and a few days' effort will cut it, so every tank, gun and man that can be got up goes into one last attack.",
@@ -581,9 +587,15 @@ const GS_REPORTS = {};
       gsO("Bagramyan", "Surprise them and flank Gzhatsk", ["gsOctBuffel"], {
         flags: { gsSych: "gzhatsk" }, imp: [-1, 0, 2],
         position: "The Germans expect the attack on the railway and are ready for it, so the blow is struck farther back, at Gzhatsk, where it is not expected, and the whole salient is threatened.",
-        outcome: "Speculative. The attack at Gzhatsk takes the Germans by surprise and the Ninth Army, with its flank turned, is in danger of being cut off. Model, the army commander, asks for permission to withdraw, and for once the permission is not refused at once.",
+        outcome: "The blow is struck at Gzhatsk, where the Germans do not expect it.",
+        rolls: [
+          { w: 35, title: "The surprise works", flags: { gsGz: "works" }, imp: [-1, 0, 2],
+            outcome: "Speculative. The attack at Gzhatsk takes the Germans by surprise and the Ninth Army, with its flank turned, is in danger of being cut off. Model, the army commander, asks for permission to withdraw, and for once the permission is not refused at once." },
+          { w: 65, title: "The Germans are ready", flags: { gsGz: "failed" }, imp: [-2, -1, 0],
+            outcome: "Speculative. The Germans have guessed where the blow will fall, and the attack at Gzhatsk meets their reserves and their guns. It is beaten off with heavy losses, and the Ninth Army holds its line." },
+        ],
       }),
-    ], { rec: false }),
+    ]), { rec: false }),
   gsR("gsSepStands", 19420915, "SEPTEMBER 1942", "Stalingrad Stands",
     "The city has not fallen. The Sixth Army has been drawn into the streets, where its tanks and aircraft are of less use, and every building is a battle of its own. Chuikov's 62nd Army holds a strip of the west bank of the Volga a few hundred metres wide in places. Its supplies come over the river under fire. The defence has to decide how to use the time it has bought, by massing the guns, by bearhugging the Germans, or by striking from the southern flank.",
     [
@@ -618,8 +630,8 @@ const GS_REPORTS = {};
       }),
     ]),
   gsR("gsOctBuffel", 19421015, "OCTOBER 1942", "Buffel, Early",
-    "The attack at Gzhatsk has put the German Ninth Army in danger, and its commander has asked to be allowed to withdraw from the Rzhev salient, a retreat that the record gave to the early spring of 1943 under the name Buffel. Hitler, who has just had enough of the army, has given leave, and the Germans are falling back. The Soviet armies have to decide whether to pursue them hard, or to hold back and strike only lightly.",
-    [
+    (f) => (f.gsGz === "failed" ? "The attack at Gzhatsk has been beaten off. The Germans had expected it, and the Ninth Army holds its line in the Rzhev salient. There is no withdrawal and nothing to pursue, and the autumn belongs to the great plan in the south." : "The attack at Gzhatsk has put the German Ninth Army in danger, and its commander has asked to be allowed to withdraw from the Rzhev salient, a retreat that the record gave to the early spring of 1943 under the name Buffel. Hitler, who has just had enough of the army, has given leave, and the Germans are falling back. The Soviet armies have to decide whether to pursue them hard, or to hold back and strike only lightly."),
+    (f) => (f.gsGz === "failed" ? gsGo(["gsNovGodOfWar"], {}, "Count the cost and go on", "Speculative. The Rzhev salient holds, and the Soviet armies go on to the plans of the winter.", [-1, 0, -1]) : [
       gsO("Zhukov", "Pursue them", ["gsSmolenskXmas"], {
         flags: { gsBuffel: "pursue" }, imp: [-2, -1, 2],
         position: "A retreating army is at its weakest, and the Germans cannot be allowed to reach a new line in good order, so every tank and every division that can move is put on the heels of the Ninth Army.",
@@ -630,7 +642,7 @@ const GS_REPORTS = {};
         position: "The fronts have been fighting for ten months and have little left, and the autumn is to be spent on the great plan in the south, so only light forces follow the Germans up and the main force is kept back.",
         outcome: "Speculative. The Soviet armies follow the Germans with light forces only, and the Ninth Army gets away in good order, with its guns and with a shorter line. The reserves are kept for the south.",
       }),
-    ], { rec: false }),
+    ]), { rec: false }),
   gsR("gsSmolenskXmas", 19421020, "OCTOBER 1942", "Smolensk by Christmas?",
     "If the Germans are hurried out of the Rzhev salient, a Soviet advance to Smolensk by the end of the year is just possible. The city is 200 kilometres from the line, and the Germans have prepared positions behind it. Zhukov thinks that the chance is worth taking. Antonov, who plans operations for the General Staff, thinks that the roads and the railways cannot support an advance so far.",
     [
