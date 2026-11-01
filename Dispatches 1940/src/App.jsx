@@ -34910,27 +34910,27 @@ const GS_REPORTS = {};
     "The German Sixth Army and the Fourth Panzer Army are heading for the Volga at Stalingrad. The Sixth Army is across the Don and in the great bend, with the Fourth Panzer Army coming up from the south. On 23 August the Luftwaffe will fly 1,600 sorties against the city, and the Germans will reach the Volga on its northern edge. The Stalingrad and Southeastern Fronts have to decide how to meet them, in the open steppe or in the city.",
     [
       gsO("Vatutin", "Counterattack the tip of the Fourth Panzer Army from the south", ["gsSepStands"], {
-        flags: { gsStalingrad: "south" }, imp: [-1, -1, 1],
+        flags: { gsStalingrad: "south", gsCity: "third" }, imp: [-1, -1, 1],
         position: "The Fourth Panzer Army's tip is a long way from its supplies, and a blow from the south at its flank will cut it off before it reaches the city.",
-        outcome: "Speculative. The counterattack is made on the Fourth Panzer Army's tip from the south, at the cost of an army that was needed for the city. It does not cut the tip off, but it delays it and gives the city a few more days.",
+        outcome: "Speculative. The counterattack is made on the Fourth Panzer Army's tip from the south, at the cost of an army that was needed for the city. It does not cut the tip off, but it delays it, and the fighting in the city is a little less severe than it was in the record: when it runs down in November the Red Army still holds about 30 per cent of the city, against about 10 per cent.",
       }),
       gsO("Moskalenko", "Reinforce the northern flank and counterattack", ["gsSepStands"], {
-        flags: { gsStalingrad: "north" }, imp: [-1, 0, 1],
+        flags: { gsStalingrad: "north", gsCity: "third" }, imp: [-1, 0, 1],
         position: "The Germans have reached the Volga on the north side, and the corridor that they have made is narrow, so the reinforcements go to the northern flank and counterattack across it.",
-        outcome: "Speculative. The northern flank is reinforced, and the counterattacks across the German corridor from the north go on through September. They do not cut it, and they keep the Sixth Army's attention on the north while the city is held.",
+        outcome: "Speculative. The northern flank is reinforced, and the counterattacks across the German corridor from the north go on through September. They do not cut it, and they keep the Sixth Army's attention on the north while the city is held. The fighting in the city is a little less severe than it was in the record, and when it runs down in November the Red Army still holds about 30 per cent of it, against about 10 per cent.",
       }),
       gsO("Chuikov", "Fight for every house, whatever it costs", ["gsSepStands"], {
-        flags: { gsStalingrad: "houses" }, imp: [-2, 0, 0],
+        flags: { gsStalingrad: "houses", gsCity: "third" }, imp: [-2, 0, 0],
         position: "A city is a better place to fight the Germans than the steppe, since their tanks and their aircraft are of less use in the ruins, so every house is held and the fight is made as close as it can be.",
-        outcome: "Speculative. The defence of Stalingrad is made house by house from the start, and the Germans, who have to fight for each of them, are drawn into the city. The Soviet losses are heavy, and the Sixth Army's strength is spent in the streets.",
+        outcome: "Speculative. The defence of Stalingrad is made house by house from the start, and the Germans, who have to fight for each of them, are drawn into the city. The Soviet losses are heavy, and the Sixth Army's strength is spent in the streets. The fighting is a little less severe than it was in the record, and when it runs down in November the Red Army still holds about 30 per cent of the city, against about 10 per cent.",
       }),
       gsO("Yeremenko", "An active defence", ["gsSepCracks"], {
-        flags: { gsStalingrad: "active" }, imp: [-1, 0, 1],
+        flags: { gsStalingrad: "active", gsCity: "tenth" }, imp: [-1, 0, 1],
         position: "A passive defence will be broken by the Germans' weight, and the way to hold them is to attack their flanks and their supply lines wherever they can be reached.",
         outcome: "Speculative. The front's forces keep up a series of counterattacks on the German flanks, which cost them a good deal and delay the Germans, but leave the city itself thinly held.",
       }),
       gsO("Gordov", "Stand outside the city", ["gsSepCracks"], {
-        otl: true, flags: { gsStalingrad: "outside" }, imp: [-1, -1, 0],
+        otl: true, flags: { gsStalingrad: "outside", gsCity: "tenth" }, imp: [-1, -1, 0],
         position: "The city is a trap for the army that goes into it, and the steppe in front of it is the place to stop the Germans, so the army stands outside and the city is held by a garrison.",
         outcome: "What happened. The Stalingrad Front fought on the approaches to the city in the second half of August, and the Germans broke through on the 23rd. They reached the Volga north of the city that day, and the front was split. The defence of the city itself was left to the 62nd Army.",
       }),
@@ -34996,7 +34996,7 @@ const GS_REPORTS = {};
       }),
     ]), { rec: false }),
   gsR("gsSepStands", 19420915, "SEPTEMBER 1942", "Stalingrad Stands",
-    "The city has not fallen. The Sixth Army has been drawn into the streets, where its tanks and aircraft are of less use, and every building is a battle of its own. Chuikov's 62nd Army holds a strip of the west bank of the Volga a few hundred metres wide in places. Its supplies come over the river under fire. The defence has to decide how to use the time it has bought, by massing the guns, by bearhugging the Germans, or by striking from the southern flank.",
+    "The city has not fallen. The Sixth Army has been drawn into the streets, where its tanks and aircraft are of less use, and every building is a battle of its own. Chuikov's 62nd Army holds a strip of the west bank of the Volga a few hundred metres wide in places, and perhaps a third of the city. Its supplies come over the river under fire. The defence has to decide how to use the time it has bought, by massing the guns, by bearhugging the Germans, or by striking from the southern flank.",
     [
       gsO("Voronov", "Double down on artillery", ["gsNovUranus"], {
         flags: { gsStands: "guns" }, imp: [0, -1, 1],
@@ -35025,7 +35025,7 @@ const GS_REPORTS = {};
       gsO("Chuikov", "Bearhugging", ["gsNovUranus"], {
         otl: true, flags: { gsStands: "hug" }, imp: [-2, 0, 0],
         position: "The Germans have to be held so close that their aircraft and artillery cannot be used, so the 62nd Army fights at ten metres and never gives them the room that they need.",
-        outcome: "What happened. Chuikov's 62nd Army fought the Germans at close quarters, from the ruins of the city, to keep them from using their aircraft and guns. The Germans took most of the city, in two months of fighting, but never all of it, and the 62nd Army held a strip of the west bank until the Soviet counteroffensive in November.",
+        outcome: "What happened. Chuikov's 62nd Army fought the Germans at close quarters, from the ruins of the city, to keep them from using their aircraft and guns. The Germans took most of the city, in two months of fighting, but never all of it, and the 62nd Army held a strip of the west bank, about a tenth of the city at the end, until the Soviet counteroffensive in November.",
       }),
     ]),
   gsR("gsOctBuffel", 19421015, "OCTOBER 1942", "Buffel, Early",
@@ -35087,7 +35087,7 @@ const GS_REPORTS = {};
       : gsGo([], { gsMarsEnd: "stalled" }, "Count the cost and go on", "What happened. The Rzhev salient held until the Germans left it themselves in the spring of 1943, and Mars was kept out of the official histories for decades.", [-1, 0, -1])),
     { rec: false }),
   gsR("gsNovUranus", 19421119, "NOVEMBER 1942", "Uranus",
-    "The Stavka has been preparing for months a counteroffensive at Stalingrad, to be made not at the city but on the flanks of the German Sixth Army, where the Romanian armies, poorly equipped and short of anti-tank guns, hold the line. Vasilevsky and Zhukov have made the plan. The Southwestern and Don Fronts are to attack from the north on 19 November and the Stalingrad Front from the south on the 20th, and the two will meet at Kalach. Stalin would sooner have something smaller.",
+    (f) => (f.gsCity === "third" ? "The 62nd Army has held about 30 per cent of the city, a good deal more than the record's tenth. " : f.gsCity === "tenth" ? "The 62nd Army holds only a strip of the west bank, about a tenth of the city. " : "") + "The Stavka has been preparing for months a counteroffensive at Stalingrad, to be made not at the city but on the flanks of the German Sixth Army, where the Romanian armies, poorly equipped and short of anti-tank guns, hold the line. Vasilevsky and Zhukov have made the plan. The Southwestern and Don Fronts are to attack from the north on 19 November and the Stalingrad Front from the south on the 20th, and the two will meet at Kalach. Stalin would sooner have something smaller.",
     [
       gsO("Vasilevsky", "Launch Uranus", ["gsDecChir"], {
         otl: true, flags: { gsUranus: "full" }, imp: [-1, -1, 2],
