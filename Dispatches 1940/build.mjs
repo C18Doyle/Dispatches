@@ -69,8 +69,8 @@ const HTML_META = {
       "A historically-grounded WWII strategy game. Free demo: command the German OKW campaign. Soviet and Allied commands available in the full version.",
   },
   serov: {
-    title: "Dispatches 1940: the Serov branch (experimental)",
-    description: "An experimental build of Dispatches 1940 for the Soviet consultant: the grand Soviet campaign, from the turning point at Moscow in December 1941 to February 1943. Drafts, unbalanced.",
+    title: "Dispatches 1940: Grand Soviet Campaign (experimental)",
+    description: "An experimental build of Dispatches 1940: the Soviet command from the Winter War to Berlin, with the war of 1942 in much greater detail. Drafts, not yet balanced.",
   },
   dev: {
     title: "Dispatches 1940 — DEV (Grand Campaign + Key Battle Subgame)",

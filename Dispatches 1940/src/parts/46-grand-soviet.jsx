@@ -951,12 +951,12 @@ function gsBuildReport(spec, flags, meters) {
 
 const GS_SEROV = typeof __SEROV_BUILD__ !== "undefined" && __SEROV_BUILD__;
 
-/** The Soviet campaign with the tree in place of its 1942 reports: the two reports that led to the defence of Moscow now lead to the tree. In the Serov build it also starts there. */
+/** The Soviet campaign with the tree in place of its 1942 reports: the two reports that led to the defence of Moscow now lead to the tree. In the separate experimental build the same campaign is on by default, with a brief that says so. */
 function gsMakeCampaign(base) {
   return {
     ...base,
     name: "Soviet High Command: Grand Campaign (experimental)",
-    ...(GS_SEROV ? { start: "gsDec41", dates: "1941\u20131943", brief: "The Serov branch: the Soviet consultant's tree, from the turning point at Moscow in December 1941 to February 1943. Drafts, and not yet balanced." } : {}),
+    ...(GS_SEROV ? { brief: "Save the Red Army from the shock of Barbarossa and lead it to the gates of Berlin, with the war of 1942 in much greater detail. Drafts, and not yet balanced." } : {}),
     resolveNode(id, flags, meters) {
       if (GS_REPORTS[id]) return gsBuildReport(GS_REPORTS[id], flags, meters);
       const node = base.resolveNode(id, flags, meters);
