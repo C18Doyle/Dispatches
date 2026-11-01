@@ -1,0 +1,43 @@
+name: serov
+
+# Push a tag named serov-v<version> to build the Serov branch of Dispatches 1940 (the grand Soviet campaign on by default) and push it to its own itch.io page,
+# dispatches/dispatches-1940-serov, channel web:
+#   git tag serov-v0.1.0 && git push origin serov-v0.1.0
+# This is not a release of 1940: it never touches the 1940 pages, the GitHub releases or package.json's version.
+on:
+  push:
+    tags: ["serov-v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  serov:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: Dispatches 1940
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
+      - name: Install
+        run: npm ci --no-audit --no-fund
+      - name: Check the tree
+        run: node tools/check-grand-soviet.mjs
+      - name: Build the Serov variant and zip it
+        run: node build.mjs --serov-only
+      - name: Check the zip has index.html at its root
+        run: unzip -l builds/dispatches-1940-serov.zip | grep -E ' index\.html$'
+      - name: itch.io (skipped until the BUTLER_API_KEY secret is set)
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          if [ -z "$BUTLER_API_KEY" ]; then echo "BUTLER_API_KEY is not set: not pushing"; exit 0; fi
+          curl -sSL -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip -q butler.zip -d butler-bin && chmod +x butler-bin/butler
+          ./butler-bin/butler push builds/dispatches-1940-serov.zip dispatches/dispatches-1940-serov:web --userversion "${GITHUB_REF_NAME#serov-v}"

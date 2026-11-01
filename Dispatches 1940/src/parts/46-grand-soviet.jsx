@@ -949,11 +949,14 @@ function gsBuildReport(spec, flags, meters) {
   };
 }
 
-/** The Soviet campaign with the tree in place of its 1942 reports: the two reports that led to the defence of Moscow now lead to the tree. */
+const GS_SEROV = typeof __SEROV_BUILD__ !== "undefined" && __SEROV_BUILD__;
+
+/** The Soviet campaign with the tree in place of its 1942 reports: the two reports that led to the defence of Moscow now lead to the tree. In the Serov build it also starts there. */
 function gsMakeCampaign(base) {
   return {
     ...base,
     name: "Soviet High Command: Grand Campaign (experimental)",
+    ...(GS_SEROV ? { start: "gsDec41", dates: "1941\u20131943", brief: "The Serov branch: the Soviet consultant's tree, from the turning point at Moscow in December 1941 to February 1943. Drafts, and not yet balanced." } : {}),
     resolveNode(id, flags, meters) {
       if (GS_REPORTS[id]) return gsBuildReport(GS_REPORTS[id], flags, meters);
       const node = base.resolveNode(id, flags, meters);
@@ -965,7 +968,7 @@ function gsMakeCampaign(base) {
 
 const GS_ACTIVE = (() => {
   try {
-    return typeof window !== "undefined" && (new URLSearchParams(window.location.search).get("grand") === "soviet" || window.localStorage.getItem("dispatches1940_experimental") === "grand-soviet");
+    return GS_SEROV || typeof window !== "undefined" && (new URLSearchParams(window.location.search).get("grand") === "soviet" || window.localStorage.getItem("dispatches1940_experimental") === "grand-soviet");
   } catch (e) {
     return false;
   }

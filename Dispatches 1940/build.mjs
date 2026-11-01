@@ -68,6 +68,10 @@ const HTML_META = {
     description:
       "A historically-grounded WWII strategy game. Free demo: command the German OKW campaign. Soviet and Allied commands available in the full version.",
   },
+  serov: {
+    title: "Dispatches 1940: the Serov branch (experimental)",
+    description: "An experimental build of Dispatches 1940 for the Soviet consultant: the grand Soviet campaign, from the turning point at Moscow in December 1941 to February 1943. Drafts, unbalanced.",
+  },
   dev: {
     title: "Dispatches 1940 — DEV (Grand Campaign + Key Battle Subgame)",
     description: "Internal prototype build. Not for distribution.",
@@ -98,7 +102,7 @@ function indexHtml(meta) {
 `;
 }
 
-async function buildVariant(name, { isDemo = false, grandCampaign = false, keyBattleSubgame = false } = {}) {
+async function buildVariant(name, { isDemo = false, grandCampaign = false, keyBattleSubgame = false, serov = false } = {}) {
   const outDir = path.join(DIST, name);
   mkdirSync(outDir, { recursive: true });
 
@@ -114,6 +118,7 @@ async function buildVariant(name, { isDemo = false, grandCampaign = false, keyBa
       __DEMO_BUILD__: isDemo ? "true" : "false",
       __GRAND_CAMPAIGN__: grandCampaign ? "true" : "false",
       __KEY_BATTLE_SUBGAME__: keyBattleSubgame ? "true" : "false",
+      __SEROV_BUILD__: serov ? "true" : "false",
     },
     outfile: path.join(outDir, "bundle.js"),
     // .mp3 -> dataurl: inlines theme.mp3 as a base64 data: URL at build time instead of a
@@ -166,6 +171,15 @@ function zipDir(dir, zipPath) {
 
 async function main() {
   mkdirSync(BUILDS, { recursive: true });
+
+  // node build.mjs --serov-only: just the Serov branch (the grand Soviet campaign on, one zip for its own itch page); the full and demo builds and their zips are left alone.
+  if (process.argv.includes("--serov-only")) {
+    console.log("Building the Serov variant...");
+    await buildVariant("serov", { isDemo: false, keyBattleSubgame: true, serov: true });
+    if (!process.argv.includes("--no-zip")) zipDir(path.join(DIST, "serov"), path.join(BUILDS, "dispatches-1940-serov.zip"));
+    console.log("Done. dist/serov" + (process.argv.includes("--no-zip") ? "" : " and builds/dispatches-1940-serov.zip") + ".");
+    return;
+  }
 
   console.log("Building full variant...");
   await buildVariant("full", { isDemo: false, keyBattleSubgame: true });
