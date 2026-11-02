@@ -86,6 +86,20 @@ check(flags.manExp === 2, "a Manpower impact about veterans and training is file
 const intel = choice({ initiative: 1 }, { label: "Send reconnaissance and break the codes" });
 check(resolve(intel, M(0, 0, 0)).flags.iniInt === 1, "an Initiative impact about intelligence is filed to Intelligence");
 
+// --- an order that moves only a micro-state ------------------------------------------------------------------------------
+{
+  const only = choice({}, { label: "Rest and refit the armies", strand: { rdy: 2, arms: -1 } });
+  const rr = resolve(only, M(0, 0, 0), {});
+  check(rr.meters.manpower === 0 && rr.meters.fuel === 0 && rr.meters.initiative === 0, "a strand-only order moves no headline meter");
+  check(rr.flags.manRdy === 2 && rr.flags.matArms === -1, "a strand-only order files its whole amount to the micro-states it names");
+  const read = L.strandReadout("manpower", rr.flags, rr.meters);
+  check(read.find((x) => x.id === "rdy").score > read.find((x) => x.id === "org").score, "and the micro-state it raised reads higher than its neighbours at the same headline");
+  const rolled2 = choice({}, { uncertain: [{ weight: 100, strand: { org: 1 }, impact: { manpower: 1 } }, { weight: 0, impact: { manpower: -1 } }], strand: { exp: 1 } });
+  const rv = resolve(rolled2, M(0, 0, 0), {}, { rand: () => 0 });
+  check(rv.flags.manOrg === 1 && !rv.flags.manExp, "a roll outcome's own strand replaces the order's");
+  check(resolve(choice({}, { strand: { ammo: 1 } }), M(0, 0, 0), {}).flags.matArms === 1, "an old strand name (ammo) is read as Arms & Ammunition");
+}
+
 // --- the command rank --------------------------------------------------------------------------------------------------------
 const rate = (o) => L.commandRating({ tier: "Contested Outcome", removed: false, total: 0, battles: [], judged: [], objectives: 0, mode: "open", ...o });
 check(rate({ tier: "Major Defeat", total: -12 }).rank === "Private", "a heavy defeat with a spent command and nothing else to judge is a Private");

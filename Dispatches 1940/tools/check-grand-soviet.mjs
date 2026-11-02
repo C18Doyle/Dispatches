@@ -53,6 +53,8 @@ for (const id of ids) {
       if (!o.advisor.position || words(o.advisor.position) < 8) problems.push(`${oa}: the adviser's position is under eight words`);
       if (!o.outcome || words(o.outcome) < 6) problems.push(`${oa}: the outcome is under six words`);
       for (const [k, v] of Object.entries(o.impact)) if (!Number.isInteger(v) || Math.abs(v) > 2) problems.push(`${oa}: impact ${k} is ${v}`);
+      const STRANDS = ["oil", "arms", "ship", "org", "exp", "rdy", "int", "cmd", "tmp"];
+      for (const st of [o.strand, ...(o.uncertain || []).map((u) => u.strand)]) for (const [k, v] of Object.entries(st || {})) if (!STRANDS.includes(k) || !Number.isInteger(v) || Math.abs(v) > 3) problems.push(`${oa}: strand ${k} is ${v}`);
       const parts = o.uncertain ? o.uncertain.map((u) => u.outcome) : [o.outcome];
       for (const t of parts) {
         const ok = o.historical ? /^(What happened|Speculative|Alternate history)\./.test(t) : /^(Speculative|Alternate history)\./.test(t);

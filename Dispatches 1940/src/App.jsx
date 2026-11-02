@@ -31070,12 +31070,18 @@ function Typewriter({ text, instant, soundOn }) {
 // that's purely narrative (sets a flag, no impact object at all) reads as "No meter change"
 // rather than a row of zeroes, so it's visually distinct from a choice that costs exactly nothing
 // on every axis by design.
-function formatImpactPreview(impact) {
-  if (!impact) return "No meter change";
+// The micro-states under each meter, by the id an order's `strand` names them with.
+const STRAND_NAMES = { oil: "Fuel & Oil", arms: "Arms & Ammunition", ammo: "Arms & Ammunition", steel: "Arms & Ammunition", ship: "Shipping & Rail", org: "Organisation", exp: "Experience", rdy: "Readiness", int: "Intelligence", cmd: "Command", tmp: "Tempo" };
+const strandParts = (strand) => Object.entries(strand || {}).filter(([, v]) => v).map(([k, v]) => `${STRAND_NAMES[k] || k} ${v > 0 ? "+" : ""}${v}`);
+
+function formatImpactPreview(impact, strand) {
+  if (!impact && !strandParts(strand).length) return "No meter change";
+  impact = impact || {};
   const parts = [];
   if (impact.manpower) parts.push(`Manpower ${impact.manpower > 0 ? "+" : ""}${impact.manpower}`);
   if (impact.fuel) parts.push(`Matériel ${impact.fuel > 0 ? "+" : ""}${impact.fuel}`);
   if (impact.initiative) parts.push(`Initiative ${impact.initiative > 0 ? "+" : ""}${impact.initiative}`);
+  parts.push(...strandParts(strand));
   return parts.length ? parts.join(", ") : "No meter change";
 }
 
@@ -31441,7 +31447,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px] opacity-70"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  <span aria-hidden="true">Δ </span>{formatImpactPreview(choice.impact)}
+                  <span aria-hidden="true">Δ </span>{formatImpactPreview(choice.impact, choice.strand)}
                 </span>
               )}
               {easy && choice.uncertain && !choice.concealRoll && (
@@ -31450,7 +31456,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   <span aria-hidden="true">Δ </span>
-                  {choice.uncertain.map((v, vi) => `${v.title}: ${formatImpactPreview(v.impact || choice.impact)}`).join(" · ")}
+                  {choice.uncertain.map((v, vi) => `${v.title}: ${formatImpactPreview(v.impact || choice.impact, v.strand || choice.strand)}`).join(" · ")}
                 </span>
               )}
               {easy && choice.uncertain && choice.concealRoll && (
@@ -33194,6 +33200,8 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
         ["Initiative", eff.impact.initiative || 0],
       ].filter(([, v]) => v !== 0)
     : [];
+  // the micro-states an order moved on its own (strand), shown beside the meters
+  for (const [k, v] of Object.entries(eff.strand || {})) if (v) deltas.push([STRAND_NAMES[k] || k, v]);
   const outcomeNote = campaign.dynamic ? meterNarrativeNote(campaign.id, meters, choiceIndex) : "";
   const outcomeWithNote = outcomeNote ? eff.outcome + "\n\n" + outcomeNote : eff.outcome;
   return (
@@ -34418,26 +34426,27 @@ const gsGo = (then, flags, label, outcome, imp) => [gsO("Stavka", label || "Carr
 const GS_REPORTS = {};
 // The impacts of the tree, which replace the first estimates written beside each order. The record's path is meant to wear the army down in the summer of 1942 and
 // win it back from Uranus on: an attack costs men and matériel and gains the initiative, a cautious order saves men and loses the initiative, a defeat costs, and
-// the clouds and the rolls that go well give back. [manpower, matériel, initiative], in the order the orders are written; { imp, rolls } for an order with a roll.
+// the clouds and the rolls that go well give back. [manpower, matériel, initiative], in the order the orders are written; { imp, strand, rolls } for an order with a roll or
+// one that moves a micro-state of its own (strand: { rdy: 2, arms: -1 }, by the ids oil, arms, ship, org, exp, rdy, int, cmd, tmp).
 const GS_IMPACTS = {
-  gsDec41: [[2, 2, -1], [2, 1, 1], [2, 1, 1]],
+  gsDec41: [{ imp: [0, 0, -1], strand: { arms: 2, rdy: 1 } }, [2, 1, 1], [1, 1, 1]],
   gsJan42: [[0, -1, 0], [0, 0, 0]],
   gsJanMoscow: [[0, 1, 0], [-1, 0, 0]],
   gsJanLyuban: [[0, 0, 0], [0, -1, 0]],
-  gsJanKerch: [[0, 1, -1], [0, 0, 0], [0, -1, 0], [0, 0, 0]],
+  gsJanKerch: [{ imp: [0, 0, -1], strand: { ship: 2 } }, [0, 0, 0], [0, -1, 0], [0, 0, 0]],
   gsJanDemyansk: [[0, 1, 1], [-1, -1, 0]],
   gsJanSevastopol: [[0, 0, 0], [0, 0, 0]],
   gsJanBarvenkovo: [[0, 0, 0], [0, 0, 0]],
   gsJanKursk: [[0, 1, 0], [0, 0, 0]],
   gsJanRzhevVyazma: [[0, 0, 0], [-1, -1, 2]],
   gsJanCrisis: [[0, 0, 0], [-1, 0, 0]],
-  gsFebExhaustion: [[1, 0, 0], [-1, 0, 0], [1, 1, -1]],
-  gsMarKerch: [[1, 0, 0], [0, -1, 0]],
-  gsMarUrban: [[0, 1, 0], [0, 0, 1]],
+  gsFebExhaustion: [[1, 0, 0], [-1, 0, 0], { imp: [0, 0, -1], strand: { rdy: 2, arms: 1 } }],
+  gsMarKerch: [{ imp: [0, 0, 0], strand: { org: 2 } }, [0, -1, 0]],
+  gsMarUrban: [{ imp: [0, 0, 0], strand: { arms: 2 } }, [0, 0, 1]],
   gsMarAssessment: [[-1, -1, 1], [0, 0, 0], [1, 1, -1]],
   gsMayTrappenjagd: [[-1, 0, 0], [-1, 0, 0]],
   gsMayCrimea: [[-1, -1, 0], [-1, -1, -1]],
-  gsMayLyuban: [[1, 0, 0], [-1, -1, -1], [-1, 0, 1]],
+  gsMayLyuban: [{ imp: [0, 0, 0], strand: { org: 1, exp: 1 } }, [-1, -1, -1], [-1, 0, 1]],
   gsMayLooming: [[-1, -1, -1], [0, 0, -1]],
   gsMayKharkov2: [[-1, 0, 0], [-2, -1, 0], [-1, -1, 1]],
   gsMayFredericus: [[0, 0, 1], [1, 0, 0]],
@@ -34445,31 +34454,31 @@ const GS_IMPACTS = {
   gsJunReichel: [[-1, 0, -1], [0, 1, 1]],
   gsMegaKharkov: [{ imp: [-1, -1, 1], rolls: [[1, 0, 2], [-1, -1, 0]] }],
   gsJulMillerovo: [[0, -1, -1], [-1, 0, -1], [-1, 0, 0]],
-  gsJulRzhev: [[1, 1, -1], [-1, 0, 1]],
+  gsJulRzhev: [{ imp: [0, 0, -1], strand: { rdy: 1, arms: 1 } }, [-1, 0, 1]],
   gsAugMillerovo: [[-1, 0, 0], [0, 0, -1]],
   gsAugDon: [[-1, 0, -1], [0, -1, 0]],
   gsAugWirbelwind: [[0, 0, -1], [-1, 0, 0]],
   gsAugDifficulties: [[1, 1, -1], [-1, 0, 0], { imp: [-1, 0, 1], rolls: [[-1, 0, 2], [-1, -1, 0]] }],
   gsMidAugStalingrad: [[-1, -1, 1], [-1, 0, 1], [-1, 0, 0], [-1, 0, 1], [0, -1, 0]],
   gsAugSinyavino: [[-1, 0, 1], [0, 0, 1], [-1, -1, 1]],
-  gsAugLeningrad: [[0, 1, 0], [-1, 0, 0]],
+  gsAugLeningrad: [{ imp: [0, 0, 0], strand: { ship: 1, arms: 1 } }, [-1, 0, 0]],
   gsSepSychevka: [[-1, -1, 1], [0, -1, 0], { imp: [-1, 0, 1], rolls: [[0, 0, 2], [-1, -1, 0]] }],
-  gsSepStands: [[0, -1, 1], [-1, 0, 0], [-1, 0, 1]],
+  gsSepStands: [{ imp: [0, 0, 1], strand: { arms: -2 } }, [-1, 0, 0], [-1, 0, 1]],
   gsSepCracks: [[-1, 0, -1], [0, 0, 0]],
   gsOctBuffel: [[-1, -1, 2], [0, 0, 0]],
   gsSmolenskXmas: [[-2, -2, 2], [0, 1, -1]],
   gsNovGodOfWar: [[1, 0, -1], { imp: [-1, -1, 0], rolls: [[0, 0, 2], [-1, -1, 0]] }],
-  gsNovUranus: [[2, 2, 2], [0, 0, 0]],
+  gsNovUranus: [{ imp: [2, 2, 2], strand: { exp: 1, org: 1 } }, [0, 0, 0]],
   gsDecChir: [[0, 0, 0], [0, 0, 0], [0, 0, 1]],
   gsDecWinter: [[-1, -1, 1], [0, 0, 0]],
   gsDecWinterStalls: [[-1, -1, 2], [-1, 0, 1]],
   gsMansteinBreaks: [[-1, -1, 2], [0, 0, -1]],
-  gsMansteinStops: [[2, 1, 2], [1, 0, 0]],
+  gsMansteinStops: [{ imp: [2, 1, 2], strand: { org: 1 } }, [1, 0, 0]],
   gsRostovOurs: [[-1, 0, 1], [0, 1, 0]],
   gsWinterstorm: [[-1, 0, 1], [0, 0, 1]],
   gsGermansWithdraw: [[0, 0, 1], [0, 0, 1]],
   gsJanIskra: [[-1, 0, 1], [1, 0, 2]],
-  gsFebPolarStar: [[1, 0, -1], [-1, -1, 1], [-1, 0, 1]],
+  gsFebPolarStar: [{ imp: [0, 0, -1], strand: { arms: -1, rdy: 1 } }, [-1, -1, 1], [-1, 0, 1]],
   gsRostovTaken: [[0, 0, 1], [0, -1, 1]],
   gsRostovEarly: [[0, 0, 1], [0, 0, 2]],
   gsKuban: [[-1, -1, 1], [0, 0, 1], [1, 1, 0]],
@@ -35436,6 +35445,7 @@ function gsBuildReport(spec, flags, meters) {
       const after = gsAfter(flags, spec, o);
       const ov = (GS_IMPACTS[spec.id] || [])[oi];
       const ovImp = Array.isArray(ov) ? ov : ov && ov.imp;
+      const ovStrand = ov && !Array.isArray(ov) ? ov.strand : null;
       const ovRolls = ov && !Array.isArray(ov) ? ov.rolls : null;
       const bookkeeping = { gsQ: after.queue, gsSeen: after.seen };
       const choice = {
@@ -35444,6 +35454,7 @@ function gsBuildReport(spec, flags, meters) {
         ...(o.otl ? { historical: true } : {}),
         setFlags: { ...(o.flags || {}), ...bookkeeping },
         impact: imp(ovImp || o.imp),
+        ...(ovStrand || o.strand ? { strand: ovStrand || o.strand } : {}),
         next: after.next,
         outcome: o.outcome,
       };
@@ -35453,7 +35464,8 @@ function gsBuildReport(spec, flags, meters) {
           weight: i === 0 ? first : 100 - first,
           title: r.title,
           setFlags: { ...(r.flags || {}), ...bookkeeping, ...(r.outcome.startsWith("Alternate") ? { alternateHistoryPath: true } : r.outcome.startsWith("Speculative") ? { speculativePath: true } : {}) },
-          impact: imp(ovRolls && ovRolls[i] ? ovRolls[i] : r.imp),
+          impact: imp(ovRolls && ovRolls[i] ? (Array.isArray(ovRolls[i]) ? ovRolls[i] : ovRolls[i].imp) : r.imp),
+          ...(ovRolls && ovRolls[i] && !Array.isArray(ovRolls[i]) && ovRolls[i].strand ? { strand: ovRolls[i].strand } : r.strand ? { strand: r.strand } : {}),
           outcome: r.outcome,
         }));
       }

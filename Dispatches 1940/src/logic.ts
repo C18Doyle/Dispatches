@@ -25,6 +25,8 @@ export interface Variant {
   weight: number;
   title?: string;
   impact?: Impact;
+  /** Moves only the micro-states named, by id (oil, arms, ship, org, exp, rdy, int, cmd, tmp), and no headline meter. */
+  strand?: Record<string, number>;
   outcome?: string;
   next?: string;
   setFlags?: Flags;
@@ -37,6 +39,8 @@ export interface Choice {
   /** The meter the choice is checked against ("Manpower", "Matériel" or "Initiative"), where it names one. */
   checkLabel?: string;
   impact?: Impact;
+  /** Moves only the micro-states named, by id (oil, arms, ship, org, exp, rdy, int, cmd, tmp), and no headline meter: a way to shape the strands apart from the meters. */
+  strand?: Record<string, number>;
   outcome?: string;
   next?: string;
   setFlags?: Flags;
@@ -208,9 +212,9 @@ export function materielReadout(flags: Flags, meters: Meters): StrandReading[] {
 export function effectiveChoice(choice: Choice, rollIndex: number | null) {
   if (choice.uncertain && rollIndex != null && choice.uncertain[rollIndex]) {
     const v = choice.uncertain[rollIndex];
-    return { impact: v.impact || choice.impact, outcome: v.outcome, variantTitle: v.title };
+    return { impact: v.impact || choice.impact, strand: v.strand || choice.strand, outcome: v.outcome, variantTitle: v.title };
   }
-  return { impact: choice.impact, outcome: choice.outcome, variantTitle: null as string | null | undefined };
+  return { impact: choice.impact, strand: choice.strand, outcome: choice.outcome, variantTitle: null as string | null | undefined };
 }
 
 // ---------- Advisers and trust ----------
@@ -449,6 +453,11 @@ export function resolveChoice(args: {
     if (!delta) continue;
     const strand = METER_STRANDS[mk].find((x) => x.id === strandOf(mk, choice, eff.outcome));
     if (strand) flags = { ...flags, [strand.flag]: (Number(flags[strand.flag]) || 0) + delta };
+  }
+  // An order can move a micro-state on its own (`strand`), with no headline meter: the tally takes the whole of it.
+  for (const [sid, d] of Object.entries(eff.strand || {})) {
+    const def = [...MATERIEL_STRANDS, ...MANPOWER_STRANDS, ...INITIATIVE_STRANDS].find((x) => x.id === (STRAND_ALIAS[sid] || sid));
+    if (def && d) flags = { ...flags, [def.flag]: (Number(flags[def.flag]) || 0) + d };
   }
   // Hard-mode ceilings are a hard stop: hitting the cap is itself the event.
   flags = applyCeilings(mode, flags, CEILINGS);

@@ -2740,12 +2740,18 @@ function Typewriter({ text, instant, soundOn }) {
 // that's purely narrative (sets a flag, no impact object at all) reads as "No meter change"
 // rather than a row of zeroes, so it's visually distinct from a choice that costs exactly nothing
 // on every axis by design.
-function formatImpactPreview(impact) {
-  if (!impact) return "No meter change";
+// The micro-states under each meter, by the id an order's `strand` names them with.
+const STRAND_NAMES = { oil: "Fuel & Oil", arms: "Arms & Ammunition", ammo: "Arms & Ammunition", steel: "Arms & Ammunition", ship: "Shipping & Rail", org: "Organisation", exp: "Experience", rdy: "Readiness", int: "Intelligence", cmd: "Command", tmp: "Tempo" };
+const strandParts = (strand) => Object.entries(strand || {}).filter(([, v]) => v).map(([k, v]) => `${STRAND_NAMES[k] || k} ${v > 0 ? "+" : ""}${v}`);
+
+function formatImpactPreview(impact, strand) {
+  if (!impact && !strandParts(strand).length) return "No meter change";
+  impact = impact || {};
   const parts = [];
   if (impact.manpower) parts.push(`Manpower ${impact.manpower > 0 ? "+" : ""}${impact.manpower}`);
   if (impact.fuel) parts.push(`Matériel ${impact.fuel > 0 ? "+" : ""}${impact.fuel}`);
   if (impact.initiative) parts.push(`Initiative ${impact.initiative > 0 ? "+" : ""}${impact.initiative}`);
+  parts.push(...strandParts(strand));
   return parts.length ? parts.join(", ") : "No meter change";
 }
 
@@ -3111,7 +3117,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px] opacity-70"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  <span aria-hidden="true">Δ </span>{formatImpactPreview(choice.impact)}
+                  <span aria-hidden="true">Δ </span>{formatImpactPreview(choice.impact, choice.strand)}
                 </span>
               )}
               {easy && choice.uncertain && !choice.concealRoll && (
@@ -3120,7 +3126,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   <span aria-hidden="true">Δ </span>
-                  {choice.uncertain.map((v, vi) => `${v.title}: ${formatImpactPreview(v.impact || choice.impact)}`).join(" · ")}
+                  {choice.uncertain.map((v, vi) => `${v.title}: ${formatImpactPreview(v.impact || choice.impact, v.strand || choice.strand)}`).join(" · ")}
                 </span>
               )}
               {easy && choice.uncertain && choice.concealRoll && (
@@ -4864,6 +4870,8 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
         ["Initiative", eff.impact.initiative || 0],
       ].filter(([, v]) => v !== 0)
     : [];
+  // the micro-states an order moved on its own (strand), shown beside the meters
+  for (const [k, v] of Object.entries(eff.strand || {})) if (v) deltas.push([STRAND_NAMES[k] || k, v]);
   const outcomeNote = campaign.dynamic ? meterNarrativeNote(campaign.id, meters, choiceIndex) : "";
   const outcomeWithNote = outcomeNote ? eff.outcome + "\n\n" + outcomeNote : eff.outcome;
   return (
