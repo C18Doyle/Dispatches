@@ -1,4 +1,4 @@
-function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange }) {
+function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia }) {
   const [record, setRecord] = useState(null);
   const [activeRun, setActiveRun] = useState(null);
   // "Always let my staff plan battles": off until asked for. The battle screens read the same key.
@@ -616,6 +616,20 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {fontScale <= 0.9 ? "Small" : fontScale >= 1.15 ? "Large" : "Normal"}
+          </button>
+        </div>
+        <div className={`${paper} p-4 flex items-center justify-between`}>
+          <span id="setting-dyslexia-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            Dyslexia-friendly typeface
+          </span>
+          <button
+            onClick={onToggleDyslexia}
+            aria-pressed={!!dyslexia}
+            aria-labelledby="setting-dyslexia-label"
+            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {dyslexia ? "On" : "Off"}
           </button>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>
@@ -2930,7 +2944,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             just not here). It now opens the real-geography Checkpoint Map instead, from the
             same position in the briefing flow the old bar held: replacing the small toolbar
             "Map" button above, not adding a second entry point alongside it. */}
-        {campaign.dynamic && (
+        {false && (
           <button
             onClick={() => setShowMap(true)}
             className="w-full text-left mb-4 border-2 border-black px-3 py-2 text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
@@ -3074,6 +3088,9 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         >
           {stage.title}
         </h2>
+        {campaign.dynamic && <ReportConditions campaign={campaign} stage={stage} nodeId={nodeId} meters={meters} />}
+        {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
+        {campaign.dynamic && <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />}
         <Typewriter text={situationWithNote} instant={instantText} soundOn={soundOn} />
 
         <div
@@ -3883,6 +3900,12 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
           </button>
         </div>
 
+        <div className="mb-4">
+          <BattleSketch categories={categories} allocation={allocation} accent={campaign.accent} onAdd={(id) => remaining > 0 && addEffort(id)} onRemove={(id) => allocation[id] > 0 && removeEffort(id)} />
+          <p className="text-[11px] leading-snug mt-1 opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            The enemy is above the line and your side below it. Press a sector to place a counter there, and a counter to take it back.
+          </p>
+        </div>
         <div className="flex flex-col gap-3 mb-6">
           {categories.map((cat) => (
             <div key={cat.id} className="border px-4 py-3" style={{ borderColor: campaign.accent }}>
@@ -4456,6 +4479,11 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   const position = done ? (won ? Math.max(finalPct[0], 85) : Math.min(finalPct[0], 15)) : started || plan.autoplay ? beats[shownIndex].position : 50;
   const visibleBeats = started || done || plan.autoplay ? beats.slice(0, shownIndex + 1) : [];
   const verdicts = config.verdicts || ["The Attack Succeeds", "The Attack Fails"];
+  const reporting = started || done || plan.autoplay;
+  const armStatus = reporting ? battleArmStatuses({ categories, planContrib, finalContrib, beats, shownIndex, counter, counterCategory: ca ? ca.category : null, done, won }) : {};
+  const reserveGoneIn = reporting && reserveChoice && reserveChoice !== "hold" && beats.some((b, i) => b.kind === "reserve" && i <= shownIndex);
+  const sketchAllocation = Object.fromEntries(categories.map((c) => [c.id, (plan.allocation[c.id] || 0) + (reserveGoneIn ? reserveAlloc[c.id] || 0 : 0)]));
+  const planMean = battleMeanPositive(categories, planContrib);
 
   // Motion (round 9, item #9 — movement only).
   const prevPosRef = useRef(50);
@@ -4578,6 +4606,12 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             <span key={`${shownIndex}-${done ? 1 : 0}`} className="boundary-pulse block w-full h-full" style={{ backgroundColor: "#1a1a1a" }} />
           </div>
         </div>
+
+        {reporting && (
+          <div className="mb-4">
+            <BattleSketch categories={categories} allocation={sketchAllocation} status={armStatus} accent={campaign.accent} small />
+          </div>
+        )}
 
         {/* The control stays at the top: Start before the battle, Pause (and a way to skip) while it runs. */}
         {!done && phase === "running" && !plan.autoplay && (
@@ -4738,6 +4772,11 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
                   {t && (
                     <span className="font-bold not-italic mr-1" style={labelStyle}>
                       {t}
+                    </span>
+                  )}
+                  {b.kind === "cat" && (
+                    <span className="font-bold uppercase text-[11px] tracking-wider mr-1" style={labelStyle}>
+                      {BS_STATUS_WORD[battleArmStatus(planContrib[b.catId] || 0, planMean)]}
                     </span>
                   )}
                   {label && <span className="font-bold">{label}: </span>}
@@ -5422,6 +5461,30 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
           >
             {copied ? "✓ Copied" : "Copy After-Action Summary"}
           </button>
+          {campaign.dynamic && (
+            <ShareCardButton
+              name="dispatches-1940-after-action.png"
+              accent={campaign.accent}
+              build={() => {
+                const endDate = endStamp ? endStamp.replace(/\s*\(.*\)\s*$/, "") : null;
+                return {
+                  campaign,
+                  modeLabel: warRoomModeInfo(mode || "open", campaign.id).label,
+                  rank: rating ? rating.rank : null,
+                  score: rating ? rating.score : null,
+                  ending: endingLabel,
+                  tier: galleryEntry ? galleryEntry.tier : null,
+                  endStamp,
+                  matched: matchedHistory,
+                  comparable: comparable.length,
+                  outperformed,
+                  statuses: endDate ? currentRegionStatuses(cappedStatusYear(yearFrom(endDate, 1945), true), flags, meters, nodeDayKey(endDate)) : null,
+                  geometry: REGIONS_GEOMETRY,
+                  bbox: CAMPAIGN_MAP_BBOX[campaign.id],
+                };
+              }}
+            />
+          )}
           <button
             onClick={onRestart}
             className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"

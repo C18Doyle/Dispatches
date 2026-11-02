@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef, Component } from "react";
+import { useState, useEffect, useMemo, useRef, useId, Component } from "react";
 import * as Tone from "tone";
 import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey } from "./logic";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
@@ -26729,7 +26729,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
           </g>
         );
       })}
-      {marks && <MapFrontMarks bbox={bbox} here={marks.here} trail={marks.trail} pins={marks.pins} ground={marks.ground} accent={accent} seal={marks.seal} />}
+      {marks && <MapFrontMarks bbox={bbox} here={marks.here} trail={marks.trail} pins={marks.pins} ground={marks.ground} accent={accent} seal={marks.seal} offLabel={marks.offLabel} />}
       <MapOpArrows arrows={opArrows} bbox={bbox} />
     </svg>
   );
@@ -26789,6 +26789,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
         dayKey: latestKey || null,
         statuses: currentRegionStatuses(statusYear, snapFlags, snapMeters, latestKey || null),
         here: place,
+        position: snap.position,
         trail: stops.slice(-4),
         isLast,
       };
@@ -26891,7 +26892,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   const [zoomed, setZoomed] = useState(false);
   const frame = hereAt && mapBox ? mapFrame([hereAt, ...(current.trail || []).slice(-3), ...opArrows.flatMap((a) => (a.kind === "hold" ? [a.at] : [a.from, a.to]))], mapBox) : null;
   const zoomStyle = zoomed && frame ? { transformOrigin: "0 0", transform: `scale(${frame.k}) translate(${(-frame.x / MAP_OVERLAY_W) * 100}%, ${(-frame.y / MAP_OVERLAY_H) * 100}%)` } : undefined;
-  const marks = { here: hereAt, trail: embedded ? [] : current.trail || [], pins: meanwhile, ground: groundNow, seal: campaign.seal };
+  const marks = { here: hereAt, trail: embedded ? [] : current.trail || [], pins: meanwhile, ground: groundNow, seal: campaign.seal, offLabel: MAP_OFF_MAP[campaign.id + "/" + current.position] };
   const headingRef = useRef(null);
   useEffect(() => {
     if (!embedded && headingRef.current) headingRef.current.focus();
@@ -28054,6 +28055,14 @@ const MAP_PLACES = {
   },
 };
 
+// ---- the reports set beyond the frame of their map: the name of the place, drawn with an arrow at the edge ----
+const MAP_OFF_MAP = {
+  "german/suezFirst41": "Suez", "german/suezHorizon42": "Suez", "german/suezOpening42": "Alexandria", "german/elAlamein": "El Alamein", "german/sovietFracture42": "Sverdlovsk",
+  "soviet/lendLease42": "Murmansk", "soviet/athensRace44": "Athens", "soviet/athensStandoff44": "Athens",
+  "allied/narvik40": "Narvik", "allied/malaya41": "Singapore", "allied/forceZ41": "The South China Sea", "allied/europeFirst42": "Washington", "allied/pacificPressure42": "Washington",
+  "allied/pq17_1942": "Murmansk", "allied/australiaLifeline42": "Australia", "allied/tehran43": "Tehran",
+};
+
 // ---- what the commands were doing on a date in the record ----
 const mapNow = (on, at, text) => ({ on, at, text });
 const MAP_MEANWHILE = {
@@ -28227,21 +28236,21 @@ function groundMarks(campaignId, flags) {
   return MAP_GROUND.filter((g) => g.campaign === campaignId && flags && g.values.includes(flags[g.flag]));
 }
 
-/** The frame of a zoomed map in overlay units around some places, at the shape of the card, as { k, x, y }: scale and the top left corner. */
-function mapFrame(points, bbox) {
+/** The frame of a zoomed map in overlay units around some places, at the shape of its window (aspect = width over height; 4 / 3 is the whole sheet), as { k, x, y }: scale and the top left corner. */
+function mapFrame(points, bbox, aspect = 4 / 3) {
   const ps = points.filter(Boolean).map(([lo, la]) => projectLonLat(lo, la, bbox)).filter(([x, y]) => x > -30 && x < MAP_OVERLAY_W + 30 && y > -30 && y < MAP_OVERLAY_H + 30);
   if (!ps.length) return null;
   const xs = ps.map((p) => p[0]);
   const ys = ps.map((p) => p[1]);
   let w = Math.max(Math.max(...xs) - Math.min(...xs) + 230, 300);
-  let h = w * 0.75;
+  let h = w / aspect;
   const need = Math.max(Math.max(...ys) - Math.min(...ys) + 230, 225);
   if (h < need) {
     h = need;
-    w = h / 0.75;
+    w = h * aspect;
   }
   w = Math.min(w, MAP_OVERLAY_W);
-  h = w * 0.75;
+  h = w / aspect;
   const x = Math.max(0, Math.min(MAP_OVERLAY_W - w, (Math.min(...xs) + Math.max(...xs)) / 2 - w / 2));
   const y = Math.max(0, Math.min(MAP_OVERLAY_H - h, (Math.min(...ys) + Math.max(...ys)) / 2 - h / 2));
   return { k: MAP_OVERLAY_W / w, x, y };
@@ -28271,7 +28280,7 @@ function MapFrontLines({ fronts, bbox }) {
 }
 
 /** The report's place and the places before it, the other commands' pins, and the ground a run has taken or given up. */
-function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal }) {
+function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal, offLabel }) {
   const P = (p) => projectLonLat(p[0], p[1], bbox);
   const inFrame = ([x, y]) => x > 4 && x < MAP_OVERLAY_W - 4 && y > 4 && y < MAP_OVERLAY_H - 4;
   const font = { fontFamily: "'IBM Plex Mono', monospace" };
@@ -28314,6 +28323,28 @@ function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal }) {
           </g>
         );
       })}
+      {at && !inFrame(at) && offLabel && (() => {
+        // the report is set beyond the frame: an arrow on the nearest edge, pointing the way, with the name of the place
+        const cx = MAP_OVERLAY_W / 2;
+        const cy = MAP_OVERLAY_H / 2;
+        const dx = at[0] - cx;
+        const dy = at[1] - cy;
+        const m = 22;
+        const t = Math.min(dx !== 0 ? (cx - m) / Math.abs(dx) : Infinity, dy !== 0 ? (cy - m) / Math.abs(dy) : Infinity);
+        const ex = cx + dx * t;
+        const ey = cy + dy * t;
+        const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
+        const right = ex > cx + 40;
+        const left = ex < cx - 40;
+        return (
+          <g transform={`translate(${ex} ${ey})`}>
+            <g transform={`rotate(${ang})`}>
+              <path d="M10,0 L-8,-9 L-8,9 Z" fill={accent || "#7a2e2e"} stroke="#f2ead9" strokeWidth="2" />
+            </g>
+            <text x={left ? 14 : right ? -14 : 0} y={dy < 0 && !left && !right ? 22 : dy > 0 && !left && !right ? -14 : 4} textAnchor={left ? "start" : right ? "end" : "middle"} fontSize="10" {...label}>{offLabel}</text>
+          </g>
+        );
+      })()}
       {at && inFrame(at) && (
         <g transform={`translate(${at[0]} ${at[1]})`}>
           <circle r={12} fill="none" stroke="#f2ead9" strokeWidth={6} />
@@ -28328,7 +28359,349 @@ function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal }) {
     </g>
   );
 }
-function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange }) {
+
+/**
+ * The map under the title of a report (the always-on map of 1914): a wide window framed on the report's place and the places before it, with the front on the
+ * day, the other commands' pins, the ground against the record and, below it, the three nearest reports of the others. A button opens the whole map (the
+ * checkpoint map with its timeline and its orders), and another shows the whole theatre in place of the frame.
+ */
+function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) {
+  const [whole, setWhole] = useState(false);
+  const bbox = CAMPAIGN_MAP_BBOX[campaign.id];
+  const years = CAMPAIGN_MAP_YEARS[campaign.id] || [];
+  const dayKey = nodeDayKey(stage.date);
+  const statusYear = cappedStatusYear(yearFrom(stage.date, 1940), false);
+  const clampedYear = years.includes(statusYear) ? statusYear : years.filter((y) => y <= statusYear).pop() || years[0];
+  const statuses = useMemo(() => currentRegionStatuses(statusYear, flags, meters || {}, dayKey), [statusYear, flags, meters, dayKey]);
+  const places = MAP_PLACES[campaign.id] || {};
+  const here = places[nodeId] || null;
+  const trail = [];
+  for (const h of history || []) {
+    const p = places[h.position];
+    if (p && trail[trail.length - 1] !== p) trail.push(p);
+  }
+  const route = trail.slice(-4);
+  const fronts = frontsOn(dayKey, statuses);
+  const ground = groundMarks(campaign.id, flags);
+  const meanwhile = meanwhileOn(campaign.id, dayKey);
+  const wide = 2;
+  const frame = !whole && here && bbox ? mapFrame([here, ...route.slice(-3)], bbox, wide) : null;
+  const inner = frame
+    ? { transformOrigin: "0 0", transform: `scale(${frame.k}) translate(${(-frame.x / MAP_OVERLAY_W) * 100}%, ${(-frame.y / MAP_OVERLAY_H) * 100}%)` }
+    : undefined;
+  if (!bbox || !clampedYear) return null;
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" };
+  const button = "border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]";
+  return (
+    <div className="mb-4" role="group" aria-label="The map of the front on the day of this report">
+      <div className="relative w-full border-2 border-black overflow-hidden" style={{ aspectRatio: frame ? "2 / 1" : "4 / 3" }}>
+        <div className="absolute left-0 top-0 w-full" style={{ aspectRatio: "4 / 3", ...inner }}>
+          <img src={`assets/maps/${campaign.id}/${clampedYear}.png`} alt="" className="w-full h-full object-cover absolute inset-0" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+          <CheckpointMapRegions
+            campaignId={campaign.id}
+            statusYear={statusYear}
+            flags={flags}
+            meters={meters || {}}
+            statuses={statuses}
+            divergedRegions={new Set()}
+            highlightRegions={(NODE_HIGHLIGHT_REGIONS[campaign.id] || {})[nodeId]}
+            accent={campaign.accent}
+            fronts={fronts}
+            marks={{ here, trail: route, pins: meanwhile, ground, seal: campaign.seal, offLabel: MAP_OFF_MAP[campaign.id + "/" + nodeId] }}
+          />
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 mt-2">
+        <button onClick={onOpen} className={button} style={mono}>Show Theater Map</button>
+        {here && bbox && (frame || whole) && (
+          <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button} style={mono}>{whole ? "Frame this report" : "Show the whole theatre"}</button>
+        )}
+      </div>
+      {meanwhile.length > 0 && (
+        <ul className="list-none p-0 m-0 mt-2">
+          {meanwhile.map((m) => (
+            <li key={m.campaignId} className="text-[12px] leading-snug mb-0.5" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              <span className="text-[10px] uppercase tracking-wider font-bold" style={{ ...mono, color: (CAMPAIGNS[m.campaignId] || {}).accent }}>{m.short}</span>
+              {" \u00b7 "}
+              {mapIsoLabel(m.on)}: {m.text}
+            </li>
+          ))}
+        </ul>
+      )}
+      {ground.length > 0 && (
+        <ul className="list-none p-0 m-0 mt-1">
+          {ground.map((g) => (
+            <li key={g.id} className="text-[12px] leading-snug mb-0.5" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              <span aria-hidden="true">{g.kind === "gained" ? "\u2295 " : "\u2297 "}</span>
+              <span className="font-bold">{g.name}</span>
+              {g.kind === "gained" ? ", beyond the record: " : ", against the record: "}
+              {g.text} (projection)
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+const COMMS = {
+  german: [[1939, 6], [1943, 9], [1945, 14]],
+  soviet: [[1939, 16], [1941, 30], [1942, 20], [1943, 12], [1944, 8]],
+  allied: [[1939, 10], [1942, 8], [1944, 5]],
+  italy: [[1939, 14], [1941, 24], [1943, 20], [1944, 16]],
+};
+// THE CONDITIONS OF A REPORT (the conditions of 1914's 48-conditions.jsx, for 1940)
+//
+// What a headquarters knew about the state of things when a report reached it, apart from the decision: how old the news was, the weather that the report's place
+// usually has in the month, the state of the railways and the guns that were fired. These tables are MODELLED, not recorded: COMMS is a figure in hours for the
+// means of communication of each command in each period, and the weather is the usual weather of the climate of the report's place (MAP_PLACES) in the month, not the
+// weather of the day. The rail reading is the Matériel meter put into words. The guns are different: each is a figure from the histories, with its source, and is
+// shown on the report that it belongs to only. tools/check-conditions.mjs proves that the tables are whole and the figures sourced.
+
+/** How old the news is on a report, for a command, in a year: { hours, text }. */
+function reportAge(campaignId, year) {
+  const rows = COMMS[campaignId] || [[1939, 12]];
+  let hours = rows[0][1];
+  for (const [from, h] of rows) if (year >= from) hours = h;
+  const text = hours < 24 ? hours + " hours old" : hours < 36 ? "a day old" : hours < 60 ? "two days old" : "more than two days old";
+  return { hours, text };
+}
+
+const CLIMATES = {
+  west: ["Hard frost", "Frost and fog", "Thaw and mud", "Showers", "Fine, with showers", "Warm", "Warm", "Warm, with storms", "Fine, cooling", "Rain", "Rain and mud", "Frost"],
+  east: ["Hard frost", "Hard frost and snow", "Thaw and mud", "Mud: the roads are rivers", "Fine", "Warm", "Hot", "Hot", "Fine", "Rain: the rasputitsa begins", "Mud and the first frost", "Frost and snow"],
+  north: ["Hard frost in the polar night", "Hard frost", "Snow and frost", "Snow melting", "Thaw and mud", "Light nights", "Light nights, mild", "Mild, with rain", "Rain and the first frost", "Snow and gales", "Snow and the dark", "Hard frost in the polar night"],
+  med: ["Mild and wet", "Mild and wet", "Mild, with rain", "Fine", "Fine", "Hot", "Hot and dry", "Hot and dry", "Hot, storms at sea", "Rain and gales", "Rain and gales", "Mild and wet"],
+  desert: ["Cool, with rain on the coast", "Cool and clear", "Khamsin: sand and haze", "Khamsin: sand and haze", "Hot", "Very hot", "Very hot", "Very hot", "Hot", "Warm", "Cool", "Cool, with rain on the coast"],
+};
+
+/** The climate of a place [longitude, latitude], or "" for a place that none of the tables covers (the Pacific, America, Asia). */
+function climateOf(place) {
+  if (!place) return "";
+  const [lon, lat] = place;
+  if (lon < -12 || lon > 62 || lat < 24 || lat > 72) return "";
+  if (lat >= 59) return "north";
+  if (lat < 34 && lon >= 8) return "desert";
+  if (lat < 44 && lon < 36) return "med";
+  if (lon >= 20) return "east";
+  return "west";
+}
+
+/** The usual weather for the month at a place: "" when there is none. month is 1 to 12. */
+function usualWeather(place, month) {
+  const c = climateOf(place);
+  return c && month >= 1 && month <= 12 ? CLIMATES[c][month - 1] : "";
+}
+
+/** The Matériel meter as the state of the railways. */
+function railReading(fuel) {
+  const f = fuel || 0;
+  return f <= -3 ? "choked and broken" : f === -2 ? "strained" : f === -1 ? "short of wagons" : f === 0 ? "working" : f === 1 ? "running well" : "running to the timetable";
+}
+
+/** The guns of the great bombardments, on the report where they were fired: [campaign, report] -> { text, source }. */
+const BOMBARDMENTS = {
+  "soviet/stalingradCounter42": { text: "About 3,500 guns and mortars, in a preparation of eighty minutes before the attack", source: "Operation Uranus, Wikipedia (the sources differ a little on the figure and the length)" },
+  "german/elAlamein": { text: "The British barrage on the first night, by about 900 guns, going on for five hours", source: "Second Battle of El Alamein, Wikipedia (the figure is for the field guns)" },
+  "italy/alamein42": { text: "The British barrage on the first night, by about 900 guns, going on for five hours", source: "Second Battle of El Alamein, Wikipedia (the figure is for the field guns)" },
+};
+
+/** The line about the guns on a report, or "". */
+function bombardmentAt(campaignId, nodeId) {
+  const b = BOMBARDMENTS[campaignId + "/" + nodeId];
+  return b ? b.text : "";
+}
+
+/** The month, 1 to 12, of a node's date line, or 0 when it names no month or season (a date of only a year has no weather; a season is the month it begins in). */
+function conditionsMonth(date) {
+  if (!/\b(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER|SPRING|SUMMER|AUTUMN|FALL|WINTER)\b/i.test(String(date || ""))) return 0;
+  const key = nodeDayKey(date);
+  return key == null ? 0 : Math.floor((key % 10000) / 100);
+}
+
+/** One line under the title: the age of the news, the weather at the place, the rail, and the guns where they are known. */
+function ReportConditions({ campaign, stage, nodeId, meters }) {
+  const year = yearFrom(stage.date, 1940);
+  const age = reportAge(campaign.id, year);
+  const place = (MAP_PLACES[campaign.id] || {})[nodeId] || null;
+  const weather = usualWeather(place, conditionsMonth(stage.date));
+  const guns = bombardmentAt(campaign.id, nodeId);
+  const parts = ["News " + age.text, weather && "Weather: " + weather, "Rail " + railReading((meters || {}).fuel)];
+  return (
+    <div className="mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+      <p className="text-[11px] leading-snug text-[#000000] opacity-80 m-0">{parts.filter(Boolean).join(" · ")}</p>
+      {guns && <p className="text-[11px] leading-snug text-[#000000] opacity-80 m-0 mt-0.5">Guns: {guns}.</p>}
+    </div>
+  );
+}
+
+// ---- reading aids ----
+
+/** The typeface for a reader who asks for the dyslexia-friendly one: OpenDyslexic or Lexend if they are installed, else a wide-spaced sans-serif (the drawn maps and sketches keep theirs). */
+const DYSLEXIA_CSS = `
+  body, body *:not(svg):not(svg *) { font-family: "OpenDyslexic", "Lexend", "Atkinson Hyperlegible", Verdana, "Trebuchet MS", sans-serif !important; letter-spacing: 0.04em !important; word-spacing: 0.12em !important; }
+  body p, body li { line-height: 1.75 !important; }
+`;
+
+/** Reads a report aloud with the browser's own voice, where it has one; nothing is drawn where it has none. */
+function ReadAloud({ id, text }) {
+  const [on, setOn] = useState(false);
+  const can = typeof window !== "undefined" && "speechSynthesis" in window && typeof window.SpeechSynthesisUtterance !== "undefined";
+  useEffect(() => () => {
+    try {
+      if (can) window.speechSynthesis.cancel();
+    } catch (e) {
+      /* no voice here */
+    }
+  }, [id]);
+  if (!can) return null;
+  const toggle = () => {
+    const ss = window.speechSynthesis;
+    if (on) {
+      ss.cancel();
+      setOn(false);
+      return;
+    }
+    const u = new window.SpeechSynthesisUtterance(text);
+    u.lang = "en-GB";
+    u.rate = 0.95;
+    u.onend = () => setOn(false);
+    u.onerror = () => setOn(false);
+    ss.cancel();
+    ss.speak(u);
+    setOn(true);
+  };
+  return (
+    <button
+      onClick={toggle}
+      aria-pressed={on}
+      className="mb-3 border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+    >
+      {on ? "Stop reading" : "Read aloud"}
+    </button>
+  );
+}
+const BS_STATUS_WORD = { gaining: "Gaining", holding: "Holding", breaking: "Breaking" };
+// THE SKETCH OF THE GROUND (1914's sketch of the ground, for the Order of Battle of 1940)
+//
+// One sector for each arm of the battle, left to right, the enemy above and our own side below, and the line between them. In the plan it is a straight line and
+// each sector can be pressed to put a counter in it (a counter is pressed to take it out; the buttons under each arm do the same for a keyboard or a screen reader,
+// so the sketch is only drawn). On the day each sector's part of the line is pushed forward, left where it is or pushed back as the dispatches say, so the report
+// shows where the battle is going arm by arm and not only in the one bar. Nothing is rolled here: the status of an arm is read off what it contributes to the plan
+// (computeBattleContributions) and, once they have come in, the reserve, the counterattack and the verdict, so the sketch and the result never disagree.
+
+const BS_OFFSET = { gaining: -24, holding: 0, breaking: 24 };
+
+/** The status of one arm from what it contributes, against the average of the arms that contribute: gaining, holding or breaking. */
+function battleArmStatus(contribution, meanPositive) {
+  return contribution > 0 ? (contribution >= meanPositive ? "gaining" : "holding") : "breaking";
+}
+
+/** The average contribution of the arms that contribute at all (1 when none does). */
+function battleMeanPositive(categories, contributions) {
+  const positive = categories.map((c) => contributions[c.id] || 0).filter((v) => v > 0);
+  return positive.length ? positive.reduce((a, b) => a + b, 0) / positive.length : 1;
+}
+
+/**
+ * The status of each arm that the report has reached: { armId: status } (an arm not yet reported is left out and its part of the line stays straight).
+ * The plan's contribution at the arm's own dispatch, the final one once the reserve has gone in, the counterattack's result for the arm it fell on, and
+ * at the verdict a won battle lifts the arms that held and a lost one lowers every arm a step.
+ */
+function battleArmStatuses({ categories, planContrib, finalContrib, beats, shownIndex, counter, counterCategory, done, won }) {
+  const mean = battleMeanPositive(categories, planContrib);
+  const reserveShown = beats.some((b, i) => b.kind === "reserve" && i <= shownIndex);
+  const contrib = reserveShown ? finalContrib : planContrib;
+  const out = {};
+  beats.forEach((b, i) => {
+    if (b.kind === "cat" && i <= shownIndex) out[b.catId] = battleArmStatus(contrib[b.catId] || 0, mean);
+  });
+  const counterShown = beats.some((b, i) => b.kind === "counter" && i <= shownIndex);
+  if (counterShown && counter && counterCategory) out[counterCategory] = counter.result === "repulsed" ? "gaining" : counter.result === "heldAtCost" ? "holding" : "breaking";
+  if (done) {
+    for (const c of categories) {
+      const s = out[c.id];
+      if (!s) continue;
+      out[c.id] = won ? (s === "holding" && (contrib[c.id] || 0) > 0 ? "gaining" : s) : s === "gaining" ? "holding" : s === "holding" ? "breaking" : s;
+    }
+  }
+  return out;
+}
+
+/** An arm's name cut to what fits under its sector: whole words, with an ellipsis when some are left out. */
+function battleArmLabel(name, chars) {
+  const words = String(name).replace(/&/g, "and").split(/\s+/);
+  let out = "";
+  for (const w of words) {
+    if ((out + " " + w).trim().length > chars) return out ? out + "\u2026" : w.slice(0, chars - 1) + "\u2026";
+    out = (out + " " + w).trim();
+  }
+  return out;
+}
+
+/** The sketch. `allocation` puts the counters in; `status` is { armId: status } and moves the line; onAdd and onRemove make the sectors and the counters pressable. */
+function BattleSketch({ categories, allocation, status, accent, onAdd, onRemove, small }) {
+  const hatch = "bs-hatch-" + useId().replace(/[^a-zA-Z0-9]/g, "");
+  const n = categories.length;
+  const W = 320;
+  const H = 160;
+  const w = W / n;
+  const mid = 74;
+  const ys = categories.map((c) => mid + (status && status[c.id] ? BS_OFFSET[status[c.id]] : 0));
+  const edge = (i) => (i === 0 ? ys[0] : i === n ? ys[n - 1] : (ys[i - 1] + ys[i]) / 2);
+  let d = "M 0 " + edge(0);
+  categories.forEach((c, i) => {
+    d += " L " + (i * w + 10) + " " + ys[i] + " L " + ((i + 1) * w - 10) + " " + ys[i] + " L " + (i + 1) * w + " " + edge(i + 1);
+  });
+  const cols = Math.max(2, Math.floor((w - 14) / 17));
+  const summary = categories.map((c) => c.name + ": " + (status && status[c.id] ? BS_STATUS_WORD[status[c.id]].toLowerCase() : (allocation[c.id] || 0) + " placed")).join("; ");
+  const ink = accent || "#7a2e2e";
+  const sector = (s) => (s === "gaining" ? "#d9e3d2" : s === "breaking" ? "#ecd2cc" : "#f2ead9");
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" };
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full block border-2 border-black" style={{ background: "#f2ead9" }} role="img" aria-label={"Sketch of the line. " + summary}>
+      <defs>
+        <pattern id={hatch} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#5a2a2a" strokeWidth="1.4" />
+        </pattern>
+      </defs>
+      {categories.map((c, i) => (
+        <g key={c.id}>
+          <rect x={i * w} y="0" width={w} height={H} fill={sector(status && status[c.id])} />
+          <rect x={i * w} y="0" width={w} height={ys[i]} fill={`url(#${hatch})`} opacity="0.35" />
+          {i > 0 && <line x1={i * w} y1="0" x2={i * w} y2={H} stroke="#241d12" strokeOpacity="0.35" strokeDasharray="3,3" />}
+          {onAdd && <rect x={i * w} y="0" width={w} height={H} fill="transparent" style={{ cursor: "pointer" }} onClick={() => onAdd(c.id)} />}
+        </g>
+      ))}
+      <path d={d} fill="none" stroke="#f2ead9" strokeWidth="6" strokeLinejoin="round" strokeLinecap="round" style={{ pointerEvents: "none" }} />
+      <path d={d} fill="none" stroke="#1a1410" strokeWidth="2.6" strokeLinejoin="round" strokeLinecap="round" style={{ pointerEvents: "none" }} />
+      {categories.map((c, i) =>
+        Array.from({ length: allocation[c.id] || 0 }, (_, j) => (
+          <rect
+            key={c.id + j}
+            x={i * w + 8 + (j % cols) * 17}
+            y={ys[i] + 12 + Math.floor(j / cols) * 16}
+            width="13"
+            height="11"
+            fill={ink}
+            stroke="#f2ead9"
+            strokeWidth="1"
+            style={onRemove ? { cursor: "pointer" } : { pointerEvents: "none" }}
+            onClick={onRemove ? (e) => { e.stopPropagation(); onRemove(c.id); } : undefined}
+          />
+        ))
+      )}
+      {categories.map((c, i) => (
+        <text key={"n" + c.id} x={i * w + 5} y={H - 6} fontSize="7.5" fill="#241d12" style={{ ...mono, pointerEvents: "none" }}>
+          {i + 1} {battleArmLabel(c.name, Math.floor((w - 8) / 4.5) - 2)}
+        </text>
+      ))}
+      <text x="6" y="12" fontSize="8.5" fill="#5a2a2a" style={{ ...mono, pointerEvents: "none" }}>ENEMY</text>
+      <text x="6" y={H - 18} fontSize="8.5" fill="#241d12" style={{ ...mono, pointerEvents: "none" }}>OURS</text>
+    </svg>
+  );
+}
+function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia }) {
   const [record, setRecord] = useState(null);
   const [activeRun, setActiveRun] = useState(null);
   // "Always let my staff plan battles": off until asked for. The battle screens read the same key.
@@ -28946,6 +29319,20 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {fontScale <= 0.9 ? "Small" : fontScale >= 1.15 ? "Large" : "Normal"}
+          </button>
+        </div>
+        <div className={`${paper} p-4 flex items-center justify-between`}>
+          <span id="setting-dyslexia-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            Dyslexia-friendly typeface
+          </span>
+          <button
+            onClick={onToggleDyslexia}
+            aria-pressed={!!dyslexia}
+            aria-labelledby="setting-dyslexia-label"
+            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {dyslexia ? "On" : "Off"}
           </button>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>
@@ -31260,7 +31647,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             just not here). It now opens the real-geography Checkpoint Map instead, from the
             same position in the briefing flow the old bar held: replacing the small toolbar
             "Map" button above, not adding a second entry point alongside it. */}
-        {campaign.dynamic && (
+        {false && (
           <button
             onClick={() => setShowMap(true)}
             className="w-full text-left mb-4 border-2 border-black px-3 py-2 text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
@@ -31404,6 +31791,9 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         >
           {stage.title}
         </h2>
+        {campaign.dynamic && <ReportConditions campaign={campaign} stage={stage} nodeId={nodeId} meters={meters} />}
+        {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
+        {campaign.dynamic && <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />}
         <Typewriter text={situationWithNote} instant={instantText} soundOn={soundOn} />
 
         <div
@@ -32213,6 +32603,12 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
           </button>
         </div>
 
+        <div className="mb-4">
+          <BattleSketch categories={categories} allocation={allocation} accent={campaign.accent} onAdd={(id) => remaining > 0 && addEffort(id)} onRemove={(id) => allocation[id] > 0 && removeEffort(id)} />
+          <p className="text-[11px] leading-snug mt-1 opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            The enemy is above the line and your side below it. Press a sector to place a counter there, and a counter to take it back.
+          </p>
+        </div>
         <div className="flex flex-col gap-3 mb-6">
           {categories.map((cat) => (
             <div key={cat.id} className="border px-4 py-3" style={{ borderColor: campaign.accent }}>
@@ -32786,6 +33182,11 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   const position = done ? (won ? Math.max(finalPct[0], 85) : Math.min(finalPct[0], 15)) : started || plan.autoplay ? beats[shownIndex].position : 50;
   const visibleBeats = started || done || plan.autoplay ? beats.slice(0, shownIndex + 1) : [];
   const verdicts = config.verdicts || ["The Attack Succeeds", "The Attack Fails"];
+  const reporting = started || done || plan.autoplay;
+  const armStatus = reporting ? battleArmStatuses({ categories, planContrib, finalContrib, beats, shownIndex, counter, counterCategory: ca ? ca.category : null, done, won }) : {};
+  const reserveGoneIn = reporting && reserveChoice && reserveChoice !== "hold" && beats.some((b, i) => b.kind === "reserve" && i <= shownIndex);
+  const sketchAllocation = Object.fromEntries(categories.map((c) => [c.id, (plan.allocation[c.id] || 0) + (reserveGoneIn ? reserveAlloc[c.id] || 0 : 0)]));
+  const planMean = battleMeanPositive(categories, planContrib);
 
   // Motion (round 9, item #9 — movement only).
   const prevPosRef = useRef(50);
@@ -32908,6 +33309,12 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             <span key={`${shownIndex}-${done ? 1 : 0}`} className="boundary-pulse block w-full h-full" style={{ backgroundColor: "#1a1a1a" }} />
           </div>
         </div>
+
+        {reporting && (
+          <div className="mb-4">
+            <BattleSketch categories={categories} allocation={sketchAllocation} status={armStatus} accent={campaign.accent} small />
+          </div>
+        )}
 
         {/* The control stays at the top: Start before the battle, Pause (and a way to skip) while it runs. */}
         {!done && phase === "running" && !plan.autoplay && (
@@ -33068,6 +33475,11 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
                   {t && (
                     <span className="font-bold not-italic mr-1" style={labelStyle}>
                       {t}
+                    </span>
+                  )}
+                  {b.kind === "cat" && (
+                    <span className="font-bold uppercase text-[11px] tracking-wider mr-1" style={labelStyle}>
+                      {BS_STATUS_WORD[battleArmStatus(planContrib[b.catId] || 0, planMean)]}
                     </span>
                   )}
                   {label && <span className="font-bold">{label}: </span>}
@@ -33752,6 +34164,30 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
           >
             {copied ? "✓ Copied" : "Copy After-Action Summary"}
           </button>
+          {campaign.dynamic && (
+            <ShareCardButton
+              name="dispatches-1940-after-action.png"
+              accent={campaign.accent}
+              build={() => {
+                const endDate = endStamp ? endStamp.replace(/\s*\(.*\)\s*$/, "") : null;
+                return {
+                  campaign,
+                  modeLabel: warRoomModeInfo(mode || "open", campaign.id).label,
+                  rank: rating ? rating.rank : null,
+                  score: rating ? rating.score : null,
+                  ending: endingLabel,
+                  tier: galleryEntry ? galleryEntry.tier : null,
+                  endStamp,
+                  matched: matchedHistory,
+                  comparable: comparable.length,
+                  outperformed,
+                  statuses: endDate ? currentRegionStatuses(cappedStatusYear(yearFrom(endDate, 1945), true), flags, meters, nodeDayKey(endDate)) : null,
+                  geometry: REGIONS_GEOMETRY,
+                  bbox: CAMPAIGN_MAP_BBOX[campaign.id],
+                };
+              }}
+            />
+          )}
           <button
             onClick={onRestart}
             className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
@@ -33769,6 +34205,164 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         </div>
       </div>
     </div>
+  );
+}
+const SHARE_CARD_W = 1200;
+// THE SHARE CARD: one picture of an ended file for itch.io or a post: the command, the rank, the ending, the judgement against the record and the map at the end of the war.
+// It is drawn as an SVG of its own (system fonts only, since a picture made of SVG cannot load the page's web fonts), turned into a PNG on a canvas, and either
+// shared as a file (where the browser can) or saved. tools/check-share-card.mjs proves the SVG is well formed and escapes what it prints.
+
+const SHARE_CARD_H = 630;
+
+const xmlEscape = (t) => String(t == null ? "" : t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/** A line of text broken into lines of at most `chars` characters at the spaces, at most `max` lines (the last ends with an ellipsis when the text is cut). */
+function shareWrap(text, chars, max) {
+  const words = String(text || "").split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = "";
+  for (const w of words) {
+    if ((line + " " + w).trim().length > chars && line) {
+      lines.push(line);
+      line = w;
+    } else line = (line + " " + w).trim();
+  }
+  if (line) lines.push(line);
+  if (lines.length > max) {
+    const kept = lines.slice(0, max);
+    kept[max - 1] = kept[max - 1].replace(/[ ,.;:]+$/, "") + "…";
+    return kept;
+  }
+  return lines;
+}
+
+/**
+ * The card as an SVG string. d = { campaign: { name, seal, accent, id }, modeLabel, rank, score, ending, tier, endStamp, matched, comparable, outperformed,
+ * statuses: { regionId: status } or null, geometry, bbox }.
+ */
+function shareCardSvg(d) {
+  const mono = "'Courier New', Courier, monospace";
+  const serif = "Georgia, 'Times New Roman', serif";
+  const accent = (d.campaign && d.campaign.accent) || "#7a2e2e";
+  let regions = "";
+  if (d.statuses && d.geometry && d.bbox) {
+    for (const r of MAP_REGIONS) {
+      const entry = d.geometry[r.id];
+      const status = d.statuses[r.id];
+      const fill = status === "divided" ? STATUS_COLORS.allied : STATUS_COLORS[status];
+      const path = fill && entry && regionPathD(entry.rings, d.bbox);
+      if (path) regions += `<path d="${path}" fill="${fill}" fill-opacity="0.85" stroke="#2a2015" stroke-width="1.4" stroke-opacity="0.7"/>`;
+    }
+  }
+  const ending = shareWrap(d.ending, 30, 3);
+  const judgement = d.comparable > 0 ? shareWrap(`Chose the historical option at ${d.matched} of ${d.comparable} comparable decisions and out-positioned it at ${d.outperformed}.`, 46, 3) : [];
+  let y = 150;
+  let text = "";
+  const put = (s, size, font, fill, weight, spacing) => {
+    text += `<text x="64" y="${y}" font-family="${font}" font-size="${size}" font-weight="${weight || 400}" fill="${fill}"${spacing ? ` letter-spacing="${spacing}"` : ""}>${xmlEscape(s)}</text>`;
+  };
+  put("DISPATCHES 1940", 20, mono, "#241d12", 700, "5");
+  y += 38;
+  put(`${d.campaign.seal} · ${d.campaign.name}`, 20, mono, accent, 700);
+  y += 26;
+  if (d.modeLabel) {
+    put(d.modeLabel, 16, mono, "#241d12", 400);
+    y += 34;
+  } else y += 8;
+  if (d.rank) {
+    put("COMMAND RANK", 14, mono, "#241d12", 700, "4");
+    y += 50;
+    put(`${d.rank}`, 54, serif, "#1a1410", 700);
+    y += 28;
+    put(`${d.score} of 100`, 16, mono, "#241d12", 400);
+    y += 40;
+  }
+  for (const l of ending) {
+    put(l, 28, serif, "#1a1410", 700);
+    y += 34;
+  }
+  if (d.tier) {
+    put(d.tier.toUpperCase(), 14, mono, accent, 700, "3");
+    y += 26;
+  }
+  if (d.endStamp) {
+    put(`End of hostilities: ${d.endStamp}`, 14, mono, "#241d12", 400);
+    y += 26;
+  }
+  for (const l of judgement) {
+    put(l, 15, mono, "#241d12", 400);
+    y += 21;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${SHARE_CARD_W}" height="${SHARE_CARD_H}" viewBox="0 0 ${SHARE_CARD_W} ${SHARE_CARD_H}">` +
+    `<rect width="${SHARE_CARD_W}" height="${SHARE_CARD_H}" fill="#0b0b0b"/>` +
+    `<rect x="24" y="24" width="${SHARE_CARD_W - 48}" height="${SHARE_CARD_H - 48}" fill="#f2ead9" stroke="#1a1410" stroke-width="3"/>` +
+    `<rect x="64" y="64" width="150" height="46" fill="none" stroke="${accent}" stroke-width="4" transform="rotate(-2 139 87)"/>` +
+    `<text x="139" y="96" text-anchor="middle" font-family="${mono}" font-size="24" font-weight="700" fill="${accent}" letter-spacing="3" transform="rotate(-2 139 87)">${xmlEscape(d.campaign.seal)}</text>` +
+    `<rect x="632" y="104" width="520" height="390" fill="#b7c9c6" stroke="#1a1410" stroke-width="3"/>` +
+    `<clipPath id="card-map"><rect x="632" y="104" width="520" height="390"/></clipPath><g clip-path="url(#card-map)"><g transform="translate(632 104) scale(0.65)">${regions}</g></g>` +
+    `<text x="632" y="524" font-family="${mono}" font-size="13" fill="#241d12">The map at the end of the war (approximate)</text>` +
+    text +
+    `</svg>`;
+}
+
+/** The card as a PNG blob, or null where the browser cannot make one. */
+async function shareCardBlob(svg) {
+  try {
+    const img = new Image();
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = reject;
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    });
+    const canvas = document.createElement("canvas");
+    canvas.width = SHARE_CARD_W;
+    canvas.height = SHARE_CARD_H;
+    canvas.getContext("2d").drawImage(img, 0, 0);
+    return await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+  } catch (e) {
+    return null;
+  }
+}
+
+/** The button under an ended file: shares the card as a file where the browser can, and saves it where it cannot. */
+function ShareCardButton({ build, name, accent }) {
+  const [state, setState] = useState("idle");
+  const go = async () => {
+    setState("working");
+    const blob = await shareCardBlob(shareCardSvg(build()));
+    if (!blob) {
+      setState("failed");
+      return;
+    }
+    try {
+      const file = new File([blob], name, { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: "Dispatches 1940" });
+        setState("done");
+        return;
+      }
+    } catch (e) {
+      /* declined or not supported: save it instead */
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    setState("done");
+  };
+  return (
+    <button
+      onClick={go}
+      disabled={state === "working"}
+      className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+      style={{ borderColor: accent, fontFamily: "Oswald, sans-serif" }}
+    >
+      {state === "working" ? "Drawing…" : state === "done" ? "✓ Share card" : state === "failed" ? "Share card failed: retry" : "Share Card"}
+    </button>
   );
 }
 const ADVISOR_DOSSIERS = {
@@ -34436,6 +35030,21 @@ function WW2CommandInner() {
   const [soundOn, setSoundOn] = useState(false);
   const [fontScale, setFontScale] = useState(1);
   const [reducedMotion, setReducedMotion] = useState(false);
+  // The dyslexia-friendly typeface is the one setting that is kept between visits: a reader who needs it needs it on the first screen.
+  const [dyslexia, setDyslexia] = useState(() => {
+    try {
+      return window.localStorage.getItem("dispatches1940_dyslexia") === "1";
+    } catch (e) {
+      return false;
+    }
+  });
+  useEffect(() => {
+    try {
+      window.localStorage.setItem("dispatches1940_dyslexia", dyslexia ? "1" : "0");
+    } catch (e) {
+      /* not kept */
+    }
+  }, [dyslexia]);
   // Round 11 (Craig: "The music didn't play during the game"): on by default (previously
   // false, matching the sound-effects toggle's deliberately silent-until-asked pattern — right
   // for typewriter clacks/stamps, wrong for a game score nobody would think to go looking for
@@ -35092,6 +35701,7 @@ function WW2CommandInner() {
           *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
         }
       `}</style>
+      {dyslexia && <style>{DYSLEXIA_CSS}</style>}
       {reducedMotion && (
         <style>{`
           .stamp-in { animation: none !important; }
@@ -35099,7 +35709,7 @@ function WW2CommandInner() {
         `}</style>
       )}
       <audio ref={musicRef} src={MUSIC_TRACK_SRC} loop preload="none" />
-      {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
+      {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} dyslexia={dyslexia} onToggleDyslexia={() => setDyslexia((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
       {screen === "warroom" && campaign && (
         <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaignId, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
       )}
