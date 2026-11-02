@@ -17,6 +17,7 @@
     { "name": "39-battle-sketch", "start": "^const BS_STATUS_WORD = " },
     { "name": "40-select-briefing-end-screens", "start": "^function SelectScreen\\(" },
     { "name": "41-share-card", "start": "^const SHARE_CARD_W = " },
+    { "name": "42-staffs-reading", "start": "^const INTEL = " },
     { "name": "45-dossiers-objectives", "start": "^const ADVISOR_DOSSIERS = \\{" },
     { "name": "50-app", "start": "^function WW2CommandInner\\(" }
   ]
