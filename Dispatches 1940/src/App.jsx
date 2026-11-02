@@ -34416,6 +34416,103 @@ const gsO = (adviser, label, then, more) => ({ adviser, label, then, ...(more ||
 const gsGo = (then, flags, label, outcome, imp) => [gsO("Stavka", label || "Carry on", then, { flags, outcome, imp, position: "There is nothing to decide here, and the war goes on to the next report." })];
 
 const GS_REPORTS = {};
+// The impacts of the tree, which replace the first estimates written beside each order. The record's path is meant to wear the army down in the summer of 1942 and
+// win it back from Uranus on: an attack costs men and matériel and gains the initiative, a cautious order saves men and loses the initiative, a defeat costs, and
+// the clouds and the rolls that go well give back. [manpower, matériel, initiative], in the order the orders are written; { imp, rolls } for an order with a roll.
+const GS_IMPACTS = {
+  gsDec41: [[2, 2, -1], [2, 1, 1], [2, 1, 1]],
+  gsJan42: [[0, -1, 0], [0, 0, 0]],
+  gsJanMoscow: [[0, 1, 0], [-1, 0, 0]],
+  gsJanLyuban: [[0, 0, 0], [0, -1, 0]],
+  gsJanKerch: [[0, 1, -1], [0, 0, 0], [0, -1, 0], [0, 0, 0]],
+  gsJanDemyansk: [[0, 1, 1], [-1, -1, 0]],
+  gsJanSevastopol: [[0, 0, 0], [0, 0, 0]],
+  gsJanBarvenkovo: [[0, 0, 0], [0, 0, 0]],
+  gsJanKursk: [[0, 1, 0], [0, 0, 0]],
+  gsJanRzhevVyazma: [[0, 0, 0], [-1, -1, 2]],
+  gsJanCrisis: [[0, 0, 0], [-1, 0, 0]],
+  gsFebExhaustion: [[1, 0, 0], [-1, 0, 0], [1, 1, -1]],
+  gsMarKerch: [[1, 0, 0], [0, -1, 0]],
+  gsMarUrban: [[0, 1, 0], [0, 0, 1]],
+  gsMarAssessment: [[-1, -1, 1], [0, 0, 0], [1, 1, -1]],
+  gsMayTrappenjagd: [[-1, 0, 0], [-1, 0, 0]],
+  gsMayCrimea: [[-1, -1, 0], [-1, -1, -1]],
+  gsMayLyuban: [[1, 0, 0], [-1, -1, -1], [-1, 0, 1]],
+  gsMayLooming: [[-1, -1, -1], [0, 0, -1]],
+  gsMayKharkov2: [[-1, 0, 0], [-2, -1, 0], [-1, -1, 1]],
+  gsMayFredericus: [[0, 0, 1], [1, 0, 0]],
+  gsJunKerchSevastopol: [[-1, -1, -1], [0, 0, 1]],
+  gsJunReichel: [[-1, 0, -1], [0, 1, 1]],
+  gsMegaKharkov: [{ imp: [-1, -1, 1], rolls: [[1, 0, 2], [-1, -1, 0]] }],
+  gsJulMillerovo: [[0, -1, -1], [-1, 0, -1], [-1, 0, 0]],
+  gsJulRzhev: [[1, 1, -1], [-1, 0, 1]],
+  gsAugMillerovo: [[-1, 0, 0], [0, 0, -1]],
+  gsAugDon: [[-1, 0, -1], [0, -1, 0]],
+  gsAugWirbelwind: [[0, 0, -1], [-1, 0, 0]],
+  gsAugDifficulties: [[1, 1, -1], [-1, 0, 0], { imp: [-1, 0, 1], rolls: [[-1, 0, 2], [-1, -1, 0]] }],
+  gsMidAugStalingrad: [[-1, -1, 1], [-1, 0, 1], [-1, 0, 0], [-1, 0, 1], [0, -1, 0]],
+  gsAugSinyavino: [[-1, 0, 1], [0, 0, 1], [-1, -1, 1]],
+  gsAugLeningrad: [[0, 1, 0], [-1, 0, 0]],
+  gsSepSychevka: [[-1, -1, 1], [0, -1, 0], { imp: [-1, 0, 1], rolls: [[0, 0, 2], [-1, -1, 0]] }],
+  gsSepStands: [[0, -1, 1], [-1, 0, 0], [-1, 0, 1]],
+  gsSepCracks: [[-1, 0, -1], [0, 0, 0]],
+  gsOctBuffel: [[-1, -1, 2], [0, 0, 0]],
+  gsSmolenskXmas: [[-2, -2, 2], [0, 1, -1]],
+  gsNovGodOfWar: [[1, 0, -1], { imp: [-1, -1, 0], rolls: [[0, 0, 2], [-1, -1, 0]] }],
+  gsNovUranus: [[2, 2, 2], [0, 0, 0]],
+  gsDecChir: [[0, 0, 0], [0, 0, 0], [0, 0, 1]],
+  gsDecWinter: [[-1, -1, 1], [0, 0, 0]],
+  gsDecWinterStalls: [[-1, -1, 2], [-1, 0, 1]],
+  gsMansteinBreaks: [[-1, -1, 2], [0, 0, -1]],
+  gsMansteinStops: [[2, 1, 2], [1, 0, 0]],
+  gsRostovOurs: [[-1, 0, 1], [0, 1, 0]],
+  gsWinterstorm: [[-1, 0, 1], [0, 0, 1]],
+  gsGermansWithdraw: [[0, 0, 1], [0, 0, 1]],
+  gsJanIskra: [[-1, 0, 1], [1, 0, 2]],
+  gsFebPolarStar: [[1, 0, -1], [-1, -1, 1], [-1, 0, 1]],
+  gsRostovTaken: [[0, 0, 1], [0, -1, 1]],
+  gsRostovEarly: [[0, 0, 1], [0, 0, 2]],
+  gsKuban: [[-1, -1, 1], [0, 0, 1], [1, 1, 0]],
+};
+/**
+ * The campaign is less punishing than the main game: the headline meter takes 60 per cent of a cost and the rest is absorbed by the army. The micro-states under each
+ * meter (Organisation, Experience, Readiness and the others) are filed from the same orders and are not softened, so the player still reads the whole wound there.
+ * The share that is not charged is carried in flags (gsFrac_<meter>), so a cost of one is charged three times in five, and the cost shown on an order is the cost it has.
+ */
+const GS_SOFT = 0.6;
+function gsSoftenImpact(flags, impact, setFlags) {
+  const out = { ...(impact || {}) };
+  const sf = { ...(setFlags || {}) };
+  for (const m of ["manpower", "fuel", "initiative"]) {
+    const v = (impact && impact[m]) || 0;
+    if (v >= 0) continue;
+    const key = "gsFrac_" + m;
+    const total = (Number(flags[key]) || 0) - v * GS_SOFT;
+    const charge = Math.floor(total + 1e-9);
+    sf[key] = Math.round((total - charge) * 100) / 100;
+    out[m] = -charge;
+  }
+  return { impact: out, setFlags: sf };
+}
+function gsSoftenNode(node, flags) {
+  if (!node || !node.choices) return node;
+  return {
+    ...node,
+    choices: node.choices.map((c) => {
+      const base = gsSoftenImpact(flags, c.impact, c.setFlags);
+      const out = { ...c, impact: base.impact, setFlags: base.setFlags };
+      if (c.uncertain) {
+        out.uncertain = c.uncertain.map((u) => {
+          if (!u.impact) return u;
+          const r = gsSoftenImpact(flags, u.impact, u.setFlags);
+          return { ...u, impact: r.impact, setFlags: r.setFlags };
+        });
+      }
+      return out;
+    }),
+  };
+}
+
 [
   // =============================================================================== DECEMBER 1941 AND THE PLAN FOR THE WINTER
   gsR("gsDec41", 19411205, "DECEMBER 1941", "Moscow: The Turning Point",
@@ -34511,7 +34608,7 @@ const GS_REPORTS = {};
       gsO("Chernyakhovsky", "Maintain the pressure on Staraya Russa", ["gsFebExhaustion"], {
         flags: { gsDemyansk: "pressure" }, imp: [-1, 0, 0],
         position: "The Germans at Demyansk are held by their flank at Staraya Russa, so it is there that the pressure is kept up, and the ring is closed from the side where the ground is hardest for them.",
-        outcome: "Speculative. The Front keeps up its pressure on Staraya Russa. The German hold on the town is made more uncomfortable, and the force at Demyansk is more difficult to supply. It is not cut off in the way that it was in the record, and the airlift is not needed.",
+        outcome: "Speculative. The pressure on Staraya Russa seals the German II Corps off from the west without a costly assault on the pocket. The Germans are left in a cauldron that is well organised and well defended, and the Soviet armies do not throw their men and shells against it. The Red Army saves its initiative and its matériel for the spring, and the Germans are supplied by air for as long as they care to stay.",
       }),
       gsO("Kurochkin", "Airborne troops inside Demyansk", ["gsFebExhaustion"], {
         otl: true, flags: { gsDemyansk: "airborne" }, imp: [-1, 0, 1],
@@ -35138,10 +35235,10 @@ const GS_REPORTS = {};
   gsR("gsDecWinterStalls", 19421214, "DECEMBER 1942", "Wintergewitter Stalls",
     "Kotelnikovo has been reinforced, and Manstein's relief attack has stalled early, with a stronger Soviet defence than he expected. The Sixth Army is still in the pocket, and no relief is on its way. The reserves that were being kept against a relief are free, and the Stavka can go back to its larger plans: the great attack of Saturn, or a smaller version of it, together with the reduction of the pocket.",
     [
-      gsO("Vatutin", "Launch Grand Saturn", ["gsRostovTaken"], {
+      gsO("Vatutin", "Launch Grand Saturn", ["gsRostovEarly"], {
         flags: { gsSaturn: "grand" }, imp: [-2, -2, 2],
         position: "The Italian Eighth Army is weak, the Germans have no reserves behind it, and Saturn aims at Rostov and the whole of the German south, so the whole plan is made and the whole of the force is used.",
-        outcome: "Speculative. Grand Saturn goes in with all the reserves that can be found. The Italian Eighth Army is broken, and the Soviet armies drive south towards Rostov. It is a larger and bolder attack than the record's, and the German armies in the Caucasus are in the greatest danger.",
+        outcome: "Speculative. Grand Saturn goes in with all the reserves that can be found. The Italian Eighth Army is broken, and the Soviet armies drive south towards Rostov as fast as Little Saturn did in the record, which began on 16 December and covered half the distance in a week. Rostov is taken in the first weeks of January. It is a larger and bolder attack than the record's, and the German armies in the Caucasus are in the greatest danger.",
       }),
       gsO("Rokossovsky", "Launch Small Saturn and the Big Koltso", ["gsRostovTaken"], {
         flags: { gsSaturn: "small" }, imp: [-2, -1, 1],
@@ -35266,6 +35363,20 @@ const GS_REPORTS = {};
         outcome: "Alternate history. The Soviet armies go west, into the Donbas, and the Germans have to give ground. The Red Army goes on to the Dnieper in the spring of 1943, a good deal earlier than it did in the record.",
       }),
     ], { rec: false }),
+  gsR("gsRostovEarly", 19430110, "JANUARY 1943", "Rostov Is Taken: Where Next?",
+    "Rostov has been taken in the first weeks of January, more than a month before the record's 14 February. Army Group A has not yet got out of the Caucasus, and the Southern Front is between it and the Donbas. The divisions that in the record reached the Donbas, and the defences on the Mius from which Manstein made his counterattacks, are not there to be met. The question is where to go next: south after the Germans in the Kuban, before they can pull back, or west into the Donbas.",
+    [
+      gsO("Tyulenev", "South, before they pull back", ["gsKuban"], {
+        flags: { gsNext: "south" },
+        position: "The Germans in the Caucasus are cut off from the Donbas and cannot be allowed to reach the Kuban in order, so the armies go south at once and take them while they are still on the move.",
+        outcome: "Speculative. The Soviet armies go south from Rostov and catch the Germans on the roads to the Kuban. A large part of the First Panzer Army and the Seventeenth Army is cut off from its lines of retreat and has to fight its way back into the bridgehead.",
+      }),
+      gsO("Vatutin", "Liberate the Donbas", ["gsEarlyUkraine"], {
+        flags: { gsNext: "donbas" },
+        position: "The Donbas is the heart of the Ukraine's industry, and the Germans have not yet been able to man it, so the armies turn west and take it.",
+        outcome: "Alternate history. The Donbas is taken at a lower price than in the record, because the main defences of the German south and the divisions of Manstein's counterattacks came, in the record, from the army that pulled out of the Caucasus, and that army has been cut off from them. The Red Army reaches the Dnieper in the spring.",
+      }),
+    ], { rec: false }),
   gsR("gsKuban", 19430220, "FEBRUARY 1943", "The Kuban Stronghold",
     "The Germans have fallen back into the Kuban bridgehead, a strip of land at the end of the Taman peninsula, with the Black Sea on one side and the Sea of Azov on the other, and the Kerch Strait behind them. It is held by the Seventeenth Army and a part of the First Panzer Army, and it is supplied by sea and by a cable line across the strait. The Soviet armies and the Black Sea Fleet have to decide how to deal with it, by a final push, by cutting it off from the sea, or by containing it and turning the main effort to the north.",
     [
@@ -35321,15 +35432,18 @@ function gsBuildReport(spec, flags, meters) {
     historicalRecord: spec.rec === false ? false : orders.some((o) => o.otl) ? true : undefined,
     ...(spec.alt ? { alternateHistory: true } : spec.rec === false ? { speculative: true } : {}),
     situation: typeof spec.situation === "function" ? spec.situation(flags) : spec.situation,
-    choices: orders.map((o) => {
+    choices: orders.map((o, oi) => {
       const after = gsAfter(flags, spec, o);
+      const ov = (GS_IMPACTS[spec.id] || [])[oi];
+      const ovImp = Array.isArray(ov) ? ov : ov && ov.imp;
+      const ovRolls = ov && !Array.isArray(ov) ? ov.rolls : null;
       const bookkeeping = { gsQ: after.queue, gsSeen: after.seen };
       const choice = {
         label: o.label,
         advisor: { name: o.adviser, position: o.position },
         ...(o.otl ? { historical: true } : {}),
         setFlags: { ...(o.flags || {}), ...bookkeeping },
-        impact: imp(o.imp),
+        impact: imp(ovImp || o.imp),
         next: after.next,
         outcome: o.outcome,
       };
@@ -35339,7 +35453,7 @@ function gsBuildReport(spec, flags, meters) {
           weight: i === 0 ? first : 100 - first,
           title: r.title,
           setFlags: { ...(r.flags || {}), ...bookkeeping, ...(r.outcome.startsWith("Alternate") ? { alternateHistoryPath: true } : r.outcome.startsWith("Speculative") ? { speculativePath: true } : {}) },
-          impact: imp(r.imp),
+          impact: imp(ovRolls && ovRolls[i] ? ovRolls[i] : r.imp),
           outcome: r.outcome,
         }));
       }
@@ -35357,11 +35471,31 @@ function gsMakeCampaign(base) {
     name: "Soviet High Command: Grand Campaign (experimental)",
     ...(GS_SEROV ? { brief: "Save the Red Army from the shock of Barbarossa and lead it to the gates of Berlin, with the war of 1942 in much greater detail. Drafts, and not yet balanced." } : {}),
     resolveNode(id, flags, meters) {
-      if (GS_REPORTS[id]) return gsBuildReport(GS_REPORTS[id], flags, meters);
-      const node = base.resolveNode(id, flags, meters);
+      if (GS_REPORTS[id]) return gsSoftenNode(gsBuildReport(GS_REPORTS[id], flags, meters), flags);
+      let node = base.resolveNode(id, flags, meters);
       if (!node || !node.choices) return node;
-      return { ...node, choices: node.choices.map((c) => (c.next === "moscowDefense41" ? { ...c, next: "gsDec41" } : c)) };
+      if (id === "memo41") node = gsMobilise(node);
+      return gsSoftenNode({ ...node, choices: node.choices.map((c) => (c.next === "moscowDefense41" ? { ...c, next: "gsDec41" } : c)) }, flags);
     },
+  };
+}
+
+/** The mobilisation of May 1941 ("Mobilise now"): it uses fuel and rolling stock, and it saves the army from the frontier cauldrons and from being rebuilt in a panic. */
+function gsMobilise(node) {
+  return {
+    ...node,
+    choices: node.choices.map((c) => {
+      if (!c.setFlags || c.setFlags.memo41 !== "mass" || !c.uncertain) return c;
+      return {
+        ...c,
+        impact: { manpower: 0, fuel: -1, initiative: 1 },
+        uncertain: c.uncertain.map((u, i) =>
+          i === 0
+            ? { ...u, impact: { manpower: 1, fuel: -1, initiative: 2 }, outcome: u.outcome + " The men who would have been lost in the frontier cauldrons are saved, and so is the need to rebuild an army from nothing at a panic pace." }
+            : { ...u, impact: { manpower: -1, fuel: -1, initiative: 0 } }
+        ),
+      };
+    }),
   };
 }
 
