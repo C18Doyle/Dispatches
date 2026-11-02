@@ -1,0 +1,65 @@
+[
+  {
+    "id": "g-poland-west",
+    "where": "fallWeiss39",
+    "claim": "Germany invaded Poland on 1 September 1939 and Britain and France declared war on 3 September; the French Saar offensive began on 7 September, reached up to eight kilometres into German territory, was halted on 12 September, and the troops were ordered back to the Maginot Line on 21 September; the last French troops left German soil on 17 October; the Red Army entered Poland on 17 September; Jodl said at Nuremberg that about 110 French and British divisions had been held inactive against 23 German ones.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Phoney War (Saar Offensive dates and the Jodl statement as quoted there); the 3 September and 17 September dates are the standard accounts."
+  },
+  {
+    "id": "g-poland-end",
+    "where": "fallWeiss39",
+    "claim": "Organised Polish resistance ended in the first week of October 1939; Fall Weiss was a double envelopment by Bock's Army Group North and Rundstedt's Army Group South; the Polish counterattack on the Bzura was the nearest the Polish armies came to breaking an encirclement.",
+    "status": "drafted",
+    "source": "Standard accounts of the Polish campaign; not reopened against a source in this pass."
+  },
+  {
+    "id": "g-directive6",
+    "where": "phoneyWar39",
+    "claim": "Hitler issued Directive No. 6 on 9 October 1939 ordering the conquest of the Low Countries at the shortest notice; Halder presented the first Fall Gelb plan on 19 October, a frontal attack with limited aims to push the Allies back to the Somme; on 5 November Hitler told Brauchitsch the attack would begin on 12 November, Brauchitsch said the army had not recovered from Poland and offered to resign, and the offer was refused; Hitler postponed the attack two days later because of the weather and it was postponed again through the winter.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Battle of France (Directive No. 6, the 19 October plan, the 5 and 7 November dates)."
+  },
+  {
+    "id": "g-mechelen",
+    "where": "mechelen40",
+    "claim": "On 10 January 1940 Major Erich Hoenmanns, flying Major Helmuth Reinberger of the 7th Air Division with papers on the attack in the west, lost his way in fog and came down in Belgium; Reinberger tried to burn the papers, Belgian border guards saved partly burned sheets, Belgian intelligence judged them authentic but missing the date; the attack had been set for 17 January; Hitler dismissed Felmy and Kammhuber on 11 January and called the attack off on 16 January, mainly because of snow and poor roads; Leopold III warned the Dutch and told Gamelin and Gort.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Mechelen incident. The account of what the loss of the papers changed in the German plan is disputed there and the report says so."
+  },
+  {
+    "id": "g-manstein-timeline",
+    "where": "mechelen40",
+    "claim": "Manstein wrote his first memorandum on 31 October 1939 and six more by 12 January 1940, each more radical, all rejected by OKH and none reaching Hitler; he was removed as chief of staff of Army Group A on 27 January and given an army corps in East Prussia, Halder had him sent to Stettin on 9 February; Hitler summoned him on 17 February and the next day ordered his thinking adopted; Aufmarschanweisung No. 4 followed on 24 February.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Battle of France (Manstein Plan timeline)."
+  },
+  {
+    "id": "g-altmark",
+    "where": "altmark40",
+    "claim": "HMS Cossack under Captain Philip Vian boarded the German supply ship Altmark in the Jøssingfjord at 22:20 on 16 February 1940 and freed 299 prisoners (German documents say 303); Hitler ordered intensified planning for Norway and Denmark on 19 February; Falkenhorst was given command on 21 February; the directive for Norway and Denmark was issued on 1 March; Hitler met Quisling on 14 December 1939 and ordered preliminary planning; Raeder raised the danger of British bases in Norway with Hitler in October 1939.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Altmark incident; Wikipedia, Operation Weserübung. The prisoners came from ships sunk by the Admiral Graf Spee (standard accounts)."
+  },
+  {
+    "id": "g-falkenhorst-1918",
+    "where": "altmark40",
+    "claim": "Falkenhorst served in Finland in 1918 with the German Baltic Division.",
+    "status": "drafted",
+    "source": "Biographical accounts of Falkenhorst; not reopened in this pass."
+  },
+  {
+    "id": "g-allied-pretext",
+    "where": "ore40",
+    "claim": "In December 1939 Britain and France began serious planning to land at Narvik and take the Iron Ore Line under the guise of helping Finland; an order to the expedition was given on 12 March 1940 and the force was recalled when the Winter War ended; the British minelaying (Operation Wilfred) was set for 5 April and the mines were laid in the Vestfjord early on 8 April; the German landings came on 9 April.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Operation Weserübung. The postponement of Wilfred from 5 to 8 April is from the standard accounts; the report says only the first week of April."
+  },
+  {
+    "id": "g-speculative",
+    "where": "fallWeiss39, phoneyWar39, mechelen40, altmark40, ore40",
+    "claim": "Every outcome headed Speculative (a reserve held back in the west, obeying the order for 12 November, patching the plan, leaving Norway to the staffs, waiting for the British mines) is a counterfactual drawn by the writer from the situation; none is a claim about the record.",
+    "status": "drafted",
+    "source": "Counterfactual; no source."
+  }
+]
