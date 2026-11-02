@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef, Component } from "react";
+import { useState, useEffect, useMemo, useRef, useId, Component } from "react";
 import * as Tone from "tone";
 import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey } from "./logic";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched

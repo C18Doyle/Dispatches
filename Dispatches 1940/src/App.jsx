@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef, Component } from "react";
+import { useState, useEffect, useMemo, useRef, useId, Component } from "react";
 import * as Tone from "tone";
 import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey } from "./logic";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
@@ -28502,6 +28502,126 @@ function ReportConditions({ campaign, stage, nodeId, meters }) {
     </div>
   );
 }
+const BS_STATUS_WORD = { gaining: "Gaining", holding: "Holding", breaking: "Breaking" };
+// THE SKETCH OF THE GROUND (1914's sketch of the ground, for the Order of Battle of 1940)
+//
+// One sector for each arm of the battle, left to right, the enemy above and our own side below, and the line between them. In the plan it is a straight line and
+// each sector can be pressed to put a counter in it (a counter is pressed to take it out; the buttons under each arm do the same for a keyboard or a screen reader,
+// so the sketch is only drawn). On the day each sector's part of the line is pushed forward, left where it is or pushed back as the dispatches say, so the report
+// shows where the battle is going arm by arm and not only in the one bar. Nothing is rolled here: the status of an arm is read off what it contributes to the plan
+// (computeBattleContributions) and, once they have come in, the reserve, the counterattack and the verdict, so the sketch and the result never disagree.
+
+const BS_OFFSET = { gaining: -24, holding: 0, breaking: 24 };
+
+/** The status of one arm from what it contributes, against the average of the arms that contribute: gaining, holding or breaking. */
+function battleArmStatus(contribution, meanPositive) {
+  return contribution > 0 ? (contribution >= meanPositive ? "gaining" : "holding") : "breaking";
+}
+
+/** The average contribution of the arms that contribute at all (1 when none does). */
+function battleMeanPositive(categories, contributions) {
+  const positive = categories.map((c) => contributions[c.id] || 0).filter((v) => v > 0);
+  return positive.length ? positive.reduce((a, b) => a + b, 0) / positive.length : 1;
+}
+
+/**
+ * The status of each arm that the report has reached: { armId: status } (an arm not yet reported is left out and its part of the line stays straight).
+ * The plan's contribution at the arm's own dispatch, the final one once the reserve has gone in, the counterattack's result for the arm it fell on, and
+ * at the verdict a won battle lifts the arms that held and a lost one lowers every arm a step.
+ */
+function battleArmStatuses({ categories, planContrib, finalContrib, beats, shownIndex, counter, counterCategory, done, won }) {
+  const mean = battleMeanPositive(categories, planContrib);
+  const reserveShown = beats.some((b, i) => b.kind === "reserve" && i <= shownIndex);
+  const contrib = reserveShown ? finalContrib : planContrib;
+  const out = {};
+  beats.forEach((b, i) => {
+    if (b.kind === "cat" && i <= shownIndex) out[b.catId] = battleArmStatus(contrib[b.catId] || 0, mean);
+  });
+  const counterShown = beats.some((b, i) => b.kind === "counter" && i <= shownIndex);
+  if (counterShown && counter && counterCategory) out[counterCategory] = counter.result === "repulsed" ? "gaining" : counter.result === "heldAtCost" ? "holding" : "breaking";
+  if (done) {
+    for (const c of categories) {
+      const s = out[c.id];
+      if (!s) continue;
+      out[c.id] = won ? (s === "holding" && (contrib[c.id] || 0) > 0 ? "gaining" : s) : s === "gaining" ? "holding" : s === "holding" ? "breaking" : s;
+    }
+  }
+  return out;
+}
+
+/** An arm's name cut to what fits under its sector: whole words, with an ellipsis when some are left out. */
+function battleArmLabel(name, chars) {
+  const words = String(name).replace(/&/g, "and").split(/\s+/);
+  let out = "";
+  for (const w of words) {
+    if ((out + " " + w).trim().length > chars) return out ? out + "\u2026" : w.slice(0, chars - 1) + "\u2026";
+    out = (out + " " + w).trim();
+  }
+  return out;
+}
+
+/** The sketch. `allocation` puts the counters in; `status` is { armId: status } and moves the line; onAdd and onRemove make the sectors and the counters pressable. */
+function BattleSketch({ categories, allocation, status, accent, onAdd, onRemove, small }) {
+  const hatch = "bs-hatch-" + useId().replace(/[^a-zA-Z0-9]/g, "");
+  const n = categories.length;
+  const W = 320;
+  const H = 160;
+  const w = W / n;
+  const mid = 74;
+  const ys = categories.map((c) => mid + (status && status[c.id] ? BS_OFFSET[status[c.id]] : 0));
+  const edge = (i) => (i === 0 ? ys[0] : i === n ? ys[n - 1] : (ys[i - 1] + ys[i]) / 2);
+  let d = "M 0 " + edge(0);
+  categories.forEach((c, i) => {
+    d += " L " + (i * w + 10) + " " + ys[i] + " L " + ((i + 1) * w - 10) + " " + ys[i] + " L " + (i + 1) * w + " " + edge(i + 1);
+  });
+  const cols = Math.max(2, Math.floor((w - 14) / 17));
+  const summary = categories.map((c) => c.name + ": " + (status && status[c.id] ? BS_STATUS_WORD[status[c.id]].toLowerCase() : (allocation[c.id] || 0) + " placed")).join("; ");
+  const ink = accent || "#7a2e2e";
+  const sector = (s) => (s === "gaining" ? "#d9e3d2" : s === "breaking" ? "#ecd2cc" : "#f2ead9");
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" };
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full block border-2 border-black" style={{ background: "#f2ead9" }} role="img" aria-label={"Sketch of the line. " + summary}>
+      <defs>
+        <pattern id={hatch} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#5a2a2a" strokeWidth="1.4" />
+        </pattern>
+      </defs>
+      {categories.map((c, i) => (
+        <g key={c.id}>
+          <rect x={i * w} y="0" width={w} height={H} fill={sector(status && status[c.id])} />
+          <rect x={i * w} y="0" width={w} height={ys[i]} fill={`url(#${hatch})`} opacity="0.35" />
+          {i > 0 && <line x1={i * w} y1="0" x2={i * w} y2={H} stroke="#241d12" strokeOpacity="0.35" strokeDasharray="3,3" />}
+          {onAdd && <rect x={i * w} y="0" width={w} height={H} fill="transparent" style={{ cursor: "pointer" }} onClick={() => onAdd(c.id)} />}
+        </g>
+      ))}
+      <path d={d} fill="none" stroke="#f2ead9" strokeWidth="6" strokeLinejoin="round" strokeLinecap="round" style={{ pointerEvents: "none" }} />
+      <path d={d} fill="none" stroke="#1a1410" strokeWidth="2.6" strokeLinejoin="round" strokeLinecap="round" style={{ pointerEvents: "none" }} />
+      {categories.map((c, i) =>
+        Array.from({ length: allocation[c.id] || 0 }, (_, j) => (
+          <rect
+            key={c.id + j}
+            x={i * w + 8 + (j % cols) * 17}
+            y={ys[i] + 12 + Math.floor(j / cols) * 16}
+            width="13"
+            height="11"
+            fill={ink}
+            stroke="#f2ead9"
+            strokeWidth="1"
+            style={onRemove ? { cursor: "pointer" } : { pointerEvents: "none" }}
+            onClick={onRemove ? (e) => { e.stopPropagation(); onRemove(c.id); } : undefined}
+          />
+        ))
+      )}
+      {categories.map((c, i) => (
+        <text key={"n" + c.id} x={i * w + 5} y={H - 6} fontSize="7.5" fill="#241d12" style={{ ...mono, pointerEvents: "none" }}>
+          {i + 1} {battleArmLabel(c.name, Math.floor((w - 8) / 4.5) - 2)}
+        </text>
+      ))}
+      <text x="6" y="12" fontSize="8.5" fill="#5a2a2a" style={{ ...mono, pointerEvents: "none" }}>ENEMY</text>
+      <text x="6" y={H - 18} fontSize="8.5" fill="#241d12" style={{ ...mono, pointerEvents: "none" }}>OURS</text>
+    </svg>
+  );
+}
 function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange }) {
   const [record, setRecord] = useState(null);
   const [activeRun, setActiveRun] = useState(null);
@@ -32389,6 +32509,12 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
           </button>
         </div>
 
+        <div className="mb-4">
+          <BattleSketch categories={categories} allocation={allocation} accent={campaign.accent} onAdd={(id) => remaining > 0 && addEffort(id)} onRemove={(id) => allocation[id] > 0 && removeEffort(id)} />
+          <p className="text-[11px] leading-snug mt-1 opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            The enemy is above the line and your side below it. Press a sector to place a counter there, and a counter to take it back.
+          </p>
+        </div>
         <div className="flex flex-col gap-3 mb-6">
           {categories.map((cat) => (
             <div key={cat.id} className="border px-4 py-3" style={{ borderColor: campaign.accent }}>
@@ -32962,6 +33088,11 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   const position = done ? (won ? Math.max(finalPct[0], 85) : Math.min(finalPct[0], 15)) : started || plan.autoplay ? beats[shownIndex].position : 50;
   const visibleBeats = started || done || plan.autoplay ? beats.slice(0, shownIndex + 1) : [];
   const verdicts = config.verdicts || ["The Attack Succeeds", "The Attack Fails"];
+  const reporting = started || done || plan.autoplay;
+  const armStatus = reporting ? battleArmStatuses({ categories, planContrib, finalContrib, beats, shownIndex, counter, counterCategory: ca ? ca.category : null, done, won }) : {};
+  const reserveGoneIn = reporting && reserveChoice && reserveChoice !== "hold" && beats.some((b, i) => b.kind === "reserve" && i <= shownIndex);
+  const sketchAllocation = Object.fromEntries(categories.map((c) => [c.id, (plan.allocation[c.id] || 0) + (reserveGoneIn ? reserveAlloc[c.id] || 0 : 0)]));
+  const planMean = battleMeanPositive(categories, planContrib);
 
   // Motion (round 9, item #9 — movement only).
   const prevPosRef = useRef(50);
@@ -33084,6 +33215,12 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             <span key={`${shownIndex}-${done ? 1 : 0}`} className="boundary-pulse block w-full h-full" style={{ backgroundColor: "#1a1a1a" }} />
           </div>
         </div>
+
+        {reporting && (
+          <div className="mb-4">
+            <BattleSketch categories={categories} allocation={sketchAllocation} status={armStatus} accent={campaign.accent} small />
+          </div>
+        )}
 
         {/* The control stays at the top: Start before the battle, Pause (and a way to skip) while it runs. */}
         {!done && phase === "running" && !plan.autoplay && (
@@ -33244,6 +33381,11 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
                   {t && (
                     <span className="font-bold not-italic mr-1" style={labelStyle}>
                       {t}
+                    </span>
+                  )}
+                  {b.kind === "cat" && (
+                    <span className="font-bold uppercase text-[11px] tracking-wider mr-1" style={labelStyle}>
+                      {BS_STATUS_WORD[battleArmStatus(planContrib[b.catId] || 0, planMean)]}
                     </span>
                   )}
                   {label && <span className="font-bold">{label}: </span>}

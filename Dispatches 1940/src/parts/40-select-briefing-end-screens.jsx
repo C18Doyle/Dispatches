@@ -3885,6 +3885,12 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
           </button>
         </div>
 
+        <div className="mb-4">
+          <BattleSketch categories={categories} allocation={allocation} accent={campaign.accent} onAdd={(id) => remaining > 0 && addEffort(id)} onRemove={(id) => allocation[id] > 0 && removeEffort(id)} />
+          <p className="text-[11px] leading-snug mt-1 opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            The enemy is above the line and your side below it. Press a sector to place a counter there, and a counter to take it back.
+          </p>
+        </div>
         <div className="flex flex-col gap-3 mb-6">
           {categories.map((cat) => (
             <div key={cat.id} className="border px-4 py-3" style={{ borderColor: campaign.accent }}>
@@ -4458,6 +4464,11 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   const position = done ? (won ? Math.max(finalPct[0], 85) : Math.min(finalPct[0], 15)) : started || plan.autoplay ? beats[shownIndex].position : 50;
   const visibleBeats = started || done || plan.autoplay ? beats.slice(0, shownIndex + 1) : [];
   const verdicts = config.verdicts || ["The Attack Succeeds", "The Attack Fails"];
+  const reporting = started || done || plan.autoplay;
+  const armStatus = reporting ? battleArmStatuses({ categories, planContrib, finalContrib, beats, shownIndex, counter, counterCategory: ca ? ca.category : null, done, won }) : {};
+  const reserveGoneIn = reporting && reserveChoice && reserveChoice !== "hold" && beats.some((b, i) => b.kind === "reserve" && i <= shownIndex);
+  const sketchAllocation = Object.fromEntries(categories.map((c) => [c.id, (plan.allocation[c.id] || 0) + (reserveGoneIn ? reserveAlloc[c.id] || 0 : 0)]));
+  const planMean = battleMeanPositive(categories, planContrib);
 
   // Motion (round 9, item #9 — movement only).
   const prevPosRef = useRef(50);
@@ -4580,6 +4591,12 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             <span key={`${shownIndex}-${done ? 1 : 0}`} className="boundary-pulse block w-full h-full" style={{ backgroundColor: "#1a1a1a" }} />
           </div>
         </div>
+
+        {reporting && (
+          <div className="mb-4">
+            <BattleSketch categories={categories} allocation={sketchAllocation} status={armStatus} accent={campaign.accent} small />
+          </div>
+        )}
 
         {/* The control stays at the top: Start before the battle, Pause (and a way to skip) while it runs. */}
         {!done && phase === "running" && !plan.autoplay && (
@@ -4740,6 +4757,11 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
                   {t && (
                     <span className="font-bold not-italic mr-1" style={labelStyle}>
                       {t}
+                    </span>
+                  )}
+                  {b.kind === "cat" && (
+                    <span className="font-bold uppercase text-[11px] tracking-wider mr-1" style={labelStyle}>
+                      {BS_STATUS_WORD[battleArmStatus(planContrib[b.catId] || 0, planMean)]}
                     </span>
                   )}
                   {label && <span className="font-bold">{label}: </span>}
