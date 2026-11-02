@@ -100,6 +100,23 @@ for (const cid of Object.keys(FILES)) {
   }
 }
 
+// ---- a place beyond the frame of its map has a name (MAP_OFF_MAP) and a name belongs to a place beyond it ----
+const BBOX = {};
+for (const m of maps.matchAll(/^\s*(german|soviet|allied|italy): \{ llcrnrlat: (-?\d+), urcrnrlat: (-?\d+), llcrnrlon: (-?\d+), urcrnrlon: (-?\d+) \},/gm)) BBOX[m[1]] = { lat0: +m[2], lat1: +m[3], lon0: +m[4], lon1: +m[5] };
+const offNames = new Function(front.slice(front.indexOf("const MAP_OFF_MAP = {"), front.indexOf("// ---- what the commands were doing")) + "\nreturn MAP_OFF_MAP;")();
+const outside = (cid, p) => { const b = BBOX[cid]; return p[0] < b.lon0 + 0.3 || p[0] > b.lon1 - 0.3 || p[1] < b.lat0 + 0.3 || p[1] > b.lat1 - 0.3; };
+let offCount = 0;
+for (const cid of Object.keys(FILES)) {
+  for (const [id, p] of Object.entries(M.MAP_PLACES[cid] || {})) {
+    const off = outside(cid, p);
+    const named = !!offNames[cid + "/" + id];
+    if (off) offCount++;
+    if (off && !named) problems.push(`place ${cid}/${id}: [${p}] is beyond the frame of its map and has no name in MAP_OFF_MAP`);
+    if (!off && named) problems.push(`place ${cid}/${id}: named in MAP_OFF_MAP but inside the frame`);
+  }
+}
+for (const key of Object.keys(offNames)) { const [cid, id] = key.split("/"); if (!(M.MAP_PLACES[cid] || {})[id]) problems.push(`MAP_OFF_MAP ${key}: not a report with a place`); }
+
 // ---- meanwhile ----
 let meanwhile = 0;
 for (const cid of Object.keys(FILES)) {
@@ -154,4 +171,4 @@ if (problems.length) {
   if (problems.length > 60) console.error(`  ... and ${problems.length - 60} more`);
   process.exit(1);
 }
-console.log(`check-map-front: ${M.FRONT_SERIES.length} theatres, ${lines} lines (${drawn} fronts drawn for the record), ${placed} places, ${meanwhile} meanwhile entries, ${M.MAP_GROUND.length} ground marks: ok`);
+console.log(`check-map-front: ${M.FRONT_SERIES.length} theatres, ${lines} lines (${drawn} fronts drawn for the record), ${placed} places (${offCount} beyond their map's frame, named), ${meanwhile} meanwhile entries, ${M.MAP_GROUND.length} ground marks: ok`);

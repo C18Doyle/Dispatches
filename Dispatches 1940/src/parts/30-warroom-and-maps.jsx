@@ -832,7 +832,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
           </g>
         );
       })}
-      {marks && <MapFrontMarks bbox={bbox} here={marks.here} trail={marks.trail} pins={marks.pins} ground={marks.ground} accent={accent} seal={marks.seal} />}
+      {marks && <MapFrontMarks bbox={bbox} here={marks.here} trail={marks.trail} pins={marks.pins} ground={marks.ground} accent={accent} seal={marks.seal} offLabel={marks.offLabel} />}
       <MapOpArrows arrows={opArrows} bbox={bbox} />
     </svg>
   );
@@ -892,6 +892,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
         dayKey: latestKey || null,
         statuses: currentRegionStatuses(statusYear, snapFlags, snapMeters, latestKey || null),
         here: place,
+        position: snap.position,
         trail: stops.slice(-4),
         isLast,
       };
@@ -994,7 +995,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   const [zoomed, setZoomed] = useState(false);
   const frame = hereAt && mapBox ? mapFrame([hereAt, ...(current.trail || []).slice(-3), ...opArrows.flatMap((a) => (a.kind === "hold" ? [a.at] : [a.from, a.to]))], mapBox) : null;
   const zoomStyle = zoomed && frame ? { transformOrigin: "0 0", transform: `scale(${frame.k}) translate(${(-frame.x / MAP_OVERLAY_W) * 100}%, ${(-frame.y / MAP_OVERLAY_H) * 100}%)` } : undefined;
-  const marks = { here: hereAt, trail: embedded ? [] : current.trail || [], pins: meanwhile, ground: groundNow, seal: campaign.seal };
+  const marks = { here: hereAt, trail: embedded ? [] : current.trail || [], pins: meanwhile, ground: groundNow, seal: campaign.seal, offLabel: MAP_OFF_MAP[campaign.id + "/" + current.position] };
   const headingRef = useRef(null);
   useEffect(() => {
     if (!embedded && headingRef.current) headingRef.current.focus();

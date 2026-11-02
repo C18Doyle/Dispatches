@@ -213,6 +213,14 @@ const MAP_PLACES = {
   },
 };
 
+// ---- the reports set beyond the frame of their map: the name of the place, drawn with an arrow at the edge ----
+const MAP_OFF_MAP = {
+  "german/suezFirst41": "Suez", "german/suezHorizon42": "Suez", "german/suezOpening42": "Alexandria", "german/elAlamein": "El Alamein", "german/sovietFracture42": "Sverdlovsk",
+  "soviet/lendLease42": "Murmansk", "soviet/athensRace44": "Athens", "soviet/athensStandoff44": "Athens",
+  "allied/narvik40": "Narvik", "allied/malaya41": "Singapore", "allied/forceZ41": "The South China Sea", "allied/europeFirst42": "Washington", "allied/pacificPressure42": "Washington",
+  "allied/pq17_1942": "Murmansk", "allied/australiaLifeline42": "Australia", "allied/tehran43": "Tehran",
+};
+
 // ---- what the commands were doing on a date in the record ----
 const mapNow = (on, at, text) => ({ on, at, text });
 const MAP_MEANWHILE = {
@@ -430,7 +438,7 @@ function MapFrontLines({ fronts, bbox }) {
 }
 
 /** The report's place and the places before it, the other commands' pins, and the ground a run has taken or given up. */
-function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal }) {
+function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal, offLabel }) {
   const P = (p) => projectLonLat(p[0], p[1], bbox);
   const inFrame = ([x, y]) => x > 4 && x < MAP_OVERLAY_W - 4 && y > 4 && y < MAP_OVERLAY_H - 4;
   const font = { fontFamily: "'IBM Plex Mono', monospace" };
@@ -473,6 +481,28 @@ function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal }) {
           </g>
         );
       })}
+      {at && !inFrame(at) && offLabel && (() => {
+        // the report is set beyond the frame: an arrow on the nearest edge, pointing the way, with the name of the place
+        const cx = MAP_OVERLAY_W / 2;
+        const cy = MAP_OVERLAY_H / 2;
+        const dx = at[0] - cx;
+        const dy = at[1] - cy;
+        const m = 22;
+        const t = Math.min(dx !== 0 ? (cx - m) / Math.abs(dx) : Infinity, dy !== 0 ? (cy - m) / Math.abs(dy) : Infinity);
+        const ex = cx + dx * t;
+        const ey = cy + dy * t;
+        const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
+        const right = ex > cx + 40;
+        const left = ex < cx - 40;
+        return (
+          <g transform={`translate(${ex} ${ey})`}>
+            <g transform={`rotate(${ang})`}>
+              <path d="M10,0 L-8,-9 L-8,9 Z" fill={accent || "#7a2e2e"} stroke="#f2ead9" strokeWidth="2" />
+            </g>
+            <text x={left ? 14 : right ? -14 : 0} y={dy < 0 && !left && !right ? 22 : dy > 0 && !left && !right ? -14 : 4} textAnchor={left ? "start" : right ? "end" : "middle"} fontSize="10" {...label}>{offLabel}</text>
+          </g>
+        );
+      })()}
       {at && inFrame(at) && (
         <g transform={`translate(${at[0]} ${at[1]})`}>
           <circle r={12} fill="none" stroke="#f2ead9" strokeWidth={6} />
@@ -535,13 +565,13 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
             highlightRegions={(NODE_HIGHLIGHT_REGIONS[campaign.id] || {})[nodeId]}
             accent={campaign.accent}
             fronts={fronts}
-            marks={{ here, trail: route, pins: meanwhile, ground, seal: campaign.seal }}
+            marks={{ here, trail: route, pins: meanwhile, ground, seal: campaign.seal, offLabel: MAP_OFF_MAP[campaign.id + "/" + nodeId] }}
           />
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-2 mt-2">
         <button onClick={onOpen} className={button} style={mono}>Show Theater Map</button>
-        {here && bbox && (
+        {here && bbox && (frame || whole) && (
           <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button} style={mono}>{whole ? "Frame this report" : "Show the whole theatre"}</button>
         )}
       </div>
