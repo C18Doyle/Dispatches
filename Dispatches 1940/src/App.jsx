@@ -28502,6 +28502,54 @@ function ReportConditions({ campaign, stage, nodeId, meters }) {
     </div>
   );
 }
+
+// ---- reading aids ----
+
+/** The typeface for a reader who asks for the dyslexia-friendly one: OpenDyslexic or Lexend if they are installed, else a wide-spaced sans-serif (the drawn maps and sketches keep theirs). */
+const DYSLEXIA_CSS = `
+  body, body *:not(svg):not(svg *) { font-family: "OpenDyslexic", "Lexend", "Atkinson Hyperlegible", Verdana, "Trebuchet MS", sans-serif !important; letter-spacing: 0.04em !important; word-spacing: 0.12em !important; }
+  body p, body li { line-height: 1.75 !important; }
+`;
+
+/** Reads a report aloud with the browser's own voice, where it has one; nothing is drawn where it has none. */
+function ReadAloud({ id, text }) {
+  const [on, setOn] = useState(false);
+  const can = typeof window !== "undefined" && "speechSynthesis" in window && typeof window.SpeechSynthesisUtterance !== "undefined";
+  useEffect(() => () => {
+    try {
+      if (can) window.speechSynthesis.cancel();
+    } catch (e) {
+      /* no voice here */
+    }
+  }, [id]);
+  if (!can) return null;
+  const toggle = () => {
+    const ss = window.speechSynthesis;
+    if (on) {
+      ss.cancel();
+      setOn(false);
+      return;
+    }
+    const u = new window.SpeechSynthesisUtterance(text);
+    u.lang = "en-GB";
+    u.rate = 0.95;
+    u.onend = () => setOn(false);
+    u.onerror = () => setOn(false);
+    ss.cancel();
+    ss.speak(u);
+    setOn(true);
+  };
+  return (
+    <button
+      onClick={toggle}
+      aria-pressed={on}
+      className="mb-3 border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+    >
+      {on ? "Stop reading" : "Read aloud"}
+    </button>
+  );
+}
 const BS_STATUS_WORD = { gaining: "Gaining", holding: "Holding", breaking: "Breaking" };
 // THE SKETCH OF THE GROUND (1914's sketch of the ground, for the Order of Battle of 1940)
 //
@@ -28622,7 +28670,7 @@ function BattleSketch({ categories, allocation, status, accent, onAdd, onRemove,
     </svg>
   );
 }
-function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange }) {
+function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia }) {
   const [record, setRecord] = useState(null);
   const [activeRun, setActiveRun] = useState(null);
   // "Always let my staff plan battles": off until asked for. The battle screens read the same key.
@@ -29240,6 +29288,20 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {fontScale <= 0.9 ? "Small" : fontScale >= 1.15 ? "Large" : "Normal"}
+          </button>
+        </div>
+        <div className={`${paper} p-4 flex items-center justify-between`}>
+          <span id="setting-dyslexia-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            Dyslexia-friendly typeface
+          </span>
+          <button
+            onClick={onToggleDyslexia}
+            aria-pressed={!!dyslexia}
+            aria-labelledby="setting-dyslexia-label"
+            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {dyslexia ? "On" : "Off"}
           </button>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>
@@ -31699,6 +31761,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
           {stage.title}
         </h2>
         {campaign.dynamic && <ReportConditions campaign={campaign} stage={stage} nodeId={nodeId} meters={meters} />}
+        {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
         {campaign.dynamic && <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />}
         <Typewriter text={situationWithNote} instant={instantText} soundOn={soundOn} />
 
@@ -34070,6 +34133,30 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
           >
             {copied ? "✓ Copied" : "Copy After-Action Summary"}
           </button>
+          {campaign.dynamic && (
+            <ShareCardButton
+              name="dispatches-1940-after-action.png"
+              accent={campaign.accent}
+              build={() => {
+                const endDate = endStamp ? endStamp.replace(/\s*\(.*\)\s*$/, "") : null;
+                return {
+                  campaign,
+                  modeLabel: warRoomModeInfo(mode || "open", campaign.id).label,
+                  rank: rating ? rating.rank : null,
+                  score: rating ? rating.score : null,
+                  ending: endingLabel,
+                  tier: galleryEntry ? galleryEntry.tier : null,
+                  endStamp,
+                  matched: matchedHistory,
+                  comparable: comparable.length,
+                  outperformed,
+                  statuses: endDate ? currentRegionStatuses(cappedStatusYear(yearFrom(endDate, 1945), true), flags, meters, nodeDayKey(endDate)) : null,
+                  geometry: REGIONS_GEOMETRY,
+                  bbox: CAMPAIGN_MAP_BBOX[campaign.id],
+                };
+              }}
+            />
+          )}
           <button
             onClick={onRestart}
             className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
@@ -34087,6 +34174,164 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         </div>
       </div>
     </div>
+  );
+}
+const SHARE_CARD_W = 1200;
+// THE SHARE CARD: one picture of an ended file for itch.io or a post: the command, the rank, the ending, the judgement against the record and the map at the end of the war.
+// It is drawn as an SVG of its own (system fonts only, since a picture made of SVG cannot load the page's web fonts), turned into a PNG on a canvas, and either
+// shared as a file (where the browser can) or saved. tools/check-share-card.mjs proves the SVG is well formed and escapes what it prints.
+
+const SHARE_CARD_H = 630;
+
+const xmlEscape = (t) => String(t == null ? "" : t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/** A line of text broken into lines of at most `chars` characters at the spaces, at most `max` lines (the last ends with an ellipsis when the text is cut). */
+function shareWrap(text, chars, max) {
+  const words = String(text || "").split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = "";
+  for (const w of words) {
+    if ((line + " " + w).trim().length > chars && line) {
+      lines.push(line);
+      line = w;
+    } else line = (line + " " + w).trim();
+  }
+  if (line) lines.push(line);
+  if (lines.length > max) {
+    const kept = lines.slice(0, max);
+    kept[max - 1] = kept[max - 1].replace(/[ ,.;:]+$/, "") + "…";
+    return kept;
+  }
+  return lines;
+}
+
+/**
+ * The card as an SVG string. d = { campaign: { name, seal, accent, id }, modeLabel, rank, score, ending, tier, endStamp, matched, comparable, outperformed,
+ * statuses: { regionId: status } or null, geometry, bbox }.
+ */
+function shareCardSvg(d) {
+  const mono = "'Courier New', Courier, monospace";
+  const serif = "Georgia, 'Times New Roman', serif";
+  const accent = (d.campaign && d.campaign.accent) || "#7a2e2e";
+  let regions = "";
+  if (d.statuses && d.geometry && d.bbox) {
+    for (const r of MAP_REGIONS) {
+      const entry = d.geometry[r.id];
+      const status = d.statuses[r.id];
+      const fill = status === "divided" ? STATUS_COLORS.allied : STATUS_COLORS[status];
+      const path = fill && entry && regionPathD(entry.rings, d.bbox);
+      if (path) regions += `<path d="${path}" fill="${fill}" fill-opacity="0.85" stroke="#2a2015" stroke-width="1.4" stroke-opacity="0.7"/>`;
+    }
+  }
+  const ending = shareWrap(d.ending, 30, 3);
+  const judgement = d.comparable > 0 ? shareWrap(`Chose the historical option at ${d.matched} of ${d.comparable} comparable decisions and out-positioned it at ${d.outperformed}.`, 46, 3) : [];
+  let y = 150;
+  let text = "";
+  const put = (s, size, font, fill, weight, spacing) => {
+    text += `<text x="64" y="${y}" font-family="${font}" font-size="${size}" font-weight="${weight || 400}" fill="${fill}"${spacing ? ` letter-spacing="${spacing}"` : ""}>${xmlEscape(s)}</text>`;
+  };
+  put("DISPATCHES 1940", 20, mono, "#241d12", 700, "5");
+  y += 38;
+  put(`${d.campaign.seal} · ${d.campaign.name}`, 20, mono, accent, 700);
+  y += 26;
+  if (d.modeLabel) {
+    put(d.modeLabel, 16, mono, "#241d12", 400);
+    y += 34;
+  } else y += 8;
+  if (d.rank) {
+    put("COMMAND RANK", 14, mono, "#241d12", 700, "4");
+    y += 50;
+    put(`${d.rank}`, 54, serif, "#1a1410", 700);
+    y += 28;
+    put(`${d.score} of 100`, 16, mono, "#241d12", 400);
+    y += 40;
+  }
+  for (const l of ending) {
+    put(l, 28, serif, "#1a1410", 700);
+    y += 34;
+  }
+  if (d.tier) {
+    put(d.tier.toUpperCase(), 14, mono, accent, 700, "3");
+    y += 26;
+  }
+  if (d.endStamp) {
+    put(`End of hostilities: ${d.endStamp}`, 14, mono, "#241d12", 400);
+    y += 26;
+  }
+  for (const l of judgement) {
+    put(l, 15, mono, "#241d12", 400);
+    y += 21;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${SHARE_CARD_W}" height="${SHARE_CARD_H}" viewBox="0 0 ${SHARE_CARD_W} ${SHARE_CARD_H}">` +
+    `<rect width="${SHARE_CARD_W}" height="${SHARE_CARD_H}" fill="#0b0b0b"/>` +
+    `<rect x="24" y="24" width="${SHARE_CARD_W - 48}" height="${SHARE_CARD_H - 48}" fill="#f2ead9" stroke="#1a1410" stroke-width="3"/>` +
+    `<rect x="64" y="64" width="150" height="46" fill="none" stroke="${accent}" stroke-width="4" transform="rotate(-2 139 87)"/>` +
+    `<text x="139" y="96" text-anchor="middle" font-family="${mono}" font-size="24" font-weight="700" fill="${accent}" letter-spacing="3" transform="rotate(-2 139 87)">${xmlEscape(d.campaign.seal)}</text>` +
+    `<rect x="632" y="104" width="520" height="390" fill="#b7c9c6" stroke="#1a1410" stroke-width="3"/>` +
+    `<clipPath id="card-map"><rect x="632" y="104" width="520" height="390"/></clipPath><g clip-path="url(#card-map)"><g transform="translate(632 104) scale(0.65)">${regions}</g></g>` +
+    `<text x="632" y="524" font-family="${mono}" font-size="13" fill="#241d12">The map at the end of the war (approximate)</text>` +
+    text +
+    `</svg>`;
+}
+
+/** The card as a PNG blob, or null where the browser cannot make one. */
+async function shareCardBlob(svg) {
+  try {
+    const img = new Image();
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = reject;
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    });
+    const canvas = document.createElement("canvas");
+    canvas.width = SHARE_CARD_W;
+    canvas.height = SHARE_CARD_H;
+    canvas.getContext("2d").drawImage(img, 0, 0);
+    return await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+  } catch (e) {
+    return null;
+  }
+}
+
+/** The button under an ended file: shares the card as a file where the browser can, and saves it where it cannot. */
+function ShareCardButton({ build, name, accent }) {
+  const [state, setState] = useState("idle");
+  const go = async () => {
+    setState("working");
+    const blob = await shareCardBlob(shareCardSvg(build()));
+    if (!blob) {
+      setState("failed");
+      return;
+    }
+    try {
+      const file = new File([blob], name, { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: "Dispatches 1940" });
+        setState("done");
+        return;
+      }
+    } catch (e) {
+      /* declined or not supported: save it instead */
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    setState("done");
+  };
+  return (
+    <button
+      onClick={go}
+      disabled={state === "working"}
+      className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+      style={{ borderColor: accent, fontFamily: "Oswald, sans-serif" }}
+    >
+      {state === "working" ? "Drawing…" : state === "done" ? "✓ Share card" : state === "failed" ? "Share card failed: retry" : "Share Card"}
+    </button>
   );
 }
 const ADVISOR_DOSSIERS = {
@@ -34754,6 +34999,21 @@ function WW2CommandInner() {
   const [soundOn, setSoundOn] = useState(false);
   const [fontScale, setFontScale] = useState(1);
   const [reducedMotion, setReducedMotion] = useState(false);
+  // The dyslexia-friendly typeface is the one setting that is kept between visits: a reader who needs it needs it on the first screen.
+  const [dyslexia, setDyslexia] = useState(() => {
+    try {
+      return window.localStorage.getItem("dispatches1940_dyslexia") === "1";
+    } catch (e) {
+      return false;
+    }
+  });
+  useEffect(() => {
+    try {
+      window.localStorage.setItem("dispatches1940_dyslexia", dyslexia ? "1" : "0");
+    } catch (e) {
+      /* not kept */
+    }
+  }, [dyslexia]);
   // Round 11 (Craig: "The music didn't play during the game"): on by default (previously
   // false, matching the sound-effects toggle's deliberately silent-until-asked pattern — right
   // for typewriter clacks/stamps, wrong for a game score nobody would think to go looking for
@@ -35410,6 +35670,7 @@ function WW2CommandInner() {
           *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
         }
       `}</style>
+      {dyslexia && <style>{DYSLEXIA_CSS}</style>}
       {reducedMotion && (
         <style>{`
           .stamp-in { animation: none !important; }
@@ -35417,7 +35678,7 @@ function WW2CommandInner() {
         `}</style>
       )}
       <audio ref={musicRef} src={MUSIC_TRACK_SRC} loop preload="none" />
-      {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
+      {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} dyslexia={dyslexia} onToggleDyslexia={() => setDyslexia((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
       {screen === "warroom" && campaign && (
         <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaignId, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
       )}

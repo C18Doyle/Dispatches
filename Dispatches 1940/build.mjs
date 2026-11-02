@@ -86,7 +86,7 @@ function indexHtml(meta) {
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Courier+Prime&family=IBM+Plex+Mono:wght@400;500;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="output.css" />
 <style>
-  html, body { margin: 0; padding: 0; background: #000; }
+  html, body { margin: 0; padding: 0; background: #000; max-width: 100%; overflow-x: hidden; }
   #root { min-height: 100vh; }
 </style>
 </head>

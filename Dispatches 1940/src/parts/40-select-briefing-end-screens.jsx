@@ -1,4 +1,4 @@
-function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange }) {
+function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia }) {
   const [record, setRecord] = useState(null);
   const [activeRun, setActiveRun] = useState(null);
   // "Always let my staff plan battles": off until asked for. The battle screens read the same key.
@@ -616,6 +616,20 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {fontScale <= 0.9 ? "Small" : fontScale >= 1.15 ? "Large" : "Normal"}
+          </button>
+        </div>
+        <div className={`${paper} p-4 flex items-center justify-between`}>
+          <span id="setting-dyslexia-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            Dyslexia-friendly typeface
+          </span>
+          <button
+            onClick={onToggleDyslexia}
+            aria-pressed={!!dyslexia}
+            aria-labelledby="setting-dyslexia-label"
+            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {dyslexia ? "On" : "Off"}
           </button>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>
@@ -3075,6 +3089,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
           {stage.title}
         </h2>
         {campaign.dynamic && <ReportConditions campaign={campaign} stage={stage} nodeId={nodeId} meters={meters} />}
+        {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
         {campaign.dynamic && <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />}
         <Typewriter text={situationWithNote} instant={instantText} soundOn={soundOn} />
 
@@ -5446,6 +5461,30 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
           >
             {copied ? "✓ Copied" : "Copy After-Action Summary"}
           </button>
+          {campaign.dynamic && (
+            <ShareCardButton
+              name="dispatches-1940-after-action.png"
+              accent={campaign.accent}
+              build={() => {
+                const endDate = endStamp ? endStamp.replace(/\s*\(.*\)\s*$/, "") : null;
+                return {
+                  campaign,
+                  modeLabel: warRoomModeInfo(mode || "open", campaign.id).label,
+                  rank: rating ? rating.rank : null,
+                  score: rating ? rating.score : null,
+                  ending: endingLabel,
+                  tier: galleryEntry ? galleryEntry.tier : null,
+                  endStamp,
+                  matched: matchedHistory,
+                  comparable: comparable.length,
+                  outperformed,
+                  statuses: endDate ? currentRegionStatuses(cappedStatusYear(yearFrom(endDate, 1945), true), flags, meters, nodeDayKey(endDate)) : null,
+                  geometry: REGIONS_GEOMETRY,
+                  bbox: CAMPAIGN_MAP_BBOX[campaign.id],
+                };
+              }}
+            />
+          )}
           <button
             onClick={onRestart}
             className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"

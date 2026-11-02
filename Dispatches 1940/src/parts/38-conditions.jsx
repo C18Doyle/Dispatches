@@ -88,3 +88,51 @@ function ReportConditions({ campaign, stage, nodeId, meters }) {
     </div>
   );
 }
+
+// ---- reading aids ----
+
+/** The typeface for a reader who asks for the dyslexia-friendly one: OpenDyslexic or Lexend if they are installed, else a wide-spaced sans-serif (the drawn maps and sketches keep theirs). */
+const DYSLEXIA_CSS = `
+  body, body *:not(svg):not(svg *) { font-family: "OpenDyslexic", "Lexend", "Atkinson Hyperlegible", Verdana, "Trebuchet MS", sans-serif !important; letter-spacing: 0.04em !important; word-spacing: 0.12em !important; }
+  body p, body li { line-height: 1.75 !important; }
+`;
+
+/** Reads a report aloud with the browser's own voice, where it has one; nothing is drawn where it has none. */
+function ReadAloud({ id, text }) {
+  const [on, setOn] = useState(false);
+  const can = typeof window !== "undefined" && "speechSynthesis" in window && typeof window.SpeechSynthesisUtterance !== "undefined";
+  useEffect(() => () => {
+    try {
+      if (can) window.speechSynthesis.cancel();
+    } catch (e) {
+      /* no voice here */
+    }
+  }, [id]);
+  if (!can) return null;
+  const toggle = () => {
+    const ss = window.speechSynthesis;
+    if (on) {
+      ss.cancel();
+      setOn(false);
+      return;
+    }
+    const u = new window.SpeechSynthesisUtterance(text);
+    u.lang = "en-GB";
+    u.rate = 0.95;
+    u.onend = () => setOn(false);
+    u.onerror = () => setOn(false);
+    ss.cancel();
+    ss.speak(u);
+    setOn(true);
+  };
+  return (
+    <button
+      onClick={toggle}
+      aria-pressed={on}
+      className="mb-3 border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+    >
+      {on ? "Stop reading" : "Read aloud"}
+    </button>
+  );
+}
