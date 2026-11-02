@@ -28227,21 +28227,21 @@ function groundMarks(campaignId, flags) {
   return MAP_GROUND.filter((g) => g.campaign === campaignId && flags && g.values.includes(flags[g.flag]));
 }
 
-/** The frame of a zoomed map in overlay units around some places, at the shape of the card, as { k, x, y }: scale and the top left corner. */
-function mapFrame(points, bbox) {
+/** The frame of a zoomed map in overlay units around some places, at the shape of its window (aspect = width over height; 4 / 3 is the whole sheet), as { k, x, y }: scale and the top left corner. */
+function mapFrame(points, bbox, aspect = 4 / 3) {
   const ps = points.filter(Boolean).map(([lo, la]) => projectLonLat(lo, la, bbox)).filter(([x, y]) => x > -30 && x < MAP_OVERLAY_W + 30 && y > -30 && y < MAP_OVERLAY_H + 30);
   if (!ps.length) return null;
   const xs = ps.map((p) => p[0]);
   const ys = ps.map((p) => p[1]);
   let w = Math.max(Math.max(...xs) - Math.min(...xs) + 230, 300);
-  let h = w * 0.75;
+  let h = w / aspect;
   const need = Math.max(Math.max(...ys) - Math.min(...ys) + 230, 225);
   if (h < need) {
     h = need;
-    w = h / 0.75;
+    w = h * aspect;
   }
   w = Math.min(w, MAP_OVERLAY_W);
-  h = w * 0.75;
+  h = w / aspect;
   const x = Math.max(0, Math.min(MAP_OVERLAY_W - w, (Math.min(...xs) + Math.max(...xs)) / 2 - w / 2));
   const y = Math.max(0, Math.min(MAP_OVERLAY_H - h, (Math.min(...ys) + Math.max(...ys)) / 2 - h / 2));
   return { k: MAP_OVERLAY_W / w, x, y };
@@ -28326,6 +28326,180 @@ function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal }) {
         </g>
       )}
     </g>
+  );
+}
+
+/**
+ * The map under the title of a report (the always-on map of 1914): a wide window framed on the report's place and the places before it, with the front on the
+ * day, the other commands' pins, the ground against the record and, below it, the three nearest reports of the others. A button opens the whole map (the
+ * checkpoint map with its timeline and its orders), and another shows the whole theatre in place of the frame.
+ */
+function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) {
+  const [whole, setWhole] = useState(false);
+  const bbox = CAMPAIGN_MAP_BBOX[campaign.id];
+  const years = CAMPAIGN_MAP_YEARS[campaign.id] || [];
+  const dayKey = nodeDayKey(stage.date);
+  const statusYear = cappedStatusYear(yearFrom(stage.date, 1940), false);
+  const clampedYear = years.includes(statusYear) ? statusYear : years.filter((y) => y <= statusYear).pop() || years[0];
+  const statuses = useMemo(() => currentRegionStatuses(statusYear, flags, meters || {}, dayKey), [statusYear, flags, meters, dayKey]);
+  const places = MAP_PLACES[campaign.id] || {};
+  const here = places[nodeId] || null;
+  const trail = [];
+  for (const h of history || []) {
+    const p = places[h.position];
+    if (p && trail[trail.length - 1] !== p) trail.push(p);
+  }
+  const route = trail.slice(-4);
+  const fronts = frontsOn(dayKey, statuses);
+  const ground = groundMarks(campaign.id, flags);
+  const meanwhile = meanwhileOn(campaign.id, dayKey);
+  const wide = 2;
+  const frame = !whole && here && bbox ? mapFrame([here, ...route.slice(-3)], bbox, wide) : null;
+  const inner = frame
+    ? { transformOrigin: "0 0", transform: `scale(${frame.k}) translate(${(-frame.x / MAP_OVERLAY_W) * 100}%, ${(-frame.y / MAP_OVERLAY_H) * 100}%)` }
+    : undefined;
+  if (!bbox || !clampedYear) return null;
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" };
+  const button = "border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]";
+  return (
+    <div className="mb-4" role="group" aria-label="The map of the front on the day of this report">
+      <div className="relative w-full border-2 border-black overflow-hidden" style={{ aspectRatio: frame ? "2 / 1" : "4 / 3" }}>
+        <div className="absolute left-0 top-0 w-full" style={{ aspectRatio: "4 / 3", ...inner }}>
+          <img src={`assets/maps/${campaign.id}/${clampedYear}.png`} alt="" className="w-full h-full object-cover absolute inset-0" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+          <CheckpointMapRegions
+            campaignId={campaign.id}
+            statusYear={statusYear}
+            flags={flags}
+            meters={meters || {}}
+            statuses={statuses}
+            divergedRegions={new Set()}
+            highlightRegions={(NODE_HIGHLIGHT_REGIONS[campaign.id] || {})[nodeId]}
+            accent={campaign.accent}
+            fronts={fronts}
+            marks={{ here, trail: route, pins: meanwhile, ground, seal: campaign.seal }}
+          />
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 mt-2">
+        <button onClick={onOpen} className={button} style={mono}>Show Theater Map</button>
+        {here && bbox && (
+          <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button} style={mono}>{whole ? "Frame this report" : "Show the whole theatre"}</button>
+        )}
+      </div>
+      {meanwhile.length > 0 && (
+        <ul className="list-none p-0 m-0 mt-2">
+          {meanwhile.map((m) => (
+            <li key={m.campaignId} className="text-[12px] leading-snug mb-0.5" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              <span className="text-[10px] uppercase tracking-wider font-bold" style={{ ...mono, color: (CAMPAIGNS[m.campaignId] || {}).accent }}>{m.short}</span>
+              {" \u00b7 "}
+              {mapIsoLabel(m.on)}: {m.text}
+            </li>
+          ))}
+        </ul>
+      )}
+      {ground.length > 0 && (
+        <ul className="list-none p-0 m-0 mt-1">
+          {ground.map((g) => (
+            <li key={g.id} className="text-[12px] leading-snug mb-0.5" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              <span aria-hidden="true">{g.kind === "gained" ? "\u2295 " : "\u2297 "}</span>
+              <span className="font-bold">{g.name}</span>
+              {g.kind === "gained" ? ", beyond the record: " : ", against the record: "}
+              {g.text} (projection)
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+const COMMS = {
+  german: [[1939, 6], [1943, 9], [1945, 14]],
+  soviet: [[1939, 16], [1941, 30], [1942, 20], [1943, 12], [1944, 8]],
+  allied: [[1939, 10], [1942, 8], [1944, 5]],
+  italy: [[1939, 14], [1941, 24], [1943, 20], [1944, 16]],
+};
+// THE CONDITIONS OF A REPORT (the conditions of 1914's 48-conditions.jsx, for 1940)
+//
+// What a headquarters knew about the state of things when a report reached it, apart from the decision: how old the news was, the weather that the report's place
+// usually has in the month, the state of the railways and the guns that were fired. These tables are MODELLED, not recorded: COMMS is a figure in hours for the
+// means of communication of each command in each period, and the weather is the usual weather of the climate of the report's place (MAP_PLACES) in the month, not the
+// weather of the day. The rail reading is the Matériel meter put into words. The guns are different: each is a figure from the histories, with its source, and is
+// shown on the report that it belongs to only. tools/check-conditions.mjs proves that the tables are whole and the figures sourced.
+
+/** How old the news is on a report, for a command, in a year: { hours, text }. */
+function reportAge(campaignId, year) {
+  const rows = COMMS[campaignId] || [[1939, 12]];
+  let hours = rows[0][1];
+  for (const [from, h] of rows) if (year >= from) hours = h;
+  const text = hours < 24 ? hours + " hours old" : hours < 36 ? "a day old" : hours < 60 ? "two days old" : "more than two days old";
+  return { hours, text };
+}
+
+const CLIMATES = {
+  west: ["Hard frost", "Frost and fog", "Thaw and mud", "Showers", "Fine, with showers", "Warm", "Warm", "Warm, with storms", "Fine, cooling", "Rain", "Rain and mud", "Frost"],
+  east: ["Hard frost", "Hard frost and snow", "Thaw and mud", "Mud: the roads are rivers", "Fine", "Warm", "Hot", "Hot", "Fine", "Rain: the rasputitsa begins", "Mud and the first frost", "Frost and snow"],
+  north: ["Hard frost in the polar night", "Hard frost", "Snow and frost", "Snow melting", "Thaw and mud", "Light nights", "Light nights, mild", "Mild, with rain", "Rain and the first frost", "Snow and gales", "Snow and the dark", "Hard frost in the polar night"],
+  med: ["Mild and wet", "Mild and wet", "Mild, with rain", "Fine", "Fine", "Hot", "Hot and dry", "Hot and dry", "Hot, storms at sea", "Rain and gales", "Rain and gales", "Mild and wet"],
+  desert: ["Cool, with rain on the coast", "Cool and clear", "Khamsin: sand and haze", "Khamsin: sand and haze", "Hot", "Very hot", "Very hot", "Very hot", "Hot", "Warm", "Cool", "Cool, with rain on the coast"],
+};
+
+/** The climate of a place [longitude, latitude], or "" for a place that none of the tables covers (the Pacific, America, Asia). */
+function climateOf(place) {
+  if (!place) return "";
+  const [lon, lat] = place;
+  if (lon < -12 || lon > 62 || lat < 24 || lat > 72) return "";
+  if (lat >= 59) return "north";
+  if (lat < 34 && lon >= 8) return "desert";
+  if (lat < 44 && lon < 36) return "med";
+  if (lon >= 20) return "east";
+  return "west";
+}
+
+/** The usual weather for the month at a place: "" when there is none. month is 1 to 12. */
+function usualWeather(place, month) {
+  const c = climateOf(place);
+  return c && month >= 1 && month <= 12 ? CLIMATES[c][month - 1] : "";
+}
+
+/** The Matériel meter as the state of the railways. */
+function railReading(fuel) {
+  const f = fuel || 0;
+  return f <= -3 ? "choked and broken" : f === -2 ? "strained" : f === -1 ? "short of wagons" : f === 0 ? "working" : f === 1 ? "running well" : "running to the timetable";
+}
+
+/** The guns of the great bombardments, on the report where they were fired: [campaign, report] -> { text, source }. */
+const BOMBARDMENTS = {
+  "soviet/stalingradCounter42": { text: "About 3,500 guns and mortars, in a preparation of eighty minutes before the attack", source: "Operation Uranus, Wikipedia (the sources differ a little on the figure and the length)" },
+  "german/elAlamein": { text: "The British barrage on the first night, by about 900 guns, going on for five hours", source: "Second Battle of El Alamein, Wikipedia (the figure is for the field guns)" },
+  "italy/alamein42": { text: "The British barrage on the first night, by about 900 guns, going on for five hours", source: "Second Battle of El Alamein, Wikipedia (the figure is for the field guns)" },
+};
+
+/** The line about the guns on a report, or "". */
+function bombardmentAt(campaignId, nodeId) {
+  const b = BOMBARDMENTS[campaignId + "/" + nodeId];
+  return b ? b.text : "";
+}
+
+/** The month, 1 to 12, of a node's date line, or 0 when it names no month or season (a date of only a year has no weather; a season is the month it begins in). */
+function conditionsMonth(date) {
+  if (!/\b(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER|SPRING|SUMMER|AUTUMN|FALL|WINTER)\b/i.test(String(date || ""))) return 0;
+  const key = nodeDayKey(date);
+  return key == null ? 0 : Math.floor((key % 10000) / 100);
+}
+
+/** One line under the title: the age of the news, the weather at the place, the rail, and the guns where they are known. */
+function ReportConditions({ campaign, stage, nodeId, meters }) {
+  const year = yearFrom(stage.date, 1940);
+  const age = reportAge(campaign.id, year);
+  const place = (MAP_PLACES[campaign.id] || {})[nodeId] || null;
+  const weather = usualWeather(place, conditionsMonth(stage.date));
+  const guns = bombardmentAt(campaign.id, nodeId);
+  const parts = ["News " + age.text, weather && "Weather: " + weather, "Rail " + railReading((meters || {}).fuel)];
+  return (
+    <div className="mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+      <p className="text-[11px] leading-snug text-[#000000] opacity-80 m-0">{parts.filter(Boolean).join(" · ")}</p>
+      {guns && <p className="text-[11px] leading-snug text-[#000000] opacity-80 m-0 mt-0.5">Guns: {guns}.</p>}
+    </div>
   );
 }
 function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange }) {
@@ -31260,7 +31434,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             just not here). It now opens the real-geography Checkpoint Map instead, from the
             same position in the briefing flow the old bar held: replacing the small toolbar
             "Map" button above, not adding a second entry point alongside it. */}
-        {campaign.dynamic && (
+        {false && (
           <button
             onClick={() => setShowMap(true)}
             className="w-full text-left mb-4 border-2 border-black px-3 py-2 text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
@@ -31404,6 +31578,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         >
           {stage.title}
         </h2>
+        {campaign.dynamic && <ReportConditions campaign={campaign} stage={stage} nodeId={nodeId} meters={meters} />}
+        {campaign.dynamic && <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />}
         <Typewriter text={situationWithNote} instant={instantText} soundOn={soundOn} />
 
         <div

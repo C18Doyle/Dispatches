@@ -2930,7 +2930,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             just not here). It now opens the real-geography Checkpoint Map instead, from the
             same position in the briefing flow the old bar held: replacing the small toolbar
             "Map" button above, not adding a second entry point alongside it. */}
-        {campaign.dynamic && (
+        {false && (
           <button
             onClick={() => setShowMap(true)}
             className="w-full text-left mb-4 border-2 border-black px-3 py-2 text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
@@ -3074,6 +3074,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         >
           {stage.title}
         </h2>
+        {campaign.dynamic && <ReportConditions campaign={campaign} stage={stage} nodeId={nodeId} meters={meters} />}
+        {campaign.dynamic && <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />}
         <Typewriter text={situationWithNote} instant={instantText} soundOn={soundOn} />
 
         <div

@@ -1,0 +1,90 @@
+const COMMS = {
+  german: [[1939, 6], [1943, 9], [1945, 14]],
+  soviet: [[1939, 16], [1941, 30], [1942, 20], [1943, 12], [1944, 8]],
+  allied: [[1939, 10], [1942, 8], [1944, 5]],
+  italy: [[1939, 14], [1941, 24], [1943, 20], [1944, 16]],
+};
+// THE CONDITIONS OF A REPORT (the conditions of 1914's 48-conditions.jsx, for 1940)
+//
+// What a headquarters knew about the state of things when a report reached it, apart from the decision: how old the news was, the weather that the report's place
+// usually has in the month, the state of the railways and the guns that were fired. These tables are MODELLED, not recorded: COMMS is a figure in hours for the
+// means of communication of each command in each period, and the weather is the usual weather of the climate of the report's place (MAP_PLACES) in the month, not the
+// weather of the day. The rail reading is the Matériel meter put into words. The guns are different: each is a figure from the histories, with its source, and is
+// shown on the report that it belongs to only. tools/check-conditions.mjs proves that the tables are whole and the figures sourced.
+
+/** How old the news is on a report, for a command, in a year: { hours, text }. */
+function reportAge(campaignId, year) {
+  const rows = COMMS[campaignId] || [[1939, 12]];
+  let hours = rows[0][1];
+  for (const [from, h] of rows) if (year >= from) hours = h;
+  const text = hours < 24 ? hours + " hours old" : hours < 36 ? "a day old" : hours < 60 ? "two days old" : "more than two days old";
+  return { hours, text };
+}
+
+const CLIMATES = {
+  west: ["Hard frost", "Frost and fog", "Thaw and mud", "Showers", "Fine, with showers", "Warm", "Warm", "Warm, with storms", "Fine, cooling", "Rain", "Rain and mud", "Frost"],
+  east: ["Hard frost", "Hard frost and snow", "Thaw and mud", "Mud: the roads are rivers", "Fine", "Warm", "Hot", "Hot", "Fine", "Rain: the rasputitsa begins", "Mud and the first frost", "Frost and snow"],
+  north: ["Hard frost in the polar night", "Hard frost", "Snow and frost", "Snow melting", "Thaw and mud", "Light nights", "Light nights, mild", "Mild, with rain", "Rain and the first frost", "Snow and gales", "Snow and the dark", "Hard frost in the polar night"],
+  med: ["Mild and wet", "Mild and wet", "Mild, with rain", "Fine", "Fine", "Hot", "Hot and dry", "Hot and dry", "Hot, storms at sea", "Rain and gales", "Rain and gales", "Mild and wet"],
+  desert: ["Cool, with rain on the coast", "Cool and clear", "Khamsin: sand and haze", "Khamsin: sand and haze", "Hot", "Very hot", "Very hot", "Very hot", "Hot", "Warm", "Cool", "Cool, with rain on the coast"],
+};
+
+/** The climate of a place [longitude, latitude], or "" for a place that none of the tables covers (the Pacific, America, Asia). */
+function climateOf(place) {
+  if (!place) return "";
+  const [lon, lat] = place;
+  if (lon < -12 || lon > 62 || lat < 24 || lat > 72) return "";
+  if (lat >= 59) return "north";
+  if (lat < 34 && lon >= 8) return "desert";
+  if (lat < 44 && lon < 36) return "med";
+  if (lon >= 20) return "east";
+  return "west";
+}
+
+/** The usual weather for the month at a place: "" when there is none. month is 1 to 12. */
+function usualWeather(place, month) {
+  const c = climateOf(place);
+  return c && month >= 1 && month <= 12 ? CLIMATES[c][month - 1] : "";
+}
+
+/** The Matériel meter as the state of the railways. */
+function railReading(fuel) {
+  const f = fuel || 0;
+  return f <= -3 ? "choked and broken" : f === -2 ? "strained" : f === -1 ? "short of wagons" : f === 0 ? "working" : f === 1 ? "running well" : "running to the timetable";
+}
+
+/** The guns of the great bombardments, on the report where they were fired: [campaign, report] -> { text, source }. */
+const BOMBARDMENTS = {
+  "soviet/stalingradCounter42": { text: "About 3,500 guns and mortars, in a preparation of eighty minutes before the attack", source: "Operation Uranus, Wikipedia (the sources differ a little on the figure and the length)" },
+  "german/elAlamein": { text: "The British barrage on the first night, by about 900 guns, going on for five hours", source: "Second Battle of El Alamein, Wikipedia (the figure is for the field guns)" },
+  "italy/alamein42": { text: "The British barrage on the first night, by about 900 guns, going on for five hours", source: "Second Battle of El Alamein, Wikipedia (the figure is for the field guns)" },
+};
+
+/** The line about the guns on a report, or "". */
+function bombardmentAt(campaignId, nodeId) {
+  const b = BOMBARDMENTS[campaignId + "/" + nodeId];
+  return b ? b.text : "";
+}
+
+/** The month, 1 to 12, of a node's date line, or 0 when it names no month or season (a date of only a year has no weather; a season is the month it begins in). */
+function conditionsMonth(date) {
+  if (!/\b(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER|SPRING|SUMMER|AUTUMN|FALL|WINTER)\b/i.test(String(date || ""))) return 0;
+  const key = nodeDayKey(date);
+  return key == null ? 0 : Math.floor((key % 10000) / 100);
+}
+
+/** One line under the title: the age of the news, the weather at the place, the rail, and the guns where they are known. */
+function ReportConditions({ campaign, stage, nodeId, meters }) {
+  const year = yearFrom(stage.date, 1940);
+  const age = reportAge(campaign.id, year);
+  const place = (MAP_PLACES[campaign.id] || {})[nodeId] || null;
+  const weather = usualWeather(place, conditionsMonth(stage.date));
+  const guns = bombardmentAt(campaign.id, nodeId);
+  const parts = ["News " + age.text, weather && "Weather: " + weather, "Rail " + railReading((meters || {}).fuel)];
+  return (
+    <div className="mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+      <p className="text-[11px] leading-snug text-[#000000] opacity-80 m-0">{parts.filter(Boolean).join(" · ")}</p>
+      {guns && <p className="text-[11px] leading-snug text-[#000000] opacity-80 m-0 mt-0.5">Guns: {guns}.</p>}
+    </div>
+  );
+}

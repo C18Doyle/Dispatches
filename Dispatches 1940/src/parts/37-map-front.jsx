@@ -386,21 +386,21 @@ function groundMarks(campaignId, flags) {
   return MAP_GROUND.filter((g) => g.campaign === campaignId && flags && g.values.includes(flags[g.flag]));
 }
 
-/** The frame of a zoomed map in overlay units around some places, at the shape of the card, as { k, x, y }: scale and the top left corner. */
-function mapFrame(points, bbox) {
+/** The frame of a zoomed map in overlay units around some places, at the shape of its window (aspect = width over height; 4 / 3 is the whole sheet), as { k, x, y }: scale and the top left corner. */
+function mapFrame(points, bbox, aspect = 4 / 3) {
   const ps = points.filter(Boolean).map(([lo, la]) => projectLonLat(lo, la, bbox)).filter(([x, y]) => x > -30 && x < MAP_OVERLAY_W + 30 && y > -30 && y < MAP_OVERLAY_H + 30);
   if (!ps.length) return null;
   const xs = ps.map((p) => p[0]);
   const ys = ps.map((p) => p[1]);
   let w = Math.max(Math.max(...xs) - Math.min(...xs) + 230, 300);
-  let h = w * 0.75;
+  let h = w / aspect;
   const need = Math.max(Math.max(...ys) - Math.min(...ys) + 230, 225);
   if (h < need) {
     h = need;
-    w = h / 0.75;
+    w = h * aspect;
   }
   w = Math.min(w, MAP_OVERLAY_W);
-  h = w * 0.75;
+  h = w / aspect;
   const x = Math.max(0, Math.min(MAP_OVERLAY_W - w, (Math.min(...xs) + Math.max(...xs)) / 2 - w / 2));
   const y = Math.max(0, Math.min(MAP_OVERLAY_H - h, (Math.min(...ys) + Math.max(...ys)) / 2 - h / 2));
   return { k: MAP_OVERLAY_W / w, x, y };
@@ -485,5 +485,89 @@ function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal }) {
         </g>
       )}
     </g>
+  );
+}
+
+/**
+ * The map under the title of a report (the always-on map of 1914): a wide window framed on the report's place and the places before it, with the front on the
+ * day, the other commands' pins, the ground against the record and, below it, the three nearest reports of the others. A button opens the whole map (the
+ * checkpoint map with its timeline and its orders), and another shows the whole theatre in place of the frame.
+ */
+function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) {
+  const [whole, setWhole] = useState(false);
+  const bbox = CAMPAIGN_MAP_BBOX[campaign.id];
+  const years = CAMPAIGN_MAP_YEARS[campaign.id] || [];
+  const dayKey = nodeDayKey(stage.date);
+  const statusYear = cappedStatusYear(yearFrom(stage.date, 1940), false);
+  const clampedYear = years.includes(statusYear) ? statusYear : years.filter((y) => y <= statusYear).pop() || years[0];
+  const statuses = useMemo(() => currentRegionStatuses(statusYear, flags, meters || {}, dayKey), [statusYear, flags, meters, dayKey]);
+  const places = MAP_PLACES[campaign.id] || {};
+  const here = places[nodeId] || null;
+  const trail = [];
+  for (const h of history || []) {
+    const p = places[h.position];
+    if (p && trail[trail.length - 1] !== p) trail.push(p);
+  }
+  const route = trail.slice(-4);
+  const fronts = frontsOn(dayKey, statuses);
+  const ground = groundMarks(campaign.id, flags);
+  const meanwhile = meanwhileOn(campaign.id, dayKey);
+  const wide = 2;
+  const frame = !whole && here && bbox ? mapFrame([here, ...route.slice(-3)], bbox, wide) : null;
+  const inner = frame
+    ? { transformOrigin: "0 0", transform: `scale(${frame.k}) translate(${(-frame.x / MAP_OVERLAY_W) * 100}%, ${(-frame.y / MAP_OVERLAY_H) * 100}%)` }
+    : undefined;
+  if (!bbox || !clampedYear) return null;
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" };
+  const button = "border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]";
+  return (
+    <div className="mb-4" role="group" aria-label="The map of the front on the day of this report">
+      <div className="relative w-full border-2 border-black overflow-hidden" style={{ aspectRatio: frame ? "2 / 1" : "4 / 3" }}>
+        <div className="absolute left-0 top-0 w-full" style={{ aspectRatio: "4 / 3", ...inner }}>
+          <img src={`assets/maps/${campaign.id}/${clampedYear}.png`} alt="" className="w-full h-full object-cover absolute inset-0" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+          <CheckpointMapRegions
+            campaignId={campaign.id}
+            statusYear={statusYear}
+            flags={flags}
+            meters={meters || {}}
+            statuses={statuses}
+            divergedRegions={new Set()}
+            highlightRegions={(NODE_HIGHLIGHT_REGIONS[campaign.id] || {})[nodeId]}
+            accent={campaign.accent}
+            fronts={fronts}
+            marks={{ here, trail: route, pins: meanwhile, ground, seal: campaign.seal }}
+          />
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 mt-2">
+        <button onClick={onOpen} className={button} style={mono}>Show Theater Map</button>
+        {here && bbox && (
+          <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button} style={mono}>{whole ? "Frame this report" : "Show the whole theatre"}</button>
+        )}
+      </div>
+      {meanwhile.length > 0 && (
+        <ul className="list-none p-0 m-0 mt-2">
+          {meanwhile.map((m) => (
+            <li key={m.campaignId} className="text-[12px] leading-snug mb-0.5" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              <span className="text-[10px] uppercase tracking-wider font-bold" style={{ ...mono, color: (CAMPAIGNS[m.campaignId] || {}).accent }}>{m.short}</span>
+              {" \u00b7 "}
+              {mapIsoLabel(m.on)}: {m.text}
+            </li>
+          ))}
+        </ul>
+      )}
+      {ground.length > 0 && (
+        <ul className="list-none p-0 m-0 mt-1">
+          {ground.map((g) => (
+            <li key={g.id} className="text-[12px] leading-snug mb-0.5" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              <span aria-hidden="true">{g.kind === "gained" ? "\u2295 " : "\u2297 "}</span>
+              <span className="font-bold">{g.name}</span>
+              {g.kind === "gained" ? ", beyond the record: " : ", against the record: "}
+              {g.text} (projection)
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
