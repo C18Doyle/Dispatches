@@ -28413,7 +28413,7 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
       </div>
       <div className="flex flex-wrap items-center gap-2 mt-2">
         <button onClick={onOpen} className={button} style={mono}>Show Theater Map</button>
-        {here && bbox && (
+        {here && bbox && (frame || whole) && (
           <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button} style={mono}>{whole ? "Frame this report" : "Show the whole theatre"}</button>
         )}
       </div>
