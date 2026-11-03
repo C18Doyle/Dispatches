@@ -1,4 +1,6 @@
 function WW2CommandInner() {
+  // Re-renders the whole tree when the language is changed (every text is read with t() while rendering).
+  const language = useLanguage();
   const [screen, setScreen] = useState("select");
   const [campaignId, setCampaignId] = useState(null);
   const [position, setPosition] = useState(0);

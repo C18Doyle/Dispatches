@@ -1,5 +1,7 @@
-import { useState, useEffect, useMemo, useRef, useId, Component } from "react";
+import { useState, useEffect, useMemo, useRef, useId, useSyncExternalStore, Component } from "react";
 import * as Tone from "tone";
+import { t, T, initLanguage, setLanguage, getLanguage, subscribe as subscribeLanguage, registerTables, LANGUAGES } from "@dispatches/i18n";
+import I18N_TABLES from "./i18n/tables.js";
 import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey } from "./logic";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
@@ -13,6 +15,12 @@ import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, re
 // entirely likely to do.
 import THEME_MUSIC_DATA_URL from "../assets/theme.mp3";
 import REGIONS_GEOMETRY from "../assets/maps/regions.json";
+
+// The language layer (docs/LOCALISATION.md): the stored language, else the browser's; the tables are this game's translations of its interface.
+registerTables(I18N_TABLES);
+initLanguage({ key: "dispatches1940_language" });
+/** The current language code; the component that calls it re-renders when the language changes. */
+const useLanguage = () => useSyncExternalStore(subscribeLanguage, getLanguage, () => "en");
 
 // ---------- STORAGE POLYFILL (real-browser / Electron deployment) ----------
 // window.storage.get/set/delete is a Claude-artifact-environment-specific API and

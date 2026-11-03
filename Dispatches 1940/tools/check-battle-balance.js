@@ -124,7 +124,7 @@ if (!commBonusMatch) { console.error("KEY_BATTLE_COMMANDER_BONUS not found"); pr
 const appBlock = extractFromMarker(src, "const KEY_BATTLE_APPROACHES = {", "{", "}") + ";";
 const postureBlock = extractFromMarker(src, "const KEY_BATTLE_POSTURES = {", "{", "}") + ";";
 
-const sandbox = {};
+const sandbox = { T: (s) => s, t: (s) => s };
 vm.createContext(sandbox);
 // vm contexts only expose `var`/function declarations as own-properties of the sandbox object —
 // top-level `const`/`let` create lexical bindings the host side can't see. The extracted source

@@ -23,6 +23,10 @@ const DIST = join(ROOT, "dist", "full");
 const VERBOSE = Boolean(process.env.VERBOSE);
 const RUNS = Number(process.env.RUNS || 2);
 const MAX_STEPS = 1200;
+// I18N_LANG=de plays in that language (the language is stored before the page loads); I18N_LANG=pseudo marks every text that goes through t() with
+// brackets and, at the end, lists the lines on screen that do not carry them (the interface text that is still English). docs/LOCALISATION.md.
+const LANG = process.env.I18N_LANG || "";
+const untranslated = new Map();
 const ALL = [["german", "OKW"], ["soviet", "STAVKA"], ["allied", "SHAEF"], ["italy", "COMANDO"]];
 const CAMPAIGNS = ALL.filter(([id]) => !process.env.CAMPAIGNS || process.env.CAMPAIGNS.split(",").includes(id));
 const PLAYS = [
@@ -75,7 +79,7 @@ async function playOne(browser, [id, prefix], play) {
   const problems = [];
   const rnd = rngFor(play.seed + id.length * 101);
   const ctx = await browser.newContext({ reducedMotion: "reduce", viewport: { width: 430, height: 900 }, acceptDownloads: true });
-  await ctx.addInitScript(([staff]) => { try { if (staff) localStorage.setItem("dispatches1940_staff_plans", "1"); } catch (e) { /* none */ } }, [play.staff]);
+  await ctx.addInitScript(([staff, lang]) => { try { if (staff) localStorage.setItem("dispatches1940_staff_plans", "1"); if (lang) localStorage.setItem("dispatches1940_language", lang); } catch (e) { /* none */ } }, [play.staff, LANG]);
   await ctx.grantPermissions(["clipboard-read", "clipboard-write"]).catch(() => {});
   ctx.setDefaultTimeout(8000);
   const page = await ctx.newPage();
@@ -103,6 +107,12 @@ async function playOne(browser, [id, prefix], play) {
     for (let step = 0; step < MAX_STEPS && !ended; step++) {
       await page.waitForTimeout(40);
       const text = await page.evaluate(() => document.body.innerText);
+      if (LANG === "pseudo") {
+        for (const line of text.split("\n")) {
+          const l = line.trim();
+          if (l.length >= 4 && /[A-Za-z]{3}/.test(l) && !l.includes("\u27e6")) untranslated.set(l, (untranslated.get(l) || 0) + 1);
+        }
+      }
       if (/The File Was Damaged/.test(text)) { problems.push(`${where}: step ${step}: the damaged-file screen is shown`); break; }
       if (ENDED.test(text)) {
         ended = true;
@@ -166,6 +176,14 @@ const browser = await chromium.launch();
 const problems = [];
 for (const c of CAMPAIGNS) for (const p of PLAYS) problems.push(...(await playOne(browser, c, p)));
 await browser.close();
+if (LANG === "pseudo") {
+  const rows = [...untranslated.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  const out = process.env.I18N_OUT || "";
+  const text = rows.map(([l, n]) => n + "\t" + l).join("\n");
+  if (out) (await import("node:fs")).writeFileSync(out, text);
+  else console.log(text.slice(0, 20000));
+  console.log("\n" + rows.length + " lines on screen are not marked as translatable text");
+}
 server.close();
 if (problems.length) {
   console.error(`\nplaythrough: ${problems.length} problem(s)`);

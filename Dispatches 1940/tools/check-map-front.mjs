@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(join(ROOT, "package.json"));
+const I18N_STUB = "const T = (s) => s; const t = (s, p) => String(s).replace(/\\{(\\w+)\\}/g, (m, k) => (p && p[k] != null ? p[k] : m));\n";
 const CAMPAIGNS = require("./tools/campaigns_extracted.js");
 const maps = readFileSync(join(ROOT, "src/parts/30-warroom-and-maps.jsx"), "utf8");
 const front = readFileSync(join(ROOT, "src/parts/37-map-front.jsx"), "utf8");
@@ -23,7 +24,7 @@ const vichy = maps.slice(maps.indexOf("const VICHY_LINE = ["), maps.indexOf("];"
 const timeline = maps.slice(maps.indexOf("const MAP_TIMELINE = {"), maps.indexOf("// `dayKey` (from nodeDayKey)"));
 const data = front.slice(front.indexOf("const FRONT_WATCH_EAST ="), front.indexOf("const MAP_COMMAND_SHORT"));
 const fns = front.slice(front.indexOf("const mapIsoKey"), front.indexOf("/** What the other commands were doing"));
-const M = new Function(vichy + "\n" + timeline + "\n" + data + "\n" + fns + "\nreturn { VICHY_LINE, MAP_TIMELINE, FRONT_SERIES, MAP_PLACES, MAP_MEANWHILE, MAP_GROUND, frontsOn, baselineStatuses };")();
+const M = new Function(I18N_STUB + vichy + "\n" + timeline + "\n" + data + "\n" + fns + "\nreturn { VICHY_LINE, MAP_TIMELINE, FRONT_SERIES, MAP_PLACES, MAP_MEANWHILE, MAP_GROUND, frontsOn, baselineStatuses };")();
 
 const problems = [];
 const words = (t) => t.trim().split(/\s+/).filter(Boolean).length;
@@ -103,7 +104,7 @@ for (const cid of Object.keys(FILES)) {
 // ---- a place beyond the frame of its map has a name (MAP_OFF_MAP) and a name belongs to a place beyond it ----
 const BBOX = {};
 for (const m of maps.matchAll(/^\s*(german|soviet|allied|italy): \{ llcrnrlat: (-?\d+), urcrnrlat: (-?\d+), llcrnrlon: (-?\d+), urcrnrlon: (-?\d+) \},/gm)) BBOX[m[1]] = { lat0: +m[2], lat1: +m[3], lon0: +m[4], lon1: +m[5] };
-const offNames = new Function(front.slice(front.indexOf("const MAP_OFF_MAP = {"), front.indexOf("// ---- what the commands were doing")) + "\nreturn MAP_OFF_MAP;")();
+const offNames = new Function(I18N_STUB + front.slice(front.indexOf("const MAP_OFF_MAP = {"), front.indexOf("// ---- what the commands were doing")) + "\nreturn MAP_OFF_MAP;")();
 const outside = (cid, p) => { const b = BBOX[cid]; return p[0] < b.lon0 + 0.3 || p[0] > b.lon1 - 0.3 || p[1] < b.lat0 + 0.3 || p[1] > b.lat1 - 0.3; };
 let offCount = 0;
 for (const cid of Object.keys(FILES)) {
