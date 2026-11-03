@@ -711,9 +711,9 @@ export interface Arrival {
 
 /**
  * Decides which interstitial (if any) shows on arriving at nextPos: a Historical
- * Divergence reveal wins outright; otherwise a SPECIAL_EVENTS entry keyed to the node
- * just left; otherwise a state-driven event the file has earned (STATE_EVENTS, one at
- * a time); otherwise the next briefing.
+ * Divergence reveal comes first, then a SPECIAL_EVENTS entry keyed to the node just left, then the
+ * next briefing. A state-driven event the file has earned (STATE_EVENTS, one at a time) is returned
+ * beside them: it takes the arrival when nothing else does, and otherwise follows the screen that did.
  */
 export function arrivalScreen(args: {
   dynamic: boolean;
@@ -730,6 +730,10 @@ export function arrivalScreen(args: {
   meters?: Meters;
 }): Arrival {
   const { dynamic, campaignId, flags } = args;
+  const stateEvent =
+    dynamic && args.stateEvents && args.meters
+      ? dueStateEvent({ campaignId, events: args.stateEvents, nextDate: args.nextDate, flags, meters: args.meters })
+      : null;
   const fork = dynamic
     ? (args.forks[campaignId] || []).find(
         (fk) => fk.revealNode === String(args.nextPos) && flags[fk.flag] && !args.seenReveals.includes(fk.id)
@@ -738,13 +742,9 @@ export function arrivalScreen(args: {
   const event = dynamic
     ? (args.events[campaignId] || []).find((e) => e.afterNode === args.position && (!e.condition || e.condition(flags)))
     : null;
-  if (fork) return { screen: "divergence", divergenceForkId: fork.id, pressEvent: null, stateEvent: null };
+  if (fork) return { screen: "divergence", divergenceForkId: fork.id, pressEvent: null, stateEvent };
   if (event) {
-    return { screen: event.type, divergenceForkId: null, pressEvent: event.type === "press" ? event.pressEvent : null, stateEvent: null };
+    return { screen: event.type, divergenceForkId: null, pressEvent: event.type === "press" ? event.pressEvent : null, stateEvent };
   }
-  const stateEvent =
-    dynamic && args.stateEvents && args.meters
-      ? dueStateEvent({ campaignId, events: args.stateEvents, nextDate: args.nextDate, flags, meters: args.meters })
-      : null;
   return { screen: stateEvent ? "stateEvent" : "briefing", divergenceForkId: null, pressEvent: null, stateEvent };
 }

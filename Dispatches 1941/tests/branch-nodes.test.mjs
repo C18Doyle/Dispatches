@@ -28,6 +28,11 @@ const GOOD = { readiness: 3, pipeline: 3, initiative: 3 };
 
 // campaign, the report, flags the save should carry. `reads`: [flag value, a phrase the report after it must then contain] per option index (optional).
 const BRANCH_NODES = [
+  { campaign: "japan", id: "nomonhan39", flags: {} },
+  { campaign: "japan", id: "indochinaMission40", flags: {} },
+  { campaign: "alliedPacific", id: "fleetAtHawaii40", flags: {} },
+  { campaign: "alliedPacific", id: "richardsonObjection40", flags: { fleetBasingPath: "hawaii" } },
+  { campaign: "alliedPacific", id: "atlanticTransfer41", flags: { richardsonPath: "relieved" } },
   { campaign: "japan", id: "burmaRoad40", flags: {} },
   { campaign: "japan", id: "neutralityPact41", flags: { tripartitePath: "signed" } },
   { campaign: "japan", id: "indianOceanRaid42", flags: { openingVector: "pearlHarbor" } },
