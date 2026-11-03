@@ -1,5 +1,7 @@
-import { useState, useEffect, useMemo, useRef, useId, Component } from "react";
+import { useState, useEffect, useMemo, useRef, useId, useSyncExternalStore, Component } from "react";
 import * as Tone from "tone";
+import { t, T, initLanguage, setLanguage, getLanguage, subscribe as subscribeLanguage, registerTables, LANGUAGES } from "@dispatches/i18n";
+import I18N_TABLES from "./i18n/tables.js";
 import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey } from "./logic";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
@@ -13,6 +15,12 @@ import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, re
 // entirely likely to do.
 import THEME_MUSIC_DATA_URL from "../assets/theme.mp3";
 import REGIONS_GEOMETRY from "../assets/maps/regions.json";
+
+// The language layer (docs/LOCALISATION.md): the stored language, else the browser's; the tables are this game's translations of its interface.
+registerTables(I18N_TABLES);
+initLanguage({ key: "dispatches1940_language" });
+/** The current language code; the component that calls it re-renders when the language changes. */
+const useLanguage = () => useSyncExternalStore(subscribeLanguage, getLanguage, () => "en");
 
 // ---------- STORAGE POLYFILL (real-browser / Electron deployment) ----------
 // window.storage.get/set/delete is a Claude-artifact-environment-specific API and
@@ -21699,11 +21707,11 @@ const ENDINGS_GALLERY = [
 // campaigns can produce strong or truly costly outcomes relative to their
 // own objectives, independent of the war's larger, fixed result.
 const TIER_META = {
-  "Major Victory": { short: "Major Victory", color: "#2f5233" },
-  "Minor Victory": { short: "Minor Victory", color: "#40694c" },
-  "Contested Outcome": { short: "Contested", color: "#6b5b1f" },
-  "Minor Defeat": { short: "Minor Defeat", color: "#8a4a2f" },
-  "Major Defeat": { short: "Major Defeat", color: "#7a2e2e" },
+  "Major Victory": { short: T("Major Victory"), color: "#2f5233" },
+  "Minor Victory": { short: T("Minor Victory"), color: "#40694c" },
+  "Contested Outcome": { short: T("Contested"), color: "#6b5b1f" },
+  "Minor Defeat": { short: T("Minor Defeat"), color: "#8a4a2f" },
+  "Major Defeat": { short: T("Major Defeat"), color: "#7a2e2e" },
 };
 
 function EndingTierBadge({ tier }) {
@@ -21718,7 +21726,7 @@ function EndingTierBadge({ tier }) {
         color: meta.color,
       }}
     >
-      {meta.short}
+      {t(meta.short)}
     </span>
   );
 }
@@ -25471,15 +25479,15 @@ function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contrib
   if (counter && counter.result !== "repulsed") {
     const cat = categories.find((c) => c.id === counter.category);
     if (counter.result === "gaveGround") {
-      lines.push({ meter: "initiative", delta: -1, reason: "Gave ground to the counterattack" });
+      lines.push({ meter: "initiative", delta: -1, reason: t("Gave ground to the counterattack") });
     } else if (cat) {
-      lines.push({ meter: cat.meter, delta: -1, reason: `${cat.name} mauled by the counterattack` });
-      if (counter.result === "broke") lines.push({ meter: "initiative", delta: -1, reason: "The counterattack broke through" });
+      lines.push({ meter: cat.meter, delta: -1, reason: t("{catName} mauled by the counterattack", { catName: cat.name }) });
+      if (counter.result === "broke") lines.push({ meter: "initiative", delta: -1, reason: t("The counterattack broke through") });
     }
   }
   for (const c of categories) {
     if ((finalAllocation[c.id] || 0) >= poolSize / 2) {
-      lines.push({ meter: c.meter, delta: -1, reason: `Heavy commitment to ${c.name}` });
+      lines.push({ meter: c.meter, delta: -1, reason: t("Heavy commitment to {cName}", { cName: c.name }) });
     }
   }
   // Round 24 (double jeopardy): an arm left uncovered used to cost its meter a point on a loss as well. The gap has
@@ -25487,9 +25495,9 @@ function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contrib
   // charging it again was charging the same fault three times. A win with nothing neglected still earns the point.
   const neglected = categories.filter((c) => (contributions[c.id] || 0) < 0);
   if (won && neglected.length === 0) {
-    lines.push({ meter: "initiative", delta: 1, reason: "A coordinated plan" });
+    lines.push({ meter: "initiative", delta: 1, reason: t("A coordinated plan") });
   }
-  if (reservesHeld >= 2) lines.push({ meter: "manpower", delta: 1, reason: "Reserve returned intact" });
+  if (reservesHeld >= 2) lines.push({ meter: "manpower", delta: 1, reason: t("Reserve returned intact") });
   const totals = { manpower: 0, fuel: 0, initiative: 0 };
   for (const l of lines) totals[l.meter] = (totals[l.meter] || 0) + l.delta;
   // Round 27: random play reached -10 within a few decisions once battles charged their plans on top of their own
@@ -25539,7 +25547,7 @@ function battleDecisionEffect(option, postureId) {
 }
 
 // Round 23: the campaign hard modes that can put orders from above on a battle (config.hardRule).
-const HARD_MODE_NAMES = { iron: "Führer Mode", purge: "NKVD Mode", coalition: "Coalition Mode", axis: "Axis Mode" };
+const HARD_MODE_NAMES = { iron: T("Führer Mode"), purge: T("NKVD Mode"), coalition: T("Coalition Mode"), axis: T("Axis Mode") };
 
 // Round 23: how a Matériel strand's reading (see materielReadout in logic.ts) changes the weight an
 // arm can bring. Each category may name the strand it draws on (category.strand: "oil", "ammo",
@@ -25852,43 +25860,43 @@ const CAMPAIGN_WAR_ROOM_QUOTE = {
 // war context and mechanics, not the name's own backstory — so EASY_MODE_NOTES (which used to
 // open with "Named for the X — a Y...") was retired in favor of warRoomModeInfo()'s shared
 // mechanics-only fallback text, identical in substance across all four campaigns anyway.
-const EASY_MODE_NAMES = { german: "Elefant Command", soviet: "T-35 Command", allied: "Defiant Command", italy: "Breda Command" };
+const EASY_MODE_NAMES = { german: T("Elefant Command"), soviet: T("T-35 Command"), allied: T("Defiant Command"), italy: T("Breda Command") };
 
 function warRoomModeInfo(mode, campaignId) {
   const names = {
-    easy: EASY_MODE_NAMES[campaignId] || "Easy Command",
-    open: "Standard Issue Command",
-    iron: "Führer Mode",
-    purge: "NKVD Mode",
-    coalition: "Yalta Mode",
-    axis: "Axis Mode",
+    easy: EASY_MODE_NAMES[campaignId] ? t(EASY_MODE_NAMES[campaignId]) : t("Easy Command"),
+    open: t("Standard Issue Command"),
+    iron: t("Führer Mode"),
+    purge: t("NKVD Mode"),
+    coalition: t("Yalta Mode"),
+    axis: t("Axis Mode"),
   };
   const hard = !!HARD_MODE_NAMES[mode];
   const summaries = {
-    easy: "Each choice shows what it will do to the meters, the choice the record made is marked, and you can rewind.",
-    open: "The full dashboard and the rewind. You judge each order on what you know.",
-    iron: "No dashboard and no rewind. You have five points of political capital to spend on defying Hitler.",
-    purge: "No rewind, and the NKVD is watching: five counts of suspicion end in a recall.",
-    coalition: "No rewind. Overriding a partner's strong objection costs Coalition Cohesion, and a broken alliance relieves you.",
-    axis: "No rewind. Berlin watches every act of independent Italian judgment, and losing its trust ends the command.",
+    easy: t("Each choice shows what it will do to the meters, the choice the record made is marked, and you can rewind."),
+    open: t("The full dashboard and the rewind. You judge each order on what you know."),
+    iron: t("No dashboard and no rewind. You have five points of political capital to spend on defying Hitler."),
+    purge: t("No rewind, and the NKVD is watching: five counts of suspicion end in a recall."),
+    coalition: t("No rewind. Overriding a partner's strong objection costs Coalition Cohesion, and a broken alliance relieves you."),
+    axis: t("No rewind. Berlin watches every act of independent Italian judgment, and losing its trust ends the command."),
   };
   const trackerRules = {
-    iron: "Political capital: you have five points to spend defying the historical command. Five defiances and you are dismissed.",
-    purge: "Suspicion rises as you defy the apparatus, counted out of 5. At 5 you are recalled.",
-    coalition: "Coalition Cohesion falls when you override a partner's strong objection. At -6 the alliance relieves you of command.",
-    axis: "German Trust falls when Berlin notices independent Italian judgment. At -5 you are superseded.",
+    iron: t("Political capital: you have five points to spend defying the historical command. Five defiances and you are dismissed."),
+    purge: t("Suspicion rises as you defy the apparatus, counted out of 5. At 5 you are recalled."),
+    coalition: t("Coalition Cohesion falls when you override a partner's strong objection. At -6 the alliance relieves you of command."),
+    axis: t("German Trust falls when Berlin notices independent Italian judgment. At -5 you are superseded."),
   };
   const rules = hard
     ? [
-        "Decisions are final: there is no rewind.",
-        mode === "iron" ? "There is no meter dashboard. Only the staff's notes say how you stand." : null,
+        t("Decisions are final: there is no rewind."),
+        mode === "iron" ? t("There is no meter dashboard. Only the staff's notes say how you stand.") : null,
         trackerRules[mode],
-        "Each battle can carry orders from above: a fixed approach or commander, or an order not to give ground.",
-        "Reports are partly censored as Manpower falls.",
+        t("Each battle can carry orders from above: a fixed approach or commander, or an order not to give ground."),
+        t("Reports are partly censored as Manpower falls."),
       ].filter(Boolean)
     : mode === "easy"
-    ? ["Each option shows its meter impact before you choose.", "The choice the historical record made is marked, where the record left one.", "In battle the intelligence summary is never wrong.", "Rewind is available."]
-    : ["Full meter dashboard.", "Rewind is available."];
+    ? [t("Each option shows its meter impact before you choose."), t("The choice the historical record made is marked, where the record left one."), t("In battle the intelligence summary is never wrong."), t("Rewind is available.")]
+    : [t("Full meter dashboard."), t("Rewind is available.")];
   return { label: names[mode] || mode, note: summaries[mode] || "", summary: summaries[mode] || "", rules };
 }
 
@@ -26104,7 +26112,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
     <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10">
       <div className="w-full max-w-lg">
         <h1 ref={headingRef} tabIndex={-1} className="sr-only outline-none">
-          Wire bulletin
+          {t("Wire bulletin")}
         </h1>
         <div className="wire-tear" style={{ "--wire-paper": paperTint }}></div>
         <div className="px-5 py-5" style={{ backgroundColor: paperTint }}>
@@ -26135,7 +26143,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
             className="text-[9px] pt-2 text-[#6b6b6b]"
             style={{ borderTop: "1px dashed #ccc4b8", fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            WIRE: RELAYED VIA {campaign.name.toUpperCase()}, ROUTINE PRIORITY
+            {t("WIRE: RELAYED VIA {p}, ROUTINE PRIORITY", { p: campaign.name.toUpperCase() })}
           </div>
         </div>
         <div className="wire-tear wire-tear-bottom" style={{ "--wire-paper": paperTint }}></div>
@@ -26144,7 +26152,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
           className="w-full border-2 mt-4 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-150"
           style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: paperTint }}
         >
-          Continue
+          {t("Continue")}
         </button>
       </div>
     </div>
@@ -26267,9 +26275,9 @@ const VICHY_LINE = [
 // region, not just a pin) — removed from here so it doesn't get both a landmark dot AND
 // a region polygon/label sitting on the same spot.
 const MAP_LANDMARKS = [
-  { id: "gibraltar", name: "Gibraltar", lon: -5.35, lat: 36.14 },
-  { id: "crete", name: "Crete", lon: 25.13, lat: 35.34 },
-  { id: "dodecanese", name: "Dodecanese", lon: 28.22, lat: 36.45 },
+  { id: "gibraltar", name: T("Gibraltar"), lon: -5.35, lat: 36.14 },
+  { id: "crete", name: T("Crete"), lon: 25.13, lat: 35.34 },
+  { id: "dodecanese", name: T("Dodecanese"), lon: 28.22, lat: 36.45 },
 ];
 
 // A curated set of orientation cities — capitals and the handful of named battles this
@@ -26277,18 +26285,18 @@ const MAP_LANDMARKS = [
 // Drawn smaller and lighter than the landmark pins above so they read as background
 // orientation, not competing strategic markers.
 const MAP_CITIES = [
-  { id: "london", name: "London", lon: -0.13, lat: 51.51 },
-  { id: "paris", name: "Paris", lon: 2.35, lat: 48.86 },
-  { id: "berlin", name: "Berlin", lon: 13.41, lat: 52.52 },
-  { id: "rome", name: "Rome", lon: 12.5, lat: 41.9 },
-  { id: "vienna", name: "Vienna", lon: 16.37, lat: 48.21 },
-  { id: "budapest", name: "Budapest", lon: 19.04, lat: 47.5 },
-  { id: "warsaw", name: "Warsaw", lon: 21.02, lat: 52.23 },
-  { id: "moscow", name: "Moscow", lon: 37.62, lat: 55.75 },
-  { id: "leningrad", name: "Leningrad", lon: 30.31, lat: 59.94 },
-  { id: "stalingrad", name: "Stalingrad", lon: 44.5, lat: 48.71 },
-  { id: "cairo", name: "Cairo", lon: 31.24, lat: 30.04 },
-  { id: "ankara", name: "Ankara", lon: 32.85, lat: 39.93 },
+  { id: "london", name: T("London"), lon: -0.13, lat: 51.51 },
+  { id: "paris", name: T("Paris"), lon: 2.35, lat: 48.86 },
+  { id: "berlin", name: T("Berlin"), lon: 13.41, lat: 52.52 },
+  { id: "rome", name: T("Rome"), lon: 12.5, lat: 41.9 },
+  { id: "vienna", name: T("Vienna"), lon: 16.37, lat: 48.21 },
+  { id: "budapest", name: T("Budapest"), lon: 19.04, lat: 47.5 },
+  { id: "warsaw", name: T("Warsaw"), lon: 21.02, lat: 52.23 },
+  { id: "moscow", name: T("Moscow"), lon: 37.62, lat: 55.75 },
+  { id: "leningrad", name: T("Leningrad"), lon: 30.31, lat: 59.94 },
+  { id: "stalingrad", name: T("Stalingrad"), lon: 44.5, lat: 48.71 },
+  { id: "cairo", name: T("Cairo"), lon: 31.24, lat: 30.04 },
+  { id: "ankara", name: T("Ankara"), lon: 32.85, lat: 39.93 },
 ];
 
 // MAP_YEAR_STATUS entries are year-END snapshots (see EuropeMap's own comment on this) —
@@ -26620,7 +26628,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
             style={{ pointerEvents: "auto", cursor: "pointer" }}
             role="button"
             tabIndex={0}
-            aria-label={`${r.name}, diverged from the historical record. ${isSelected ? "Selected. Activate to deselect." : "Activate to see why."}`}
+            aria-label={t("{rName}, diverged from the historical record. {p}", { rName: r.name, p: isSelected ? t("Selected. Activate to deselect.") : t("Activate to see why.") })}
             onClick={setSelectedRegion ? () => setSelectedRegion(isSelected ? null : r.id) : undefined}
             onKeyDown={
               setSelectedRegion
@@ -26681,7 +26689,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
             textAnchor="middle"
             style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 600, pointerEvents: "none" }}
           >
-            {r.name}
+            {t(r.name)}
           </text>
         );
       })}
@@ -26702,7 +26710,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
               paintOrder="stroke"
               style={{ fontFamily: "'IBM Plex Mono', monospace", fontStyle: "italic" }}
             >
-              {c.name}
+              {t(c.name)}
             </text>
           </g>
         );
@@ -26724,7 +26732,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
               paintOrder="stroke"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              {lm.name}
+              {t(lm.name)}
             </text>
           </g>
         );
@@ -26812,7 +26820,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
       kept[kept.length - 1].isLast = false;
       kept.push({
         date: endDate,
-        title: "The war ends",
+        title: t("The war ends"),
         year: endYear,
         flags,
         meters: meters || {},
@@ -26843,7 +26851,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   const { notes } = mapOverrides(statusYear, current.flags, current.meters, current.dayKey);
   const divergedRegions = new Set(notes.flatMap((n) => n.regions || []));
   const notesForRegion = (id) => notes.filter((n) => (n.regions || []).includes(id));
-  const nameOf = (id) => (MAP_REGIONS.find((r) => r.id === id) || {}).name || id;
+  const nameOf = (id) => t((MAP_REGIONS.find((r) => r.id === id) || {}).name || id);
   // "Changed since you last checked" only makes sense relative to the latest state — flashing
   // that on an earlier timeline stop would read as "this just changed" when it's really just
   // further from home than the live position, which is a different thing.
@@ -26910,7 +26918,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             className="text-xs uppercase tracking-widest font-bold outline-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}
           >
-            {embedded ? `The map at the end of ${clampedYear}` : `Theater Map: ${clampedYear}`}
+            {embedded ? t("The map at the end of {clampedYear}", { clampedYear }) : t("Theater Map: {clampedYear}", { clampedYear })}
           </div>
           {!embedded && (
             <button
@@ -26918,7 +26926,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               className="text-[10px] uppercase tracking-widest font-bold border-2 border-black px-2 py-1 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Close
+              {t("Close")}
             </button>
           )}
         </div>
@@ -26931,7 +26939,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               step={1}
               value={viewIndex}
               onChange={(e) => setViewIndex(parseInt(e.target.value, 10))}
-              aria-label={`Timeline position ${viewIndex + 1} of ${runTimeline.length}: ${current.date || ""}${current.title ? `: ${current.title}` : ""}`}
+              aria-label={t("Timeline position {p} of {runTimelineLength}: {p2}{p3}", { p: viewIndex + 1, runTimelineLength: runTimeline.length, p2: localiseDate(current.date) || "", p3: current.title ? `: ${current.title}` : "" })}
               className="w-full accent-black"
               style={{ accentColor: campaign.accent }}
             />
@@ -26940,14 +26948,14 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
                 className="text-[9px] uppercase tracking-wider opacity-60 shrink-0"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                Start
+                {t("Start")}
               </span>
               <span
                 className="text-[10px] uppercase tracking-wider font-bold text-center flex-1 truncate px-1"
                 style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}
-                title={current.title ? `${current.date}: ${current.title}` : current.date}
+                title={current.title ? `${localiseDate(current.date)}: ${current.title}` : localiseDate(current.date)}
               >
-                {current.date}
+                {localiseDate(current.date)}
                 {current.title ? `: ${current.title}` : ""}
               </span>
               {current.isLast ? (
@@ -26955,7 +26963,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
                   className="text-[9px] uppercase tracking-wider opacity-60 shrink-0"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  Latest
+                  {t("Latest")}
                 </span>
               ) : (
                 <button
@@ -26963,7 +26971,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
                   className="text-[9px] uppercase tracking-wider font-bold underline shrink-0"
                   style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}
                 >
-                  Jump to latest
+                  {t("Jump to latest")}
                 </button>
               )}
             </div>
@@ -26971,7 +26979,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
         )}
         {review && !embedded && (
           <p className="mb-3 border border-black px-3 py-1 text-[11px] leading-snug text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            <span className="font-bold uppercase tracking-wider">Strategic review</span>
+            <span className="font-bold uppercase tracking-wider">{t("Strategic review")}</span>
             {review}
           </p>
         )}
@@ -27027,13 +27035,13 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             className="mt-2 text-[10px] uppercase tracking-widest font-bold border-2 border-black px-2 py-1 transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
             style={{ fontFamily: "'IBM Plex Mono', monospace", backgroundColor: zoomed ? "#16130f" : "transparent", color: zoomed ? "#ffffff" : "#000000" }}
           >
-            {zoomed ? "Show the whole theatre" : "Zoom to this report"}
+            {zoomed ? t("Show the whole theatre") : t("Zoom to this report")}
           </button>
         )}
         {meanwhile.length > 0 && (
           <div className="mt-3">
             <div role="heading" aria-level="3" className="text-[10px] uppercase tracking-widest font-bold mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
-              Meanwhile, in the record
+              {t("Meanwhile, in the record")}
             </div>
             <ul className="list-none p-0 m-0">
               {meanwhile.map((m) => (
@@ -27049,15 +27057,14 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
         {groundNow.length > 0 && (
           <div className="mt-3">
             <div role="heading" aria-level="3" className="text-[10px] uppercase tracking-widest font-bold mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
-              Ground against the record
+              {t("Ground against the record")}
             </div>
             <ul className="list-none p-0 m-0">
               {groundNow.map((g) => (
                 <li key={g.id} className="text-[12px] leading-snug mb-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
                   <span aria-hidden="true">{g.kind === "gained" ? "⊕ " : "⊗ "}</span>
                   <span className="font-bold">{g.name}</span>
-                  {g.kind === "gained" ? ", held or taken beyond the record: " : ", given up or not taken against the record: "}
-                  {g.text} (projection)
+                  {t("{p}{gText} (projection)", { p: g.kind === "gained" ? t(", held or taken beyond the record: ") : t(", given up or not taken against the record: "), gText: g.text })}
                 </li>
               ))}
             </ul>
@@ -27066,7 +27073,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
         {opsList.length > 0 && current.isLast && (
           <div className="mt-3">
             <div role="heading" aria-level="3" className="text-[10px] uppercase tracking-widest font-bold mb-1.5" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
-              Orders on the map
+              {t("Orders on the map")}
             </div>
             <div className="flex flex-col gap-1.5">
               {opsList.map((o) => (
@@ -27082,10 +27089,10 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               ))}
             </div>
             <p className="mt-2 text-[12px] leading-snug min-h-[2.5em]" aria-live="polite" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              {focused ? focused.op.note : "Pick an order to see where it goes."}
+              {focused ? focused.op.note : t("Pick an order to see where it goes.")}
             </p>
             <p className="mt-1 text-[10px] leading-snug opacity-80" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.
+              {t("Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.")}
             </p>
           </div>
         )}
@@ -27104,7 +27111,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
                   background: s === "divided" ? `linear-gradient(90deg, ${STATUS_COLORS.allied} 50%, ${STATUS_COLORS.soviet} 50%)` : STATUS_COLORS[s],
                 }}
               />
-              {STATUS_LABELS[s] || s}
+              {t(STATUS_LABELS[s] || s)}
             </span>
           ))}
           {changedRegions.size > 0 && (
@@ -27113,7 +27120,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               <span aria-hidden="true">{"✦"}</span>
-              Flashing border: changed since you last checked the map
+              {t("Flashing border: changed since you last checked the map")}
             </span>
           )}
         </div>
@@ -27139,16 +27146,15 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
           </div>
         )}
         <p className="text-[11px] mt-1 opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
-          {revealedForks.length
+          {t("{p} Ownership shown through end of {statusYear}.{p2}{p3}{p4}", { p: revealedForks.length
             ? `${revealedForks.length} confirmed divergence${revealedForks.length > 1 ? "s" : ""} from the historical record marked above.`
-            : "No confirmed divergences from the historical record yet."}
-          {" "}Ownership shown through end of {statusYear}.
-          {fronts.some((f) => f.kind === "zone") && " The dotted line marks the demarcation between the occupied zone and Vichy."}
-          {fronts.some((f) => f.kind !== "zone" && !f.projection) && " The dark line is the front, drawn from the course of the fighting and approximate."}
-          {fronts.some((f) => f.projection) && " A dashed red line is where the record put the front: this run has departed from it."}
-          {hereAt && " The ringed square is where this report is set."}
-          {meanwhile.length > 0 && " A diamond marks what another command was doing."}
-          {groundNow.length > 0 && " A ring and a plus mark ground held or taken beyond the record; a square and a cross, ground given up or not taken."}
+            : t("No confirmed divergences from the historical record yet."), statusYear, p2: statuses.france === "axisAllied" && t(" Dashed line marks the Vichy/occupied-zone demarcation."), p3: statusYear === 1941 && t(" Dashed line marks Barbarossa's farthest advance, autumn 1941."), p4: statusYear === 1942 && t(" Dashed line marks Case Blue's farthest advance, autumn 1942.") })}
+          {fronts.some((f) => f.kind === "zone") && t(" The dotted line marks the demarcation between the occupied zone and Vichy.")}
+          {fronts.some((f) => f.kind !== "zone" && !f.projection) && t(" The dark line is the front, drawn from the course of the fighting and approximate.")}
+          {fronts.some((f) => f.projection) && t(" A dashed red line is where the record put the front: this run has departed from it.")}
+          {hereAt && t(" The ringed square is where this report is set.")}
+          {meanwhile.length > 0 && t(" A diamond marks what another command was doing.")}
+          {groundNow.length > 0 && t(" A ring and a plus mark ground held or taken beyond the record; a square and a cross, ground given up or not taken.")}
         </p>
       </div>
   );
@@ -27228,9 +27234,9 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   const modeInfo = warRoomModeInfo(mode, campaign.id);
   const hardId = HARD_MODE_OF[campaign.id];
   const modeChoices = [
-    { id: "easy", name: `Easy: ${warRoomModeInfo("easy", campaign.id).label}`, available: EASY_MODE_ENABLED, colour: "#3a6b4f" },
-    { id: "open", name: `Normal: ${warRoomModeInfo("open", campaign.id).label}`, available: true, colour: "#000000" },
-    { id: hardId, name: `Hard: ${warRoomModeInfo(hardId, campaign.id).label}`, available: HARD_MODES_ENABLED, colour: "#7a2e2e" },
+    { id: "easy", name: t("Easy: {label}", { label: warRoomModeInfo("easy", campaign.id).label }), available: EASY_MODE_ENABLED, colour: "#3a6b4f" },
+    { id: "open", name: t("Normal: {label}", { label: warRoomModeInfo("open", campaign.id).label }), available: true, colour: "#000000" },
+    { id: hardId, name: t("Hard: {label}", { label: warRoomModeInfo(hardId, campaign.id).label }), available: HARD_MODES_ENABLED, colour: "#7a2e2e" },
   ];
   const headingRef = useRef(null);
   useEffect(() => {
@@ -27254,12 +27260,12 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
         style={{ ...campaignPaperStyle(campaign.id, campaign.accent), borderTop: `5px solid ${campaign.accent}` }}
       >
         <h1 ref={headingRef} tabIndex={-1} className="sr-only outline-none">
-          {campaign.name}: War Room
+          {t("{campaignName}: War Room", { campaignName: campaign.name })}
         </h1>
         <Doc campaign={campaign} modeInfo={modeInfo} easy={mode === "easy"} />
-        <div role="radiogroup" aria-label="Difficulty" className="mb-4 pb-4 border-b-2" style={{ borderColor: campaign.accent }}>
+        <div role="radiogroup" aria-label={t("Difficulty")} className="mb-4 pb-4 border-b-2" style={{ borderColor: campaign.accent }}>
           <div className="font-bold uppercase tracking-widest text-[11px] mb-2 text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Difficulty
+            {t("Difficulty")}
           </div>
           <div className="flex flex-col gap-2">
             {modeChoices.map((c) => {
@@ -27276,7 +27282,7 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
                   style={{ borderColor: c.colour, backgroundColor: on ? c.colour : "transparent", color: on ? "#ffffff" : "#000000", fontFamily: "'Courier Prime', monospace" }}
                 >
                   <span className="block text-[12px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                    {c.name}{c.available ? "" : " (full version)"}
+                    {c.name}{c.available ? "" : t(" (full version)")}
                   </span>
                   <span className="block text-[13px] leading-snug mt-1">{warRoomModeInfo(c.id, campaign.id).summary}</span>
                 </button>
@@ -27286,9 +27292,9 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
         </div>
         <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
           <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Your staff
+            {t("Your staff")}
           </span>
-          Advisers argue for some orders. Follow one and that adviser trusts you more; pass one over and the trust falls a little. An adviser who is overruled too often goes quiet, and then asks to be relieved. A trusted adviser brings a reconnaissance pass at no cost. On the theater map you can pick an order and see where it would send the army.
+          {t("Advisers argue for some orders. Follow one and that adviser trusts you more; pass one over and the trust falls a little. An adviser who is overruled too often goes quiet, and then asks to be relieved. A trusted adviser brings a reconnaissance pass at no cost. On the theater map you can pick an order and see where it would send the army.")}
         </p>
         {hasForks && (
           <StampToggle
@@ -27296,7 +27302,7 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             checked={historicallyAccurate}
             onChange={setHistoricallyAccurate}
             stamp="VERIFIED"
-            title="Historically Accurate Opponent"
+            title={t("Historically Accurate Opponent")}
             text="Lift the stamp, and the war is more likely to run beyond the realms of historical accuracy."
           />
         )}
@@ -27306,7 +27312,7 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             checked={controlBattles}
             onChange={setControlBattles}
             stamp="COMMAND"
-            title="Take Control of Battle Planning"
+            title={t("Take Control of Battle Planning")}
             text="Lift the stamp, and the battles are not played: those choices are made like any other decision."
           />
         )}
@@ -27316,14 +27322,14 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             className="w-full border-2 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold text-[#ffffff] transition-colors duration-150"
             style={{ borderColor: campaign.accent, backgroundColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Enter the War Room
+            {t("Enter the War Room")}
           </button>
           <button
             onClick={onBack}
             className="w-full border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Back
+            {t("Back")}
           </button>
         </div>
       </div>
@@ -27591,13 +27597,13 @@ function SpecialEventScreen({ campaign, event, onContinue }) {
     <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10">
       <div className="w-full max-w-lg">
         <h1 ref={headingRef} tabIndex={-1} className="sr-only outline-none">
-          Special dispatch
+          {t("Special dispatch")}
         </h1>
         <div className="wire-tear" style={{ "--wire-paper": paperTint }}></div>
         <div className="px-5 py-5" style={{ backgroundColor: paperTint }}>
           <div className="pb-2 mb-3" style={{ borderBottom: `2px solid ${campaign.accent}`, fontFamily: "'IBM Plex Mono', monospace" }}>
             <div className="text-xs font-bold tracking-[0.16em]" style={{ color: campaign.accent }}>
-              SPECIAL DISPATCH
+              {t("SPECIAL DISPATCH")}
             </div>
             <div className="text-[11px] text-[#444] mt-0.5">{event.dateline}</div>
           </div>
@@ -27610,7 +27616,7 @@ function SpecialEventScreen({ campaign, event, onContinue }) {
             </p>
           ))}
           <div className="text-[11px] pt-2 text-[#555]" style={{ borderTop: "1px dashed #ccc4b8", fontFamily: "'IBM Plex Mono', monospace" }}>
-            {event.source ? `For the record: ${event.source}` : "Nothing in this dispatch changes a meter."}
+            {event.source ? t("For the record: {eventSource}", { eventSource: event.source }) : t("Nothing in this dispatch changes a meter.")}
           </div>
         </div>
         <div className="wire-tear wire-tear-bottom" style={{ "--wire-paper": paperTint }}></div>
@@ -27619,7 +27625,7 @@ function SpecialEventScreen({ campaign, event, onContinue }) {
           className="w-full border-2 mt-4 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-150"
           style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: paperTint }}
         >
-          Continue
+          {t("Continue")}
         </button>
       </div>
     </div>
@@ -28057,10 +28063,10 @@ const MAP_PLACES = {
 
 // ---- the reports set beyond the frame of their map: the name of the place, drawn with an arrow at the edge ----
 const MAP_OFF_MAP = {
-  "german/suezFirst41": "Suez", "german/suezHorizon42": "Suez", "german/suezOpening42": "Alexandria", "german/elAlamein": "El Alamein", "german/sovietFracture42": "Sverdlovsk",
-  "soviet/lendLease42": "Murmansk", "soviet/athensRace44": "Athens", "soviet/athensStandoff44": "Athens",
-  "allied/narvik40": "Narvik", "allied/malaya41": "Singapore", "allied/forceZ41": "The South China Sea", "allied/europeFirst42": "Washington", "allied/pacificPressure42": "Washington",
-  "allied/pq17_1942": "Murmansk", "allied/australiaLifeline42": "Australia", "allied/tehran43": "Tehran",
+  "german/suezFirst41": T("Suez"), "german/suezHorizon42": T("Suez"), "german/suezOpening42": T("Alexandria"), "german/elAlamein": T("El Alamein"), "german/sovietFracture42": T("Sverdlovsk"),
+  "soviet/lendLease42": T("Murmansk"), "soviet/athensRace44": T("Athens"), "soviet/athensStandoff44": T("Athens"),
+  "allied/narvik40": T("Narvik"), "allied/malaya41": T("Singapore"), "allied/forceZ41": T("The South China Sea"), "allied/europeFirst42": T("Washington"), "allied/pacificPressure42": T("Washington"),
+  "allied/pq17_1942": T("Murmansk"), "allied/australiaLifeline42": T("Australia"), "allied/tehran43": T("Tehran"),
 };
 
 // ---- what the commands were doing on a date in the record ----
@@ -28330,9 +28336,9 @@ function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal, offLabel
         const dx = at[0] - cx;
         const dy = at[1] - cy;
         const m = 22;
-        const t = Math.min(dx !== 0 ? (cx - m) / Math.abs(dx) : Infinity, dy !== 0 ? (cy - m) / Math.abs(dy) : Infinity);
-        const ex = cx + dx * t;
-        const ey = cy + dy * t;
+        const k = Math.min(dx !== 0 ? (cx - m) / Math.abs(dx) : Infinity, dy !== 0 ? (cy - m) / Math.abs(dy) : Infinity);
+        const ex = cx + dx * k;
+        const ey = cy + dy * k;
         const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
         const right = ex > cx + 40;
         const left = ex < cx - 40;
@@ -28341,7 +28347,7 @@ function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal, offLabel
             <g transform={`rotate(${ang})`}>
               <path d="M10,0 L-8,-9 L-8,9 Z" fill={accent || "#7a2e2e"} stroke="#f2ead9" strokeWidth="2" />
             </g>
-            <text x={left ? 14 : right ? -14 : 0} y={dy < 0 && !left && !right ? 22 : dy > 0 && !left && !right ? -14 : 4} textAnchor={left ? "start" : right ? "end" : "middle"} fontSize="10" {...label}>{offLabel}</text>
+            <text x={left ? 14 : right ? -14 : 0} y={dy < 0 && !left && !right ? 22 : dy > 0 && !left && !right ? -14 : 4} textAnchor={left ? "start" : right ? "end" : "middle"} fontSize="10" {...label}>{t(offLabel)}</text>
           </g>
         );
       })()}
@@ -28393,7 +28399,7 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
   const mono = { fontFamily: "'IBM Plex Mono', monospace" };
   const button = "border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]";
   return (
-    <div className="mb-4" role="group" aria-label="The map of the front on the day of this report">
+    <div className="mb-4" role="group" aria-label={t("The map of the front on the day of this report")}>
       <div className="relative w-full border-2 border-black overflow-hidden" style={{ aspectRatio: frame ? "2 / 1" : "4 / 3" }}>
         <div className="absolute left-0 top-0 w-full" style={{ aspectRatio: "4 / 3", ...inner }}>
           <img src={`assets/maps/${campaign.id}/${clampedYear}.png`} alt="" className="w-full h-full object-cover absolute inset-0" onError={(e) => { e.currentTarget.style.display = "none"; }} />
@@ -28412,9 +28418,9 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-2 mt-2">
-        <button onClick={onOpen} className={button} style={mono}>Show Theater Map</button>
+        <button onClick={onOpen} className={button} style={mono}>{t("Show Theater Map")}</button>
         {here && bbox && (frame || whole) && (
-          <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button} style={mono}>{whole ? "Frame this report" : "Show the whole theatre"}</button>
+          <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button} style={mono}>{whole ? t("Frame this report") : t("Show the whole theatre")}</button>
         )}
       </div>
       {meanwhile.length > 0 && (
@@ -28434,8 +28440,7 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
             <li key={g.id} className="text-[12px] leading-snug mb-0.5" style={{ fontFamily: "'Courier Prime', monospace" }}>
               <span aria-hidden="true">{g.kind === "gained" ? "\u2295 " : "\u2297 "}</span>
               <span className="font-bold">{g.name}</span>
-              {g.kind === "gained" ? ", beyond the record: " : ", against the record: "}
-              {g.text} (projection)
+              {t("{p}{gText} (projection)", { p: g.kind === "gained" ? t(", beyond the record: ") : t(", against the record: "), gText: g.text })}
             </li>
           ))}
         </ul>
@@ -28462,16 +28467,16 @@ function reportAge(campaignId, year) {
   const rows = COMMS[campaignId] || [[1939, 12]];
   let hours = rows[0][1];
   for (const [from, h] of rows) if (year >= from) hours = h;
-  const text = hours < 24 ? hours + " hours old" : hours < 36 ? "a day old" : hours < 60 ? "two days old" : "more than two days old";
+  const text = hours < 24 ? t("{hours} hours old", { hours }) : hours < 36 ? t("a day old") : hours < 60 ? t("two days old") : t("more than two days old");
   return { hours, text };
 }
 
 const CLIMATES = {
-  west: ["Hard frost", "Frost and fog", "Thaw and mud", "Showers", "Fine, with showers", "Warm", "Warm", "Warm, with storms", "Fine, cooling", "Rain", "Rain and mud", "Frost"],
-  east: ["Hard frost", "Hard frost and snow", "Thaw and mud", "Mud: the roads are rivers", "Fine", "Warm", "Hot", "Hot", "Fine", "Rain: the rasputitsa begins", "Mud and the first frost", "Frost and snow"],
-  north: ["Hard frost in the polar night", "Hard frost", "Snow and frost", "Snow melting", "Thaw and mud", "Light nights", "Light nights, mild", "Mild, with rain", "Rain and the first frost", "Snow and gales", "Snow and the dark", "Hard frost in the polar night"],
-  med: ["Mild and wet", "Mild and wet", "Mild, with rain", "Fine", "Fine", "Hot", "Hot and dry", "Hot and dry", "Hot, storms at sea", "Rain and gales", "Rain and gales", "Mild and wet"],
-  desert: ["Cool, with rain on the coast", "Cool and clear", "Khamsin: sand and haze", "Khamsin: sand and haze", "Hot", "Very hot", "Very hot", "Very hot", "Hot", "Warm", "Cool", "Cool, with rain on the coast"],
+  west: [T("Hard frost"), T("Frost and fog"), T("Thaw and mud"), T("Showers"), T("Fine, with showers"), T("Warm"), T("Warm"), T("Warm, with storms"), T("Fine, cooling"), T("Rain"), T("Rain and mud"), T("Frost")],
+  east: [T("Hard frost"), T("Hard frost and snow"), T("Thaw and mud"), T("Mud: the roads are rivers"), T("Fine"), T("Warm"), T("Hot"), T("Hot"), T("Fine"), T("Rain: the rasputitsa begins"), T("Mud and the first frost"), T("Frost and snow")],
+  north: [T("Hard frost in the polar night"), T("Hard frost"), T("Snow and frost"), T("Snow melting"), T("Thaw and mud"), T("Light nights"), T("Light nights, mild"), T("Mild, with rain"), T("Rain and the first frost"), T("Snow and gales"), T("Snow and the dark"), T("Hard frost in the polar night")],
+  med: [T("Mild and wet"), T("Mild and wet"), T("Mild, with rain"), T("Fine"), T("Fine"), T("Hot"), T("Hot and dry"), T("Hot and dry"), T("Hot, storms at sea"), T("Rain and gales"), T("Rain and gales"), T("Mild and wet")],
+  desert: [T("Cool, with rain on the coast"), T("Cool and clear"), T("Khamsin: sand and haze"), T("Khamsin: sand and haze"), T("Hot"), T("Very hot"), T("Very hot"), T("Very hot"), T("Hot"), T("Warm"), T("Cool"), T("Cool, with rain on the coast")],
 };
 
 /** The climate of a place [longitude, latitude], or "" for a place that none of the tables covers (the Pacific, America, Asia). */
@@ -28495,7 +28500,7 @@ function usualWeather(place, month) {
 /** The Matériel meter as the state of the railways. */
 function railReading(fuel) {
   const f = fuel || 0;
-  return f <= -3 ? "choked and broken" : f === -2 ? "strained" : f === -1 ? "short of wagons" : f === 0 ? "working" : f === 1 ? "running well" : "running to the timetable";
+  return f <= -3 ? T("choked and broken") : f === -2 ? T("strained") : f === -1 ? T("short of wagons") : f === 0 ? T("working") : f === 1 ? T("running well") : T("running to the timetable");
 }
 
 /** The guns of the great bombardments, on the report where they were fired: [campaign, report] -> { text, source }. */
@@ -28525,11 +28530,11 @@ function ReportConditions({ campaign, stage, nodeId, meters }) {
   const place = (MAP_PLACES[campaign.id] || {})[nodeId] || null;
   const weather = usualWeather(place, conditionsMonth(stage.date));
   const guns = bombardmentAt(campaign.id, nodeId);
-  const parts = ["News " + age.text, weather && "Weather: " + weather, "Rail " + railReading((meters || {}).fuel)];
+  const parts = [t("News {age}", { age: age.text }), weather && t("Weather: {weather}", { weather: t(weather) }), t("Rail {state}", { state: t(railReading((meters || {}).fuel)) })];
   return (
     <div className="mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
       <p className="text-[11px] leading-snug text-[#000000] opacity-80 m-0">{parts.filter(Boolean).join(" · ")}</p>
-      {guns && <p className="text-[11px] leading-snug text-[#000000] opacity-80 m-0 mt-0.5">Guns: {guns}.</p>}
+      {guns && <p className="text-[11px] leading-snug text-[#000000] opacity-80 m-0 mt-0.5">{t("Guns: {guns}.", { guns })}</p>}
     </div>
   );
 }
@@ -28577,11 +28582,11 @@ function ReadAloud({ id, text }) {
       className="mb-3 border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
       style={{ fontFamily: "'IBM Plex Mono', monospace" }}
     >
-      {on ? "Stop reading" : "Read aloud"}
+      {on ? t("Stop reading") : t("Read aloud")}
     </button>
   );
 }
-const BS_STATUS_WORD = { gaining: "Gaining", holding: "Holding", breaking: "Breaking" };
+const BS_STATUS_WORD = { gaining: T("Gaining"), holding: T("Holding"), breaking: T("Breaking") };
 // THE SKETCH OF THE GROUND (1914's sketch of the ground, for the Order of Battle of 1940)
 //
 // One sector for each arm of the battle, left to right, the enemy above and our own side below, and the line between them. In the plan it is a straight line and
@@ -28654,12 +28659,12 @@ function BattleSketch({ categories, allocation, status, accent, onAdd, onRemove,
     d += " L " + (i * w + 10) + " " + ys[i] + " L " + ((i + 1) * w - 10) + " " + ys[i] + " L " + (i + 1) * w + " " + edge(i + 1);
   });
   const cols = Math.max(2, Math.floor((w - 14) / 17));
-  const summary = categories.map((c) => c.name + ": " + (status && status[c.id] ? BS_STATUS_WORD[status[c.id]].toLowerCase() : (allocation[c.id] || 0) + " placed")).join("; ");
+  const summary = categories.map((c) => c.name + ": " + (status && status[c.id] ? t(BS_STATUS_WORD[status[c.id]]).toLowerCase() : t("{n} placed", { n: allocation[c.id] || 0 }))).join("; ");
   const ink = accent || "#7a2e2e";
   const sector = (s) => (s === "gaining" ? "#d9e3d2" : s === "breaking" ? "#ecd2cc" : "#f2ead9");
   const mono = { fontFamily: "'IBM Plex Mono', monospace" };
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full block border-2 border-black" style={{ background: "#f2ead9" }} role="img" aria-label={"Sketch of the line. " + summary}>
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full block border-2 border-black" style={{ background: "#f2ead9" }} role="img" aria-label={t("Sketch of the line. {summary}", { summary })}>
       <defs>
         <pattern id={hatch} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
           <line x1="0" y1="0" x2="0" y2="6" stroke="#5a2a2a" strokeWidth="1.4" />
@@ -28696,12 +28701,13 @@ function BattleSketch({ categories, allocation, status, accent, onAdd, onRemove,
           {i + 1} {battleArmLabel(c.name, Math.floor((w - 8) / 4.5) - 2)}
         </text>
       ))}
-      <text x="6" y="12" fontSize="8.5" fill="#5a2a2a" style={{ ...mono, pointerEvents: "none" }}>ENEMY</text>
-      <text x="6" y={H - 18} fontSize="8.5" fill="#241d12" style={{ ...mono, pointerEvents: "none" }}>OURS</text>
+      <text x="6" y="12" fontSize="8.5" fill="#5a2a2a" style={{ ...mono, pointerEvents: "none" }}>{t("ENEMY")}</text>
+      <text x="6" y={H - 18} fontSize="8.5" fill="#241d12" style={{ ...mono, pointerEvents: "none" }}>{t("OURS")}</text>
     </svg>
   );
 }
 function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia }) {
+  const language = getLanguage();
   const [record, setRecord] = useState(null);
   const [activeRun, setActiveRun] = useState(null);
   // "Always let my staff plan battles": off until asked for. The battle screens read the same key.
@@ -28762,20 +28768,20 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           className="text-[#ffffff] uppercase tracking-[0.35em] text-xs mb-3 font-semibold"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
-          Restricted: Command Eyes Only
+          {t("Restricted: Command Eyes Only")}
         </div>
         <h1
           className="text-[#ffffff] text-4xl sm:text-6xl uppercase tracking-wide"
           style={{ fontFamily: "Oswald, sans-serif", fontWeight: 700 }}
         >
-          Dispatches 1940
+          {t("Dispatches 1940")}
         </h1>
         {DEMO_BUILD && (
           <div
             className="inline-block mt-2 border-2 px-3 py-1 uppercase tracking-[0.2em] text-[11px] font-bold"
             style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#e39a9a", color: "#e39a9a" }}
           >
-            Free Demo: OKW Command Only
+            {t("Free Demo: OKW Command Only")}
           </div>
         )}
         <div className="mx-auto mt-3 mb-3 h-[2px] w-40 bg-[#ffffff]" />
@@ -28783,7 +28789,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           className="text-[#ffffff] max-w-md mx-auto text-[15px]"
           style={{ fontFamily: "'Courier Prime', monospace" }}
         >
-          Choose a high command and endeavor to lead your armies to victory.
+          {t("Choose a high command and endeavor to lead your armies to victory.")}
         </p>
       </div>
 
@@ -28797,16 +28803,12 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
               className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] mb-1"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              ↻ War in Progress
+              {t("↻ War in Progress")}
             </div>
             <p className="text-[14px] text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              {CAMPAIGNS[activeRun.campaignId].name}
-              {activeRun.mode && activeRun.mode !== "open"
+              {t("{name}{p} · {length} decisions on file: resume where you left off.{p2}", { name: CAMPAIGNS[activeRun.campaignId].name, p: activeRun.mode && activeRun.mode !== "open"
                 ? ` · ${warRoomModeInfo(activeRun.mode, activeRun.campaignId).label}`
-                : ""}{" "}
-              ·{" "}
-              {(activeRun.log || []).length} decisions on file: resume where you left off.
-              {activeRun.battle && (() => { const t = KEY_BATTLE_TITLES.find((x) => x.id === activeRun.battle.configId); return t ? ` You were part way through ${t.title}.` : ""; })()}
+                : "", length: (activeRun.log || []).length, p2: activeRun.battle && (() => { const t = KEY_BATTLE_TITLES.find((x) => x.id === activeRun.battle.configId); return t ? ` You were part way through ${t.title}.` : ""; })() })}
             </p>
           </button>
         )}
@@ -28834,8 +28836,8 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                   {c.brief}
                 </p>
                 <div className="text-[11px] uppercase tracking-widest border-t-2 pt-2 mt-3 text-[#000000] font-semibold" style={{ borderColor: c.accent, fontFamily: "'IBM Plex Mono', monospace" }}>
-                  {{ german: "20–35+ decisions", soviet: "25–30+ decisions", allied: "25–30+ decisions", italy: "~30 decisions" }[c.id] || "decisions"}
-                  {unlocked ? "" : " · included in the full version"}
+                  {{ german: t("20–35+ decisions"), soviet: t("25–30+ decisions"), allied: t("25–30+ decisions"), italy: t("~30 decisions") }[c.id] || "decisions"}
+                  {unlocked ? "" : t(" · included in the full version")}
                 </div>
               </>
             );
@@ -28876,7 +28878,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                   className="border-[3px] border-black px-2 py-1 uppercase tracking-[0.2em] text-[10px] font-bold rotate-[6deg]"
                   style={{ fontFamily: "Oswald, sans-serif" }}
                 >
-                  Sealed: In Preparation
+                  {t("Sealed: In Preparation")}
                 </div>
               </div>
             </div>
@@ -28892,15 +28894,13 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
               className="text-xs uppercase tracking-[0.25em] font-bold mb-1"
               style={{ color: "#b08d3f", fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              ⚑ Prototype: Internal Only
+              {t("⚑ Prototype: Internal Only")}
             </div>
             <h2 className="text-xl leading-tight text-[#000000]" style={{ fontFamily: "Oswald, sans-serif", fontWeight: 600 }}>
-              Grand Campaign
+              {t("Grand Campaign")}
             </h2>
             <p className="text-[13px] mt-1 text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              German → Soviet → Allied, chained: how your German war went seeds how your Soviet
-              war starts, and so on. Fixed order, Standard Issue rules only. Not in the itch
-              build: this entry point only exists in this dev build.
+              {t("German → Soviet → Allied, chained: how your German war went seeds how your Soviet war starts, and so on. Fixed order, Standard Issue rules only. Not in the itch build: this entry point only exists in this dev build.")}
             </p>
           </button>
         )}
@@ -28912,7 +28912,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                 className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                Command Record: Closed File
+                {t("Command Record: Closed File")}
               </div>
               <Stamp text="Full Clearance" color="#b08d3f" campaignId="allied" />
             </div>
@@ -28930,7 +28930,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.3em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            War Record
+            {t("War Record")}
           </summary>
           <div className="mt-3 flex flex-col gap-3">
         {runs.length > 0 && (
@@ -28939,12 +28939,10 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
               className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] mb-2"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Command Record
+              {t("Command Record")}
             </div>
             <p className="text-[14px] text-[#000000] mb-2" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              {runs.length} {runs.length === 1 ? "war" : "wars"} fought · {Math.min(discovered, NODE_TOTAL)} of{" "}
-              {NODE_TOTAL} situation reports discovered · {endings.length}{" "}
-              {endings.length === 1 ? "ending" : "endings"} reached
+              {t("{runsLength} {runsLength, plural, one {war} other {wars}} fought · {p} of {NODE_TOTAL} situation reports discovered · {endingsLength} {endingsLength, plural, one {ending} other {endings}} reached", { runsLength: runs.length, p: Math.min(discovered, NODE_TOTAL), NODE_TOTAL, endingsLength: endings.length })}
             </p>
             {runs.slice(-3).reverse().map((r, i) => (
               <div
@@ -28952,7 +28950,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                 className="text-[12px] text-[#000000] border-l-4 pl-2 mb-1"
                 style={{ borderColor: "#7a2e2e", fontFamily: "'Courier Prime', monospace" }}
               >
-                {r.mode === "iron" ? "⚔ " : r.mode === "purge" ? "☭ " : r.mode === "coalition" ? "★ " : r.mode === "axis" ? "⚖ " : ""}{r.label || "War concluded"}: ended {r.endDate || "—"}{r.rank ? ` · ${r.rank}` : ""}
+                {t("{p}{p2}: ended {p3}{p4}", { p: r.mode === "iron" ? "⚔ " : r.mode === "purge" ? "☭ " : r.mode === "coalition" ? "★ " : r.mode === "axis" ? "⚖ " : "", p2: r.label || t("War concluded"), p3: r.endDate || "—", p4: r.rank ? ` · ${r.rank}` : "" })}
               </div>
             ))}
           </div>
@@ -28962,7 +28960,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Objectives · {earnedObjectiveCount} of {OBJECTIVES.length}{objectivesComplete ? " · ★ full clearance" : ""}
+            {t("Objectives · {earnedObjectiveCount} of {OBJECTIVESLength}{p}", { earnedObjectiveCount, OBJECTIVESLength: OBJECTIVES.length, p: objectivesComplete ? t(" · ★ full clearance") : "" })}
           </summary>
           <div className="mt-3">
             {OBJECTIVES.map((o) => {
@@ -28988,7 +28986,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Endings Gallery: {ENDINGS_GALLERY.filter((e) => endings.includes(e.label)).length} of {ENDINGS_GALLERY.length} named endings
+            {t("Endings Gallery: {length} of {ENDINGS_GALLERYLength} named endings", { length: ENDINGS_GALLERY.filter((e) => endings.includes(e.label)).length, ENDINGS_GALLERYLength: ENDINGS_GALLERY.length })}
           </summary>
           <div className="mt-3">
             {ENDINGS_GALLERY.map((e, i) => {
@@ -29004,15 +29002,14 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                       <EndingTierBadge tier={e.tier} />
                     </>
                   ) : (
-                    <span className="text-[#000000] opacity-60">Not yet reached: <i>{e.hint}</i></span>
+                    <span className="text-[#000000] opacity-60">{t("Not yet reached:")}{" "} <i>{e.hint}</i></span>
                   )}
                 </div>
               );
             })}
             {endings.filter((l) => !ENDINGS_GALLERY.some((e) => e.label === l)).length > 0 && (
               <p className="text-[12px] italic mt-2 text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                + {endings.filter((l) => !ENDINGS_GALLERY.some((e) => e.label === l)).length} other{" "}
-                {endings.filter((l) => !ENDINGS_GALLERY.some((e) => e.label === l)).length === 1 ? "conclusion" : "conclusions"} reached.
+                {t("+ {length} other {length, plural, one {conclusion} other {conclusions}} reached.", { length: endings.filter((l) => !ENDINGS_GALLERY.some((e) => e.label === l)).length })}
               </p>
             )}
           </div>
@@ -29025,7 +29022,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Battle Record: {KEY_BATTLE_TITLES.filter((b) => record?.battles?.[b.id]).length} of {KEY_BATTLE_TITLES.length} battles fought
+            {t("Battle Record: {length} of {KEY_BATTLE_TITLESLength} battles fought", { length: KEY_BATTLE_TITLES.filter((b) => record?.battles?.[b.id]).length, KEY_BATTLE_TITLESLength: KEY_BATTLE_TITLES.length })}
           </summary>
           <div className="mt-3">
             {KEY_BATTLE_TITLES.map((b) => {
@@ -29043,17 +29040,15 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                   {r && (
                     <div className="text-[12px] text-[#000000] leading-snug">
                       <div>
-                        Fought {r.fought} {r.fought === 1 ? "time" : "times"} · won {r.won} · best result: {r.best === "clean" ? "a clean win" : r.best === "costly" ? "a costly win" : r.best === "marginal" ? "a close loss" : "a heavy loss"}
+                        {t("Fought {rFought} {rFought, plural, one {time} other {times}} · won {rWon} · best result: {p}", { rFought: r.fought, rWon: r.won, p: r.best === "clean" ? t("a clean win") : r.best === "costly" ? t("a costly win") : r.best === "marginal" ? t("a close loss") : t("a heavy loss") })}
                       </div>
                       <div>
-                        Enemy setups met: {r.setups.length} of {roster.length}
+                        {t("Enemy setups met: {setupsLength} of {rosterLength}", { setupsLength: r.setups.length, rosterLength: roster.length })}
                         {r.setups.length > 0 && <> ({r.setups.map((id) => roster.find((p) => p.id === id)?.name || id).join("; ")})</>}
                       </div>
                       {r.last && (
                         <div className="opacity-80">
-                          Last time: {r.last.won ? "won" : "lost"}
-                          {commander ? `, under ${commander.name}` : ""}
-                          {r.last.decisions && r.last.decisions.length > 0 ? `. Field decision: ${r.last.decisions.join("; ")}` : ""}.
+                          {t("Last time: {p}{p2}{p3}.", { p: r.last.won ? t("won") : t("lost"), p2: commander ? `, under ${commander.name}` : "", p3: r.last.decisions && r.last.decisions.length > 0 ? `. Field decision: ${r.last.decisions.join("; ")}` : "" })}
                         </div>
                       )}
                     </div>
@@ -29068,14 +29063,14 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Discovery Atlas: {Math.min(discovered, NODE_TOTAL)} of {NODE_TOTAL} situation reports
+            {t("Discovery Atlas: {p} of {NODE_TOTAL} situation reports", { p: Math.min(discovered, NODE_TOTAL), NODE_TOTAL })}
           </summary>
           <div className="mt-3">
             {[
-              { key: "german", label: "OKW: German Command" },
-              { key: "soviet", label: "STAVKA: Soviet Command" },
-              { key: "allied", label: "SHAEF: Allied Command" },
-              { key: "italy", label: "COMANDO SUPREMO: Italy" },
+              { key: "german", label: t("OKW: German Command") },
+              { key: "soviet", label: t("STAVKA: Soviet Command") },
+              { key: "allied", label: t("SHAEF: Allied Command") },
+              { key: "italy", label: t("COMANDO SUPREMO: Italy") },
             ].map((grp) => {
               const nodes = NODE_ATLAS[grp.key] || [];
               const seen = nodes.filter((n) => (record?.nodes || []).includes(n.id)).length;
@@ -29117,7 +29112,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.3em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Dossiers
+            {t("Dossiers")}
           </summary>
           <div className="mt-3 flex flex-col gap-3">
         <details className={`${paper} p-5`}>
@@ -29125,18 +29120,17 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Command Dossiers · The Advisors
+            {t("Command Dossiers · The Advisors")}
           </summary>
           <div className="mt-3">
             <p className="text-[12px] italic mb-3 text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              Every voice at your map table was a real person. Councils followed are tallied across all your
-              wars. Quotes in the game are plausible historical fiction; the fates below are the record.
+              {t("Every voice at your map table was a real person. Councils followed are tallied across all your wars. Quotes in the game are plausible historical fiction; the fates below are the record.")}
             </p>
             {[
-              { key: "german", label: "German High Command" },
-              { key: "soviet", label: "Soviet High Command" },
-              { key: "allied", label: "Western Allied Command" },
-              { key: "italy", label: "Italian High Command" },
+              { key: "german", label: t("German High Command") },
+              { key: "soviet", label: t("Soviet High Command") },
+              { key: "allied", label: t("Western Allied Command") },
+              { key: "italy", label: t("Italian High Command") },
             ].map((grp) => {
               const members = Object.entries(ADVISOR_DOSSIERS)
                 .filter(([, d]) => d.faction === grp.key)
@@ -29157,7 +29151,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                         style={{ fontFamily: "'Courier Prime', monospace" }}
                       >
                         {d.name}: {d.role}
-                        {d.count > 0 ? ` · ${d.count} ${d.count === 1 ? "council" : "councils"} followed` : ""}
+                        {d.count > 0 ? t(" · {dCount} {dCount, plural, one {council} other {councils}} followed", { dCount: d.count }) : ""}
                       </summary>
                       <p className="text-[13px] text-[#000000] mt-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
                         {d.bio}
@@ -29177,14 +29171,14 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Context: Key Events of the War
+            {t("Context: Key Events of the War")}
           </summary>
           <div className="mt-3">
             {[
-              { key: "german", label: "German High Command" },
-              { key: "soviet", label: "Soviet High Command" },
-              { key: "allied", label: "Western Allied Command" },
-              { key: "italy", label: "Italian High Command" },
+              { key: "german", label: t("German High Command") },
+              { key: "soviet", label: t("Soviet High Command") },
+              { key: "allied", label: t("Western Allied Command") },
+              { key: "italy", label: t("Italian High Command") },
             ].map((grp) => (
               <details key={grp.key} className="mb-2 border-l-4 pl-2" style={{ borderColor: "#00000033" }}>
                 <summary
@@ -29210,7 +29204,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Glossary: {GLOSSARY.length} terms
+            {t("Glossary: {GLOSSARYLength} terms", { GLOSSARYLength: GLOSSARY.length })}
           </summary>
           <GlossaryList />
         </details>
@@ -29220,29 +29214,23 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            How to Read the Reports
+            {t("How to Read the Reports")}
           </summary>
           <div
             className="mt-3 text-[14px] leading-relaxed text-[#000000]"
             style={{ fontFamily: "'Courier Prime', monospace" }}
           >
             <p className="mb-2">
-              <b>Meters.</b> Manpower, Matériel, and Initiative track your strategic position against the historical
-              baseline (zero). They gate collapses, foreclose options, and decide when your war ends. Matériel is the one number the rules use for fuel, ammunition, steel, shipping and rail together; the three small readings under each meter (open one with its ▸ button) show where your decisions have been putting the weight.
+              <b>{t("Meters.")}</b> {" "}{t("Manpower, Matériel, and Initiative track your strategic position against the historical baseline (zero). They gate collapses, foreclose options, and decide when your war ends. Matériel is the one number the rules use for fuel, ammunition, steel, shipping and rail together; the three small readings under each meter (open one with its ▸ button) show where your decisions have been putting the weight.")}
             </p>
             <p className="mb-2">
-              <b>⚄ Contested.</b> A handful of decisions are honestly disputed by historians. These roll
-              the same choice can break differently, and rewinding re-rolls them.
+              <b>{t("⚄ Contested.")}</b> {" "}{t("A handful of decisions are honestly disputed by historians. These roll the same choice can break differently, and rewinding re-rolls them.")}
             </p>
             <p className="mb-2">
-              <b>Projected scenarios.</b> Anything beyond the historical record is labelled as reasoned
-              projection and never claims to be what happened.
+              <b>{t("Projected scenarios.")}</b> {" "}{t("Anything beyond the historical record is labelled as reasoned projection and never claims to be what happened.")}
             </p>
             <p>
-              <b>⚠ Speculative.</b> A very small number of branches go further: past reasoned projection
-              into territory the scholarly consensus argues against. These carry a distinct amber warning,
-              exist only through chains of low-probability rolls, and this campaign computes and shows you exactly
-              how unlikely the path you walked was.
+              <b>{t("⚠ Speculative.")}</b> {" "}{t("A very small number of branches go further: past reasoned projection into territory the scholarly consensus argues against. These carry a distinct amber warning, exist only through chains of low-probability rolls, and this campaign computes and shows you exactly how unlikely the path you walked was.")}
             </p>
           </div>
         </details>
@@ -29251,20 +29239,20 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            The Holocaust
+            {t("The Holocaust")}
           </summary>
           <div className="mt-3">
             <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              This game is about the decisions of high commands. The Holocaust is not one of them, and that is deliberate. The murder of millions of people must never become a choice, a meter or a score, or something to be won or lost, so it has been kept out of the game's decisions. It is set apart here so that it is remembered for what it was: not a side event of the war, but a crime committed against real people, each with a name, a family and a life.
+              {t("This game is about the decisions of high commands. The Holocaust is not one of them, and that is deliberate. The murder of millions of people must never become a choice, a meter or a score, or something to be won or lost, so it has been kept out of the game's decisions. It is set apart here so that it is remembered for what it was: not a side event of the war, but a crime committed against real people, each with a name, a family and a life.")}
             </p>
             <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              From 1933 the Nazi state persecuted the Jews of Germany and took away their rights, property and livelihoods. The Nuremberg Laws followed in 1935 and the November pogrom in 1938. After the invasion of Poland in 1939, Jews were forced into ghettos. From June 1941, behind the armies that invaded the Soviet Union, mobile killing units, helped by police and army units, murdered Jewish men, women and children by shooting. In January 1942 officials met at Wannsee to coordinate the deportation and murder of the Jews of Europe, and killing centres such as Chełmno, Bełżec, Sobibór, Treblinka and Auschwitz-Birkenau were built and used for that purpose. About six million Jews were murdered, around two thirds of the Jews of Europe.
+              {t("From 1933 the Nazi state persecuted the Jews of Germany and took away their rights, property and livelihoods. The Nuremberg Laws followed in 1935 and the November pogrom in 1938. After the invasion of Poland in 1939, Jews were forced into ghettos. From June 1941, behind the armies that invaded the Soviet Union, mobile killing units, helped by police and army units, murdered Jewish men, women and children by shooting. In January 1942 officials met at Wannsee to coordinate the deportation and murder of the Jews of Europe, and killing centres such as Chełmno, Bełżec, Sobibór, Treblinka and Auschwitz-Birkenau were built and used for that purpose. About six million Jews were murdered, around two thirds of the Jews of Europe.")}
             </p>
             <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              The Nazis and their collaborators also murdered Roma and Sinti, disabled people, Soviet prisoners of war, Polish and other civilians, and many others. Soviet and Western Allied armies reached the camps between 1944 and 1945 and found the survivors and the dead. Italy took part too: Jews were persecuted under the racial laws from 1938 and, after the German occupation in 1943, deported.
+              {t("The Nazis and their collaborators also murdered Roma and Sinti, disabled people, Soviet prisoners of war, Polish and other civilians, and many others. Soviet and Western Allied armies reached the camps between 1944 and 1945 and found the survivors and the dead. Italy took part too: Jews were persecuted under the racial laws from 1938 and, after the German occupation in 1943, deported.")}
             </p>
             <p className="text-[13px] leading-snug mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              To learn more, and to read the names of those who were murdered, see Yad Vashem, the World Holocaust Remembrance Center (yadvashem.org).
+              {t("To learn more, and to read the names of those who were murdered, see Yad Vashem, the World Holocaust Remembrance Center (yadvashem.org).")}
             </p>
           </div>
         </details>
@@ -29276,12 +29264,12 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.3em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Settings
+            {t("Settings")}
           </summary>
           <div className="mt-3 flex flex-col gap-3">
         <div className={`${paper} p-4 flex items-center justify-between`}>
           <span id="setting-instant-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Instant text (skip typewriter)
+            {t("Instant text (skip typewriter)")}
           </span>
           <button
             onClick={onToggleInstant}
@@ -29290,12 +29278,12 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {instantText ? "On" : "Off"}
+            {instantText ? t("On") : t("Off")}
           </button>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>
           <span id="setting-sound-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Sound (typewriter, stamps, dice, battle reports)
+            {t("Sound (typewriter, stamps, dice, battle reports)")}
           </span>
           <button
             onClick={onToggleSound}
@@ -29304,26 +29292,49 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {soundOn ? "On" : "Off"}
+            {soundOn ? t("On") : t("Off")}
           </button>
+        </div>
+        <div className={`${paper} p-4 flex items-center justify-between gap-3`}>
+          <span id="setting-language-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            {t("Language")}
+            {language !== "en" && (
+              <span className="block normal-case tracking-normal font-normal text-[12px] opacity-80 mt-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                {t("Menus, buttons and help are translated. The story text is in English.")}
+              </span>
+            )}
+          </span>
+          <select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            aria-labelledby="setting-language-label"
+            className="border-2 border-black px-3 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] bg-transparent focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {LANGUAGES.map((l) => (
+              <option key={l.code} value={l.code} lang={l.code}>
+                {l.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>
           <span id="setting-textsize-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Text size
+            {t("Text size")}
           </span>
           <button
             onClick={onCycleFontScale}
             aria-labelledby="setting-textsize-label"
-            aria-label={`Text size: ${fontScale <= 0.9 ? "Small" : fontScale >= 1.15 ? "Large" : "Normal"}. Activate to cycle to the next size.`}
+            aria-label={t("Text size: {p}. Activate to cycle to the next size.", { p: fontScale <= 0.9 ? t("Small") : fontScale >= 1.15 ? t("Large") : t("Normal") })}
             className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {fontScale <= 0.9 ? "Small" : fontScale >= 1.15 ? "Large" : "Normal"}
+            {fontScale <= 0.9 ? t("Small") : fontScale >= 1.15 ? t("Large") : t("Normal")}
           </button>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>
           <span id="setting-dyslexia-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Dyslexia-friendly typeface
+            {t("Dyslexia-friendly typeface")}
           </span>
           <button
             onClick={onToggleDyslexia}
@@ -29332,12 +29343,12 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {dyslexia ? "On" : "Off"}
+            {dyslexia ? t("On") : t("Off")}
           </button>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>
           <span id="setting-reducedmotion-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Reduce motion (stamp tilt, transitions)
+            {t("Reduce motion (stamp tilt, transitions)")}
           </span>
           <button
             onClick={onToggleReducedMotion}
@@ -29346,14 +29357,14 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {reducedMotion ? "On" : "Off"}
+            {reducedMotion ? t("On") : t("Off")}
           </button>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between gap-3`}>
           <span id="setting-staff-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Always let my staff plan battles
+            {t("Always let my staff plan battles")}
             <span className="block normal-case tracking-normal font-normal text-[12px] opacity-80 mt-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              The staff plan and fight every battle for you. Off by default.
+              {t("The staff plan and fight every battle for you. Off by default.")}
             </span>
           </span>
           <button
@@ -29363,13 +29374,13 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {staffAlways ? "On" : "Off"}
+            {staffAlways ? t("On") : t("Off")}
           </button>
         </div>
         <div className={`${paper} p-4 flex flex-col gap-2`}>
           <div className="flex items-center justify-between">
             <span id="setting-music-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              Music
+              {t("Music")}
             </span>
             <button
               onClick={onToggleMusic}
@@ -29378,7 +29389,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
               className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              {musicOn ? "On" : "Off"}
+              {musicOn ? t("On") : t("Off")}
             </button>
           </div>
           {musicOn && (
@@ -29389,7 +29400,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
               step="0.05"
               value={musicVolume}
               onChange={(e) => onMusicVolumeChange(parseFloat(e.target.value))}
-              aria-label={`Music volume, currently ${Math.round(musicVolume * 100)} percent`}
+              aria-label={t("Music volume, currently {p} percent", { p: Math.round(musicVolume * 100) })}
               className="w-full accent-black"
             />
           )}
@@ -29402,14 +29413,14 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             className="text-xs uppercase tracking-[0.3em] font-bold text-[#000000] cursor-pointer select-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Credits
+            {t("Credits")}
           </summary>
           <div
             className="mt-3 text-[14px] leading-relaxed text-[#000000] opacity-70"
             style={{ fontFamily: "'Courier Prime', monospace" }}
           >
-            <p className="not-italic mb-2">Developer: Craig Doyle</p>
-            <p className="not-italic">Music: Hyteck9</p>
+            <p className="not-italic mb-2">{t("Developer: Craig Doyle")}</p>
+            <p className="not-italic">{t("Music: Hyteck9")}</p>
           </div>
         </details>
 
@@ -29450,7 +29461,7 @@ function MeterBar({ label, value, danger, showBar = true, from, min = -10, max =
         <div
           className="relative flex-1 h-3 border border-black bg-[#e3d5ae] overflow-hidden"
           role="img"
-          aria-label={`${label}: ${valueLabel || fmt(value)} on a scale from ${fmt(min)} to ${fmt(max)}${moved ? `, ${value > from ? "up" : "down"} from ${fmt(from)}` : ""}${danger ? ", critical" : ""}`}
+          aria-label={t("{label}: {p} on a scale from {p2} to {p3}{p4}{p5}", { label, p: valueLabel || fmt(value), p2: fmt(min), p3: fmt(max), p4: moved ? `, ${value > from ? t("up") : t("down")} from ${fmt(from)}` : "", p5: danger ? t(", critical") : "" })}
         >
           <div
             className="absolute top-0 bottom-0"
@@ -29487,15 +29498,15 @@ function ChangePill({ up }) {
       <span aria-hidden="true" className="inline-block border px-1 text-[10px] leading-tight font-bold" style={{ borderColor: colour, color: colour }}>
         {up ? "▲" : "▼"}
       </span>
-      <span className="sr-only">{up ? " improved" : " worsened"}</span>
+      <span className="sr-only">{up ? t(" improved") : t(" worsened")}</span>
     </>
   );
 }
 
 const METER_ROWS = [
-  { key: "manpower", label: "Manpower", dangerAt: -3 },
-  { key: "fuel", label: "Matériel", dangerAt: -2 },
-  { key: "initiative", label: "Initiative", dangerAt: null },
+  { key: "manpower", label: T("Manpower"), dangerAt: -3 },
+  { key: "fuel", label: T("Matériel"), dangerAt: -2 },
+  { key: "initiative", label: T("Initiative"), dangerAt: null },
 ];
 const BAND_COLOURS = ["#7a2e2e", "#7a2e2e", "#8a5a1a", "#000000", "#28497a"];
 // Which meter panels are open. Kept while the page is open (so they stay as the player left them from one report to the next) and
@@ -29515,16 +29526,16 @@ function meterStaffNotes(key, meters, flags) {
   const out = [];
   const total = meters.manpower + meters.fuel + meters.initiative;
   if (key === "manpower") {
-    if (meters.manpower <= -4) out.push({ grave: true, text: "STAFF NOTE: Reserves are at breaking point. The front cannot absorb another major loss." });
-    else if (meters.manpower <= -3) out.push({ grave: true, text: "STAFF NOTE: Manpower reserves are running dangerously thin." });
-    if (total >= 3) out.push({ grave: false, text: "STAFF NOTE: The army remains coherent. A sustained final defense may yet be within reach." });
+    if (meters.manpower <= -4) out.push({ grave: true, text: t("STAFF NOTE: Reserves are at breaking point. The front cannot absorb another major loss.") });
+    else if (meters.manpower <= -3) out.push({ grave: true, text: t("STAFF NOTE: Manpower reserves are running dangerously thin.") });
+    if (total >= 3) out.push({ grave: false, text: t("STAFF NOTE: The army remains coherent. A sustained final defense may yet be within reach.") });
   }
   if (key === "fuel") {
-    if (meters.fuel <= -8) out.push({ grave: true, text: "STAFF NOTE: Matériel is exhausted on every count. Formations are fighting on what they carry, and no offensive order has anything behind it." });
-    else if (meters.fuel <= -3) out.push({ grave: true, text: "STAFF NOTE: Matériel stocks are exhausted. Offensive operations are no longer possible." });
-    else if (meters.fuel <= -2) out.push({ grave: true, text: "STAFF NOTE: Matériel reserves critically low. Further offensive options may be foreclosed." });
+    if (meters.fuel <= -8) out.push({ grave: true, text: t("STAFF NOTE: Matériel is exhausted on every count. Formations are fighting on what they carry, and no offensive order has anything behind it.") });
+    else if (meters.fuel <= -3) out.push({ grave: true, text: t("STAFF NOTE: Matériel stocks are exhausted. Offensive operations are no longer possible.") });
+    else if (meters.fuel <= -2) out.push({ grave: true, text: t("STAFF NOTE: Matériel reserves critically low. Further offensive options may be foreclosed.") });
   }
-  if (key === "initiative" && meters.initiative >= 5) out.push({ grave: true, text: "STAFF NOTE: The war is running years ahead of its historical schedule. Whatever comes next arrives early." });
+  if (key === "initiative" && meters.initiative >= 5) out.push({ grave: true, text: t("STAFF NOTE: The war is running years ahead of its historical schedule. Whatever comes next arrives early.") });
   return out;
 }
 
@@ -29553,7 +29564,7 @@ function MeterPanel({ meters, flags, prev }) {
             <div key={key}>
               <div className="flex items-center gap-1">
                 <div className="flex-1 min-w-0">
-                  <MeterBar label={label} value={v} from={prev && prev.meters ? prev.meters[key] : undefined} danger={dangerAt != null && v <= dangerAt} tag={meterDangerTag(v)} />
+                  <MeterBar label={t(label)} value={v} from={prev && prev.meters ? prev.meters[key] : undefined} danger={dangerAt != null && v <= dangerAt} tag={meterDangerTag(v)} />
                 </div>
                 <button
                   onClick={() => toggle(key)}
@@ -29563,11 +29574,11 @@ function MeterPanel({ meters, flags, prev }) {
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   <span aria-hidden="true">{isOpen ? "▾" : "▸"}</span>
-                  <span className="sr-only">{isOpen ? `Hide what is behind ${label}` : `Show what is behind ${label}`}</span>
+                  <span className="sr-only">{isOpen ? t("Hide what is behind {label}", { label }) : t("Show what is behind {label}", { label })}</span>
                 </button>
               </div>
               {isOpen && (
-                <div id={panelId} role="group" aria-label={`${label}: what is behind it`} className="mt-1 mb-1 pl-0 sm:pl-[5.5rem]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                <div id={panelId} role="group" aria-label={t("{label}: what is behind it", { label })} className="mt-1 mb-1 pl-0 sm:pl-[5.5rem]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                   <ul className="flex flex-col gap-[3px]">
                     {rows.map((r, i) => {
                       // An arrow only where the band word changed or the reading moved by two or more, so it says something specific.
@@ -29575,10 +29586,10 @@ function MeterPanel({ meters, flags, prev }) {
                       const d = before && (before[i].level !== r.level || Math.abs(dRaw) >= 2) ? dRaw || r.level - before[i].level : 0;
                       return (
                         <li key={r.id} className="flex items-center justify-between gap-2 text-[11px] uppercase tracking-wider">
-                          <span className="opacity-80">{r.name}</span>
+                          <span className="opacity-80">{t(r.name)}</span>
                           <span className="flex items-center gap-1 font-bold" style={{ color: BAND_COLOURS[r.level] }}>
                             {r.level === 0 ? <span aria-hidden="true">⚠ </span> : null}
-                            {r.band}
+                            {t(r.band)}
                             {d !== 0 ? <ChangePill up={d > 0} /> : null}
                           </span>
                         </li>
@@ -29616,12 +29627,12 @@ const MONTHS = MONTH_NAMES.map((m) => m.toUpperCase());
 const CAMPAIGN_REPORT_TERMS = {
   german: { situation: "Lagebericht", directive: "Weisung", outcome: "Gefechtsbericht" },
   soviet: { situation: "Оперсводка", directive: "Директива", outcome: "Донесение" },
-  allied: { situation: "SITREP", directive: "Theater Directive", outcome: "After Action Report" },
-  italy: { situation: "Bollettino", directive: "Direttiva", outcome: "Rapporto" },
+  allied: { situation: T("SITREP"), directive: T("Theater Directive"), outcome: T("After Action Report") },
+  italy: { situation: T("Bollettino"), directive: T("Direttiva"), outcome: T("Rapporto") },
 };
 function campaignReportLabel(campaignId, kind) {
   const terms = CAMPAIGN_REPORT_TERMS[campaignId];
-  return (terms && terms[kind]) || (kind === "outcome" ? "After Action Report" : kind === "directive" ? "Theater Directive" : "Situation Report");
+  return (terms && terms[kind] && t(terms[kind])) || (kind === "outcome" ? t("After Action Report") : kind === "directive" ? t("Theater Directive") : t("Situation Report"));
 }
 
 // Truncates at the last complete sentence within budget rather than a hard character cut, so
@@ -29740,7 +29751,16 @@ const MONTH_ABBR_DTG = {
   JANUARY: "JAN", FEBRUARY: "FEB", MARCH: "MAR", APRIL: "APR", MAY: "MAY", JUNE: "JUN",
   JULY: "JUL", AUGUST: "AUG", SEPTEMBER: "SEP", OCTOBER: "OCT", NOVEMBER: "NOV", DECEMBER: "DEC",
 };
+const DATE_WORDS = [T("JANUARY"), T("FEBRUARY"), T("MARCH"), T("APRIL"), T("MAY"), T("JUNE"), T("JULY"), T("AUGUST"), T("SEPTEMBER"), T("OCTOBER"), T("NOVEMBER"), T("DECEMBER"), T("SPRING"), T("SUMMER"), T("AUTUMN"), T("FALL"), T("WINTER"), T("EARLY"), T("LATE"), T("MID")];
+const DATE_WORD_SET = new Set(DATE_WORDS);
+/** A date stamp in the player's language: the month and season words are translated, the numbers and the rest stay. */
+function localiseDate(s) {
+  return String(s || "").replace(/[A-Z]{3,}/g, (w) => (DATE_WORD_SET.has(w) ? t(w) : w));
+}
 function formatDateForCampaign(dateStr, campaignId) {
+  return localiseDate(formatDateForCampaignEn(dateStr, campaignId));
+}
+function formatDateForCampaignEn(dateStr, campaignId) {
   if (campaignId === "german") {
     // Wehrmacht correspondence convention: Roman-numeral month, period-separated.
     const m = dateStr.match(/^([A-Z]+) (\d{4})$/);
@@ -29762,10 +29782,10 @@ function formatDateForCampaign(dateStr, campaignId) {
 // just happened rather than treating every choice as generic "command." Defaults to Operations,
 // since most wargame decisions are exactly that.
 const STAFF_BRANCH_LABELS = {
-  german: { ops: "IA · OPERATIONS", intel: "IC · INTELLIGENCE", political: "ADJ. · POLITICAL" },
+  german: { ops: T("IA · OPERATIONS"), intel: T("IC · INTELLIGENCE"), political: T("ADJ. · POLITICAL") },
   soviet: { ops: "ОПЕРАТИВНЫЙ ОТДЕЛ", intel: "РАЗВЕДОТДЕЛ", political: "ОСОБЫЙ ОТДЕЛ" },
-  allied: { ops: "G-3 · OPERATIONS", intel: "G-2 · INTELLIGENCE", political: "G-1 · POLICY" },
-  italy: { ops: "UFF. OPERAZIONI", intel: "SIM · INFORMAZIONI", political: "UFF. POLITICO-MILITARE" },
+  allied: { ops: T("G-3 · OPERATIONS"), intel: T("G-2 · INTELLIGENCE"), political: T("G-1 · POLICY") },
+  italy: { ops: T("UFF. OPERAZIONI"), intel: T("SIM · INFORMAZIONI"), political: T("UFF. POLITICO-MILITARE") },
 };
 const STAFF_BRANCH_INTEL_WORDS = ["intelligence", "assessment", "estimate", "reconnaissance", "signals", "decrypt", "informant", "aerial photograph", "fho", "ultra", "enigma", "spy"];
 const STAFF_BRANCH_POLITICAL_WORDS = ["purge", "nkvd", "gestapo", "political", "coalition", "diplomatic", "diplomacy", "conference", "cabinet", "parliament", "cohesion", "alliance", "propaganda", "armistice", "terms", "plot"];
@@ -29836,48 +29856,48 @@ const THEATERS = [
 // approach the Pacific title uses). They only affect the graph view; the chit
 // board ignores them entirely.
 const MAP_REGIONS = [
-  { id: "norway", name: "Norway", x: 452, y: 70 },
-  { id: "sweden", name: "Sweden", x: 532, y: 86 },
-  { id: "finland", name: "Finland", x: 626, y: 66 },
-  { id: "denmark", name: "Denmark", x: 450, y: 176 },
-  { id: "britain", name: "Britain", x: 236, y: 200 },
-  { id: "ireland", name: "Ireland", x: 140, y: 212 },
-  { id: "france", name: "France", x: 276, y: 348 },
-  { id: "benelux", name: "Benelux", x: 370, y: 258 },
-  { id: "switzerland", name: "Switz.", x: 392, y: 350 },
-  { id: "iberia", name: "Iberia", x: 176, y: 452 },
-  { id: "germany", name: "Germany", x: 474, y: 268 },
-  { id: "poland", name: "Poland", x: 592, y: 240 },
-  { id: "czechia", name: "Czechia", x: 516, y: 326 },
-  { id: "austria", name: "Austria", x: 486, y: 388 },
-  { id: "hungary", name: "Hungary", x: 588, y: 376 },
-  { id: "baltics", name: "Baltics", x: 664, y: 158 },
+  { id: "norway", name: T("Norway"), x: 452, y: 70 },
+  { id: "sweden", name: T("Sweden"), x: 532, y: 86 },
+  { id: "finland", name: T("Finland"), x: 626, y: 66 },
+  { id: "denmark", name: T("Denmark"), x: 450, y: 176 },
+  { id: "britain", name: T("Britain"), x: 236, y: 200 },
+  { id: "ireland", name: T("Ireland"), x: 140, y: 212 },
+  { id: "france", name: T("France"), x: 276, y: 348 },
+  { id: "benelux", name: T("Benelux"), x: 370, y: 258 },
+  { id: "switzerland", name: T("Switz."), x: 392, y: 350 },
+  { id: "iberia", name: T("Iberia"), x: 176, y: 452 },
+  { id: "germany", name: T("Germany"), x: 474, y: 268 },
+  { id: "poland", name: T("Poland"), x: 592, y: 240 },
+  { id: "czechia", name: T("Czechia"), x: 516, y: 326 },
+  { id: "austria", name: T("Austria"), x: 486, y: 388 },
+  { id: "hungary", name: T("Hungary"), x: 588, y: 376 },
+  { id: "baltics", name: T("Baltics"), x: 664, y: 158 },
   // Round 14: "ussr" split into three army-group zones (path B of
   // docs/specs/eastern-front-subdivision.md); round 25 split those into nine (see
   // tools/split-ussr-zones.mjs and the MAP_TIMELINE comment). Schematic positions keep the real
   // geography's order, north above south and west left of east: Leningrad & Karelia above
   // Belorussia and Central Russia, Ukraine, the Don and the Caucasus below them, and the three
   // Soviet rear zones (Northern Russia, Volga & Urals, Central Asia) on the far right.
-  { id: "ussrLeningrad", name: "Leningrad", x: 750, y: 84 },
-  { id: "ussrNorthRear", name: "N. Russia", x: 850, y: 60 },
-  { id: "ussrBelarus", name: "Belorussia", x: 722, y: 200 },
-  { id: "ussrMoscow", name: "Central Russia", x: 812, y: 190 },
-  { id: "ussrUrals", name: "Volga-Urals", x: 852, y: 268 },
-  { id: "ussrUkraine", name: "Ukraine", x: 738, y: 312 },
-  { id: "ussrDon", name: "Don & Volga", x: 822, y: 330 },
-  { id: "ussrCaucasus", name: "Caucasus", x: 800, y: 410 },
-  { id: "ussrAsia", name: "Central Asia", x: 858, y: 400 },
-  { id: "romania", name: "Romania", x: 686, y: 396 },
-  { id: "italy", name: "Italy", x: 436, y: 470 },
-  { id: "yugoslavia", name: "Yugoslavia", x: 566, y: 452 },
-  { id: "greece", name: "Greece", x: 624, y: 522 },
-  { id: "nwAfrica", name: "Fr. N. Africa", x: 250, y: 566 },
-  { id: "libya", name: "Libya", x: 470, y: 580 },
-  { id: "egypt", name: "Egypt", x: 682, y: 586 },
-  { id: "turkey", name: "Turkey", x: 740, y: 470 },
-  { id: "albania", name: "Albania", x: 548, y: 500 },
-  { id: "bulgaria", name: "Bulgaria", x: 668, y: 452 },
-  { id: "malta", name: "Malta", x: 460, y: 528 },
+  { id: "ussrLeningrad", name: T("Leningrad"), x: 750, y: 84 },
+  { id: "ussrNorthRear", name: T("N. Russia"), x: 850, y: 60 },
+  { id: "ussrBelarus", name: T("Belorussia"), x: 722, y: 200 },
+  { id: "ussrMoscow", name: T("Central Russia"), x: 812, y: 190 },
+  { id: "ussrUrals", name: T("Volga-Urals"), x: 852, y: 268 },
+  { id: "ussrUkraine", name: T("Ukraine"), x: 738, y: 312 },
+  { id: "ussrDon", name: T("Don & Volga"), x: 822, y: 330 },
+  { id: "ussrCaucasus", name: T("Caucasus"), x: 800, y: 410 },
+  { id: "ussrAsia", name: T("Central Asia"), x: 858, y: 400 },
+  { id: "romania", name: T("Romania"), x: 686, y: 396 },
+  { id: "italy", name: T("Italy"), x: 436, y: 470 },
+  { id: "yugoslavia", name: T("Yugoslavia"), x: 566, y: 452 },
+  { id: "greece", name: T("Greece"), x: 624, y: 522 },
+  { id: "nwAfrica", name: T("Fr. N. Africa"), x: 250, y: 566 },
+  { id: "libya", name: T("Libya"), x: 470, y: 580 },
+  { id: "egypt", name: T("Egypt"), x: 682, y: 586 },
+  { id: "turkey", name: T("Turkey"), x: 740, y: 470 },
+  { id: "albania", name: T("Albania"), x: 548, y: 500 },
+  { id: "bulgaria", name: T("Bulgaria"), x: 668, y: 452 },
+  { id: "malta", name: T("Malta"), x: 460, y: 528 },
 ];
 
 // Adjacency for the node-graph view: land borders, plus one deliberate exception.
@@ -30251,13 +30271,13 @@ const STATUS_COLORS = {
 };
 
 const STATUS_LABELS = {
-  axis: "Axis-occupied",
-  axisAllied: "Axis partner / puppet",
-  soviet: "Soviet-controlled",
-  allied: "Allied-controlled / liberated",
-  neutral: "Neutral",
-  contested: "Contested",
-  divided: "Divided occupation",
+  axis: T("Axis-occupied"),
+  axisAllied: T("Axis partner / puppet"),
+  soviet: T("Soviet-controlled"),
+  allied: T("Allied-controlled / liberated"),
+  neutral: T("Neutral"),
+  contested: T("Contested"),
+  divided: T("Divided occupation"),
 };
 
 
@@ -30770,7 +30790,7 @@ function TheaterGraph({ statuses, highlightSet, divergedRegions, selectedRegion,
       viewBox={`0 0 ${VBW} ${VBH}`}
       className="w-full h-auto border-2 border-[#3a2a18]"
       role="img"
-      aria-label={`Theater map showing ${MAP_REGIONS.length} regions and their current control status`}
+      aria-label={t("Theater map showing {MAP_REGIONSLength} regions and their current control status", { MAP_REGIONSLength: MAP_REGIONS.length })}
     >
       <defs>
         {/* STATUS_COLORS.divided refers to url(#divideGradient). Without this def the fill
@@ -30851,7 +30871,7 @@ function TheaterGraph({ statuses, highlightSet, divergedRegions, selectedRegion,
             tabIndex={isDiverged ? 0 : undefined}
             aria-label={
               isDiverged
-                ? `${r.name}: ${STATUS_LABELS[status] || status}, diverged from history. ${isSelected ? "Selected. Activate to deselect." : "Activate to select."}`
+                ? t("{rName}: {p}, diverged from history. {p2}", { rName: t(r.name), p: t(STATUS_LABELS[status] || status), p2: isSelected ? t("Selected. Activate to deselect.") : t("Activate to select.") })
                 : undefined
             }
             style={{ cursor: isDiverged ? "pointer" : "default" }}
@@ -30886,7 +30906,7 @@ function TheaterGraph({ statuses, highlightSet, divergedRegions, selectedRegion,
               fill="#3a2a18"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              {r.name}
+              {t(r.name)}
             </text>
           </g>
         );
@@ -30995,7 +31015,7 @@ function EuropeMap({ year, accent, flags, meters, highlightRegions, maxYear, res
   const { o, notes } = mapOverrides(clampedYear, flags, meters);
   const statuses = { ...base, ...o };
   const usedStatuses = [...new Set(Object.values(statuses))];
-  const nameOf = (id) => (MAP_REGIONS.find((r) => r.id === id) || {}).name || id;
+  const nameOf = (id) => t((MAP_REGIONS.find((r) => r.id === id) || {}).name || id);
   const highlightSet = new Set(highlightRegions || []);
   const divergedRegions = new Set(notes.flatMap((n) => n.regions || []));
   const notesForRegion = (id) => notes.filter((n) => (n.regions || []).includes(id));
@@ -31015,7 +31035,7 @@ function EuropeMap({ year, accent, flags, meters, highlightRegions, maxYear, res
         className="text-[11px] uppercase tracking-widest text-[#000000] font-semibold mb-1"
         style={{ fontFamily: "'IBM Plex Mono', monospace" }}
       >
-        Continental Situation: End of {clampedYear} · Theater Map
+        {t("Continental Situation: End of {clampedYear} · Theater Map", { clampedYear })}
       </div>
 
       <div className="flex items-center gap-2 mb-2">
@@ -31032,7 +31052,7 @@ function EuropeMap({ year, accent, flags, meters, highlightRegions, maxYear, res
             setScrubYear(parseInt(e.target.value, 10));
             setSelectedRegion(null);
           }}
-          aria-label={`Scrub the theater status board by year, currently ${scrubYear}, up to ${cappedMax}`}
+          aria-label={t("Scrub the theater status board by year, currently {scrubYear}, up to {cappedMax}", { scrubYear, cappedMax })}
           className="flex-1 accent-black"
         />
         <span className="text-[10px] uppercase tracking-widest font-bold text-[#000000] opacity-60 shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
@@ -31041,11 +31061,9 @@ function EuropeMap({ year, accent, flags, meters, highlightRegions, maxYear, res
       </div>
 
       <p className="sr-only">
-        Theater status board, end of {clampedYear}.{" "}
-        {THEATERS.flatMap((theater) =>
-          theater.ids.map((id) => `${nameOf(id)}: ${STATUS_LABELS[statuses[id] || "neutral"]}`)
-        ).join(". ")}
-        {notes.length > 0 ? ". " + notes.map((n) => n.text).join(". ") : ""}
+        {t("Theater status board, end of {clampedYear}. {p}{p2}", { clampedYear, p: THEATERS.flatMap((theater) =>
+          theater.ids.map((id) => `${nameOf(id)}: ${t(STATUS_LABELS[statuses[id] || "neutral"])}`)
+        ).join(". "), p2: notes.length > 0 ? ". " + notes.map((n) => n.text).join(". ") : "" })}
       </p>
       <TheaterGraph
         statuses={statuses}
@@ -31064,13 +31082,13 @@ function EuropeMap({ year, accent, flags, meters, highlightRegions, maxYear, res
               className="inline-block w-3 h-3 border border-black"
               style={{ background: s === "divided" ? "linear-gradient(90deg, " + STATUS_COLORS.allied + " 50%, " + STATUS_COLORS.soviet + " 50%)" : STATUS_COLORS[s] }}
             />
-            {STATUS_LABELS[s]}
+            {t(STATUS_LABELS[s])}
           </div>
         ))}
         {divergedRegions.size > 0 && (
           <div className="flex items-center gap-1 text-[11px] text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             <span aria-hidden="true">{"\u25C6"}</span>
-            Diverges from the plain historical status
+            {t("Diverges from the plain historical status")}
           </div>
         )}
       </div>
@@ -31120,140 +31138,140 @@ const METER_NOTES = {
   german: {
     manpower: {
       bad: [
-        "This month's replacement drafts didn't close the gap the casualty lists opened.",
-        "Replacement drafts are no longer closing the gap the casualty lists open.",
+        T("This month's replacement drafts didn't close the gap the casualty lists opened."),
+        T("Replacement drafts are no longer closing the gap the casualty lists open."),
       ],
-      critical: ["Replacement drafts scheduled for this month never arrived. Divisions are filling rifle gaps with cooks and clerks."],
+      critical: [T("Replacement drafts scheduled for this month never arrived. Divisions are filling rifle gaps with cooks and clerks.")],
       good: [
-        "Manpower reserves are, unusually, ahead of what the campaign actually needs.",
-        "The replacement pipeline has, unusually, gotten ahead of the casualty lists.",
+        T("Manpower reserves are, unusually, ahead of what the campaign actually needs."),
+        T("The replacement pipeline has, unusually, gotten ahead of the casualty lists."),
       ],
     },
     fuel: {
       bad: [
-        "Matériel allocations are being argued over by army groups that all need the same tanker cars.",
-        "The matériel ledger has crossed from tight into constrained.",
+        T("Matériel allocations are being argued over by army groups that all need the same tanker cars."),
+        T("The matériel ledger has crossed from tight into constrained."),
       ],
-      critical: ["Panzer crews are siphoning tanks from disabled vehicles to keep the rest moving."],
+      critical: [T("Panzer crews are siphoning tanks from disabled vehicles to keep the rest moving.")],
       good: [
-        "Matériel stocks have, for the moment, stopped dictating what the staff can even propose.",
-        "The matériel picture is unusually generous for this stage of the war.",
+        T("Matériel stocks have, for the moment, stopped dictating what the staff can even propose."),
+        T("The matériel picture is unusually generous for this stage of the war."),
       ],
     },
     initiative: {
       bad: [
-        "Every order this month has been a response to something the enemy did first.",
-        "OKW is no longer choosing where this war is fought: it is being told, and arriving late.",
+        T("Every order this month has been a response to something the enemy did first."),
+        T("OKW is no longer choosing where this war is fought: it is being told, and arriving late."),
       ],
-      critical: ["Nothing on this front is being decided here any more. The staff is a relay for other people's decisions."],
+      critical: [T("Nothing on this front is being decided here any more. The staff is a relay for other people's decisions.")],
       good: [
-        "The enemy is conforming to this headquarters' movements rather than the reverse: a position the Reich has not held in some time.",
-        "The operational tempo belongs to OKW this month, and every front is answering it rather than setting it.",
+        T("The enemy is conforming to this headquarters' movements rather than the reverse: a position the Reich has not held in some time."),
+        T("The operational tempo belongs to OKW this month, and every front is answering it rather than setting it."),
       ],
     },
   },
   soviet: {
     manpower: {
       bad: [
-        "Replacement drafts are arriving thinner than the casualty lists they're meant to answer.",
-        "Front commanders have started reporting understrength divisions as routine, not exception.",
+        T("Replacement drafts are arriving thinner than the casualty lists they're meant to answer."),
+        T("Front commanders have started reporting understrength divisions as routine, not exception."),
       ],
-      critical: ["Divisions go into the line the hour they detrain, whether they're ready or not."],
+      critical: [T("Divisions go into the line the hour they detrain, whether they're ready or not.")],
       good: [
-        "Replacement drafts have, atypically, arrived ahead of what the front actually lost.",
-        "Manpower reserves are unusually deep for this stage of the war.",
+        T("Replacement drafts have, atypically, arrived ahead of what the front actually lost."),
+        T("Manpower reserves are unusually deep for this stage of the war."),
       ],
     },
     fuel: {
       bad: [
-        "Matériel allocations are being fought over by fronts that all consider their own axis decisive.",
-        "The matériel ledger has moved from tight to truly short.",
+        T("Matériel allocations are being fought over by fronts that all consider their own axis decisive."),
+        T("The matériel ledger has moved from tight to truly short."),
       ],
-      critical: ["Trucks are being pushed off the road and abandoned for lack of fuel to keep them moving."],
+      critical: [T("Trucks are being pushed off the road and abandoned for lack of fuel to keep them moving.")],
       good: [
-        "Matériel stocks are, unusually, not the limiting factor on what Stavka can order.",
-        "The matériel picture is better than the historical campaign generally had it.",
+        T("Matériel stocks are, unusually, not the limiting factor on what Stavka can order."),
+        T("The matériel picture is better than the historical campaign generally had it."),
       ],
     },
     initiative: {
       bad: [
-        "Every operation this season has been a reaction: the Germans move, and Stavka answers.",
-        "The front is dictating to Stavka rather than the other way round, and it has been for months.",
+        T("Every operation this season has been a reaction: the Germans move, and Stavka answers."),
+        T("The front is dictating to Stavka rather than the other way round, and it has been for months."),
       ],
-      critical: ["Nothing is being initiated from this building. Every order leaving it is a response to something already lost."],
+      critical: [T("Nothing is being initiated from this building. Every order leaving it is a response to something already lost.")],
       good: [
-        "The Germans are conforming to Stavka's timetable now, committing reserves where they are told to rather than where they choose.",
-        "The tempo of this war belongs to the Red Army now, and the enemy is spending his reserves answering it.",
+        T("The Germans are conforming to Stavka's timetable now, committing reserves where they are told to rather than where they choose."),
+        T("The tempo of this war belongs to the Red Army now, and the enemy is spending his reserves answering it."),
       ],
     },
   },
   allied: {
     manpower: {
       bad: [
-        "Replacement drafts are arriving thinner than the casualty lists they're meant to answer.",
-        "Divisions are being reported understrength as routine now, not exception.",
+        T("Replacement drafts are arriving thinner than the casualty lists they're meant to answer."),
+        T("Divisions are being reported understrength as routine now, not exception."),
       ],
-      critical: ["Replacement centers are sending men forward with days, not weeks, of training behind them."],
+      critical: [T("Replacement centers are sending men forward with days, not weeks, of training behind them.")],
       good: [
-        "Replacement drafts have, against the usual pattern, kept pace with what the campaign has actually spent.",
-        "Manpower reserves are unusually deep for this stage of the campaign.",
+        T("Replacement drafts have, against the usual pattern, kept pace with what the campaign has actually spent."),
+        T("Manpower reserves are unusually deep for this stage of the campaign."),
       ],
     },
     fuel: {
       bad: [
-        "Matériel and supply allocations are being argued over by armies that all consider their own axis decisive.",
-        "The supply picture has moved from tight to short.",
+        T("Matériel and supply allocations are being argued over by armies that all consider their own axis decisive."),
+        T("The supply picture has moved from tight to short."),
       ],
-      critical: ["Quartermasters are rationing fuel by the truckload now, unit by unit, day by day."],
+      critical: [T("Quartermasters are rationing fuel by the truckload now, unit by unit, day by day.")],
       good: [
-        "Matériel and supply stocks are, this time, not the limiting factor on what SHAEF can authorize.",
-        "The logistics picture is better than the historical campaign generally had it.",
+        T("Matériel and supply stocks are, this time, not the limiting factor on what SHAEF can authorize."),
+        T("The logistics picture is better than the historical campaign generally had it."),
       ],
     },
     initiative: {
       bad: [
-        "SHAEF is reacting this month, to the weather, to the enemy, to its own supply position, in roughly that order.",
-        "Every decision reaching this headquarters arrives already shaped by something that happened without it.",
+        T("SHAEF is reacting this month, to the weather, to the enemy, to its own supply position, in roughly that order."),
+        T("Every decision reaching this headquarters arrives already shaped by something that happened without it."),
       ],
-      critical: ["Nothing is being initiated from SHAEF. The staff is managing consequences and calling it planning."],
+      critical: [T("Nothing is being initiated from SHAEF. The staff is managing consequences and calling it planning.")],
       good: [
-        "The German command is responding to Allied movements rather than setting any of its own: the position every plan since 1942 assumed and none delivered until now.",
-        "The alliance is choosing where this war goes next rather than discovering it after the fact.",
+        T("The German command is responding to Allied movements rather than setting any of its own: the position every plan since 1942 assumed and none delivered until now."),
+        T("The alliance is choosing where this war goes next rather than discovering it after the fact."),
       ],
     },
   },
   italy: {
     manpower: {
       bad: [
-        "Replacement drafts are arriving thinner than the casualty lists they're meant to answer: the mobilization tables never accounted for a war run this long.",
-        "Divisions are being reported understrength as a matter of course, not exception.",
+        T("Replacement drafts are arriving thinner than the casualty lists they're meant to answer: the mobilization tables never accounted for a war run this long."),
+        T("Divisions are being reported understrength as a matter of course, not exception."),
       ],
-      critical: ["Whole formations exist now only on the order-of-battle chart Comando Supremo keeps for the newspapers."],
+      critical: [T("Whole formations exist now only on the order-of-battle chart Comando Supremo keeps for the newspapers.")],
       good: [
-        "Manpower reserves are, unusually, ahead of what this stage of the war has actually cost.",
-        "The replacement pipeline has, against the usual pattern, kept pace with the casualty lists.",
+        T("Manpower reserves are, unusually, ahead of what this stage of the war has actually cost."),
+        T("The replacement pipeline has, against the usual pattern, kept pace with the casualty lists."),
       ],
     },
     fuel: {
       bad: [
-        "The convoy losses to Malta's aircraft and submarines are outrunning what any single month's shipping can replace.",
-        "Matériel allocations are being argued over by fronts that all consider their own theater decisive.",
+        T("The convoy losses to Malta's aircraft and submarines are outrunning what any single month's shipping can replace."),
+        T("Matériel allocations are being argued over by fronts that all consider their own theater decisive."),
       ],
-      critical: ["Tanks and trucks in the desert are being cannibalized for parts because no convoy has reached port in weeks."],
+      critical: [T("Tanks and trucks in the desert are being cannibalized for parts because no convoy has reached port in weeks.")],
       good: [
-        "Matériel and supply stocks are, for the moment, not the limiting factor on what this command can actually order.",
-        "The convoy picture is better than the historical campaign generally had it.",
+        T("Matériel and supply stocks are, for the moment, not the limiting factor on what this command can actually order."),
+        T("The convoy picture is better than the historical campaign generally had it."),
       ],
     },
     initiative: {
       bad: [
-        "Every order leaving this headquarters this month has been a response to something Berlin, London, or the calendar decided first.",
-        "Comando Supremo is no longer setting this war's terms: it is being informed of them, often after the fact.",
+        T("Every order leaving this headquarters this month has been a response to something Berlin, London, or the calendar decided first."),
+        T("Comando Supremo is no longer setting this war's terms: it is being informed of them, often after the fact."),
       ],
-      critical: ["Nothing on any front is being decided from this building any more. The staff is a relay for other commands' decisions."],
+      critical: [T("Nothing on any front is being decided from this building any more. The staff is a relay for other commands' decisions.")],
       good: [
-        "This command is dictating terms this month rather than answering them: a position Rome has held rarely, and not for long, in this war.",
-        "The operational tempo belongs to Comando Supremo for once, and the fronts are answering it rather than setting it.",
+        T("This command is dictating terms this month rather than answering them: a position Rome has held rarely, and not for long, in this war."),
+        T("The operational tempo belongs to Comando Supremo for once, and the fronts are answering it rather than setting it."),
       ],
     },
   },
@@ -31289,12 +31307,12 @@ function meterNarrativeNote(campaignId, meters, seed) {
   const isCatastrophic = worst.dir === "bad" && meterSeverityTier(worst.val) === "catastrophic";
   const variants = (isCatastrophic && axisNotes.critical) || axisNotes[worst.dir];
   const idx = Math.abs((seed || 0) + worst.val) % variants.length;
-  return variants[idx];
+  return t(variants[idx]);
 }
 
 const REDACTION_PCT = { strong: 0, healthy: 0, strained: 0.045, severe: 0.09, catastrophic: 0.18 };
 const TIME_ROTATION_DEG = { strong: 0, healthy: -2, strained: -6, severe: -10, catastrophic: -15 };
-const FILING_NOTE = { strong: "", healthy: "", strained: "filed with minor delay", severe: "filed late, out of sequence", catastrophic: "filed out of sequence, pages missing" };
+const FILING_NOTE = { strong: "", healthy: "", strained: T("filed with minor delay"), severe: T("filed late, out of sequence"), catastrophic: T("filed out of sequence, pages missing") };
 
 // Redacts a light percentage of eligible words (5+ letters only, so sentence structure stays
 // readable) with block characters. Deterministic per call — callers memoize on [text, severity]
@@ -31404,7 +31422,7 @@ function Typewriter({ text, instant, soundOn }) {
           key={sp.start}
           type="button"
           tabIndex={-1}
-          aria-label={`Show meaning of ${GLOSSARY[sp.idx].term}`}
+          aria-label={t("Show meaning of {term}", { term: GLOSSARY[sp.idx].term })}
           onClick={(e) => {
             e.stopPropagation();
             setOpenTerm((o) => (o === sp.idx ? null : sp.idx));
@@ -31430,7 +31448,7 @@ function Typewriter({ text, instant, soundOn }) {
         onClick={() => setShown(text.length)}
         className={`leading-relaxed text-[16px] text-[#000000] cursor-pointer ${note ? "mb-2" : "mb-6"}`}
         style={{ fontFamily: "'Courier Prime', monospace", whiteSpace: "pre-line" }}
-        title={done ? undefined : "Click to reveal instantly"}
+        title={done ? undefined : t("Click to reveal instantly")}
       >
         {done && spans.length ? pieces : text.slice(0, shown)}
         {!done && <span className="opacity-70">▌</span>}
@@ -31441,11 +31459,11 @@ function Typewriter({ text, instant, soundOn }) {
           <button
             type="button"
             onClick={() => setOpenTerm(null)}
-            aria-label={`Close the note on ${note.term}`}
+            aria-label={t("Close the note on {noteTerm}", { noteTerm: note.term })}
             className="ml-2 px-1 border border-black text-[11px] uppercase tracking-wider hover:bg-[#000000] hover:text-[#ffffff]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Close
+            {t("Close")}
           </button>
         </div>
       )}
@@ -31458,12 +31476,12 @@ function Typewriter({ text, instant, soundOn }) {
 // rather than a row of zeroes, so it's visually distinct from a choice that costs exactly nothing
 // on every axis by design.
 function formatImpactPreview(impact) {
-  if (!impact) return "No meter change";
+  if (!impact) return t("No meter change");
   const parts = [];
-  if (impact.manpower) parts.push(`Manpower ${impact.manpower > 0 ? "+" : ""}${impact.manpower}`);
-  if (impact.fuel) parts.push(`Matériel ${impact.fuel > 0 ? "+" : ""}${impact.fuel}`);
-  if (impact.initiative) parts.push(`Initiative ${impact.initiative > 0 ? "+" : ""}${impact.initiative}`);
-  return parts.length ? parts.join(", ") : "No meter change";
+  if (impact.manpower) parts.push(t("Manpower {p}{impactManpower}", { p: impact.manpower > 0 ? "+" : "", impactManpower: impact.manpower }));
+  if (impact.fuel) parts.push(t("Matériel {p}{impactFuel}", { p: impact.fuel > 0 ? "+" : "", impactFuel: impact.fuel }));
+  if (impact.initiative) parts.push(t("Initiative {p}{impactInitiative}", { p: impact.initiative > 0 ? "+" : "", impactInitiative: impact.initiative }));
+  return parts.length ? parts.join(", ") : t("No meter change");
 }
 
 function cohesionLabel(c) {
@@ -31482,7 +31500,7 @@ function AdviserLine({ advisor, flags }) {
   if (standing === "quiet") {
     return (
       <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
-        {name} says little now: overruled too often to argue this one.
+        {t("{name} says little now: overruled too often to argue this one.", { name })}
       </span>
     );
   }
@@ -31490,11 +31508,10 @@ function AdviserLine({ advisor, flags }) {
     <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
       {standing === "trusted" && (
         <span className="not-italic mr-2 border border-current px-1.5 py-[1px] text-[10px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-          Trusted
+          {t("Trusted")}
         </span>
       )}
-      {standing === "trusted" && " "}
-      {name} argues: {advisor.position}
+      {t("{p}{name} argues: {advisorPosition}", { p: standing === "trusted" && " ", name, advisorPosition: advisor.position })}
     </span>
   );
 }
@@ -31594,9 +31611,9 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="text-xs uppercase tracking-widest text-[#000000] font-semibold outline-none"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              {campaign.dynamic ? campaignReportLabel(campaign.id, stage.directive ? "directive" : "situation") : stage.directive ? "Theater Directive" : "Situation Report"} · No. {reportNumber}
+              {t("{p} · No. {reportNumber}", { p: campaign.dynamic ? campaignReportLabel(campaign.id, stage.directive ? "directive" : "situation") : stage.directive ? t("Theater Directive") : t("Situation Report"), reportNumber })}
               {campaign.dynamic && FILING_NOTE[timeSev] && (
-                <span className="opacity-70 italic normal-case tracking-normal"> · {FILING_NOTE[timeSev]}</span>
+                <span className="opacity-70 italic normal-case tracking-normal"> · {t(FILING_NOTE[timeSev])}</span>
               )}
             </div>
             <button
@@ -31609,14 +31626,14 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved" : saveState === "failed" ? "Save failed: retry" : "Save"}
+              {saveState === "saving" ? t("Saving…") : saveState === "saved" ? t("✓ Saved") : saveState === "failed" ? t("Save failed: retry") : t("Save")}
             </button>
             <button
               onClick={onHome}
               className="border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Home
+              {t("Home")}
             </button>
           </div>
         </div>
@@ -31634,7 +31651,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             onStatusesChange={onStatusesChange}
             history={history}
             orders={stage.choices}
-            review={showReview ? (!iron ? (total >= 3 ? " · ahead of the historical baseline" : total <= -3 ? " · behind the historical baseline" : " · tracking the historical record") : "") + (comparableSoFar.length > 0 ? ` · history matched at ${matchedSoFar} of ${comparableSoFar.length} points` : "") : null}
+            review={showReview ? (!iron ? (total >= 3 ? t(" · ahead of the historical baseline") : total <= -3 ? t(" · behind the historical baseline") : t(" · tracking the historical record")) : "") + (comparableSoFar.length > 0 ? t(" · history matched at {matchedSoFar} of {comparableSoFarLength} points", { matchedSoFar, comparableSoFarLength: comparableSoFar.length }) : "") : null}
           />
         )}
 
@@ -31653,7 +31670,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             className="w-full text-left mb-4 border-2 border-black px-3 py-2 text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Show Theater Map
+            {t("Show Theater Map")}
           </button>
         )}
         {SHOW_LEGACY_SCHEMATIC_MAP && campaign.dynamic && (
@@ -31662,7 +31679,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Show Continental Situation
+              {t("Show Continental Situation")}
             </summary>
             <div className="mt-3">
               <EuropeMap
@@ -31685,10 +31702,9 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-4 border-2 px-3 py-2 text-[11px] sm:text-xs uppercase tracking-widest font-bold"
             style={{ borderColor: "#7a2e2e", color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            <span>Führer Mode</span>
+            <span>{t("Führer Mode")}</span>
             <span style={{ color: "#000000" }} className="whitespace-nowrap">
-              Political capital {"●".repeat(Math.max(0, favor))}
-              {"○".repeat(Math.max(0, 5 - favor))} ({favor}/5)
+              {t("Political capital {p}{p2} ({favor}/5)", { p: "●".repeat(Math.max(0, favor)), p2: "○".repeat(Math.max(0, 5 - favor)), favor })}
             </span>
           </div>
         )}
@@ -31697,36 +31713,35 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-4 border-2 px-3 py-2 text-[11px] sm:text-xs uppercase tracking-widest font-bold"
             style={{ borderColor: "#7a2e2e", color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            <span>NKVD Mode</span>
+            <span>{t("NKVD Mode")}</span>
             <span style={{ color: "#000000" }} className="whitespace-nowrap">
-              Suspicion {"●".repeat(Math.min(5, flags.suspicion || 0))}
-              {"○".repeat(Math.max(0, 5 - (flags.suspicion || 0)))} ({flags.suspicion || 0}/5)
+              {t("Suspicion {p}{p2} ({p3}/5)", { p: "●".repeat(Math.min(5, flags.suspicion || 0)), p2: "○".repeat(Math.max(0, 5 - (flags.suspicion || 0))), p3: flags.suspicion || 0 })}
             </span>
           </div>
         )}
         {campaign.dynamic && coalition && (
           <div className="mb-4 border-2 px-3 py-2" style={{ borderColor: "#7a2e2e" }}>
             <div className="text-[11px] sm:text-xs uppercase tracking-widest font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
-              Yalta Mode
+              {t("Yalta Mode")}
             </div>
             <div className="mt-1">
               <MeterBar label="Cohesion" value={flags.cohesion || 0} min={-6} max={6} danger={(flags.cohesion || 0) <= -3} valueLabel={`${(flags.cohesion || 0) > 0 ? "+" : ""}${flags.cohesion || 0} ${cohesionLabel(flags.cohesion)}`} />
             </div>
             <div className="text-[10px] uppercase tracking-wider opacity-70 mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              Coalition Cohesion, from -6 to +6. At -6 the alliance relieves you of command.
+              {t("Coalition Cohesion, from -6 to +6. At -6 the alliance relieves you of command.")}
             </div>
           </div>
         )}
         {campaign.dynamic && axis && (
           <div className="mb-4 border-2 px-3 py-2" style={{ borderColor: "#7a2e2e" }}>
             <div className="text-[11px] sm:text-xs uppercase tracking-widest font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
-              Axis Mode
+              {t("Axis Mode")}
             </div>
             <div className="mt-1">
               <MeterBar label="Trust" value={flags.trust || 0} min={-5} max={5} danger={(flags.trust || 0) <= -3} valueLabel={`${(flags.trust || 0) > 0 ? "+" : ""}${flags.trust || 0} ${cohesionLabel(flags.trust)}`} />
             </div>
             <div className="text-[10px] uppercase tracking-wider opacity-70 mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              German Trust, from -5 to +5. At -5 Berlin supersedes the command.
+              {t("German Trust, from -5 to +5. At -5 Berlin supersedes the command.")}
             </div>
           </div>
         )}
@@ -31747,7 +31762,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="inline-block border-[4px] px-2 py-1 text-xs uppercase tracking-widest font-bold"
               style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#7a2e2e", color: "#7a2e2e" }}
             >
-              ⚠⚠ Alternate History: invented, not argued by historians
+              {t("⚠⚠ Alternate History: invented, not argued by historians")}
             </span>
           </div>
         ) : (stage.speculative || flags.speculativePath) ? (
@@ -31756,7 +31771,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="inline-block border-[3px] px-2 py-1 text-xs uppercase tracking-widest font-bold"
               style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#b08d3f", color: "#7a5b1e" }}
             >
-              ⚠ Speculative: beyond what evidence supports
+              {t("⚠ Speculative: beyond what evidence supports")}
             </span>
           </div>
         ) : !isHistorical ? (
@@ -31765,7 +31780,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="inline-block border-2 border-black px-2 py-1 text-xs uppercase tracking-widest font-bold"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Projected Scenario: beyond the historical record
+              {t("Projected Scenario: beyond the historical record")}
             </span>
           </div>
         ) : null}
@@ -31800,7 +31815,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
           className="text-xs uppercase tracking-[0.25em] mb-3 text-[#000000] font-semibold"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
         >
-          Issue Order
+          {t("Issue Order")}
         </div>
         <div className="flex flex-col gap-3 mb-6">
           {displayOrder.map((i) => {
@@ -31823,7 +31838,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#3a6b4f", color: "#3a6b4f" }}
                 >
-                  <span aria-hidden="true">◆ </span>What the record shows happened
+                  <span aria-hidden="true">◆ </span>{t("What the record shows happened")}
                 </span>
               )}
               {easy && !choice.uncertain && (
@@ -31848,7 +31863,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px] opacity-70"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  <span aria-hidden="true">Δ </span>Outcome genuinely uncertain, not even the preview can tell you this one
+                  <span aria-hidden="true">Δ </span>{t("Outcome genuinely uncertain, not even the preview can tell you this one")}
                 </span>
               )}
               {iron && choice.favor && (
@@ -31856,7 +31871,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  <span aria-hidden="true">⚔ </span>Costs {choice.favor} political capital{choice.favor > favor ? ": insufficient" : ""}
+                  <span aria-hidden="true">⚔ </span>{t("Costs {choiceFavor} political capital{p}", { choiceFavor: choice.favor, p: choice.favor > favor ? t(": insufficient") : "" })}
                 </span>
               )}
               {choice.disabledReason && (
@@ -31864,7 +31879,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  <span aria-hidden="true">⛔ </span>Unavailable: {choice.disabledReason}
+                  <span aria-hidden="true">⛔ </span>{t("Unavailable: {choiceDisabledReason}", { choiceDisabledReason: choice.disabledReason })}
                 </span>
               )}
               {!choice.disabledReason && choice.checkLabel && (
@@ -31872,7 +31887,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px] opacity-60"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  <span aria-hidden="true">✓ </span>{choice.checkLabel} check passed
+                  <span aria-hidden="true">✓ </span>{t("{choiceCheckLabel} check passed", { choiceCheckLabel: choice.checkLabel })}
                 </span>
               )}
               {/* Round 4 (Craig: "we need a way when selecting the node that the choice will
@@ -31886,7 +31901,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: campaign.accent, color: campaign.accent }}
                 >
-                  <span aria-hidden="true">⚑ </span>Leads to battle planning
+                  <span aria-hidden="true">⚑ </span>{t("Leads to battle planning")}
                 </span>
               )}
               {coalition && typeof choice.cohesionDelta === "number" && choice.cohesionDelta !== 0 && (
@@ -31894,8 +31909,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  {choice.cohesionDelta > 0 ? "▲" : "▼"} {choice.cohesionDelta > 0 ? "+" : ""}
-                  {choice.cohesionDelta} Coalition Cohesion
+                  {t("{p} {p2}{choiceCohesionDelta} Coalition Cohesion", { p: choice.cohesionDelta > 0 ? "▲" : "▼", p2: choice.cohesionDelta > 0 ? "+" : "", choiceCohesionDelta: choice.cohesionDelta })}
                 </span>
               )}
               {purge && typeof choice.suspicionDelta === "number" && choice.suspicionDelta !== 0 && (
@@ -31903,8 +31917,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  {choice.suspicionDelta > 0 ? "▲" : "▼"} {choice.suspicionDelta > 0 ? "+" : ""}
-                  {choice.suspicionDelta} Suspicion
+                  {t("{p} {p2}{choiceSuspicionDelta} Suspicion", { p: choice.suspicionDelta > 0 ? "▲" : "▼", p2: choice.suspicionDelta > 0 ? "+" : "", choiceSuspicionDelta: choice.suspicionDelta })}
                 </span>
               )}
               {axis && typeof choice.trustDelta === "number" && choice.trustDelta !== 0 && (
@@ -31912,8 +31925,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  {choice.trustDelta > 0 ? "▲" : "▼"} {choice.trustDelta > 0 ? "+" : ""}
-                  {choice.trustDelta} German Trust
+                  {t("{p} {p2}{choiceTrustDelta} German Trust", { p: choice.trustDelta > 0 ? "▲" : "▼", p2: choice.trustDelta > 0 ? "+" : "", choiceTrustDelta: choice.trustDelta })}
                 </span>
               )}
               {choice.attested ? (
@@ -31926,8 +31938,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               {choice.strain && choice.strain.points > 0 && (
                 <span className="block mt-1 text-[12px] font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
                   <span aria-hidden="true">▼ </span>
-                  Strain: {choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : "supplies short"}
-                  {choice.concealRoll ? ", and the odds are worse for it" : `, so the odds are ${choice.strain.points} points worse for it`}
+                  {t("Strain: {p}{p2}", { p: choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : t("supplies short"), p2: choice.concealRoll ? t(", and the odds are worse for it") : `, so the odds are ${choice.strain.points} points worse for it` })}
                 </span>
               )}
               {choice.uncertain && !choice.concealRoll && (
@@ -31935,13 +31946,12 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  ⚄ Contested: {" "}
-                  {choice.uncertain
+                  {t("⚄ Contested:  {p}", { p: choice.uncertain
                     .map((v) => {
                       const total = choice.uncertain.reduce((a, x) => a + x.weight, 0);
                       return `${Math.round((v.weight / total) * 100)}% ${v.title}`;
                     })
-                    .join(" / ")}
+                    .join(" / ") })}
                 </span>
               )}
             </button>
@@ -31955,14 +31965,13 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Reconsider an Earlier Decision
+              {t("Reconsider an Earlier Decision")}
             </summary>
             <p
               className="text-[12px] italic mt-2 text-[#000000] opacity-70"
               style={{ fontFamily: "'Courier Prime', monospace" }}
             >
-              Note: contested decisions re-roll on a rewound timeline: history is not obliged to repeat
-              itself.
+              {t("Note: contested decisions re-roll on a rewound timeline: history is not obliged to repeat itself.")}
             </p>
             <div className="flex flex-col gap-2 mt-3">
               {pastStages.map((p) => (
@@ -31972,7 +31981,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   className="text-left border px-3 py-2 text-xs text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
                   style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}
                 >
-                  ↺ Rewind to {p.date}: {p.title}
+                  {t("↺ Rewind to {pDate}: {pTitle}", { pDate: p.date, pTitle: p.title })}
                 </button>
               ))}
             </div>
@@ -32228,10 +32237,10 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // plausible but unfounded one. The player is only told which it was after the battle.
   const reliability = staffReliability(meters.initiative);
   const BAND_TEXT = [
-    "The staff think this plan is strong. They would send it as written.",
-    "Sound, the staff say, but not overwhelming.",
-    "The staff are uneasy. This plan will move the line, but not far.",
-    "The staff advise against this plan. As written, it leaves you worse off than doing nothing.",
+    t("The staff think this plan is strong. They would send it as written."),
+    t("Sound, the staff say, but not overwhelming."),
+    t("The staff are uneasy. This plan will move the line, but not far."),
+    t("The staff advise against this plan. As written, it leaves you worse off than doing nothing."),
   ];
   // One Initiative buys the staff's review of the plan: a verdict on it against what the enemy really has (which
   // may be wrong, at the staff's reliability), and a war game of it against two setups the enemy might show (which
@@ -32262,19 +32271,19 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
       .sort((a, b) => pm(b.id) - pm(a.id))[0];
     let detail = null;
     if (neglected.length) {
-      detail = `They single out ${neglected.map((c) => c.name).join(" and ")}, left uncovered.`;
+      detail = t("They single out {p}, left uncovered.", { p: neglected.map((c) => c.name).join(" and ") });
     } else if ((allocation[heaviest.id] || 0) > 0 && pm(heaviest.id) < 1) {
-      detail = `Intelligence suggests the enemy is strongest exactly where you are heaviest: ${heaviest.name}.`;
+      detail = t("Intelligence suggests the enemy is strongest exactly where you are heaviest: {heaviestName}.", { heaviestName: heaviest.name });
     } else if (underused) {
-      detail = `They think ${underused.name} deserves more than it's getting.`;
+      detail = t("They think {underusedName} deserves more than it's getting.", { underusedName: underused.name });
     }
     if (!accurate) {
       // A wrong read points somewhere plausible but unfounded.
       const decoy = categories[Math.floor(Math.random() * categories.length)];
-      detail = `They think ${decoy.name} deserves more than it's getting.`;
+      detail = t("They think {decoyName} deserves more than it's getting.", { decoyName: decoy.name });
     }
     if (remaining > 0) {
-      detail = (detail ? detail + " " : "") + `${remaining} ${remaining === 1 ? "point of effort is" : "points of effort are"} being held back as a reserve.`;
+      detail = (detail ? detail + " " : "") + t("{remaining} {remaining, plural, one {point of effort is} other {points of effort are}} being held back as a reserve.", { remaining });
     }
     // The war game: two setups drawn at random from those the enemy might show.
     let runs = [];
@@ -32292,8 +32301,8 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
           ])
         );
         const gamed = clampBattleBonus(sumBattleContributions(computeBattleContributions(categories, allocation, weights, poolSize)));
-        const label = sc.posture ? (sc.posture2 ? sc.posture.name + ", then " + sc.posture2.name : sc.posture.name) : "the enemy as briefed";
-        const verdict = gamed >= 20 ? "held firm" : gamed >= 10 ? "held, but with strain" : gamed >= 0 ? "barely moved the line" : "broke down";
+        const label = sc.posture ? (sc.posture2 ? sc.posture.name + t(", then ") + sc.posture2.name : sc.posture.name) : t("the enemy as briefed");
+        const verdict = gamed >= 20 ? t("held firm") : gamed >= 10 ? t("held, but with strain") : gamed >= 0 ? t("barely moved the line") : t("broke down");
         return { label, verdict };
       });
     }
@@ -32303,14 +32312,14 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // Round 22 (item 3): the plan as one plain sentence. Names the weighted arms, the commander and
   // approach if chosen, the reserve, and any arm left with nothing in it.
   const planSummary = (() => {
-    if (spent === 0) return "No effort committed yet.";
+    if (spent === 0) return t("No effort committed yet.");
     const placed = categories.filter((c) => allocation[c.id] > 0).sort((a, b) => allocation[b.id] - allocation[a.id]);
     const bare = categories.filter((c) => allocation[c.id] === 0);
-    const parts = [`Weight on ${placed.map((c) => `${c.name} (${allocation[c.id]})`).join(", ")}.`];
-    if (selectedCommander) parts.push(`${selectedCommander.name} in command.`);
-    if (selectedApproach) parts.push(`Approach: ${selectedApproach.name}.`);
-    if (remaining > 0) parts.push(`${remaining} ${remaining === 1 ? "point" : "points"} of effort held in reserve.`);
-    if (bare.length) parts.push(`Nothing placed in ${bare.map((c) => c.name).join(", ")}.`);
+    const parts = [t("Weight on {p}.", { p: placed.map((c) => `${c.name} (${allocation[c.id]})`).join(", ") })];
+    if (selectedCommander) parts.push(t("{selectedCommanderName} in command.", { selectedCommanderName: selectedCommander.name }));
+    if (selectedApproach) parts.push(t("Approach: {selectedApproachName}.", { selectedApproachName: selectedApproach.name }));
+    if (remaining > 0) parts.push(t("{remaining} {remaining, plural, one {point} other {points}} of effort held in reserve.", { remaining }));
+    if (bare.length) parts.push(t("Nothing placed in {p}.", { p: bare.map((c) => c.name).join(", ") }));
     return parts.join(" ");
   })();
 
@@ -32326,7 +32335,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   async function saveAndLeave() {
     setSaveNote("");
     const ok = await onSaveLeave();
-    if (ok === false) setSaveNote("The save did not go through, so you have not left the field. Your orders are unchanged.");
+    if (ok === false) setSaveNote(t("The save did not go through, so you have not left the field. Your orders are unchanged."));
   }
 
   const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
@@ -32339,7 +32348,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         style={{ ...campaignPaperStyle(campaign.id, campaign.accent), fontFamily: "'Courier Prime', monospace" }}
       >
         <div className="text-xs uppercase tracking-[0.25em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
-          Order of Battle: Before Committing
+          {t("Order of Battle: Before Committing")}
         </div>
         <h2
           ref={headingRef}
@@ -32364,9 +32373,9 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             style={{ borderColor: campaign.accent }}
           >
             <span className="block text-xs uppercase tracking-widest font-bold" style={labelStyle}>
-              How it works
+              {t("How it works")}
             </span>
-            <span className="block text-[11px] opacity-80">{guideOpen ? "Hide the guide" : "A short guide"}</span>
+            <span className="block text-[11px] opacity-80">{guideOpen ? t("Hide the guide") : t("A short guide")}</span>
           </button>
           <button
             onClick={letStaffPlan}
@@ -32374,22 +32383,22 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             style={{ borderColor: campaign.accent }}
           >
             <span className="block text-xs uppercase tracking-widest font-bold" style={labelStyle}>
-              Let Your Staff Plan It
+              {t("Let Your Staff Plan It")}
             </span>
-            <span className="block text-[11px] opacity-80">Skip the planning</span>
+            <span className="block text-[11px] opacity-80">{t("Skip the planning")}</span>
           </button>
         </div>
         {guideOpen && (
           <div id="oob-guide" className="mb-4 border px-3 py-2" style={{ borderColor: campaign.accent }}>
             <ul className="list-disc pl-5 text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
-              <li>You have a pool of effort: five points, plus one for each of Manpower, Matériel and Initiative above +2. Each point gives an arm more weight.</li>
-              <li>Weight on one arm helps, but a bare arm costs you: a battle punishes a gap.</li>
-              <li>Name one field commander, who strengthens one arm, and pick one tactical approach, which strengthens one arm and weakens another.</li>
-              <li>The enemy's setup is hidden. A line of intelligence hints at it and is wrong about one time in four. Reconnaissance and a staff review cost Initiative, unless an adviser you trust has already looked at the ground.</li>
-              <li>Effort left unplaced is a reserve to commit at the decisive hour, once you have seen the enemy's hand. It counts for less than planned effort.</li>
-              <li>You may be asked for a field decision during the battle.</li>
-              <li>Letting the staff plan it costs nothing: they fight the battle for you, without field decisions.</li>
-              <li>None of this decides the result. It moves the odds on the roll.</li>
+              <li>{t("You have a pool of effort: five points, plus one for each of Manpower, Matériel and Initiative above +2. Each point gives an arm more weight.")}</li>
+              <li>{t("Weight on one arm helps, but a bare arm costs you: a battle punishes a gap.")}</li>
+              <li>{t("Name one field commander, who strengthens one arm, and pick one tactical approach, which strengthens one arm and weakens another.")}</li>
+              <li>{t("The enemy's setup is hidden. A line of intelligence hints at it and is wrong about one time in four. Reconnaissance and a staff review cost Initiative, unless an adviser you trust has already looked at the ground.")}</li>
+              <li>{t("Effort left unplaced is a reserve to commit at the decisive hour, once you have seen the enemy's hand. It counts for less than planned effort.")}</li>
+              <li>{t("You may be asked for a field decision during the battle.")}</li>
+              <li>{t("Letting the staff plan it costs nothing: they fight the battle for you, without field decisions.")}</li>
+              <li>{t("None of this decides the result. It moves the odds on the roll.")}</li>
             </ul>
           </div>
         )}
@@ -32399,7 +32408,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {config.conditions && (
           <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
             <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
-              Ground and weather
+              {t("Ground and weather")}
             </span>
             {config.conditions}
           </p>
@@ -32407,9 +32416,9 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {phaseNames && (
           <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
             <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
-              Fought in two phases
+              {t("Fought in two phases")}
             </span>
-            {phaseNames[0]}, then {phaseNames[1]}. The enemy's setup can change between them, and the plan has to hold through both.
+            {t("{p}, then {p2}. The enemy's setup can change between them, and the plan has to hold through both.", { p: phaseNames[0], p2: phaseNames[1] })}
           </p>
         )}
         {/* Round 22 (twists): a defensive battle's counterattack counts for more, and a battle's own
@@ -32417,18 +32426,18 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {config.counterScale > 1 && (
           <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
             <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
-              A defensive battle
+              {t("A defensive battle")}
             </span>
-            the enemy's blow is the main event here, and the counterattack counts for half as much again.
+            {t("the enemy's blow is the main event here, and the counterattack counts for half as much again.")}
           </p>
         )}
         {config.attrition && config.attrition.length > 0 && (
           <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={bodyStyle}>
             <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={labelStyle}>
-              Known hazards
+              {t("Known hazards")}
             </span>
             {config.attrition
-              .map((a) => `${a.atLeast} or more points of effort in ${categories.find((c) => c.id === a.category)?.name || a.category} will cost ${a.meter} (${a.reason.toLowerCase()})`)
+              .map((a) => t("{aAtLeast} or more points of effort in {p} will cost {aMeter} ({p2})", { aAtLeast: a.atLeast, p: categories.find((c) => c.id === a.category)?.name || a.category, aMeter: a.meter, p2: a.reason.toLowerCase() }))
               .join("; ")}
             .
           </p>
@@ -32437,7 +32446,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {hardRule && (
           <p className="text-[13px] leading-snug mb-4 text-[#000000] border-l-4 pl-3" style={{ ...bodyStyle, borderColor: "#7a2e2e" }}>
             <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={{ ...labelStyle, color: "#7a2e2e" }}>
-              {HARD_MODE_NAMES[mode]}: orders from above:
+              {t("{p}: orders from above:", { p: t(HARD_MODE_NAMES[mode]) })}
             </span>
             {hardRule.text}
           </p>
@@ -32446,7 +32455,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {postureHint && (
           <div className="mb-6 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
             <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
-              Intelligence Summary{phaseNames ? `: ${phaseNames[0]}` : ""}
+              {t("Intelligence Summary{p}", { p: phaseNames ? `: ${phaseNames[0]}` : "" })}
             </div>
             <p className="text-[13px] leading-snug italic text-[#000000]" style={bodyStyle}>
               {postureHint}
@@ -32462,12 +32471,12 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                 className="mt-2 text-[11px] uppercase tracking-widest underline disabled:opacity-40 disabled:cursor-not-allowed text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                 style={labelStyle}
               >
-                {reconAdviser ? `Call for a Reconnaissance Pass: free, ${reconAdviser}'s staff has already looked` : "Call for a Reconnaissance Pass: costs 1 Initiative"}
+                {reconAdviser ? t("Call for a Reconnaissance Pass: free, {reconAdviser}'s staff has already looked", { reconAdviser }) : t("Call for a Reconnaissance Pass: costs 1 Initiative")}
               </button>
             )}
             {reconUsed && (
               <p className="mt-2 text-[11px] uppercase tracking-widest opacity-60 text-[#000000]" style={labelStyle}>
-                Reconnaissance pass called in.
+                {t("Reconnaissance pass called in.")}
               </p>
             )}
           </div>
@@ -32478,9 +32487,9 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {commanderRoster.length > 0 && (
           <div className="mb-6">
             <div role="heading" aria-level="3" className="text-xs uppercase tracking-[0.2em] mb-2 text-[#000000] font-semibold" style={labelStyle}>
-              Field Command
+              {t("Field Command")}
             </div>
-            <div role="group" aria-label="Field commander" className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div role="group" aria-label={t("Field commander")} className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <button
                 onClick={() => setCommanderId(null)}
                 disabled={!!hardRule?.lockCommander}
@@ -32493,9 +32502,9 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                 }
               >
                 <div className="text-sm font-semibold">
-                  {commanderId === null && <span aria-hidden="true">✓ </span>}No particular emphasis
+                  {commanderId === null && <span aria-hidden="true">✓ </span>}{t("No particular emphasis")}
                 </div>
-                <div className="text-[11px] opacity-80">Command as planned, no single lever favored.</div>
+                <div className="text-[11px] opacity-80">{t("Command as planned, no single lever favored.")}</div>
               </button>
               {commanderRoster.map((cmd) => {
                 const cat = categories.find((c) => c.id === cmd.category);
@@ -32518,7 +32527,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                       {cmd.name}
                     </div>
                     <div className="text-[11px] opacity-80">
-                      {cmd.role}: favors {cat ? cat.name : cmd.category}
+                      {t("{cmdRole}: favors {p}", { cmdRole: cmd.role, p: cat ? cat.name : cmd.category })}
                     </div>
                   </button>
                 );
@@ -32535,9 +32544,9 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         {approachRoster.length > 0 && (
           <div className="mb-6">
             <div role="heading" aria-level="3" className="text-xs uppercase tracking-[0.2em] mb-2 text-[#000000] font-semibold" style={labelStyle}>
-              Tactical Approach: Choose One
+              {t("Tactical Approach: Choose One")}
             </div>
-            <div role="group" aria-label="Tactical approach" className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div role="group" aria-label={t("Tactical approach")} className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {approachRoster.map((appr) => {
                 const selected = approachId === appr.id;
                 return (
@@ -32568,45 +32577,45 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
               </p>
             ) : (
               <p className="text-[13px] leading-snug mt-2 text-[#000000] opacity-70" style={bodyStyle}>
-                Pick one: the offensive can't run on both doctrines at once.
+                {t("Pick one: the offensive can't run on both doctrines at once.")}
               </p>
             )}
           </div>
         )}
 
         <div role="heading" aria-level="3" aria-live="polite" className="text-xs uppercase tracking-[0.2em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
-          Effort in reserve: {remaining} of {poolSize}
+          {t("Effort in reserve: {remaining} of {poolSize}", { remaining, poolSize })}
           {bonusMeters.length > 0 && (
-            <span className="normal-case font-normal"> · {bonusMeters.length} extra from the standing of your logistics</span>
+            <span className="normal-case font-normal"> {" "}{t("· {bonusMetersLength} extra from the standing of your logistics", { bonusMetersLength: bonusMeters.length })}</span>
           )}
         </div>
         <p className="text-[12px] leading-snug mb-3 text-[#000000] opacity-80" style={bodyStyle}>
-          Effort you leave unplaced goes in as a reserve you can commit once you see how the fighting goes. It arrives late and counts for less than planned effort.
+          {t("Effort you leave unplaced goes in as a reserve you can commit once you see how the fighting goes. It arrives late and counts for less than planned effort.")}
         </p>
         <div className="flex gap-2 mb-3">
           <button
             onClick={spreadEvenly}
-            aria-label="Spread effort evenly"
+            aria-label={t("Spread effort evenly")}
             className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
             style={{ borderColor: campaign.accent, ...labelStyle }}
           >
-            Spread effort evenly
+            {t("Spread effort evenly")}
           </button>
           <button
             onClick={clearAll}
             disabled={spent === 0}
-            aria-label="Clear all effort"
+            aria-label={t("Clear all effort")}
             className="flex-1 border px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#000000] disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
             style={{ borderColor: campaign.accent, ...labelStyle }}
           >
-            Clear all effort
+            {t("Clear all effort")}
           </button>
         </div>
 
         <div className="mb-4">
           <BattleSketch categories={categories} allocation={allocation} accent={campaign.accent} onAdd={(id) => remaining > 0 && addEffort(id)} onRemove={(id) => allocation[id] > 0 && removeEffort(id)} />
           <p className="text-[11px] leading-snug mt-1 opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            The enemy is above the line and your side below it. Press a sector to place a counter there, and a counter to take it back.
+            {t("The enemy is above the line and your side below it. Press a sector to place a counter there, and a counter to take it back.")}
           </p>
         </div>
         <div className="flex flex-col gap-3 mb-6">
@@ -32623,7 +32632,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                   )}
                   {strandInfo[cat.id] && strandInfo[cat.id].band !== "Adequate" && (
                     <span className="ml-1 text-[11px] font-normal italic opacity-60">
-                      ({strandInfo[cat.id].name}: {strandInfo[cat.id].band})
+                      ({t(strandInfo[cat.id].name)}: {t(strandInfo[cat.id].band)})
                     </span>
                   )}
                 </span>
@@ -32633,7 +32642,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                     without spelling out the hidden jitter roll it's actually a coarse signal
                     for (see readiness() above: that's staying a band, not a number, on
                     purpose). */}
-                <span className="text-xs text-[#000000] opacity-70 italic">Readiness: {readiness(cat.id)}</span>
+                <span className="text-xs text-[#000000] opacity-70 italic">{t("Readiness: {p}", { p: readiness(cat.id) })}</span>
               </div>
               {/* Round 4 (Craig, testing on mobile: "tap add and minus with the plus signing
                   moving along the screen from left to right"): tapping a filled square to
@@ -32647,10 +32656,10 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                 <button
                   onClick={() => removeEffort(cat.id)}
                   disabled={allocation[cat.id] <= 0}
-                  aria-label={`Remove effort from ${cat.name}`}
+                  aria-label={t("Remove effort from {catName}", { catName: cat.name })}
                   className="w-11 h-11 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                   style={{ borderColor: campaign.accent, color: campaign.accent }}
-                  title={allocation[cat.id] <= 0 ? "Nothing placed here to take back" : undefined}
+                  title={allocation[cat.id] <= 0 ? t("Nothing placed here to take back") : undefined}
                 >
                   −
                 </button>
@@ -32669,7 +32678,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                 </div>
                 <span
                   role="status"
-                  aria-label={`${cat.name}: ${allocation[cat.id]} of effort placed`}
+                  aria-label={t("{catName}: {p} of effort placed", { catName: cat.name, p: allocation[cat.id] })}
                   className="w-6 text-center text-sm font-bold flex-none"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
@@ -32678,10 +32687,10 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                 <button
                   onClick={() => addEffort(cat.id)}
                   disabled={remaining <= 0}
-                  aria-label={`Add effort to ${cat.name}`}
+                  aria-label={t("Add effort to {catName}", { catName: cat.name })}
                   className="w-11 h-11 flex-none flex items-center justify-center border-2 text-base font-bold disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                   style={{ borderColor: campaign.accent, color: campaign.accent }}
-                  title={remaining <= 0 ? "No effort left to place: take some back from another arm first" : undefined}
+                  title={remaining <= 0 ? t("No effort left to place: take some back from another arm first") : undefined}
                 >
                   +
                 </button>
@@ -32691,7 +32700,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
               {(config.categoryContext?.[cat.id] || config.orderOfBattle?.[cat.id]) && (
                 <details className="mt-2">
                   <summary className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-70 cursor-pointer select-none" style={labelStyle}>
-                    Situation and order of battle
+                    {t("Situation and order of battle")}
                   </summary>
                   {config.categoryContext?.[cat.id] && (
                     <p className="text-[13px] leading-snug text-[#000000] mt-1 italic" style={bodyStyle}>
@@ -32719,7 +32728,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             className="w-full border-2 px-4 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
             style={{ borderColor: campaign.accent, ...bodyStyle }}
           >
-            Ask the staff to review the plan: costs 1 Initiative
+            {t("Ask the staff to review the plan: costs 1 Initiative")}
           </button>
           {assessment && (
             <div className="mt-3">
@@ -32733,29 +32742,28 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
               )}
               {(assessment.runs || []).map((r, i) => (
                 <p key={i} className="text-[13px] leading-snug text-[#000000] mt-1" style={bodyStyle}>
-                  Against <i>{r.label}</i>, the plan {r.verdict}.
+                  {t("Against")}{" "} <i>{r.label}</i>{t(", the plan {rVerdict}.", { rVerdict: r.verdict })}
                 </p>
               ))}
               {(assessment.runs || []).length > 0 && (
                 <p className="text-[12px] leading-snug italic opacity-70 text-[#000000] mt-1" style={bodyStyle}>
-                  The staff also war-gamed the plan against setups the enemy might show. They cannot say which one he has.
+                  {t("The staff also war-gamed the plan against setups the enemy might show. They cannot say which one he has.")}
                 </p>
               )}
               {assessment.key !== planKey && (
                 <p className="text-[11px] uppercase tracking-widest text-[#000000] opacity-70 mt-1" style={labelStyle}>
-                  Reviewed before your latest changes
+                  {t("Reviewed before your latest changes")}
                 </p>
               )}
             </div>
           )}
           {spent === 0 && (
             <p id="staff-work-why" className="text-[12px] leading-snug mt-2 text-[#000000]" style={bodyStyle}>
-              Place some effort first: the staff need a plan to look at.
+              {t("Place some effort first: the staff need a plan to look at.")}
             </p>
           )}
           <p className="text-[11px] uppercase tracking-widest text-[#000000] opacity-70 mt-2" style={labelStyle}>
-            Initiative now: {meters.initiative > 0 ? "+" : ""}
-            {meters.initiative} · Staff reliability: {reliability}%
+            {t("Initiative now: {p}{metersInitiative} · Staff reliability: {reliability}%", { p: meters.initiative > 0 ? "+" : "", metersInitiative: meters.initiative, reliability })}
           </p>
         </div>
 
@@ -32763,7 +32771,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             what they are about to commit to without decoding the bars. */}
         <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
           <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] opacity-80" style={labelStyle}>
-            Your plan so far
+            {t("Your plan so far")}
           </div>
           <p className="text-[13px] leading-snug text-[#000000]" style={bodyStyle}>
             {planSummary}
@@ -32801,17 +32809,17 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
           style={{ borderColor: campaign.accent, ...bodyStyle }}
         >
           {approachRoster.length > 0 && !selectedApproach
-            ? "Choose a Tactical Approach First"
+            ? t("Choose a Tactical Approach First")
             : spent === 0
-            ? "Commit Some Effort First"
+            ? t("Commit Some Effort First")
             : remaining > 0
-            ? `Commit to Battle: ${remaining} held in reserve`
-            : "Commit to Battle"}
+            ? t("Commit to Battle: {remaining} held in reserve", { remaining })
+            : t("Commit to Battle")}
         </button>
         {onSaveLeave && (
           <>
             <button onClick={saveAndLeave} className="w-full mt-3 text-center text-xs uppercase tracking-widest opacity-70 underline text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px" style={labelStyle}>
-              Save and leave the field: pick this battle up later
+              {t("Save and leave the field: pick this battle up later")}
             </button>
             <p role="status" className="text-[12px] leading-snug mt-1 text-[#7a2e2e]" style={bodyStyle}>
               {saveNote}
@@ -32950,7 +32958,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
     return times[beat.kind] || null;
   }
   function bodyFor(beat) {
-    if (beat.kind === "open") return approach?.reportLine || "The attack goes in.";
+    if (beat.kind === "open") return approach?.reportLine || t("The attack goes in.");
     if (beat.kind === "contact") return posture.reveal;
     if (beat.kind === "contact2") return posture2.reveal;
     if (beat.kind === "decision") {
@@ -32958,21 +32966,21 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
       return x?.option?.reportLine || x?.option?.name || "";
     }
     if (beat.kind === "reserve") {
-      if (reserveChoice === "hold") return "The reserve stays back.";
+      if (reserveChoice === "hold") return t("The reserve stays back.");
       const cat = categories.find((c) => c.id === reserveChoice);
       const plugged = (plan.allocation[reserveChoice] || 0) === 0;
-      return `The reserve goes in behind ${cat?.name || reserveChoice}${plugged ? ", into the gap left there" : ""}.`;
+      return t("The reserve goes in behind {p}{p2}.", { p: cat?.name || reserveChoice, p2: plugged ? t(", into the gap left there") : "" });
     }
     if (beat.kind === "counter") {
-      const lead = counterChoice === "reserve" ? "The held reserve goes in against the counterattack. " : "";
+      const lead = counterChoice === "reserve" ? t("The held reserve goes in against the counterattack. ") : "";
       return lead + (ca.results[counter.result] || "");
     }
     const cat = categories.find((c) => c.id === beat.catId);
     if ((plan.allocation[beat.catId] || 0) === 0) {
-      return idleLine[beat.catId] || `${cat?.name || beat.catId}: nothing committed.`;
+      return idleLine[beat.catId] || t("{p}: nothing committed.", { p: cat?.name || beat.catId });
     }
     if (commander && commander.category === beat.catId && commander.reportLine) return commander.reportLine;
-    return flashupLines[beat.catId] || `${cat?.name || beat.catId} holds its ground.`;
+    return flashupLines[beat.catId] || t("{p} holds its ground.", { p: cat?.name || beat.catId });
   }
   function labelFor(beat) {
     if (beat.kind === "contact" && phaseNames) return phaseNames[0];
@@ -33006,7 +33014,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
 
   function afterNotes() {
     const notes = [];
-    if (plan.autoplay) notes.push("Your staff planned and fought this battle without you.");
+    if (plan.autoplay) notes.push(t("Your staff planned and fought this battle without you."));
     // Round 22 (item 7): what the player's orders were worth, as military intelligence would put it —
     // an estimate to the nearest five points, and of the change the plan made, never of the odds.
     const basePct = Math.round((baseWeights[0] / (baseWeights[0] + baseWeights[1])) * 100);
@@ -33014,17 +33022,17 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
     const gainRounded = Math.round(Math.abs(gain) / 5) * 5;
     notes.push(
       gainRounded === 0
-        ? "Military intelligence believes your orders made little difference to our chance of victory."
+        ? t("Military intelligence believes your orders made little difference to our chance of victory.")
         : gain > 0
-        ? `Military intelligence believes your orders improved our chance of victory by about ${gainRounded} points.`
-        : `Military intelligence believes your orders cost us about ${gainRounded} points of our chance of victory.`
+        ? t("Military intelligence believes your orders improved our chance of victory by about {gainRounded} points.", { gainRounded })
+        : t("Military intelligence believes your orders cost us about {gainRounded} points of our chance of victory.", { gainRounded })
     );
     if (plan.intel && posture) {
       const hinted = postures.find((p) => p.id === plan.intel.hintPostureId);
       notes.push(
         plan.intel.correct
-          ? "The intelligence summary was right."
-          : `The intelligence summary was wrong. It pointed to ${hinted ? hinted.name.toLowerCase() : "something else"}; the enemy's real setup was ${posture.name.toLowerCase()}.`
+          ? t("The intelligence summary was right.")
+          : t("The intelligence summary was wrong. It pointed to {p}; the enemy's real setup was {p2}.", { p: hinted ? hinted.name.toLowerCase() : t("something else"), p2: posture.name.toLowerCase() })
       );
     }
     if (plan.assessment) {
@@ -33032,10 +33040,10 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
       const shown = STAFF_VERDICT_BANDS[a.shownBand];
       const truth = STAFF_VERDICT_BANDS[a.trueBand];
       let line = a.accurate
-        ? `The staff review held up: they called the plan ${shown}, and it was.`
-        : `The staff review was wrong. They called the plan ${shown}; it was ${truth}.`;
-      line += ` (Staff reliability at the time: ${a.reliability}%.)`;
-      if (a.stale) line += " It was given on an earlier version of the plan.";
+        ? t("The staff review held up: they called the plan {shown}, and it was.", { shown })
+        : t("The staff review was wrong. They called the plan {shown}; it was {truth}.", { shown, truth });
+      line += t(" (Staff reliability at the time: {aReliability}%.)", { aReliability: a.reliability });
+      if (a.stale) line += t(" It was given on an earlier version of the plan.");
       notes.push(line);
     }
     return notes;
@@ -33181,7 +33189,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   // loss back to at most 15, so the last movement is the decision itself.
   const position = done ? (won ? Math.max(finalPct[0], 85) : Math.min(finalPct[0], 15)) : started || plan.autoplay ? beats[shownIndex].position : 50;
   const visibleBeats = started || done || plan.autoplay ? beats.slice(0, shownIndex + 1) : [];
-  const verdicts = config.verdicts || ["The Attack Succeeds", "The Attack Fails"];
+  const verdicts = config.verdicts || [t("The Attack Succeeds"), t("The Attack Fails")];
   const reporting = started || done || plan.autoplay;
   const armStatus = reporting ? battleArmStatuses({ categories, planContrib, finalContrib, beats, shownIndex, counter, counterCategory: ca ? ca.category : null, done, won }) : {};
   const reserveGoneIn = reporting && reserveChoice && reserveChoice !== "hold" && beats.some((b, i) => b.kind === "reserve" && i <= shownIndex);
@@ -33207,7 +33215,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   const moveEase = delta > 0 ? "cubic-bezier(0.34, 1.35, 0.64, 1)" : "cubic-bezier(0.55, 0, 0.35, 1)";
   const barTransition = `width ${moveMs}ms ${moveEase}`;
 
-  const meterNames = { manpower: "Manpower", fuel: "Matériel", initiative: "Initiative" };
+  const meterNames = { manpower: t("Manpower"), fuel: t("Matériel"), initiative: t("Initiative") };
   const labelStyle = { fontFamily: "'IBM Plex Mono', monospace" };
   const bodyStyle = { fontFamily: "'Courier Prime', monospace" };
   const caCat = ca ? categories.find((c) => c.id === ca.category) : null;
@@ -33216,7 +33224,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   async function saveAndLeave() {
     setSaveNote("");
     const ok = await onSaveLeave();
-    if (ok === false) setSaveNote("The save did not go through, so you have not left the field. Your orders are unchanged.");
+    if (ok === false) setSaveNote(t("The save did not go through, so you have not left the field. Your orders are unchanged."));
   }
   // When a decision, the decisive hour or the counterattack comes up, focus goes to it, so a keyboard or a
   // screen reader lands on the question and not on a button that has just gone. After the verdict it goes to the
@@ -33245,7 +33253,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   const listWords = (xs) => (xs.length <= 1 ? xs.join("") : xs.slice(0, -1).join(", ") + " and " + xs[xs.length - 1]);
   const reserveStatus = (c) => {
     const n = plan.allocation[c.id] || 0;
-    return n === 0 ? "nothing there yet, so this would close a gap" : (planContrib[c.id] || 0) > 0 ? `already carrying the attack, with ${n} ${n === 1 ? "point" : "points"}` : `${n} ${n === 1 ? "point" : "points"} there, and still short`;
+    return n === 0 ? t("nothing there yet, so this would close a gap") : (planContrib[c.id] || 0) > 0 ? t("already carrying the attack, with {n} {n, plural, one {point} other {points}}", { n }) : t("{n} {n, plural, one {point} other {points}} there, and still short", { n });
   };
   const counterNow = counterOutcome("head");
   const counterWithReserve = canThrowReserve ? counterOutcome("reserve") : null;
@@ -33255,7 +33263,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
     <div className="min-h-screen w-full bg-[#000000] flex items-start justify-center px-4 py-10">
       <div className={`${paper} w-full max-w-[600px] p-6 sm:p-8`} style={{ ...campaignPaperStyle(campaign.id, campaign.accent), fontFamily: "'Courier Prime', monospace" }}>
         <div className="text-xs uppercase tracking-[0.25em] mb-1 opacity-70" style={labelStyle}>
-          Battle Report
+          {t("Battle Report")}
         </div>
         <h2
           ref={headingRef}
@@ -33266,14 +33274,14 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
           {done
             ? verdicts[won ? 0 : 1]
             : phase === "decision"
-            ? "A Field Decision"
+            ? t("A Field Decision")
             : phase === "reserve"
-            ? "The Decisive Hour"
+            ? t("The Decisive Hour")
             : phase === "counter"
-            ? "Enemy Counterattack"
+            ? t("Enemy Counterattack")
             : !started && !plan.autoplay
             ? config.title
-            : "The Battle Unfolds"}
+            : t("The Battle Unfolds")}
         </h2>
         {/* Round 13, Craig's item #1 ("graded outcomes, not strict binary win/lose"): a second
             line under the verdict heading, grading the SAME win/loss on plan quality: clean vs.
@@ -33288,15 +33296,15 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
         )}
 
         <div className="mb-1 flex items-center justify-between text-xs uppercase tracking-[0.2em] font-semibold opacity-70" style={labelStyle}>
-          <span>Your Forces</span>
-          <span>Enemy Forces</span>
+          <span>{t("Your Forces")}</span>
+          <span>{t("Enemy Forces")}</span>
         </div>
         <div className={`relative mb-4 ${shaking ? "bar-shake" : ""}`}>
           <div
             className="w-full h-8 border-2 overflow-hidden flex"
             style={{ borderColor: campaign.accent }}
             role="img"
-            aria-label={`Balance of the battle: ${standing}`}
+            aria-label={t("Balance of the battle: {standing}", { standing })}
           >
             <div className="h-full" style={{ width: `${position}%`, backgroundColor: campaign.accent, transition: barTransition }} />
             <div className="h-full" style={{ width: `${100 - position}%`, backgroundColor: "#5a2a2a", transition: barTransition }} />
@@ -33323,18 +33331,18 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
               <>
                 {resumed && (
                   <p className="text-[12px] leading-snug mb-2 italic opacity-80" style={bodyStyle}>
-                    You are back at the front. Your orders stand as you gave them, and the report begins again from its first line.
+                    {t("You are back at the front. Your orders stand as you gave them, and the report begins again from its first line.")}
                   </p>
                 )}
                 <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
-                  Your orders are given. The reports will come in on their own, newest at the top, and the battle stops when it needs a decision from you.
+                  {t("Your orders are given. The reports will come in on their own, newest at the top, and the battle stops when it needs a decision from you.")}
                 </p>
                 <button
                   onClick={startBattle}
                   className="w-full border-2 px-4 py-3 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                   style={{ borderColor: campaign.accent, ...bodyStyle }}
                 >
-                  Start battle
+                  {t("Start battle")}
                 </button>
               </>
             ) : (
@@ -33345,14 +33353,14 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
                   className="flex-1 border-2 px-3 py-2 text-xs uppercase tracking-widest font-bold hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                   style={{ borderColor: campaign.accent, ...labelStyle }}
                 >
-                  {paused ? "Resume" : "Pause"}
+                  {paused ? t("Resume") : t("Pause")}
                 </button>
                 <button
                   onClick={skip}
                   className="flex-1 border px-3 py-2 text-xs uppercase tracking-widest font-bold hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                   style={{ borderColor: campaign.accent, ...labelStyle }}
                 >
-                  Skip to the verdict
+                  {t("Skip to the verdict")}
                 </button>
               </div>
             )}
@@ -33361,7 +33369,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
 
         {/* A decision stops the battle. The panel sits where the control was, above the reports. */}
         {!done && phase === "decision" && nextDecision && (
-          <div ref={panelRef} tabIndex={-1} role="group" aria-label="A field decision" className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
+          <div ref={panelRef} tabIndex={-1} role="group" aria-label={t("A field decision")} className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
             <p className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
               {nextDecision.time ? `${nextDecision.time}` : ""}
               {nextDecision.title}
@@ -33380,75 +33388,70 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
           </div>
         )}
         {!done && phase === "reserve" && (
-          <div ref={panelRef} tabIndex={-1} role="group" aria-label="The decisive hour" className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
+          <div ref={panelRef} tabIndex={-1} role="group" aria-label={t("The decisive hour")} className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
             <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
               {times?.reserve ? <span className="font-bold mr-1" style={labelStyle}>{times.reserve}</span> : null}
-              The battle stands at the point where it will be decided, and the line is {standing}.
-              {carrying.length > 0 && <> {listWords(carrying)} {carrying.length === 1 ? "is" : "are"} carrying the attack.</>}
-              {short.length > 0 && <> {listWords(short)} {short.length === 1 ? "is" : "are"} short of what {short.length === 1 ? "it needs" : "they need"}.</>}
-              {bare.length > 0 && <> Nothing was committed to {listWords(bare)}.</>}
+              {t("The battle stands at the point where it will be decided, and the line is {standing}.", { standing })}
+              {carrying.length > 0 && <> {" "}{t("{p} {carryingLength, plural, one {is} other {are}} carrying the attack.", { p: listWords(carrying), carryingLength: carrying.length })}</>}
+              {short.length > 0 && <> {" "}{t("{p} {shortLength, plural, one {is} other {are}} short of what {shortLength, plural, one {it needs} other {they need}}.", { p: listWords(short), shortLength: short.length })}</>}
+              {bare.length > 0 && <> {" "}{t("Nothing was committed to {p}.", { p: listWords(bare) })}</>}
             </p>
             <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
-              {plan.reserves} {plan.reserves === 1 ? "point of effort was" : "points of effort were"} held back for this hour.
-              Committed now, {plan.reserves === 1 ? "it arrives" : "they arrive"} late and count for three quarters of what planned effort would have counted for.
-              Held back, {plan.reserves === 1 ? "it stays" : "they stay"} in hand{plan.reserves >= 2 ? ", and a reserve of two or more that comes home intact earns back a point of Manpower" : ""}
-              {ca ? ", and can still be thrown at an enemy counterattack if one comes" : ""}.
+              {t("{planReserves} {planReserves, plural, one {point of effort was} other {points of effort were}} held back for this hour. Committed now, {planReserves, plural, one {it arrives} other {they arrive}} late and count for three quarters of what planned effort would have counted for. Held back, {planReserves, plural, one {it stays} other {they stay}} in hand{p}{p2}.", { planReserves: plan.reserves, p: plan.reserves >= 2 ? t(", and a reserve of two or more that comes home intact earns back a point of Manpower") : "", p2: ca ? t(", and can still be thrown at an enemy counterattack if one comes") : "" })}
             </p>
             <p className="text-[12px] leading-snug mb-3 italic opacity-80" style={bodyStyle}>
-              Where do you commit {plan.reserves === 1 ? "it" : "them"}, or do you hold?
+              {t("Where do you commit {planReserves, plural, one {it} other {them}}, or do you hold?", { planReserves: plan.reserves })}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {categories.map((c) => (
                 <button key={c.id} onClick={() => chooseReserve(c.id)} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                  <div className="text-sm font-semibold">Commit to {c.name}</div>
+                  <div className="text-sm font-semibold">{t("Commit to {cName}", { cName: c.name })}</div>
                   <div className="text-[11px] opacity-80">{reserveStatus(c)}</div>
                 </button>
               ))}
               <button onClick={() => chooseReserve("hold")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                <div className="text-sm font-semibold">Hold the reserve</div>
-                <div className="text-[11px] opacity-80">Keep it back for whatever comes next.</div>
+                <div className="text-sm font-semibold">{t("Hold the reserve")}</div>
+                <div className="text-[11px] opacity-80">{t("Keep it back for whatever comes next.")}</div>
               </button>
             </div>
           </div>
         )}
         {!done && phase === "counter" && (
-          <div ref={panelRef} tabIndex={-1} role="group" aria-label="Enemy counterattack" className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
+          <div ref={panelRef} tabIndex={-1} role="group" aria-label={t("Enemy counterattack")} className="mb-5 border-2 p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]" style={{ borderColor: campaign.accent }}>
             <p className="text-sm mb-2 italic" style={bodyStyle}>
               {times?.counter ? <span className="font-bold not-italic mr-1" style={labelStyle}>{times.counter}</span> : null}
               {ca.warn[severity] || ca.warn[1]}
             </p>
             <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
-              It will fall on {caCat?.name || ca.category}, where you have {counterStrengthBase} {counterStrengthBase === 1 ? "point" : "points"} of effort.
-              Held head-on, it takes {needed} or more to throw the attack back cleanly. With fewer it is held at a cost, and with none it breaks through.
-              As things stand, standing and fighting would mean {COUNTER_WORDS[counterNow.result]}.
+              {t("It will fall on {p}, where you have {counterStrengthBase} {counterStrengthBase, plural, one {point} other {points}} of effort. Held head-on, it takes {needed} or more to throw the attack back cleanly. With fewer it is held at a cost, and with none it breaks through. As things stand, standing and fighting would mean {p2}.", { p: caCat?.name || ca.category, counterStrengthBase, needed, p2: COUNTER_WORDS[counterNow.result] })}
             </p>
             {canThrowReserve && (
               <p className="text-[13px] leading-snug mb-2" style={bodyStyle}>
-                You still hold {plan.reserves} {plan.reserves === 1 ? "point" : "points"} in reserve. Thrown in here {plan.reserves === 1 ? "it brings" : "they bring"} the strength to {counterStrengthBase + plan.reserves}, which would mean {COUNTER_WORDS[counterWithReserve.result]}.
-                {plan.reserves >= 2 && <> Spent here, they do not come home intact, so the point of Manpower a reserve earns back is lost.</>}
+                {t("You still hold {planReserves} {planReserves, plural, one {point} other {points}} in reserve. Thrown in here {planReserves, plural, one {it brings} other {they bring}} the strength to {p}, which would mean {p2}.", { planReserves: plan.reserves, p: counterStrengthBase + plan.reserves, p2: COUNTER_WORDS[counterWithReserve.result] })}
+                {plan.reserves >= 2 && <> {" "}{t("Spent here, they do not come home intact, so the point of Manpower a reserve earns back is lost.")}</>}
               </p>
             )}
             <div className="grid grid-cols-1 gap-2">
               <button onClick={() => chooseCounter("head")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                <div className="text-sm font-semibold">Meet it head-on</div>
-                <div className="text-[11px] opacity-80">Stand and fight with what is there: {COUNTER_WORDS[counterNow.result]}.</div>
+                <div className="text-sm font-semibold">{t("Meet it head-on")}</div>
+                <div className="text-[11px] opacity-80">{t("Stand and fight with what is there: {p}.", { p: COUNTER_WORDS[counterNow.result] })}</div>
               </button>
               {!noGiveGround && (
                 <button onClick={() => chooseCounter("give")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                  <div className="text-sm font-semibold">Give ground and hold what you can</div>
-                  <div className="text-[11px] opacity-80">A smaller loss, and a certain one. It costs a point of Initiative.</div>
+                  <div className="text-sm font-semibold">{t("Give ground and hold what you can")}</div>
+                  <div className="text-[11px] opacity-80">{t("A smaller loss, and a certain one. It costs a point of Initiative.")}</div>
                 </button>
               )}
               {noGiveGround && (
                 <p className="text-[12px] leading-snug italic opacity-80" style={bodyStyle}>
-                  {HARD_MODE_NAMES[mode]}: the order is to hold. The line may not give ground.
+                  {t("{p}: the order is to hold. The line may not give ground.", { p: t(HARD_MODE_NAMES[mode]) })}
                 </p>
               )}
               {canThrowReserve && (
                 <button onClick={() => chooseCounter("reserve")} className={choiceBtn} style={{ borderColor: campaign.accent }}>
-                  <div className="text-sm font-semibold">Throw the held reserve at it</div>
+                  <div className="text-sm font-semibold">{t("Throw the held reserve at it")}</div>
                   <div className="text-[11px] opacity-80">
-                    {plan.reserves} more {plan.reserves === 1 ? "point" : "points"} of effort alongside the {caCat?.name || ca.category} already there: {COUNTER_WORDS[counterWithReserve.result]}.
+                    {t("{planReserves} more {planReserves, plural, one {point} other {points}} of effort alongside the {p} already there: {p2}.", { planReserves: plan.reserves, p: caCat?.name || ca.category, p2: COUNTER_WORDS[counterWithReserve.result] })}
                   </div>
                 </button>
               )}
@@ -33457,12 +33460,12 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
         )}
         {!done && phase === "resolving" && (
           <p className="mb-4 text-sm italic opacity-70" style={bodyStyle}>
-            Waiting on the last reports…
+            {t("Waiting on the last reports…")}
           </p>
         )}
 
         {/* The reports, newest first. Each new one is added at the top and the older ones move down. */}
-        <div role="log" aria-live="polite" aria-relevant="additions" aria-label="Battle report" className="mb-5 flex flex-col gap-3">
+        <div role="log" aria-live="polite" aria-relevant="additions" aria-label={t("Battle report")} className="mb-5 flex flex-col gap-3">
           {[...visibleBeats]
             .map((b, idx) => ({ b, idx }))
             .reverse()
@@ -33494,7 +33497,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             {result.notes && result.notes.length > 0 && (
               <div className="mb-4 border-l-4 pl-3" style={{ borderColor: campaign.accent }}>
                 <div className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
-                  After-Action Notes
+                  {t("After-Action Notes")}
                 </div>
                 {result.notes.map((n, i) => (
                   <p key={i} className="text-[13px] leading-snug mb-1" style={bodyStyle}>
@@ -33506,7 +33509,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             {result.planCosts && result.planCosts.lines.length > 0 && (
               <div className="mb-5 border-2 px-3 py-2" style={{ borderColor: campaign.accent }}>
                 <div className="text-[11px] uppercase tracking-widest font-bold mb-1" style={labelStyle}>
-                  What the Plan Cost
+                  {t("What the Plan Cost")}
                 </div>
                 {/* Every meter that has a reason is listed, even at a net of zero: otherwise a
                     cost and a refund on the same meter would cancel into silence. */}
@@ -33526,7 +33529,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
             {categories.some((c) => config.orderOfBattle?.[c.id]?.real) && (
               <details className="mb-5 border px-3 py-2" style={{ borderColor: campaign.accent }}>
                 <summary className="text-[11px] uppercase tracking-widest font-bold cursor-pointer select-none" style={labelStyle}>
-                  What actually happened
+                  {t("What actually happened")}
                 </summary>
                 <div className="mt-2 flex flex-col gap-2">
                   {categories
@@ -33544,7 +33547,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
               className="w-full border-2 px-4 py-3 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
               style={{ borderColor: campaign.accent, ...bodyStyle }}
             >
-              See the Full Report →
+              {t("See the Full Report →")}
             </button>
             {plan.autoplay && staffStillOn && (
               <button
@@ -33559,7 +33562,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
                 className="w-full mt-2 text-center text-xs uppercase tracking-widest opacity-70 underline focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                 style={labelStyle}
               >
-                Plan my own battles from now on
+                {t("Plan my own battles from now on")}
               </button>
             )}
           </>
@@ -33567,7 +33570,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
         {canSaveHere && (
           <>
             <button onClick={saveAndLeave} className="w-full mt-4 text-center text-xs uppercase tracking-widest opacity-70 underline focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px" style={labelStyle}>
-              Save and leave the field: the report starts again from its first line
+              {t("Save and leave the field: the report starts again from its first line")}
             </button>
             <p role="status" className="text-[12px] leading-snug mt-1 text-[#7a2e2e]" style={bodyStyle}>
               {saveNote}
@@ -33601,9 +33604,9 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
   }, []);
   const deltas = eff.impact
     ? [
-        ["Manpower", eff.impact.manpower || 0],
-        ["Matériel", eff.impact.fuel || 0],
-        ["Initiative", eff.impact.initiative || 0],
+        [t("Manpower"), eff.impact.manpower || 0],
+        [t("Matériel"), eff.impact.fuel || 0],
+        [t("Initiative"), eff.impact.initiative || 0],
       ].filter(([, v]) => v !== 0)
     : [];
   const outcomeNote = campaign.dynamic ? meterNarrativeNote(campaign.id, meters, choiceIndex) : "";
@@ -33617,7 +33620,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
             className="text-[10px] uppercase tracking-widest opacity-70 mt-1"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {campaign.id === "german" ? "Combat / After-Action Report" : "Report / Dispatch"}
+            {campaign.id === "german" ? t("Combat / After-Action Report") : t("Report / Dispatch")}
           </div>
         )}
         <div className="flex items-center justify-between mt-4 mb-1">
@@ -33629,13 +33632,13 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
             className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold outline-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {formatDateForCampaign(shiftDateForPace(stage.date, meters.initiative, campaign.id), campaign.id)} · Order Given
+            {t("{p} · Order Given", { p: formatDateForCampaign(shiftDateForPace(stage.date, meters.initiative, campaign.id), campaign.id) })}
           </div>
           <div
             className="text-[9px] uppercase tracking-[0.14em] font-bold shrink-0"
             style={{ color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", opacity: 0.9 }}
           >
-            {STAFF_BRANCH_LABELS[campaign.id]?.[classifyStaffBranch(stage)]}
+            {t(STAFF_BRANCH_LABELS[campaign.id]?.[classifyStaffBranch(stage)] || "")}
           </div>
         </div>
         <p
@@ -33653,9 +33656,9 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
               fontFamily: "'IBM Plex Mono', monospace",
               transform: "rotate(-2deg)",
             }}
-            title="This is what the historical record shows actually happened."
+            title={t("This is what the historical record shows actually happened.")}
           >
-            ✓ Historical Choice
+            {t("✓ Historical Choice")}
           </div>
         )}
 
@@ -33697,18 +33700,18 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
               ) : (
                 <>
                   <div className="uppercase tracking-widest text-[10px] opacity-60 mb-1">
-                    ⚄ Hidden at the time: the odds you couldn't see
+                    {t("⚄ Hidden at the time: the odds you couldn't see")}
                   </div>
                   <div className="uppercase tracking-widest">
                     {choice.uncertain
                       .map((v, vi) => `${Math.round((v.weight / choice.uncertain.reduce((a, x) => a + x.weight, 0)) * 100)}% ${v.title}`)
                       .join(" / ")}
                   </div>
-                  <div className="uppercase tracking-widest text-[10px] opacity-60 mt-1">This run: {eff.variantTitle}</div>
+                  <div className="uppercase tracking-widest text-[10px] opacity-60 mt-1">{t("This run: {effVariantTitle}", { effVariantTitle: eff.variantTitle })}</div>
                 </>
               )
             ) : (
-              <div className="uppercase tracking-widest">⚄ Contested decision: resolved: {eff.variantTitle}</div>
+              <div className="uppercase tracking-widest">{t("⚄ Contested decision: resolved: {effVariantTitle}", { effVariantTitle: eff.variantTitle })}</div>
             )}
           </div>
         )}
@@ -33739,7 +33742,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
               className="text-[10px] uppercase tracking-widest font-bold opacity-70 mb-1"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              After-action notes
+              {t("After-action notes")}
             </div>
             {battleNotes.map((n, i) => (
               <p key={i} className="text-[13px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
@@ -33754,7 +33757,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
               className="text-[10px] uppercase tracking-widest font-bold opacity-70"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              The plan's own cost:
+              {t("The plan's own cost:")}
             </span>
             {Object.entries(planCosts.totals)
               .filter(([, v]) => v !== 0)
@@ -33768,7 +33771,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
                     color: v > 0 ? "#2f4a3a" : "#7a2e2e",
                   }}
                 >
-                  {v > 0 ? "▲" : "▼"} {m === "manpower" ? "Manpower" : m === "fuel" ? "Matériel" : "Initiative"} {v > 0 ? "+" + v : v}
+                  {v > 0 ? "▲" : "▼"} {m === "manpower" ? t("Manpower") : m === "fuel" ? t("Matériel") : t("Initiative")} {v > 0 ? "+" + v : v}
                 </span>
               ))}
           </div>
@@ -33784,7 +33787,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
         {campaign.dynamic && mode !== "iron" && flags && (
           <div className="mb-2">
             <div className="text-[11px] uppercase tracking-widest font-bold opacity-70 mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              Where you stand now
+              {t("Where you stand now")}
             </div>
             <MeterPanel meters={meters} flags={flags} prev={priorSnap} />
           </div>
@@ -33795,7 +33798,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
           className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
           style={{ borderColor: campaign.accent, fontFamily: "Oswald, sans-serif" }}
         >
-          {isLast ? "Final Report" : "Next Report"}
+          {isLast ? t("Final Report") : t("Next Report")}
         </button>
       </div>
     </div>
@@ -33856,45 +33859,45 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
   const endingLabel = campaign.positionLabel
     ? campaign.positionLabel(flags, meters)
     : collapsed
-    ? "Collapse Ahead of Schedule"
+    ? t("Collapse Ahead of Schedule")
     : total <= 1
-    ? "Essentially the Historical Outcome"
-    : "Resistance Prolonged";
+    ? t("Essentially the Historical Outcome")
+    : t("Resistance Prolonged");
   const galleryEntry = ENDINGS_GALLERY.find((e) => e.label === endingLabel);
   const endStamp = campaign.projectedEnd ? campaign.projectedEnd(flags, meters).stamp : null;
   const fmtSigned = (n) => (n > 0 ? "+" + n : String(n));
   const likelihoodSentence =
     rolls.length > 0
-      ? `The war passed through ${rolls.length} contested ${rolls.length === 1 ? "outcome" : "outcomes"}, and the path you walked had a likelihood of about ${compoundPct}.` +
-        (rewinds > 0 ? ` You reached it across ${rewinds} ${rewinds === 1 ? "rewind" : "rewinds"}.` : "")
+      ? t("The war passed through {rollsLength} contested {rollsLength, plural, one {outcome} other {outcomes}}, and the path you walked had a likelihood of about {compoundPct}.", { rollsLength: rolls.length, compoundPct }) +
+        (rewinds > 0 ? t(" You reached it across {rewinds} {rewinds, plural, one {rewind} other {rewinds}}.", { rewinds }) : "")
       : "";
   const pathNote = flags.alternateHistoryPath
-    ? "Parts of this path are marked alternate history: invented beyond the point where any serious historian's argument would follow."
+    ? t("Parts of this path are marked alternate history: invented beyond the point where any serious historian's argument would follow.")
     : flags.speculativePath
-    ? "Parts of this path are marked speculative: beyond what the evidence supports."
+    ? t("Parts of this path are marked speculative: beyond what the evidence supports.")
     : "";
   // The summary a player can copy and share: plain lines, in the order a reader wants them.
   const shareText = () => {
     const lines = [
-      "DISPATCHES 1940: After-Action Report",
+      t("DISPATCHES 1940: After-Action Report"),
       `${campaign.name} · ${warRoomModeInfo(mode || "open", campaign.id).label}`,
       "",
-      rating ? `Command rank: ${rating.rank} (${rating.score}/100)` : null,
-      `Ending: ${endingLabel}${galleryEntry ? ` [${galleryEntry.tier}]` : ""}${endStamp ? ` · end of hostilities ${endStamp}` : ""}`,
-      campaign.dynamic ? `Standing at the end: Manpower ${fmtSigned(meters.manpower)}, Matériel ${fmtSigned(meters.fuel)}, Initiative ${fmtSigned(meters.initiative)}` : null,
+      rating ? t("Command rank: {ratingRank} ({ratingScore}/100)", { ratingRank: t(rating.rank), ratingScore: rating.score }) : null,
+      t("Ending: {endingLabel}{p}{p2}", { endingLabel, p: galleryEntry ? ` [${galleryEntry.tier}]` : "", p2: endStamp ? ` · end of hostilities ${endStamp}` : "" }),
+      campaign.dynamic ? t("Standing at the end: Manpower {p}, Matériel {p2}, Initiative {p3}", { p: fmtSigned(meters.manpower), p2: fmtSigned(meters.fuel), p3: fmtSigned(meters.initiative) }) : null,
       comparable.length > 0
-        ? `Judgement: chose the historical option at ${matchedHistory} of ${comparable.length} comparable decisions and out-positioned it at ${outperformed}`
+        ? t("Judgement: chose the historical option at {matchedHistory} of {comparableLength} comparable decisions and out-positioned it at {outperformed}", { matchedHistory, comparableLength: comparable.length, outperformed })
         : null,
     ];
     const battles = battleSummaryLines(flags);
     if (battles.length) {
-      lines.push("Battles:");
+      lines.push(t("Battles:"));
       battles.forEach((b) => lines.push("  " + b));
     }
     lines.push(
-      rolls.length > 0 ? `Contested outcomes: ${rolls.length} (path likelihood about ${compoundPct})${rewinds > 0 ? `, across ${rewinds} rewinds` : ", no rewinds"}` : null,
-      topAdvisors.length > 0 ? `Advisers heeded most: ${topAdvisors.map(([n, c]) => `${n} (${c})`).join(", ")}` : null,
-      earnedObjectives.length > 0 ? `Objectives: ${earnedObjectives.map((id) => (OBJECTIVES.find((x) => x.id === id) || {}).title).filter(Boolean).join(", ")}` : null
+      rolls.length > 0 ? t("Contested outcomes: {rollsLength} (path likelihood about {compoundPct}){p}", { rollsLength: rolls.length, compoundPct, p: rewinds > 0 ? `, across ${rewinds} rewinds` : t(", no rewinds") }) : null,
+      topAdvisors.length > 0 ? t("Advisers heeded most: {p}", { p: topAdvisors.map(([n, c]) => `${n} (${c})`).join(", ") }) : null,
+      earnedObjectives.length > 0 ? t("Objectives: {p}", { p: earnedObjectives.map((id) => (OBJECTIVES.find((x) => x.id === id) || {}).title).filter(Boolean).join(", ") }) : null
     );
     return lines.filter((l) => l !== null).join("\n");
   };
@@ -33915,15 +33918,14 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
       >
         {campaign.dynamic && <WearPaperclipTornCorner show={timeSev === "catastrophic"} />}
         <div style={{ display: "inline-block", transform: `rotate(${campaign.dynamic ? TIME_ROTATION_DEG[timeSev] : 0}deg)` }}>
-          <Stamp text={removedFromCommand ? "Command Terminated" : collapsed ? "Front Collapsed" : "File Closed"} color={campaign.accent} campaignId={campaign.id} />
+          <Stamp text={removedFromCommand ? t("Command Terminated") : collapsed ? t("Front Collapsed") : t("File Closed")} color={campaign.accent} campaignId={campaign.id} />
         </div>
         {grandChain && (
           <div
             className="mt-2 inline-block border-2 px-2 py-1 text-[10px] uppercase tracking-[0.2em] font-bold"
             style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Grand Campaign (prototype): Leg {grandChain.index + 1} of {grandChain.order.length}
-            {grandChain.index + 1 >= grandChain.order.length ? ": Complete" : ""}
+            {t("Grand Campaign (prototype): Leg {p} of {orderLength}{p2}", { p: grandChain.index + 1, orderLength: grandChain.order.length, p2: grandChain.index + 1 >= grandChain.order.length ? t(": Complete") : "" })}
           </div>
         )}
         <div className="flex items-start gap-2 flex-wrap mt-4 mb-1">
@@ -33946,15 +33948,15 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         </div>
         {endStamp && (
           <div className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            End of hostilities: {endStamp}
-            {campaign.dynamic && FILING_NOTE[timeSev] && <span className="opacity-70 italic normal-case tracking-normal"> · {FILING_NOTE[timeSev]}</span>}
+            {t("End of hostilities: {endStamp}", { endStamp })}
+            {campaign.dynamic && FILING_NOTE[timeSev] && <span className="opacity-70 italic normal-case tracking-normal"> · {t(FILING_NOTE[timeSev])}</span>}
           </div>
         )}
 
         <div className="mb-6">
           {campaign.dynamic && oneYearLaterText && (
             <div className="text-xs uppercase tracking-[0.25em] mb-2 text-[#000000] font-semibold opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              Immediate Aftermath
+              {t("Immediate Aftermath")}
             </div>
           )}
           <p className="leading-relaxed text-[16px] text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
@@ -33963,7 +33965,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         </div>
         {campaign.dynamic && oneYearLaterText && (
           <div className="mb-6">
-            {sectionHead("One Year Later")}
+            {sectionHead(t("One Year Later"))}
             <p className="leading-relaxed text-[15px] text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
               {redactedOneYearLater}
             </p>
@@ -33973,7 +33975,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         {campaign.projectedEnd && campaign.dynamic && (
           <details className="mb-6">
             <summary className="text-xs uppercase tracking-[0.25em] font-semibold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              The Theater Map at the end of the war
+              {t("The Theater Map at the end of the war")}
             </summary>
             <CheckpointMap
               embedded
@@ -33993,24 +33995,24 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         {rating && (
           <div className="mb-6 border-2 px-4 py-3" style={{ borderColor: campaign.accent }}>
             <div className="text-xs uppercase tracking-[0.25em] font-semibold opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              Command rank
+              {t("Command rank")}
             </div>
             <div className="flex items-baseline justify-between gap-3">
               <div className="text-4xl leading-tight text-[#000000]" style={{ fontFamily: "Oswald, sans-serif", fontWeight: 600 }}>
-                {rating.rank}
+                {t(rating.rank)}
               </div>
               <div className="text-xs uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                {rating.score} of 100
+                {t("{ratingScore} of 100", { ratingScore: rating.score })}
               </div>
             </div>
             <div className="flex gap-1 my-2" aria-hidden="true">
               {COMMAND_RANKS.map((r, k) => (
-                <span key={r} title={r} className="flex-1 h-2 border" style={{ borderColor: campaign.accent, backgroundColor: k <= rating.rankIndex ? campaign.accent : "transparent" }} />
+                <span key={r} title={t(r)} className="flex-1 h-2 border" style={{ borderColor: campaign.accent, backgroundColor: k <= rating.rankIndex ? campaign.accent : "transparent" }} />
               ))}
             </div>
             <div className="flex justify-between text-[9px] uppercase tracking-wider opacity-70 mb-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }} aria-hidden="true">
-              <span>Private</span>
-              <span>General</span>
+              <span>{t("Private")}</span>
+              <span>{t("General")}</span>
             </div>
             <ul className="flex flex-col gap-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
               {rating.parts.map((p) => (
@@ -34019,7 +34021,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                     <b>{p.label}.</b> {p.fact}.
                   </span>
                   <span className="shrink-0 text-[10px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                    {p.word}
+                    {t(p.word)}
                   </span>
                 </li>
               ))}
@@ -34034,18 +34036,18 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
 
         {campaign.dynamic && (
           <div className="mb-6">
-            {sectionHead("Where the Command Ended")}
+            {sectionHead(t("Where the Command Ended"))}
             <MeterPanel meters={meters} flags={flags} prev={null} />
           </div>
         )}
 
         {(topAdvisors.length > 0 || legacyAdvisors.length > 0) && (
           <div className="mb-6">
-            {sectionHead("Your Advisers")}
+            {sectionHead(t("Your Advisers"))}
             {topAdvisors.length > 0 && (
               <p className="text-sm text-[#000000] font-medium mb-2" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                Most heeded: <span className="font-bold">{topAdvisors[0][0]} ({topAdvisors[0][1]} {topAdvisors[0][1] === 1 ? "council" : "councils"})</span>
-                {topAdvisors.length > 1 && <span> · also {topAdvisors.slice(1).map(([name, n]) => `${name} (${n})`).join(", ")}</span>}
+                {t("Most heeded:")}{" "} <span className="font-bold">{topAdvisors[0][0]} ({topAdvisors[0][1]} {topAdvisors[0][1] === 1 ? "council" : "councils"})</span>
+                {topAdvisors.length > 1 && <span> {" "}{t("· also {p}", { p: topAdvisors.slice(1).map(([name, n]) => `${name} (${n})`).join(", ") })}</span>}
               </p>
             )}
             <div className="flex flex-col gap-2">
@@ -34061,7 +34063,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
 
         {earnedObjectives.length > 0 && (
           <div className="mb-6">
-            {sectionHead("Objectives Achieved")}
+            {sectionHead(t("Objectives Achieved"))}
             {earnedObjectives.map((id) => {
               const o = OBJECTIVES.find((x) => x.id === id);
               return o ? (
@@ -34075,17 +34077,17 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
 
         {log.length > 0 && (
           <div className="mb-6">
-            {sectionHead("How You Commanded")}
+            {sectionHead(t("How You Commanded"))}
             <p className="text-sm text-[#000000] mb-2" style={{ fontFamily: "'Courier Prime', monospace" }}>
               {comparable.length > 0
-                ? `You chose the historical option at ${matchedHistory} of ${comparable.length} comparable decisions and out-positioned it at ${outperformed}. `
+                ? t("You chose the historical option at {matchedHistory} of {comparableLength} comparable decisions and out-positioned it at {outperformed}. ", { matchedHistory, comparableLength: comparable.length, outperformed })
                 : ""}
-              {departed > 0 ? `${departed} of your ${log.length} decisions departed from the record. ` : `All ${log.length} of your decisions followed the record. `}
+              {departed > 0 ? t("{departed} of your {logLength} decisions departed from the record. ", { departed, logLength: log.length }) : t("All {logLength} of your decisions followed the record. ", { logLength: log.length })}
               {likelihoodSentence} {pathNote}
             </p>
             <details>
               <summary className="text-xs uppercase tracking-[0.2em] font-bold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                The {log.length} decisions, in order
+                {t("The {logLength} decisions, in order", { logLength: log.length })}
               </summary>
               <ol className="mt-2 border-l-2 pl-4 flex flex-col gap-3" style={{ borderColor: campaign.accent }}>
                 {log.map((e, i) => (
@@ -34101,15 +34103,15 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                     </div>
                     {e.histSum != null && (
                       <div className="text-[12px] text-[#000000] opacity-80" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                        {e.sum > e.histSum ? "▲ out-positioned the record" : e.sum < e.histSum ? "▼ cost more than the record's choice" : "＝ as the record's choice would have"}
-                        {!e.isHistorical && e.histLabel ? ` · history: ${e.histLabel}` : ""}
+                        {e.sum > e.histSum ? t("▲ out-positioned the record") : e.sum < e.histSum ? t("▼ cost more than the record's choice") : t("＝ as the record's choice would have")}
+                        {!e.isHistorical && e.histLabel ? t(" · history: {eHistLabel}", { eHistLabel: e.histLabel }) : ""}
                       </div>
                     )}
                   </li>
                 ))}
               </ol>
               <p className="text-[11px] italic text-[#000000] opacity-70 mt-2" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                ◆ marks a decision that departed from the historical record.
+                {t("◆ marks a decision that departed from the historical record.")}
               </p>
             </details>
           </div>
@@ -34118,7 +34120,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         {pastStages && pastStages.length > 0 && (
           <details className="border-t-2 pt-3 mb-6" style={{ borderColor: campaign.accent }}>
             <summary className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              Reconsider an Earlier Decision
+              {t("Reconsider an Earlier Decision")}
             </summary>
             <div className="flex flex-col gap-2 mt-3">
               {pastStages.map((p) => (
@@ -34128,7 +34130,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                   className="text-left border px-3 py-2 text-xs text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
                   style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}
                 >
-                  ↺ Rewind to {p.date}: {p.title}
+                  {t("↺ Rewind to {pDate}: {pTitle}", { pDate: p.date, pTitle: p.title })}
                 </button>
               ))}
             </div>
@@ -34142,7 +34144,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
               className="border-2 px-5 py-2 uppercase tracking-widest text-sm font-bold text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
               style={{ borderColor: campaign.accent, backgroundColor: campaign.accent, fontFamily: "Oswald, sans-serif" }}
             >
-              Continue Grand Campaign: {CAMPAIGNS[grandChain.order[grandChain.index + 1]].name} →
+              {t("Continue Grand Campaign: {name} →", { name: CAMPAIGNS[grandChain.order[grandChain.index + 1]].name })}
             </button>
           )}
           <button
@@ -34162,7 +34164,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
             className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
             style={{ borderColor: campaign.accent, fontFamily: "Oswald, sans-serif" }}
           >
-            {copied ? "✓ Copied" : "Copy After-Action Summary"}
+            {copied ? t("✓ Copied") : t("Copy After-Action Summary")}
           </button>
           {campaign.dynamic && (
             <ShareCardButton
@@ -34193,14 +34195,14 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
             className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
             style={{ borderColor: campaign.accent, fontFamily: "Oswald, sans-serif" }}
           >
-            Replay This Command
+            {t("Replay This Command")}
           </button>
           <button
             onClick={onSwitch}
             className="border-2 border-[#000000] px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
             style={{ fontFamily: "Oswald, sans-serif" }}
           >
-            Choose Another Theater
+            {t("Choose Another Theater")}
           </button>
         </div>
       </div>
@@ -34255,7 +34257,7 @@ function shareCardSvg(d) {
     }
   }
   const ending = shareWrap(d.ending, 30, 3);
-  const judgement = d.comparable > 0 ? shareWrap(`Chose the historical option at ${d.matched} of ${d.comparable} comparable decisions and out-positioned it at ${d.outperformed}.`, 46, 3) : [];
+  const judgement = d.comparable > 0 ? shareWrap(t("Chose the historical option at {matched} of {comparable} comparable decisions and out-positioned it at {outperformed}.", { matched: d.matched, comparable: d.comparable, outperformed: d.outperformed }), 46, 3) : [];
   let y = 150;
   let text = "";
   const put = (s, size, font, fill, weight, spacing) => {
@@ -34270,11 +34272,11 @@ function shareCardSvg(d) {
     y += 34;
   } else y += 8;
   if (d.rank) {
-    put("COMMAND RANK", 14, mono, "#241d12", 700, "4");
+    put(t("COMMAND RANK"), 14, mono, "#241d12", 700, "4");
     y += 50;
     put(`${d.rank}`, 54, serif, "#1a1410", 700);
     y += 28;
-    put(`${d.score} of 100`, 16, mono, "#241d12", 400);
+    put(t("{score} of 100", { score: d.score }), 16, mono, "#241d12", 400);
     y += 40;
   }
   for (const l of ending) {
@@ -34286,7 +34288,7 @@ function shareCardSvg(d) {
     y += 26;
   }
   if (d.endStamp) {
-    put(`End of hostilities: ${d.endStamp}`, 14, mono, "#241d12", 400);
+    put(t("End of hostilities: {endStamp}", { endStamp: d.endStamp }), 14, mono, "#241d12", 400);
     y += 26;
   }
   for (const l of judgement) {
@@ -34300,7 +34302,7 @@ function shareCardSvg(d) {
     `<text x="139" y="96" text-anchor="middle" font-family="${mono}" font-size="24" font-weight="700" fill="${accent}" letter-spacing="3" transform="rotate(-2 139 87)">${xmlEscape(d.campaign.seal)}</text>` +
     `<rect x="632" y="104" width="520" height="390" fill="#b7c9c6" stroke="#1a1410" stroke-width="3"/>` +
     `<clipPath id="card-map"><rect x="632" y="104" width="520" height="390"/></clipPath><g clip-path="url(#card-map)"><g transform="translate(632 104) scale(0.65)">${regions}</g></g>` +
-    `<text x="632" y="524" font-family="${mono}" font-size="13" fill="#241d12">The map at the end of the war (approximate)</text>` +
+    `<text x="632" y="524" font-family="${mono}" font-size="13" fill="#241d12">${xmlEscape(t("The map at the end of the war (approximate)"))}</text>` +
     text +
     `</svg>`;
 }
@@ -34361,7 +34363,7 @@ function ShareCardButton({ build, name, accent }) {
       className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
       style={{ borderColor: accent, fontFamily: "Oswald, sans-serif" }}
     >
-      {state === "working" ? "Drawing…" : state === "done" ? "✓ Share card" : state === "failed" ? "Share card failed: retry" : "Share Card"}
+      {state === "working" ? t("Drawing…") : state === "done" ? t("✓ Share card") : state === "failed" ? t("Share card failed: retry") : t("Share Card")}
     </button>
   );
 }
@@ -34992,6 +34994,8 @@ function GlossaryList() {
   );
 }
 function WW2CommandInner() {
+  // Re-renders the whole tree when the language is changed (every text is read with t() while rendering).
+  const language = useLanguage();
   const [screen, setScreen] = useState("select");
   const [campaignId, setCampaignId] = useState(null);
   const [position, setPosition] = useState(0);

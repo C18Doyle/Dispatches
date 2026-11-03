@@ -9,11 +9,12 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+const I18N_STUB = "const T = (s) => s; const t = (s, p) => String(s).replace(/\\{(\\w+)\\}/g, (m, k) => (p && p[k] != null ? p[k] : m));\n";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const src = readFileSync(join(ROOT, "src/parts/39-battle-sketch.jsx"), "utf8");
 const code = src.slice(0, src.indexOf("/** The sketch. "));
-const B = new Function(code + "\nreturn { battleArmStatus, battleMeanPositive, battleArmStatuses, battleArmLabel, BS_STATUS_WORD };")();
+const B = new Function(I18N_STUB + code + "\nreturn { battleArmStatus, battleMeanPositive, battleArmStatuses, battleArmLabel, BS_STATUS_WORD };")();
 
 const problems = [];
 const ok = (cond, msg) => { if (!cond) problems.push(msg); };

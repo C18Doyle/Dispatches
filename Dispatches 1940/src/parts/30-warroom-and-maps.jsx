@@ -207,7 +207,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
     <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10">
       <div className="w-full max-w-lg">
         <h1 ref={headingRef} tabIndex={-1} className="sr-only outline-none">
-          Wire bulletin
+          {t("Wire bulletin")}
         </h1>
         <div className="wire-tear" style={{ "--wire-paper": paperTint }}></div>
         <div className="px-5 py-5" style={{ backgroundColor: paperTint }}>
@@ -238,7 +238,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
             className="text-[9px] pt-2 text-[#6b6b6b]"
             style={{ borderTop: "1px dashed #ccc4b8", fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            WIRE: RELAYED VIA {campaign.name.toUpperCase()}, ROUTINE PRIORITY
+            {t("WIRE: RELAYED VIA {p}, ROUTINE PRIORITY", { p: campaign.name.toUpperCase() })}
           </div>
         </div>
         <div className="wire-tear wire-tear-bottom" style={{ "--wire-paper": paperTint }}></div>
@@ -247,7 +247,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
           className="w-full border-2 mt-4 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-150"
           style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: paperTint }}
         >
-          Continue
+          {t("Continue")}
         </button>
       </div>
     </div>
@@ -370,9 +370,9 @@ const VICHY_LINE = [
 // region, not just a pin) — removed from here so it doesn't get both a landmark dot AND
 // a region polygon/label sitting on the same spot.
 const MAP_LANDMARKS = [
-  { id: "gibraltar", name: "Gibraltar", lon: -5.35, lat: 36.14 },
-  { id: "crete", name: "Crete", lon: 25.13, lat: 35.34 },
-  { id: "dodecanese", name: "Dodecanese", lon: 28.22, lat: 36.45 },
+  { id: "gibraltar", name: T("Gibraltar"), lon: -5.35, lat: 36.14 },
+  { id: "crete", name: T("Crete"), lon: 25.13, lat: 35.34 },
+  { id: "dodecanese", name: T("Dodecanese"), lon: 28.22, lat: 36.45 },
 ];
 
 // A curated set of orientation cities — capitals and the handful of named battles this
@@ -380,18 +380,18 @@ const MAP_LANDMARKS = [
 // Drawn smaller and lighter than the landmark pins above so they read as background
 // orientation, not competing strategic markers.
 const MAP_CITIES = [
-  { id: "london", name: "London", lon: -0.13, lat: 51.51 },
-  { id: "paris", name: "Paris", lon: 2.35, lat: 48.86 },
-  { id: "berlin", name: "Berlin", lon: 13.41, lat: 52.52 },
-  { id: "rome", name: "Rome", lon: 12.5, lat: 41.9 },
-  { id: "vienna", name: "Vienna", lon: 16.37, lat: 48.21 },
-  { id: "budapest", name: "Budapest", lon: 19.04, lat: 47.5 },
-  { id: "warsaw", name: "Warsaw", lon: 21.02, lat: 52.23 },
-  { id: "moscow", name: "Moscow", lon: 37.62, lat: 55.75 },
-  { id: "leningrad", name: "Leningrad", lon: 30.31, lat: 59.94 },
-  { id: "stalingrad", name: "Stalingrad", lon: 44.5, lat: 48.71 },
-  { id: "cairo", name: "Cairo", lon: 31.24, lat: 30.04 },
-  { id: "ankara", name: "Ankara", lon: 32.85, lat: 39.93 },
+  { id: "london", name: T("London"), lon: -0.13, lat: 51.51 },
+  { id: "paris", name: T("Paris"), lon: 2.35, lat: 48.86 },
+  { id: "berlin", name: T("Berlin"), lon: 13.41, lat: 52.52 },
+  { id: "rome", name: T("Rome"), lon: 12.5, lat: 41.9 },
+  { id: "vienna", name: T("Vienna"), lon: 16.37, lat: 48.21 },
+  { id: "budapest", name: T("Budapest"), lon: 19.04, lat: 47.5 },
+  { id: "warsaw", name: T("Warsaw"), lon: 21.02, lat: 52.23 },
+  { id: "moscow", name: T("Moscow"), lon: 37.62, lat: 55.75 },
+  { id: "leningrad", name: T("Leningrad"), lon: 30.31, lat: 59.94 },
+  { id: "stalingrad", name: T("Stalingrad"), lon: 44.5, lat: 48.71 },
+  { id: "cairo", name: T("Cairo"), lon: 31.24, lat: 30.04 },
+  { id: "ankara", name: T("Ankara"), lon: 32.85, lat: 39.93 },
 ];
 
 // MAP_YEAR_STATUS entries are year-END snapshots (see EuropeMap's own comment on this) —
@@ -723,7 +723,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
             style={{ pointerEvents: "auto", cursor: "pointer" }}
             role="button"
             tabIndex={0}
-            aria-label={`${r.name}, diverged from the historical record. ${isSelected ? "Selected. Activate to deselect." : "Activate to see why."}`}
+            aria-label={t("{rName}, diverged from the historical record. {p}", { rName: r.name, p: isSelected ? t("Selected. Activate to deselect.") : t("Activate to see why.") })}
             onClick={setSelectedRegion ? () => setSelectedRegion(isSelected ? null : r.id) : undefined}
             onKeyDown={
               setSelectedRegion
@@ -784,7 +784,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
             textAnchor="middle"
             style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 600, pointerEvents: "none" }}
           >
-            {r.name}
+            {t(r.name)}
           </text>
         );
       })}
@@ -805,7 +805,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
               paintOrder="stroke"
               style={{ fontFamily: "'IBM Plex Mono', monospace", fontStyle: "italic" }}
             >
-              {c.name}
+              {t(c.name)}
             </text>
           </g>
         );
@@ -827,7 +827,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
               paintOrder="stroke"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              {lm.name}
+              {t(lm.name)}
             </text>
           </g>
         );
@@ -915,7 +915,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
       kept[kept.length - 1].isLast = false;
       kept.push({
         date: endDate,
-        title: "The war ends",
+        title: t("The war ends"),
         year: endYear,
         flags,
         meters: meters || {},
@@ -946,7 +946,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
   const { notes } = mapOverrides(statusYear, current.flags, current.meters, current.dayKey);
   const divergedRegions = new Set(notes.flatMap((n) => n.regions || []));
   const notesForRegion = (id) => notes.filter((n) => (n.regions || []).includes(id));
-  const nameOf = (id) => (MAP_REGIONS.find((r) => r.id === id) || {}).name || id;
+  const nameOf = (id) => t((MAP_REGIONS.find((r) => r.id === id) || {}).name || id);
   // "Changed since you last checked" only makes sense relative to the latest state — flashing
   // that on an earlier timeline stop would read as "this just changed" when it's really just
   // further from home than the live position, which is a different thing.
@@ -1013,7 +1013,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             className="text-xs uppercase tracking-widest font-bold outline-none"
             style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}
           >
-            {embedded ? `The map at the end of ${clampedYear}` : `Theater Map: ${clampedYear}`}
+            {embedded ? t("The map at the end of {clampedYear}", { clampedYear }) : t("Theater Map: {clampedYear}", { clampedYear })}
           </div>
           {!embedded && (
             <button
@@ -1021,7 +1021,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               className="text-[10px] uppercase tracking-widest font-bold border-2 border-black px-2 py-1 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
-              Close
+              {t("Close")}
             </button>
           )}
         </div>
@@ -1034,7 +1034,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               step={1}
               value={viewIndex}
               onChange={(e) => setViewIndex(parseInt(e.target.value, 10))}
-              aria-label={`Timeline position ${viewIndex + 1} of ${runTimeline.length}: ${current.date || ""}${current.title ? `: ${current.title}` : ""}`}
+              aria-label={t("Timeline position {p} of {runTimelineLength}: {p2}{p3}", { p: viewIndex + 1, runTimelineLength: runTimeline.length, p2: localiseDate(current.date) || "", p3: current.title ? `: ${current.title}` : "" })}
               className="w-full accent-black"
               style={{ accentColor: campaign.accent }}
             />
@@ -1043,14 +1043,14 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
                 className="text-[9px] uppercase tracking-wider opacity-60 shrink-0"
                 style={{ fontFamily: "'IBM Plex Mono', monospace" }}
               >
-                Start
+                {t("Start")}
               </span>
               <span
                 className="text-[10px] uppercase tracking-wider font-bold text-center flex-1 truncate px-1"
                 style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}
-                title={current.title ? `${current.date}: ${current.title}` : current.date}
+                title={current.title ? `${localiseDate(current.date)}: ${current.title}` : localiseDate(current.date)}
               >
-                {current.date}
+                {localiseDate(current.date)}
                 {current.title ? `: ${current.title}` : ""}
               </span>
               {current.isLast ? (
@@ -1058,7 +1058,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
                   className="text-[9px] uppercase tracking-wider opacity-60 shrink-0"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
                 >
-                  Latest
+                  {t("Latest")}
                 </span>
               ) : (
                 <button
@@ -1066,7 +1066,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
                   className="text-[9px] uppercase tracking-wider font-bold underline shrink-0"
                   style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}
                 >
-                  Jump to latest
+                  {t("Jump to latest")}
                 </button>
               )}
             </div>
@@ -1074,7 +1074,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
         )}
         {review && !embedded && (
           <p className="mb-3 border border-black px-3 py-1 text-[11px] leading-snug text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            <span className="font-bold uppercase tracking-wider">Strategic review</span>
+            <span className="font-bold uppercase tracking-wider">{t("Strategic review")}</span>
             {review}
           </p>
         )}
@@ -1130,13 +1130,13 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             className="mt-2 text-[10px] uppercase tracking-widest font-bold border-2 border-black px-2 py-1 transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
             style={{ fontFamily: "'IBM Plex Mono', monospace", backgroundColor: zoomed ? "#16130f" : "transparent", color: zoomed ? "#ffffff" : "#000000" }}
           >
-            {zoomed ? "Show the whole theatre" : "Zoom to this report"}
+            {zoomed ? t("Show the whole theatre") : t("Zoom to this report")}
           </button>
         )}
         {meanwhile.length > 0 && (
           <div className="mt-3">
             <div role="heading" aria-level="3" className="text-[10px] uppercase tracking-widest font-bold mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
-              Meanwhile, in the record
+              {t("Meanwhile, in the record")}
             </div>
             <ul className="list-none p-0 m-0">
               {meanwhile.map((m) => (
@@ -1152,15 +1152,14 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
         {groundNow.length > 0 && (
           <div className="mt-3">
             <div role="heading" aria-level="3" className="text-[10px] uppercase tracking-widest font-bold mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
-              Ground against the record
+              {t("Ground against the record")}
             </div>
             <ul className="list-none p-0 m-0">
               {groundNow.map((g) => (
                 <li key={g.id} className="text-[12px] leading-snug mb-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
                   <span aria-hidden="true">{g.kind === "gained" ? "⊕ " : "⊗ "}</span>
                   <span className="font-bold">{g.name}</span>
-                  {g.kind === "gained" ? ", held or taken beyond the record: " : ", given up or not taken against the record: "}
-                  {g.text} (projection)
+                  {t("{p}{gText} (projection)", { p: g.kind === "gained" ? t(", held or taken beyond the record: ") : t(", given up or not taken against the record: "), gText: g.text })}
                 </li>
               ))}
             </ul>
@@ -1169,7 +1168,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
         {opsList.length > 0 && current.isLast && (
           <div className="mt-3">
             <div role="heading" aria-level="3" className="text-[10px] uppercase tracking-widest font-bold mb-1.5" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
-              Orders on the map
+              {t("Orders on the map")}
             </div>
             <div className="flex flex-col gap-1.5">
               {opsList.map((o) => (
@@ -1185,10 +1184,10 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               ))}
             </div>
             <p className="mt-2 text-[12px] leading-snug min-h-[2.5em]" aria-live="polite" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              {focused ? focused.op.note : "Pick an order to see where it goes."}
+              {focused ? focused.op.note : t("Pick an order to see where it goes.")}
             </p>
             <p className="mt-1 text-[10px] leading-snug opacity-80" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.
+              {t("Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.")}
             </p>
           </div>
         )}
@@ -1207,7 +1206,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
                   background: s === "divided" ? `linear-gradient(90deg, ${STATUS_COLORS.allied} 50%, ${STATUS_COLORS.soviet} 50%)` : STATUS_COLORS[s],
                 }}
               />
-              {STATUS_LABELS[s] || s}
+              {t(STATUS_LABELS[s] || s)}
             </span>
           ))}
           {changedRegions.size > 0 && (
@@ -1216,7 +1215,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
               <span aria-hidden="true">{"✦"}</span>
-              Flashing border: changed since you last checked the map
+              {t("Flashing border: changed since you last checked the map")}
             </span>
           )}
         </div>
@@ -1242,16 +1241,15 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
           </div>
         )}
         <p className="text-[11px] mt-1 opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
-          {revealedForks.length
+          {t("{p} Ownership shown through end of {statusYear}.{p2}{p3}{p4}", { p: revealedForks.length
             ? `${revealedForks.length} confirmed divergence${revealedForks.length > 1 ? "s" : ""} from the historical record marked above.`
-            : "No confirmed divergences from the historical record yet."}
-          {" "}Ownership shown through end of {statusYear}.
-          {fronts.some((f) => f.kind === "zone") && " The dotted line marks the demarcation between the occupied zone and Vichy."}
-          {fronts.some((f) => f.kind !== "zone" && !f.projection) && " The dark line is the front, drawn from the course of the fighting and approximate."}
-          {fronts.some((f) => f.projection) && " A dashed red line is where the record put the front: this run has departed from it."}
-          {hereAt && " The ringed square is where this report is set."}
-          {meanwhile.length > 0 && " A diamond marks what another command was doing."}
-          {groundNow.length > 0 && " A ring and a plus mark ground held or taken beyond the record; a square and a cross, ground given up or not taken."}
+            : t("No confirmed divergences from the historical record yet."), statusYear, p2: statuses.france === "axisAllied" && t(" Dashed line marks the Vichy/occupied-zone demarcation."), p3: statusYear === 1941 && t(" Dashed line marks Barbarossa's farthest advance, autumn 1941."), p4: statusYear === 1942 && t(" Dashed line marks Case Blue's farthest advance, autumn 1942.") })}
+          {fronts.some((f) => f.kind === "zone") && t(" The dotted line marks the demarcation between the occupied zone and Vichy.")}
+          {fronts.some((f) => f.kind !== "zone" && !f.projection) && t(" The dark line is the front, drawn from the course of the fighting and approximate.")}
+          {fronts.some((f) => f.projection) && t(" A dashed red line is where the record put the front: this run has departed from it.")}
+          {hereAt && t(" The ringed square is where this report is set.")}
+          {meanwhile.length > 0 && t(" A diamond marks what another command was doing.")}
+          {groundNow.length > 0 && t(" A ring and a plus mark ground held or taken beyond the record; a square and a cross, ground given up or not taken.")}
         </p>
       </div>
   );
@@ -1331,9 +1329,9 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   const modeInfo = warRoomModeInfo(mode, campaign.id);
   const hardId = HARD_MODE_OF[campaign.id];
   const modeChoices = [
-    { id: "easy", name: `Easy: ${warRoomModeInfo("easy", campaign.id).label}`, available: EASY_MODE_ENABLED, colour: "#3a6b4f" },
-    { id: "open", name: `Normal: ${warRoomModeInfo("open", campaign.id).label}`, available: true, colour: "#000000" },
-    { id: hardId, name: `Hard: ${warRoomModeInfo(hardId, campaign.id).label}`, available: HARD_MODES_ENABLED, colour: "#7a2e2e" },
+    { id: "easy", name: t("Easy: {label}", { label: warRoomModeInfo("easy", campaign.id).label }), available: EASY_MODE_ENABLED, colour: "#3a6b4f" },
+    { id: "open", name: t("Normal: {label}", { label: warRoomModeInfo("open", campaign.id).label }), available: true, colour: "#000000" },
+    { id: hardId, name: t("Hard: {label}", { label: warRoomModeInfo(hardId, campaign.id).label }), available: HARD_MODES_ENABLED, colour: "#7a2e2e" },
   ];
   const headingRef = useRef(null);
   useEffect(() => {
@@ -1357,12 +1355,12 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
         style={{ ...campaignPaperStyle(campaign.id, campaign.accent), borderTop: `5px solid ${campaign.accent}` }}
       >
         <h1 ref={headingRef} tabIndex={-1} className="sr-only outline-none">
-          {campaign.name}: War Room
+          {t("{campaignName}: War Room", { campaignName: campaign.name })}
         </h1>
         <Doc campaign={campaign} modeInfo={modeInfo} easy={mode === "easy"} />
-        <div role="radiogroup" aria-label="Difficulty" className="mb-4 pb-4 border-b-2" style={{ borderColor: campaign.accent }}>
+        <div role="radiogroup" aria-label={t("Difficulty")} className="mb-4 pb-4 border-b-2" style={{ borderColor: campaign.accent }}>
           <div className="font-bold uppercase tracking-widest text-[11px] mb-2 text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Difficulty
+            {t("Difficulty")}
           </div>
           <div className="flex flex-col gap-2">
             {modeChoices.map((c) => {
@@ -1379,7 +1377,7 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
                   style={{ borderColor: c.colour, backgroundColor: on ? c.colour : "transparent", color: on ? "#ffffff" : "#000000", fontFamily: "'Courier Prime', monospace" }}
                 >
                   <span className="block text-[12px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                    {c.name}{c.available ? "" : " (full version)"}
+                    {c.name}{c.available ? "" : t(" (full version)")}
                   </span>
                   <span className="block text-[13px] leading-snug mt-1">{warRoomModeInfo(c.id, campaign.id).summary}</span>
                 </button>
@@ -1389,9 +1387,9 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
         </div>
         <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
           <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            Your staff
+            {t("Your staff")}
           </span>
-          Advisers argue for some orders. Follow one and that adviser trusts you more; pass one over and the trust falls a little. An adviser who is overruled too often goes quiet, and then asks to be relieved. A trusted adviser brings a reconnaissance pass at no cost. On the theater map you can pick an order and see where it would send the army.
+          {t("Advisers argue for some orders. Follow one and that adviser trusts you more; pass one over and the trust falls a little. An adviser who is overruled too often goes quiet, and then asks to be relieved. A trusted adviser brings a reconnaissance pass at no cost. On the theater map you can pick an order and see where it would send the army.")}
         </p>
         {hasForks && (
           <StampToggle
@@ -1399,7 +1397,7 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             checked={historicallyAccurate}
             onChange={setHistoricallyAccurate}
             stamp="VERIFIED"
-            title="Historically Accurate Opponent"
+            title={t("Historically Accurate Opponent")}
             text="Lift the stamp, and the war is more likely to run beyond the realms of historical accuracy."
           />
         )}
@@ -1409,7 +1407,7 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             checked={controlBattles}
             onChange={setControlBattles}
             stamp="COMMAND"
-            title="Take Control of Battle Planning"
+            title={t("Take Control of Battle Planning")}
             text="Lift the stamp, and the battles are not played: those choices are made like any other decision."
           />
         )}
@@ -1419,14 +1417,14 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             className="w-full border-2 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold text-[#ffffff] transition-colors duration-150"
             style={{ borderColor: campaign.accent, backgroundColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Enter the War Room
+            {t("Enter the War Room")}
           </button>
           <button
             onClick={onBack}
             className="w-full border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            Back
+            {t("Back")}
           </button>
         </div>
       </div>

@@ -215,10 +215,10 @@ const MAP_PLACES = {
 
 // ---- the reports set beyond the frame of their map: the name of the place, drawn with an arrow at the edge ----
 const MAP_OFF_MAP = {
-  "german/suezFirst41": "Suez", "german/suezHorizon42": "Suez", "german/suezOpening42": "Alexandria", "german/elAlamein": "El Alamein", "german/sovietFracture42": "Sverdlovsk",
-  "soviet/lendLease42": "Murmansk", "soviet/athensRace44": "Athens", "soviet/athensStandoff44": "Athens",
-  "allied/narvik40": "Narvik", "allied/malaya41": "Singapore", "allied/forceZ41": "The South China Sea", "allied/europeFirst42": "Washington", "allied/pacificPressure42": "Washington",
-  "allied/pq17_1942": "Murmansk", "allied/australiaLifeline42": "Australia", "allied/tehran43": "Tehran",
+  "german/suezFirst41": T("Suez"), "german/suezHorizon42": T("Suez"), "german/suezOpening42": T("Alexandria"), "german/elAlamein": T("El Alamein"), "german/sovietFracture42": T("Sverdlovsk"),
+  "soviet/lendLease42": T("Murmansk"), "soviet/athensRace44": T("Athens"), "soviet/athensStandoff44": T("Athens"),
+  "allied/narvik40": T("Narvik"), "allied/malaya41": T("Singapore"), "allied/forceZ41": T("The South China Sea"), "allied/europeFirst42": T("Washington"), "allied/pacificPressure42": T("Washington"),
+  "allied/pq17_1942": T("Murmansk"), "allied/australiaLifeline42": T("Australia"), "allied/tehran43": T("Tehran"),
 };
 
 // ---- what the commands were doing on a date in the record ----
@@ -488,9 +488,9 @@ function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal, offLabel
         const dx = at[0] - cx;
         const dy = at[1] - cy;
         const m = 22;
-        const t = Math.min(dx !== 0 ? (cx - m) / Math.abs(dx) : Infinity, dy !== 0 ? (cy - m) / Math.abs(dy) : Infinity);
-        const ex = cx + dx * t;
-        const ey = cy + dy * t;
+        const k = Math.min(dx !== 0 ? (cx - m) / Math.abs(dx) : Infinity, dy !== 0 ? (cy - m) / Math.abs(dy) : Infinity);
+        const ex = cx + dx * k;
+        const ey = cy + dy * k;
         const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
         const right = ex > cx + 40;
         const left = ex < cx - 40;
@@ -499,7 +499,7 @@ function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal, offLabel
             <g transform={`rotate(${ang})`}>
               <path d="M10,0 L-8,-9 L-8,9 Z" fill={accent || "#7a2e2e"} stroke="#f2ead9" strokeWidth="2" />
             </g>
-            <text x={left ? 14 : right ? -14 : 0} y={dy < 0 && !left && !right ? 22 : dy > 0 && !left && !right ? -14 : 4} textAnchor={left ? "start" : right ? "end" : "middle"} fontSize="10" {...label}>{offLabel}</text>
+            <text x={left ? 14 : right ? -14 : 0} y={dy < 0 && !left && !right ? 22 : dy > 0 && !left && !right ? -14 : 4} textAnchor={left ? "start" : right ? "end" : "middle"} fontSize="10" {...label}>{t(offLabel)}</text>
           </g>
         );
       })()}
@@ -551,7 +551,7 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
   const mono = { fontFamily: "'IBM Plex Mono', monospace" };
   const button = "border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]";
   return (
-    <div className="mb-4" role="group" aria-label="The map of the front on the day of this report">
+    <div className="mb-4" role="group" aria-label={t("The map of the front on the day of this report")}>
       <div className="relative w-full border-2 border-black overflow-hidden" style={{ aspectRatio: frame ? "2 / 1" : "4 / 3" }}>
         <div className="absolute left-0 top-0 w-full" style={{ aspectRatio: "4 / 3", ...inner }}>
           <img src={`assets/maps/${campaign.id}/${clampedYear}.png`} alt="" className="w-full h-full object-cover absolute inset-0" onError={(e) => { e.currentTarget.style.display = "none"; }} />
@@ -570,9 +570,9 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-2 mt-2">
-        <button onClick={onOpen} className={button} style={mono}>Show Theater Map</button>
+        <button onClick={onOpen} className={button} style={mono}>{t("Show Theater Map")}</button>
         {here && bbox && (frame || whole) && (
-          <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button} style={mono}>{whole ? "Frame this report" : "Show the whole theatre"}</button>
+          <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button} style={mono}>{whole ? t("Frame this report") : t("Show the whole theatre")}</button>
         )}
       </div>
       {meanwhile.length > 0 && (
@@ -592,8 +592,7 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
             <li key={g.id} className="text-[12px] leading-snug mb-0.5" style={{ fontFamily: "'Courier Prime', monospace" }}>
               <span aria-hidden="true">{g.kind === "gained" ? "\u2295 " : "\u2297 "}</span>
               <span className="font-bold">{g.name}</span>
-              {g.kind === "gained" ? ", beyond the record: " : ", against the record: "}
-              {g.text} (projection)
+              {t("{p}{gText} (projection)", { p: g.kind === "gained" ? t(", beyond the record: ") : t(", against the record: "), gText: g.text })}
             </li>
           ))}
         </ul>
