@@ -155,6 +155,7 @@ const FRONT_SERIES = [
 // ---- where each report is set ----
 const MAP_PLACES = {
   german: {
+    fallWeiss39: [21.0, 52.23], phoneyWar39: [13.4, 52.5], mechelen40: [5.7, 50.96], altmark40: [6.35, 58.31], ore40: [8.1, 53.5],
     norway40: [10.75, 59.9], caseYellow40: [4.95, 49.7], caseYellowOriginal40: [2.3, 49.9], compressedInvasionWindow40: [1.5, 50.9], dunkirk: [2.37, 51.03], channel: [1.5, 50.9], tannenbaum40: [8.0, 47.4],
     balkans: [20.5, 44.8], hessFlight41: [-4.3, 55.75], crete41: [25.1, 35.4], bismarckBreakout41: [5.3, 60.4], sealionDisaster40: [1.2, 51.0], sealionAftermath40: [1.2, 51.0],
     barbarossa41: [21.5, 54.08], suezFirst41: [32.3, 30.0], barbarossaAutumn41: [21.5, 54.08], japanDirection41: [13.4, 52.5], moscowFalls41: [37.6, 55.75], volgaOverreach42: [44.0, 56.3],
@@ -225,6 +226,7 @@ const MAP_OFF_MAP = {
 const mapNow = (on, at, text) => ({ on, at, text });
 const MAP_MEANWHILE = {
   german: [
+    mapNow("1939-09-01", [21.0, 52.23], "German armies cross the Polish frontier."),
     mapNow("1940-04-09", [10.75, 59.9], "German landings begin at ports from Oslo to Narvik."),
     mapNow("1940-05-10", [5.7, 50.1], "The offensive in the west opens through the Ardennes."),
     mapNow("1940-05-26", [2.37, 51.03], "The evacuation from Dunkirk begins under the halt order."),

@@ -207,21 +207,271 @@ const CAMPAIGNS = {
     id: "german",
     seal: "OKW",
     name: "Wehrmacht High Command",
-    dates: "1940–1945",
-    brief: "Direct the German war machine from the fall of France to the Reich's destiny.",
+    dates: "1939–1945",
+    brief: "Direct the German war machine from the last autumn of peace in the west to the Reich's destiny.",
     accent: "#7a2e2e",
     dynamic: true,
-    start: "norway40",
+    start: "fallWeiss39",
     resolveNode(id, flags, meters) {
       const preservedReserve = !!flags.preservedReserve;
 
-      const nodes = {        get norway40() {
+      const nodes = {
+        // The prelude (September 1939 to April 1940). The campaign used to open at the Weserübung landings in April 1940; these five reports are the
+        // decisions before it that the record leaves a command to make: how much of the army to stake on Poland, whether to say that the army is not
+        // ready for the order for the west, what to do when the plan for the west is lost in Belgium, who is to command Norway, and when to sail.
+        // What the player chooses is carried as flags (west39, phoneyWar, mechelen, altmark, norwayDate) that the later reports mention in a sentence
+        // and that move the meters; none of it is a hidden bonus. Facts checked 2026-11-02 against Wikipedia (Mechelen incident; Altmark incident;
+        // Operation Weserübung; Phoney War; Battle of France); the rest are drafted from the secondary literature (claims/german-prelude.json).
+        get fallWeiss39() {
+          return {
+          date: "SEPTEMBER 1939",
+          title: "Poland and the Western Wall",
+          historicalRecord: true,
+          situation:
+            "The army crossed the Polish frontier on 1 September, and Britain and France declared war on 3 September. The plan is Fall Weiss: two army groups, Bock's in the north out of Pomerania and East Prussia and Rundstedt's in the south out of Silesia, close on Warsaw from both sides with the armoured and motorised divisions in front, so that the Polish army is cut off before it can fall back behind the Vistula. Almost everything that can move has been sent east. In the west there is a screen behind the new fortifications of the Westwall, mostly reserve and second-line divisions with few tanks and little ammunition, and across the frontier stands the French army, the largest in Europe. Halder is satisfied that France will not move in earnest before Poland is finished. Some officers in the staff would rather not stake the Reich on that." +
+            (flags.hardMode ? " There is no second army behind this one, and every man in the room knows it." : ""),
+          choices: [
+            {
+              label: "Send everything mobile east and leave a thin screen in the west: Poland must be finished before France stirs",
+              advisor: { name: "Halder", position: "The French will take weeks to mobilise and will not attack into the Westwall in earnest, so the risk is a calculated one, and the quicker Poland falls the sooner the army can turn west." },
+              historical: true,
+              setFlags: { west39: "thin" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "phoneyWar39",
+              outcome:
+                "What happened. The panzer and motorised divisions went east and Poland was broken in weeks: the Polish armies were cut off west of the Vistula, the Red Army entered the country from the east on 17 September, and the last organised resistance ended in the first week of October. In the west the French Saar offensive began on 7 September, advanced up to eight kilometres into German territory against the screen of reserve divisions, and was halted on 12 September; on 21 September Gamelin ordered the troops back to the Maginot Line, and the last of them had left German soil by 17 October. Jodl said at Nuremberg that about 110 French and British divisions had been held inactive in the west against 23 German ones. The army ended the campaign with the Polish army destroyed, its tanks and ammunition worn down, and a war in the west that it had not yet had to fight.",
+            },
+            {
+              label: "Keep a strong reserve in the west: hold back some of the new armoured divisions and finish Poland more slowly",
+              advisor: { name: "Jodl", position: "The war has begun with France and Britain across the frontier, and a Reich that has spent its tanks in Poland has nothing to meet them with, so a stronger western reserve is the price of the eastern success." },
+              setFlags: { west39: "reserve" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "phoneyWar39",
+              uncertain: [
+                {
+                  weight: modWeight(60, meters.initiative),
+                  title: "Poland falls a little slower",
+                  setFlags: { west39: "reserve" },
+                  impact: { manpower: 1, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Speculative. Poland is still beaten, because the Red Army enters from the east on 17 September, but without the full weight of the armour the encirclements close later and leave more of the Polish army to break out, as the counterattack on the Bzura nearly did. Warsaw holds into October. The price is a fortnight of the autumn and the ammunition that goes with it. The gain is a western army with some tanks behind its screen, and a staff that is not holding its breath.",
+                },
+                {
+                  weight: 100 - modWeight(60, meters.initiative),
+                  title: "The delay costs more than it buys",
+                  setFlags: { west39: "reserve" },
+                  impact: { manpower: 0, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The armour is split between two fronts and is strong in neither. Polish units break out of the pockets west of Warsaw, the fighting on the Bzura runs longer, and the campaign is still unfinished when the autumn rains arrive. The French in the Saar see no extra German strength, because there is none worth seeing, and the reserve in the west never fights.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get phoneyWar39() {
+          return {
+          date: "OCTOBER – NOVEMBER 1939",
+          title: "The Order for the West",
+          historicalRecord: true,
+          situation:
+            "Poland is finished, and the war in the west has been a war of leaflets and outposts since the French pulled back from the Saar. Hitler does not intend to wait. His Directive No. 6 of 9 October orders the conquest of the Low Countries at the shortest notice, to get ahead of the French, to keep the Allied air forces away from the Ruhr and to win a base from which to wage war on Britain. On 19 October Halder presents the first plan: a frontal attack with limited aims, driving the Allies back to the Somme. On 5 November Hitler tells Brauchitsch that it will begin on 12 November. The divisions have not been refitted since Poland, the tank repair parks are full, ammunition is short, and the autumn weather favours neither tanks nor aircraft." +
+            (flags.west39 === "reserve" ? " The armour held back in the west is rested and complete, which is more than can be said of the rest of the army." : "") +
+            (flags.hardMode ? " Nobody in the room has forgotten how the Führer received the last man who told him that a date was wrong." : ""),
+          choices: [
+            {
+              label: "Tell Hitler plainly that the army is not ready and ask for time: the date cannot be kept",
+              advisor: { name: "Brauchitsch", position: "The army has not recovered from Poland, its stocks are low and the autumn is the wrong season, so the date is wrong, and the army should say so, even to him." },
+              historical: true,
+              setFlags: { phoneyWar: "delay" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "mechelen40",
+              outcome:
+                "What happened. On 5 November Brauchitsch told Hitler that the army could not be ready for 12 November and argued against the offensive; Hitler's anger was such that Brauchitsch offered to resign, and the offer was refused. Two days later Hitler postponed the attack because of the weather, and through the winter it was put off again and again, by days or by weeks, as commanders and forecasters gave him reasons to wait. The army had its winter, and used it to repair its tanks, retrain its divisions and argue about what the plan itself ought to be.",
+            },
+            {
+              label: "Obey the order and prepare the attack for 12 November without argument",
+              advisor: { name: "Keitel", position: "The Führer has given an order, and an army that argues over orders in front of him will find them taken out of its hands, so the army prepares the date it has been given." },
+              setFlags: { phoneyWar: "obey" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "mechelen40",
+              uncertain: [
+                {
+                  weight: modWeight(50, meters.initiative),
+                  title: "The weather decides it anyway",
+                  setFlags: { phoneyWar: "obey" },
+                  impact: { manpower: -1, fuel: -1, initiative: 1 },
+                  outcome:
+                    "Speculative. The orders go out and the divisions move up to their assembly areas. On 7 November the forecasts are bad and Hitler postpones, as he did in the record, and then postpones again as the weather and the readiness reports give him reasons. The difference is that the army has not used its case to buy anything: it spends the winter at a half-readiness that each new date calls for, with units moved up, moved back and moved up again.",
+                },
+                {
+                  weight: 100 - modWeight(50, meters.initiative),
+                  title: "A winter of readiness",
+                  setFlags: { phoneyWar: "obey" },
+                  impact: { manpower: -2, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Speculative. Leave and retraining are cancelled for the units nearest the frontier, the tank parks are still not emptied, and each false alarm costs fuel and a little more of the men's patience. By January the army is tired of a war it has not yet fought, and the plan, which nobody has had the time to question, is the plan of October.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get mechelen40() {
+          return {
+          date: "JANUARY 1940",
+          title: "The Plan in the Snow",
+          historicalRecord: true,
+          situation:
+            "On 10 January Major Hoenmanns, a Luftwaffe base commander, loses his way in fog on a flight from Münster to Cologne and comes down in a field in Belgium. His passenger, Major Reinberger of the 7th Air Division, is carrying papers on the attack on the Netherlands and Belgium, which Hitler has set for 17 January, and tries to burn them. Belgian border guards stop him and save the partly burned sheets. Belgian intelligence judges them genuine, if damaged and without the date, and King Leopold warns the Dutch and passes the news to Gamelin and to Gort. Hitler dismisses the Luftwaffe generals Felmy and Kammhuber the next day, and Jodl says that the situation would be catastrophic if the enemy has all the files. The plan is also one that the army's own senior staff have never liked: at Army Group A, Rundstedt's chief of staff Manstein has sent seven memoranda since October for a different one, each more radical than the last, and OKH has rejected every one of them." +
+            (flags.hardMode ? " Two officers have lost their commands for less." : ""),
+          choices: [
+            {
+              label: "Withdraw the plan and open the whole question again: the weight of the attack may have to move",
+              advisor: { name: "Manstein", position: "A plan the enemy has read is no use as it stands, and since it has to be done again it may as well be done properly, with the weight on the Ardennes and the Meuse, where nobody is looking." },
+              historical: true,
+              setFlags: { mechelen: "redrawn" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "altmark40",
+              outcome:
+                "What happened. On 16 January, with snow on the roads and the plan compromised, Hitler called the attack off for the time being. The traditional account says that the loss of the papers forced a new plan and that Manstein's proposal for a thrust through the Ardennes towards Sedan was taken up; historians dispute how much the incident mattered next to the weather, the army's readiness and Manstein's own persistence. The sequence is not in doubt: Manstein was removed from Army Group A on 27 January and given a corps in East Prussia, Halder had him sent to Stettin, Hitler summoned him on 17 February and ordered his thinking adopted the day after, and on 24 February a new deployment directive was issued. Which plan the army would carry out was still being settled as the winter ended.",
+            },
+            {
+              label: "Keep the plan, patch it and move the date: the Allies may take the papers for a plant",
+              advisor: { name: "Bock", position: "The plan is sound, because the main blow in Belgium is where any army would expect one, and what the Belgians hold is a burned part of it, so a few changes of detail and a new date will do." },
+              setFlags: { mechelen: "patched" },
+              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              next: "altmark40",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "Doubt on the other side",
+                  setFlags: { mechelen: "patched" },
+                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. The patched plan goes back into the safes. Over February and March the reports from the Netherlands and Belgium suggest that the other side is unsure what to make of what it has: the Belgians keep a careful watch, the French move up to the frontier and back again, and nobody is quite certain that the papers were not meant to be found. The plan is no more secret than before, but it is no less likely to work than any plan the staff could draw in the same weeks.",
+                },
+                {
+                  weight: 100 - modWeight(40, meters.initiative),
+                  title: "The other side is ready",
+                  setFlags: { mechelen: "patched" },
+                  impact: { manpower: -1, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The reports of February and March show every sign that the other side's staff took the papers for what they were. The Belgian defences are stiffer on the line where the main blow would fall, and the French moves towards the frontier are rehearsed. The army has a plan, a new date and the knowledge that the opposing generals have already read the outline of it.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get altmark40() {
+          return {
+          date: "FEBRUARY 1940",
+          title: "The Altmark",
+          historicalRecord: true,
+          situation:
+            "The navy has been pressing for Norway since October, when Raeder spoke to Hitler of the danger of British bases there and of the case for seizing them first, and on 14 December Hitler met the Norwegian fascist Vidkun Quisling and afterwards ordered a preliminary study. On the night of 16 February the destroyer HMS Cossack, under Captain Vian, enters the Jøssingfjord and boards the German supply ship Altmark, which has been carrying British merchant seamen taken by the Admiral Graf Spee, and frees 299 of them. Norwegian neutrality, which Hitler had been ready to respect if Britain did, has been shown to be something the Royal Navy will set aside. On 19 February Hitler orders the planning to be hurried. A study by the navy and a small group of OKW officers exists. No one has command of an operation." +
+            (flags.mechelen === "redrawn" ? " The army's staff is deep in the rewriting of the plan for the west and has little to spare." : ""),
+          choices: [
+            {
+              label: "Give the operation to a single commander and a small joint staff outside the army's own: General von Falkenhorst",
+              advisor: { name: "Jodl", position: "An operation that three services must carry out together needs one head and one staff, and neither the army's staff nor the navy's study can supply both, so a commander should be named and given a date." },
+              historical: true,
+              setFlags: { altmark: "command" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "ore40",
+              outcome:
+                "What happened. On 21 February command of the Norway operation went to General Nikolaus von Falkenhorst, an infantry general who had served in Finland in 1918. A joint staff worked in OKW with officers of all three services, and on 1 March Hitler issued the directive for the invasion of Norway and Denmark together, the Luftwaffe having pressed for Denmark as well in order to have its fighter bases and air-warning stations.",
+            },
+            {
+              label: "Leave the planning with the navy and the army staff as it is: all the army's weight is kept for the west",
+              advisor: { name: "Halder", position: "France is the war, and a Norway operation drawn up by the navy and run by the army's staff in its spare moments takes nothing from it, so it should not be given a headquarters of its own." },
+              setFlags: { altmark: "staff" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "ore40",
+              uncertain: [
+                {
+                  weight: modWeight(45, meters.initiative),
+                  title: "A plan, but a late one",
+                  setFlags: { altmark: "staff" },
+                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. The navy's study and the army's staff officers produce a plan between them, and it is workable, but it is finished only in the last days of March and the services have not rehearsed it together. The army has kept its best staff officers for the west. The date for Norway is the date the paper allows, not the date that the moon and the tides suggest.",
+                },
+                {
+                  weight: 100 - modWeight(45, meters.initiative),
+                  title: "Three plans in one",
+                  setFlags: { altmark: "staff" },
+                  impact: { manpower: -1, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The ground forces, the ships and the aircraft are each planned by their own service and joined at the last moment, and the joins show. The Luftwaffe wants Denmark and its airfields, the navy wants its ships kept from harm, the army wants its divisions back for the west, and the argument is not settled until the Führer settles it himself, with less time to spare.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get ore40() {
+          return {
+          date: "MARCH – APRIL 1940",
+          title: "The Date for Norway",
+          historicalRecord: true,
+          situation:
+            "Finland made peace with the Soviet Union in March, and with it ended the Allies' pretext for the expedition they had prepared through Narvik and the iron ore railway towards Luleå, officially to help the Finns; the order to sail, given on 12 March, was recalled. The British and French have not given up Norway. The War Cabinet has agreed to lay mines in the Norwegian Leads to stop the ore ships from using Norwegian waters, and the minelaying is set for the first week of April. The plan is ready and the staff is ready, and the transports and warships must sail a few days before the landings. The navy knows that every day it waits is a day on which the Royal Navy may find its ships at sea." +
+            (flags.altmark === "command" ? " Falkenhorst's staff has the plan in its hands and a date on it." : "") +
+            (flags.altmark === "staff" ? " The plan is complete, but it was put together by three services that have not yet met." : ""),
+          choices: [
+            {
+              label: "Land first: sail in time to take every port on 9 April, before the British can act",
+              advisor: { name: "Raeder", position: "The ports have to be taken before the British arrive, because a navy that must fight its way into harbours that are already held will lose its destroyers and its cruisers for nothing." },
+              historical: true,
+              setFlags: { norwayDate: "first" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "norway40",
+              outcome:
+                "What happened. The ships sailed in the first week of April, and the landings at Oslo, Kristiansand, Stavanger, Bergen, Trondheim and Narvik, and in Denmark, came on 9 April. The British mines had been laid in the Vestfjord early on 8 April, a day earlier, and the Home Fleet was at sea in answer to reports of German ships when the landings began. The Germans reached the ports first, which is what the plan required, and there was no margin to spare.",
+            },
+            {
+              label: "Hold the transports in port until the British show their hand, and answer the minelaying",
+              advisor: { name: "Dönitz", position: "A fleet that sails into the Royal Navy gets sunk, while a fleet that waits can choose its moment, so the landings should follow the British move, which will also hand the Reich its pretext." },
+              setFlags: { norwayDate: "after" },
+              impact: { manpower: -1, fuel: -1, initiative: -1 },
+              next: "norway40",
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.initiative),
+                  title: "The pretext, and a day lost",
+                  setFlags: { norwayDate: "after" },
+                  impact: { manpower: -1, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. The mines are laid on 8 April, as in the record, and the landings follow at once, a few days behind the plan, with the mines as the excuse in the Reich's note to Oslo. The ports are mostly taken, but the Norwegians have had days of warning, and the British, who put forces to sea as soon as the mines are laid, are close to the coast when the German ships arrive.",
+                },
+                {
+                  weight: 100 - modWeight(35, meters.initiative),
+                  title: "The British reach the ports",
+                  setFlags: { norwayDate: "after" },
+                  impact: { manpower: -2, fuel: -1, initiative: -2 },
+                  outcome:
+                    "Speculative. The minelaying is followed by British ships on the Norwegian coast, and the transports find them off the ports that they were to enter. The landings that go ahead go ahead with the Home Fleet in the area and without surprise, and the navy pays for the wait in the one currency it has least of.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get norway40() {
           return {
           date: "APRIL 1940",
           title: "Weserübung: The Norway Gamble",
           historicalRecord: true,
           situation:
             "Norway comes first, ahead of France and ahead of any question about the Channel. Swedish iron ore reaches the Reich year-round through the ice-free port of Narvik, a supply the naval staff calls irreplaceable, and Britain has its own landing force ready to seize it first if Germany hesitates. Weserübung will be the first opposed amphibious operation of the war against a power with naval superiority: destroyers running troops into fjords the Royal Navy also knows how to find.\n\nThe Kriegsmarine's surface fleet (barely rebuilt since Versailles, a fraction of the size it will need to matter later) is what has to carry this. Every ship risked here is a ship the Channel Question, six months from now, will not have." +
+            (flags.norwayDate === "after"
+              ? " The British have already laid their mines and moved their ships, and the Germans land with the Royal Navy awake along the coast, where the plan assumed it would be asleep."
+              : "") +
+            (flags.altmark === "staff"
+              ? " The planning was shared among the services, and it shows in the orders."
+              : "") +
             (flags.forkNorwayHeld
               ? "\n\nEarly signals intelligence suggests the British landing force is further along than the standard estimate assumed: this may not be the clean surprise the plan is counting on."
               : ""),
@@ -256,6 +506,9 @@ const CAMPAIGNS = {
           historicalRecord: true,
           situation:
             "The invasion of France and the Low Countries is days away, and OKH's standing plan is a cautious update of the old Schlieffen concept: the main weight swings through Belgium in the north, exactly where French and British planners expect it and have positioned their best mobile forces to meet it. Manstein, sidelined to a corps command for arguing against this plan too persistently, has an alternative that only reached Hitler's desk after a chance dinner, and after an aircraft carrying a partial copy of the original plan was shot down over Belgium in January, forcing a rethink regardless: send the true weight of the panzer divisions through the Ardennes, terrain French staff studies have judged unsuitable for a major armored thrust, and cut behind the Allied armies advancing into Belgium to meet a northern attack that would, in this version, be nothing but the bait." +
+            (flags.mechelen === "patched"
+              ? " The plan for the west was patched after Mechelen and not replaced, and the other side has had the winter to think about it."
+              : "") +
             (flags.forkNorwayHeld
               ? " Norway is still unresolved to the north: an open flank and an ore route neither confirmed nor lost, sitting behind this plan's entire timetable like a bill not yet due."
               : ""),
@@ -21217,6 +21470,11 @@ function Stamp({ text, color, campaignId }) {
 
 const NODE_ATLAS = {
   german: [
+    { id: "fallWeiss39", date: "SEPTEMBER 1939", title: "Poland and the Western Wall" },
+    { id: "phoneyWar39", date: "OCTOBER – NOVEMBER 1939", title: "The Order for the West" },
+    { id: "mechelen40", date: "JANUARY 1940", title: "The Plan in the Snow" },
+    { id: "altmark40", date: "FEBRUARY 1940", title: "The Altmark" },
+    { id: "ore40", date: "MARCH – APRIL 1940", title: "The Date for Norway" },
     { id: "norway40", date: "APRIL 1940", title: "Weserübung: The Norway Gamble" },
     { id: "caseYellow40", date: "MAY 1940", title: "The Manstein Plan" },
     { id: "dunkirk", date: "MAY 1940", title: "The Halt at Dunkirk" },
@@ -25829,7 +26087,7 @@ function migrateSave(saved) {
   return s;
 }
 
-const NODE_TOTAL = 286; // 100 German + 71 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
+const NODE_TOTAL = 291; // 105 German + 71 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 29: German +5 for the prelude: fallWeiss39, phoneyWar39, mechelen40, altmark40 and ore40.) (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 // Framing quotes shown on entering the War Room. Where a clean, verified, short quote from
 // the actual command figure at this moment exists, it's used with a real name and date. Where
@@ -28003,6 +28261,7 @@ const FRONT_SERIES = [
 // ---- where each report is set ----
 const MAP_PLACES = {
   german: {
+    fallWeiss39: [21.0, 52.23], phoneyWar39: [13.4, 52.5], mechelen40: [5.7, 50.96], altmark40: [6.35, 58.31], ore40: [8.1, 53.5],
     norway40: [10.75, 59.9], caseYellow40: [4.95, 49.7], caseYellowOriginal40: [2.3, 49.9], compressedInvasionWindow40: [1.5, 50.9], dunkirk: [2.37, 51.03], channel: [1.5, 50.9], tannenbaum40: [8.0, 47.4],
     balkans: [20.5, 44.8], hessFlight41: [-4.3, 55.75], crete41: [25.1, 35.4], bismarckBreakout41: [5.3, 60.4], sealionDisaster40: [1.2, 51.0], sealionAftermath40: [1.2, 51.0],
     barbarossa41: [21.5, 54.08], suezFirst41: [32.3, 30.0], barbarossaAutumn41: [21.5, 54.08], japanDirection41: [13.4, 52.5], moscowFalls41: [37.6, 55.75], volgaOverreach42: [44.0, 56.3],
@@ -28073,6 +28332,7 @@ const MAP_OFF_MAP = {
 const mapNow = (on, at, text) => ({ on, at, text });
 const MAP_MEANWHILE = {
   german: [
+    mapNow("1939-09-01", [21.0, 52.23], "German armies cross the Polish frontier."),
     mapNow("1940-04-09", [10.75, 59.9], "German landings begin at ports from Oslo to Narvik."),
     mapNow("1940-05-10", [5.7, 50.1], "The offensive in the west opens through the Ardennes."),
     mapNow("1940-05-26", [2.37, 51.03], "The evacuation from Dunkirk begins under the halt order."),
@@ -29972,6 +30232,11 @@ function mapDiscRadius(id) {
 // "close the NODE_HIGHLIGHT_REGIONS gaps" work).
 const NODE_HIGHLIGHT_REGIONS = {
   german: {
+  fallWeiss39: ["poland"],
+  phoneyWar39: ["germany", "france"],
+  mechelen40: ["benelux"],
+  altmark40: ["norway"],
+  ore40: ["norway", "denmark"],
   norway40: ["norway"],
   caseYellow40: ["france", "benelux"],
   caseYellowOriginal40: ["france", "benelux"],
@@ -31516,7 +31781,7 @@ function AdviserLine({ advisor, flags }) {
   );
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history }) {
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history, onIntelCheck }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [showMap, setShowMap] = useState(false);
   const easy = mode === "easy";
@@ -31810,6 +32075,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
         {campaign.dynamic && <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />}
         <Typewriter text={situationWithNote} instant={instantText} soundOn={soundOn} />
+        {campaign.dynamic && onIntelCheck && <IntelPanel campaignId={campaign.id} nodeId={nodeId} flags={flags} easy={easy} hard={noRewind} onCheck={(id) => onIntelCheck(nodeId, id, noRewind)} accent={campaign.accent} />}
 
         <div
           className="text-xs uppercase tracking-[0.25em] mb-3 text-[#000000] font-semibold"
@@ -31833,6 +32099,11 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               }}
             >
               <span className="font-medium block">{choice.label}</span>
+              {campaign.dynamic && intelRests(campaign.id, nodeId, i, flags, easy) && (
+                <span className="block mt-1 text-[11px] uppercase tracking-widest opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  {intelRests(campaign.id, nodeId, i, flags, easy)}
+                </span>
+              )}
               {easy && choice.historical && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
@@ -34367,6 +34638,159 @@ function ShareCardButton({ build, name, accent }) {
     </button>
   );
 }
+const INTEL = { checks: 3, hardChecks: 2 };
+// THE STAFF'S READING (the fog of war of 1914's 68-intel.jsx, for 1940)
+//
+// A report tells what the headquarters knows, and sometimes what it knows is wrong: the staff that thought the Red Army a colossus of clay, the one that expected the
+// main Soviet blow in the south, the one that thought the Greeks would not fight. A few reports carry such beliefs (INTEL_ITEMS), each with the grade the staff gave it,
+// whether it holds, and what the truth was. The grade is no guide: firm beliefs have been wrong and doubtful ones right.
+//
+// The player may ask to SEE THE EVIDENCE on a belief, spending one of a few checks for the file (INTEL.checks; INTEL.hardChecks in Führer-style hard mode), and is told
+// whether it holds. This changes NOTHING in the rules: no roll, no meter and no ending reads it (that is what check-staffs-reading proves); it is a thing to know when
+// choosing, and the orders that rest on a belief say so. In easy mode every belief is shown with its verdict from the start, at no cost.
+// The beliefs are the record's (claims/staffs-reading.json); `relied` names the orders (by position in the report's list) that rest on the belief.
+
+/** { [campaignId]: { [nodeId]: [{ id, text, grade, holds, truth, source, relied: [orderIndex] }] } } */
+const INTEL_ITEMS = {
+  german: {
+    caseYellow40: [
+      { id: "dyle", grade: "firm", holds: true, relied: [0], source: "OKH's appreciation of the Allied deployment",
+        text: "The French and British armies will move forward into Belgium as soon as the attack opens, to meet it on the line of the Dyle.",
+        truth: "On 10 May the best of the Allied armies, the French First Army Group and the British Expeditionary Force, did advance into Belgium under Plan D, and the French Seventh Army went north towards Breda." },
+    ],
+    barbarossa41: [
+      { id: "clay", grade: "firm", holds: false, relied: [0], source: "the assessment of Fremde Heere Ost",
+        text: "The Red Army is a colossus with feet of clay: its officers purged, its tanks obsolete, it will break in a single season.",
+        truth: "Halder wrote in August 1941 that the army had reckoned with about 200 Soviet divisions and had already counted 360. The Red Army was far larger than the staff had allowed for, and it did not break in a season." },
+    ],
+    bagration44: [
+      { id: "south", grade: "firm", holds: false, relied: [0], source: "Fremde Heere Ost under Gehlen",
+        text: "The main Soviet blow of the summer will fall in the south, against Army Group North Ukraine, towards Romania and the Balkans.",
+        truth: "The main blow, Operation Bagration, opened on 22 June 1944 against Army Group Centre, and in the weeks that followed that army group lost most of its strength." },
+    ],
+  },
+  soviet: {
+    plan40: [
+      { id: "south", grade: "firm", holds: false, relied: [0], source: "Stalin's own reading of what Hitler wants",
+        text: "The main German blow will fall in the south, for the grain of Ukraine and the coal of the Donbas.",
+        truth: "In June 1941 the German weight was in the centre: Army Group Centre had two of the four panzer groups and drove for Minsk and Smolensk, while Army Group South attacked with one." },
+    ],
+    memo41: [
+      { id: "notthisyear", grade: "firm", holds: false, relied: [2], source: "Stalin's own judgement, and the reports that fitted it",
+        text: "Germany will not attack this summer while its war with Britain is still unfinished.",
+        truth: "Germany attacked on 22 June 1941, just over five weeks after the memorandum, with more than three million men." },
+    ],
+    kurskDefense43: [
+      { id: "twosides", grade: "firm", holds: true, relied: [0], source: "intelligence passed to Stavka in the spring",
+        text: "The Germans will attack the Kursk salient from the north and from the south at once, early in July.",
+        truth: "Operation Citadel opened on 5 July 1943 from both sides of the salient, Army Group Centre from the north and Army Group South from the south." },
+    ],
+  },
+  allied: {
+    narvik40: [
+      { id: "time", grade: "doubtful", holds: false, relied: [0], source: "the War Cabinet's reading in April",
+        text: "The decisive fighting in France is still some time away, so Norway can be reinforced without risk to the main front.",
+        truth: "The German attack in the west opened on 10 May and the Meuse was crossed at Sedan on 13 and 14 May. The Allied force at Narvik was withdrawn in the first week of June to meet the crisis in France." },
+    ],
+    malaya41: [
+      { id: "deter", grade: "doubtful", holds: false, relied: [0], source: "the Prime Minister's own reading",
+        text: "A modern battleship at Singapore will make Tokyo stop and count, and so deter an attack.",
+        truth: "Japan attacked Pearl Harbor and Malaya on 7 and 8 December. The Prince of Wales and the Repulse sailed to meet the landings and were sunk by aircraft off the coast of Malaya on 10 December, with no fighter cover." },
+    ],
+    marketGarden44: [
+      { id: "weak", grade: "doubtful", holds: false, relied: [0], source: "the army group's intelligence summaries",
+        text: "The German forces round Arnhem are weak and second-rate, and will not stand against an airborne landing.",
+        truth: "The 9th and 10th SS Panzer Divisions, battered but still armoured, were refitting in the area, and Dutch reports and air photographs had said so. They were the force that met the 1st Airborne Division." },
+    ],
+  },
+  italy: {
+    greeceDecision40: [
+      { id: "ten", grade: "firm", holds: false, relied: [0], source: "the promise of General Visconti Prasca to Mussolini",
+        text: "The Greek forces in Epirus will be finished off in ten to fifteen days, and the Greeks will not fight in earnest.",
+        truth: "The Italian advance was halted inside Greek territory by mid-November, and the Greek counteroffensive from 14 November pushed it back towards Albania, where it ended in January 1941." },
+    ],
+    compass40: [
+      { id: "camps", grade: "doubtful", holds: false, relied: [1], source: "the Tenth Army's own dispositions",
+        text: "The fortified camps support one another, and the gaps between them can be watched by patrols.",
+        truth: "The British attacked on 9 December through the gap and took the camps one at a time, Nibeiwa first, from the rear. Within days the Tenth Army was beaten and tens of thousands of its men were prisoners." },
+    ],
+  },
+};
+
+/** The beliefs a report carries, or []. */
+function intelItemsAt(campaignId, nodeId) {
+  return ((INTEL_ITEMS[campaignId] || {})[nodeId]) || [];
+}
+
+const intelKey = (nodeId, itemId) => "ix_" + nodeId + "_" + itemId;
+
+/** Whether a belief has been checked in this file. */
+function intelChecked(flags, nodeId, itemId) {
+  return Boolean(flags && flags[intelKey(nodeId, itemId)]);
+}
+
+/** How many checks are left: the file's allowance less those used. */
+function intelChecksLeft(flags, hard) {
+  const f = flags || {};
+  return Math.max(0, (hard ? INTEL.hardChecks : INTEL.checks) - (Number(f.ix_used) || 0));
+}
+
+/** The flags after checking one belief (the same flags if it is already checked or none are left). */
+function intelCheck(flags, nodeId, itemId, hard) {
+  if (intelChecked(flags, nodeId, itemId) || intelChecksLeft(flags, hard) < 1) return flags;
+  return { ...flags, [intelKey(nodeId, itemId)]: true, ix_used: (Number(flags.ix_used) || 0) + 1 };
+}
+
+const INTEL_GRADE_TAG = { firm: T("Reported as firm"), doubtful: T("Doubtful"), poor: T("Poor") };
+
+/** The beliefs of a report, each with its grade and source and a button to see the evidence; once seen (at once, in easy mode) whether it held and what the truth was. */
+function IntelPanel({ campaignId, nodeId, flags, easy, hard, onCheck, accent }) {
+  const items = intelItemsAt(campaignId, nodeId);
+  if (!items.length) return null;
+  const left = intelChecksLeft(flags, hard);
+  return (
+    <section className="mb-4 border-l-4 pl-3" style={{ borderColor: accent, fontFamily: "'IBM Plex Mono', monospace" }} aria-label={t("What the staff believes")}>
+      <div className="text-xs uppercase tracking-[0.25em] mb-1 text-[#000000] font-semibold">{t("What the staff believes")}</div>
+      <ul className="list-none m-0 p-0">
+        {items.map((it) => {
+          const known = easy || intelChecked(flags, nodeId, it.id);
+          return (
+            <li key={it.id} className="mb-2 text-sm text-[#000000]">
+              <span className="inline-block mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]">{t(INTEL_GRADE_TAG[it.grade])}</span>
+              {it.text} <span className="opacity-70">{t("Source: {itSource}.", { itSource: it.source })}</span>
+              {known ? (
+                <p className="m-0 mt-1 text-sm">
+                  <b>{it.holds ? t("The evidence leans towards it.") : t("The evidence leans against it.")}</b> {it.truth}
+                </p>
+              ) : (
+                <p className="m-0 mt-1">
+                  <button
+                    onClick={() => onCheck(it.id)}
+                    disabled={left < 1}
+                    className="border-2 px-3 py-1 uppercase tracking-widest text-xs hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] disabled:opacity-50"
+                    style={{ borderColor: accent, fontFamily: "Oswald, sans-serif" }}
+                  >
+                    {left < 1 ? t("Show the evidence: no checks left") : t("Show the evidence ({left} left)", { left })}
+                  </button>
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+/** The line under an order that rests on a belief: that it does, and how it stands. "" when the order rests on none. */
+function intelRests(campaignId, nodeId, orderIndex, flags, easy) {
+  const items = intelItemsAt(campaignId, nodeId).filter((it) => it.relied.includes(orderIndex));
+  if (!items.length) return "";
+  const states = items.map((it) => (easy || intelChecked(flags, nodeId, it.id) ? (it.holds ? "held" : "wrong") : "open"));
+  if (states.includes("wrong")) return t("Rests on a belief the evidence goes against");
+  if (states.includes("open")) return t("Rests on a belief the staff has not tested");
+  return t("Rests on a belief the evidence supports");
+}
 const ADVISOR_DOSSIERS = {
   Mikoyan: { role: "Politburo: Lend-Lease administration", bio: "Ran the Soviet side of Lend-Lease logistics, and later acknowledged more openly than most Soviet officials how much American trucks and aviation fuel in fact mattered to the war effort.", fate: "One of the few Old Bolsheviks to survive every purge and outlast Stalin himself, dying peacefully in 1978.", faction: "soviet", rank: 2 },
   Timoshenko: { role: "Marshal: early Eastern Front command", bio: "Replaced the disgraced Pavlov after the border collapse and steadied a front that had nearly ceased to exist, at a moment when steadying anything counted as a rare success.", fate: "Sidelined from top command after mixed results at Kharkov, but survived the war and Stalin both; died in 1970.", faction: "soviet", rank: 2 },
@@ -34393,6 +34817,7 @@ const ADVISOR_DOSSIERS = {
   Rommel: { role: "Field Marshal: the theater commander", bio: "The desert war's defining commander and later architect of the Atlantic Wall's forward defense. His supply-line arithmetic in Africa was as sound as his tactics were bold.", fate: "Implicated, to a degree historians still debate, in the July 20 plot; forced to take poison in October 1944 in exchange for his family's safety, and buried with full honors under a state lie.", faction: "german", rank: 2 },
   Model: { role: "Field Marshal'the Führer's fireman'", bio: "The defensive specialist sent wherever the front was collapsing, from Rzhev to the Ruhr. Blunt, tireless, and one of few who could tell Hitler no and keep his command.", fate: "Encircled in the Ruhr pocket in April 1945; dissolved his army group rather than surrender it, then took his own life in a forest near Duisburg.", faction: "german", rank: 2 },
   Heinrici: { role: "Colonel-General: the defensive craftsman", bio: "Master of the elastic defense, most famously emptying the Seelow trenches ahead of Zhukov's bombardment. Openly contemptuous of orders that spent men for ground.", fate: "Relieved in the war's final week for refusing to sacrifice his troops in Berlin; died in 1971.", faction: "german", rank: 4 },
+  Brauchitsch: { role: "Field Marshal: Commander-in-Chief of the Army", bio: "Headed the army from 1938, carried out Hitler's wars while telling him, in the winter of 1939, that the army was not ready for the one in the west, and offered to resign over it.", fate: "Dismissed in December 1941 after the failure before Moscow; died in British custody in 1948 before he could be tried.", faction: "german", rank: 2 },
   Halder: { role: "Colonel-General: Chief of the General Staff", bio: "Ran the army's planning through the war's ascendant years, from Case Yellow to Barbarossa, in permanent quiet tension with Hitler's intuitions.", fate: "Dismissed in 1942; imprisoned after July 20 and sent to a concentration camp; liberated in 1945, later led the U.S. Army's German war-history program.", faction: "german", rank: 3 },
   Jodl: { role: "Colonel-General: OKW operations chief", bio: "The staff officer at Hitler's elbow for the entire war, translating intent into directives across every theater.", fate: "Signed the surrender at Reims; convicted at Nuremberg and executed in 1946.", faction: "german", rank: 3 },
   Keitel: { role: "Field Marshal: OKW chief", bio: "The high command's administrator and the regime's most reliable military signature: his nickname among officers, 'Lakeitel,' was a pun on 'lackey.'", fate: "Signed the ratified surrender at Karlshorst; convicted at Nuremberg and executed in 1946.", faction: "german", rank: 2 },
@@ -35829,6 +36254,7 @@ function WW2CommandInner() {
           soundOn={soundOn}
           controlBattles={controlBattles}
           onChoose={chooseOption}
+          onIntelCheck={(nodeId, itemId, hard) => setFlags((f) => intelCheck(f, nodeId, itemId, hard))}
           onRewind={rewindTo}
           onSave={manualSave}
           onHome={goHome}

@@ -786,5 +786,16 @@
   "Moscow": "Москва",
   "Stalingrad": "Сталинград",
   "Cairo": "Каир",
-  "Ankara": "Анкара"
+  "Ankara": "Анкара",
+  "Reported as firm": "Сообщено как надёжное",
+  "Doubtful": "Сомнительное",
+  "What the staff believes": "Что считает штаб",
+  "Source: {itSource}.": "Источник: {itSource}.",
+  "The evidence leans towards it.": "Свидетельства говорят в пользу этого.",
+  "The evidence leans against it.": "Свидетельства говорят против этого.",
+  "Show the evidence: no checks left": "Показать свидетельства: проверок не осталось",
+  "Show the evidence ({left} left)": "Показать свидетельства (осталось: {left})",
+  "Rests on a belief the evidence goes against": "Опирается на убеждение, которому свидетельства противоречат",
+  "Rests on a belief the staff has not tested": "Опирается на убеждение, которое штаб не проверил",
+  "Rests on a belief the evidence supports": "Опирается на убеждение, которое свидетельства подтверждают"
 }

@@ -2,21 +2,271 @@
     id: "german",
     seal: "OKW",
     name: "Wehrmacht High Command",
-    dates: "1940–1945",
-    brief: "Direct the German war machine from the fall of France to the Reich's destiny.",
+    dates: "1939–1945",
+    brief: "Direct the German war machine from the last autumn of peace in the west to the Reich's destiny.",
     accent: "#7a2e2e",
     dynamic: true,
-    start: "norway40",
+    start: "fallWeiss39",
     resolveNode(id, flags, meters) {
       const preservedReserve = !!flags.preservedReserve;
 
-      const nodes = {        get norway40() {
+      const nodes = {
+        // The prelude (September 1939 to April 1940). The campaign used to open at the Weserübung landings in April 1940; these five reports are the
+        // decisions before it that the record leaves a command to make: how much of the army to stake on Poland, whether to say that the army is not
+        // ready for the order for the west, what to do when the plan for the west is lost in Belgium, who is to command Norway, and when to sail.
+        // What the player chooses is carried as flags (west39, phoneyWar, mechelen, altmark, norwayDate) that the later reports mention in a sentence
+        // and that move the meters; none of it is a hidden bonus. Facts checked 2026-11-02 against Wikipedia (Mechelen incident; Altmark incident;
+        // Operation Weserübung; Phoney War; Battle of France); the rest are drafted from the secondary literature (claims/german-prelude.json).
+        get fallWeiss39() {
+          return {
+          date: "SEPTEMBER 1939",
+          title: "Poland and the Western Wall",
+          historicalRecord: true,
+          situation:
+            "The army crossed the Polish frontier on 1 September, and Britain and France declared war on 3 September. The plan is Fall Weiss: two army groups, Bock's in the north out of Pomerania and East Prussia and Rundstedt's in the south out of Silesia, close on Warsaw from both sides with the armoured and motorised divisions in front, so that the Polish army is cut off before it can fall back behind the Vistula. Almost everything that can move has been sent east. In the west there is a screen behind the new fortifications of the Westwall, mostly reserve and second-line divisions with few tanks and little ammunition, and across the frontier stands the French army, the largest in Europe. Halder is satisfied that France will not move in earnest before Poland is finished. Some officers in the staff would rather not stake the Reich on that." +
+            (flags.hardMode ? " There is no second army behind this one, and every man in the room knows it." : ""),
+          choices: [
+            {
+              label: "Send everything mobile east and leave a thin screen in the west: Poland must be finished before France stirs",
+              advisor: { name: "Halder", position: "The French will take weeks to mobilise and will not attack into the Westwall in earnest, so the risk is a calculated one, and the quicker Poland falls the sooner the army can turn west." },
+              historical: true,
+              setFlags: { west39: "thin" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "phoneyWar39",
+              outcome:
+                "What happened. The panzer and motorised divisions went east and Poland was broken in weeks: the Polish armies were cut off west of the Vistula, the Red Army entered the country from the east on 17 September, and the last organised resistance ended in the first week of October. In the west the French Saar offensive began on 7 September, advanced up to eight kilometres into German territory against the screen of reserve divisions, and was halted on 12 September; on 21 September Gamelin ordered the troops back to the Maginot Line, and the last of them had left German soil by 17 October. Jodl said at Nuremberg that about 110 French and British divisions had been held inactive in the west against 23 German ones. The army ended the campaign with the Polish army destroyed, its tanks and ammunition worn down, and a war in the west that it had not yet had to fight.",
+            },
+            {
+              label: "Keep a strong reserve in the west: hold back some of the new armoured divisions and finish Poland more slowly",
+              advisor: { name: "Jodl", position: "The war has begun with France and Britain across the frontier, and a Reich that has spent its tanks in Poland has nothing to meet them with, so a stronger western reserve is the price of the eastern success." },
+              setFlags: { west39: "reserve" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "phoneyWar39",
+              uncertain: [
+                {
+                  weight: modWeight(60, meters.initiative),
+                  title: "Poland falls a little slower",
+                  setFlags: { west39: "reserve" },
+                  impact: { manpower: 1, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Speculative. Poland is still beaten, because the Red Army enters from the east on 17 September, but without the full weight of the armour the encirclements close later and leave more of the Polish army to break out, as the counterattack on the Bzura nearly did. Warsaw holds into October. The price is a fortnight of the autumn and the ammunition that goes with it. The gain is a western army with some tanks behind its screen, and a staff that is not holding its breath.",
+                },
+                {
+                  weight: 100 - modWeight(60, meters.initiative),
+                  title: "The delay costs more than it buys",
+                  setFlags: { west39: "reserve" },
+                  impact: { manpower: 0, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The armour is split between two fronts and is strong in neither. Polish units break out of the pockets west of Warsaw, the fighting on the Bzura runs longer, and the campaign is still unfinished when the autumn rains arrive. The French in the Saar see no extra German strength, because there is none worth seeing, and the reserve in the west never fights.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get phoneyWar39() {
+          return {
+          date: "OCTOBER – NOVEMBER 1939",
+          title: "The Order for the West",
+          historicalRecord: true,
+          situation:
+            "Poland is finished, and the war in the west has been a war of leaflets and outposts since the French pulled back from the Saar. Hitler does not intend to wait. His Directive No. 6 of 9 October orders the conquest of the Low Countries at the shortest notice, to get ahead of the French, to keep the Allied air forces away from the Ruhr and to win a base from which to wage war on Britain. On 19 October Halder presents the first plan: a frontal attack with limited aims, driving the Allies back to the Somme. On 5 November Hitler tells Brauchitsch that it will begin on 12 November. The divisions have not been refitted since Poland, the tank repair parks are full, ammunition is short, and the autumn weather favours neither tanks nor aircraft." +
+            (flags.west39 === "reserve" ? " The armour held back in the west is rested and complete, which is more than can be said of the rest of the army." : "") +
+            (flags.hardMode ? " Nobody in the room has forgotten how the Führer received the last man who told him that a date was wrong." : ""),
+          choices: [
+            {
+              label: "Tell Hitler plainly that the army is not ready and ask for time: the date cannot be kept",
+              advisor: { name: "Brauchitsch", position: "The army has not recovered from Poland, its stocks are low and the autumn is the wrong season, so the date is wrong, and the army should say so, even to him." },
+              historical: true,
+              setFlags: { phoneyWar: "delay" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "mechelen40",
+              outcome:
+                "What happened. On 5 November Brauchitsch told Hitler that the army could not be ready for 12 November and argued against the offensive; Hitler's anger was such that Brauchitsch offered to resign, and the offer was refused. Two days later Hitler postponed the attack because of the weather, and through the winter it was put off again and again, by days or by weeks, as commanders and forecasters gave him reasons to wait. The army had its winter, and used it to repair its tanks, retrain its divisions and argue about what the plan itself ought to be.",
+            },
+            {
+              label: "Obey the order and prepare the attack for 12 November without argument",
+              advisor: { name: "Keitel", position: "The Führer has given an order, and an army that argues over orders in front of him will find them taken out of its hands, so the army prepares the date it has been given." },
+              setFlags: { phoneyWar: "obey" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "mechelen40",
+              uncertain: [
+                {
+                  weight: modWeight(50, meters.initiative),
+                  title: "The weather decides it anyway",
+                  setFlags: { phoneyWar: "obey" },
+                  impact: { manpower: -1, fuel: -1, initiative: 1 },
+                  outcome:
+                    "Speculative. The orders go out and the divisions move up to their assembly areas. On 7 November the forecasts are bad and Hitler postpones, as he did in the record, and then postpones again as the weather and the readiness reports give him reasons. The difference is that the army has not used its case to buy anything: it spends the winter at a half-readiness that each new date calls for, with units moved up, moved back and moved up again.",
+                },
+                {
+                  weight: 100 - modWeight(50, meters.initiative),
+                  title: "A winter of readiness",
+                  setFlags: { phoneyWar: "obey" },
+                  impact: { manpower: -2, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Speculative. Leave and retraining are cancelled for the units nearest the frontier, the tank parks are still not emptied, and each false alarm costs fuel and a little more of the men's patience. By January the army is tired of a war it has not yet fought, and the plan, which nobody has had the time to question, is the plan of October.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get mechelen40() {
+          return {
+          date: "JANUARY 1940",
+          title: "The Plan in the Snow",
+          historicalRecord: true,
+          situation:
+            "On 10 January Major Hoenmanns, a Luftwaffe base commander, loses his way in fog on a flight from Münster to Cologne and comes down in a field in Belgium. His passenger, Major Reinberger of the 7th Air Division, is carrying papers on the attack on the Netherlands and Belgium, which Hitler has set for 17 January, and tries to burn them. Belgian border guards stop him and save the partly burned sheets. Belgian intelligence judges them genuine, if damaged and without the date, and King Leopold warns the Dutch and passes the news to Gamelin and to Gort. Hitler dismisses the Luftwaffe generals Felmy and Kammhuber the next day, and Jodl says that the situation would be catastrophic if the enemy has all the files. The plan is also one that the army's own senior staff have never liked: at Army Group A, Rundstedt's chief of staff Manstein has sent seven memoranda since October for a different one, each more radical than the last, and OKH has rejected every one of them." +
+            (flags.hardMode ? " Two officers have lost their commands for less." : ""),
+          choices: [
+            {
+              label: "Withdraw the plan and open the whole question again: the weight of the attack may have to move",
+              advisor: { name: "Manstein", position: "A plan the enemy has read is no use as it stands, and since it has to be done again it may as well be done properly, with the weight on the Ardennes and the Meuse, where nobody is looking." },
+              historical: true,
+              setFlags: { mechelen: "redrawn" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "altmark40",
+              outcome:
+                "What happened. On 16 January, with snow on the roads and the plan compromised, Hitler called the attack off for the time being. The traditional account says that the loss of the papers forced a new plan and that Manstein's proposal for a thrust through the Ardennes towards Sedan was taken up; historians dispute how much the incident mattered next to the weather, the army's readiness and Manstein's own persistence. The sequence is not in doubt: Manstein was removed from Army Group A on 27 January and given a corps in East Prussia, Halder had him sent to Stettin, Hitler summoned him on 17 February and ordered his thinking adopted the day after, and on 24 February a new deployment directive was issued. Which plan the army would carry out was still being settled as the winter ended.",
+            },
+            {
+              label: "Keep the plan, patch it and move the date: the Allies may take the papers for a plant",
+              advisor: { name: "Bock", position: "The plan is sound, because the main blow in Belgium is where any army would expect one, and what the Belgians hold is a burned part of it, so a few changes of detail and a new date will do." },
+              setFlags: { mechelen: "patched" },
+              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              next: "altmark40",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "Doubt on the other side",
+                  setFlags: { mechelen: "patched" },
+                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. The patched plan goes back into the safes. Over February and March the reports from the Netherlands and Belgium suggest that the other side is unsure what to make of what it has: the Belgians keep a careful watch, the French move up to the frontier and back again, and nobody is quite certain that the papers were not meant to be found. The plan is no more secret than before, but it is no less likely to work than any plan the staff could draw in the same weeks.",
+                },
+                {
+                  weight: 100 - modWeight(40, meters.initiative),
+                  title: "The other side is ready",
+                  setFlags: { mechelen: "patched" },
+                  impact: { manpower: -1, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The reports of February and March show every sign that the other side's staff took the papers for what they were. The Belgian defences are stiffer on the line where the main blow would fall, and the French moves towards the frontier are rehearsed. The army has a plan, a new date and the knowledge that the opposing generals have already read the outline of it.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get altmark40() {
+          return {
+          date: "FEBRUARY 1940",
+          title: "The Altmark",
+          historicalRecord: true,
+          situation:
+            "The navy has been pressing for Norway since October, when Raeder spoke to Hitler of the danger of British bases there and of the case for seizing them first, and on 14 December Hitler met the Norwegian fascist Vidkun Quisling and afterwards ordered a preliminary study. On the night of 16 February the destroyer HMS Cossack, under Captain Vian, enters the Jøssingfjord and boards the German supply ship Altmark, which has been carrying British merchant seamen taken by the Admiral Graf Spee, and frees 299 of them. Norwegian neutrality, which Hitler had been ready to respect if Britain did, has been shown to be something the Royal Navy will set aside. On 19 February Hitler orders the planning to be hurried. A study by the navy and a small group of OKW officers exists. No one has command of an operation." +
+            (flags.mechelen === "redrawn" ? " The army's staff is deep in the rewriting of the plan for the west and has little to spare." : ""),
+          choices: [
+            {
+              label: "Give the operation to a single commander and a small joint staff outside the army's own: General von Falkenhorst",
+              advisor: { name: "Jodl", position: "An operation that three services must carry out together needs one head and one staff, and neither the army's staff nor the navy's study can supply both, so a commander should be named and given a date." },
+              historical: true,
+              setFlags: { altmark: "command" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "ore40",
+              outcome:
+                "What happened. On 21 February command of the Norway operation went to General Nikolaus von Falkenhorst, an infantry general who had served in Finland in 1918. A joint staff worked in OKW with officers of all three services, and on 1 March Hitler issued the directive for the invasion of Norway and Denmark together, the Luftwaffe having pressed for Denmark as well in order to have its fighter bases and air-warning stations.",
+            },
+            {
+              label: "Leave the planning with the navy and the army staff as it is: all the army's weight is kept for the west",
+              advisor: { name: "Halder", position: "France is the war, and a Norway operation drawn up by the navy and run by the army's staff in its spare moments takes nothing from it, so it should not be given a headquarters of its own." },
+              setFlags: { altmark: "staff" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "ore40",
+              uncertain: [
+                {
+                  weight: modWeight(45, meters.initiative),
+                  title: "A plan, but a late one",
+                  setFlags: { altmark: "staff" },
+                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. The navy's study and the army's staff officers produce a plan between them, and it is workable, but it is finished only in the last days of March and the services have not rehearsed it together. The army has kept its best staff officers for the west. The date for Norway is the date the paper allows, not the date that the moon and the tides suggest.",
+                },
+                {
+                  weight: 100 - modWeight(45, meters.initiative),
+                  title: "Three plans in one",
+                  setFlags: { altmark: "staff" },
+                  impact: { manpower: -1, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The ground forces, the ships and the aircraft are each planned by their own service and joined at the last moment, and the joins show. The Luftwaffe wants Denmark and its airfields, the navy wants its ships kept from harm, the army wants its divisions back for the west, and the argument is not settled until the Führer settles it himself, with less time to spare.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get ore40() {
+          return {
+          date: "MARCH – APRIL 1940",
+          title: "The Date for Norway",
+          historicalRecord: true,
+          situation:
+            "Finland made peace with the Soviet Union in March, and with it ended the Allies' pretext for the expedition they had prepared through Narvik and the iron ore railway towards Luleå, officially to help the Finns; the order to sail, given on 12 March, was recalled. The British and French have not given up Norway. The War Cabinet has agreed to lay mines in the Norwegian Leads to stop the ore ships from using Norwegian waters, and the minelaying is set for the first week of April. The plan is ready and the staff is ready, and the transports and warships must sail a few days before the landings. The navy knows that every day it waits is a day on which the Royal Navy may find its ships at sea." +
+            (flags.altmark === "command" ? " Falkenhorst's staff has the plan in its hands and a date on it." : "") +
+            (flags.altmark === "staff" ? " The plan is complete, but it was put together by three services that have not yet met." : ""),
+          choices: [
+            {
+              label: "Land first: sail in time to take every port on 9 April, before the British can act",
+              advisor: { name: "Raeder", position: "The ports have to be taken before the British arrive, because a navy that must fight its way into harbours that are already held will lose its destroyers and its cruisers for nothing." },
+              historical: true,
+              setFlags: { norwayDate: "first" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "norway40",
+              outcome:
+                "What happened. The ships sailed in the first week of April, and the landings at Oslo, Kristiansand, Stavanger, Bergen, Trondheim and Narvik, and in Denmark, came on 9 April. The British mines had been laid in the Vestfjord early on 8 April, a day earlier, and the Home Fleet was at sea in answer to reports of German ships when the landings began. The Germans reached the ports first, which is what the plan required, and there was no margin to spare.",
+            },
+            {
+              label: "Hold the transports in port until the British show their hand, and answer the minelaying",
+              advisor: { name: "Dönitz", position: "A fleet that sails into the Royal Navy gets sunk, while a fleet that waits can choose its moment, so the landings should follow the British move, which will also hand the Reich its pretext." },
+              setFlags: { norwayDate: "after" },
+              impact: { manpower: -1, fuel: -1, initiative: -1 },
+              next: "norway40",
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.initiative),
+                  title: "The pretext, and a day lost",
+                  setFlags: { norwayDate: "after" },
+                  impact: { manpower: -1, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. The mines are laid on 8 April, as in the record, and the landings follow at once, a few days behind the plan, with the mines as the excuse in the Reich's note to Oslo. The ports are mostly taken, but the Norwegians have had days of warning, and the British, who put forces to sea as soon as the mines are laid, are close to the coast when the German ships arrive.",
+                },
+                {
+                  weight: 100 - modWeight(35, meters.initiative),
+                  title: "The British reach the ports",
+                  setFlags: { norwayDate: "after" },
+                  impact: { manpower: -2, fuel: -1, initiative: -2 },
+                  outcome:
+                    "Speculative. The minelaying is followed by British ships on the Norwegian coast, and the transports find them off the ports that they were to enter. The landings that go ahead go ahead with the Home Fleet in the area and without surprise, and the navy pays for the wait in the one currency it has least of.",
+                },
+              ],
+            },
+          ],
+        };
+        },
+        get norway40() {
           return {
           date: "APRIL 1940",
           title: "Weserübung: The Norway Gamble",
           historicalRecord: true,
           situation:
             "Norway comes first, ahead of France and ahead of any question about the Channel. Swedish iron ore reaches the Reich year-round through the ice-free port of Narvik, a supply the naval staff calls irreplaceable, and Britain has its own landing force ready to seize it first if Germany hesitates. Weserübung will be the first opposed amphibious operation of the war against a power with naval superiority: destroyers running troops into fjords the Royal Navy also knows how to find.\n\nThe Kriegsmarine's surface fleet (barely rebuilt since Versailles, a fraction of the size it will need to matter later) is what has to carry this. Every ship risked here is a ship the Channel Question, six months from now, will not have." +
+            (flags.norwayDate === "after"
+              ? " The British have already laid their mines and moved their ships, and the Germans land with the Royal Navy awake along the coast, where the plan assumed it would be asleep."
+              : "") +
+            (flags.altmark === "staff"
+              ? " The planning was shared among the services, and it shows in the orders."
+              : "") +
             (flags.forkNorwayHeld
               ? "\n\nEarly signals intelligence suggests the British landing force is further along than the standard estimate assumed: this may not be the clean surprise the plan is counting on."
               : ""),
@@ -51,6 +301,9 @@
           historicalRecord: true,
           situation:
             "The invasion of France and the Low Countries is days away, and OKH's standing plan is a cautious update of the old Schlieffen concept: the main weight swings through Belgium in the north, exactly where French and British planners expect it and have positioned their best mobile forces to meet it. Manstein, sidelined to a corps command for arguing against this plan too persistently, has an alternative that only reached Hitler's desk after a chance dinner, and after an aircraft carrying a partial copy of the original plan was shot down over Belgium in January, forcing a rethink regardless: send the true weight of the panzer divisions through the Ardennes, terrain French staff studies have judged unsuitable for a major armored thrust, and cut behind the Allied armies advancing into Belgium to meet a northern attack that would, in this version, be nothing but the bait." +
+            (flags.mechelen === "patched"
+              ? " The plan for the west was patched after Mechelen and not replaced, and the other side has had the winter to think about it."
+              : "") +
             (flags.forkNorwayHeld
               ? " Norway is still unresolved to the north: an open flank and an ore route neither confirmed nor lost, sitting behind this plan's entire timetable like a bill not yet due."
               : ""),

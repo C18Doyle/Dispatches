@@ -107,6 +107,11 @@ function Stamp({ text, color, campaignId }) {
 
 const NODE_ATLAS = {
   german: [
+    { id: "fallWeiss39", date: "SEPTEMBER 1939", title: "Poland and the Western Wall" },
+    { id: "phoneyWar39", date: "OCTOBER – NOVEMBER 1939", title: "The Order for the West" },
+    { id: "mechelen40", date: "JANUARY 1940", title: "The Plan in the Snow" },
+    { id: "altmark40", date: "FEBRUARY 1940", title: "The Altmark" },
+    { id: "ore40", date: "MARCH – APRIL 1940", title: "The Date for Norway" },
     { id: "norway40", date: "APRIL 1940", title: "Weserübung: The Norway Gamble" },
     { id: "caseYellow40", date: "MAY 1940", title: "The Manstein Plan" },
     { id: "dunkirk", date: "MAY 1940", title: "The Halt at Dunkirk" },

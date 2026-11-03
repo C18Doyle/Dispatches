@@ -1264,6 +1264,11 @@ function mapDiscRadius(id) {
 // "close the NODE_HIGHLIGHT_REGIONS gaps" work).
 const NODE_HIGHLIGHT_REGIONS = {
   german: {
+  fallWeiss39: ["poland"],
+  phoneyWar39: ["germany", "france"],
+  mechelen40: ["benelux"],
+  altmark40: ["norway"],
+  ore40: ["norway", "denmark"],
   norway40: ["norway"],
   caseYellow40: ["france", "benelux"],
   caseYellowOriginal40: ["france", "benelux"],
@@ -2808,7 +2813,7 @@ function AdviserLine({ advisor, flags }) {
   );
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history }) {
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history, onIntelCheck }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [showMap, setShowMap] = useState(false);
   const easy = mode === "easy";
@@ -3102,6 +3107,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
         {campaign.dynamic && <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />}
         <Typewriter text={situationWithNote} instant={instantText} soundOn={soundOn} />
+        {campaign.dynamic && onIntelCheck && <IntelPanel campaignId={campaign.id} nodeId={nodeId} flags={flags} easy={easy} hard={noRewind} onCheck={(id) => onIntelCheck(nodeId, id, noRewind)} accent={campaign.accent} />}
 
         <div
           className="text-xs uppercase tracking-[0.25em] mb-3 text-[#000000] font-semibold"
@@ -3125,6 +3131,11 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               }}
             >
               <span className="font-medium block">{choice.label}</span>
+              {campaign.dynamic && intelRests(campaign.id, nodeId, i, flags, easy) && (
+                <span className="block mt-1 text-[11px] uppercase tracking-widest opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  {intelRests(campaign.id, nodeId, i, flags, easy)}
+                </span>
+              )}
               {easy && choice.historical && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"

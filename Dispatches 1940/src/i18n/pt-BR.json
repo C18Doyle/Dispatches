@@ -786,5 +786,16 @@
   "Moscow": "Moscou",
   "Stalingrad": "Stalingrado",
   "Cairo": "Cairo",
-  "Ankara": "Ancara"
+  "Ankara": "Ancara",
+  "Reported as firm": "Informada como firme",
+  "Doubtful": "Duvidosa",
+  "What the staff believes": "No que o estado-maior acredita",
+  "Source: {itSource}.": "Fonte: {itSource}.",
+  "The evidence leans towards it.": "As provas apontam a favor.",
+  "The evidence leans against it.": "As provas apontam contra.",
+  "Show the evidence: no checks left": "Mostrar as provas: sem verificações restantes",
+  "Show the evidence ({left} left)": "Mostrar as provas ({left} restantes)",
+  "Rests on a belief the evidence goes against": "Baseia-se numa crença que as provas contrariam",
+  "Rests on a belief the staff has not tested": "Baseia-se numa crença que o estado-maior não verificou",
+  "Rests on a belief the evidence supports": "Baseia-se numa crença que as provas sustentam"
 }

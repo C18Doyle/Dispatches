@@ -786,5 +786,16 @@
   "Moscow": "莫斯科",
   "Stalingrad": "斯大林格勒",
   "Cairo": "开罗",
-  "Ankara": "安卡拉"
+  "Ankara": "安卡拉",
+  "Reported as firm": "报告称可靠",
+  "Doubtful": "存疑",
+  "What the staff believes": "参谋部的看法",
+  "Source: {itSource}.": "来源：{itSource}。",
+  "The evidence leans towards it.": "证据倾向于支持。",
+  "The evidence leans against it.": "证据倾向于反对。",
+  "Show the evidence: no checks left": "查看证据：已无核查次数",
+  "Show the evidence ({left} left)": "查看证据（剩余 {left} 次）",
+  "Rests on a belief the evidence goes against": "所依据的看法与证据相悖",
+  "Rests on a belief the staff has not tested": "所依据的看法参谋部尚未核查",
+  "Rests on a belief the evidence supports": "所依据的看法得到证据支持"
 }
