@@ -630,8 +630,6 @@
   "Rapid": "Rápido",
   "The headquarters": "El cuartel general",
   "{name} asks to be relieved": "{name} pide ser relevado",
-  "{name} has put in a request to leave the staff. The orders you have given have passed over the advice too often, and {name} will not go on arguing a case that is not heard.": "{name} ha presentado una petición para dejar el estado mayor. Las órdenes que has dado han pasado por encima de sus consejos demasiadas veces, y {name} no seguirá defendiendo una causa que nadie escucha.",
-  "The request is granted. The advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "Se concede la petición. El consejo no volverá a presentarse ante ti, y las órdenes que {name} habría defendido tendrán que sostenerse solas.",
   "Corporal": "Cabo",
   "Sergeant": "Sargento",
   "Lieutenant": "Teniente",
@@ -795,5 +793,7 @@
   "Rests on a belief the staff has not tested": "Se apoya en una creencia que el estado mayor no ha comprobado",
   "Rests on a belief the evidence supports": "Se apoya en una creencia que las pruebas respaldan",
   "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "{count, plural, one {# divergencia confirmada} other {# divergencias confirmadas}} con el registro histórico marcadas arriba.",
-  "Ownership shown through end of {statusYear}.": "Propiedad mostrada hasta finales de {statusYear}."
+  "Ownership shown through end of {statusYear}.": "Propiedad mostrada hasta finales de {statusYear}.",
+  "{name} has put in a request to leave the staff. The orders you have given have passed over {name}'s advice too often, and {name} will not go on arguing a case that is not heard.": "{name} ha presentado una petición para dejar el estado mayor. Las órdenes que has dado han pasado por encima de sus consejos demasiadas veces, y {name} no seguirá defendiendo una causa que nadie escucha.",
+  "The request is granted. {name}'s advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "Se concede la petición. El consejo no volverá a presentarse ante ti, y las órdenes que {name} habría defendido tendrán que sostenerse solas."
 }

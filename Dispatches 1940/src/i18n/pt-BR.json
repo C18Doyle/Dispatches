@@ -630,8 +630,6 @@
   "Rapid": "Veloz",
   "The headquarters": "O quartel-general",
   "{name} asks to be relieved": "{name} pede para ser dispensado",
-  "{name} has put in a request to leave the staff. The orders you have given have passed over the advice too often, and {name} will not go on arguing a case that is not heard.": "{name} apresentou um pedido para deixar o estado-maior. As ordens que você deu passaram por cima dos conselhos vezes demais, e {name} não continuará defendendo uma causa que não é ouvida.",
-  "The request is granted. The advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "O pedido é aceito. O conselho não será mais apresentado a você, e as ordens que {name} teria defendido terão de se sustentar sozinhas.",
   "Corporal": "Cabo",
   "Sergeant": "Sargento",
   "Lieutenant": "Tenente",
@@ -795,5 +793,7 @@
   "Rests on a belief the staff has not tested": "Baseia-se numa crença que o estado-maior não verificou",
   "Rests on a belief the evidence supports": "Baseia-se numa crença que as provas sustentam",
   "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "{count, plural, one {# divergência confirmada} other {# divergências confirmadas}} em relação ao registro histórico marcadas acima.",
-  "Ownership shown through end of {statusYear}.": "Domínio mostrado até o fim de {statusYear}."
+  "Ownership shown through end of {statusYear}.": "Domínio mostrado até o fim de {statusYear}.",
+  "{name} has put in a request to leave the staff. The orders you have given have passed over {name}'s advice too often, and {name} will not go on arguing a case that is not heard.": "{name} apresentou um pedido para deixar o estado-maior. As ordens que você deu passaram por cima dos conselhos vezes demais, e {name} não continuará defendendo uma causa que não é ouvida.",
+  "The request is granted. {name}'s advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "O pedido é aceito. O conselho não será mais apresentado a você, e as ordens que {name} teria defendido terão de se sustentar sozinhas."
 }

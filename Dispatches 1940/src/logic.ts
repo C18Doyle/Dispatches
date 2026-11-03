@@ -314,8 +314,8 @@ export function resignationEvent(flags: Flags): GameEvent | null {
       dateline: t("The headquarters"),
       title: t("{name} asks to be relieved", { name: v }),
       text: [
-        t("{name} has put in a request to leave the staff. The orders you have given have passed over the advice too often, and {name} will not go on arguing a case that is not heard.", { name: v }),
-        t("The request is granted. The advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.", { name: v }),
+        t("{name} has put in a request to leave the staff. The orders you have given have passed over {name}'s advice too often, and {name} will not go on arguing a case that is not heard.", { name: v }),
+        t("The request is granted. {name}'s advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.", { name: v }),
       ],
     };
   }

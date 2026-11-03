@@ -630,8 +630,6 @@
   "Rapid": "Rasch",
   "The headquarters": "Das Hauptquartier",
   "{name} asks to be relieved": "{name} bittet um Ablösung",
-  "{name} has put in a request to leave the staff. The orders you have given have passed over the advice too often, and {name} will not go on arguing a case that is not heard.": "{name} hat darum gebeten, den Stab zu verlassen. Die Befehle, die Sie erteilt haben, sind zu oft über den Rat hinweggegangen, und {name} wird einen Standpunkt, der nicht gehört wird, nicht weiter verfechten.",
-  "The request is granted. The advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "Der Bitte wird entsprochen. Der Rat wird Ihnen nicht mehr vorgetragen, und die Befehle, für die {name} eingetreten wäre, müssen für sich selbst stehen.",
   "Corporal": "Gefreiter",
   "Sergeant": "Unteroffizier",
   "Lieutenant": "Leutnant",
@@ -795,5 +793,7 @@
   "Rests on a belief the staff has not tested": "Beruht auf einer Annahme, die der Stab nicht geprüft hat",
   "Rests on a belief the evidence supports": "Beruht auf einer Annahme, die die Belege stützen",
   "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "{count, plural, one {# bestätigte Abweichung} other {# bestätigte Abweichungen}} vom historischen Verlauf oben markiert.",
-  "Ownership shown through end of {statusYear}.": "Besitzverhältnisse bis Ende {statusYear} angezeigt."
+  "Ownership shown through end of {statusYear}.": "Besitzverhältnisse bis Ende {statusYear} angezeigt.",
+  "{name} has put in a request to leave the staff. The orders you have given have passed over {name}'s advice too often, and {name} will not go on arguing a case that is not heard.": "{name} hat darum gebeten, den Stab zu verlassen. Die Befehle, die Sie erteilt haben, sind zu oft über den Rat hinweggegangen, und {name} wird einen Standpunkt, der nicht gehört wird, nicht weiter verfechten.",
+  "The request is granted. {name}'s advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "Der Bitte wird entsprochen. Der Rat wird Ihnen nicht mehr vorgetragen, und die Befehle, für die {name} eingetreten wäre, müssen für sich selbst stehen."
 }

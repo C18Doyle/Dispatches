@@ -630,8 +630,6 @@
   "Rapid": "Rapido",
   "The headquarters": "Il quartier generale",
   "{name} asks to be relieved": "{name} chiede di essere sollevato",
-  "{name} has put in a request to leave the staff. The orders you have given have passed over the advice too often, and {name} will not go on arguing a case that is not heard.": "{name} ha presentato richiesta di lasciare lo stato maggiore. Gli ordini che hai dato hanno scavalcato i consigli troppe volte, e {name} non continuerà a sostenere una causa che non viene ascoltata.",
-  "The request is granted. The advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "La richiesta è accolta. Il consiglio non ti verrà più presentato, e gli ordini che {name} avrebbe sostenuto dovranno reggersi da soli.",
   "Corporal": "Caporale",
   "Sergeant": "Sergente",
   "Lieutenant": "Tenente",
@@ -795,5 +793,7 @@
   "Rests on a belief the staff has not tested": "Si basa su una convinzione che lo stato maggiore non ha verificato",
   "Rests on a belief the evidence supports": "Si basa su una convinzione che le prove sostengono",
   "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "{count, plural, one {# divergenza confermata} other {# divergenze confermate}} dal corso storico segnate sopra.",
-  "Ownership shown through end of {statusYear}.": "Controllo mostrato fino alla fine del {statusYear}."
+  "Ownership shown through end of {statusYear}.": "Controllo mostrato fino alla fine del {statusYear}.",
+  "{name} has put in a request to leave the staff. The orders you have given have passed over {name}'s advice too often, and {name} will not go on arguing a case that is not heard.": "{name} ha presentato richiesta di lasciare lo stato maggiore. Gli ordini che hai dato hanno scavalcato i consigli troppe volte, e {name} non continuerà a sostenere una causa che non viene ascoltata.",
+  "The request is granted. {name}'s advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "La richiesta è accolta. Il consiglio non ti verrà più presentato, e gli ordini che {name} avrebbe sostenuto dovranno reggersi da soli."
 }
