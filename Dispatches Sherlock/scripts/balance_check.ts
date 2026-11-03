@@ -25,7 +25,7 @@ function expectedStamps(o: Option, s: GameState): Record<string, number> {
 }
 
 type Policy = "random" | "cautious" | "bold";
-/** `book` is the volume taken from the shelf at the start: 0 is The Final Problem, 1 to 3 the standalone cases. */
+/** `book` is the volume taken from the shelf at the start: 0 is The Final Problem, 1 The Return, 2 to 5 the standalone cases. */
 function play(policy: Policy, seed: number, difficulty: "EASY" | "MEDIUM" | "HARD", book = 0): string {
   const rng = makeRng(seed * 7919 + (policy === "random" ? 1 : policy === "cautious" ? 2 : 3));
   let s = createInitialState(def);
@@ -73,16 +73,18 @@ const pool = (volume: string, end: string) => {
   pooled[volume] ??= {};
   pooled[volume][end] = (pooled[volume][end] ?? 0) + 1;
 };
+// the two major cases: The Final Problem (book 0) and The Return (book 1)
+for (const [book, volume] of [[0, "FINAL"], [1, "RETURN"]] as const)
 for (const policy of policies) {
   const tally: Record<string, number> = {};
   for (let n = 0; n < RUNS; n++) {
-    const end = play(policy, n + 1, (["EASY", "MEDIUM", "HARD"] as const)[n % 3], 0);
+    const end = play(policy, n + 1, (["EASY", "MEDIUM", "HARD"] as const)[n % 3], book);
     tally[end] = (tally[end] ?? 0) + 1;
     reached.add(end);
-    pool("FINAL", end);
+    pool(volume, end);
   }
   const crisis = Object.entries(tally).filter(([k]) => k.startsWith("ENDING_CRISIS")).reduce((a, [, v]) => a + v, 0);
-  console.log(`${policy.padEnd(9)} collapse ${((100 * crisis) / RUNS).toFixed(1)}%   ` + Object.entries(tally).sort().map(([k, v]) => `${k.replace("ENDING_", "")}:${v}`).join(" "));
+  console.log(`${volume.padEnd(6)} ${policy.padEnd(9)} collapse ${((100 * crisis) / RUNS).toFixed(1)}%   ` + Object.entries(tally).sort().map(([k, v]) => `${k.replace("ENDING_", "")}:${v}`).join(" "));
   if (policy === "cautious" && crisis / RUNS > 0.2) {
     failures++;
     console.error(`FAIL: a cautious player collapses in ${((100 * crisis) / RUNS).toFixed(1)}% of runs (limit 20%)`);
@@ -93,7 +95,7 @@ for (const policy of policies) {
   }
 }
 // the three short cases: each should end in more than one way for every policy, and a careful player should not often fail
-for (const [book, name] of [[1, "Band"], [2, "Bohemia"], [3, "Carbuncle"], [4, "League"]] as const) {
+for (const [book, name] of [[2, "Band"], [3, "Bohemia"], [4, "Carbuncle"], [5, "League"]] as const) {
   for (const policy of policies) {
     const tally: Record<string, number> = {};
     for (let n = 0; n < 200; n++) {

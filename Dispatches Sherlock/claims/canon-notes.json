@@ -337,6 +337,151 @@
         "ENDING_THE_GOOSE_CLUB",
         "ENDING_THE_UMBRELLA"
       ]
+    },
+    {
+      "id": "er-camden-bust",
+      "statement": "Holmes and Watson wait in Camden House, which stands opposite 221B. A wax bust made by Monsieur Oscar Meunier of Grenoble stands in the window, and Mrs Hudson moves it every quarter of an hour (eight times in two hours), working it from the front on her knees so that her shadow is never seen. Moran comes in by the back, kneels at the window and fires an air-gun at the bust.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_TIGER_TAKEN",
+        "ENDING_THE_EMPTY_WINDOW",
+        "ENDING_THE_TIGER_LOOSE",
+        "ENDING_THE_DOCTOR_HURT"
+      ]
+    },
+    {
+      "id": "er-bust-shot",
+      "statement": "The bullet goes through the head of the bust and flattens itself on the wall of the sitting-room; Mrs Hudson picks it up from the carpet. It is a soft revolver bullet, fired from an air-gun.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_TIGER_TAKEN"
+      ]
+    },
+    {
+      "id": "er-lestrade-credit",
+      "statement": "Lestrade takes Moran in Camden House, with two uniformed policemen. Holmes tells him that he does not propose to appear in the matter at all, and that to Lestrade alone belongs the credit. The charge is the murder of the Honourable Ronald Adair, by an expanding bullet from an air-gun through the open window of 427, Park Lane, on 30 March.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_TIGER_TAKEN",
+        "ENDING_A_QUIET_ARRANGEMENT"
+      ]
+    },
+    {
+      "id": "er-watson-butt",
+      "statement": "Moran seizes Holmes by the throat, and Watson strikes him on the head with the butt of his revolver; Moran drops to the floor. Watson is not hurt.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_TIGER_TAKEN",
+        "ENDING_THE_DOCTOR_HURT"
+      ]
+    },
+    {
+      "id": "er-single-day",
+      "statement": "In the story Holmes reaches Baker Street at two o'clock on the day, tells Watson his story that evening in Kensington, and they leave at half-past nine for Camden House, where Moran is taken before morning. The bait works on the first night. Park Lane is a Friday, 30 March 1894, between ten and twenty past eleven, and Watson says it was on an April evening that Holmes returned.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_TIGER_TAKEN",
+        "ENDING_THE_EMPTY_WINDOW"
+      ]
+    },
+    {
+      "id": "er-motive",
+      "statement": "Holmes's account of the motive is conjecture, and he says so: Adair had found Moran cheating at cards and threatened to expose him; Moran murdered him to avoid exclusion from his clubs. Holmes says that it will be verified or disproved at the trial. Moran and Adair had won four hundred and twenty pounds in partnership from Godfrey Milner and Lord Balmoral some weeks before.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_COLONEL_TALKS",
+        "ENDING_THE_WITNESS_BOX",
+        "ENDING_NOT_PROVEN"
+      ]
+    },
+    {
+      "id": "er-stewart",
+      "statement": "Holmes is sure that Moran was at the bottom of the death of Mrs Stewart of Lauder in 1887, but nothing could be proved.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_COLONEL_TALKS"
+      ]
+    },
+    {
+      "id": "er-airgun-museum",
+      "statement": "Holmes says that Moran will trouble them no more, and that the air-gun of Von Herder, the blind German mechanic who made it to the order of Professor Moriarty, will embellish the Scotland Yard Museum. The story does not report the trial.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_A_QUIET_ARRANGEMENT",
+        "ENDING_NOT_PROVEN",
+        "ENDING_THE_WITNESS_BOX"
+      ]
+    },
+    {
+      "id": "er-inv-witness-box",
+      "statement": "Holmes giving evidence himself at the Old Bailey. In the story he takes care not to appear.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_WITNESS_BOX"
+      ]
+    },
+    {
+      "id": "er-inv-statement",
+      "statement": "A written statement by Moran, in pencil, twenty pages long.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_COLONEL_TALKS"
+      ]
+    },
+    {
+      "id": "er-inv-doctor-hurt",
+      "statement": "Watson's collar-bone broken in the struggle.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_DOCTOR_HURT"
+      ]
+    },
+    {
+      "id": "er-inv-loose",
+      "statement": "Moran escaping over the yard wall into Manchester Street.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_TIGER_LOOSE"
+      ]
+    },
+    {
+      "id": "er-inv-arrangement",
+      "statement": "A settlement through Mycroft, with Moran sent to an island in the Indian Ocean.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_A_QUIET_ARRANGEMENT"
+      ]
+    },
+    {
+      "id": "er-inv-not-proven",
+      "statement": "A jury finding the case against Moran not proven.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_NOT_PROVEN"
+      ]
+    },
+    {
+      "id": "er-inv-empty-window",
+      "statement": "Moran, warned, not coming to Camden House.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_EMPTY_WINDOW"
+      ]
     }
   ]
 }

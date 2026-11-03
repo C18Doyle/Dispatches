@@ -686,6 +686,18 @@
       ]
     },
     {
+      "interludeId": "TRANSITION_RETURN",
+      "onEnterNodes": [
+        "E1"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_CAMDEN",
+      "onEnterNodes": [
+        "E20"
+      ]
+    },
+    {
       "interludeId": "TRANSITION_MYCROFT",
       "onEnterNodes": [
         "M1"

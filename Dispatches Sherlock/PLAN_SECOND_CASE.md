@@ -1,6 +1,6 @@
 # A second major case: a plan
 
-The shelf already holds one major case and four minor ones (`src/casebook.ts`, scene `0`). This is the plan for a second major case. Nothing here is built.
+The shelf already holds one major case and four minor ones (`src/casebook.ts`, scene `0`). This is the plan for a second major case. **Built in 0.8.0 as The Return** (see CHANGELOG.md); what follows is the plan as it was written. It came out at 26 scenes, E1 to E23 with E1A, E1B and E21B, in `gen/return1.mjs` to `return3.mjs`; the three roads are the Yard, the street and the quiet road; the endings are The Tiger Taken, The Witness Box, The Colonel Talks (hidden), The Doctor Hurt, The Tiger Loose, A Quiet Arrangement, Not Proven and The Empty Window. The two open questions below were settled as recommended: either order, and nothing carries over from The Final Problem.
 
 ## The choice
 

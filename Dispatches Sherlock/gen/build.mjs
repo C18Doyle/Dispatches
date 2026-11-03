@@ -24,6 +24,7 @@ import { leagueNodes, leagueEndings, leagueInterlude, leagueTrigger, leagueFlavo
 import { hiddenOptions, hiddenEndings, hiddenFlavor } from "./hidden.mjs";
 import { polish } from "./polish.mjs";
 import { reactionInterludes, reactionTriggers, reactionEchoes, reactionFlagNotes } from "./reactions.mjs";
+import { returnNodes, returnEndings, returnInterludes, returnTriggers, returnFlavor } from "./return.mjs";
 import { shelf, caseNodes, caseEndings, caseInterludes, caseTriggers, caseFlavor } from "./cases.mjs";
 import { interludes, triggers } from "./meta.mjs";
 import { flavor } from "./flavor.mjs";
@@ -356,7 +357,7 @@ for (const n of Object.values(nodes)) {
 }
 
 // the three standalone cases and the shelf that opens the game; their numbers are their own, so the balance passes above leave them alone
-for (const n of [shelf, ...caseNodes, ...leagueNodes, ...moreNodes]) {
+for (const n of [shelf, ...caseNodes, ...leagueNodes, ...moreNodes, ...returnNodes]) {
   if (nodes[n.id]) throw new Error("duplicate node " + n.id);
   nodes[n.id] = n;
 }
@@ -414,8 +415,8 @@ extraInterludes.push(
     kind: "crisis",
   },
 );
-const interludeMap = Object.fromEntries([...interludes, ...extraInterludes, ...caseInterludes, leagueInterlude, ...reactionInterludes].map((i) => [i.id, i]));
-const allTriggers = [...triggers, ...caseTriggers, leagueTrigger, ...reactionTriggers, { interludeId: "TRANSITION_MYCROFT", onEnterNodes: ["M1"] }, { interludeId: "TRANSITION_HIATUS", onEnterNodes: ["H1"] }];
+const interludeMap = Object.fromEntries([...interludes, ...extraInterludes, ...caseInterludes, leagueInterlude, ...reactionInterludes, ...returnInterludes].map((i) => [i.id, i]));
+const allTriggers = [...triggers, ...caseTriggers, leagueTrigger, ...reactionTriggers, ...returnTriggers, { interludeId: "TRANSITION_MYCROFT", onEnterNodes: ["M1"] }, { interludeId: "TRANSITION_HIATUS", onEnterNodes: ["H1"] }];
 
 // ───────────── endings ─────────────
 const strandEnding = {
@@ -430,7 +431,7 @@ const strandEnding = {
     { when: { resource: "wires", op: "<=", value: -8 }, headline: "THE LINES ARE DOWN", text: "It is a small silence at first: a telegram that is not answered, a letter that is not sent, a newspaper that does not call. Then it is a large one. You know a great deal, and nobody knows that you know it. The Professor has not so much cut your wires as made them irrelevant, and you sit in the middle of London with the answer in your head, as remote from the world as a man in a lighthouse." },
   ],
 };
-const endingMap = Object.fromEntries([...endings, ...newEndings, strandEnding, ...caseEndings, ...leagueEndings, ...hiddenEndings].map((e) => [e.id, e]));
+const endingMap = Object.fromEntries([...endings, ...newEndings, strandEnding, ...caseEndings, ...leagueEndings, ...hiddenEndings, ...returnEndings].map((e) => [e.id, e]));
 endingMap.ENDING_THE_EMPTY_GRAVE = replacedEmptyGrave;
 for (const [id, list] of Object.entries(frontVariants)) {
   const e = endingMap[id];
@@ -543,10 +544,10 @@ const events = { startNodeId: "0", nodes, interludes: interludeMap, endings: end
 const flavorOut = {
   ...flavor,
   howToPlay: flavor2.howToPlay,
-  gossip: [...flavor.gossip, ...flavor2.gossip],
-  novelNotes: { ...flavor.novelNotes, ...flavor2.novelNotes, ...caseFlavor.novelNotes, ...leagueFlavor.novelNotes, ...hiddenFlavor.novelNotes },
-  endingHints: { ...flavor.endingHints, ...flavor2.endingHints, ...caseFlavor.endingHints, ...leagueFlavor.endingHints, ...hiddenFlavor.endingHints },
-  flagNotes: { ...flavor.flagNotes, ...flavor2.flagNotes, ...caseFlavor.flagNotes, ...leagueFlavor.flagNotes, ...reactionFlagNotes },
+  gossip: [...flavor.gossip, ...flavor2.gossip, ...returnFlavor.gossip],
+  novelNotes: { ...flavor.novelNotes, ...flavor2.novelNotes, ...caseFlavor.novelNotes, ...leagueFlavor.novelNotes, ...hiddenFlavor.novelNotes, ...returnFlavor.novelNotes },
+  endingHints: { ...flavor.endingHints, ...flavor2.endingHints, ...caseFlavor.endingHints, ...leagueFlavor.endingHints, ...hiddenFlavor.endingHints, ...returnFlavor.endingHints },
+  flagNotes: { ...flavor.flagNotes, ...flavor2.flagNotes, ...caseFlavor.flagNotes, ...leagueFlavor.flagNotes, ...reactionFlagNotes, ...returnFlavor.flagNotes },
 };
 Object.assign(flavorOut.flagNotes, {
   leanYard: "You took it to Scotland Yard first.",
@@ -601,8 +602,8 @@ flavorOut.endingHints.ENDING_NAPOLEON_ESCAPES = "Close the file too soon, fail a
 flavorOut.demoEnd = {
   title: "The Case Continues",
   body: [
-    "You have been through the whole of the opening of The Final Problem: the brick in Vere Street, the first move, and the choice of how to meet the Professor's net.",
-    "The door ahead is locked in the demo. The full game goes on down the road that you chose, through the Yard, the street, Whitehall or the flight to the Falls, to the last choice on each road, with seventeen endings in the long case and the Case-Book that keeps the ones you have found. The four minor cases on the shelf are complete in the demo, hidden endings and all. The full game is on the game's page, to download.",
+    "You have played the whole of the opening of a major case, and you stand at the choice of how to go on.",
+    "The door ahead is locked in the demo. The full game goes on down the road that you chose: through the Yard, the street, Whitehall or the flight to the Falls in The Final Problem, and through the Yard, the street or the quiet road to the empty house in The Return. Together they have twenty-five endings, and the Case-Book keeps the ones you have found. The four minor cases on the shelf are complete in the demo, hidden endings and all. The full game is on the game's page, to download.",
   ],
   restart: "Back to the Title",
 };

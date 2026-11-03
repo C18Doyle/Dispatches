@@ -30,6 +30,14 @@ export const BOARD_SECTIONS: Section[] = [
   },
 ];
 
+/** What The Return pins up, by section (the board is the same in both major cases; the flags are different). */
+const RETURN_FLAGS: Record<string, string[]> = {
+  Traces: ["retWindow", "retMaid", "retFile", "retFigures", "retBulletSeen", "retBullet", "retAirgun", "retCards", "retHerder", "retIndex", "retInquestRead", "retSentinel", "retCamden", "retCamdenSeen", "retWatchers", "retRoutine", "retShikari", "retMoranFace", "retParkerFollowed"],
+  People: ["retWatsonTold", "retLestradeTold", "retLestradeFriend", "retHudsonKeeps", "retParkerTaken", "retSteward", "retLastPartner", "retBoys", "retNames", "retClerk", "retCabman"],
+  "What Went Wrong": ["retSuspected", "retDecoyPoor", "retWatsonLeft"],
+  Moves: ["retMoney", "retBust", "retBustReady", "retHudsonWorks", "retLestradeMen", "retDecoyGood", "retCordon", "retWatsonBeside", "retYardOut", "retRested", "retSecondNight"],
+};
+
 interface Question {
   text: string;
   /** Answered once any of these flags is set. */
@@ -53,6 +61,10 @@ export const QUESTIONS: Question[] = [
   { text: "Where will the Professor sail from?", answeredBy: ["knowsDeparture"], roads: ["MYCROFT"] },
   { text: "Who is buying the Adler letters?", answeredBy: ["buyerNamed"], after: "adlerMet" },
   { text: "Where do the Professor's men drink?", answeredBy: ["routeKnown", "boySent"], roads: ["STREET"] },
+  { text: "How was a young man shot in a locked room with no gun?", answeredBy: ["retWindow", "retAirgun", "retHerder"], roads: ["RETURN"] },
+  { text: "Why was a man with no enemies shot?", answeredBy: ["retFigures", "retCards"], roads: ["RETURN"] },
+  { text: "Where will the Colonel be on Saturday night?", answeredBy: ["retRoutine", "retParkerFollowed", "retCabman"], roads: ["RETURN"] },
+  { text: "Who watches 221B, and for whom?", answeredBy: ["retSentinel", "retWatchers"], roads: ["RETURN"] },
   { text: "Where will the Professor go after Monday?", answeredBy: ["watsonStays", "noteLeft", "ledgeKnown"], roads: ["CONTINENT"] },
 ];
 
@@ -171,9 +183,9 @@ function Web({ state }: { state: GameState }) {
 
 export function BoardView({ state, road }: { state: GameState; road: string }) {
   const notes = def.flavor.flagNotes ?? {};
-  const pinned = BOARD_SECTIONS.map((s) => ({ ...s, shown: s.flags.filter((f) => state.flags[f] && notes[f]) }));
+  const pinned = BOARD_SECTIONS.map((s) => ({ ...s, shown: [...s.flags, ...(RETURN_FLAGS[s.title] ?? [])].filter((f) => state.flags[f] && notes[f]) }));
   const total = pinned.reduce((n, s) => n + s.shown.length, 0);
-  const open = QUESTIONS.filter((q) => (!q.roads || q.roads.includes(road)) && (!q.after || state.flags[q.after]) && !has(state, q.answeredBy));
+  const open = QUESTIONS.filter((q) => (q.roads ? q.roads.includes(road) : road !== "RETURN") && (!q.after || state.flags[q.after]) && !has(state, q.answeredBy));
   let k = 0;
   return (
     <div className="space-y-5">
@@ -203,6 +215,7 @@ export function BoardView({ state, road }: { state: GameState; road: string }) {
           )}
         </div>
       </div>
+      {road !== "RETURN" && (
       <div>
         <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">The Professor's Web</p>
         <Web state={state} />
@@ -220,6 +233,7 @@ export function BoardView({ state, road }: { state: GameState; road: string }) {
           </div>
         )}
       </div>
+      )}
       <div>
         <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">What You Do Not Know</p>
         {open.length ? (

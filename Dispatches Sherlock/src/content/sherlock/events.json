@@ -5,7 +5,7 @@
       "id": "0",
       "branch": "WEB",
       "title": "The Case-Book",
-      "description": "Five volumes lie on the corner of the table at 221B. The thick black one is the major case, the whole of a winter and a spring. The four thinner ones are smaller cases, each complete in itself. None depends on any other. Tap a volume to read about it.",
+      "description": "Six volumes lie on the corner of the table at 221B. The two thick ones are the major cases: the black one is a winter and a spring, and the grey one is the week of a return. The four thinner ones are smaller cases, each complete in itself. None depends on any other. Tap a volume to read about it.",
       "options": [
         {
           "label": "The Final Problem. London, 1891.",
@@ -17,6 +17,17 @@
           },
           "outcome": "You take down the black volume and open it at the first page. It smells of pipe-smoke and fog.",
           "nextNodeId": "1"
+        },
+        {
+          "label": "The Return. London, 1894.",
+          "detail": "The second major case: three years after the Falls, a dead man comes home, a young man is shot in a locked room in Park Lane, and an empty house stands opposite your own window. Twenty-six scenes in three acts, eight endings, one of them hidden.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "I did not think that I should ever see this volume opened again, Holmes. I have kept it dusted. I could not think what else to do with it."
+          },
+          "outcome": "You take down the grey volume with the blank spine. There is a dried flower pressed in it, and the corner of a page has been turned down, and turned back.",
+          "nextNodeId": "E1"
         },
         {
           "label": "The Speckled Band. Stoke Moran, 1883.",
@@ -42,11 +53,11 @@
         },
         {
           "label": "The Blue Carbuncle. Christmas, 1889.",
-          "detail": "A minor case, and cheerful: a battered hat, a Christmas goose and a stone worth more than twenty thousand pounds. Four scenes, four endings, one of them hidden.",
+          "detail": "A minor case, and rather cheerful: a battered hat, a Christmas goose and a stone worth more than twenty thousand pounds. Four scenes, four endings, one of them hidden.",
           "stamps": {},
           "quote": {
-            "speaker": "Dr Watson",
-            "text": "I am told that it is the only one of your cases that ends with anybody being forgiven. I thought you might like to be reminded."
+            "speaker": "",
+            "text": ""
           },
           "outcome": "You take down the thin red volume. There is a goose feather between the pages.",
           "nextNodeId": "G1"
@@ -56,10 +67,10 @@
           "detail": "A minor case, the lightest of the five: a pawnbroker, four pounds a week and a good reason to copy out the Encyclopaedia. Four scenes, four endings, one of them hidden.",
           "stamps": {},
           "quote": {
-            "speaker": "",
-            "text": ""
+            "speaker": "Dr Watson",
+            "text": "I will say this for it, Holmes. It is the only case in the book in which I laughed aloud. You did not, but I did."
           },
-          "outcome": "You take down the thin orange volume. There is a single red hair between the pages, wiry.",
+          "outcome": "You take down the thin orange volume. There is a single red hair between the pages, rather wiry.",
           "nextNodeId": "L1"
         }
       ]
@@ -11471,6 +11482,2182 @@
           "nextNodeId": "ENDING_NAPOLEON_ESCAPES"
         }
       ]
+    },
+    "E1": {
+      "id": "E1",
+      "branch": "RETURN",
+      "title": "The Boat Train",
+      "description": "Monday 2 April 1894, a little after five in the afternoon. The boat train from Dover comes into Victoria in a wash of steam and umbrellas, and you step down from it in a seedy frock-coat, with a stoop that is not your own. You have been dead for three years. Nobody on the platform looks at you twice, which is half the pleasure. A newsboy is crying the Park Lane Mystery at the barrier, and the name of the Honourable Ronald Adair is on every bill. Somewhere in London the last of the Professor's friends is reading the same bill. You have three people to tell, and one evening in which to choose the first.",
+      "options": [
+        {
+          "label": "Go Straight to Mycroft at the Diogenes Club.",
+          "detail": "He has known for three years, has paid for your silence and kept your rooms. He is the one person in England who need not be surprised.",
+          "stamps": {
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "Mycroft Holmes",
+            "text": "You are late, Sherlock. I had the evening papers brought in at six, and I find that I was right to expect you before them."
+          },
+          "outcome": "You are in a hansom before the porter has your bag. The Diogenes Club has not changed, and neither has the chair that your brother occupies in it.",
+          "nextNodeId": "E2",
+          "setFlags": [
+            "retMycroftFirst"
+          ],
+          "axisDelta": {
+            "trustMycroft": 1
+          }
+        },
+        {
+          "label": "Go to Baker Street and Face Mrs Hudson.",
+          "detail": "Your rooms are kept for you, and she has dusted them for three years without knowing why. It is not fair that she should hear of this from a newspaper.",
+          "stamps": {
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Mrs Hudson",
+            "text": "Mr Holmes! Oh, Mr Holmes, I've been so wicked. I've talked to your chair these three years, and it never once answered."
+          },
+          "outcome": "The cab sets you down at the seventeen steps. The door of 221B is opened by a woman with a duster, who looks at the stoop and the coat and tells you that she does not buy at the door.",
+          "nextNodeId": "E1A",
+          "setFlags": [
+            "retHudson"
+          ]
+        },
+        {
+          "label": "Go to Kensington and Call on Watson as an Old Bookseller.",
+          "detail": "He has buried his wife and believes that he has buried you. Of the three he has the best right to be told, and the worst chance of taking it well.",
+          "stamps": {
+            "nerve": -1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You find the street, and the door with the brass plate, and a maid who tells you that the doctor is not at home to hawkers. You say that you have a book that he would like, and you take a dozen from under your coat.",
+          "nextNodeId": "E1B",
+          "setFlags": [
+            "retWatsonSeen"
+          ]
+        }
+      ]
+    },
+    "E1A": {
+      "id": "E1A",
+      "branch": "RETURN",
+      "title": "The Landlady",
+      "description": "Monday 2 April 1894, six in the evening. Mrs Hudson sits down on the bottom stair, where she remains for some minutes in the kind of hysterics that she would be sorry to hear described. The sitting-room above is as you left it: the chemical corner, the Persian slipper, the row of scrap-books that half London would like to burn. A bar of lamplight lies across the carpet from the window. Across the street the shutters of Camden House are closed, as they have been for a year, and at the corner by the pillar-box a lounger is playing a jew's-harp, badly.",
+      "options": [
+        {
+          "label": "Ask Her to Say Nothing to Anyone and Keep the Blinds as They Are.",
+          "detail": "A landlady's silence is not a small thing, and she has never been asked for it before.",
+          "stamps": {
+            "hands": 1
+          },
+          "quote": {
+            "speaker": "Mrs Hudson",
+            "text": "Not a word, Mr Holmes, not if the Queen asks me. I'll go on dusting the chair, and I'll be glad to."
+          },
+          "outcome": "She wipes her eyes on the duster, and then, with a determined face, goes to put the kettle on. The blinds are left exactly as they are. Anyone who is watching the house will have seen nothing but a landlady in a bad temper.",
+          "nextNodeId": "E2",
+          "setFlags": [
+            "retHudsonKeeps"
+          ]
+        },
+        {
+          "label": "Ask Whether She Has Seen Anyone Watching the House.",
+          "detail": "Someone who has been dead for three years has no right to expect that nobody is looking for him. Somebody was, and has not stopped.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Mrs Hudson",
+            "text": "There's a man at the corner of an evening with a jew's-harp, Mr Holmes. He plays it badly, and he has never once looked at the shops."
+          },
+          "outcome": "She has seen him for a month, and thought him a loafer. You look down at the corner through the edge of the blind. He is a thick, pale man in a billycock hat, and he is not looking at the shops. He is looking at the lit window.",
+          "nextNodeId": "E2",
+          "setFlags": [
+            "retSentinel"
+          ]
+        },
+        {
+          "label": "Ask Her to Learn the Old Trick of the Shadow in the Window.",
+          "detail": "A figure in the blind, moved a little every quarter of an hour, will be seen from the street by anyone who is watching. She is to work it from the front, on her knees, so that she is never seen herself.",
+          "stamps": {
+            "hands": 1,
+            "wires": -1
+          },
+          "quote": {
+            "speaker": "Mrs Hudson",
+            "text": "On my knees, Mr Holmes? At my age? Well, I've done worse for a good tenant, and I don't suppose it's any worse than the stairs."
+          },
+          "outcome": "You show her the trick of it with a coat and a hat-stand. She learns it in three tries, and then asks, with real interest, whom it is for.",
+          "nextNodeId": "E2",
+          "setFlags": [
+            "retHudsonWorks"
+          ]
+        }
+      ]
+    },
+    "E1B": {
+      "id": "E1B",
+      "branch": "RETURN",
+      "title": "The Old Bookseller",
+      "description": "Monday 2 April 1894, a quarter to seven. You are in a lit study in Kensington, a book-lined room with a good fire and a bad smell of grief. Dr Watson has been bending over a copy of the Times. Your collar is up, your back is bowed, and a dozen volumes are wedged under your right arm.\n\nHe looks up, frowns at the intruder and says that he has not the least wish to buy. You put down the books. You straighten. You say his name, in the voice that you used for twelve years, and you see the colour go out of his face as it would out of a sheet of paper held to a candle.",
+      "options": [
+        {
+          "label": "Catch Him as He Falls, and Tell Him All of It.",
+          "detail": "He has the right to the whole story, and anyone who has been lied to for three years will not take half of it. It is a long evening's work, and Park Lane must wait.",
+          "stamps": {
+            "hours": -1,
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "Holmes! You are alive, and you let me write that account. I will forgive you in the morning, Holmes. I cannot do it tonight."
+          },
+          "outcome": "He faints, for the first and last time in his life, and comes round with the taste of your brandy on his lips. You tell him of the ledge, of the climb and of the stones, of Tibet and Montpellier. By eleven he has stopped shaking. By midnight he has his revolver out of the drawer.",
+          "nextNodeId": "E2",
+          "setFlags": [
+            "retWatsonTold"
+          ],
+          "axisDelta": {
+            "trustWatson": 2
+          }
+        },
+        {
+          "label": "Tell Him That You Live and That the Rest Will Wait for Tomorrow.",
+          "detail": "He needs to know that he is not mad, and he needs to be asked for his help. The rest of the story he can have after supper.",
+          "stamps": {
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "Tomorrow, Holmes? Very well. I have waited three years, and I am a patient man by profession. But I shall be at the door at nine."
+          },
+          "outcome": "He holds you by both arms for a full minute, and then lets go and blows his nose. You are sure of him. You are also sure that he will not sleep, which is a pity, because there is work for him, and soon.",
+          "nextNodeId": "E2",
+          "setFlags": [
+            "retWatsonTold"
+          ],
+          "axisDelta": {
+            "trustWatson": 1
+          }
+        },
+        {
+          "label": "Leave the Books and Slip Away Before He Wakes.",
+          "detail": "A shock like this one can be taken kindly or not at all, and it is better not at all than badly. You will write.",
+          "stamps": {
+            "nerve": 2
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You are out of the street before he has reached for his flask. It was a cold thing to do, and you know it, and you never look back at the window. The books are likely worth fifteen shillings, and you hope that he will keep them.",
+          "nextNodeId": "E2",
+          "setFlags": [
+            "retWatsonLeft"
+          ],
+          "axisDelta": {
+            "trustWatson": -1
+          }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "retWatsonSeen"
+          },
+          "text": "You went to Kensington because you could not bear to be a ghost in Watson's street."
+        }
+      ]
+    },
+    "E2": {
+      "id": "E2",
+      "branch": "RETURN",
+      "title": "The Diogenes Club",
+      "description": "Monday 2 April 1894, a little after nine in the evening. The Strangers' Room of the Diogenes Club is the one room in London in which a man may talk, and Mycroft has taken it for the night. He is sitting straight in a leather chair with a file open on his knee, looking at you with a mixture of affection and fatigue. He has kept your rooms, your papers and your money. He has not asked why you have come home. The Park Lane murder has been in all the newspapers for three days, and he has read every one of them with a pencil.",
+      "options": [
+        {
+          "label": "Draw on Mycroft's Purse and Take a Bank Draft.",
+          "detail": "The Professor's gang has money, and anyone who hunts them with an empty pocket is hunting with one hand. Your brother has kept your account full, and does not ask for an account of it.",
+          "stamps": {
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "Mycroft Holmes",
+            "text": "I have kept it as you left it, with the interest. I would be obliged if you did not spend it all on a single cab."
+          },
+          "outcome": "He writes the draft himself, in the small and exact hand that he uses for the Foreign Office, and blots it twice. It is more than you expected. You do not say so.",
+          "nextNodeId": "E3",
+          "moneyDelta": 20,
+          "setFlags": [
+            "retMoney"
+          ]
+        },
+        {
+          "label": "Ask for the Yard's Papers on the Park Lane Murder.",
+          "detail": "Mycroft has friends who read the Yard's files before the Yard does. A night's reading will save a day on the pavement.",
+          "stamps": {
+            "evidence": 1,
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "Mycroft Holmes",
+            "text": "They are in the green folder. A locked room, a revolver bullet with no revolver, and a sheet of figures that the Yard has not understood. I have not understood it either, which is rare."
+          },
+          "outcome": "You read the folder through twice before the clock strikes ten. It says that Adair was found at eleven-twenty, with the door locked on the inside, and the window forty feet above a bed of crocuses that nobody had trodden. It says nothing that explains the bullet.",
+          "nextNodeId": "E3",
+          "setFlags": [
+            "retFile"
+          ]
+        },
+        {
+          "label": "Ask Who Is Left of the Professor's Friends in London.",
+          "detail": "The trial of the gang left two of its most dangerous members at liberty. One of them has done something, lately, to be noticed, and your brother keeps a list of everyone who is noticed.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Mycroft Holmes",
+            "text": "One is abroad, and is likely to stay there. The other keeps rooms in Conduit Street, belongs to three clubs, and has lately been playing more than a little whist."
+          },
+          "outcome": "He does not need to say the name. It has been in your head since the Reichenbach, as a stone is in a boot. A colonel of the Indian Army, who had the best bag of heavy game in the East, and who was at the top of the cliff with a rock.",
+          "nextNodeId": "E3",
+          "setFlags": [
+            "retNames"
+          ]
+        },
+        {
+          "label": "Ask Him to Send to Grenoble for a Wax Likeness.",
+          "detail": "A figure in a window will keep a man's attention for hours, and a good one will keep it for a night. There is a modeller in Grenoble whom you have used before, who works from a photograph and a silhouette.",
+          "stamps": {
+            "hands": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Mycroft Holmes",
+            "text": "Monsieur Meunier will want three days and more than a little money. I shall have it sent to Baker Street, if you give me your profile. You will have to sit still."
+          },
+          "outcome": "You sit in the lamplight for an hour with your head turned to the left, while your brother sketches you and complains of your nose. When he has done, the drawing is like. It is also, you suspect, kinder than the original.",
+          "nextNodeId": "E3",
+          "setFlags": [
+            "retBust"
+          ]
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "retMycroftFirst"
+          },
+          "text": "Mycroft says nothing of having expected you. He has set out two glasses."
+        },
+        {
+          "when": {
+            "flag": "retWatsonTold"
+          },
+          "text": "You have told Watson. Mycroft takes the news without a flicker, and puts a second pencil into the folder."
+        }
+      ]
+    },
+    "E3": {
+      "id": "E3",
+      "branch": "RETURN",
+      "title": "Park Lane",
+      "description": "Tuesday 3 April 1894, a bright, windy morning. No. 427, Park Lane is a tall house behind a low railing, with a front garden five feet deep and a window on the second floor where the blind is drawn. A group of loafers has collected on the pavement to stare at it, as they have every day since the thirtieth.\n\nYou have come in the character of an old bookseller, with a hump, a pair of white whiskers and a bundle of obscure volumes under your arm. You have three questions about the house, and a quarter of an hour in which to ask them.",
+      "options": [
+        {
+          "label": "Look at the Window, the Wall and the Crocuses.",
+          "detail": "A man shot through a window from outside, in the middle of Park Lane, must have been shot from somewhere. The ground below will say where the shot did not come from.",
+          "stamps": {
+            "evidence": 2
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You stand with your back to the railing, with a hand to your ear as if you were deaf, and look at the window for a long time. When you turn to leave, you have a picture of the house in your head, and of what is in front of it. It is a long, open, empty street, and on the other side of it a row of houses with a good many windows.",
+          "nextNodeId": "E4",
+          "setFlags": [
+            "retWindow"
+          ]
+        },
+        {
+          "label": "Ask the Maid About the Fire That Smoked.",
+          "detail": "A servant who lit a fire and opened a window is a witness to the one fact that the newspapers have not printed. It was open before the shot.",
+          "stamps": {
+            "evidence": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "The Adairs' housemaid",
+            "text": "I lit the fire, sir, and it smoked, so I opened the window to let it out. It was open when I went down, and I never shut it."
+          },
+          "outcome": "You lose twenty minutes at the area steps, talking to a girl with red hands. She tells you that the fire smoked, that she opened the window to let it out, and that she did not close it again. It is the first thing that anyone has said about Park Lane that is both true and useful.",
+          "nextNodeId": "E4",
+          "setFlags": [
+            "retMaid"
+          ]
+        },
+        {
+          "label": "Study the Man in the Coloured Glasses Who Is Explaining Everything.",
+          "detail": "A plain-clothes detective in coloured spectacles, lecturing a crowd on a theory of his own, is worth a minute of anyone's time. A theory will tell you what the Yard thinks, and a crowd will tell you what everyone else does.",
+          "stamps": {
+            "standing": 1
+          },
+          "quote": {
+            "speaker": "A cabman on the rank",
+            "text": "That's Dawes, from G Division. He has a theory about a ladder, and he's welcome to it. There's no ladder."
+          },
+          "outcome": "Dawes is explaining the case to a boy and an old gentleman in a bowler. You listen politely, and when he has gone you are in the front row of the crowd, near the railing, where you can see both the window and the road. You also discover that you are being watched by someone who has not looked at the window at all.",
+          "nextNodeId": "E4",
+          "setFlags": [
+            "retYardMan"
+          ]
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "retFile"
+          },
+          "text": "You have the green folder by heart. The window in front of you is the window in the folder, and the folder was wrong about the drop."
+        },
+        {
+          "when": {
+            "flag": "retMoney"
+          },
+          "text": "Mycroft's bank draft is in your waistcoat, folded small."
+        },
+        {
+          "when": {
+            "flag": "retNames"
+          },
+          "text": "The Colonel's name has been in your head since Mycroft gave it to you."
+        },
+        {
+          "when": {
+            "flag": "retHudson"
+          },
+          "text": "Mrs Hudson has had her hysterics and is better."
+        },
+        {
+          "when": {
+            "flag": "retHudsonKeeps"
+          },
+          "text": "Mrs Hudson has promised to say nothing, and has gone on dusting your chair."
+        }
+      ]
+    },
+    "E4": {
+      "id": "E4",
+      "branch": "RETURN",
+      "title": "The Man with the Jew's-Harp",
+      "description": "Tuesday 3 April 1894, late in the afternoon. You come into Baker Street from the Marylebone Road end, with your hump and your bundle, and walk slowly down the western pavement. At No. 221B the blinds are drawn. At the corner by the pillar-box Parker, a garroter whom you know by sight, is leaning on the railings in a billycock hat with a jew's-harp in his mouth. He plays two bars, takes it out, and looks up at the first-floor window. He ignores you, and you ignore him. It is a thing that can be done only by two professionals. Opposite, Camden House has the shuttered, damp, sightless look of a house that has stood empty for a year.",
+      "options": [
+        {
+          "label": "Follow the Watcher to His Public House.",
+          "detail": "A sentinel is paid by somebody, and wherever he drinks, that somebody has been. It is three-quarters of an hour of walking and one pint of beer.",
+          "stamps": {
+            "evidence": 1,
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Your own notebook",
+            "text": "Parker, a garroter by trade, now on a retainer at four shillings a night. He reports to a man in a hansom with a long, narrow case. He is unaware that he is followed, and he does not play the harp for pleasure."
+          },
+          "outcome": "He goes to the Marylebone Road, to a public house with a green door, and meets a thin fellow who gives him an envelope. You watch from a corner of the bar over a half-pint of bitter. You see only the back of the man in the hansom, and a case as long as a rifle.",
+          "nextNodeId": "E5",
+          "setFlags": [
+            "retSentinel"
+          ]
+        },
+        {
+          "label": "Walk Past with Your Collar Up and Say Nothing.",
+          "detail": "Someone who has been dead for three years has no business to be seen looking at his own house. Let him watch, and think that nobody is watching him.",
+          "stamps": {
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You go by without a glance, and cross the road at the next lamp, and go round the corner. You are alone in the street. You find that your hands, in the pockets of the seedy coat, are cold and steady, and that you are pleased with them.",
+          "nextNodeId": "E5",
+          "setFlags": [
+            "retHidden"
+          ]
+        },
+        {
+          "label": "Look at the Empty House Opposite.",
+          "detail": "Camden House has a front window that commands the first floor of your own rooms, and a back door on to a mews. Anyone who wished to watch Baker Street would use it, and so would you.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Your own notebook",
+            "text": "Camden House, shuttered, with a wooden gate in the passage off Blandford Street. A man in the middle of a street may be seen from every window. A man in the third window of Camden House may see the whole of my sitting-room."
+          },
+          "outcome": "You stand at the kerb for a full minute, as an old man might, with your head back, to read the number of the house. You keep your eyes off the gate in the passage, and off the key that you have already marked in your head, and that you shall need.",
+          "nextNodeId": "E5",
+          "setFlags": [
+            "retCamdenSeen"
+          ]
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "retSentinel"
+          },
+          "text": "Mrs Hudson has told you of the man with the jew's-harp. He is where she said, and he plays as badly as she said."
+        },
+        {
+          "when": {
+            "flag": "retMaid"
+          },
+          "text": "The housemaid's word is still in your head: the window was open before the shot."
+        },
+        {
+          "when": {
+            "flag": "retYardMan"
+          },
+          "text": "Dawes of G Division and his ladder are being discussed all down the Strand."
+        }
+      ]
+    },
+    "E5": {
+      "id": "E5",
+      "branch": "RETURN",
+      "title": "Three Ways to Hunt Him",
+      "description": "Tuesday 3 April 1894, past ten at night. You are sitting in the Pall Mall rooms that Mycroft has lent you, with the file open on the table and a fire in the grate. The Colonel has done a murder and is walking about London, playing whist. You have no warrant, no witness and no standing. You are dead, and a dead man has no friends at the Yard and cannot lay an information. There are three ways of getting at him, and a man cannot take all three in four days. The first goes through Scotland Yard, the second through the street, and the third through your brother's rooms, where nobody need ever hear of it.",
+      "options": [
+        {
+          "label": "Go Through Scotland Yard and Put the Case Together on Paper.",
+          "detail": "Lestrade has the file, the men and the power to arrest. He will want to know who has told you what you know, and you will have to decide how much of it to say.",
+          "stamps": {
+            "standing": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You write the note by lamplight. It is short, and it is signed with a name that Lestrade will take for a joke, until he reads the first line. You send it at midnight, by a boy who does not know what it says.",
+          "nextNodeId": "E6"
+        },
+        {
+          "label": "Go Through the Street and Call Out the Irregulars.",
+          "detail": "Wiggins and the boys are three years older and harder to find. They see everything that happens on the pavement, and they have no reason to love a colonel.",
+          "stamps": {
+            "hands": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "Chalk on the wall in Baker Street Mews. Nobody's done that in three years, sir. I'll be there at midnight."
+          },
+          "outcome": "You send for Wiggins by the oldest way: a chalk mark on a wall in Baker Street Mews, and an hour to wait. He comes at midnight, taller than you remembered, in a cabman's coat, and says nothing at all for a minute and a half.",
+          "nextNodeId": "E10"
+        },
+        {
+          "label": "Go the Quiet Road and Work Alone from Your Brother's Rooms.",
+          "detail": "Nobody will be told, and nobody can let it slip. It is slow, and it is lonely, and it leaves the Colonel no way of knowing that he is looked for.",
+          "stamps": {
+            "nerve": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Mycroft Holmes",
+            "text": "You may have the rooms for the week, and the clerk, and the key to the dispatch-box. I shall ask only that you do not shoot anyone in Pall Mall."
+          },
+          "outcome": "You light a pipe, and clear the table, and spread out the papers. There is a long night in front of you. It is the kind that you used to like.",
+          "nextNodeId": "E14"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "retWatsonTold"
+          },
+          "text": "Watson is asleep, or lying awake, in Kensington. He will be wanted, and you are glad that you have told him."
+        },
+        {
+          "when": {
+            "flag": "retHudsonWorks"
+          },
+          "text": "Mrs Hudson is practising the figure with a hat-stand and a coat, to her own great pleasure."
+        },
+        {
+          "when": {
+            "flag": "retHidden"
+          },
+          "text": "Parker has not seen your face, and you mean to keep it so."
+        },
+        {
+          "when": {
+            "flag": "retCamdenSeen"
+          },
+          "text": "Camden House has not stopped looking at your window."
+        },
+        {
+          "when": {
+            "flag": "retWatsonLeft"
+          },
+          "text": "Watson is in Kensington with a dozen old books and no explanation. You are not proud of it."
+        }
+      ]
+    },
+    "E6": {
+      "id": "E6",
+      "branch": "RETURN",
+      "title": "Lestrade at the Yard",
+      "description": "Wednesday 4 April 1894, nine in the morning. Scotland Yard has not changed in three years: the same cold stair, the same smell of wet umbrellas, the same sergeant who looks through you when you are not in uniform. Lestrade's door is at the end of the second passage.\n\nHe is at his desk with a pipe that has gone out and the Adair papers in three untidy heaps in front of him. He has aged. He is a good, dogged, honest officer, and the one man at the Yard who ever admitted that you were of use. You must decide what he is to be told.",
+      "options": [
+        {
+          "label": "Tell Him Who You Are and Ask for His Help.",
+          "detail": "He will be trusted with a secret that half the Cabinet would like to have. He will never repeat it, and he will never forget that you gave it to him.",
+          "stamps": {
+            "hands": 1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "He stands up so fast that the pipe goes over, and then he shakes your hand for far longer than the English custom allows. It is a quarter of an hour before he can speak of the murder. When he does, he has the whole file out on the desk.",
+          "nextNodeId": "E7",
+          "setFlags": [
+            "retLestradeTold"
+          ],
+          "axisDelta": {
+            "trustLestrade": 2
+          }
+        },
+        {
+          "label": "Come as a Friend of Mycroft's and Ask for the Papers.",
+          "detail": "A friend of a Whitehall man may see a file without being asked who he is. It is the smaller favour, and the safer, and it leaves the Colonel's side of the Yard in the dark.",
+          "stamps": {
+            "evidence": 1,
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "Mr Mycroft Holmes's friend, is it? The file's no secret, and I don't mind another pair of eyes. You'll sign for it."
+          },
+          "outcome": "He looks at you for a moment longer than is polite, and then looks at the stoop and the white whiskers, and decides to be satisfied. You sign the book with a name that you have used once before. He puts the file in your hands.",
+          "nextNodeId": "E7",
+          "setFlags": [
+            "retLestradeFriend"
+          ],
+          "axisDelta": {
+            "trustLestrade": 1
+          }
+        },
+        {
+          "label": "Send Him a Note by Mycroft's Man and Stay Out of the Building.",
+          "detail": "A note can be read twice and burned. A face cannot. The Yard leaks, and the Colonel has a friend in the Division.",
+          "stamps": {
+            "wires": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "Somebody's sent me a note, signed with a name I'd rather not read twice. I'll keep it to myself, sir, if you tell me what you want."
+          },
+          "outcome": "The reply is in Mycroft's clerk's hand, on a half-sheet of blue paper, and it says that the papers are in the green folder and that Inspector Lestrade will be in his room until six. It is cold comfort. It is also, you think, safe.",
+          "nextNodeId": "E7",
+          "setFlags": [
+            "retLestradeNote"
+          ],
+          "axisDelta": {
+            "trustLestrade": 1
+          }
+        }
+      ]
+    },
+    "E7": {
+      "id": "E7",
+      "branch": "RETURN",
+      "title": "The Inquest Papers",
+      "description": "Wednesday 4 April 1894, the afternoon. The papers are in a bundle tied with pink tape, and you read them at a corner table in the room beside Lestrade's, with a pencil in your hand and the door open. A young man is dead, with his head laid open by a bullet, in a locked room on the second floor. There is no gun. There is money on the table, in little piles, and a sheet of figures with the names of the club friends against them. The inquest has brought in wilful murder by a person or persons unknown. It is a verdict that explains nothing.",
+      "options": [
+        {
+          "label": "Read the Sheet of Figures and the Names Against Them.",
+          "detail": "A young man was working out a sum on the night that he died. A man does not do that for nothing, and the Yard has put it down to an evening's whist.",
+          "stamps": {
+            "evidence": 2
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "It takes you half an hour to see what the sheet is. It is a young man's account with his conscience, in pencil. Somebody had been winning too steadily, and somebody else had found out, and the figures were what he meant to put right.",
+          "nextNodeId": "E8",
+          "setFlags": [
+            "retFigures"
+          ]
+        },
+        {
+          "label": "Look at the Bullet Itself in the Property Room.",
+          "detail": "A bullet will say what fired it, if you can bear to ask in the right order. This one is a soft-nosed pistol bullet that has opened out like a flower, and nobody heard a shot.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "It's a revolver bullet, sir, that's opened out, and there's no revolver, and nobody in Park Lane heard a thing. I've had the whole Division at it."
+          },
+          "outcome": "You hold it under the lamp for a long time. The rifling is faint, as if the bullet had not been spun by a barrel at all, but pushed. It is a thing that you have been expecting to see, in one form or another, since 1891.",
+          "nextNodeId": "E8",
+          "setFlags": [
+            "retBulletSeen"
+          ]
+        },
+        {
+          "label": "Ask Who Played Cards with Adair That Night.",
+          "detail": "A young man who plays whist every day has a different partner each time. The last partner is the one worth knowing.",
+          "stamps": {
+            "evidence": 1,
+            "standing": 1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "The Bagatelle, sir, in Pall Mall. His partner there was a Colonel Moran, who was most helpful at the inquest and gave us a clear account of the evening."
+          },
+          "outcome": "He says it with a kind of dull respect. The Colonel has been helpful. He has been to the inquest, in a good coat, and answered every question in a clear voice. He has also, you note, been clear about the hour at which Adair left the club.",
+          "nextNodeId": "E8",
+          "setFlags": [
+            "retLastPartner"
+          ]
+        }
+      ]
+    },
+    "E8": {
+      "id": "E8",
+      "branch": "RETURN",
+      "title": "The Bagatelle Club",
+      "description": "Thursday 5 April 1894, nine in the evening. The Bagatelle Card Club occupies the first floor of a house in Pall Mall, and it is the sort of place where nobody is asked who they are but everybody is expected to know. Four tables are playing whist. At the fifth, nearest the fire, an elderly man with a high bald forehead, a thin projecting nose and a huge grizzled moustache is cutting for partners. He has not looked up. The steward knows you as a retired surgeon from Bath. You are, for this evening, a person of no consequence at all.",
+      "options": [
+        {
+          "label": "Sit Down to a Rubber at His Table and Watch His Hands.",
+          "detail": "A man cheats with his hands, and a hand can be seen only from a chair at the table. The Colonel has the steadiest nerves in London, and a surgeon from Bath has not.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Colonel Moran",
+            "text": "You play a fair game, sir, for a man from the country. I shall hope to give you the pleasure of a second rubber, if you can spare us the time."
+          },
+          "outcome": "",
+          "nextNodeId": "E9",
+          "roll": {
+            "chance": 0.55,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.85
+            },
+            "success": {
+              "outcome": "On the fourth hand you see it: a thumb along the edge of the pack before the cut, and a card that goes under, not over. He does it so well that your own partner has not noticed in two rubbers. You note it, you lose gracefully, and you go home with the thing that Adair found out.",
+              "stamps": {
+                "evidence": 2,
+                "nerve": -1
+              },
+              "setFlags": [
+                "retCards",
+                "retMoranFace"
+              ]
+            },
+            "failure": {
+              "outcome": "You play carelessly, and the Colonel looks up. It is only for the space of a hand. He says nothing. But the blue eyes under the drooping lids rest on your face, and then on your hands, which are too white and too still for a country surgeon, and he smiles. You have lost the club, and likely the evening.",
+              "stamps": {
+                "nerve": -2,
+                "standing": -1
+              },
+              "setFlags": [
+                "retSuspected"
+              ]
+            }
+          }
+        },
+        {
+          "label": "Watch from the Gallery and Do Not Go Near the Table.",
+          "detail": "A gallery will not show you a card, but it will show you a hand. He moves the thumb, and a man in the gallery can count.",
+          "stamps": {
+            "evidence": 1,
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You sit in a corner with a newspaper and a glass of weak whisky. It is a dull hour. You never see the Colonel look in your direction, or in any other direction, and you go home with a short, neat note and a pain in your neck.",
+          "nextNodeId": "E9",
+          "setFlags": [
+            "retCards"
+          ]
+        },
+        {
+          "label": "Ask the Steward About the Colonel's Winnings.",
+          "detail": "A steward knows what a club will not say aloud. He knows who wins, and for how long, and who has lately stopped asking the Colonel to dine.",
+          "stamps": {
+            "standing": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Mr Phelps",
+            "text": "The Colonel is the steadiest player in the club, sir. I should say that he has won nearly every Thursday for two years. Mr Adair partnered him latterly."
+          },
+          "outcome": "Mr Phelps is discreet, and says so three times. He also says that the Colonel has never lost more than five pounds, that Mr Adair played with him in the week of his death, and that the committee has lately asked a question which the Colonel did not answer.",
+          "nextNodeId": "E9",
+          "setFlags": [
+            "retSteward"
+          ]
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "retFigures"
+          },
+          "text": "You have the sheet of figures in your head, and you look at each man at each table with it."
+        }
+      ]
+    },
+    "E9": {
+      "id": "E9",
+      "branch": "RETURN",
+      "title": "The Bullet",
+      "description": "Friday 6 April 1894, ten in the morning. Lestrade has the bullet in a pillbox on his desk with a luggage label, and the Park Lane file open beside it. He has not slept. A good officer will go on looking at a case after it has stopped telling him anything.\n\nYou have one day and one night left before the Saturday you have already chosen, and you must spend them on one of three things. The bullet has an owner, the night has to be watched, and the Yard has to be told as much, or as little, as you can afford.",
+      "options": [
+        {
+          "label": "Take the Bullet to a Gunsmith in Holborn.",
+          "detail": "A pistol bullet that has been fired without a pistol was fired from something else. A gunsmith will know what.",
+          "stamps": {
+            "evidence": 2,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "A Holborn gunsmith",
+            "text": "That's not been fired from a revolver, sir, whatever it looks like. It's gone out of something that works on wind. I saw the like once, and the man who made it was blind."
+          },
+          "outcome": "He weighs it in his palm and turns it under the lamp, and then he tells you what you already know, and a little that you did not. The gun that did it was built by a German in the 'eighties, to order. He has not seen it since. He would very much like to.",
+          "nextNodeId": "E18",
+          "setFlags": [
+            "retBullet",
+            "retAirgun"
+          ]
+        },
+        {
+          "label": "Ask Lestrade for Men on Saturday Night.",
+          "detail": "The street must be watched, quietly, by men who are not afraid of a gentleman with a gun. Lestrade has them, and he has to be told what for.",
+          "stamps": {
+            "hands": 2,
+            "standing": -1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "He writes down the times in his own hand, and puts the paper in his pocket-book, and the pocket-book in the inside of his coat. He asks no questions about how you know where the Colonel will be. He has, he says, given up asking.",
+          "nextNodeId": "E18",
+          "requiresFlag": "retLestradeTold",
+          "requiresFlagHint": "Needs Lestrade to know that you live",
+          "setFlags": [
+            "retLestradeMen"
+          ]
+        },
+        {
+          "label": "Keep the Yard Out of the Last Night and Trust Your Own Plan.",
+          "detail": "A policeman in the street is a danger to a trap, and a Yard that has been told is a Yard that talks. You have done this alone before, and it was not a failure.",
+          "stamps": {
+            "nerve": 1,
+            "standing": -1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You thank Lestrade for the papers, and give him a message that means nothing, and leave. It is a cold, bright morning, and you are walking fast.",
+          "nextNodeId": "E18",
+          "setFlags": [
+            "retYardOut"
+          ]
+        }
+      ]
+    },
+    "E10": {
+      "id": "E10",
+      "branch": "RETURN",
+      "title": "The Boys Grown Up",
+      "description": "Wednesday 4 April 1894, in the small hours and then in the morning. The Baker Street Irregulars were boys when you last saw them, and they are not boys now. Wiggins is a cabman's apprentice, six feet high and more serious than you remember, with a cab-whip over his shoulder and a growth of down along his lip.\n\nThere are nine others. Three of them have jobs, and one has a wife, and not one of them has failed to come. They stand in a half-circle in the mews, with their caps in their hands, looking at a man whom they were told was at the bottom of a waterfall.",
+      "options": [
+        {
+          "label": "Send for the Whole Lot and Pay Them.",
+          "detail": "Ten pairs of eyes will see more of London than any detective, and they will tell nobody for a shilling a day. You must expect that the Colonel will be spoken of, a little, in the public houses.",
+          "stamps": {
+            "hands": 2
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "I knew you wasn't dead, sir. I said so to the lads. They wouldn't have it, and now I'll have the shilling off of every one."
+          },
+          "outcome": "You give the money to Wiggins, who counts it in front of everybody, and gives each boy his share. It is done with great solemnity. Then he asks, without looking up, whom they are to follow.",
+          "nextNodeId": "E11",
+          "moneyCost": 2,
+          "setFlags": [
+            "retBoys"
+          ],
+          "axisDelta": {
+            "trustWiggins": 1
+          }
+        },
+        {
+          "label": "Ask for Wiggins and Two of the Steadiest, and No More.",
+          "detail": "A small party can get through a door that a crowd would knock down, and three boys will keep a secret better than ten.",
+          "stamps": {
+            "hands": 1
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "Dobbs and Little Sam, sir. They can follow a cat over the roofs, and neither of 'em talks. The rest can wait to be asked."
+          },
+          "outcome": "The others are sent home, with a shilling each and a great deal of grumbling. Dobbs and Little Sam stay. They are fifteen and twelve, and they look at you with a kind of fierce, sleepy patience.",
+          "nextNodeId": "E11",
+          "setFlags": [
+            "retBoys"
+          ],
+          "axisDelta": {
+            "trustWiggins": 1
+          }
+        },
+        {
+          "label": "Tell Wiggins Alone and Tell Him Why.",
+          "detail": "He is the only one of them who will remember what the Colonel did. The rest are too young, and have only heard the story.",
+          "stamps": {
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "He listens with his head down and his whip across his knees, and says nothing until you have finished. Then he says that he will do it, and that he will do it alone, if you like. You are touched by it, and do not say so.",
+          "nextNodeId": "E11",
+          "setFlags": [
+            "retWigginsOnly"
+          ],
+          "axisDelta": {
+            "trustWiggins": 2
+          }
+        }
+      ]
+    },
+    "E11": {
+      "id": "E11",
+      "branch": "RETURN",
+      "title": "The Gate in Blandford Street",
+      "description": "Wednesday 4 April 1894, the afternoon. Camden House stands on the other side of Baker Street, a damp brick house of four floors with its shutters closed and a bill in the ground-floor window that says it is to let. Its front windows look straight across into your own sitting-room. Its back door gives on to a yard, and the yard on to a narrow passage that comes out in Blandford Street, by a wooden gate that is never locked. You have been looking at it all morning, from a baker's van, a milk-cart and a doorway, and you have seen nobody go in or out.",
+      "options": [
+        {
+          "label": "Send a Boy Through the Gate in the Passage.",
+          "detail": "A boy can go where a man cannot. He may find a back door that opens, a floor that creaks, a window that commands the street.",
+          "stamps": {
+            "evidence": 2
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "Sam says the back door's on the latch, sir, and there's a front room on the first floor with a window right across from yours. Somebody's been in."
+          },
+          "outcome": "The boy is gone for twenty minutes, and comes back with cobwebs in his hair and a strip of paper from a wall. He has been through every room. There is nobody there, and nothing to take. But the front window has been wiped, and the dust on the sill has the print of an elbow in it.",
+          "nextNodeId": "E12",
+          "setFlags": [
+            "retCamden"
+          ]
+        },
+        {
+          "label": "Count the Men Who Watch Your Own House.",
+          "detail": "Anyone who is watching a house is himself watched by the boys who have nothing to do. Count them, and see when they change.",
+          "stamps": {
+            "evidence": 1,
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "The pale one is Parker. He has been on the corner for a month, on four shillings a night. The thin one has not been named yet, but the boys have a number for him, and it is the number of the cab in which he comes, and goes.",
+          "nextNodeId": "E12",
+          "setFlags": [
+            "retWatchers"
+          ]
+        },
+        {
+          "label": "Take a Room Across the Street and Watch for a Day.",
+          "detail": "A room has a view, and a view has a use. You will be seen from nowhere, and you will see the whole of the house.",
+          "stamps": {
+            "evidence": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Your own notebook",
+            "text": "A first-floor room over a bootmaker's, with a blind. From it I can see the corner, the pillar-box, the gate and the whole of Camden House. At six, a lamp is lit in the empty house, for a minute, and put out."
+          },
+          "outcome": "You sit in a hard chair with a telescope and a heel of bread, and the day goes by like a drawn curtain. At six o'clock a lamp is lit in the first-floor room of Camden House, and a hand moves across the window. Then it is dark. Somebody has been looking at your sitting-room, and has seen what he wished to see.",
+          "nextNodeId": "E12",
+          "moneyCost": 3,
+          "setFlags": [
+            "retFront"
+          ]
+        }
+      ]
+    },
+    "E12": {
+      "id": "E12",
+      "branch": "RETURN",
+      "title": "The Sentinel",
+      "description": "Thursday 5 April 1894, dusk. Parker leaves the corner at a quarter to six, as he does every evening, and goes by the Marylebone Road to a mews behind a livery stable. He walks slowly, with his hands in his pockets, and the jew's-harp in his cheek. He is a garroter by trade, and a good one, with a thick neck and small, pale, patient eyes. He knows the Colonel's face and the Colonel's habits, and he has no idea that he is followed. There is a gate at the end of the mews. A man might be taken there without a sound.",
+      "options": [
+        {
+          "label": "Take Parker Quietly in the Mews and Keep Him.",
+          "detail": "A garroter is dangerous in a narrow place, and a boy cannot hold him. It must be done from behind, in the dark, by someone who has done it before.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Parker",
+            "text": "I never done nothing, guv'nor. I only plays the harp. You can ask anyone. It's a free country, and a man can stand where he likes."
+          },
+          "outcome": "",
+          "nextNodeId": "E13",
+          "roll": {
+            "chance": 0.6,
+            "scaling": {
+              "resource": "hands",
+              "perPoint": 0.05,
+              "min": 0.35,
+              "max": 0.9
+            },
+            "success": {
+              "outcome": "He goes down under the lamp with his own scarf round his wrists, and a boy on each leg. He is more frightened than hurt. By eight he is sitting in a locked room over a stable, telling you about the Colonel's cab, his hours, and a long case that is never opened in the street.",
+              "stamps": {
+                "evidence": 2,
+                "hands": 1
+              },
+              "setFlags": [
+                "retParkerTaken"
+              ]
+            },
+            "failure": {
+              "outcome": "He hears the boy on the cobbles, and turns, and the whistle that he gives is shriller than any harp. A window opens. A dog barks. By the time you have reached the gate he is half a street away, running, and he will be at the Colonel's door in ten minutes.",
+              "stamps": {
+                "nerve": -2,
+                "standing": -1
+              },
+              "setFlags": [
+                "retSuspected"
+              ]
+            }
+          }
+        },
+        {
+          "label": "Let Parker Run and Have the Boys Follow Him.",
+          "detail": "He will go to the man who pays him. A sentinel who is left alone will report, and the boys will see where.",
+          "stamps": {
+            "wires": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "He went to a house in Conduit Street, sir, and a gentleman let him in with his own key. The gentleman had a moustache like a hedge."
+          },
+          "outcome": "He is back at ten with a face full of satisfaction, and a pencil-note in a hand that is better than you expected. The Colonel lives on the second floor. He has a cab at the door by nine, and a long, narrow, leather case that is never left in the hall.",
+          "nextNodeId": "E13",
+          "setFlags": [
+            "retParkerFollowed"
+          ]
+        },
+        {
+          "label": "Leave Parker to Play and Mind the Window.",
+          "detail": "A sentinel is a nuisance, not a danger. Whoever takes him will be asked where he is, and will be answered by the Colonel.",
+          "stamps": {
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "He plays his harp to the end of the mews, and goes in at a green door. It would be easy to take him, and it would be a mistake. A sentinel who is missing is a message. A sentinel who is bored is a reassurance.",
+          "nextNodeId": "E13",
+          "setFlags": [
+            "retParkerLeft"
+          ]
+        }
+      ]
+    },
+    "E13": {
+      "id": "E13",
+      "branch": "RETURN",
+      "title": "Conduit Street",
+      "description": "Friday 6 April 1894, in the afternoon. Conduit Street is a respectable street of respectable rooms, with a tailor at one end and an haberdasher at the other. The Colonel has the second floor of No. 12, which he has had for eleven years, and which he has kept as a soldier keeps his tent.\n\nThere is nothing in the window. There is a fresh milk-can on the step. He is out, but the street is not empty, and the boys have been in it since the dawn. It is the last day. You must choose what to learn about him in the little time that you have.",
+      "options": [
+        {
+          "label": "Have the Boys Watch His Door Through Saturday.",
+          "detail": "A creature of habit does the same thing every night, and does it on Saturday. The boys will tell you when he goes out, and how.",
+          "stamps": {
+            "evidence": 1,
+            "hands": -1
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "He goes out at ten with his long box in a cab, sir, and he comes home at two. He never takes the same cab twice running."
+          },
+          "outcome": "It is as plain as a time-table. At half-past nine he dines at the Anglo-Indian, at ten he is in a hansom with the case across his knees, and at two he is in his bed. It is a soldier's schedule, and a soldier's schedule is a gift.",
+          "nextNodeId": "E18",
+          "setFlags": [
+            "retRoutine"
+          ]
+        },
+        {
+          "label": "Look in at His Window as a Lamplighter.",
+          "detail": "A man's rooms say more than his habits. A lamplighter with a ladder is a thing that nobody sees, and that everybody lets pass.",
+          "stamps": {},
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "",
+          "nextNodeId": "E18",
+          "roll": {
+            "chance": 0.5,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.04,
+              "min": 0.25,
+              "max": 0.8
+            },
+            "success": {
+              "outcome": "You have the ladder up and the lamp lit in three minutes, and the window is open. The room is as bare as a barrack. There is a long, leather-covered case on the table with a brass lock, and a book beside it open at a page of a shooting diary. The last entry is dated three days ago, and is a map of Baker Street.",
+              "stamps": {
+                "evidence": 2,
+                "nerve": -1
+              },
+              "setFlags": [
+                "retRoutine",
+                "retMoranFace"
+              ]
+            },
+            "failure": {
+              "outcome": "The ladder slips on the wet stone, and you are on the pavement with the lamp in your arms, and a woman at a window is shrieking about thieves. By the time you have the lamp up the Colonel's valet is at the door. You are not seen as yourself. But somebody will be asked whether a lamplighter was seen in Conduit Street, and will say that he was.",
+              "stamps": {
+                "nerve": -1,
+                "standing": -1
+              },
+              "setFlags": [
+                "retSuspected"
+              ]
+            }
+          }
+        },
+        {
+          "label": "Send Wiggins to Make Friends with the Colonel's Cabman.",
+          "detail": "A cabman knows his fare's hours, the stands he uses and the streets he avoids. A pint will open him, and a cabman is a better witness than a valet.",
+          "stamps": {
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "Wiggins",
+            "text": "He says the Colonel tips like a lord and never speaks, sir. He's booked him for Saturday, to Blandford Street, at half-past eleven."
+          },
+          "outcome": "It takes the boy three pints, which are charged to the Foreign Office. He comes back with the stand, the hours and the fact that the Colonel has twice in a week been set down at the corner of Baker Street, and has twice walked away in the other direction.",
+          "nextNodeId": "E18",
+          "setFlags": [
+            "retCabman"
+          ],
+          "axisDelta": {
+            "trustWiggins": 1
+          }
+        }
+      ]
+    },
+    "E14": {
+      "id": "E14",
+      "branch": "RETURN",
+      "title": "The Pall Mall Rooms",
+      "description": "Wednesday 4 April 1894, early. Mycroft's rooms in Pall Mall look over the Park, and have the air of having been furnished by someone who disliked furniture. There is a table, two chairs, a bookcase, and a cold fire, and on the table a dispatch-box and the Adair file. A clerk from the Foreign Office has been told that you are a distant cousin from the country, and has been ordered to fetch whatever you ask for and to wonder at nothing. You have three days and no one to help you, and the first thing to do is to know your enemy.",
+      "options": [
+        {
+          "label": "Read Your Own Index Under M.",
+          "detail": "An index of every criminal in Europe has a page for the Colonel. It is written in your hand, in the margin, in red ink.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "The clerk brings the volume from a trunk in the cellar, and you read the page through twice. It is exactly as you remember it, and it has not the least information that you did not have. You find, with a small shock, that you are glad to see your own handwriting.",
+          "nextNodeId": "E15",
+          "setFlags": [
+            "retIndex"
+          ]
+        },
+        {
+          "label": "Read the Inquest Reports in Every Newspaper, with a Pencil.",
+          "detail": "The Colonel was at the inquest, and a newspaper will tell you what he said. A helpful witness is one who has prepared his answers.",
+          "stamps": {
+            "evidence": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Your own notebook",
+            "text": "Colonel Moran gave his evidence in a clear voice, and was thanked by the coroner. He was careful to say that the deceased was in good spirits at ten. He was careful, too, that nobody asked him where he had gone afterwards."
+          },
+          "outcome": "Seven papers, six pencils and three cups of tea. You find the sentence in the fifth. It is the Colonel's own, and it is the only one of his that is a lie, and you would not have seen it if you had not read the other forty.",
+          "nextNodeId": "E15",
+          "setFlags": [
+            "retInquestRead"
+          ]
+        },
+        {
+          "label": "Cross-Question Mycroft's Clerk on Whom He Has Seen in Pall Mall.",
+          "detail": "A clerk who watches the pavement sees more than a spy. He will have noticed who is on it day after day, and who is not.",
+          "stamps": {
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "Mycroft Holmes",
+            "text": "Mr Pryce has an excellent memory for faces, Sherlock, and no imagination whatever. I find the combination most valuable. You may ask him anything, and he will tell you exactly what he saw."
+          },
+          "outcome": "He has seen the Colonel twice, in the street, on his way to the Anglo-Indian, with a long case in a hansom. He has seen a pale man with a jew's-harp, and a thin one in a long coat. He has not seen you, which pleases him very much, and you pay him the compliment of not saying that it is the first thing that he has missed.",
+          "nextNodeId": "E15",
+          "setFlags": [
+            "retClerk"
+          ]
+        }
+      ]
+    },
+    "E15": {
+      "id": "E15",
+      "branch": "RETURN",
+      "title": "Von Herder's Gun",
+      "description": "Wednesday 4 April 1894, the evening. A bullet that has been fired without a revolver was fired from a gun that nobody has seen. You have known of the existence of such a gun for three years. It was made by a blind German mechanic called Von Herder, to the order of the late Professor, and it is noiseless, and of tremendous power. The Colonel is the only man alive who is known to have used it, and the Colonel will not be asked. You must find out what you can of the gun, and the German, and the bullets, and you have an evening.",
+      "options": [
+        {
+          "label": "Find Von Herder's Old Workshop in Soho.",
+          "detail": "A blind man leaves his work behind, and a workshop has a ledger. It is a dingy street, and the man is dead, but his daughter is not.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Von Herder's daughter",
+            "text": "My father made it for a gentleman who had no name, mein Herr, and a second one, in the end, for the same. I have the drawing. I did not know that there had been a second."
+          },
+          "outcome": "",
+          "nextNodeId": "E16",
+          "roll": {
+            "chance": 0.6,
+            "scaling": {
+              "resource": "evidence",
+              "perPoint": 0.03,
+              "min": 0.4,
+              "max": 0.85
+            },
+            "success": {
+              "outcome": "She keeps his drawings in a tin trunk, and you are in the back room for an hour. There is a sketch of the weapon, and a list of the bullets that it was made to fire, and a name at the foot of the page in the Professor's own copperplate. It is the nearest thing to a signature that you have ever seen.",
+              "stamps": {
+                "evidence": 2
+              },
+              "setFlags": [
+                "retHerder"
+              ]
+            },
+            "failure": {
+              "outcome": "The street is wet, and the shop has been shut since the autumn. You knock at a door, and an old woman says that the German's daughter went to Hamburg in March. By the time you have found a neighbour who can tell you so, it is eleven, and you have lost the evening.",
+              "stamps": {
+                "hours": -2,
+                "nerve": -1
+              }
+            }
+          }
+        },
+        {
+          "label": "Ask a Friend at the Foreign Office Who Dealt with Von Herder.",
+          "detail": "A department that has paid for a gun will have a docket. It is slower than a workshop, and it is surer.",
+          "stamps": {
+            "evidence": 1,
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "Mycroft Holmes",
+            "text": "The docket is in the Admiralty, in a box that has not been opened since 1888. I have taken the liberty of opening it. You will find what you wish for in the second folder."
+          },
+          "outcome": "It is a dull piece of evidence, in a dull hand, on dull paper, and it says exactly what you hoped. A German mechanic was engaged by a private person in 1887 to construct a pneumatic weapon of unusual power. The weapon was delivered to an address in Conduit Street.",
+          "nextNodeId": "E16",
+          "setFlags": [
+            "retHerder"
+          ]
+        },
+        {
+          "label": "Trust What You Know of the Gun and Go On.",
+          "detail": "You know what it is, and what it can do. You have known for three years. What you need is the man, and a dead German will not give you him.",
+          "stamps": {
+            "hours": 1,
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "Your own notebook",
+            "text": "An air-gun of remarkable power, noiseless, with a butt of curious shape. A man must kneel, and must have a window, and must have the lever. It is not a weapon for a crowd. It is a weapon for a still man."
+          },
+          "outcome": "You shut the folder, and the evening is yours. It is a gamble, and you know it. The gun will be a surprise to the Yard, and a necessity to the court. But for tonight it is only a piece of furniture, and you spend the hours thinking about the one thing that matters, which is where he will kneel.",
+          "nextNodeId": "E16"
+        }
+      ]
+    },
+    "E16": {
+      "id": "E16",
+      "branch": "RETURN",
+      "title": "The Anglo-Indian Club",
+      "description": "Thursday 5 April 1894, the afternoon. The Anglo-Indian Club is a long, high, cool room in St James's Street, full of leather chairs and elderly officers and the smell of old tobacco. You have come as a retired army surgeon, with a limp, a stethoscope in your coat-pocket and a large moustache that does not belong to you. At the far window two white-whiskered gentlemen are quarrelling, in a low voice, about the Afghan campaign. The Colonel's name has been mentioned twice since you sat down. Nobody has yet mentioned the cards.",
+      "options": [
+        {
+          "label": "Dine with Them and Draw Out the Tiger Stories.",
+          "detail": "Every old Indian officer has a story of the Colonel's tigers. A man described by his friends is described by his habits, and the habits are the whole of him.",
+          "stamps": {
+            "evidence": 1
+          },
+          "quote": {
+            "speaker": "A retired Major",
+            "text": "Best shot in India, sir. He'd tether a kid under a tree, and sit above it all night without a movement, and the tiger would come to the kid. Never failed."
+          },
+          "outcome": "By the end of the second glass you have the whole of it. He does not hunt. He waits. He picks the bait and the tree, and then he has the patience of a stone, and the tiger comes. You have been thinking of the Colonel as a gun.",
+          "nextNodeId": "E17",
+          "setFlags": [
+            "retShikari"
+          ]
+        },
+        {
+          "label": "Ask About His Rooms in Conduit Street and His Habits.",
+          "detail": "Old soldiers know where their friends live and when they dine. You may as well be told, as well as any other way.",
+          "stamps": {
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "A retired Major",
+            "text": "Dines here at half-past nine, sir, never in company, and leaves at ten. He's a most regular man. You could set a watch by him. Some of us have."
+          },
+          "outcome": "You are told it all, with the kind of fond disapproval which old men keep for a man they dislike and cannot fault. He has a cab at ten, and a case of rifles, and a valet who is deaf. He has not been to India since 1880, and he talks of it every night.",
+          "nextNodeId": "E17",
+          "setFlags": [
+            "retRoutine"
+          ]
+        },
+        {
+          "label": "Say Nothing and Let Them Talk of the Afghan Campaign.",
+          "detail": "Two old men who are left alone will sooner or later say something that is true. You have a good chair and a good deal of time.",
+          "stamps": {
+            "nerve": 1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "It is two hours of Charasiab and Sherpur and the passes, and you are nearly asleep. But at the end of it you know a thing about him that you did not know. He is not afraid of anything, and he has no respect for anyone who is.",
+          "nextNodeId": "E17"
+        }
+      ]
+    },
+    "E17": {
+      "id": "E17",
+      "branch": "RETURN",
+      "title": "The Likeness",
+      "description": "Friday 6 April 1894, in the evening. A long wooden case has come by the night train from Dover, with a French customs label, and has been taken by a porter to the back door of 221B. It is now on the table in the sitting-room, which has been dark for three years and which is lit tonight by a single lamp. Mrs Hudson has been sent for. She is standing with her hand to her mouth. Inside the case, in a nest of straw, is a head and a pair of shoulders in wax that are so much like your own that she has already said it twice.",
+      "options": [
+        {
+          "label": "Judge the Likeness and Send It to Be Draped.",
+          "detail": "It is a good bust, and a better dummy than anything you could have made. It wants a dressing-gown, a blind and a little lamplight, and the rest is nerve.",
+          "stamps": {
+            "hands": 1
+          },
+          "quote": {
+            "speaker": "Mrs Hudson",
+            "text": "It's the very image of you, Mr Holmes, and I don't like it. I'll do as you say, but I'll have it covered when I dust."
+          },
+          "outcome": "You turn the head to the lamp, and look at the chin, and the ears, and the long, thin, humorous mouth. Monsieur Meunier has worked from a photograph, a silhouette and your brother's complaints, and he has done well. You put a dressing-gown round the shoulders. The effect is unpleasantly good.",
+          "nextNodeId": "E18",
+          "requiresFlag": "retBust",
+          "requiresFlagHint": "Needs the wax likeness from Grenoble",
+          "setFlags": [
+            "retBustReady"
+          ]
+        },
+        {
+          "label": "Model One Yourself in Plaster and Candle-Grease.",
+          "detail": "It will not be a masterpiece. A bad likeness in a good light is enough for anyone who looks at it across a street, but you will have to spend the night on it.",
+          "stamps": {
+            "hours": -2,
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "It takes you till three. By then the kitchen is full of plaster and candle-ends, and Mrs Hudson has made four pots of tea and said nothing at all. In the end the thing looks back at you with a faint, blind, sarcastic expression, and you find, to your annoyance, that it is like.",
+          "nextNodeId": "E18",
+          "showWhen": {
+            "not": {
+              "flag": "retBust"
+            }
+          },
+          "setFlags": [
+            "retBust"
+          ]
+        },
+        {
+          "label": "Rehearse Mrs Hudson in Moving It Every Quarter of an Hour.",
+          "detail": "A dummy that does not move is a dummy. She is to turn it, an inch at a time, from the front of the room, on her knees, so that her own shadow is never on the blind.",
+          "stamps": {
+            "hands": 1,
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "Mrs Hudson",
+            "text": "On my knees, and every fifteen minutes, and never once to stand. I'll do it, Mr Holmes. I only hope the Colonel appreciates it."
+          },
+          "outcome": "You time her with your watch. It takes four rehearsals before she can do it without a creak, and a fifth before she can do it without laughing. At the end she says, with some dignity, that she did not think it would be so difficult to be a lamp.",
+          "nextNodeId": "E18",
+          "setFlags": [
+            "retHudsonWorks"
+          ]
+        }
+      ]
+    },
+    "E18": {
+      "id": "E18",
+      "branch": "RETURN",
+      "title": "The Eve",
+      "description": "Friday 6 April 1894, a little before midnight. 221B Baker Street is dark, and for once in three years the dark is yours. You have come in by the back, as an old man with a basket, and Mrs Hudson has put a candle and a cold supper on the table without a word. Across the road the sentinel has gone home. On the table lie the Adair papers, three days of notes and a number of things that are not yet sure. Tomorrow night will end it or will begin it. You have an hour before bed and three things that you might yet do with it.",
+      "options": [
+        {
+          "label": "Tell Watson Tonight and Ask Him to Bring His Revolver.",
+          "detail": "He has waited three years to be of use. A friend who is told at the last moment will be on the doorstep in twenty minutes, and will not ask a single question until it is over.",
+          "stamps": {
+            "hands": 1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You write four lines, and send the note by the late post, and he is at the door by one in a hansom with his coat on over his dressing-gown. He is pale, and entirely sober. He says that you may tell him the rest in the morning.",
+          "nextNodeId": "E19",
+          "setFlags": [
+            "retWatsonTold"
+          ],
+          "axisDelta": {
+            "trustWatson": 1
+          }
+        },
+        {
+          "label": "Write to Lestrade to Be in the Street by Ten.",
+          "detail": "A man may be taken in a house without a sound, if the house is watched. The Yard has men, and a whistle, and nothing to do on a Saturday.",
+          "stamps": {
+            "hands": 1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "Ten o'clock, Blandford Street and the front. I'll have my best men, Mr Holmes, and I'll tell them nothing, which they'll find a great novelty."
+          },
+          "outcome": "The answer comes at two, in pencil, on the back of an envelope. It says that he will be there with ten men and a whistle, and that he would be obliged if there could be no more ghosts after this one.",
+          "nextNodeId": "E19",
+          "requires": {
+            "any": [
+              {
+                "flag": "retLestradeTold"
+              },
+              {
+                "flag": "retLestradeFriend"
+              },
+              {
+                "flag": "retLestradeNote"
+              }
+            ]
+          },
+          "requiresHint": "Needs a word with Lestrade",
+          "setFlags": [
+            "retLestradeMen"
+          ]
+        },
+        {
+          "label": "Sleep, and Let the Night Come as It Will.",
+          "detail": "You have been awake for three days, and you shall want every nerve tomorrow. Sleeplessness shows in the hands.",
+          "stamps": {
+            "nerve": 2,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You lie down in your own bed, in your own room, after three years, and do not dream. When you wake, the sun is on the blind and Mrs Hudson is arguing with the milkman. You feel that you have come home.",
+          "nextNodeId": "E19",
+          "setFlags": [
+            "retRested"
+          ]
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "retParkerFollowed"
+          },
+          "text": "Parker went home to No. 12, Conduit Street, and the boys know the third bell."
+        },
+        {
+          "when": {
+            "flag": "retParkerLeft"
+          },
+          "text": "Parker is still on his corner with his harp, and still thinks that nobody knows."
+        },
+        {
+          "when": {
+            "flag": "retWatchers"
+          },
+          "text": "Two men watch 221B: Parker, and a thin one in a long coat who comes at nine and goes at three."
+        },
+        {
+          "when": {
+            "flag": "retFront"
+          },
+          "text": "You have a day's watching in your notebook from a bootmaker's first floor, and a lamp that was lit and put out at six."
+        },
+        {
+          "when": {
+            "flag": "retCabman"
+          },
+          "text": "The Colonel's cabman has been told nothing, and has told the boys everything."
+        },
+        {
+          "when": {
+            "flag": "retWigginsOnly"
+          },
+          "text": "Wiggins alone knows what Saturday is for, and has not told a soul."
+        },
+        {
+          "when": {
+            "flag": "retIndex"
+          },
+          "text": "Your index page on the Colonel is pinned over the Pall Mall table, with your red ink in the margin."
+        },
+        {
+          "when": {
+            "flag": "retInquestRead"
+          },
+          "text": "Seven newspapers of the inquest lie on the floor, with one sentence ringed in pencil."
+        },
+        {
+          "when": {
+            "flag": "retClerk"
+          },
+          "text": "Mr Pryce has said that he has seen the Colonel in Pall Mall twice, and will swear to it."
+        },
+        {
+          "when": {
+            "flag": "retBulletSeen"
+          },
+          "text": "The bullet was not spun by a barrel. It was pushed."
+        },
+        {
+          "when": {
+            "flag": "retLastPartner"
+          },
+          "text": "Adair's last partner at cards was the Colonel, who was most helpful at the inquest."
+        },
+        {
+          "when": {
+            "flag": "retSteward"
+          },
+          "text": "Mr Phelps, the steward of the Bagatelle, says that the Colonel nearly always wins."
+        },
+        {
+          "when": {
+            "flag": "retAirgun"
+          },
+          "text": "A gunsmith in Holborn has said it plainly: the bullet came from an air-gun."
+        },
+        {
+          "when": {
+            "flag": "retYardOut"
+          },
+          "text": "You have told the Yard nothing of Saturday, and you are glad of it."
+        }
+      ]
+    },
+    "E19": {
+      "id": "E19",
+      "branch": "RETURN",
+      "title": "Camden House",
+      "description": "Saturday 7 April 1894, half-past nine at night. The street is bleak and boisterous, with a wind that whistles down the length of Baker Street and a cold rain that has come and gone twice. You have walked a roundabout way: by Cavendish Square, through a network of mews and stables, along Manchester Street and Blandford Street, to a wooden gate in a narrow passage.\n\nThe back door of Camden House opens on to a pitch-dark house with the paper hanging from the walls in ribbons and a floor that creaks as a boat does. Across the road the window of your old room is lit. There is a figure in it, or there is not.",
+      "options": [
+        {
+          "label": "Set the Wax Bust in the Window and Leave Mrs Hudson to Work It.",
+          "detail": "A figure that turns a little every quarter of an hour is a man at his desk. A sentinel who has watched it for a night will swear to it before a magistrate.",
+          "stamps": {
+            "hands": 1
+          },
+          "quote": {
+            "speaker": "Mrs Hudson",
+            "text": "On my knees, as you told me, Mr Holmes, and every quarter of an hour by the clock. I'll not be seen if I'm to be shot at."
+          },
+          "outcome": "The figure goes up in the window at ten, in your dressing-gown, with its head turned a little to the left. From the empty room across the street it is as clear and black as a silhouette cut in paper. You find that you cannot look at it for long.",
+          "nextNodeId": "E20",
+          "requiresFlag": "retBust",
+          "requiresFlagHint": "Needs the wax likeness",
+          "setFlags": [
+            "retDecoyGood"
+          ]
+        },
+        {
+          "label": "Set Your Hat and Coat on a Stand in the Window.",
+          "detail": "A stand behind a blind will pass for a man at a glance, and not at a study. It is all that you have, and it will be seen for what it is by anyone who has the time.",
+          "stamps": {
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You prop it up by the lamp, and go down, and cross the street, and look back. It is not a man. It is much less than a man. The Colonel has been made wary, and a wary man looks twice. You take your place in the dark room, and wait, and he does not come. The wind drops. The lamps burn down.",
+          "nextNodeId": "E21B",
+          "showWhen": {
+            "flag": "retSuspected"
+          },
+          "setFlags": [
+            "retDecoyPoor"
+          ]
+        },
+        {
+          "label": "Set Your Hat and Coat on a Stand in the Window.",
+          "detail": "A stand behind a blind will pass for a man at a glance, and not at a study. It is all that you have, and the Colonel has no reason yet to look twice.",
+          "stamps": {
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Your own notebook",
+            "text": "A hat on a stand behind a blind is a hat on a stand. It will serve for a glance and not for a study. I should not like to be the man who has to rely on it."
+          },
+          "outcome": "You prop it up by the lamp, and go down, and cross the street, and look back. It is not a man. It is a good deal less than a man. You are saying a short, dry prayer, which you have not done since Reichenbach.",
+          "nextNodeId": "E20",
+          "showWhen": {
+            "not": {
+              "flag": "retSuspected"
+            }
+          },
+          "setFlags": [
+            "retDecoyPoor"
+          ]
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "retRested"
+          },
+          "text": "You slept, and you are steadier for it. The wind in the passage does not trouble you."
+        },
+        {
+          "when": {
+            "flag": "retBustReady"
+          },
+          "text": "The likeness has been judged and draped, and Mrs Hudson has had her rehearsals. The household is ready."
+        }
+      ]
+    },
+    "E20": {
+      "id": "E20",
+      "branch": "RETURN",
+      "title": "The Wait",
+      "description": "Saturday 7 April 1894, eleven at night. The room on the first floor of Camden House is large and square and empty, with shadows in the corners and a faint wash of light from the street across the middle of the floor. The window is thick with dust. You can see the lit blind of your own sitting-room, and the figure in it, and below it the pavement and a lamp. The wind has risen. Men go by in coats and mufflers. Two of them have been standing for a long time in a doorway up the street. It is a long, cold, dark business, and a man must decide how to stand in it.",
+      "options": [
+        {
+          "label": "Put the Street's Men Where the Colonel Cannot See Them.",
+          "detail": "A constable in a doorway is a danger to a trap, and a constable in the right doorway is the whole of it. They must be told to do nothing until the whistle.",
+          "stamps": {
+            "hands": 1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "They go to their places in twos, with their lamps shut and their capes turned inside out. In ten minutes the street is as empty as it was before. You know where every one of them is, and you cannot see a single one.",
+          "nextNodeId": "E21",
+          "requires": {
+            "any": [
+              {
+                "flag": "retLestradeMen"
+              },
+              {
+                "flag": "retBoys"
+              }
+            ]
+          },
+          "requiresHint": "Needs Lestrade's men or the Irregulars",
+          "setFlags": [
+            "retCordon"
+          ]
+        },
+        {
+          "label": "Keep Watson at Your Shoulder in the Dark.",
+          "detail": "He has a revolver, a steady hand and the best reason in London to be there. He will do exactly what you tell him, which is a thing that nobody else will.",
+          "stamps": {
+            "hands": 1,
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "He crouches in the corner on your left, with his coat collar up and the revolver across his knee, and breathes as quietly as a man may who has come three years to be there. You put a hand on his shoulder. It is the only thing that either of you says for an hour.",
+          "nextNodeId": "E21",
+          "requiresFlag": "retWatsonTold",
+          "requiresFlagHint": "Needs Watson to know that you live",
+          "setFlags": [
+            "retWatsonBeside"
+          ],
+          "axisDelta": {
+            "trustWatson": 1
+          }
+        },
+        {
+          "label": "Wait Alone, Still, and Let the Colonel Come.",
+          "detail": "A man alone makes no noise and leaves no shadow. It is an old way, and a hard one, and it is the one that suits the Colonel's own.",
+          "stamps": {
+            "nerve": 1
+          },
+          "quote": {
+            "speaker": "Your own notebook",
+            "text": "I have stood alone in a dark room before. I have stood in worse, with less to wait for. It is the lack of a cigarette that I mind."
+          },
+          "outcome": "You draw back into the blackest corner of the room, with your cane across your arm and your breath held in. It is cold, and your knee aches. You are glad to be where you are.",
+          "nextNodeId": "E21",
+          "setFlags": [
+            "retAlone"
+          ]
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "retDecoyGood"
+          },
+          "text": "The figure in the window turns, an inch at a time. It is a fine piece of work, and it is a hundred feet away, and it is the bait."
+        },
+        {
+          "when": {
+            "flag": "retDecoyPoor"
+          },
+          "text": "The figure in the window has not moved since ten. It is a hat and a coat, and it does not turn."
+        }
+      ]
+    },
+    "E21": {
+      "id": "E21",
+      "branch": "RETURN",
+      "title": "The Shot",
+      "description": "As midnight approaches the street thins and the lamps gutter. Then there is a sound that is not the wind: a latch lifted in the yard behind, a door opened and shut, and a step in the passage that is meant to be silent and is not. A shape, a little blacker than the black of the doorway, comes into the room, crouching, and goes straight to the window. It lifts the sash by half a foot. The street light falls on a gaunt, swarthy face with a high bald forehead, a thin hooked nose and a huge grizzled moustache, and a pair of eyes that are shining like a boy's. He has not seen you. He is three yards away.",
+      "options": [
+        {
+          "label": "Spring on His Back as He Aims.",
+          "detail": "He has put the lever down, and the gun is to his shoulder, and his eye is on the figure in the window. He will not hear you until you are on him. It is the old way, and it has to be done now.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Colonel Moran",
+            "text": "You fiend. You clever, clever fiend. I should have known that it was you, and I should have known that you would be alive."
+          },
+          "outcome": "",
+          "nextNodeId": "E23",
+          "roll": {
+            "chance": 0.55,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.04,
+              "min": 0.3,
+              "max": 0.85
+            },
+            "success": {
+              "outcome": "You are across the floor before the click has stopped, and your weight is on his shoulders and your forearm is at his neck. He goes down on his face with the gun under him, and you hear it clatter. The breath is out of him. You doubt that he has the slightest idea what has hit him, until he sees your face.",
+              "stamps": {
+                "evidence": 1,
+                "nerve": -1
+              },
+              "setFlags": [
+                "retTakenAlive"
+              ]
+            },
+            "failure": {
+              "outcome": "The floor creaks under your foot, and he turns with the gun still in his hands. He is quicker than any man of his years has a right to be. The butt takes you across the shoulder, and you are on your knees with your hands on the boards, and he is up, with the long barrel in one hand and the other going to your throat.",
+              "stamps": {
+                "nerve": -2,
+                "evidence": 1
+              },
+              "nextNodeId": "E22"
+            }
+          }
+        },
+        {
+          "label": "Let Him Fire at the Figure, Then Blow the Whistle.",
+          "detail": "He will fire, and the bust will take it, and every constable in the street will hear the whistle. It costs you a likeness, and it saves a fight.",
+          "stamps": {
+            "evidence": 1,
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "There is a cough of compressed air and the tinkle of breaking glass. The bust goes over, with a hole through the forehead and the lamp rocking behind it, and the sound of the whistle is echoed down the street by ten others. They are through the door and up the stair before he has the second bullet in the breech. He is still looking at the window when they put the irons on him.",
+          "nextNodeId": "E23",
+          "requires": {
+            "all": [
+              {
+                "any": [
+                  {
+                    "flag": "retLestradeMen"
+                  },
+                  {
+                    "flag": "retBoys"
+                  }
+                ]
+              },
+              {
+                "flag": "retDecoyGood"
+              }
+            ]
+          },
+          "requiresHint": "Needs the street's men and a good likeness",
+          "setFlags": [
+            "retShotFired",
+            "retTakenAlive"
+          ]
+        },
+        {
+          "label": "Wait as the Colonel Waits for a Tiger: Still, High and Unseen.",
+          "detail": "He has set a kid under a tree, and has lain above it for a night, and he knows nothing in the world so well as the minute before the strike. You have been told how he does it. You can do it to him.",
+          "stamps": {},
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "",
+          "nextNodeId": "E23",
+          "requiresFlag": "retShikari",
+          "requiresFlagHint": "Needs the tiger stories from the Anglo-Indian Club",
+          "roll": {
+            "chance": 0.75,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.03,
+              "min": 0.4,
+              "max": 0.9
+            },
+            "success": {
+              "outcome": "He fires, and the bust takes it, and in that half-second, with the breech still open and his shoulder still in the gun, you have a hand on each of his wrists. It is not even a struggle. He turns his head, and sees you, and there is a long second in which he looks as if he had opened a door on to the sea.",
+              "stamps": {
+                "evidence": 1
+              },
+              "setFlags": [
+                "retTakenAlive",
+                "retShotFired"
+              ]
+            },
+            "failure": {
+              "outcome": "He fires, and then, as the old shikari that he is, he refuses to turn. He lets himself fall sideways, with the gun in both hands, and the barrel is in your face, and you are looking into an eye that is as steady as the muzzle. It is a close thing. You get your arm up, and the butt comes round, and you are on the floor with the lamp swimming.",
+              "stamps": {
+                "nerve": -2
+              },
+              "setFlags": [
+                "retShotFired"
+              ],
+              "nextNodeId": "E22"
+            }
+          }
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "retDecoyGood"
+          },
+          "text": "The figure in the lit window has just turned its head, and a man in the dark has watched it do so."
+        },
+        {
+          "when": {
+            "flag": "retCordon"
+          },
+          "text": "The street is quiet. You know that ten men are holding their breath in it."
+        },
+        {
+          "when": {
+            "flag": "retAlone"
+          },
+          "text": "There is nobody beside you but the dark."
+        },
+        {
+          "when": {
+            "flag": "retSecondNight"
+          },
+          "text": "It is the second night. You have a sense that he has been standing in the passage for an hour, deciding."
+        },
+        {
+          "when": {
+            "flag": "retMoranFace"
+          },
+          "text": "You know that face. You have studied it across a card-table, and you would know it at the end of a street."
+        }
+      ]
+    },
+    "E21B": {
+      "id": "E21B",
+      "branch": "RETURN",
+      "title": "The Window Stays Dark",
+      "description": "One o'clock has struck, and the second hour is coming. The street is empty, the lamps are low and the wind has dropped. Nobody has come. The sentinel is not at the corner, and the two men in the doorway went away at half-past twelve, one after the other, as a man leaves a room in which he has been disappointed. Across the road the figure in the window stands in its lit square, and does not trouble anyone. You have waited for two hours, in the dark, in a cold room, for someone who has been told not to come.",
+      "options": [
+        {
+          "label": "Put the Figure Away and Go Home.",
+          "detail": "He was not deceived, and he was not fooled. It is a thing that happens to every hunter, and it is not the moment to feel it.",
+          "stamps": {
+            "standing": -1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You take the figure from the window yourself, and wrap it in the dressing-gown. It is a cold, wet walk home. The Colonel has been warned, and has stayed in, and by Monday he will have left London. You will meet him again. You are certain of it.",
+          "nextNodeId": "ENDING_THE_EMPTY_WINDOW"
+        },
+        {
+          "label": "Rehang the Figure and Wait Another Night.",
+          "detail": "Someone who has been warned will wait a day for the wind to change, and a shikari will wait two. It is a cost in hours, and a risk of being seen to wait.",
+          "stamps": {
+            "hours": -2,
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Your own notebook",
+            "text": "He will come tomorrow, or the night after. A tiger that has not taken the bait on the first night has not stopped being hungry. He has only learned to be careful."
+          },
+          "outcome": "You hang the figure again, and sit down to wait. The second night is longer than the first. At a quarter to twelve, on the Sunday, there is a step in the passage, and a latch, and a long, cool breath in the dark.",
+          "nextNodeId": "E21",
+          "gate": {
+            "resource": "hours",
+            "minThreshold": -4
+          },
+          "setFlags": [
+            "retSecondNight"
+          ]
+        },
+        {
+          "label": "Take the Colonel at His Own Door in Conduit Street.",
+          "detail": "A Colonel who comes home at two will be taken at his door, if the door has been watched since dusk. It is not as handsome as an empty house, and it is a good deal safer.",
+          "stamps": {
+            "hands": -1,
+            "standing": -1
+          },
+          "quote": {
+            "speaker": "A constable on the step",
+            "text": "He come home at two, sir, same as always, and there was six of us waiting. He never even put his case down. He just looked at the lot of us."
+          },
+          "outcome": "He is taken on his own step, with his case in his hand, by six constables who have been told that he is dangerous and have not believed it. He asks, civilly, for a moment to put down his hat. It is the last piece of civility that you will have from him.",
+          "nextNodeId": "E23",
+          "requires": {
+            "all": [
+              {
+                "flag": "retRoutine"
+              },
+              {
+                "any": [
+                  {
+                    "flag": "retLestradeMen"
+                  },
+                  {
+                    "flag": "retBoys"
+                  }
+                ]
+              }
+            ]
+          },
+          "requiresHint": "Needs his habits and men to watch the door",
+          "setFlags": [
+            "retTakenAlive"
+          ]
+        }
+      ]
+    },
+    "E22": {
+      "id": "E22",
+      "branch": "RETURN",
+      "title": "The Grapple",
+      "description": "He has you by the throat. For a moment there is nothing in the room but his breath, which smells of whisky and cigars, and his eyes, which are fixed on you with an expression of hatred and amazement in equal parts. The long barrel is across your chest. He is past fifty and he has strength in his hands like an iron pin. You are on one knee, with a ringing head, and the gun is between you, and he is saying something, over and over, in a low voice. It is your name.",
+      "options": [
+        {
+          "label": "Seize the Barrel and Go for His Throat.",
+          "detail": "A man with a gun in one hand and your throat in the other has no hand to spare. It is a question of which of you lets go first, and you have the better reason.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Colonel Moran",
+            "text": "You have had three years to prepare, Mr Holmes, and I have had three years to wait. I do not propose to make it easy."
+          },
+          "outcome": "",
+          "nextNodeId": "E23",
+          "roll": {
+            "chance": 0.45,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.04,
+              "min": 0.2,
+              "max": 0.75
+            },
+            "success": {
+              "outcome": "You let go of his wrist, and he is a half-second too slow to follow it. Your forearm goes under his chin, and you lean, and he falls back against the wall with the gun between his boots. You are both on the floor, wheezing like a pair of bellows. A man does not give up a fight like that. He merely runs out of air.",
+              "stamps": {
+                "nerve": -1,
+                "evidence": 1
+              },
+              "setFlags": [
+                "retTakenAlive"
+              ]
+            },
+            "failure": {
+              "outcome": "He is too strong, and too old a hand at it. The gun comes round, and you throw yourself sideways, and he is up, and across the floor, and out through the door of the passage. You hear his boots in the yard, and then on the cobbles, and then on the wall. By the time you have your feet under you he has gone over it, and out into Manchester Street, and into the night.",
+              "stamps": {
+                "nerve": -2,
+                "standing": -2
+              },
+              "nextNodeId": "ENDING_THE_TIGER_LOOSE"
+            }
+          }
+        },
+        {
+          "label": "Call Watson to Strike with the Butt of His Revolver.",
+          "detail": "A blow on the head, from behind, is all that the Colonel has not seen coming. Watson is a soldier, and a doctor, and he will not hesitate.",
+          "stamps": {},
+          "quote": {
+            "speaker": "Dr Watson",
+            "text": "Holmes! Hold him still, Holmes, and I shall strike him. If I am wrong, you will tell me, and I shall do it again."
+          },
+          "outcome": "",
+          "nextNodeId": "E23",
+          "requiresFlag": "retWatsonBeside",
+          "requiresFlagHint": "Needs Watson in the room",
+          "roll": {
+            "chance": 0.8,
+            "scaling": {
+              "resource": "nerve",
+              "perPoint": 0.02,
+              "min": 0.6,
+              "max": 0.9
+            },
+            "success": {
+              "outcome": "He comes out of the dark corner like a man half his age, and the butt of the revolver comes down on the back of the Colonel's skull with a thud like a mallet on a cask. The grip on your throat opens. The Colonel sags, and drops, and lies with his face on the boards. Watson stands over him with the revolver raised, breathing hard, and looking extremely surprised at himself.",
+              "stamps": {
+                "hands": 1
+              },
+              "setFlags": [
+                "retTakenAlive"
+              ]
+            },
+            "failure": {
+              "outcome": "The Colonel hears him, and swings the long gun round with both hands, and the barrel takes Watson across the collar-bone with a crack that you hear from the floor. He goes down on one knee, with his hand to his shoulder and his face grey. The Colonel is on his feet, and over him, and then the street whistles go, and he is taken on the stair.",
+              "stamps": {
+                "nerve": -2,
+                "hands": -1
+              },
+              "nextNodeId": "ENDING_THE_DOCTOR_HURT"
+            }
+          }
+        },
+        {
+          "label": "Whistle for the Street While You Hold Him Down.",
+          "detail": "He can break a man's hold, but he cannot break a cordon. Every second that you can keep him on the floor is a second nearer the door, and a constable.",
+          "stamps": {
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "That was the whistle, Mr Holmes, and I'm up the stair with six of my best. Hold on, sir. We're coming through."
+          },
+          "outcome": "You get the whistle out of your waistcoat with the hand that is not at his wrist, and blow it once, and it is the best breath that you ever drew. The boots in the street are on the stair before the sound has ceased. Lestrade is in the door with a lantern, and the Colonel, who has not given up his hold, gives it up.",
+          "nextNodeId": "E23",
+          "requires": {
+            "any": [
+              {
+                "flag": "retLestradeMen"
+              },
+              {
+                "flag": "retBoys"
+              }
+            ]
+          },
+          "requiresHint": "Needs the street's men outside",
+          "setFlags": [
+            "retTakenAlive"
+          ]
+        }
+      ]
+    },
+    "E23": {
+      "id": "E23",
+      "branch": "RETURN",
+      "title": "What Is Charged",
+      "description": "A quarter past two in the morning, in a room in Scotland Yard with a gas jet and a bad fire. The Colonel is in a cell below, sitting upright on the plank bed with his hands on his knees, and he has asked for nothing. Lestrade is at the table with a pen. You are in a corner, with your collar up and your hat over your eyes, and the white whiskers in your pocket. A charge has to be made before the morning, and there is more than one way of making it. Each of them will cost you something, and each of them will say who you are to be, in London, for the next ten years.",
+      "options": [
+        {
+          "label": "Let Lestrade Charge Him with the Park Lane Murder and Keep Out of It.",
+          "detail": "The credit goes to the Yard, and the name stays with Lestrade. You are not in it. It is the plain way, and it will hold, if the case has been built.",
+          "stamps": {
+            "standing": 1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You say that to him, and only to him, belongs the credit of the arrest. He is a little stiff, and then a little moved. He writes the charge in a firm, round hand, and the pen does not once stop.",
+          "nextNodeId": "ENDING_THE_TIGER_TAKEN",
+          "requires": {
+            "any": [
+              {
+                "flag": "retCards"
+              },
+              {
+                "flag": "retBullet"
+              },
+              {
+                "flag": "retHerder"
+              },
+              {
+                "flag": "retParkerTaken"
+              },
+              {
+                "flag": "retCamden"
+              }
+            ]
+          },
+          "requiresHint": "Needs evidence that would hold in court"
+        },
+        {
+          "label": "Give the Evidence Yourself in Open Court and Let London Know.",
+          "detail": "A dead man who walks into the Old Bailey is a thing that the papers will not stop talking about. It is a stronger case, and the end of your quiet, and the Professor's friends will know where to find you.",
+          "stamps": {
+            "standing": 2,
+            "nerve": -1
+          },
+          "quote": {
+            "speaker": "",
+            "text": ""
+          },
+          "outcome": "You say that you will appear. Lestrade stares at you for a moment as if you had proposed to walk across the Thames. Then he grins, and offers to hold your hat.",
+          "nextNodeId": "ENDING_THE_WITNESS_BOX",
+          "requires": {
+            "any": [
+              {
+                "flag": "retCards"
+              },
+              {
+                "flag": "retBullet"
+              },
+              {
+                "flag": "retHerder"
+              },
+              {
+                "flag": "retParkerTaken"
+              },
+              {
+                "flag": "retCamden"
+              }
+            ]
+          },
+          "requiresHint": "Needs evidence that would hold in court"
+        },
+        {
+          "label": "Sit with the Colonel in the Cell and Make Him Talk.",
+          "detail": "He has been at the top of his trade for thirty years, and he has a great deal to tell. Shown the case against him, in full, from the beginning, a prisoner will sometimes choose his own ending.",
+          "stamps": {
+            "nerve": -1,
+            "hours": -1
+          },
+          "quote": {
+            "speaker": "Colonel Moran",
+            "text": "You have the thumb and the gun, Mr Holmes, and the boy at Park Lane and the window. I see that I should be a fool to deny any of it. What do you wish to hear first?"
+          },
+          "outcome": "You sit on a stool at the door of the cell, and lay it out for him, piece by piece, as if for a lecture. He listens without a word. At about four o'clock he asks for a pencil. He has been accurate all his life, and cannot bear to be wrongly described.",
+          "nextNodeId": "ENDING_THE_COLONEL_TALKS",
+          "requires": {
+            "all": [
+              {
+                "flag": "retWindow"
+              },
+              {
+                "any": [
+                  {
+                    "flag": "retCards"
+                  },
+                  {
+                    "flag": "retHerder"
+                  },
+                  {
+                    "flag": "retParkerTaken"
+                  }
+                ]
+              }
+            ]
+          },
+          "requiresHint": "Needs the window, and the cards, the gun or the sentinel"
+        },
+        {
+          "label": "Ask Mycroft to Settle It Quietly and Keep the Country's Name Out of It.",
+          "detail": "A colonel of the Indian Army in the dock is a scandal that will reach three Ministers. There are ways of settling it that no jury will see, and your brother has them all in his desk.",
+          "stamps": {
+            "standing": -1,
+            "wires": 1
+          },
+          "quote": {
+            "speaker": "Mycroft Holmes",
+            "text": "He is to be sent to an island in the Indian Ocean, Sherlock, where he will have a comfortable house and no rifle. It is not justice. It is, however, an arrangement."
+          },
+          "outcome": "Your brother arrives at four in a closed carriage, with a paper that has been signed by someone whom neither of you will name. It is all neat. The Adair family will be told that the case is closed. You keep your eyes off Lestrade while the paper is read.",
+          "nextNodeId": "ENDING_A_QUIET_ARRANGEMENT"
+        },
+        {
+          "label": "Charge Him on What You Have and Hope.",
+          "detail": "It is thin. It is a charge, and a name, and a bullet and an arrest in an empty house. A good counsel will take it to pieces, and a good counsel is what the Colonel can afford.",
+          "stamps": {
+            "standing": -1
+          },
+          "quote": {
+            "speaker": "Inspector Lestrade",
+            "text": "I'll write it, sir, if you say so. It has lost a good many that it hadn't a reason for."
+          },
+          "outcome": "He writes it, with a face like a pall. It is a charge that will bring the Colonel to the Old Bailey in June, and it will bring him there in a good coat, with a good counsel, and a clear voice.",
+          "nextNodeId": "ENDING_NOT_PROVEN"
+        }
+      ],
+      "echoes": [
+        {
+          "when": {
+            "flag": "retTakenAlive"
+          },
+          "text": "He was taken alive, and that is what makes every choice below possible."
+        },
+        {
+          "when": {
+            "flag": "retWatsonBeside"
+          },
+          "text": "Watson is sitting on the other side of the fire with a bandage and a cigar. He looks like someone who would like to be asked."
+        },
+        {
+          "when": {
+            "flag": "retShotFired"
+          },
+          "text": "The bullet from the bust is on the table in front of you, flattened against the wall of your own sitting-room."
+        }
+      ]
     }
   },
   "interludes": {
@@ -11683,6 +13870,20 @@
       "headline": "THE CIPHER CHANGED ON MONDAY",
       "bodyText": "You read the whole of a year of his cables, and it was the finest thing that you have done. On Monday he changed the key. It is a new page, and a new book, and a new hour of the day, and Mr Fenn is looking at a column of four-figure groups again with the face of a man who has been told that the shore has moved. The year is read. It is a year old.",
       "kind": "lore"
+    },
+    "TRANSITION_RETURN": {
+      "id": "TRANSITION_RETURN",
+      "source": "The Daily Telegraph, a news paragraph",
+      "headline": "THE PARK LANE MYSTERY",
+      "bodyText": "The inquest on the Honourable Ronald Adair, second son of the Earl of Maynooth, has returned a verdict of wilful murder against some person or persons unknown. The deceased was found on the night of the thirtieth of March in the second-floor front room of his mother's house, 427, Park Lane, with the door locked upon the inside. He had been killed by a revolver bullet of the expanding kind. No weapon was found. Nobody heard a shot. The police are understood to have a clue, and not to know what it is.",
+      "kind": "transition"
+    },
+    "TRANSITION_CAMDEN": {
+      "id": "TRANSITION_CAMDEN",
+      "source": "A Note, in Mrs Hudson's Hand",
+      "headline": "THE FIGURE IS IN THE WINDOW",
+      "bodyText": "MR HOLMES. IT IS IN THE WINDOW, AND I HAVE TURNED IT AS YOU TOLD ME, AND I HAVE NOT BEEN SEEN ONCE. THERE IS A MAN AT THE CORNER WHO HAS NOT GONE AWAY. I AM ON MY KNEES. I SHALL GO ON BEING ON MY KNEES. M. H.",
+      "kind": "transition"
     }
   },
   "endings": {
@@ -12482,6 +14683,81 @@
           "text": "John Clay is taken in a pawnbroker's cellar by a stout gentleman with an umbrella, and Mr Peter Jones, who has been waiting four years to put his hand upon the man's collar, is just in time to put it there. He is exceedingly gracious about the umbrella. The directors of the City and Suburban Bank present Mr Wilson with another."
         }
       ]
+    },
+    "ENDING_THE_TIGER_TAKEN": {
+      "id": "ENDING_THE_TIGER_TAKEN",
+      "title": "The Tiger Taken",
+      "kind": "narrative",
+      "headline": "THE PARK LANE MYSTERY: ARREST OF COLONEL MORAN",
+      "text": "Colonel Sebastian Moran, late of the Indian Army, is arrested at midnight in an empty house in Baker Street on a charge of the wilful murder of the Honourable Ronald Adair. The credit is Inspector Lestrade's, who has asked for once to be thanked in public. You are not mentioned. By three you are in your own armchair in your own sitting-room, in the dressing-gown that was on the bust, with a pipe, and the air-gun is in a box at the Yard. London does not know that you are alive. It will take the Colonel's trial to tell it, and you mean to be elsewhere.",
+      "variants": [
+        {
+          "flag": "retWatsonBeside",
+          "headline": "THE PARK LANE MYSTERY: AN ARREST IN BAKER STREET",
+          "text": "Colonel Sebastian Moran is arrested at midnight in an empty house in Baker Street, with a gun in his hand. The credit is Lestrade's. By three you are in your own armchair, in the dressing-gown that was on the bust, and Watson is in the other, with his revolver on the table and a cigar that you gave him. He has asked for a full explanation. You give it. It takes you until five."
+        },
+        {
+          "flag": "retShotFired",
+          "headline": "THE PARK LANE MYSTERY: A BULLET IN THE WALL",
+          "text": "The Colonel is arrested at midnight in an empty house, with the gun in his hand and the whistle still in the street. The bullet has gone through the head of a wax figure in the window of 221B and flattened itself on the wall. Mrs Hudson has picked it up from the carpet, and says that she has been shot at, and expects a rise."
+        }
+      ]
+    },
+    "ENDING_THE_WITNESS_BOX": {
+      "id": "ENDING_THE_WITNESS_BOX",
+      "title": "The Witness Box",
+      "kind": "narrative",
+      "headline": "A DEAD MAN IN THE WITNESS BOX: MR SHERLOCK HOLMES",
+      "text": "The Old Bailey is full at ten in the morning, and fuller by eleven, when the clerk calls the name. There is a pause. A tall, thin man in a black coat comes through the door at the back of the court, and the room rises, without orders, like a congregation. The Colonel looks up, and at last he is not smiling. The evidence takes three hours. The verdict takes twenty minutes. You are not allowed to go home by the front door, which is held by the press, and you are taken out through the cellars. It is the end of your quiet, and a good beginning of the rest.",
+      "variants": [
+        {
+          "flag": "retWatsonBeside",
+          "headline": "A DEAD MAN IN THE WITNESS BOX: THE EVIDENCE OF TWO",
+          "text": "The Old Bailey is full at ten. The clerk calls Mr Sherlock Holmes, and the room rises of its own accord. He is followed into the box by Dr Watson, who gives his evidence with a bandaged hand and an air of enormous composure. The verdict takes twenty minutes. The Colonel, as he goes down, says something to the dock that nobody hears. You do not ask what."
+        }
+      ]
+    },
+    "ENDING_THE_COLONEL_TALKS": {
+      "id": "ENDING_THE_COLONEL_TALKS",
+      "title": "The Colonel Talks",
+      "kind": "narrative",
+      "headline": "THE MORAN STATEMENT: TWENTY PAGES, IN PENCIL",
+      "text": "At five in the morning the Colonel has written twenty pages, in a small, soldierly hand, without a single correction. It is a statement, and it is a full one. It settles Park Lane: he had been discovered cheating, and was threatened with exposure, and had gone round that night with the gun. It settles the death of Mrs Stewart of Lauder in 1887, which the Yard had never been able to lay at his door. It names the cab that waited in the mews, and the sum, and the date. Lestrade reads it standing, and then sits down, and asks for a cup of tea. It is the best night's work of your career. It is not the kind of work that gets into the Strand."
+    },
+    "ENDING_THE_DOCTOR_HURT": {
+      "id": "ENDING_THE_DOCTOR_HURT",
+      "title": "The Doctor Hurt",
+      "kind": "narrative",
+      "headline": "A DOCTOR WOUNDED IN BAKER STREET: THE COLONEL TAKEN",
+      "text": "Colonel Moran is taken on the stair of Camden House, by Lestrade's men, with a broken wrist and a cut head. The hold on your throat has been broken by a friend who put himself between you and the end of a long gun. Watson has a cracked collar-bone and more than a little pain, and says that he has had worse in Afghanistan, which is not the point. You carry him down to the cab. He talks all the way home about the incompetence of surgeons. It is a thing that you will not forget, and that you will not be allowed to forget."
+    },
+    "ENDING_THE_TIGER_LOOSE": {
+      "id": "ENDING_THE_TIGER_LOOSE",
+      "title": "The Tiger Loose",
+      "kind": "failure",
+      "headline": "THE PARK LANE MURDERER STILL AT LARGE",
+      "text": "The Colonel goes over the wall into Manchester Street, and is gone. The Yard finds a cab in Marylebone, and a hat in a gutter, and nothing else. By the middle of the week he is on a boat for the Continent, with a long leather case in the hold, and a ticket in another name. He never forgives, and he has a great deal of patience. London goes back to its newspapers, and Park Lane is forgotten. You remember it. There is a window in Baker Street that you do not go near."
+    },
+    "ENDING_A_QUIET_ARRANGEMENT": {
+      "id": "ENDING_A_QUIET_ARRANGEMENT",
+      "title": "A Quiet Arrangement",
+      "kind": "narrative",
+      "headline": "COLONEL MORAN LEAVES FOR THE EAST",
+      "text": "Colonel Moran leaves Southampton on the Tuesday, with a valet, a trunk and an official escort who is careful not to call himself one. He will live in a comfortable house on an island in the Indian Ocean, with a good library and no rifle, for as long as it suits the Government to forget him. Nobody is tried. The Adair family is told that the case is closed. Lestrade shakes your hand on the stair, and does not look at you. It is a clean, grey, official ending, and it is not justice. You tell yourself that it is better than a scandal. You are not sure."
+    },
+    "ENDING_NOT_PROVEN": {
+      "id": "ENDING_NOT_PROVEN",
+      "title": "Not Proven",
+      "kind": "failure",
+      "headline": "THE PARK LANE TRIAL: THE COLONEL ACQUITTED",
+      "text": "The Crown has a name, a bullet and an arrest, and no witness who can say what was in the Colonel's hand. The jury is out for ninety minutes. When it comes in, the foreman, who is a draper, cannot bring himself to say the word, and says that the case is not proven. The Colonel bows to the judge, and goes out through the front door of the Old Bailey into a bright June noon. He ignores the gallery, in which you are sitting in a wig and a pair of spectacles. He has no need to look. He has the whole of his life in front of him, and it is a long one."
+    },
+    "ENDING_THE_EMPTY_WINDOW": {
+      "id": "ENDING_THE_EMPTY_WINDOW",
+      "title": "The Empty Window",
+      "kind": "failure",
+      "headline": "A NIGHT'S WATCH IN BAKER STREET: NOTHING",
+      "text": "Nobody comes. The figure in the window turns an inch every quarter of an hour until the lamp is out, and the sentinel does not return to the corner. By Monday the Colonel has left Conduit Street, and by Wednesday London. It is a smaller thing than a failure, and a worse one. You have come back from the dead, and you have shown your face, and the one man in England whom you wished to take has simply declined the invitation. You sit in your own armchair, looking at a hat on a stand, and for the first time in three years you feel the weight of being alive."
     }
   }
 }

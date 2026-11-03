@@ -28,6 +28,22 @@ const hatch = (x: number, y: number, w: number, n: number, gap = 3) =>
   Array.from({ length: n }, (_, i) => <line key={i} x1={x} y1={y + i * gap} x2={x + w} y2={y + i * gap} strokeWidth="0.6" opacity="0.6" />);
 
 export const PLATES = {
+  window: (
+    <Plate>
+      <path d="M0 100H240" />
+      <rect x="58" y="8" width="124" height="92" />
+      <path d="M52 8H188" />
+      <rect x="88" y="22" width="64" height="58" />
+      <path d="M120 22V80M88 51H152" strokeWidth="0.7" opacity="0.6" />
+      <circle cx="120" cy="43" r="8" />
+      <path d="M102 80C102 62 110 56 120 56S138 62 138 80" />
+      {hatch(90, 24, 60, 8, 2.6)}
+      <path d="M84 80H156" />
+      <rect x="104" y="84" width="32" height="16" />
+      <path d="M20 100V54h26V100M200 100V60h22V100" strokeWidth="0.9" opacity="0.7" />
+      <path d="M30 62h6M30 72h6M206 68h8M206 78h8" strokeWidth="0.8" opacity="0.7" />
+    </Plate>
+  ),
   baker: (
     <Plate>
       <path d="M0 100H240" />
@@ -605,7 +621,10 @@ export function plateForInterlude(id: string): PlateId | null {
       return "telegram";
     case "TRANSITION_CARBUNCLE":
     case "TRANSITION_LEAGUE":
+    case "TRANSITION_RETURN":
       return "newspaper";
+    case "TRANSITION_CAMDEN":
+      return "note";
     case "CRISIS_EVIDENCE":
       return "magnifier";
     case "CRISIS_NERVE":
@@ -667,6 +686,21 @@ export function plateForEnding(id: string): PlateId {
       return "tunnel";
     case "ENDING_THE_ENCYCLOPAEDIA":
       return "book";
+    case "ENDING_THE_TIGER_TAKEN":
+    case "ENDING_THE_EMPTY_WINDOW":
+      return "window";
+    case "ENDING_THE_WITNESS_BOX":
+      return "newspaper";
+    case "ENDING_THE_COLONEL_TALKS":
+      return "note";
+    case "ENDING_THE_DOCTOR_HURT":
+      return "bag";
+    case "ENDING_THE_TIGER_LOOSE":
+      return "cab";
+    case "ENDING_A_QUIET_ARRANGEMENT":
+      return "club";
+    case "ENDING_NOT_PROVEN":
+      return "seal";
     case "ENDING_THE_FALL":
       return "falls";
     case "ENDING_FATAL_SHOT":

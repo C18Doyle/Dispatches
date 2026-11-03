@@ -68,6 +68,7 @@ const BRANCH_LABELS: Record<string, string> = {
   CONTINENT: "Act II · The Long Flight",
   MYCROFT: "Act II · The Cabinet",
   HIATUS: "Act III · The Years Away",
+  RETURN: "April 1894 · The Empty House",
   BOHEMIA: "Case · A Scandal in Bohemia",
   BAND: "Case · The Speckled Band",
   CARBUNCLE: "Case · The Blue Carbuncle",
@@ -444,7 +445,7 @@ function StampBadge({ resource, delta }: { resource: Resource; delta: number }) 
   );
 }
 
-const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT", ...MINOR_BRANCHES];
+const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT", "RETURN", ...MINOR_BRANCHES];
 const BRANCH_TINT: Record<string, string> = {
   WEB: "bg-brass-dim",
   YARD: "bg-blood",
@@ -452,6 +453,7 @@ const BRANCH_TINT: Record<string, string> = {
   CONTINENT: "bg-ink",
   MYCROFT: "bg-brass",
   HIATUS: "bg-ink-soft",
+  RETURN: "bg-verdigris",
   BOHEMIA: "bg-brass",
   BAND: "bg-verdigris",
   CARBUNCLE: "bg-blood",
@@ -1160,7 +1162,7 @@ export default function App() {
             Dispatches: Sherlock
           </h1>
           <p className="font-heading text-sm sm:text-base uppercase tracking-[0.35em] text-brass mb-10">
-            Five Cases, 1883 to 1891
+            Six Cases, 1883 to 1894
           </p>
           <OrnamentDivider />
           <button
@@ -1634,7 +1636,7 @@ export default function App() {
           <header className="mb-6 text-center">
             <p className="font-heading text-xs uppercase tracking-[0.35em] text-brass mb-1">Sherlock Holmes</p>
             <h1 className="font-display text-xl sm:text-2xl font-bold text-parchment">
-              {onShelf ? "The Case-Book" : inCase ? BRANCH_LABELS[state.activeBranch].split("· ")[1] : "The Final Problem"}
+              {onShelf ? "The Case-Book" : inCase ? BRANCH_LABELS[state.activeBranch].split("· ")[1] : volumeOfBranch(state.activeBranch)?.title ?? "The Final Problem"}
             </h1>
             <p className="font-heading text-xs uppercase tracking-widest text-ash mt-1">{onShelf ? "Choose a volume" : inCase ? "A short case" : BRANCH_LABELS[state.activeBranch]}</p>
           </header>
@@ -1899,8 +1901,8 @@ export default function App() {
                 const volStat = onShelf ? shelfStats[i] : undefined;
                 return (
                   <Fragment key={i}>
-                  {onShelf && i <= 1 && (
-                    <h3 className="font-heading text-[0.7rem] uppercase tracking-[0.3em] text-blood font-bold pt-2">{i === 0 ? "The Major Case" : "Minor Cases"}</h3>
+                  {onShelf && (i === 0 || (!VOLUMES[i]?.major && VOLUMES[i - 1]?.major)) && (
+                    <h3 className="font-heading text-[0.7rem] uppercase tracking-[0.3em] text-blood font-bold pt-2">{i === 0 ? "The Major Cases" : "Minor Cases"}</h3>
                   )}
                   <button
                     type="button"

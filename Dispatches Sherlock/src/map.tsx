@@ -37,6 +37,12 @@ export const PLACES: Record<string, Place> = {
   covent: { map: "london", name: "Covent Garden", x: 114, y: 66 },
   saxe: { map: "london", name: "Saxe-Coburg Square", x: 132, y: 50 },
   citybank: { map: "london", name: "The City and Suburban Bank", x: 144, y: 60 },
+  victoriastn: { map: "london", name: "Victoria Station", x: 78, y: 92 },
+  parklane: { map: "london", name: "Park Lane", x: 60, y: 62 },
+  camden: { map: "london", name: "Camden House, opposite", x: 66, y: 40 },
+  conduit: { map: "london", name: "Conduit Street", x: 78, y: 64 },
+  soho: { map: "london", name: "Soho", x: 96, y: 58 },
+  stjames: { map: "london", name: "St James's Street", x: 84, y: 74 },
   // Europe (viewBox 240 x 160)
   victoria: { map: "europe", name: "London", x: 36, y: 46 },
   canterbury: { map: "europe", name: "Canterbury", x: 50, y: 54 },
@@ -71,6 +77,9 @@ export const SCENE_PLACE: Record<string, string> = {
   "0": "baker", B1: "baker", B2: "briony", B3: "briony", B4: "briony", R1: "baker", R2: "stoke", R3: "stoke", R4: "stoke",
   G1: "baker", G2: "baker", G3: "covent", G4: "baker",
   L1: "baker", L2: "saxe", L3: "baker", L4: "citybank",
+  E1: "victoriastn", E1A: "baker", E1B: "kensington", E2: "pallmall", E3: "parklane", E4: "baker", E5: "pallmall",
+  E6: "yard", E7: "yard", E8: "pallmall", E9: "yard", E10: "baker", E11: "camden", E12: "marylebone", E13: "conduit",
+  E14: "pallmall", E15: "soho", E16: "stjames", E17: "baker", E18: "baker", E19: "camden", E20: "camden", E21: "camden", E21B: "camden", E22: "camden", E23: "yard",
   SX1: "limehouse", SX2: "limehouse", S8D: "limehouse", CX1: "meiringen", CX2: "meiringen", AC: "meiringen", AY: "yard", Y9D: "hackney", M9: "whitehall",
 };
 

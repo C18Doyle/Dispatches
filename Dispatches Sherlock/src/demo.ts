@@ -6,6 +6,8 @@ export const IS_DEMO: boolean = typeof __DEMO__ !== "undefined" && __DEMO__;
 
 /** The scenes of The Final Problem that lie beyond the choice of road. The four minor cases are complete in the demo. */
 const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT", "HIATUS"];
+/** The first scene of each of The Return's three ways to hunt: the second major case is played to its choice of road, and the demo stops there too. */
+const RETURN_LOCKS = new Set(["E6", "E10", "E14"]);
 
 /**
  * Does the demo stop the player on arriving at this scene? It does for the first scene of any road of the long case: they have played the whole
@@ -13,5 +15,5 @@ const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT", "HIATUS"];
  */
 export function isDemoStop(def: GameDefinition, nodeId: string): boolean {
   const node = def.content.nodes[nodeId];
-  return !!node && ROAD_BRANCHES.includes(node.branch);
+  return !!node && (ROAD_BRANCHES.includes(node.branch) || RETURN_LOCKS.has(nodeId));
 }

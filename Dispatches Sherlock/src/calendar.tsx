@@ -27,6 +27,8 @@ export const MILESTONES: Milestone[] = [
   { date: "1891-05-05", label: "The Limehouse wharf", roads: ["STREET"] },
   { date: "1891-06-08", label: "The trial", roads: ["YARD"] },
   { date: "1891-06-19", label: "The house in Hackney", roads: ["YARD"] },
+  { date: "1894-03-30", label: "The Park Lane murder", roads: ["RETURN"] },
+  { date: "1894-04-07", label: "The night in Camden House", roads: ["RETURN"] },
 ];
 
 const parse = (iso: string) => {
@@ -43,12 +45,12 @@ export function CalendarView({ nodeId, branch, hours = 0 }: { nodeId: string; br
   const iso = SCENE_DATES[nodeId];
   if (!iso) return null;
   const today = dayOf(iso);
-  const mine = MILESTONES.filter((m) => !m.roads || m.roads.includes(branch));
+  const mine = MILESTONES.filter((m) => (branch === "RETURN" ? m.roads?.includes("RETURN") : !m.roads || m.roads.includes(branch)));
   // Hours are the days in hand: every point that you are short of them is a day that the calendar has already taken from you
   const slip = Math.max(0, Math.min(8, -hours));
   const upcoming = mine.find((m) => dayOf(m.date) >= today);
   const toNext = upcoming ? dayOf(upcoming.date) - today : null;
-  const away = today > 190;
+  const away = today > 190 && branch !== "RETURN";
   const from = Math.max(0, today - 21);
   const x = (day: number) => 12 + ((Math.max(from, Math.min(from + WINDOW, day)) - from) / WINDOW) * 336;
   const inWindow = (day: number) => day >= from && day <= from + WINDOW;

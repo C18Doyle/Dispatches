@@ -1,7 +1,7 @@
 import { def } from "./game";
 
 /**
- * The shelf at the start of the game: one major case and four minor ones. The order is the order of the shelf scene's options (scene "0" in events.json),
+ * The shelf at the start of the game: two major cases and four minor ones. The order is the order of the shelf scene's options (scene "0" in events.json),
  * so a volume's index here is the index of its option there. Endings are told to volumes by id; The Final Problem owns every ending the others do not.
  */
 export interface Volume {
@@ -19,6 +19,7 @@ export interface Volume {
 
 export const VOLUMES: Volume[] = [
   { id: "FINAL", title: "The Final Problem", year: "1891", major: true, start: "1", branches: ["WEB", "YARD", "STREET", "CONTINENT", "MYCROFT", "HIATUS"] },
+  { id: "RETURN", title: "The Return", year: "1894", major: true, start: "E1", branches: ["RETURN"], endings: ["ENDING_THE_TIGER_TAKEN", "ENDING_THE_WITNESS_BOX", "ENDING_THE_COLONEL_TALKS", "ENDING_THE_DOCTOR_HURT", "ENDING_THE_TIGER_LOOSE", "ENDING_A_QUIET_ARRANGEMENT", "ENDING_NOT_PROVEN", "ENDING_THE_EMPTY_WINDOW"] },
   { id: "BAND", title: "The Speckled Band", year: "1883", major: false, start: "R1", branches: ["BAND"], endings: ["ENDING_THE_BAND_RETURNS", "ENDING_THE_WHISTLE_MISSED", "ENDING_THE_DOCTOR_LIVES", "ENDING_THE_ADDER_AT_THE_INQUEST"] },
   { id: "BOHEMIA", title: "A Scandal in Bohemia", year: "1888", major: false, start: "B1", branches: ["BOHEMIA"], endings: ["ENDING_THE_WOMAN", "ENDING_THE_STRONGBOX", "ENDING_THE_KING_WAITS", "ENDING_THE_UNDERTAKING"] },
   { id: "CARBUNCLE", title: "The Blue Carbuncle", year: "1889", major: false, start: "G1", branches: ["CARBUNCLE"], endings: ["ENDING_THE_CHRISTMAS_MERCY", "ENDING_THE_STONE_RETURNED", "ENDING_THE_STONE_LOST", "ENDING_THE_GOOSE_CLUB"] },

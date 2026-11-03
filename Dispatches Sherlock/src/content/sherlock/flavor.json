@@ -12,7 +12,7 @@
   "howToPlay": [
     {
       "heading": "Your Part",
-      "body": "You are Sherlock Holmes. The Case-Book holds one major case, The Final Problem, and four short ones that stand alone. Each scene is a dated report. Read it, then choose: tap an option once to mark it and again to confirm. Early choices open and shut later doors."
+      "body": "You are Sherlock Holmes. The Case-Book holds two major cases, The Final Problem and The Return, and four short ones that stand alone. Each scene is a dated report. Read it, then choose: tap an option once to mark it and again to confirm. Early choices open and shut later doors."
     },
     {
       "heading": "The Gauges",
@@ -170,6 +170,17 @@
       "lines": [
         "A fellow traveller: 'The English, I find, are not so very mad. They are only lonely, and they walk a great deal.'"
       ]
+    },
+    {
+      "when": {
+        "branch": "RETURN"
+      },
+      "lines": [
+        "A hansom-cab driver: 'They say the Park Lane house has the window shut now, and a policeman on the step all night. It does not make anyone feel safer.'",
+        "A greengrocer: 'Mr Adair was a nice young gentleman. He bought his oranges by the dozen. Who would shoot a man like that?'",
+        "A chimney-sweep: 'There's a man in Baker Street, sir, always at the same corner, with a mouth-organ. Not a good one. I've asked him to stop.'",
+        "A club servant: 'The Colonel is a very quiet gentleman, sir. Never a word. He's the first to say that the dear young fellow will be missed.'"
+      ]
     }
   ],
   "epilogueReadings": {
@@ -314,6 +325,14 @@
     "ENDING_THE_UNDERTAKING": "Invented. In the story Adler leaves England with her husband, and Holmes never speaks to her again.",
     "ENDING_THE_GOOSE_CLUB": "Invented. In the story Holmes lets Ryder go alone, and the dinner is Holmes and Watson's.",
     "ENDING_THE_UMBRELLA": "Invented. In the story it is Holmes who seizes Clay.",
+    "ENDING_THE_TIGER_TAKEN": "In the Canon: The Adventure of the Empty House (1903, set in April 1894). Holmes and Watson wait in Camden House, opposite 221B, with a wax bust in the window that Mrs Hudson moves every quarter of an hour. Colonel Moran comes in by the back and fires an air-gun at the bust, and is taken by Lestrade. Holmes tells Lestrade that to him alone belongs the credit, and charges Moran with the murder of Ronald Adair. In the story it all happens on a single day, and Watson is told that afternoon.",
+    "ENDING_THE_WITNESS_BOX": "Invented. In the story Holmes is careful not to appear in the matter at all, and Moran's trial is not described.",
+    "ENDING_THE_COLONEL_TALKS": "Invented. In the story Holmes only guesses at the motive for the Adair murder (that Adair found Moran cheating at cards), and says that the trial will prove or disprove it. He is sure that Moran was behind the death of Mrs Stewart of Lauder in 1887, but says that it could not be proved.",
+    "ENDING_THE_DOCTOR_HURT": "Invented. In the story Watson strikes Moran on the head with the butt of his revolver and is not hurt.",
+    "ENDING_THE_TIGER_LOOSE": "Invented. In the story Moran is taken in Camden House on the night that he fires.",
+    "ENDING_A_QUIET_ARRANGEMENT": "Invented. In the story Moran is charged and, Holmes says, will trouble them no more; his air-gun is to go to the Scotland Yard Museum.",
+    "ENDING_NOT_PROVEN": "Invented. The story does not give the result of Moran's trial.",
+    "ENDING_THE_EMPTY_WINDOW": "Invented. In the story the bait works on the first night.",
     "ENDING_CRISIS_STRAND": "In the Canon: Holmes is never short of time, helpers or word of the world for long: he has Watson, the Irregulars, Lestrade, his brother and the telegraph. Running out of any of them is this game's invention."
   },
   "endingHints": {
@@ -349,6 +368,14 @@
     "ENDING_THE_UNDERTAKING": "In A Scandal in Bohemia, hear the King's whole story, play the groom, and go to her door in your own name.",
     "ENDING_THE_GOOSE_CLUB": "In The Blue Carbuncle, tell Henry Baker the truth, find Mrs Oakshott, and ask them all to dinner.",
     "ENDING_THE_UMBRELLA": "In The Red-Headed League, hear Mr Wilson's whole story, see the assistant's knees, and give Mr Wilson the key.",
+    "ENDING_THE_TIGER_TAKEN": "In The Return, take the Colonel alive in Camden House and leave the credit to Lestrade.",
+    "ENDING_THE_WITNESS_BOX": "In The Return, build a case that will hold, and give the evidence yourself.",
+    "ENDING_THE_COLONEL_TALKS": "In The Return, look at the window in Park Lane, find proof of the cheating, the gun or the sentinel, and sit with the Colonel afterwards.",
+    "ENDING_THE_DOCTOR_HURT": "In The Return, call on Watson in the grapple and fail.",
+    "ENDING_THE_TIGER_LOOSE": "In The Return, lose the struggle in the dark and let him over the wall.",
+    "ENDING_A_QUIET_ARRANGEMENT": "In The Return, let your brother settle it.",
+    "ENDING_NOT_PROVEN": "In The Return, charge him on thin evidence.",
+    "ENDING_THE_EMPTY_WINDOW": "In The Return, let the Colonel be warned, and leave the window poorly dressed.",
     "ENDING_CRISIS_STRAND": "Spend your Hours, your Hands or your Wires down to nothing: work slowly, work alone, or cut yourself off."
   },
   "flagNotes": {
@@ -488,6 +515,62 @@
     "answeredBank": "He answered the run on his bank by moving the money, and a boy is missing.",
     "answeredPaper": "He answered the turned printer with a better press in Southwark.",
     "answeredCables": "He answered the broken cipher by changing the key.",
+    "retMycroftFirst": "You went to your brother first.",
+    "retHudson": "You faced Mrs Hudson at the door of 221B.",
+    "retWatsonSeen": "You called on Watson in Kensington as an old bookseller.",
+    "retWatsonTold": "Watson knows that you are alive.",
+    "retWatsonLeft": "You left Watson's study before he woke.",
+    "retHudsonKeeps": "Mrs Hudson has promised to say nothing.",
+    "retHudsonWorks": "Mrs Hudson has learned to move a figure in the window.",
+    "retSentinel": "A pale man with a jew's-harp watches 221B from the corner.",
+    "retMoney": "Mycroft gave you a bank draft.",
+    "retFile": "You read the Yard's papers on Park Lane in Mycroft's rooms.",
+    "retNames": "Mycroft named the last of the Professor's friends in London.",
+    "retBust": "A wax likeness of you is ready.",
+    "retWindow": "No man climbed to the Park Lane window, and none fired from the street.",
+    "retMaid": "The housemaid opened the Park Lane window before the shot.",
+    "retYardMan": "Dawes of G Division has a theory about a ladder.",
+    "retHidden": "You passed your own door unseen.",
+    "retCamdenSeen": "Camden House looks straight into your sitting-room.",
+    "retLestradeTold": "Lestrade knows that you are alive.",
+    "retLestradeFriend": "Lestrade thinks you a friend of Mycroft's.",
+    "retLestradeNote": "Lestrade has had a note from you.",
+    "retFigures": "Adair's sheet of figures is a sum of winnings to be given back.",
+    "retBulletSeen": "The Park Lane bullet was pushed, not spun.",
+    "retLastPartner": "Adair's last partner at cards was Colonel Moran.",
+    "retCards": "The Colonel cheats at cards, with his thumb on the edge of the pack.",
+    "retMoranFace": "You have seen the Colonel's face at close quarters.",
+    "retSuspected": "The Colonel has reason to think that he is looked for.",
+    "retSteward": "The steward of the Bagatelle has said that the Colonel nearly always wins.",
+    "retBullet": "A Holborn gunsmith says that the bullet came from an air-gun.",
+    "retAirgun": "The weapon is an air-gun.",
+    "retLestradeMen": "Lestrade will have ten men in the street on Saturday.",
+    "retYardOut": "You have kept the Yard out of Saturday night.",
+    "retBoys": "The Irregulars are at your service.",
+    "retWigginsOnly": "Wiggins alone knows the plan.",
+    "retCamden": "Somebody has been in Camden House, and wiped the front window.",
+    "retWatchers": "Two men watch 221B: Parker, and a thin one in a long coat.",
+    "retFront": "You watched Camden House from a room across the street.",
+    "retParkerTaken": "Parker is in a locked room over a stable.",
+    "retParkerFollowed": "Parker went to No. 12, Conduit Street.",
+    "retParkerLeft": "You left Parker to play his harp.",
+    "retRoutine": "The Colonel dines at the Anglo-Indian at half-past nine and is home at two.",
+    "retCabman": "The Colonel's cabman has been asked about Blandford Street.",
+    "retIndex": "Your index has the Colonel's career under M.",
+    "retInquestRead": "The Colonel was careful at the inquest about the hour.",
+    "retClerk": "Mycroft's clerk has seen the Colonel in Pall Mall.",
+    "retHerder": "Von Herder built the air-gun for the Professor.",
+    "retShikari": "The Colonel waits for his man as for a tiger.",
+    "retBustReady": "The wax likeness is ready, and Mrs Hudson has learned to work it.",
+    "retRested": "You slept the night before.",
+    "retDecoyGood": "The wax figure is in the window.",
+    "retDecoyPoor": "A hat and a coat on a stand are in the window.",
+    "retCordon": "The street's men are in their places.",
+    "retWatsonBeside": "Watson is beside you in the dark.",
+    "retAlone": "You are waiting alone.",
+    "retShotFired": "The Colonel has fired at the bust.",
+    "retTakenAlive": "The Colonel is taken alive.",
+    "retSecondNight": "You waited a second night.",
     "leanYard": "You took it to Scotland Yard first.",
     "leanStreet": "You sent for the boys first.",
     "leanMycroft": "You went to your brother's club first.",
@@ -532,8 +615,8 @@
   "demoEnd": {
     "title": "The Case Continues",
     "body": [
-      "You have been through the whole of the opening of The Final Problem: the brick in Vere Street, the first move, and the choice of how to meet the Professor's net.",
-      "The door ahead is locked in the demo. The full game goes on down the road that you chose, through the Yard, the street, Whitehall or the flight to the Falls, to the last choice on each road, with seventeen endings in the long case and the Case-Book that keeps the ones you have found. The four minor cases on the shelf are complete in the demo, hidden endings and all. The full game is on the game's page, to download."
+      "You have played the whole of the opening of a major case, and you stand at the choice of how to go on.",
+      "The door ahead is locked in the demo. The full game goes on down the road that you chose: through the Yard, the street, Whitehall or the flight to the Falls in The Final Problem, and through the Yard, the street or the quiet road to the empty house in The Return. Together they have twenty-five endings, and the Case-Book keeps the ones you have found. The four minor cases on the shelf are complete in the demo, hidden endings and all. The full game is on the game's page, to download."
     ],
     "restart": "Back to the Title"
   }
