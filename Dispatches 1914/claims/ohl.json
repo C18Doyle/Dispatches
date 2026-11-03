@@ -1385,5 +1385,16 @@
       "ghdi-first-note"
     ],
     "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British."
+  },
+  {
+    "id": "doc-ohl_1918_12_faustschlag-1",
+    "node": "ohl_1918_12_faustschlag",
+    "kind": "quotation",
+    "claim": "Trotsky's statement at Brest-Litovsk of 10 February 1918 says: We are withdrawing from the war. We are informing all peoples and all Governments of this. We are issuing orders for the complete demobilisation of our armies now confronting the German, Austro-Hungarian, Turkish, and Bulgarian troops.",
+    "status": "web-checked",
+    "sources": [
+      "marxists-trotsky-brest"
+    ],
+    "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British and the hyphen restored in Austro-Hungarian."
   }
 ]

@@ -116,6 +116,8 @@ export const WIRE = {
   bef_1918_21_armistice: "The Germans have asked for an armistice, and Haig is asked what terms he would advise.",
 
   // Austro-Hungarian High Command
+  aok_1914_16_limanowa: "A Russian army moves on Kraków with its flank in the foothills, and Conrad sees a chance to strike.",
+  aok_1916_10_transylvania: "Romania has declared war and is crossing into Transylvania, which the First Army holds with a thin screen.",
   aok_1914_15_mobilise: "The monarchy mobilises against Serbia, and Russia has now begun to mobilise as well.",
   aok_1914_01_serbia: "The army is split in three, with a swing force that can go to Serbia or to Galicia.",
   aok_1914_02_recall: "The Russians are in Galicia in greater strength than planned, and the swing force is in the wrong place.",
@@ -141,6 +143,8 @@ export const WIRE = {
 
   // Ottoman General Headquarters
   otto_1914_04_offer: "Enver has proposed an alliance, and Berlin is considering the offer.",
+  otto_1915_05_suvla: "The British land at Suvla Bay, and two reserve divisions are still at Bulair, far from the fighting.",
+  otto_1916_04_galicia: "Berlin and Vienna ask for Ottoman divisions for the Eastern Front, and Enver has said yes.",
   otto_1914_01_straits: "Two German ships have come to the Dardanelles, and the empire is officially neutral.",
   otto_1914_02_blacksea: "The empire has been mobilised twelve weeks, and an order is given in secret.",
   otto_1914_03_sarikamis: "Enver plans to destroy the Russian Caucasus Army in an envelopment through the winter snow.",

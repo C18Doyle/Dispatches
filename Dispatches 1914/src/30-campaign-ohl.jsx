@@ -130,8 +130,7 @@ CAMPAIGNS.ohl.nodes = {
             next: "ohl_1914_01_aufmarsch",
             outcome:
               "Speculative. The railway division turns two armies' trains east and leaves the rest on the " +
-              "old timetable. It is done, with a day lost and a number of trains standing in the wrong " +
-              "stations, and the armies in the west are late to their start. Britain's offer is withdrawn " +
+              "old timetable. It is done, with a day lost and a number of trains standing in the wrong stations at Cologne, and the armies in the west are late to their start. Britain's offer is withdrawn " +
               "the same evening, and the eastern armies have been sent to meet an enemy that is not yet in " +
               "the field." },
           { weight: 50, title: "The compromise costs three days",
@@ -142,7 +141,7 @@ CAMPAIGNS.ohl.nodes = {
               "Speculative. The two timetables cross at the great junctions of the Rhine, and trains " +
               "stand for hours in the stations. It takes three days to sort them out, and the right " +
               "wing, which the whole plan depends on, is not at its start line when the army is meant " +
-              "to cross the Belgian frontier. Moltke is told that he has been right, and it does not help him." },
+              "to cross the Belgian frontier. Moltke is shown to have been right, and it does not help him." },
         ],
       },
       {
@@ -892,7 +891,7 @@ CAMPAIGNS.ohl.nodes = {
         next: "ohl_1916_05_relief",
         outcome:
           "Speculative. Ground is given where it cannot be held cheaply and a second " +
-          "line is built behind it. The front moves back by a few kilometres in places. " +
+          "line is built behind it. The front moves back by a few kilometres in places, round Thiepval. " +
           "Fewer men are lost in counter-attacks, and the retreat has to be explained " +
           "at home as something other than a defeat. The officers who hold that no yard may be given up say so.",
       },
@@ -1152,8 +1151,7 @@ CAMPAIGNS.ohl.nodes = {
         next: "ohl_1917_07_chancellor",
         outcome:
           "Speculative. The army goes back to the new line, and the villages and roads " +
-          "behind it are left standing. The enemy moves up faster than he did, over " +
-          "roads and through towns that are whole. The retirement frees the divisions " +
+          "behind it are left standing. The British and French move up faster than they did, over roads and through towns such as Péronne that are whole. The retirement frees the divisions " +
           "it was meant to free, and no report of burned villages goes to the neutral " +
           "press. What the army gains in good name it loses in the weeks it would have " +
           "gained by delaying the pursuit.",
@@ -1171,7 +1169,7 @@ CAMPAIGNS.ohl.nodes = {
         next: "ohl_1917_07_chancellor",
         outcome:
           "Speculative. The army stays in the bulge. The new line is finished and empty " +
-          "behind it. The enemy attacks the old line in the spring, with the divisions " +
+          "behind it. The British and French attack the old line at Arras and on the Aisne in the spring, with the divisions " +
           "that would have been freed still in it, and the army holds the ground it was " +
           "told not to give up at a cost that the commanders who proposed the " +
           "withdrawal had already put in writing. Ludendorff has kept his ground and " +
@@ -1559,7 +1557,7 @@ CAMPAIGNS.ohl.nodes = {
           "Speculative. The army stops where the plan said it should, with a gain that " +
           "was never in the plan, and the reserves go back to the north. The attack in " +
           "Flanders goes ahead as designed, against a British army that has had time to " +
-          "prepare for it. Paris is not threatened, and the country is told so.",
+          "prepare for it. Paris is not threatened, and the newspapers say so.",
       },
     ],
   },
@@ -1930,8 +1928,7 @@ CAMPAIGNS.ohl.nodes = {
     ending: { family: "army-collapse-first", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The historical German army retreated in order to the end and " +
-      "was never broken open in the field. Spending it harder than it was spent " +
-      "leaves nothing for anyone to reinterpret afterwards.\n\nWhat actually " +
+      "was never broken open in the field. Spending it harder than it was spent leaves little to be rebuilt after the armistice.\n\nWhat actually " +
       "happened: The army never broke open in the field. Between July and November " +
       "it fell back from the Marne to the Meuse and the Scheldt, giving up ground " +
       "and prisoners, but it kept a front, and its units marched home in order " +
@@ -1955,8 +1952,7 @@ CAMPAIGNS.ohl.nodes = {
       "terms available now, minus a winter.",
     ending: { family: "fight-on-into-1919", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. The line held. What the line was for did not become clearer for " +
-      "having been held.\n\nWhat actually happened: There was no winter line. The " +
+      "Speculative. The line held through the autumn, and the government still had no terms to offer.\n\nWhat actually happened: There was no winter line. The " +
       "request went to President Wilson in the first week of October, his replies " +
       "made the Allied terms plain by the end of the month, and the armistice was " +
       "signed on 11 November. The Allies had a larger campaign in preparation for " +
@@ -1981,8 +1977,7 @@ CAMPAIGNS.ohl.nodes = {
     epilogue: () =>
       "Speculative. No German approach on these lines was made at this date. The " +
       "Entente's willingness to treat with an unbeaten German army in September " +
-      "1918 is not something the record can settle, and this ending does not " +
-      "pretend it can.\n\nWhat actually happened: No approach was made in " +
+      "1918 is not something the record can settle.\n\nWhat actually happened: No approach was made in " +
       "September. The first request to Wilson went on 3 and 4 October, from a new " +
       "government under Prince Max of Baden, after Ludendorff had told a council at " +
       "Spa on 29 September that the army could not wait. Wilson replied three times " +
@@ -2005,7 +2000,7 @@ CAMPAIGNS.ohl.nodes = {
       "What arrives instead is a delegation with a signature and no position.",
     ending: { family: "armistice-on-worse-terms", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. The terms depend on more than the armies: they are made by what the asking side still has when it asks.\n\nWhat actually happened: The armistice " +
+      "Speculative. The terms depend on more than the armies: they depend on what the asking side still has when it asks.\n\nWhat actually happened: The armistice " +
       "was signed in the railway carriage at Compiègne at about five in the morning " +
       "of 11 November, by a delegation led by the civilian politician Matthias " +
       "Erzberger and not by a soldier, who had been given seventy-two hours to " +
@@ -2055,8 +2050,7 @@ CAMPAIGNS.ohl.nodes = {
       "it down. Both halves of that were the same decision.",
     ending: { family: "east-held-west-lost", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. Territory is only an asset if it can be held with fewer men " +
-      "than it releases.\n\nWhat actually happened: Germany did hold the east when " +
+      "Speculative. Territory in the east is worth keeping only if it can be held with fewer men than it releases for the west.\n\nWhat actually happened: Germany did hold the east when " +
       "the war ended, with Brest-Litovsk in force and its troops in the Baltic " +
       "provinces and Ukraine. The armistice annulled the treaty and told the troops " +
       "in the former Russian territories to withdraw when the Allies judged the " +

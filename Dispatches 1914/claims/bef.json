@@ -1040,5 +1040,16 @@
       "bl-haig-order"
     ],
     "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British."
+  },
+  {
+    "id": "doc-bef_1918_16_manpower-1",
+    "node": "bef_1918_16_manpower",
+    "kind": "quotation",
+    "claim": "Lloyd George's address of 5 January 1918 says: We are not fighting a war of aggression against the German people. Their leaders have persuaded them that they are fighting a war of self-defence against a league of rival nations, bent on the destruction of Germany. That is not so.",
+    "status": "web-checked",
+    "sources": [
+      "frus-lloyd-george-war-aims"
+    ],
+    "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British."
   }
 ]

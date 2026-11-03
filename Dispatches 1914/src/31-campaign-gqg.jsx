@@ -965,9 +965,7 @@ CAMPAIGNS.gqg.nodes = {
         outcome:
           "Nivelle takes the command in December. Lyautey leaves the war ministry after a quarrel in the Chamber " +
           "in March and is replaced by Painlevé, who is no " +
-          "more convinced but stays to argue. The army is told that the rupture will " +
-          "take forty-eight hours, and it believes what it is told, because it has been " +
-          "waiting two and a half years to be told it. The promise that is made is the " +
+          "more convinced but stays to argue. The army hears that the rupture will take forty-eight hours, and it believes it, because it has waited two and a half years to hear it. The promise that is made is the " +
           "one that will be broken, in front of the soldiers.",
       },
       {
@@ -1317,7 +1315,7 @@ CAMPAIGNS.gqg.nodes = {
         erodes: "costly_offensive",
         next: "gqg_1918_12_link",
         outcome:
-          "Speculative. The attack goes past the line it announced. Whatever ground " +
+          "Speculative. The attack at Malmaison goes past the line it announced. Whatever ground " +
           "that gains, it costs the one thing the summer was spent rebuilding: the " +
           "army's belief that when this command names a limit, the limit is real. The " +
           "divisions that were told they would stop on the objective find themselves " +
@@ -1517,8 +1515,7 @@ CAMPAIGNS.gqg.nodes = {
         setFlags: { gqg_aisne: "depth" },
         next: "gqg_1918_11_counteroffensive",
         outcome:
-          "Speculative. The front line is cleared of all but a screen, and the " +
-          "divisions are moved back behind the ridge. The bombardment falls on little " +
+          "Speculative. The front line is cleared of all but a screen, and the divisions are moved back behind the Chemin des Dames. The bombardment falls on little " +
           "and the attack still comes and still gains ground, but it comes on into " +
           "depth, and the army is not broken on the first morning. Duchêne is told to " +
           "carry out an order he has publicly despised, and may do so unwillingly.",
@@ -1552,11 +1549,10 @@ CAMPAIGNS.gqg.nodes = {
             setFlags: { gqg_aisne: "forward" },
             next: "gqg_1918_11_counteroffensive",
             outcome:
-              "Speculative. The new commander has a day and a night, and the corps under him " +
+              "Speculative. The new commander of the Sixth Army has a day and a night, and the corps under him " +
               "do not know whom to obey. The front line is half cleared when the bombardment " +
               "begins, and the divisions caught between the two dispositions suffer the " +
-              "worst of both. The line breaks as it would have done, and the army has the " +
-              "added bitterness of having changed its commander on the eve of the battle." },
+              "worst of both. The line breaks as it would have done, with a new commander in charge of it." },
         ],
       },
     ],
@@ -1914,8 +1910,7 @@ CAMPAIGNS.gqg.nodes = {
     ending: { family: "coalition-fracture", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. Unified command was conceded historically, in this month, under " +
-      "exactly this pressure. It is the counterfactual precisely because everyone " +
-      "involved could see what refusing it would cost.\n\nWhat actually happened: " +
+      "exactly this pressure. It is a counterfactual because everyone involved could see what refusing it would cost.\n\nWhat actually happened: " +
       "At Doullens on 26 March 1918 Foch was given the coordination of the Allied " +
       "armies on the Western Front, and the front held in front of Amiens. His " +
       "powers were widened in the weeks that followed, and in April he was given " +
@@ -1939,9 +1934,7 @@ CAMPAIGNS.gqg.nodes = {
       "authority to say no.",
     ending: { family: "victory-at-higher-cost", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. Unity of command did not win the war. It shortened it, and the " +
-      "difference is measured in the only currency that has been counted " +
-      "here.\n\nWhat actually happened: The unified command moved reserves between " +
+      "Speculative. Unity of command did not win the war. It shortened it, and the difference shows in the casualty lists.\n\nWhat actually happened: The unified command moved reserves between " +
       "the British and French sectors through the spring and summer, and the autumn " +
       "offensives were planned as a single design, which the national commanders in " +
       "this ending do not have. The war ended in November 1918, a year before the " +
@@ -1987,8 +1980,7 @@ CAMPAIGNS.gqg.nodes = {
       "for waiting was sound every single time it was made. The war goes on being fought by whoever is willing to start something.",
     ending: { family: "defensive-into-1919", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. Husbanding an army is a defensible doctrine and this is what it " +
-      "produces when nobody spends it.\n\nWhat actually happened: The German " +
+      "Speculative. Husbanding an army is a defensible doctrine, and this is where it leads when the army is never used.\n\nWhat actually happened: The German " +
       "offensives of 1918 did end, as this ending says, but the Allies did not wait " +
       "for them to. The counterattack of 18 July, the British attack at Amiens on 8 " +
       "August and the great offensives of late September brought the war to an end " +

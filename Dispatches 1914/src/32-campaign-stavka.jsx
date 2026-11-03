@@ -154,8 +154,7 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The two armies that would have gone into East Prussia are held on the " +
           "frontier, and the whole weight of the army goes into Galicia. The Austrians are met by " +
-          "more men than they met in fact. Paris is told that the offensive it was promised will " +
-          "come later, and the French, who had counted on it, ask why a promise given in writing " +
+          "more men than they met in fact. Paris learns that the offensive it was promised will come later, and the French, who had counted on it, ask why a promise given in writing " +
           "can be kept in part.",
       },
     ],
@@ -858,7 +857,7 @@ CAMPAIGNS.stavka.nodes = {
         id: "partial",
         label: "Counterattack with the cavalry and the leading divisions of the new army only, and keep the rest in reserve",
         advisor: { name: "Polivanov", position:
-          "The new army has never been tried. Put in a part of it and the rest is still an army if the part is lost." },
+          "Nobody has tried the new army. Put in a part of it and the rest is still an army if the part is lost." },
         impact: { manpower: 0, munitions: 0, will: 0 },
         dispute:
           "Historians differ about the German cavalry drive at Sventsiany: whether it " +
@@ -885,9 +884,7 @@ CAMPAIGNS.stavka.nodes = {
               "Speculative. The divisions put in at the breach are not enough to stop " +
               "the cavalry, which reaches the railway at Molodechno and cuts it for two " +
               "days. The rest of the new army arrives to find the breach wider than the " +
-              "report that sent it. The gap is closed in the end, a week after it would " +
-              "have been, and the army has learned what a reserve held back is worth " +
-              "when the moment to use it has gone." },
+              "report that sent it. The gap is closed in the end, a week after it would have been, because the reserve was held back until the moment to use it had gone." },
         ],
       },
     ],
@@ -1200,8 +1197,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The attack on Lemberg is not made. The armies in the south dig " +
           "in where they stand, the Guards are kept for what comes in the autumn, and " +
           "the front holds the line it has won. The Germans use the pause to bring up " +
-          "divisions, and Brusilov, who wanted one more effort, is told that the effort " +
-          "is over. The army goes into August with its strength intact and its " +
+          "divisions, and Brusilov, who wanted one more effort, has his order to stop. The army goes into August with its strength intact and its " +
           "opportunity behind it.",
       },
       {
@@ -1553,7 +1549,7 @@ CAMPAIGNS.stavka.nodes = {
             setFlags: { stavka_kerenskyResult: "limited" },
             next: "stavka_1917_12_deathpenalty",
             outcome:
-              "Speculative. The attack takes ground where the committees agreed to it and " +
+              "Speculative. The attack in Galicia takes ground where the committees agreed to it and " +
               "stops where they did not. The government has something to show the allies " +
               "and the army has not been destroyed proving it. The commanders who were told " +
               "that an order is now a proposal discover how much of a proposal can be " +
@@ -2069,9 +2065,7 @@ CAMPAIGNS.stavka.nodes = {
       "is the same territory conceded later by people with nothing to offer.",
     ending: { family: "separate-peace-earlier", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. Separate-peace soundings existed and none came to anything. The " +
-      "obstacle was never arithmetic. It was that the dynasty could not sign such a " +
-      "thing and remain the dynasty.\n\nWhat actually happened: Russia did not " +
+      "Speculative. Separate-peace soundings existed and none came to anything. The obstacle was not arithmetic. The dynasty could not sign such a peace and remain on the throne.\n\nWhat actually happened: Russia did not " +
       "leave the war on its own initiative in 1917. It was taken out of it by " +
       "revolution, first in March, when the Provisional Government that replaced " +
       "the monarchy pledged to continue the war with the Allies, and again in " +
@@ -2093,9 +2087,7 @@ CAMPAIGNS.stavka.nodes = {
       "different is that the exhaustion arrives at a state rather than at a vacuum.",
     ending: { family: "political-order-survives-the-war", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative, and the most speculative ending here. It requires the court to " +
-      "have behaved differently over eighteen months, which is a great deal to ask " +
-      "of a counterfactual.\n\nWhat actually happened: The capital did not hold " +
+      "Speculative, and the furthest from the record of any ending here. It requires the court to have behaved differently for eighteen months.\n\nWhat actually happened: The capital did not hold " +
       "together. The strikes and the mutiny of the Petrograd garrison at the end of " +
       "February, Old Style, brought down the monarchy within about a week, and the " +
       "Emperor abdicated on 2 March (15 March in the west), while he was on his way " +
