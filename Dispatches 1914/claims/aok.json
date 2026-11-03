@@ -1256,5 +1256,70 @@
       "wp-tomypeoples"
     ],
     "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British."
+  },
+  {
+    "id": "doc-aok_1918_13_vittorio-1",
+    "node": "aok_1918_13_vittorio",
+    "kind": "quotation",
+    "claim": "Emperor Karl's manifesto of 16 October 1918 says that, in accordance with the will of its peoples, Austria is to become a federal state in which each nationality shall form its own polity on the territory on which it lives.",
+    "status": "web-checked",
+    "sources": [
+      "habsburger-karl-manifesto"
+    ],
+    "note": "Quoted at the head of the report from the published translation named in the sources; one sentence, taken whole."
+  },
+  {
+    "id": "aok-limanowa-1",
+    "node": "aok_1914_16_limanowa",
+    "kind": "fact",
+    "claim": "In late November and December 1914 a Russian army advanced on Kraków along the foothills of the Carpathians, with the Austro-Hungarian Third and Fourth Armies south and west of it.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
+  },
+  {
+    "id": "aok-limanowa-2",
+    "node": "aok_1914_16_limanowa",
+    "kind": "fact",
+    "claim": "The Austro-Hungarian attack began on 3 December 1914 in snow and fog; after about two weeks of fighting round Limanowa and Łapanów the Russians fell back to the Dunajec and the threat to Kraków was lifted.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
+  },
+  {
+    "id": "aok-limanowa-3",
+    "node": "aok_1914_16_limanowa",
+    "kind": "position",
+    "claim": "Conrad's position is characterized as: the Russians are strung out and a blow at the flank will serve Kraków better than a defence. Friedrich's, on the counterfactual, as: Kraków is a fortress and the army cannot attack in the mountains in winter. Tisza's, as: the passes are the door to Hungary.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
+  },
+  {
+    "id": "aok-transylvania-1",
+    "node": "aok_1916_10_transylvania",
+    "kind": "fact",
+    "claim": "Romania declared war on Austria-Hungary on 27 August 1916 and her armies crossed the Carpathians into Transylvania, which the monarchy held with a few weak formations.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
+  },
+  {
+    "id": "aok-transylvania-2",
+    "node": "aok_1916_10_transylvania",
+    "kind": "fact",
+    "claim": "The First Army fell back in Transylvania in September 1916, German divisions were sent, and in the autumn the Romanian army was driven back over the mountains.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
+  },
+  {
+    "id": "aok-transylvania-3",
+    "node": "aok_1916_10_transylvania",
+    "kind": "position",
+    "claim": "Conrad's position is characterized as: a thin screen on the passes will be broken, so give up space for time and bring in the Germans. Tisza's, on the counterfactual, as: Transylvania is Hungary and must be held at the frontier. Friedrich's, as: weaken the Italian front rather than lose the province.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
   }
 ]

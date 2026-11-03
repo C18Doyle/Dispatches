@@ -98,8 +98,7 @@ CAMPAIGNS.aok.nodes = {
           "Conrad fixes 4 August as the first day of the mobilisation against Russia, and the Second " +
           "Army, the swing force, is left on the trains that are running to the south. If it is " +
           "turned north later it will reach Galicia at the end of August, and understrength. " +
-          "Berlin, which has been promised an offensive in Galicia, is told that the army " +
-          "will be ready on the day that the plan says.",
+          "Berlin, which has been promised an offensive in Galicia, hears that the army will be ready on the day the plan says.",
       },
       {
         id: "now",
@@ -144,8 +143,7 @@ CAMPAIGNS.aok.nodes = {
         setFlags: { aok_mobilise: "serbia" },
         next: "aok_1914_01_serbia",
         outcome:
-          "Speculative. The mobilisation goes on against Serbia only, and Berlin is told that Vienna " +
-          "needs a few days. The Germans, who had counted on Austria-Hungary to hold the Russians in " +
+          "Speculative. The mobilisation goes on against Serbia only, and Vienna asks Berlin for a few days. The Germans, who had counted on Austria-Hungary to hold the Russians in " +
           "Galicia, are angry, and say so. The Russians go on mobilising, and the monarchy has " +
           "spent days in which its army was not where its plan said it would be.",
       },
@@ -377,8 +375,7 @@ CAMPAIGNS.aok.nodes = {
           "Speculative. The Third Army is left to meet the Russians with the corps it has, " +
           "and the blow in the north goes on. The flank gives where the record says it " +
           "gave, at the Gnila Lipa, and Lemberg is lost. The army that was held back at " +
-          "the San has only changed the place where the defeat is suffered, and the " +
-          "Fourth Army, still advancing, is told that its flank is open.",
+          "the San has only changed the place where the defeat is suffered, and the Fourth Army, still advancing, finds its flank open.",
       },
       {
         id: "reinforce",
@@ -510,7 +507,7 @@ CAMPAIGNS.aok.nodes = {
           "Serbia is the reason for the war, and the Serbian army has been beaten twice back from its own ground. A third blow, with the whole of the Balkan force, will finish it." },
         impact: { manpower: -1, munitions: 0, will: 0 },
         setFlags: { aok_kolubara: "invaded", xc_kolubara: "invaded" },
-        next: "aok_1915_04_carpathians",
+        next: "aok_1914_16_limanowa",
         outcome:
           "The offensive opens on 6 November and reaches the Kolubara on 16 November. " +
           "The Serbs give up Belgrade at the end of the month and the Austro-Hungarians " +
@@ -528,7 +525,7 @@ CAMPAIGNS.aok.nodes = {
         disabledReason: "The Emperor has already given his word for the invasion",
         impact: { manpower: 1, munitions: 0, will: 0 },
         setFlags: { aok_kolubara: "declined", xc_kolubara: "declined" },
-        next: "aok_1915_04_carpathians",
+        next: "aok_1914_16_limanowa",
         outcome:
           "Speculative. The Emperor's authorisation is put aside, and the Balkan force " +
           "stands on the Drina and the Sava while the divisions that can be spared go " +
@@ -543,13 +540,71 @@ CAMPAIGNS.aok.nodes = {
           "Serbia cannot be left alone, and it cannot be finished with what the army can spare. An advance to the river holds the Serbs where they are and frees two divisions for Galicia." },
         impact: { manpower: 0, munitions: 0, will: 0 },
         setFlags: { aok_kolubara: "limited" },
-        next: "aok_1915_04_carpathians",
+        next: "aok_1914_16_limanowa",
         outcome:
           "Speculative. Potiorek is given leave to advance as far as the Kolubara and told to halt on it, " +
           "and two divisions that would have gone into Serbia are sent north. He reaches the river in the " +
           "middle of November, as he did, and is stopped by order and not by the Serbs. Belgrade " +
           "is not entered in December. The Serbs have time to bring up ammunition, and Potiorek writes " +
           "to say what he thinks of a general who halts on a river.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1914-12
+  aok_1914_16_limanowa: {
+    year: 1914, date: "1914-12-02", city: "Teschen",
+    title: "The Flank in the Foothills",
+    advisors: ["conrad", "friedrich", "tisza"],
+    situation:
+      "A Russian army is moving on Kraków from the east, with its southern flank along the foothills of " +
+      "the Carpathians. The monarchy's Third and Fourth Armies stand south and west of it, and Kraków is " +
+      "behind them, with the coalfields of Silesia not far beyond.\n\n" +
+      "Conrad sees that the Russian flank is stretched. The army has few shells and fewer men than it had " +
+      "in August, the roads are mountain tracks, and the winter has come on. Tisza has written that the " +
+      "passes into Hungary must not be left open.",
+    choices: [
+      {
+        id: "attack",
+        label: "Attack the Russian flank from the mountains with the Third and Fourth Armies",
+        historical: true,
+        advisor: { name: "Conrad", position:
+          "The Russians are strung out along the road to Kraków. A blow at their flank saves the city better than any defence of its outskirts, and it goes in before they close up." },
+        impact: { manpower: -1, munitions: -1, will: 2 },
+        next: "aok_1915_04_carpathians",
+        outcome:
+          "The attack goes in on 3 December in snow and fog, over mountain roads. After two weeks of " +
+          "fighting round Limanowa and Łapanów the Russian army falls back to the Dunajec and the threat " +
+          "to Kraków is lifted. It is a victory the army needed, and it costs men and shells that " +
+          "the winter in the Carpathians will call for.",
+      },
+      {
+        id: "defend",
+        label: "Hold the approaches to Kraków and let the Russians come on",
+        advisor: { name: "Friedrich", position:
+          "Kraków is a fortress, and a fortress is a safe place to fight from. The army has not the strength for an attack in the mountains in winter, and a defeat there would lose the city." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "Conrad has already given the order to prepare the attack",
+        impact: { manpower: 0, munitions: -1, will: -1 },
+        next: "aok_1915_04_carpathians",
+        outcome:
+          "Speculative. The Third and Fourth Armies dig in on the approaches to Kraków and the Russians " +
+          "come up to them in the second week of December. There are no big battles, only a long " +
+          "line of small ones, and the Russian flank is not turned. Kraków is safe for the winter, " +
+          "and the Carpathians are held by whatever is left after the guns are gone.",
+      },
+      {
+        id: "passes",
+        label: "Draw the two armies back to cover the Carpathian passes and leave Kraków to the Germans",
+        advisor: { name: "Tisza", position:
+          "The passes are the door to Hungary. Whatever happens at Kraków, the Russians must not come over the mountains while the army is looking the other way." },
+        impact: { manpower: 1, munitions: 0, will: -2 },
+        next: "aok_1915_04_carpathians",
+        outcome:
+          "Speculative. The two armies move back toward the passes, and Kraków is left to the German " +
+          "force that can be brought to it. The mountains are held in strength and Hungary is quiet. " +
+          "The Russians reach the outer works of Kraków in the middle of December, and the city " +
+          "that was meant to be the pivot of the line is cut off.",
       },
     ],
   },
@@ -713,8 +768,7 @@ CAMPAIGNS.aok.nodes = {
         next: "aok_1915_06_isonzo",
         outcome:
           "Speculative. Austria-Hungary asks for an offensive under an Austro-Hungarian " +
-          "commander and is told that the Germans will not make it on those terms, or makes " +
-          "it with a smaller force. The army goes into the summer with the Russians still " +
+          "commander and gets the answer that the Germans will not make it on those terms, or will make it with a smaller force. The army goes into the summer with the Russians still " +
           "in the passes, and the monarchy's command of its own armies is intact and " +
           "untested.",
       },
@@ -960,10 +1014,10 @@ CAMPAIGNS.aok.nodes = {
         label: "Halt the Trentino offensive and send the divisions back to Galicia",
         historical: true,
         advisor: { name: "Conrad", position:
-          "The attack in the south has to be given up. The front in the east is the one that matters, and it is giving way." },
+          "Give up the attack in the south. The front in the east is the one that matters, and it is giving way." },
         impact: { manpower: -2, munitions: 0, will: -1 },
         setFlags: { aok_brusilov: "halted" },
-        next: "aok_1916_09_supreme",
+        next: "aok_1916_10_transylvania",
         outcome:
           "Conrad stops the Trentino offensive on 16 June and sends divisions back to " +
           "Galicia. German divisions are sent to the Austro-Hungarian front as well, and " +
@@ -982,7 +1036,7 @@ CAMPAIGNS.aok.nodes = {
         impact: { manpower: -3, munitions: -1, will: 1 },
         setFlags: { aok_brusilov: "continued" },
         erodes: "cede_sovereignty",
-        next: "aok_1916_09_supreme",
+        next: "aok_1916_10_transylvania",
         outcome:
           "Speculative. The offensive in the south is kept up and the Germans are asked to " +
           "hold the East. They send what they have, and take control of the front in return. " +
@@ -997,13 +1051,73 @@ CAMPAIGNS.aok.nodes = {
           "Half is what Galicia needs at once, and the rest can still take the plateau, which is within reach and would give the army a success to show." },
         impact: { manpower: -2, munitions: 0, will: 0 },
         setFlags: { aok_brusilov: "split" },
-        next: "aok_1916_09_supreme",
+        next: "aok_1916_10_transylvania",
         outcome:
           "Speculative. Half the divisions go back to Galicia by rail, and the rest are " +
           "left in the Tyrol to take the plateau. The Russian wedge is slowed, not stopped, " +
           "and the Italians are driven a little farther in the mountains. The army has " +
           "divided its strength between two fronts and has not mended either, and the " +
           "German command, which asked for all the divisions, has been given half.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1916-08
+  aok_1916_10_transylvania: {
+    year: 1916, date: "1916-08-28", city: "Teschen",
+    title: "A New Enemy at the Passes",
+    advisors: ["conrad", "friedrich", "tisza"],
+    situation:
+      "Romania declared war yesterday, and her armies are crossing the Carpathians into Transylvania. The " +
+      "province is held by a few weak formations, and the First Army has a screen on the passes and little " +
+      "behind it. Every other division is in the north against the Russians or in the south-west against " +
+      "the Italians.\n\n" +
+      "Tisza says that Transylvania is Hungary and must be defended at the frontier. Conrad is asking " +
+      "Berlin for German divisions and has none of his own to send.",
+    choices: [
+      {
+        id: "withdraw",
+        label: "Fall back from the passes to a shorter line inside Transylvania and wait for German help",
+        historical: true,
+        advisor: { name: "Conrad", position:
+          "A thin screen on the passes will be broken at once and lost. Give up space for time, bring the Germans in, and fight when they are there." },
+        impact: { manpower: -1, munitions: 0, will: -2 },
+        next: "aok_1916_09_supreme",
+        outcome:
+          "The First Army falls back through the last days of August and in September, giving up the " +
+          "border districts to the Romanians, who occupy towns that the monarchy has held for centuries. " +
+          "German divisions are sent from other fronts, and in the autumn the Romanian army is driven " +
+          "back over the mountains. Hungary has been invaded, and the Hungarian press says whose fault it was.",
+      },
+      {
+        id: "frontier",
+        label: "Hold the frontier at the passes with every man in the province",
+        advisor: { name: "Tisza", position:
+          "Transylvania is the Hungarian crown's own ground. Stand at the frontier, because a Romanian army inside the province is hard to put out again." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The First Army has told Teschen that it has no reserve to stand with",
+        impact: { manpower: -2, munitions: -1, will: 0 },
+        next: "aok_1916_09_supreme",
+        outcome:
+          "Speculative. The First Army stands on the passes with what it has and is outflanked and " +
+          "broken within days, and the Romanians are in the plain of Transylvania before the German " +
+          "divisions can be brought up. The monarchy has lost the screen it had and the men in it, " +
+          "and Tisza has the frontier defended as he asked.",
+      },
+      {
+        id: "tyrol",
+        label: "Take two divisions from the Italian front and send them across Hungary to Transylvania",
+        advisor: { name: "Friedrich", position:
+          "The Italians are quiet for the moment, and the divisions in the Tyrol can be in Transylvania in a week. It is better to weaken one front than to lose a whole province." },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The Tyrol front has already been stripped for Galicia",
+        impact: { manpower: -1, munitions: 0, will: -1 },
+        next: "aok_1916_09_supreme",
+        outcome:
+          "Speculative. Two divisions come across Hungary by rail and reach the First Army in the " +
+          "first week of September. The Romanians are slowed at the passes and the province is not " +
+          "overrun at once, but the Italians find the gap on the Isonzo and in the Tyrol and press " +
+          "it, and the army fights on three fronts with less on each of them than it had before.",
       },
     ],
   },

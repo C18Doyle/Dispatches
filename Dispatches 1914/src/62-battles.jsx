@@ -229,7 +229,7 @@ BATTLES.gallipoliOttoman = {
       modifiers: { flanks: 1.5, coast: 0.8 } },
   ],
   echo: {
-    node: "otto_1915_03_kut",
+    node: "otto_1915_05_suvla",
     grade: {
       clean: "The army that held the peninsula was handled as one force, and the staff has learned from it.",
       costly: "The peninsula was held, with some arms starved to pay for the rest.",

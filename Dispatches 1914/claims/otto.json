@@ -1875,5 +1875,79 @@
       "avalon-balfour"
     ],
     "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British."
+  },
+  {
+    "id": "doc-otto_1914_01_straits-1",
+    "node": "otto_1914_01_straits",
+    "kind": "quotation",
+    "claim": "Article 3 of the treaty of alliance between Germany and the Ottoman Empire, of 2 August 1914, says that in case of war Germany will leave her military mission at the disposal of Turkey, which assures the mission an effective influence on the general conduct of the army.",
+    "status": "web-checked",
+    "sources": [
+      "avalon-turkgerm"
+    ],
+    "note": "Quoted at the head of the report from the published text named in the sources; the article is taken whole."
+  },
+  {
+    "id": "otto-suvla-1",
+    "node": "otto_1915_05_suvla",
+    "kind": "fact",
+    "claim": "The British landed at Suvla Bay in the night of 6 to 7 August 1915 and attacked at Lone Pine and on Sari Bair at the same time.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
+  },
+  {
+    "id": "otto-suvla-2",
+    "node": "otto_1915_05_suvla",
+    "kind": "fact",
+    "claim": "Two Ottoman divisions stood at Bulair, at the neck of the Gallipoli peninsula, against a second landing; Liman von Sanders brought them south.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
+  },
+  {
+    "id": "otto-suvla-3",
+    "node": "otto_1915_05_suvla",
+    "kind": "fact",
+    "claim": "Mustafa Kemal was given command of the northern group on 8 August 1915, and on 10 August his attack retook Chunuk Bair.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
+  },
+  {
+    "id": "otto-suvla-4",
+    "node": "otto_1915_05_suvla",
+    "kind": "position",
+    "claim": "Liman von Sanders's position is characterized as: the landing at Suvla is the main blow and both divisions are needed on the ridges. Enver's, on the counterfactual, as: a second landing is still possible and a division at Bulair is cheap insurance.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
+  },
+  {
+    "id": "otto-galicia-1",
+    "node": "otto_1916_04_galicia",
+    "kind": "fact",
+    "claim": "In 1916 the Ottoman Empire sent the XV Corps, of two divisions, to Galicia to fight beside the Austro-Hungarian and German armies.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
+  },
+  {
+    "id": "otto-galicia-2",
+    "node": "otto_1916_04_galicia",
+    "kind": "fact",
+    "claim": "Erzurum was lost to the Russians in February 1916, the Arab revolt began in June 1916, and the British were building a railway and pipeline across Sinai.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
+  },
+  {
+    "id": "otto-galicia-3",
+    "node": "otto_1916_04_galicia",
+    "kind": "position",
+    "claim": "Enver's position is characterized as: the empire is an ally and has to act like one, in return for German guns and ammunition. Djemal's, on the counterfactual, as: the war is in Syria and Mesopotamia and divisions sent north will not come back.",
+    "status": "drafted",
+    "sources": [],
+    "note": "Drafted from the record; to be checked against a source."
   }
 ]

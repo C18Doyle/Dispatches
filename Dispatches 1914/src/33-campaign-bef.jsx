@@ -933,9 +933,7 @@ CAMPAIGNS.bef.nodes = {
         outcome:
           "Speculative. A dozen tanks go forward at Flers and Courcelette and the rest stay " +
           "in the parks. Some of the dozen break down, and two or three do what the staff " +
-          "hoped. The Germans see a new machine and do not see how many there are. The crews " +
-          "that went in learn what the engines will bear, and the army has a test and a " +
-          "reserve and no victory to put to the account of either.",
+          "hoped. The Germans see a new machine and do not see how many there are. The crews that went in learn what the engines will bear, and there is a reserve of tanks and no victory to show for either.",
       },
     ],
   },
@@ -989,7 +987,7 @@ CAMPAIGNS.bef.nodes = {
         setFlags: { bef_calais: "refused", xc_calais: "refused" },
         next: "bef_1917_14_convoy",
         outcome:
-          "Speculative. The Cabinet is told that the army will not serve under Nivelle. The offensive goes forward with the British under their own commander, and the French are told they have an ally who will cooperate and will not obey. Haig keeps his own army and its plan, and Nivelle must fit the offensive to what he will agree. Lloyd George's opinion of his generals is confirmed.",
+          "Speculative. The army will not serve under Nivelle, and the Cabinet says so to Paris. The offensive goes forward with the British under their own commander, and the French are told they have an ally who will cooperate and will not obey. Haig keeps his own army and its plan, and Nivelle must fit the offensive to what he will agree. Lloyd George's opinion of his generals is confirmed.",
       },
     ],
   },

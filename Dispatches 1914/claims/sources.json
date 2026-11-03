@@ -873,5 +873,35 @@
     "title": "Djemal Pasha, Memories of a Turkish Statesman 1913-1919 (1922), the chapter on the cruise of the Goeben and Breslau",
     "kind": "web (printed memoir)",
     "url": "https://archive.org/stream/memoriesofturkis00cemarich/memoriesofturkis00cemarich_djvu.txt"
+  },
+  "marxists-trotsky-brest": {
+    "title": "Statement by Trotsky at the Brest-Litovsk Peace Conference on Russia's withdrawal from the war, 10 February 1918 (Marxists Internet Archive)",
+    "kind": "web (primary text, translation)",
+    "url": "https://www.marxists.org/history/ussr/government/foreign-relations/1917-1918/1918/February/10a.htm"
+  },
+  "pitt-decree-peace": {
+    "title": "V. I. Lenin, Decree on Peace, Collected Works, vol. XXVI, pp. 249-53 (University of Pittsburgh)",
+    "kind": "web (primary text, translation)",
+    "url": "https://sites.pitt.edu/~syd/ldp.html"
+  },
+  "avalon-order-1": {
+    "title": "Order No. I of the Petrograd Soviet, March 1 (14), 1917 (The Avalon Project)",
+    "kind": "web (primary text, translation)",
+    "url": "https://avalon.law.yale.edu/20th_century/soviet_001.asp"
+  },
+  "habsburger-karl-manifesto": {
+    "title": "Emperor Karl I and the collapse of the Monarchy: the Manifesto of 16 October 1918 (habsburger.net, translation by Peter John Nicholson)",
+    "kind": "web (primary text, translation)",
+    "url": "https://ww1.habsburger.net/en/node/5826"
+  },
+  "avalon-turkgerm": {
+    "title": "Treaty of Alliance Between Germany and Turkey, 2 August 1914 (The Avalon Project)",
+    "kind": "web (primary text, translation)",
+    "url": "https://avalon.law.yale.edu/20th_century/turkgerm.asp"
+  },
+  "frus-lloyd-george-war-aims": {
+    "title": "Address of the British Prime Minister (Lloyd George) before the Trade Union Conference at London, January 5, 1918, FRUS 1918 Supplement 1 vol. I (Office of the Historian)",
+    "kind": "web (primary text)",
+    "url": "https://history.state.gov/historicaldocuments/frus1918Supp01v01/d4"
   }
 }

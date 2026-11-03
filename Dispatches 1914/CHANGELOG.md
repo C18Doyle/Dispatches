@@ -5,6 +5,19 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## 1.4.5 (2026-10-29)
+### Added: four reports for the thinnest commands, and six more documents from the record
+- **The Ottoman command has two more reports.** Two Divisions at Bulair (August 1915, the landing at Suvla) and Divisions for the Eastern Front (August 1916, the offer of an army corps to Galicia). The Ottoman command now has 23 reports.
+- **The Austro-Hungarian command has two more reports.** The Flank in the Foothills (December 1914, Kraków and the Russian flank at Limanowa) and A New Enemy at the Passes (August 1916, Romania in Transylvania). It now has 24.
+- **Six more real documents open reports:** Trotsky's declaration at Brest-Litovsk, the Decree on Peace, Order No. 1 of the Petrograd Soviet, Emperor Karl's manifesto of 16 October 1918, the German-Ottoman treaty of alliance, and Lloyd George's address on war aims. Each is quoted whole from a published translation and logged as a checked quotation. Every command except the French now has at least two documents, and the German, Russian and British commands have three.
+- The claims for the new reports are logged as drafted and still need a source check.
+
+### Changed: the writing
+- **Fewer outcomes that report a result as being told.** Seventeen outcomes reported a result as someone being told it; all seventeen now say what happened, and a check keeps the habit to three. Five other closing clauses that summed up what the army had learned were cut back to the fact.
+- **Every outcome names something.** Thirteen outcomes that gave no figure, place or person now do (Cologne, Thiepval, Péronne, Przemyśl and the rest), and a check keeps new ones from going without.
+- **Advisers in their own voices.** One adviser who spoke of himself by name now speaks as himself, no two arguments in a report open with the same words, and a check holds the arguments that rest on must, has to or cannot to two fifths. The twelve arguments in the new reports were rewritten to sound like their speakers.
+- **Epilogues without a tidy line.** Ten epilogue openers and closers that read as sayings (what the line was for did not become clearer for having been held; territory is only an asset if it can be held) now say the plain thing.
+
 ## 1.4.4 (2026-10-28)
 ### Changed: the game written one way
 - **Names keep their accents** everywhere (Pétain, Poincaré, Przemyśl, Sarıkamış, Łódź and the rest). A check keeps the plain spellings out.

@@ -145,7 +145,7 @@ CAMPAIGNS.otto.nodes = {
         id: "entente",
         label: "Ask Britain, France and Russia what they would guarantee, before signing anything",
         advisor: { name: "Djemal", position:
-          "Djemal has friends in Paris, and the empire's debt is held there. An offer from the Entente to guarantee its frontiers would cost it nothing, and would show what Germany is worth." },
+          "I have friends in Paris, and the empire's debt is held there. An offer from the Entente to guarantee its frontiers would cost it nothing, and would show what Germany is worth." },
         gate: (m) => m.will >= -2,
         disabledReason: "The ambassador has told Berlin that the empire will sign, and Berlin has told the Kaiser",
         impact: { manpower: 0, munitions: 0, will: -1 },
@@ -213,8 +213,7 @@ CAMPAIGNS.otto.nodes = {
         outcome:
           "Speculative. The Straits stay shut to the German ships, which turn away into the " +
           "Aegean or are held in the Dardanelles under guard. Berlin, which signed an alliance " +
-          "with the empire a week ago, is told that it will be neutral until it has been paid " +
-          "for. The Entente's ambassadors are polite. Neither side has been given a reason to " +
+          "with the empire a week ago, learns that it will be neutral until it has been paid. The Entente's ambassadors are polite. Neither side has been given a reason to " +
           "trust the neutrality. It has bought a few weeks, and nothing that would make them safe.",
       },
     ],
@@ -590,7 +589,7 @@ CAMPAIGNS.otto.nodes = {
           { weight: 88, title: "The landings are contained", historicalBranch: true,
             impact: { manpower: -1, munitions: -1, will: 1 },
             setFlags: { otto_gallipoli: "reserve" },
-            next: "otto_1915_03_kut",
+            next: "otto_1915_05_suvla",
             outcome:
               "The Allies land at Cape Helles and at Anzac on 25 April. Kemal's 19th Division is " +
               "thrown against the heights above the beach, and the reserves are brought forward as " +
@@ -619,13 +618,71 @@ CAMPAIGNS.otto.nodes = {
         disabledReason: "The army does not have the men to hold every beach, and the commander has ordered otherwise",
         impact: { manpower: -2, munitions: -1, will: 0 },
         setFlags: { otto_gallipoli: "forward" },
-        next: "otto_1915_03_kut",
+        next: "otto_1915_05_suvla",
         outcome:
           "Speculative. The divisions dig in above the beaches, where the fleet's guns " +
           "can reach them, and the reserve is a good deal smaller than it was. The " +
           "Allies land where they choose, and meet the defenders on the first day with " +
           "nothing behind them to be brought forward. What the landings find is a thin " +
           "front line, and what is behind it is a long way inland.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1915-08
+  otto_1915_05_suvla: {
+    year: 1915, date: "1915-08-07", city: "Constantinople",
+    title: "Two Divisions at Bulair",
+    advisors: ["enver", "liman"],
+    situation:
+      "In the night of 6 August the British land at Suvla Bay, north of the Anzac positions, and attack at " +
+      "the same time at Lone Pine and on the heights of Sari Bair. Liman von Sanders, who commands the " +
+      "Fifth Army, has a thin screen at Suvla and nothing behind it that is close.\n\n" +
+      "Two of his divisions stand at Bulair, at the neck of the peninsula, where a second landing was " +
+      "expected in the spring and may still come. Liman has asked Constantinople for leave to move them, " +
+      "and wants an answer within hours.",
+    choices: [
+      {
+        id: "south",
+        label: "Order both divisions at Bulair south to the Anafarta ridges at once",
+        historical: true,
+        advisor: { name: "Liman von Sanders", position:
+          "Suvla is the real landing, and no fleet has appeared off Bulair. Both divisions are needed on the ridges by tomorrow night." },
+        impact: { manpower: -1, munitions: -1, will: 1 },
+        next: "otto_1915_03_kut",
+        outcome:
+          "Both divisions march south through the night of 7 August and are on the ridges within two days. " +
+          "Mustafa Kemal is put in command of the northern group on 8 August, and on 10 August his " +
+          "attack takes Chunuk Bair back from the British. The landing at Suvla does not break out of its " +
+          "bay, and Bulair is held by what is left behind.",
+      },
+      {
+        id: "split",
+        label: "Send one division south and keep the other at Bulair",
+        advisor: { name: "Enver", position:
+          "A second landing is still possible, and a division at Bulair is a small price against it. One division can hold the ridges until the rest of the Fifth Army comes up." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "The Fifth Army has already told Constantinople that it cannot hold with one",
+        impact: { manpower: -2, munitions: -1, will: -1 },
+        next: "otto_1915_03_kut",
+        outcome:
+          "Speculative. One division goes south on the night of 7 August and the other stays at Bulair, " +
+          "watching a sea where no second fleet appears. The ridges above Suvla are held by fewer men than " +
+          "the British have to attack them, and Chunuk Bair is not retaken on the 10th. The British " +
+          "keep the heights above Anzac and the line has to be dug again a long way back.",
+      },
+      {
+        id: "shorten",
+        label: "Give up the forward trenches at Anzac and hold the second ridge with the divisions",
+        advisor: { name: "Liman von Sanders", position:
+          "Anzac is too long a line for the men on it. Give up the forward trenches, keep the ridge, and use the battalions that are saved where the British come on." },
+        impact: { manpower: -1, munitions: 0, will: -2 },
+        next: "otto_1915_03_kut",
+        outcome:
+          "Speculative. The Anzac trenches in front of Lone Pine are given up in a night, and the divisions " +
+          "from Bulair take the second ridge behind them. The line is shorter and the losses on the first " +
+          "day are lower, but the British keep ground they had paid heavily for and " +
+          "Anzac becomes a position they can hold.",
       },
     ],
   },
@@ -875,7 +932,7 @@ CAMPAIGNS.otto.nodes = {
         uncertain: [
           { weight: 75, title: "The attack is beaten and the force falls back to El Arish", historicalBranch: true,
             impact: { manpower: -2, munitions: -1, will: -1 },
-            next: "otto_1917_03_baghdad",
+            next: "otto_1916_04_galicia",
             outcome:
               "The force crosses the sand by night and attacks the British outposts at Romani on " +
               "3 August. It is held by the Anzac mounted troops, with infantry behind them, and the " +
@@ -885,7 +942,7 @@ CAMPAIGNS.otto.nodes = {
               "British railway and pipeline go on across Sinai." },
           { weight: 25, title: "The outposts are overrun and the British fall back",
             impact: { manpower: -1, munitions: -1, will: 1 },
-            next: "otto_1917_03_baghdad",
+            next: "otto_1916_04_galicia",
             outcome:
               "Speculative. The attack falls on the outposts before the British mounted troops are " +
               "in place, and the guns and infantry take the high ground above the railhead. The " +
@@ -901,7 +958,7 @@ CAMPAIGNS.otto.nodes = {
           "A force that waits beside its water cannot be made to fight in the sand, and the British have to come on at the pace of their railway." },
         impact: { manpower: 0, munitions: 0, will: -1 },
         setFlags: { otto_romani: "waited" },
-        next: "otto_1917_03_baghdad",
+        next: "otto_1916_04_galicia",
         outcome:
           "Speculative. Kress stays by the wells and waits. The British come on at the pace of " +
           "their railway and their pipeline, a few kilometres at a time, and stop at Romani to " +
@@ -918,13 +975,72 @@ CAMPAIGNS.otto.nodes = {
         disabledReason: "The Sultan's government has told Berlin that Sinai will be held, and the guns are at Beersheba",
         impact: { manpower: 0, munitions: -1, will: -1 },
         setFlags: { otto_romani: "hejaz" },
-        next: "otto_1917_03_baghdad",
+        next: "otto_1916_04_galicia",
         outcome:
           "Speculative. The divisions that would have marched to Romani go by rail to the Hejaz, " +
           "and the revolt is met by more men than the Sharif can answer. Medina and the railway are " +
           "held with less strain. In Sinai the British advance as far as El Arish with hardly a " +
           "shot, and the canal is no longer a front. Djemal has chosen which of his two wars to " +
           "lose slowly.",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------- 1916-08
+  otto_1916_04_galicia: {
+    year: 1916, date: "1916-08-12", city: "Constantinople",
+    title: "Divisions for the Eastern Front",
+    advisors: ["enver", "djemal"],
+    situation:
+      "Berlin and Vienna have asked for Ottoman divisions on the Eastern Front. The Russian offensive has " +
+      "broken the Austro-Hungarian line in Galicia, and Romania is expected to join the Allies. Enver has " +
+      "already said that the empire will help.\n\n" +
+      "The divisions that can be spared are among the best the army has. Erzurum was lost in the winter, " +
+      "the Arab revolt is open in the Hejaz, and the British are laying a railway across Sinai toward the " +
+      "canal. Every division that goes north is a division missing from the Caucasus, Syria or the Tigris.",
+    choices: [
+      {
+        id: "corps",
+        label: "Send an army corps of two divisions to Galicia, as Enver has offered",
+        historical: true,
+        advisor: { name: "Enver", position:
+          "An ally that sends nothing has no claim on anyone. Germany will pay for two divisions in guns and ammunition, and in a hearing for the empire when the peace is made." },
+        impact: { manpower: -2, munitions: 1, will: 0 },
+        next: "otto_1917_03_baghdad",
+        outcome:
+          "The XV Corps, with two divisions, goes by rail through the Balkans and enters the line in " +
+          "Galicia in the late summer. It fights beside the Austro-Hungarians and the Germans in the autumn " +
+          "battles and takes losses that the Ottoman army cannot make good. Berlin is grateful and sends " +
+          "munitions, and the Caucasus, Syria and the Tigris are as thin as they were.",
+      },
+      {
+        id: "division",
+        label: "Send a single division and keep the rest at home",
+        advisor: { name: "Liman von Sanders", position:
+          "One division is a gesture that Germany will accept, and the army can afford it. The rest are needed on the fronts where the British and the Russians are already pressing." },
+        gate: (m) => m.manpower >= -3,
+        disabledReason: "The army cannot spare a division from the fronts that are already thin",
+        impact: { manpower: -1, munitions: 0, will: -1 },
+        next: "otto_1917_03_baghdad",
+        outcome:
+          "Speculative. A single division goes north to Galicia and the rest stay where they are. Berlin takes it " +
+          "as a courtesy and not as a commitment, and the munitions that were to come with a larger " +
+          "force come in smaller loads. The fronts at home keep a division each that they would have lost, " +
+          "and the empire is asked again the following spring.",
+      },
+      {
+        id: "decline",
+        label: "Decline, and keep every division for the Caucasus, Syria and the Tigris",
+        advisor: { name: "Djemal", position:
+          "The Germans will not defend Syria or the Tigris, and divisions sent to Galicia do not come back." },
+        gate: (m) => m.will >= -3,
+        disabledReason: "Enver has already given his word to Berlin",
+        impact: { manpower: 1, munitions: -1, will: -2 },
+        next: "otto_1917_03_baghdad",
+        outcome:
+          "Speculative. The offer is withdrawn, and Berlin hears that the empire has no division it can spare. The German staff says so to Vienna, and the guns and shells that were promised for " +
+          "the help are not sent. The army keeps its divisions in the south and east, and the " +
+          "Germans send fewer officers and less material to the fronts that are left.",
       },
     ],
   },
@@ -1529,8 +1645,7 @@ CAMPAIGNS.otto.nodes = {
         next: "otto_1918_02_megiddo",
         outcome:
           "Speculative. The Army of Islam halts at the Batum frontier, and the divisions that " +
-          "have been gathering at Ganja are sent west and south. Enver is told that Baku " +
-          "will have to wait. The oil goes on being the Germans' concern. In Palestine, " +
+          "have been gathering at Ganja are sent west and south. Baku will have to wait, and Enver has to accept it. The oil goes on being the Germans' concern. In Palestine, " +
           "Liman von Sanders has a few thousand more men than he would have had, and " +
           "the empire has kept the gains that the treaty of Brest-Litovsk gave it.",
       },
