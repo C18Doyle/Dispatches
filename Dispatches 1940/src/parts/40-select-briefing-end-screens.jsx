@@ -1,4 +1,4 @@
-function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia }) {
+function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
   const language = getLanguage();
   const [record, setRecord] = useState(null);
   const [activeRun, setActiveRun] = useState(null);
@@ -636,6 +636,20 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {dyslexia ? t("On") : t("Off")}
+          </button>
+        </div>
+        <div className={`${paper} p-4 flex items-center justify-between`}>
+          <span id="setting-night-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            {t("Night reading (a dark page)")}
+          </span>
+          <button
+            onClick={onToggleNight}
+            aria-pressed={!!night}
+            aria-labelledby="setting-night-label"
+            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {night ? t("On") : t("Off")}
           </button>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>

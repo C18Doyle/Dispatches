@@ -28808,6 +28808,17 @@ const DYSLEXIA_CSS = `
   body p, body li { line-height: 1.75 !important; }
 `;
 
+/**
+ * Night reading: the game's page is already black, and what is light is the paper, so the paper is what is turned: each sheet (the white ones) is inverted and its hues turned
+ * back (the paper becomes dark grey, the ink light, the reds stay red). A sheet inside a sheet is left as it is, and pictures on a sheet are inverted again so that they keep their look.
+ */
+const NIGHT_CSS = `
+  html { color-scheme: dark; }
+  .bg-white { filter: invert(0.9) hue-rotate(180deg); box-shadow: 0 8px 30px rgba(255, 255, 255, 0.5) !important; }
+  .bg-white .bg-white { filter: none; }
+  .bg-white img, .bg-white video, .bg-white canvas { filter: invert(1) hue-rotate(180deg); }
+`;
+
 /** Reads a report aloud with the browser's own voice, where it has one; nothing is drawn where it has none. */
 function ReadAloud({ id, text }) {
   const [on, setOn] = useState(false);
@@ -28967,7 +28978,7 @@ function BattleSketch({ categories, allocation, status, accent, onAdd, onRemove,
     </svg>
   );
 }
-function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia }) {
+function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
   const language = getLanguage();
   const [record, setRecord] = useState(null);
   const [activeRun, setActiveRun] = useState(null);
@@ -29605,6 +29616,20 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {dyslexia ? t("On") : t("Off")}
+          </button>
+        </div>
+        <div className={`${paper} p-4 flex items-center justify-between`}>
+          <span id="setting-night-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            {t("Night reading (a dark page)")}
+          </span>
+          <button
+            onClick={onToggleNight}
+            aria-pressed={!!night}
+            aria-labelledby="setting-night-label"
+            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {night ? t("On") : t("Off")}
           </button>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>
@@ -35475,6 +35500,27 @@ function WW2CommandInner() {
       /* not kept */
     }
   }, [dyslexia]);
+  // Night reading is kept between visits too, and on the first visit follows the browser's dark scheme.
+  const [night, setNight] = useState(() => {
+    try {
+      const saved = window.localStorage.getItem("dispatches1940_night");
+      if (saved === "1" || saved === "0") return saved === "1";
+    } catch (e) {
+      /* no storage: follow the browser */
+    }
+    try {
+      return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    } catch (e) {
+      return false;
+    }
+  });
+  useEffect(() => {
+    try {
+      window.localStorage.setItem("dispatches1940_night", night ? "1" : "0");
+    } catch (e) {
+      /* not kept */
+    }
+  }, [night]);
   // Round 11 (Craig: "The music didn't play during the game"): on by default (previously
   // false, matching the sound-effects toggle's deliberately silent-until-asked pattern — right
   // for typewriter clacks/stamps, wrong for a game score nobody would think to go looking for
@@ -36132,6 +36178,7 @@ function WW2CommandInner() {
         }
       `}</style>
       {dyslexia && <style>{DYSLEXIA_CSS}</style>}
+      {night && <style>{NIGHT_CSS}</style>}
       {reducedMotion && (
         <style>{`
           .stamp-in { animation: none !important; }
@@ -36139,7 +36186,7 @@ function WW2CommandInner() {
         `}</style>
       )}
       <audio ref={musicRef} src={MUSIC_TRACK_SRC} loop preload="none" />
-      {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} dyslexia={dyslexia} onToggleDyslexia={() => setDyslexia((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
+      {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} dyslexia={dyslexia} onToggleDyslexia={() => setDyslexia((v) => !v)} night={night} onToggleNight={() => setNight((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
       {screen === "warroom" && campaign && (
         <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaignId, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
       )}
