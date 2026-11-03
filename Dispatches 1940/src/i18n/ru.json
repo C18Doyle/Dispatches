@@ -795,5 +795,6 @@
   "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "Подтверждённых отклонений от исторической картины, отмеченных выше: {count}.",
   "Ownership shown through end of {statusYear}.": "Принадлежность показана на конец {statusYear} года.",
   "{name} has put in a request to leave the staff. The orders you have given have passed over {name}'s advice too often, and {name} will not go on arguing a case that is not heard.": "{name} подал просьбу покинуть штаб. Отданные вами приказы слишком часто обходили стороной его советы, и {name} не станет и дальше отстаивать мнение, которого не слушают.",
-  "The request is granted. {name}'s advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "Просьба удовлетворена. Этого совета вам больше не будут давать, и приказам, которые отстаивал бы {name}, придётся держаться самим."
+  "The request is granted. {name}'s advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "Просьба удовлетворена. Этого совета вам больше не будут давать, и приказам, которые отстаивал бы {name}, придётся держаться самим.",
+  "Night reading (a dark page)": "Ночное чтение (тёмная страница)"
 }

@@ -97,6 +97,17 @@ const DYSLEXIA_CSS = `
   body p, body li { line-height: 1.75 !important; }
 `;
 
+/**
+ * Night reading: the game's page is already black, and what is light is the paper, so the paper is what is turned: each sheet (the white ones) is inverted and its hues turned
+ * back (the paper becomes dark grey, the ink light, the reds stay red). A sheet inside a sheet is left as it is, and pictures on a sheet are inverted again so that they keep their look.
+ */
+const NIGHT_CSS = `
+  html { color-scheme: dark; }
+  .bg-white { filter: invert(0.9) hue-rotate(180deg); box-shadow: 0 8px 30px rgba(255, 255, 255, 0.5) !important; }
+  .bg-white .bg-white { filter: none; }
+  .bg-white img, .bg-white video, .bg-white canvas { filter: invert(1) hue-rotate(180deg); }
+`;
+
 /** Reads a report aloud with the browser's own voice, where it has one; nothing is drawn where it has none. */
 function ReadAloud({ id, text }) {
   const [on, setOn] = useState(false);

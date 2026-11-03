@@ -795,5 +795,6 @@
   "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "上方已标出 {count} 处与历史记录不同的已确认变化。",
   "Ownership shown through end of {statusYear}.": "所示归属截至 {statusYear} 年底。",
   "{name} has put in a request to leave the staff. The orders you have given have passed over {name}'s advice too often, and {name} will not go on arguing a case that is not heard.": "{name}已提出离开参谋部的请求。你下达的命令一再无视了建议，{name}不会再为一个无人倾听的主张争辩。",
-  "The request is granted. {name}'s advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "请求已获批准。这些建议不会再向你提起，{name}本会力争的命令只能靠自己站住脚。"
+  "The request is granted. {name}'s advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.": "请求已获批准。这些建议不会再向你提起，{name}本会力争的命令只能靠自己站住脚。",
+  "Night reading (a dark page)": "夜间阅读（深色页面）"
 }
