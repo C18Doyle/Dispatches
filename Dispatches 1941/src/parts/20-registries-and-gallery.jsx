@@ -392,7 +392,9 @@ function Stamp({ text, color, campaignId }) {
 
 const NODE_ATLAS = {
   japan: [
+    { id: "nomonhan39", date: "AUGUST – SEPTEMBER 1939", title: "Nomonhan and the Pact" },
     { id: "chinaPeaceQuestion40", date: "1940", title: "The China Question, Unsolved" },
+    { id: "indochinaMission40", date: "JUNE 1940", title: "France Falls: The Door to China" },
     { id: "burmaRoad40", date: "JULY 1940", title: "The Burma Road" },
     { id: "tripartitePact40", date: "SEPTEMBER 1940", title: "The Tripartite Pact" },
     { id: "unificationQuestion40", date: "LATE 1940", title: "Two Services, Two Wars" },
@@ -465,6 +467,9 @@ const NODE_ATLAS = {
     { id: "coldWarOpening48", date: "1947 – 1950", title: "The Uses of an Unconquered Japan" },
   ],
   alliedPacific: [
+    { id: "fleetAtHawaii40", date: "MAY 1940", title: "The Fleet Stays at Hawaii" },
+    { id: "richardsonObjection40", date: "OCTOBER 1940", title: "Richardson's Objection" },
+    { id: "atlanticTransfer41", date: "MAY – JUNE 1941", title: "Ships for the Atlantic" },
     { id: "americanEmbargoResponse41", date: "JULY 1941", title: "The Embargo Decision" },
     { id: "chinaAirForce41", date: "JULY – NOVEMBER 1941", title: "A Bomber Force for China" },
     { id: "aStandoffInsteadOfAWar41", date: "LATE 1941 – 1943", title: "A War Fought Without the United States" },
@@ -827,7 +832,7 @@ const HARD_MODE_OF = { japan: "fanatical", alliedPacific: "coalition" };
 // Named for a famous failure of each side: the Shinano, the carrier sunk on her maiden voyage; the Mark 14 torpedo, which ran too deep and often did not explode.
 const EASY_MODE_NAMES = { japan: "Shinano Command", alliedPacific: "Mark 14 Command" };
 
-const NODE_TOTAL = 146; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
+const NODE_TOTAL = 151; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
 // or seriously built programs (Project X-Ray's bat bombs, the I-400 submarine carriers'
 // Panama Canal mission) that were genuinely pursued and then overtaken by events, not
 // invented for flavor. Both cite real, checked figures and dates.
@@ -1097,6 +1102,47 @@ const STATE_EVENTS = [
     paras: [
       "The ships on the Okinawa stations are at general quarters for much of every day and night. Sailors who have gone without sleep for days fall ill with what the medical officers call combat fatigue, and the sick lists show it.",
       "The fatigue is one reason the Navy relieves the ships on the stations by turn, and one more cost of a campaign that lasts close to three months.",
+    ],
+  },
+  // ---- more from outside the headquarters ----
+  {
+    id: "japan_singapore", campaign: "japan", kind: "The war", anchor: "burmaRangoon42",
+    from: "1942-02", to: "1942-03", date: "FEBRUARY 1942",
+    title: "Singapore",
+    when: () => true,
+    paras: [
+      "Singapore surrenders on 15 February 1942, a week after the first Japanese troops cross the strait. Percival, the British commander, gives up a garrison of tens of thousands of British, Indian and Australian troops. It is the largest surrender in British military history.",
+      "The Southern Operation is weeks ahead of its timetable. The Army and Navy staffs have to plan the next stage of a war that is going better than they expected.",
+    ],
+  },
+  {
+    id: "japan_tokyo_raid", campaign: "japan", kind: "The home front", anchor: "okinawa45",
+    from: "1945-03", to: "1945-04", date: "MARCH 1945",
+    title: "The Night of 9 March",
+    when: () => true,
+    paras: [
+      "On the night of 9 to 10 March 1945, B-29s from the Marianas drop incendiaries on the crowded east side of Tokyo from low altitude. The fire destroys about sixteen square miles of the city. Estimates of the dead run from about 80,000 to more than 100,000.",
+      "It is the first of the low-level fire raids on the large cities. In the ten days that follow the same method is used on Nagoya, Osaka and Kobe.",
+    ],
+  },
+  {
+    id: "allied_singapore", campaign: "alliedPacific", kind: "The war", anchor: "curtinsTurn42",
+    from: "1942-02", to: "1942-02", date: "FEBRUARY 1942",
+    title: "Singapore Falls",
+    when: () => true,
+    paras: [
+      "Singapore surrenders on 15 February 1942. Percival gives up a garrison of tens of thousands of British, Indian and Australian troops, the largest surrender in British military history.",
+      "In Washington and Canberra the fall is read as the end of the Malay Barrier. The Australian government, with its best divisions in the Middle East, turns to the United States for its defense.",
+    ],
+  },
+  {
+    id: "allied_germany", campaign: "alliedPacific", kind: "Politics", anchor: "kyotoTargetDebate45",
+    from: "1945-05", to: "1945-06", date: "MAY 1945",
+    title: "Germany Surrenders",
+    when: () => true,
+    paras: [
+      "Germany signs an unconditional surrender at Reims early on 7 May 1945, and the act is ratified in Berlin on 8 May. The war in Europe is over.",
+      "The Pacific is now the whole of the war, and the forces that fought in Europe are to be redeployed across the world to the Pacific.",
     ],
   },
 ];

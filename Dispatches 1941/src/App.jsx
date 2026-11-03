@@ -850,13 +850,13 @@ const CAMPAIGNS = {
     id: "japan",
     seal: "IGHQ",
     name: "Imperial General Headquarters",
-    dates: "Beginning 1940",
-    brief: "Direct Japan's war from the road to the Tripartite Pact to the surrender debate.",
+    dates: "Beginning 1939",
+    brief: "Direct Japan's war from the ceasefire at Nomonhan to the surrender debate.",
     teaser: "A war chosen in confidence, fought in doubt.",
     accent: "#5c1a1a",
     dynamic: true,
-    intro: "September 1940. The alliance with Germany and Italy is on the table. China is unresolved after three years of war, and the oil and rubber of the Southern Resource Area lie behind every argument in the room.",
-    start: "chinaPeaceQuestion40",
+    intro: "August 1939. The Army has been beaten on the Manchurian border by a Soviet army it thought inferior, and Berlin has signed a pact with Moscow without a word to Tokyo. China is unresolved after two years of war, and the oil and rubber of the Southern Resource Area lie behind every argument in the room.",
+    start: "nomonhan39",
     resolveNode(id, flags, meters) {
       const carriersUntouched = !!flags.usCarriersUntouched;
 
@@ -875,7 +875,7 @@ const CAMPAIGNS = {
               historical: true,
               setFlags: { chinaPeacePath: "continueWar" },
               impact: { readiness: 0, pipeline: -1, initiative: 0 },
-              next: "burmaRoad40",
+              next: "indochinaMission40",
               outcome:
                 "China's war grinds on with no resolution, consuming roughly a million men Japan will spend the rest of the war wishing it had for the Southern Operation and, later, for the mainland crisis of 1944. Tokyo recognizes Wang Jingwei's government in November 1940, Germany and Italy in 1941, and almost no one else ever does.",
             },
@@ -884,7 +884,7 @@ const CAMPAIGNS = {
               advisor: { name: "Konoe", position: "Refusing to deal with Chiang's government has failed for three years, and continuing to refuse is the real weakness, however much saying so now sounds like weakness." },
               setFlags: { chinaPeacePath: "negotiate", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
-              next: "burmaRoad40",
+              next: "indochinaMission40",
               uncertain: [
                 {
                   weight: modWeight(40, meters.readiness),
@@ -911,7 +911,7 @@ const CAMPAIGNS = {
               advisor: { name: "Sugiyama", position: "Pressure alone has not produced terms in three years, so the army should press and keep a back channel open, and try both before conceding that either has failed." },
               setFlags: { chinaPeacePath: "pressureAndTalk" },
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
-              next: "burmaRoad40",
+              next: "indochinaMission40",
               outcome:
                 "A harder push against Chiang's remaining strongholds, paired with an intermediary channel neither side treats as a real offer yet. It satisfies neither the Army's wish for a decisive campaign nor Konoe's case for genuine terms, and it reproduces the war as it was: pressure without resolution, a channel that is never seriously used, and the same million men committed to a war that was supposed to be over in months.",
             },
@@ -938,7 +938,7 @@ const CAMPAIGNS = {
               ? " London refused the demand over the Burma Road in July. The Navy says this is what a pact with Germany will bring on, from Britain and from America."
               : flags.burmaRoadPath === "bombed"
               ? " The Army's bombers have raided the Burma Road since July, and Chinese labor has repaired it each time."
-              : ""),
+              : "") + (flags.indochinaNorthPath === "inspectors" ? " Nishihara's inspectors have been in Hanoi since the summer, and the route to China through Indochina is closed to arms." : flags.indochinaNorthPath === "demand" && flags.indochinaMissionResult === "yielded" ? " France gave way to the demand for bases in the north of Indochina, and the Army has them." : flags.indochinaNorthPath === "demand" && flags.indochinaMissionResult === "refused" ? " France refused the demand for bases in the north of Indochina and has taken it to London and Washington." : flags.indochinaNorthPath === "leave" ? " The Army left Indochina alone this summer, and the railway to Kunming still carries part of what China needs." : ""),
           choices: [
             {
               label: "Sign the Tripartite Pact, formalizing the alliance with Germany and Italy",
@@ -1006,6 +1006,93 @@ const CAMPAIGNS = {
               next: "neutralityPact41",
               outcome:
                 "A modeled alternative. The Army and Navy bureaus are merged into one office for decryption, and the services otherwise stay apart. It is a smaller change than a joint command and a less painful one. Intercepts are read once and shared, and the quarrel over aircraft and intelligence goes on.",
+            },
+          ],
+        };
+        },
+        get nomonhan39() {
+          return {
+          date: "AUGUST – SEPTEMBER 1939",
+          title: "Nomonhan and the Pact",
+          historicalRecord: true,
+          situation:
+            "On the Manchurian border near Nomonhan, the Kwantung Army has been fighting a Soviet army since May. In August the Soviet army under Zhukov attacks with tanks and artillery and mauls the Japanese 23rd Division. On 23 August Berlin signs a non-aggression pact with Moscow, without a word to Tokyo, after two years in which Japan has counted on Germany as the enemy of the Soviet Union. The Hiranuma cabinet resigns, and General Abe forms a new one on 30 August. The Army and the Navy have to say what the border war is for now.",
+          choices: [
+            {
+              label: "Accept a ceasefire on the border: stop the fighting at Nomonhan and open talks on the frontier",
+              advisor: { name: "Umezu", position: "The Kwantung Army has lost its best division on the border, and the way to keep the rest is a ceasefire on the ground that is left. The frontier can be argued about after the fighting has stopped." },
+              historical: true,
+              setFlags: { nomonhanPath: "ceasefire" },
+              impact: { readiness: 1, pipeline: 0, initiative: -1 },
+              next: "chinaPeaceQuestion40",
+              outcome:
+                "A ceasefire is agreed in Moscow on 15 September and the fighting on the border stops. The Army has lost a division's worth of men and guns to a Soviet army it had judged inferior, and the idea of a war against the Soviet Union loses ground inside the General Staff. The Navy, which wanted its war in the south, gains by it.",
+            },
+            {
+              label: "Prepare a second battle: keep the Sixth Army on the border and plan a larger offensive for the spring",
+              advisor: { name: "Sugiyama", position: "A defeat on the border is not a reason to leave the border. The Army can bring in the divisions and the guns it lacked in August, and answer in the spring." },
+              setFlags: { nomonhanPath: "renew", suspicion: (flags.suspicion || 0) + 1 },
+              impact: { readiness: -2, pipeline: -1, initiative: 1 },
+              next: "chinaPeaceQuestion40",
+              outcome:
+                "A modeled alternative. Staff officers did plan to renew the fighting, and the ceasefire after the pact stopped it. A second battle against the same Soviet army, on the same ground and the same railhead, risks a second defeat, and it takes divisions that the China war is already using.",
+            },
+          ],
+        };
+        },
+        get indochinaMission40() {
+          return {
+          date: "JUNE 1940",
+          title: "France Falls: The Door to China",
+          historicalRecord: true,
+          situation:
+            "France has asked for an armistice, and Britain stands alone. Chiang's government still receives much of what it needs through French Indochina, by the railway from Haiphong to Kunming. The Army and the Navy both press Tokyo to use France's collapse. The Governor-General in Hanoi accepts a Japanese demand on 20 June to stop shipments of arms and fuel to China, and the Army sends a small mission under General Nishihara to Hanoi to check that he does. What the mission is to do next has not been decided.",
+          choices: [
+            {
+              label: "Send Nishihara's inspectors to Hanoi to watch the border and the railway, and ask for nothing else yet",
+              advisor: { name: "Yonai", position: "The Navy wants the supply route closed without a war with France, and inspectors can close it. A demand for bases would turn a bargain into a quarrel before Washington has made up its mind." },
+              historical: true,
+              setFlags: { indochinaNorthPath: "inspectors" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "burmaRoad40",
+              outcome:
+                "The mission reaches Hanoi at the end of June and watches the railway and the frontier. It asks for no troops and no bases, and the Army asks for them in September, when Vichy has had time to be frightened of Germany's victory and not of Japan. The route to China through Indochina is closed to arms.",
+            },
+            {
+              label: "Demand air bases and the right to move troops through northern Indochina at once",
+              advisor: { name: "Sugiyama", position: "France will not be weaker than it is this month. A demand for bases made now will be met, and a demand made when Vichy has recovered will be refused." },
+              setFlags: { indochinaNorthPath: "demand", suspicion: (flags.suspicion || 0) + 1 },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "burmaRoad40",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "The Governor-General gives way",
+                  setFlags: { indochinaMissionResult: "yielded" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                  outcome:
+                    "Speculative. The Governor-General yields in July, and the Army has airfields and a railhead in the north of Indochina two months before the real agreement. Washington notes the date.",
+                },
+                {
+                  weight: (() => { const w = modWeight(40, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The Governor-General refuses and appeals abroad",
+                  setFlags: { indochinaMissionResult: "refused" },
+                  impact: { readiness: -1, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. Hanoi refuses and sends the demand to London and Washington. The demand has told both what Japan wants in the south, and it has not got it.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The Army\x27s wish was bases in the north of Indochina, and it got them in the autumn of 1940 by a harder road, after a short fight at Lang Son. Whether a demand in June would have been met is not something the record settles.",
+            },
+            {
+              label: "Leave Indochina alone and put the effort into the war in China",
+              advisor: { name: "Yamamoto", position: "Every new front is a new quarrel with Britain, America or France, and the war in China is not finished. A pause in the south would leave the Army with fewer enemies and the Navy with its fuel." },
+              setFlags: { indochinaNorthPath: "leave" },
+              impact: { readiness: 1, pipeline: 1, initiative: -1 },
+              next: "burmaRoad40",
+              outcome:
+                "A modeled alternative. The railway from Haiphong goes on carrying part of what China needs, and the Army\x27s divisions in China have one fewer reason to complain. The southern argument is put off to a month when Germany is winning and Japan has less to say.",
             },
           ],
         };
@@ -1081,7 +1168,7 @@ const CAMPAIGNS = {
             "Matsuoka is in Moscow on his way home from Berlin. In Berlin, Ribbentrop pressed him to take Singapore. Moscow has offered a neutrality pact. For the Navy it secures the northern border while the fleet turns south. For the Army's northern school it ends the plan for a war against the Soviet Union that the Army has preferred since Nomonhan two years ago. The Soviet army in the Far East is one of the largest in the world." +
             (flags.tripartitePath === "signed"
               ? " Japan is an ally of Germany by the Tripartite Pact, and Berlin has said nothing about a pact with Moscow."
-              : ""),
+              : "") + (flags.nomonhanPath === "ceasefire" ? " The ceasefire of September 1939 still holds on the border." : flags.nomonhanPath === "renew" ? " The Army's plan for a second battle at Nomonhan has not been dropped." : ""),
           choices: [
             {
               label: "Sign the five-year neutrality pact with the Soviet Union",
@@ -4456,13 +4543,13 @@ const CAMPAIGNS = {
     id: "alliedPacific",
     seal: "CINCPAC",
     name: "Allied Pacific Command",
-    dates: "Beginning 1941",
-    brief: "Direct the Allied war against Japan from the embargo decision to the surrender.",
+    dates: "Beginning 1940",
+    brief: "Direct the Allied war against Japan from the fleet at Hawaii to the surrender.",
     teaser: "One war, four allies, and no agreement on how to win it.",
     accent: "#28497a",
     dynamic: true,
-    intro: "July 1941. Japan has occupied southern Indochina, and how strictly Washington enforces the freeze on Japanese assets is still an open question.",
-    start: "americanEmbargoResponse41",
+    intro: "May 1940. The Pacific Fleet has finished its spring exercise off Hawaii, and the President has asked the Navy to keep it there. Germany is sweeping across Europe, and Japan is watching what America does.",
+    start: "fleetAtHawaii40",
     resolveNode(id, flags, meters) {
       return {
         get americanEmbargoResponse41() {
@@ -4471,7 +4558,7 @@ const CAMPAIGNS = {
           title: "The Embargo Decision",
           historicalRecord: true,
           situation:
-            "Japan's occupation of southern Indochina is complete, and Roosevelt has signed an order freezing Japanese assets in the United States, a step meant to signal serious displeasure without necessarily foreclosing every avenue of trade. Britain and the Dutch East Indies government have moved in step, freezing Japanese assets of their own on the assumption that Washington's order will hold as a real, coordinated front. The order itself doesn't specify exactly how strictly the resulting licensing system should be enforced, and in the weeks that follow, whether Japan can still buy any oil at all is effectively decided administratively: State and Treasury officials interpret the freeze more strictly than some in the administration privately expected, and the licenses that would let limited oil shipments continue simply stop being issued. What began as calculated pressure is quietly becoming a total embargo without anyone in the Cabinet having explicitly voted for one.",
+            "Japan's occupation of southern Indochina is complete, and Roosevelt has signed an order freezing Japanese assets in the United States, a step meant to signal serious displeasure without necessarily foreclosing every avenue of trade. Britain and the Dutch East Indies government have moved in step, freezing Japanese assets of their own on the assumption that Washington's order will hold as a real, coordinated front. The order itself doesn't specify exactly how strictly the resulting licensing system should be enforced, and in the weeks that follow, whether Japan can still buy any oil at all is effectively decided administratively: State and Treasury officials interpret the freeze more strictly than some in the administration privately expected, and the licenses that would let limited oil shipments continue simply stop being issued. What began as calculated pressure is quietly becoming a total embargo without anyone in the Cabinet having explicitly voted for one." + (flags.fleetBasingPath === "hawaii" ? " The fleet has lain at Pearl Harbor since the spring of 1940." : flags.fleetBasingPath === "hawaiiSupplied" ? " The fleet has lain at Pearl Harbor since the spring of 1940, with its tenders and tankers beside it." : flags.fleetBasingPath === "coast" ? " The fleet went home to the West Coast in 1940 and is a week's steaming from Hawaii." : "") + (flags.atlanticTransferPath === "sent" ? " The Atlantic has taken a carrier, three battleships and their escorts from the Pacific Fleet." : flags.atlanticTransferPath === "partial" ? " The Atlantic has taken the older ships of the Pacific Fleet and left it the carrier." : flags.atlanticTransferPath === "refused" && flags.atlanticTransferResult === "yielded" ? " The Pacific Fleet kept part of the ships the Atlantic asked for." : flags.atlanticTransferPath === "refused" && flags.atlanticTransferResult === "overruled" ? " The Atlantic has taken its ships from the Pacific Fleet over its objection." : ""),
           choices: [
             {
               label: "Let the strict interpretation stand: a de facto total oil embargo",
@@ -4811,6 +4898,149 @@ const CAMPAIGNS = {
         },
         get warWithoutAmerica45() {
           return dataNode(ALLIED_PACIFIC_DATA, "warWithoutAmerica45", meters);
+        },
+        get fleetAtHawaii40() {
+          return {
+          date: "MAY 1940",
+          title: "The Fleet Stays at Hawaii",
+          historicalRecord: true,
+          situation:
+            "The Pacific Fleet has finished its spring exercise off Hawaii. Its home is the West Coast, and it is due to go back. With Germany sweeping across Europe, the President has asked the Navy to keep the fleet at Pearl Harbor, to give Japan something to think about. Admiral Richardson, who commands it, doubts that the ships can be supplied and manned there, and doubts that staying will deter anyone. The fleet's tankers, tenders and training establishments are on the coast.",
+          choices: [
+            {
+              label: "Keep the fleet at Pearl Harbor, as the President asks",
+              advisor: { name: "Roosevelt", position: "A fleet at Hawaii tells Tokyo that America is watching the Pacific while Europe burns. It can go home when the signal stops mattering." },
+              historical: true,
+              setFlags: { fleetBasingPath: "hawaii" },
+              impact: { readiness: -1, pipeline: -1, initiative: 1 },
+              next: "richardsonObjection40",
+              outcome:
+                "The fleet stays at Pearl Harbor through the summer and on into the autumn. Richardson protests in Washington that Hawaii has too few tenders, tankers and training facilities, and that the move will do no good with Tokyo. The ships spend a year at a base that was built to hold them for an exercise.",
+            },
+            {
+              label: "Return the fleet to San Diego, as Richardson asks",
+              advisor: { name: "Nimitz", position: "The fleet\x27s crews are trained and fed from the coast. Bringing them back keeps the ships ready, and keeping them at Hawaii wears them out without making them any safer." },
+              setFlags: { fleetBasingPath: "coast" },
+              impact: { readiness: 1, pipeline: 1, initiative: -2 },
+              next: "richardsonObjection40",
+              outcome:
+                "A modeled alternative. The fleet goes home to the coast, and the President\x27s signal to Tokyo is not sent. The fleet is better manned and supplied, and it is a week\x27s steaming from Hawaii when the crisis of 1941 comes.",
+            },
+            {
+              label: "Keep the fleet at Hawaii, and order the tenders, tankers and repair ships out to meet it",
+              advisor: { name: "King", position: "A fleet that stays should be supplied to stay. The train comes first, and the base can be built around the ships that are already there." },
+              setFlags: { fleetBasingPath: "hawaiiSupplied" },
+              impact: { readiness: 0, pipeline: -2, initiative: 1 },
+              next: "richardsonObjection40",
+              outcome:
+                "A modeled alternative. Richardson\x27s complaint was that the fleet was sent to Hawaii without the ships that keep it there. Sending the train as well costs the Navy auxiliaries it does not have in numbers, and takes them from the West Coast and the Atlantic.",
+            },
+          ],
+        };
+        },
+        get richardsonObjection40() {
+          return {
+          date: "OCTOBER 1940",
+          title: "Richardson's Objection",
+          historicalRecord: true,
+          situation:
+            "On 8 October Richardson lunches with the President at the White House and says that the fleet should not be at Hawaii, and that the Navy\x27s senior officers do not have confidence in the civilian leadership to use it properly. On 26 October a Washington newsletter predicts that he will be relieved. The Navy Department has a decision to make about the man who commands the fleet and about the place where it lies." +
+            (flags.fleetBasingPath === "coast"
+              ? " The fleet is on the West Coast. Richardson\x27s argument is about the next time it is asked to move."
+              : ""),
+          choices: [
+            {
+              label: "Relieve Richardson and give the fleet to Kimmel early in the new year",
+              advisor: { name: "Roosevelt", position: "A fleet commander who tells the Commander in Chief that his order is wrong cannot keep the fleet, whatever his reasons are. The order stands, and an officer who will carry it out gets the command." },
+              historical: true,
+              setFlags: { richardsonPath: "relieved" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "atlanticTransfer41",
+              outcome:
+                "Richardson hands the fleet to Admiral Husband Kimmel on 1 February 1941. The fleet stays at Pearl Harbor. The Navy has shown that an officer who argues with the President about where the fleet lies does not keep it.",
+            },
+            {
+              label: "Keep Richardson and bring the fleet home to the West Coast",
+              advisor: { name: "King", position: "An admiral who tells the Commander in Chief what he thinks of an order should be heard before he is relieved, and the fleet is his to judge. The order can be changed." },
+              setFlags: { richardsonPath: "heard" },
+              impact: { readiness: 1, pipeline: 1, initiative: -2 },
+              next: "atlanticTransfer41",
+              outcome:
+                "A modeled alternative. The President\x27s signal to Tokyo is withdrawn, and the officer who argued against it keeps the fleet. The Navy\x27s senior officers are told that an honest objection is heard, and the White House is told that the Navy has a mind of its own.",
+            },
+            {
+              label: "Keep Richardson at Hawaii and give him the reinforcements and auxiliaries he asked for",
+              advisor: { name: "Nimitz", position: "He asked for ships, crews and a base that can hold them. A commander who gets what he asks for can be held to the task, and one who does not cannot." },
+              setFlags: { richardsonPath: "reinforced" },
+              impact: { readiness: 1, pipeline: -2, initiative: 0 },
+              next: "atlanticTransfer41",
+              outcome:
+                "A modeled alternative. Richardson stays at Pearl Harbor with some of what he asked for, at the cost of ships and men that the Atlantic and the training establishments wanted. He is a harder man to move later and a more cooperative one now.",
+            },
+          ],
+        };
+        },
+        get atlanticTransfer41() {
+          return {
+          date: "MAY – JUNE 1941",
+          title: "Ships for the Atlantic",
+          historicalRecord: true,
+          situation:
+            "The war in the Atlantic is going badly for Britain: German submarines are sinking merchant ships faster than they can be replaced, and the President wants more escorts west of Iceland. In May the Navy Department orders part of the Pacific Fleet to the Atlantic: a carrier, three battleships, four light cruisers and a number of destroyers. The staff at Pearl Harbor knows what the Pacific will have left." +
+            (flags.richardsonPath === "relieved"
+              ? " Kimmel has had the fleet since the first of February."
+              : flags.richardsonPath === "heard" || flags.richardsonPath === "reinforced"
+              ? " Richardson, who still has the fleet, has said in writing what he thinks of a fleet divided."
+              : ""),
+          choices: [
+            {
+              label: "Send the ships to the Atlantic as ordered",
+              advisor: { name: "King", position: "The Atlantic is where the war is being lost this spring, and the ships are needed there now. The Pacific can do without them for a few months." },
+              historical: true,
+              setFlags: { atlanticTransferPath: "sent" },
+              impact: { readiness: -2, pipeline: 0, initiative: -1 },
+              next: "americanEmbargoResponse41",
+              outcome:
+                "The carrier Yorktown, three battleships, four light cruisers and a number of destroyers go through the Panama Canal in May and June. The Pacific Fleet that is left is the fleet that will be at Pearl Harbor in December, with the old battleships and no carrier at the anchorage.",
+            },
+            {
+              label: "Send the older ships and keep the carrier in the Pacific",
+              advisor: { name: "Layton", position: "Japan counts the Pacific Fleet\x27s carriers and battleships, and the Atlantic has no use for one carrier more. The old ships can go, and the carrier is the one thing the fleet cannot spare." },
+              setFlags: { atlanticTransferPath: "partial" },
+              impact: { readiness: -1, pipeline: 0, initiative: 0 },
+              next: "americanEmbargoResponse41",
+              outcome:
+                "A modeled alternative. The Atlantic gets battleships and cruisers that are no use in a carrier war, and the Pacific keeps the carrier that will matter in one. Admiral King\x27s escorts in the Atlantic have less than the Navy Department promised the President.",
+            },
+            {
+              label: "Refuse the transfer: tell the Chief of Naval Operations that the Pacific Fleet cannot spare a ship",
+              advisor: { name: "Nimitz", position: "A fleet cut in half does not deter anyone, and Japan can count the ships that are left. The Pacific is a theater, and it should not be left to look after itself." },
+              setFlags: { atlanticTransferPath: "refused" },
+              impact: { readiness: 1, pipeline: 0, initiative: -1 },
+              next: "americanEmbargoResponse41",
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.initiative),
+                  title: "The Navy Department gives part of the order up",
+                  setFlags: { atlanticTransferResult: "yielded" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                  outcome:
+                    "Speculative. The Chief of Naval Operations lets the Pacific keep some of the ships, and the Atlantic escorts are a few ships short of the plan.",
+                },
+                {
+                  weight: (() => { const w = modWeight(30, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The order stands",
+                  setFlags: { atlanticTransferResult: "overruled" },
+                  impact: { readiness: -2, pipeline: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The President\x27s decision is not for a fleet commander to refuse. The ships go anyway, and the objection is on the record in Washington.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The transfer was ordered by the President and the Chief of Naval Operations, and the Pacific Fleet\x27s staff could object but not refuse. Here the objection is made as a refusal, and the answer decides how it is remembered.",
+            },
+          ],
+        };
         },
         get chinaAirForce41() {
           return {
@@ -8201,7 +8431,9 @@ function Stamp({ text, color, campaignId }) {
 
 const NODE_ATLAS = {
   japan: [
+    { id: "nomonhan39", date: "AUGUST – SEPTEMBER 1939", title: "Nomonhan and the Pact" },
     { id: "chinaPeaceQuestion40", date: "1940", title: "The China Question, Unsolved" },
+    { id: "indochinaMission40", date: "JUNE 1940", title: "France Falls: The Door to China" },
     { id: "burmaRoad40", date: "JULY 1940", title: "The Burma Road" },
     { id: "tripartitePact40", date: "SEPTEMBER 1940", title: "The Tripartite Pact" },
     { id: "unificationQuestion40", date: "LATE 1940", title: "Two Services, Two Wars" },
@@ -8274,6 +8506,9 @@ const NODE_ATLAS = {
     { id: "coldWarOpening48", date: "1947 – 1950", title: "The Uses of an Unconquered Japan" },
   ],
   alliedPacific: [
+    { id: "fleetAtHawaii40", date: "MAY 1940", title: "The Fleet Stays at Hawaii" },
+    { id: "richardsonObjection40", date: "OCTOBER 1940", title: "Richardson's Objection" },
+    { id: "atlanticTransfer41", date: "MAY – JUNE 1941", title: "Ships for the Atlantic" },
     { id: "americanEmbargoResponse41", date: "JULY 1941", title: "The Embargo Decision" },
     { id: "chinaAirForce41", date: "JULY – NOVEMBER 1941", title: "A Bomber Force for China" },
     { id: "aStandoffInsteadOfAWar41", date: "LATE 1941 – 1943", title: "A War Fought Without the United States" },
@@ -8636,7 +8871,7 @@ const HARD_MODE_OF = { japan: "fanatical", alliedPacific: "coalition" };
 // Named for a famous failure of each side: the Shinano, the carrier sunk on her maiden voyage; the Mark 14 torpedo, which ran too deep and often did not explode.
 const EASY_MODE_NAMES = { japan: "Shinano Command", alliedPacific: "Mark 14 Command" };
 
-const NODE_TOTAL = 146; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
+const NODE_TOTAL = 151; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
 // or seriously built programs (Project X-Ray's bat bombs, the I-400 submarine carriers'
 // Panama Canal mission) that were genuinely pursued and then overtaken by events, not
 // invented for flavor. Both cite real, checked figures and dates.
@@ -8906,6 +9141,47 @@ const STATE_EVENTS = [
     paras: [
       "The ships on the Okinawa stations are at general quarters for much of every day and night. Sailors who have gone without sleep for days fall ill with what the medical officers call combat fatigue, and the sick lists show it.",
       "The fatigue is one reason the Navy relieves the ships on the stations by turn, and one more cost of a campaign that lasts close to three months.",
+    ],
+  },
+  // ---- more from outside the headquarters ----
+  {
+    id: "japan_singapore", campaign: "japan", kind: "The war", anchor: "burmaRangoon42",
+    from: "1942-02", to: "1942-03", date: "FEBRUARY 1942",
+    title: "Singapore",
+    when: () => true,
+    paras: [
+      "Singapore surrenders on 15 February 1942, a week after the first Japanese troops cross the strait. Percival, the British commander, gives up a garrison of tens of thousands of British, Indian and Australian troops. It is the largest surrender in British military history.",
+      "The Southern Operation is weeks ahead of its timetable. The Army and Navy staffs have to plan the next stage of a war that is going better than they expected.",
+    ],
+  },
+  {
+    id: "japan_tokyo_raid", campaign: "japan", kind: "The home front", anchor: "okinawa45",
+    from: "1945-03", to: "1945-04", date: "MARCH 1945",
+    title: "The Night of 9 March",
+    when: () => true,
+    paras: [
+      "On the night of 9 to 10 March 1945, B-29s from the Marianas drop incendiaries on the crowded east side of Tokyo from low altitude. The fire destroys about sixteen square miles of the city. Estimates of the dead run from about 80,000 to more than 100,000.",
+      "It is the first of the low-level fire raids on the large cities. In the ten days that follow the same method is used on Nagoya, Osaka and Kobe.",
+    ],
+  },
+  {
+    id: "allied_singapore", campaign: "alliedPacific", kind: "The war", anchor: "curtinsTurn42",
+    from: "1942-02", to: "1942-02", date: "FEBRUARY 1942",
+    title: "Singapore Falls",
+    when: () => true,
+    paras: [
+      "Singapore surrenders on 15 February 1942. Percival gives up a garrison of tens of thousands of British, Indian and Australian troops, the largest surrender in British military history.",
+      "In Washington and Canberra the fall is read as the end of the Malay Barrier. The Australian government, with its best divisions in the Middle East, turns to the United States for its defense.",
+    ],
+  },
+  {
+    id: "allied_germany", campaign: "alliedPacific", kind: "Politics", anchor: "kyotoTargetDebate45",
+    from: "1945-05", to: "1945-06", date: "MAY 1945",
+    title: "Germany Surrenders",
+    when: () => true,
+    paras: [
+      "Germany signs an unconditional surrender at Reims early on 7 May 1945, and the act is ratified in Berlin on 8 May. The war in Europe is over.",
+      "The Pacific is now the whole of the war, and the forces that fought in Europe are to be redeployed across the world to the Pacific.",
     ],
   },
 ];
@@ -13929,6 +14205,11 @@ const NODE_REGION_HINTS = {
   wakeIslandRelief41: ["marshalls"],
   burmaRangoon42: ["burma"],
   burmaRoad40: ["burma", "freeChina"],
+  nomonhan39: ["manchuria", "sovietFarEast"],
+  indochinaMission40: ["indochina", "freeChina"],
+  fleetAtHawaii40: ["pearlHarbor"],
+  richardsonObjection40: ["pearlHarbor"],
+  atlanticTransfer41: ["pearlHarbor"],
   neutralityPact41: ["manchuria", "sovietFarEast"],
   indianOceanRaid42: ["india"], // Ceylon has no region of its own; India is the nearest on the map
   chinaAirForce41: ["freeChina"],
@@ -17989,9 +18270,10 @@ function WW2CommandInner() {
   }
 
   function dismissPress() {
-    // Pure context, not a choice — no meter or flag effects, just returns to the normal flow.
+    // Pure context, not a choice — no meter or flag effects, just returns to the normal flow. A state event that was due at the same
+    // arrival follows the press report.
     setPendingPressEvent(null);
-    setScreen("briefing");
+    setScreen(pendingStateEvent ? "stateEvent" : "briefing");
   }
 
   function dismissStateEvent() {
@@ -18009,7 +18291,7 @@ function WW2CommandInner() {
       setSeenDivergenceReveals((prev) => [...prev, pendingDivergenceReveal.id]);
     }
     setPendingDivergenceReveal(null);
-    setScreen("briefing");
+    setScreen(pendingStateEvent ? "stateEvent" : "briefing");
   }
 
   function chooseOption(i, subgamePayload) {
@@ -18102,7 +18384,7 @@ function WW2CommandInner() {
     // Demo build wall: intercept before any position/history state changes, so the
     // player stays parked at their last playable node rather than landing on a 7th
     // decision. A real ending (isEnd) is never overridden by this.
-    if (DEMO_BUILD && campaignId === "japan" && !isEnd && demoChoiceCount >= 6) {
+    if (DEMO_BUILD && campaignId === "japan" && !isEnd && demoChoiceCount >= 8) {
       setScreen("demoWall");
       return;
     }
@@ -18138,6 +18420,7 @@ function WW2CommandInner() {
       if (arrival.divergenceForkId) {
         setPendingDivergenceReveal(DIVERGENCE_HEADLINES[arrival.divergenceForkId]);
         setPendingPressEvent(null);
+        setPendingStateEvent(arrival.stateEvent);
         setScreen("divergence");
       } else {
         setPendingPressEvent(arrival.pressEvent);

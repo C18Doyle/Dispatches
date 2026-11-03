@@ -47,7 +47,9 @@ const arrive = (extra) => L.arrivalScreen({ dynamic: true, campaignId: "japan", 
 check(arrive({}).screen === "stateEvent" && arrive({}).stateEvent.id === "x_b", "the arrival screen is the event screen when an event is due");
 check(arrive({ stateEvents: undefined }).screen === "briefing", "without state events the arrival is the briefing, as before");
 check(arrive({ events: { japan: [{ type: "press", afterNode: "a", pressEvent: "p" }] } }).screen === "press", "a report-keyed event comes before a state event");
+check(arrive({ events: { japan: [{ type: "press", afterNode: "a", pressEvent: "p" }] } }).stateEvent?.id === "x_b", "and the state event that was due follows it");
 check(arrive({ forks: { japan: [{ id: "f", flag: "fk", revealNode: "b" }] }, flags: { fk: true } }).screen === "divergence", "a divergence reveal comes before a state event");
+check(arrive({ forks: { japan: [{ id: "f", flag: "fk", revealNode: "b" }] }, flags: { fk: true } }).stateEvent?.id === "x_b", "and the state event follows it too");
 check(arrive({ dynamic: false }).screen === "briefing", "a campaign that is not dynamic never shows a state event");
 
 // --- the tallies and the bands -----------------------------------------------------------------------------------

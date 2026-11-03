@@ -2244,6 +2244,11 @@ const NODE_REGION_HINTS = {
   wakeIslandRelief41: ["marshalls"],
   burmaRangoon42: ["burma"],
   burmaRoad40: ["burma", "freeChina"],
+  nomonhan39: ["manchuria", "sovietFarEast"],
+  indochinaMission40: ["indochina", "freeChina"],
+  fleetAtHawaii40: ["pearlHarbor"],
+  richardsonObjection40: ["pearlHarbor"],
+  atlanticTransfer41: ["pearlHarbor"],
   neutralityPact41: ["manchuria", "sovietFarEast"],
   indianOceanRaid42: ["india"], // Ceylon has no region of its own; India is the nearest on the map
   chinaAirForce41: ["freeChina"],

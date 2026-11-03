@@ -138,9 +138,10 @@ function WW2CommandInner() {
   }
 
   function dismissPress() {
-    // Pure context, not a choice — no meter or flag effects, just returns to the normal flow.
+    // Pure context, not a choice — no meter or flag effects, just returns to the normal flow. A state event that was due at the same
+    // arrival follows the press report.
     setPendingPressEvent(null);
-    setScreen("briefing");
+    setScreen(pendingStateEvent ? "stateEvent" : "briefing");
   }
 
   function dismissStateEvent() {
@@ -158,7 +159,7 @@ function WW2CommandInner() {
       setSeenDivergenceReveals((prev) => [...prev, pendingDivergenceReveal.id]);
     }
     setPendingDivergenceReveal(null);
-    setScreen("briefing");
+    setScreen(pendingStateEvent ? "stateEvent" : "briefing");
   }
 
   function chooseOption(i, subgamePayload) {
@@ -251,7 +252,7 @@ function WW2CommandInner() {
     // Demo build wall: intercept before any position/history state changes, so the
     // player stays parked at their last playable node rather than landing on a 7th
     // decision. A real ending (isEnd) is never overridden by this.
-    if (DEMO_BUILD && campaignId === "japan" && !isEnd && demoChoiceCount >= 6) {
+    if (DEMO_BUILD && campaignId === "japan" && !isEnd && demoChoiceCount >= 8) {
       setScreen("demoWall");
       return;
     }
@@ -287,6 +288,7 @@ function WW2CommandInner() {
       if (arrival.divergenceForkId) {
         setPendingDivergenceReveal(DIVERGENCE_HEADLINES[arrival.divergenceForkId]);
         setPendingPressEvent(null);
+        setPendingStateEvent(arrival.stateEvent);
         setScreen("divergence");
       } else {
         setPendingPressEvent(arrival.pressEvent);
