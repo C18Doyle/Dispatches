@@ -1572,12 +1572,12 @@ const NODE_HIGHLIGHT_REGIONS = {
 // another — closest neighbor is axisAllied's orange-brown at ~55, which reads as a clearly
 // different hue (red vs. orange) even though the raw distance is similar in magnitude.
 const STATUS_COLORS = {
-  axis: "#5c1a1a",
-  axisAllied: "#a8562b",
-  soviet: "#c62828",
-  allied: "#28497a",
-  neutral: "#a8a08c",
-  contested: "#c9a227",
+  axis: "#6b4b45",
+  axisAllied: "#8a6d57",
+  soviet: "#a34a3b",
+  allied: "#46648a",
+  neutral: "#b8b09c",
+  contested: "#a89a6a",
   divided: "url(#divideGradient)",
 };
 
