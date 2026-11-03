@@ -12428,7 +12428,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               const found = endings.includes(e.label);
               return (
                 <div key={i} className="flex items-baseline gap-2 mb-1 text-[13px]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                  <span className="text-[10px] uppercase tracking-widest font-bold text-[#000000] opacity-50 w-14 shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <span className="text-[10px] uppercase tracking-widest font-bold text-[#000000] opacity-60 w-14 shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                     {e.campaign}
                   </span>
                   {found ? (
@@ -12465,7 +12465,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               return (
                 <div key={b.id} className="border-l-4 pl-2 mb-3" style={{ borderColor: r ? "#b08d3f" : "#00000033", fontFamily: "'Courier Prime', monospace" }}>
                   <div className="text-[13px] text-[#000000]">
-                    <span className="text-[10px] uppercase tracking-widest font-bold opacity-50 mr-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    <span className="text-[10px] uppercase tracking-widest font-bold opacity-60 mr-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                       {b.seal}
                     </span>
                     {r ? <b>{b.title}</b> : <span className="opacity-40">████████████</span>}
@@ -12520,7 +12520,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                       const found = (record?.nodes || []).includes(n.id);
                       return (
                         <div key={n.id} className="flex items-baseline gap-2 text-[12px] mb-[2px]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                          <span className="text-[10px] text-[#000000] opacity-50 w-32 shrink-0 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                          <span className="text-[10px] text-[#000000] opacity-60 w-32 shrink-0 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                             {n.date}
                           </span>
                           {found ? (
@@ -14622,7 +14622,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
           // prototype. Deterministic from nodeId so it doesn't reshuffle on re-render,
           // not a real cipher and not meant to be read as one.
           <div
-            className="text-[10px] tracking-[0.2em] mb-2 pb-2 border-b border-dashed border-black opacity-50"
+            aria-hidden="true"
+            className="text-[10px] tracking-[0.2em] mb-2 pb-2 border-b border-dashed border-black opacity-60"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {codeGroupStrip(nodeId)}

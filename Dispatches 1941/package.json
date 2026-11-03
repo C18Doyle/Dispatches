@@ -38,7 +38,9 @@
     "test:branch-nodes": "node tests/branch-nodes.test.mjs",
     "test:state-events": "node tests/state-events.test.mjs",
     "check-undefined": "node tools/check-undefined.mjs",
-    "check-a11y": "node tools/check-a11y.mjs"
+    "check-a11y": "node tools/check-a11y.mjs",
+    "playthrough": "node tools/playthrough.mjs",
+    "balance": "node tools/balance.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {
