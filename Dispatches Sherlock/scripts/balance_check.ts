@@ -5,7 +5,9 @@
  *   bold      takes the option with the most total gain, whatever it does to the lowest resource
  * Fails if a cautious player collapses too often (a game you cannot survive by being careful is not a game), if the three
  * policies do not all reach more than one ending, or if a narrative ending is never reached by anyone.
+ * It also holds each ending near its recorded share of its volume (tests/balance_targets.json), so that a content change cannot quietly shift the spread.
  */
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { createInitialState, reduce, isOptionUnavailable, effectiveRollChance, type Action, type GameState, type Option } from "@dispatches/engine";
 import { loadDefinition } from "../../packages/engine/tools/load_definition";
 import { makeRng } from "../../packages/engine/tools/projection";
@@ -65,12 +67,19 @@ function play(policy: Policy, seed: number, difficulty: "EASY" | "MEDIUM" | "HAR
 let failures = 0;
 const reached = new Set<string>();
 const policies: Policy[] = ["random", "cautious", "bold"];
+/** Every run of a volume, whatever the policy, by ending: the spread that the targets file records and the check holds. */
+const pooled: Record<string, Record<string, number>> = {};
+const pool = (volume: string, end: string) => {
+  pooled[volume] ??= {};
+  pooled[volume][end] = (pooled[volume][end] ?? 0) + 1;
+};
 for (const policy of policies) {
   const tally: Record<string, number> = {};
   for (let n = 0; n < RUNS; n++) {
     const end = play(policy, n + 1, (["EASY", "MEDIUM", "HARD"] as const)[n % 3], 0);
     tally[end] = (tally[end] ?? 0) + 1;
     reached.add(end);
+    pool("FINAL", end);
   }
   const crisis = Object.entries(tally).filter(([k]) => k.startsWith("ENDING_CRISIS")).reduce((a, [, v]) => a + v, 0);
   console.log(`${policy.padEnd(9)} collapse ${((100 * crisis) / RUNS).toFixed(1)}%   ` + Object.entries(tally).sort().map(([k, v]) => `${k.replace("ENDING_", "")}:${v}`).join(" "));
@@ -91,11 +100,43 @@ for (const [book, name] of [[1, "Band"], [2, "Bohemia"], [3, "Carbuncle"], [4, "
       const end = play(policy, n + 1, (["EASY", "MEDIUM", "HARD"] as const)[n % 3], book);
       tally[end] = (tally[end] ?? 0) + 1;
       reached.add(end);
+      pool(name.toUpperCase(), end);
     }
     console.log(`case ${name.padEnd(9)} ${policy.padEnd(9)} ` + Object.entries(tally).sort().map(([k, v]) => `${k.replace("ENDING_", "")}:${v}`).join(" "));
     if (Object.keys(tally).length < 2) {
       failures++;
       console.error(`FAIL: the ${policy} policy reaches only one ending in the ${name} case`);
+    }
+  }
+}
+// Per-ending targets (tests/balance_targets.json): the share of each ending among all the runs of its volume. A content change that moves an ending
+// by more than the band (4 points, or 35% of its own share, whichever is larger) fails here, so that the spread is changed on purpose and recorded:
+//   npx tsx scripts/balance_check.ts --record-targets
+const TARGETS = "tests/balance_targets.json";
+const shares = Object.fromEntries(
+  Object.entries(pooled).map(([volume, tally]) => {
+    const total = Object.values(tally).reduce((a, b) => a + b, 0);
+    return [volume, Object.fromEntries(Object.entries(tally).sort().map(([end, n]) => [end, Math.round((1000 * n) / total) / 1000]))];
+  })
+);
+const band = (target: number) => Math.max(0.04, 0.35 * target);
+if (process.argv.includes("--record-targets")) {
+  writeFileSync(TARGETS, JSON.stringify({ note: "Share of each ending among all runs of its volume (random, cautious and bold pooled). Record with: npx tsx scripts/balance_check.ts --record-targets", shares }, null, 2) + "\n");
+  console.log(`Recorded ${TARGETS}.`);
+} else if (!existsSync(TARGETS)) {
+  failures++;
+  console.error(`FAIL: ${TARGETS} is missing (record it with --record-targets)`);
+} else {
+  const targets = JSON.parse(readFileSync(TARGETS, "utf8")).shares as Record<string, Record<string, number>>;
+  for (const [volume, want] of Object.entries(targets)) {
+    const got = shares[volume] ?? {};
+    for (const end of new Set([...Object.keys(want), ...Object.keys(got)])) {
+      const w = want[end] ?? 0;
+      const g = got[end] ?? 0;
+      if (Math.abs(g - w) > band(w)) {
+        failures++;
+        console.error(`FAIL: ${volume} ${end.replace("ENDING_", "")} is ${(100 * g).toFixed(1)}% of runs, the target is ${(100 * w).toFixed(1)}% (band ${(100 * band(w)).toFixed(1)} points)`);
+      }
     }
   }
 }

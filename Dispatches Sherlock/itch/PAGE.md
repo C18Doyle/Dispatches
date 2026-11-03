@@ -1,10 +1,10 @@
-# itch.io page for Sherlock Holmes: The Final Problem
+# itch.io page for Dispatches: Sherlock
 
 Everything below is ready to paste into the page's edit screen (dispatches.itch.io/dispatches-sherlock). From 0.6.0 the release pushes the demo to this page (channel `web-demo`, played in the browser) and the full game as a download (channel `download-full`). The full web version goes to the confidential page (`dispatches/dispatchessherlockconfidential`, channel `web-full`). The old `web` channel (0.5.0, the full game in the browser) is no longer updated: delete that upload on this page when you are ready. The page is still a draft, so nothing here is public until you publish it.
 
 ## Basics
 
-- **Title:** Sherlock Holmes: The Final Problem
+- **Title:** Dispatches: Sherlock
 - **Tagline (under 100 characters):** Hunt Professor Moriarty through London, Whitehall and the Alps. Every choice costs something.
 - **Classification:** Games
 - **Kind of project:** HTML
@@ -29,7 +29,7 @@ Everything below is ready to paste into the page's edit screen (dispatches.itch.
 
 > **London, January 1891.** A man who has never been charged with a crime is running the city. He sits at the centre of a web, and you are the only one who has noticed. You are Sherlock Holmes, and this is the winter and spring that Dr Watson would later call the final problem.
 >
-> *The Final Problem* is a branching detective story you steer one decision at a time. Read the dated report, choose how to answer, and live with what it costs. Some doors open only to a detective an ally still trusts. Some close for good.
+> *Dispatches: Sherlock* is a branching detective story you steer one decision at a time. Read the dated report, choose how to answer, and live with what it costs. Some doors open only to a detective an ally still trusts. Some close for good.
 >
 > ### What you do
 > - **Choose your road, early.** Within a few scenes you decide how to meet the Professor: through Scotland Yard, through Wiggins and the street boys, through your brother Mycroft's club in Whitehall, or by running for the Continent and the Reichenbach Falls. Each road has its own people, its own scenes and its own endings.

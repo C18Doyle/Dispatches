@@ -2,7 +2,15 @@
 
 Player-facing and rules-facing changes only. Newest first. Add an entry in the same commit as the change.
 
-## 0.7.0 (unreleased)
+## 0.8.0 (unreleased)
+### Changed
+- **The game is called Dispatches: Sherlock.** The title screen, the browser tab, the README, the copied ending summary and the itch page no longer call it The Final Problem, which is now only the name of the major case on the shelf.
+- **Begin goes straight to the Case-Book.** The journal page and the difficulty card are gone from the start. Difficulty is a row on the Case-Book (it starts on the middle setting; Change opens the three). Each volume is a title until it is tapped, then it opens to its summary, and a second tap opens the case. Returning players find "Skip to the Monday Plan" inside the open Final Problem card.
+- **How To is shorter** (six short parts instead of twelve), has a Back button that stays at the top while the text scrolls, and can also be opened from Settings during a case.
+### Added
+- **Why an option is shut, or open.** A shut option says which earlier choice it needs (in the words of the Board's notes), or which person's trust or which gauge is short; an open one says what opened it.
+
+## 0.7.0
 ### Changed
 - **A copy-edit pass over the whole text.** The habits that read as machine-written are thinned out by rules that run on every build (`gen/polish.mjs`) and by 65 hand-written rewrites (`gen/rewrites.mjs`): "very" 316 times to about 40, "a man who" similes and epigrams about a quarter fewer, "It is the most/first/only" openers 62 to 17, "a good deal", "perfectly", "quite" and "rather" roughly halved, and sentences over 40 words 95 to 49. Some outcomes no longer end on a reflective "It is..." line.
 - **Not every choice ends on a line of dialogue.** 37 options are silent now, and 28 long scenes break into two paragraphs.

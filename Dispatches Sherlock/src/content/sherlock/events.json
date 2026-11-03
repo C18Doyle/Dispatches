@@ -5,7 +5,7 @@
       "id": "0",
       "branch": "WEB",
       "title": "The Case-Book",
-      "description": "Five volumes lie on the corner of the table at 221B, in the lamp-light, in Watson's bad handwriting and your own good paper. The thick black one is the case that you will remember: it is the whole of a winter and a spring, and it is not finished with you. The four thinner ones are the smaller cases, each done in a day or a week, each complete in itself. Any of them can be opened. None of them depends on any other, and what you do in one will not follow you into the next.",
+      "description": "Five volumes lie on the corner of the table at 221B. The thick black one is the major case, the whole of a winter and a spring. The four thinner ones are smaller cases, each complete in itself. None depends on any other. Tap a volume to read about it.",
       "options": [
         {
           "label": "The Final Problem. London, 1891.",

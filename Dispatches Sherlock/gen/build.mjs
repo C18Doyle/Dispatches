@@ -457,7 +457,7 @@ const rule = (when, delta) => ({ when, delta });
 const trustAxis = (id, label) => ({ id, label, min: -4, max: 4, bucketThreshold: 2 });
 const config = {
   id: "sherlock",
-  title: "Sherlock Holmes: The Final Problem",
+  title: "Dispatches: Sherlock",
   schemaVersion: 1,
   resources: [
     resource("evidence", "Evidence"),

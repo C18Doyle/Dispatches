@@ -36,12 +36,7 @@ async function cycle(screen, scrollY = 0) {
 }
 
 await cycle("menu");
-await btn(/Begin the Case/).click();
-await cycle("prologue");
-await btn(/^Continue$/).click();
-await cycle("card");
-await btn(/The Consulting Detective/).click();
-await btn(/^Enter$/).click();
+await btn(/Open the Case-Book/).click();
 await page.waitForTimeout(200);
 await cycle("scene");
 await cycle("choices", 640);

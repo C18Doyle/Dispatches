@@ -98,7 +98,7 @@ export function summaryText(def: GameDefinition, run: RunRecord, endingTitle: st
   const res = def.config.resources.map((r) => `${r.label} ${run.resources[r.id] > 0 ? "+" : ""}${run.resources[r.id]}`).join(", ");
   const carried = carriedNotes(def, run);
   const lines = [
-    `Sherlock Holmes: The Final Problem. ${endingTitle}`,
+    `Dispatches: Sherlock. ${endingTitle}`,
     `${label}. ${count(run.choices, "choice")}, ${count(run.experiments, "gambit")}${run.road ? `, by way of ${ROAD_NAMES[run.road] ?? run.road}` : ""}. ${res}.`,
   ];
   if (run.trust && Object.keys(run.trust).length) lines.push(`Trust: ${Object.entries(run.trust).map(([who, v]) => `${who} ${TRUST_WORDS[Math.max(0, Math.min(8, v + 4))].toLowerCase()}`).join(", ")}.`);

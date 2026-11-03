@@ -1,0 +1,46 @@
+{
+  "note": "Share of each ending among all runs of its volume (random, cautious and bold pooled). Record with: npx tsx scripts/balance_check.ts --record-targets",
+  "shares": {
+    "FINAL": {
+      "ENDING_BAKER_STREET_BURNS": 0.005,
+      "ENDING_CRISIS_NERVE": 0.032,
+      "ENDING_CRISIS_STRAND": 0.021,
+      "ENDING_FATAL_SHOT": 0.021,
+      "ENDING_HER_MAJESTYS_SERVICE": 0.033,
+      "ENDING_NAPOLEON_ESCAPES": 0.122,
+      "ENDING_NET_CLOSES": 0.463,
+      "ENDING_PRIVATE_WAR": 0.104,
+      "ENDING_REASON_OF_STATE": 0.016,
+      "ENDING_THE_COMPACT": 0.018,
+      "ENDING_THE_EMPTY_GRAVE": 0.012,
+      "ENDING_THE_FALL": 0.083,
+      "ENDING_THE_RETURN": 0.033,
+      "ENDING_THE_SECOND_LEDGER": 0.006,
+      "ENDING_WATSON_STANDS": 0.032
+    },
+    "BAND": {
+      "ENDING_THE_ADDER_AT_THE_INQUEST": 0.028,
+      "ENDING_THE_BAND_RETURNS": 0.387,
+      "ENDING_THE_DOCTOR_LIVES": 0.532,
+      "ENDING_THE_WHISTLE_MISSED": 0.053
+    },
+    "BOHEMIA": {
+      "ENDING_THE_KING_WAITS": 0.26,
+      "ENDING_THE_STRONGBOX": 0.075,
+      "ENDING_THE_UNDERTAKING": 0.013,
+      "ENDING_THE_WOMAN": 0.652
+    },
+    "CARBUNCLE": {
+      "ENDING_THE_CHRISTMAS_MERCY": 0.443,
+      "ENDING_THE_GOOSE_CLUB": 0.022,
+      "ENDING_THE_STONE_LOST": 0.092,
+      "ENDING_THE_STONE_RETURNED": 0.443
+    },
+    "LEAGUE": {
+      "ENDING_THE_ENCYCLOPAEDIA": 0.432,
+      "ENDING_THE_LEAGUE_DISSOLVED": 0.233,
+      "ENDING_THE_TUNNEL_OPEN": 0.275,
+      "ENDING_THE_UMBRELLA": 0.06
+    }
+  }
+}
