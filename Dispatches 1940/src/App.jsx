@@ -27404,9 +27404,10 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
           </div>
         )}
         <p className="text-[11px] mt-1 opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
-          {t("{p} Ownership shown through end of {statusYear}.{p2}{p3}{p4}", { p: revealedForks.length
-            ? `${revealedForks.length} confirmed divergence${revealedForks.length > 1 ? "s" : ""} from the historical record marked above.`
-            : t("No confirmed divergences from the historical record yet."), statusYear, p2: statuses.france === "axisAllied" && t(" Dashed line marks the Vichy/occupied-zone demarcation."), p3: statusYear === 1941 && t(" Dashed line marks Barbarossa's farthest advance, autumn 1941."), p4: statusYear === 1942 && t(" Dashed line marks Case Blue's farthest advance, autumn 1942.") })}
+          {revealedForks.length
+            ? t("{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.", { count: revealedForks.length })
+            : t("No confirmed divergences from the historical record yet.")}
+          {" "}{t("Ownership shown through end of {statusYear}.", { statusYear })}
           {fronts.some((f) => f.kind === "zone") && t(" The dotted line marks the demarcation between the occupied zone and Vichy.")}
           {fronts.some((f) => f.kind !== "zone" && !f.projection) && t(" The dark line is the front, drawn from the course of the fighting and approximate.")}
           {fronts.some((f) => f.projection) && t(" A dashed red line is where the record put the front: this run has departed from it.")}

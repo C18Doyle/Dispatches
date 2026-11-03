@@ -59,11 +59,7 @@
   "Pick an order to see where it goes.": "Выберите приказ, чтобы увидеть, куда он ведёт.",
   "Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.": "Сплошная стрелка: наступление. Пунктир: перемещение. Бледный пунктир: отход. Кольцо: удержание. Серое: ваши последние приказы.",
   "Flashing border: changed since you last checked the map": "Мигающая рамка: изменилось с тех пор, как вы в последний раз смотрели карту",
-  "{p} Ownership shown through end of {statusYear}.{p2}{p3}{p4}": "{p} Принадлежность показана на конец {statusYear} года.{p2}{p3}{p4}",
   "No confirmed divergences from the historical record yet.": "Подтверждённых отклонений от исторической картины пока нет.",
-  " Dashed line marks the Vichy/occupied-zone demarcation.": " Пунктир обозначает линию разграничения между зоной Виши и оккупированной зоной.",
-  " Dashed line marks Barbarossa's farthest advance, autumn 1941.": " Пунктир обозначает наибольшее продвижение по плану «Барбаросса» осенью 1941 года.",
-  " Dashed line marks Case Blue's farthest advance, autumn 1942.": " Пунктир обозначает наибольшее продвижение по плану «Блау» осенью 1942 года.",
   "Easy: {label}": "Лёгкий: {label}",
   "Normal: {label}": "Обычный: {label}",
   "Hard: {label}": "Трудный: {label}",
@@ -797,5 +793,7 @@
   "Show the evidence ({left} left)": "Показать свидетельства (осталось: {left})",
   "Rests on a belief the evidence goes against": "Опирается на убеждение, которому свидетельства противоречат",
   "Rests on a belief the staff has not tested": "Опирается на убеждение, которое штаб не проверил",
-  "Rests on a belief the evidence supports": "Опирается на убеждение, которое свидетельства подтверждают"
+  "Rests on a belief the evidence supports": "Опирается на убеждение, которое свидетельства подтверждают",
+  "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "Подтверждённых отклонений от исторической картины, отмеченных выше: {count}.",
+  "Ownership shown through end of {statusYear}.": "Принадлежность показана на конец {statusYear} года."
 }

@@ -59,11 +59,7 @@
   "Pick an order to see where it goes.": "选择一道命令，查看它的去向。",
   "Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.": "实线箭头：进攻。虚线：移动。渐隐的虚线：撤退。圆环：固守。灰色：你最近下达的命令。",
   "Flashing border: changed since you last checked the map": "闪烁的边框：自你上次查看地图以来发生了变化",
-  "{p} Ownership shown through end of {statusYear}.{p2}{p3}{p4}": "{p} 所属情况显示至{statusYear}年底。{p2}{p3}{p4}",
   "No confirmed divergences from the historical record yet.": "尚无与历史记录不同的已确认变化。",
-  " Dashed line marks the Vichy/occupied-zone demarcation.": " 虚线标示维希与占领区的分界线。",
-  " Dashed line marks Barbarossa's farthest advance, autumn 1941.": " 虚线标示巴巴罗萨行动 1941 年秋季推进的最远处。",
-  " Dashed line marks Case Blue's farthest advance, autumn 1942.": " 虚线标示蓝色行动 1942 年秋季推进的最远处。",
   "Easy: {label}": "简易：{label}",
   "Normal: {label}": "普通：{label}",
   "Hard: {label}": "困难：{label}",
@@ -797,5 +793,7 @@
   "Show the evidence ({left} left)": "查看证据（剩余 {left} 次）",
   "Rests on a belief the evidence goes against": "所依据的看法与证据相悖",
   "Rests on a belief the staff has not tested": "所依据的看法参谋部尚未核查",
-  "Rests on a belief the evidence supports": "所依据的看法得到证据支持"
+  "Rests on a belief the evidence supports": "所依据的看法得到证据支持",
+  "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "上方已标出 {count} 处与历史记录不同的已确认变化。",
+  "Ownership shown through end of {statusYear}.": "所示归属截至 {statusYear} 年底。"
 }

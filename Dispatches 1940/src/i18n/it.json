@@ -59,11 +59,7 @@
   "Pick an order to see where it goes.": "Scegli un ordine per vedere dove porta.",
   "Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.": "Freccia piena: attacco. Tratteggiata: spostamento. Tratti sfumati: ritirata. Anello: tenere la posizione. Grigio: i tuoi ultimi ordini.",
   "Flashing border: changed since you last checked the map": "Bordo lampeggiante: cambiato da quando hai guardato l'ultima volta la mappa",
-  "{p} Ownership shown through end of {statusYear}.{p2}{p3}{p4}": "{p} Controllo mostrato fino alla fine del {statusYear}.{p2}{p3}{p4}",
   "No confirmed divergences from the historical record yet.": "Ancora nessuna divergenza confermata dal corso storico.",
-  " Dashed line marks the Vichy/occupied-zone demarcation.": " La linea tratteggiata segna la linea di demarcazione tra Vichy e la zona occupata.",
-  " Dashed line marks Barbarossa's farthest advance, autumn 1941.": " La linea tratteggiata segna l'avanzata più lontana di Barbarossa, nell'autunno del 1941.",
-  " Dashed line marks Case Blue's farthest advance, autumn 1942.": " La linea tratteggiata segna l'avanzata più lontana del Piano Blu, nell'autunno del 1942.",
   "Easy: {label}": "Facile: {label}",
   "Normal: {label}": "Normale: {label}",
   "Hard: {label}": "Difficile: {label}",
@@ -797,5 +793,7 @@
   "Show the evidence ({left} left)": "Mostra le prove ({left} rimaste)",
   "Rests on a belief the evidence goes against": "Si basa su una convinzione che le prove smentiscono",
   "Rests on a belief the staff has not tested": "Si basa su una convinzione che lo stato maggiore non ha verificato",
-  "Rests on a belief the evidence supports": "Si basa su una convinzione che le prove sostengono"
+  "Rests on a belief the evidence supports": "Si basa su una convinzione che le prove sostengono",
+  "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "{count, plural, one {# divergenza confermata} other {# divergenze confermate}} dal corso storico segnate sopra.",
+  "Ownership shown through end of {statusYear}.": "Controllo mostrato fino alla fine del {statusYear}."
 }

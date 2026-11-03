@@ -59,11 +59,7 @@
   "Pick an order to see where it goes.": "Wählen Sie einen Befehl, um zu sehen, wohin er führt.",
   "Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.": "Durchgezogener Pfeil: Angriff. Gestrichelt: Bewegung. Verblassende Striche: Rückzug. Ring: Halten der Stellung. Grau: Ihre letzten Befehle.",
   "Flashing border: changed since you last checked the map": "Blinkender Rand: seit Ihrem letzten Blick auf die Karte verändert",
-  "{p} Ownership shown through end of {statusYear}.{p2}{p3}{p4}": "{p} Besitzverhältnisse bis Ende {statusYear}.{p2}{p3}{p4}",
   "No confirmed divergences from the historical record yet.": "Noch keine bestätigten Abweichungen vom historischen Verlauf.",
-  " Dashed line marks the Vichy/occupied-zone demarcation.": " Die gestrichelte Linie zeigt die Demarkationslinie zwischen Vichy-Frankreich und der besetzten Zone.",
-  " Dashed line marks Barbarossa's farthest advance, autumn 1941.": " Die gestrichelte Linie zeigt den weitesten Vorstoß von Barbarossa im Herbst 1941.",
-  " Dashed line marks Case Blue's farthest advance, autumn 1942.": " Die gestrichelte Linie zeigt den weitesten Vorstoß von Fall Blau im Herbst 1942.",
   "Easy: {label}": "Leicht: {label}",
   "Normal: {label}": "Normal: {label}",
   "Hard: {label}": "Schwer: {label}",
@@ -797,5 +793,7 @@
   "Show the evidence ({left} left)": "Belege zeigen ({left} übrig)",
   "Rests on a belief the evidence goes against": "Beruht auf einer Annahme, der die Belege widersprechen",
   "Rests on a belief the staff has not tested": "Beruht auf einer Annahme, die der Stab nicht geprüft hat",
-  "Rests on a belief the evidence supports": "Beruht auf einer Annahme, die die Belege stützen"
+  "Rests on a belief the evidence supports": "Beruht auf einer Annahme, die die Belege stützen",
+  "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "{count, plural, one {# bestätigte Abweichung} other {# bestätigte Abweichungen}} vom historischen Verlauf oben markiert.",
+  "Ownership shown through end of {statusYear}.": "Besitzverhältnisse bis Ende {statusYear} angezeigt."
 }

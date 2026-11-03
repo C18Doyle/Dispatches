@@ -59,11 +59,7 @@
   "Pick an order to see where it goes.": "Escolha uma ordem para ver aonde ela leva.",
   "Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.": "Seta cheia: ataque. Tracejada: movimento. Traços que se apagam: retirada. Anel: manter posição. Cinza: suas últimas ordens.",
   "Flashing border: changed since you last checked the map": "Borda piscando: mudou desde a última vez que você olhou o mapa",
-  "{p} Ownership shown through end of {statusYear}.{p2}{p3}{p4}": "{p} Posse mostrada até o fim de {statusYear}.{p2}{p3}{p4}",
   "No confirmed divergences from the historical record yet.": "Ainda não há divergências confirmadas em relação ao registro histórico.",
-  " Dashed line marks the Vichy/occupied-zone demarcation.": " A linha tracejada marca a linha de demarcação entre Vichy e a zona ocupada.",
-  " Dashed line marks Barbarossa's farthest advance, autumn 1941.": " A linha tracejada marca o avanço mais distante da Barbarossa, no outono de 1941.",
-  " Dashed line marks Case Blue's farthest advance, autumn 1942.": " A linha tracejada marca o avanço mais distante do Plano Azul, no outono de 1942.",
   "Easy: {label}": "Fácil: {label}",
   "Normal: {label}": "Normal: {label}",
   "Hard: {label}": "Difícil: {label}",
@@ -797,5 +793,7 @@
   "Show the evidence ({left} left)": "Mostrar as provas ({left} restantes)",
   "Rests on a belief the evidence goes against": "Baseia-se numa crença que as provas contrariam",
   "Rests on a belief the staff has not tested": "Baseia-se numa crença que o estado-maior não verificou",
-  "Rests on a belief the evidence supports": "Baseia-se numa crença que as provas sustentam"
+  "Rests on a belief the evidence supports": "Baseia-se numa crença que as provas sustentam",
+  "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "{count, plural, one {# divergência confirmada} other {# divergências confirmadas}} em relação ao registro histórico marcadas acima.",
+  "Ownership shown through end of {statusYear}.": "Domínio mostrado até o fim de {statusYear}."
 }

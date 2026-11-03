@@ -59,11 +59,7 @@
   "Pick an order to see where it goes.": "Elige una orden para ver adónde lleva.",
   "Solid arrow: attack. Dashed: move. Fading dashes: withdrawal. Ring: a stand. Grey: your last orders.": "Flecha continua: ataque. Discontinua: movimiento. Trazos que se desvanecen: retirada. Anillo: mantener la posición. Gris: tus últimas órdenes.",
   "Flashing border: changed since you last checked the map": "Borde parpadeante: ha cambiado desde la última vez que miraste el mapa",
-  "{p} Ownership shown through end of {statusYear}.{p2}{p3}{p4}": "{p} Dominio mostrado hasta finales de {statusYear}.{p2}{p3}{p4}",
   "No confirmed divergences from the historical record yet.": "Aún no hay divergencias confirmadas con el registro histórico.",
-  " Dashed line marks the Vichy/occupied-zone demarcation.": " La línea discontinua marca la línea de demarcación entre Vichy y la zona ocupada.",
-  " Dashed line marks Barbarossa's farthest advance, autumn 1941.": " La línea discontinua marca el avance más lejano de Barbarroja, en el otoño de 1941.",
-  " Dashed line marks Case Blue's farthest advance, autumn 1942.": " La línea discontinua marca el avance más lejano del Plan Azul, en el otoño de 1942.",
   "Easy: {label}": "Fácil: {label}",
   "Normal: {label}": "Normal: {label}",
   "Hard: {label}": "Difícil: {label}",
@@ -797,5 +793,7 @@
   "Show the evidence ({left} left)": "Mostrar las pruebas ({left} restantes)",
   "Rests on a belief the evidence goes against": "Se apoya en una creencia que las pruebas desmienten",
   "Rests on a belief the staff has not tested": "Se apoya en una creencia que el estado mayor no ha comprobado",
-  "Rests on a belief the evidence supports": "Se apoya en una creencia que las pruebas respaldan"
+  "Rests on a belief the evidence supports": "Se apoya en una creencia que las pruebas respaldan",
+  "{count, plural, one {# confirmed divergence} other {# confirmed divergences}} from the historical record marked above.": "{count, plural, one {# divergencia confirmada} other {# divergencias confirmadas}} con el registro histórico marcadas arriba.",
+  "Ownership shown through end of {statusYear}.": "Propiedad mostrada hasta finales de {statusYear}."
 }
