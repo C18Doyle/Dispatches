@@ -22,7 +22,7 @@ export const ORDER_NOTES = {
   "gqg_1917_12_calais|agreement": "The British army would stay under Haig, and the two headquarters would coordinate by agreement between them.",
   "gqg_1917_13_directive|offensive": "The army would be told to prepare another great offensive for the summer.",
   "gqg_1918_12_link|allin": "Every division that can be moved would go north to hold the junction with the British, and Champagne would be left thin.",
-  "gqg_1918_13_aisne|depth": "The front line would be thinned to a screen and the divisions drawn back behind the ridge, as Petain's order requires.",
+  "gqg_1918_13_aisne|depth": "The front line would be thinned to a screen and the divisions drawn back behind the ridge, as Pétain's order requires.",
   "gqg_1918_15_grand|limited": "The attacks would go on one front at a time, each on its own date, with the army kept in hand.",
   "stavka_1914_12_tannenberg|halt": "The Second Army would stop at the frontier until its supply and the First Army come up.",
   "stavka_1915_12_carpathians|press": "The armies would go on over the passes into Hungary, in the snow and short of shells.",

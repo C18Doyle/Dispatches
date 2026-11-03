@@ -33,7 +33,7 @@ CAMPAIGNS.otto.commanders = [
 CAMPAIGNS.otto.advisors = [
   { id: "enver", name: "Enver", from: "1914-07-29", to: "1918-10-13",
     dossier: { role: "Minister of War from January 1914; Deputy Commander-in-Chief",
-      bio: "The architect of the German alliance and of the empire's entry into the war. Ordered the raid on the Russian Black Sea ports, planned and took command of the winter offensive at Sarikamis, and later sent the Army of Islam into the Caucasus. After Sarikamis he blamed the Armenians for the defeat.",
+      bio: "The architect of the German alliance and of the empire's entry into the war. Ordered the raid on the Russian Black Sea ports, planned and took command of the winter offensive at Sarıkamış, and later sent the Army of Islam into the Caucasus. After Sarıkamış he blamed the Armenians for the defeat.",
       fate: "Dismissed as Minister of War in October 1918. Left Constantinople on 1 or 2 November aboard a German submarine. Killed in Central Asia on 4 August 1922." } },
   { id: "liman", name: "Liman von Sanders", from: "1914-07-29", to: "1918-10-30",
     dossier: { role: "German general at the head of the military mission; commander of the Fifth Army at Gallipoli; commander of the Yildirim Army Group from February 1918",
@@ -91,10 +91,6 @@ CAMPAIGNS.otto.nodes = {
       "Only a handful of ministers know of the offer, and the cabinet has not met. The " +
       "treaty that Germany has drafted is a defensive one, and it commits the empire to fight " +
       "beside Germany if Russia attacks her.",
-    context:
-      "An alliance with the strongest army in Europe is a protection the empire cannot buy " +
-      "anywhere else. It is also a promise to go to war on the word of another government, and " +
-      "the army that would have to keep it is not ready.",
     choices: [
       {
         id: "sign",
@@ -186,11 +182,6 @@ CAMPAIGNS.otto.nodes = {
       "Grand Vizier asked Berlin to pretend that the Goeben had been sold to the Ottoman " +
       "navy, so that her entry would look like a purchase; Berlin refused. The ships are " +
       "waiting for an answer.",
-    context:
-      "A neutral state that lets a belligerent's warships pass its Straits has stopped being " +
-      "neutral, and the Entente will say so. The empire's debt of about 716 million dollars " +
-      "is held mostly in France, and its navy cannot match the Greek one. Two modern ships " +
-      "with trained crews are worth a great deal to an empire that has neither.",
     choices: [
       {
         id: "admit",
@@ -250,10 +241,6 @@ CAMPAIGNS.otto.nodes = {
       "attack if a suitable opportunity arises. The cabinet, the Grand Vizier among them, has " +
       "not been told. The Germans want the war opened now, while the Russian fleet in the " +
       "Black Sea is unready.",
-    context:
-      "A declaration of war would need the cabinet. An attack by a squadron at sea needs " +
-      "only an admiral. Once the first shell is fired at a Russian port the cabinet's views " +
-      "will no longer matter, and Enver knows it.",
     choices: [
       {
         id: "raid",
@@ -301,18 +288,13 @@ CAMPAIGNS.otto.nodes = {
     situation:
       "The Third Army holds the frontier with Russia in the high country round Erzurum, " +
       "and the Russians have a railway to within about 24 kilometres of the border at " +
-      "Sarikamis. Enver has a plan to destroy the Russian Caucasus Army in one stroke: the " +
+      "Sarıkamış. Enver has a plan to destroy the Russian Caucasus Army in one stroke: the " +
       "XI Corps is to hold the Russians in place, and the X and IX Corps, some 68,000 men " +
       "between them, are to cross the mountains by night and fall on their flank and rear.\n\n" +
       "The mountains are 1,500 to 2,000 metres high and it is the middle of December. The " +
       "men have no winter clothing and are to carry dry bread and olives. The Third Army's " +
       "commander, Hasan Izzet, has told Enver he doubts the plan and asked on the 18th to " +
       "be relieved. Enver has said that he will command it himself.",
-    context:
-      "The plan is a good one on a map and was drawn up from German principles. Everything " +
-      "that can go wrong with it is a matter of weather and supply, and the weather " +
-      "will not be consulted. The alternative is to wait for the Russians in the fortress " +
-      "line at Erzurum, which means leaving the winter to them.",
     choices: [
       {
   id: "launch",
@@ -324,7 +306,7 @@ CAMPAIGNS.otto.nodes = {
   erodes: "overextend",
   setFlags: { otto_sarikamis: "launched" },
   dispute:
-    "Historians differ on whether the plan at Sarikamis could have succeeded. Some " +
+    "Historians differ on whether the plan at Sarıkamış could have succeeded. Some " +
     "hold that it was impossible in that season and on that ground. Others point to " +
     "the confusion of the Russian command in the first days, when one corps " +
     "commander wanted to fall back on Kars, and argue that better preparation " +
@@ -335,12 +317,12 @@ CAMPAIGNS.otto.nodes = {
       next: "otto_1915_01_suez",
       outcome:
         "The offensive begins on 22 December. A snowstorm on the 25th and 26th catches the " +
-        "columns on the heights and the Russians hold Sarikamis. On 4 January the IX Corps " +
+        "columns on the heights and the Russians hold Sarıkamış. On 4 January the IX Corps " +
         "surrenders, and the X Corps withdraws that night. Enver leaves the army in the " +
         "second week of January. Estimates of the army's losses run from 30,000 to 80,000, " +
         "most of them from cold and disease and many from typhus in the hospitals. " +
         "The Third Army has ceased to be able to attack anywhere." },
-    { weight: 20, title: "The Russians give up Sarikamis, and the army freezes on the heights",
+    { weight: 20, title: "The Russians give up Sarıkamış, and the army freezes on the heights",
       impact: { manpower: -2, munitions: 0, will: 1 },
       next: "otto_1915_01_suez",
       outcome:
@@ -397,13 +379,9 @@ CAMPAIGNS.otto.nodes = {
       "mules for the mountain tracks. The staff has planned again for the passes the " +
       "columns will use.\n\n" +
       "The Russians have used the month as well. A new corps has come up by the railway " +
-      "to Sarikamis, and their patrols have been found on the tracks that the plan " +
+      "to Sarıkamış, and their patrols have been found on the tracks that the plan " +
       "needs. The month has made the army better fit to march and the plan harder to " +
       "surprise.",
-    context:
-      "A plan that depends on surprise loses what it depends on when it is delayed, and " +
-      "gains what an army needs to march at all. Which matters more in the high country in " +
-      "January is not something that can be settled from a map.",
     choices: [
       {
         id: "hold",
@@ -427,7 +405,7 @@ CAMPAIGNS.otto.nodes = {
           "The army that went in December would have been lost to the cold. The army that goes now is clothed. The plan is the same plan, and the Russians still do not expect it." },
         impact: { manpower: -2, munitions: 0, will: 0 },
         dispute:
-          "Historians differ on whether the Sarikamis plan could have succeeded with " +
+          "Historians differ on whether the Sarıkamış plan could have succeeded with " +
           "better preparation or was impossible in the season and on the ground. Russian " +
           "accounts stress the confusion of their own command in the first days, " +
           "Ottoman accounts the weather. A delay of a month would have helped the " +
@@ -438,7 +416,7 @@ CAMPAIGNS.otto.nodes = {
             next: "otto_1915_01_suez",
             outcome:
               "Speculative. The columns, clothed and fed, cross the mountains by night and " +
-              "reach the heights above Sarikamis, where the Russian line has been thinned " +
+              "reach the heights above Sarıkamış, where the Russian line has been thinned " +
               "to feed the corps that came up by rail. The battle that follows is a hard fight in the snow that the Russians " +
               "lose by a little, and the Third Army has its victory at the price of a " +
               "third of its men." },
@@ -490,10 +468,6 @@ CAMPAIGNS.otto.nodes = {
           "winter offensive in the Caucasus has been settled one way or the other. The empire's " +
           "attention is turning south."
         : ""),
-    context:
-      "The canal is the road to India and the object of the whole attack. An army that " +
-      "reaches it at the end of a supply line of that length can do very little once there. " +
-      "Kress himself thinks of it as a forcible reconnaissance, and not an invasion.",
     choices: [
       {
   id: "attack",
@@ -597,11 +571,6 @@ CAMPAIGNS.otto.nodes = {
       "same government that is deciding how to meet the landings. The command whose file this " +
       "is bears its share of the responsibility, and nothing in the choices below can touch " +
       "it, because the office never offered one.",
-    context:
-      "Sanders can keep his reserve far from the beaches, so that it is not destroyed by " +
-      "the fleet's guns and can reach the landing wherever it comes. That depends on " +
-      "moving men and orders quickly over bad roads, and on the commander being where he " +
-      "is needed. The other course is to put the divisions on the heights above every beach.",
     choices: [
       {
         id: "reserve",
@@ -676,11 +645,6 @@ CAMPAIGNS.otto.nodes = {
       "force is being gathered at Basra. In the west the Allies are leaving Gallipoli, which " +
       "will free the divisions of the Fifth Army, and the Russians are pressing on " +
       "the Third Army in the Caucasus.",
-    context:
-      "A town that is stormed can be taken in days and at a cost in lives. A town that is " +
-      "besieged keeps the army tied to it for as long as the garrison can eat. Either way, " +
-      "the divisions that are used at Kut cannot be used in the east, and the east is " +
-      "also asking.",
     choices: [
       {
         id: "siege",
@@ -759,11 +723,6 @@ CAMPAIGNS.otto.nodes = {
       "returned from Constantinople on the 29th.\n\n" +
       "The Russians have 130,000 infantry and 35,000 cavalry, and 160,000 more in reserve. " +
       "They are moving on a wide front, and the nearest reserves are a long way off.",
-    context:
-      "A fortress holds an army in place and protects the road behind it for as long as the " +
-      "army inside is not cut off. Fortresses have a way of becoming the places where " +
-      "armies are lost. Behind Erzurum there is nothing to stop the Russians until the " +
-      "coast and the plains of Anatolia.",
     choices: [
       {
         id: "defend",
@@ -800,7 +759,7 @@ CAMPAIGNS.otto.nodes = {
       },
       {
         id: "counter",
-        label: "Counter-attack the Russian columns on the road at Koprukoy, with the Third Army outside the fortress",
+        label: "Counter-attack the Russian columns on the road at Köprüköy, with the Third Army outside the fortress",
         advisor: { name: "Enver", position:
           "A fortress is a place to be besieged in. The Russians are strung out in the snow, and an army that waits behind its forts gives up the chance to hit them on the road." },
         impact: { manpower: -2, munitions: -1, will: 0 },
@@ -814,7 +773,7 @@ CAMPAIGNS.otto.nodes = {
             setFlags: { otto_erzurum: "fought" },
             next: "otto_1916_02_medina",
             outcome:
-              "Speculative. The Third Army turns on the leading Russian columns at Koprukoy and checks them " +
+              "Speculative. The Third Army turns on the leading Russian columns at Köprüköy and checks them " +
               "for a week in the snow. It falls back to Erzurum with a third of its men gone, and the fortress is held a little longer by an army that still has some fight left. " +
               "The Russians have lost time, and when they come to the forts they come to a garrison that knows the ground." },
           { weight: 70, title: "The army is beaten in the open",
@@ -846,10 +805,6 @@ CAMPAIGNS.otto.nodes = {
       "governs with full powers. The railway can carry only a small part of what both " +
       "need. The revolt is a rising against the sultan-caliph by the guardian of " +
       "the holy places, and the empire has declared a holy war.",
-    context:
-      "A city held at the end of a single railway can be cut by a few men with explosives " +
-      "and a few camels. The garrison it takes to hold the line is a force that the rest " +
-      "of the empire does without.",
     choices: [
       {
         id: "hold",
@@ -904,10 +859,6 @@ CAMPAIGNS.otto.nodes = {
       (flags.otto_medina === "held"
         ? "\n\nThe Hejaz railway and Medina are taking the troops that Djemal might have sent here."
         : ""),
-    context:
-      "A force that marches at night over sand with the water it can carry has a few days " +
-      "of fighting in it. If the British are not beaten in those days, the march home is " +
-      "the real battle.",
     choices: [
       {
         id: "strike",
@@ -990,9 +941,6 @@ CAMPAIGNS.otto.nodes = {
       "Ctesiphon, below the city, and has not finished.\n\n" +
       "He has three courses: to stand in front of Baghdad, to meet the British below it, or to " +
       "give the city up and save the army. Constantinople has to say which it wants.",
-    context:
-      "A city on a river can be held for a few days by an army that is not strong enough to " +
-      "hold it for a month. What matters is what is left of the army when the days are over.",
     choices: [
       {
         id: "diyala",
@@ -1077,10 +1025,6 @@ CAMPAIGNS.otto.nodes = {
       "\n\nThe line now runs from Gaza on the coast to Beersheba, some forty kilometres inland, " +
       "and it is thin at the eastern end, where the desert is. Two more divisions are on the way. " +
       "The British have lost a battle and not the war, and they will be back.",
-    context:
-      "A line that is held by redoubts and few men is strong where it has been attacked and " +
-      "weak where it has not. What is done with the divisions that are coming decides where " +
-      "the next attack will fall.",
     choices: [
       {
         id: "line",
@@ -1162,9 +1106,6 @@ CAMPAIGNS.otto.nodes = {
       "where there is a blockhouse. The nearest force of any size is at Ma'an, some days away, and " +
       "the army in Palestine, where the British are expected to attack again, wants every man." +
       (flags.otto_medina === "held" ? "\n\nThe garrison of Medina is at the other end of the same railway, and the same raiders are cutting it." : ""),
-    context:
-      "A port is worth what can be landed in it. In Arab hands Aqaba would take stores and guns from " +
-      "the British in Egypt, and the railway would be struck from its landward side as well as from the desert.",
     choices: [
       {
         id: "leave",
@@ -1258,11 +1199,6 @@ CAMPAIGNS.otto.nodes = {
         : flags.otto_gaza === "struck"
         ? "The British, who were beaten at Gaza in April, are about to attack again."
         : "The British are about to attack at Gaza."),
-    context:
-      "The railway to Baghdad is unfinished, and the last of the way is a road across " +
-      "the desert. Supplying an army group that far is a different campaign from " +
-      "fighting one. In Palestine the railways are shorter, and so is the distance " +
-      "from the British.",
     choices: [
       {
         id: "palestine",
@@ -1335,10 +1271,6 @@ CAMPAIGNS.otto.nodes = {
         : flags.otto_aqaba === "abandoned"
         ? "\n\nAqaba was given up in the summer, and the Arabs and the British have the port."
         : ""),
-    context:
-      "A garrison that is fed from a railway lives as long as the railway runs. Trucks sent to Medina " +
-      "are trucks not sent to Gaza, and a garrison brought out is a garrison that has given up the city " +
-      "that the Sultan's claim to be caliph rests on.",
     choices: [
       {
         id: "live",
@@ -1429,11 +1361,6 @@ CAMPAIGNS.otto.nodes = {
       "infantry divisions have lost some 28,000 men and 100 guns.\n\n" +
       "The question for the army group is Jerusalem. Defended, it holds the road to Nablus " +
       "and the holy city; given up, it saves the army from a battle fought for a name.",
-    context:
-      "The city has shrines holy to three faiths, and fighting among them will be held " +
-      "against whoever fights. An army that stays to defend it will be shelled by an " +
-      "enemy who has more guns, and it will not be able to retreat if the hills behind it " +
-      "are cut.",
     choices: [
       {
         id: "withdraw",
@@ -1484,10 +1411,6 @@ CAMPAIGNS.otto.nodes = {
       "Jerusalem fell on 9 December, and Djemal and the Germans want every division that can be spared " +
       "in Palestine. The Third Army is hungry, ill-clothed and half the size on paper that it was, " +
       "and it is the winter in the mountains.",
-    context:
-      "An enemy that is going home is an enemy that cannot be fought and cannot be trusted to stay " +
-      "gone. A ceasefire gives the Third Army the winter, and the Russians the same, and what " +
-      "the spring brings is not something that can be known now.",
     choices: [
       {
         id: "sign",
@@ -1576,11 +1499,6 @@ CAMPAIGNS.otto.nodes = {
         : flags.otto_erzincan === "palestine"
         ? "\n\nTwo divisions of the Third Army went to Palestine in January, and the Caucasus is held more thinly."
         : ""),
-    context:
-      "Baku is five hundred kilometres from the nearest Ottoman railway, and a long way " +
-      "from any front where the war will be decided. The divisions that are sent to the " +
-      "Caspian are divisions that Palestine does not have, in the summer that the British " +
-      "are expected to attack there.",
     choices: [
       {
         id: "baku",
@@ -1640,10 +1558,6 @@ CAMPAIGNS.otto.nodes = {
       "The commander of the XXII Corps on the coast, Refet, thinks an attack is coming " +
       "and wants to withdraw his corps to a shorter line before it begins. Liman believes " +
       "the information is a bluff.",
-    context:
-      "A corps that retires without being attacked gives ground it might have held, and a " +
-      "corps that does not retire may be destroyed where it stands. Behind the line there " +
-      "are two roads, a railway, and 150 kilometres to Damascus.",
     choices: [
       {
   id: "hold",
@@ -1721,10 +1635,6 @@ CAMPAIGNS.otto.nodes = {
       "Straits forts be occupied, that the army be demobilised, and that the Allies " +
       "may occupy any territory in the event of disorder. The delegation has asked for " +
       "instructions.",
-    context:
-      "The terms are hard and loosely drawn. The government is told it can refuse them and " +
-      "fall back on Anatolia, which it has no army to defend, or sign them and trust what " +
-      "the British say about the intentions behind them.",
     choices: [
       {
         id: "sign",
@@ -1781,7 +1691,7 @@ CAMPAIGNS.otto.nodes = {
     epilogue: (flags) =>
       "The German ships, August 1914: " + (flags.otto_straits === "closed" ? "kept out of the Straits." : "admitted to the Straits and taken into the navy.") + "\n" +
       "Entering the war, 1914: " + (flags.otto_blacksea === "held" ? "the fleet kept in the Bosphorus." : "the Black Sea raid, and war with Russia.") + "\n" +
-      "Sarikamis, December 1914: " + (flags.otto_sarikamis === "held" ? "the Erzurum line held through the winter." : flags.otto_sarikamis === "postponed" ? "the offensive postponed for a month for clothing, and then decided on the new facts." : "the offensive in the snow.") + "\n" +
+      "Sarıkamış, December 1914: " + (flags.otto_sarikamis === "held" ? "the Erzurum line held through the winter." : flags.otto_sarikamis === "postponed" ? "the offensive postponed for a month for clothing, and then decided on the new facts." : "the offensive in the snow.") + "\n" +
       "The Suez Canal, February 1915: " + (flags.otto_suez === "kept" ? "the Fourth Army kept in Palestine." : flags.otto_suez === "raided" ? "a small column sent to raid the canal." : "the attack across Sinai.") + "\n" +
       "Gallipoli, April 1915: " + (flags.otto_gallipoli === "forward" ? "the divisions placed above the beaches." : "the reserve kept inland, and the landings contained.") + "\n" +
       "Kut, winter of 1915-16: " + (flags.otto_kut === "storm" ? "the town stormed." : flags.otto_kutResult === "relieved" ? "the siege broken by the relief force." : "the siege kept, and the British surrender.") + "\n" +
@@ -1843,7 +1753,7 @@ CAMPAIGNS.otto.nodes = {
     ending: { family: "core-defence", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The empire's army fought the war on every front it could reach. What " +
-      "actually happened: the offensive at Sarikamis, the attack on the canal, the garrison " +
+      "actually happened: the offensive at Sarıkamış, the attack on the canal, the garrison " +
       "of the Hejaz and the Army of Islam were all commitments beyond what the railways and " +
       "the stores could carry, and each cost men the empire could not replace. Whether " +
       "a war confined to Anatolia and the Straits would have saved the empire cannot " +

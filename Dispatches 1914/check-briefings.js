@@ -16,7 +16,7 @@ for (const id of E.CAMPAIGN_IDS) {
   checked++;
   if (!b) { problems.push(`${id}: no briefing`); continue; }
   for (const k of ["nation", "title", "seat"]) if (!b[k] || typeof b[k] !== "string") problems.push(`${id}: no ${k}`);
-  if (!b.quote || typeof b.quote.text !== "string" || typeof b.quote.by !== "string" || typeof b.quote.date !== "string") problems.push(`${id}: no quote with text, by and date`);
+  if (!b.quote || typeof b.quote.text !== "string" || typeof b.quote.by !== "string") problems.push(`${id}: no quote with text and by`);
   else if (/[—–]/.test(b.quote.text + b.quote.by) || /"/.test(b.quote.text + b.quote.by)) problems.push(`${id}: the quote has a long dash or a quotation mark (they are added on screen)`);
   if (!b.modes || typeof b.modes.easy !== "string" || typeof b.modes.hard !== "string") problems.push(`${id}: no names for the easy and hard files`);
   if (!["central", "entente"].includes(b.side)) problems.push(`${id}: side must be central or entente`);

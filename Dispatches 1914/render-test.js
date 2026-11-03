@@ -93,7 +93,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("no unresolved-node error anywhere", !txt().includes("does not resolve"));
 
   // Second campaign: menu -> GQG -> first node, checking the per-campaign labelling.
-  const home = btns().find(b => b.textContent.trim() === "Home");
+  const home = btns().find(b => b.textContent.trim() === "Menu");
   if (home) { click(home); await wait(60); }
   const gqg = btns().find(b => !b.disabled && b.textContent.includes("France"));
   t("can return to menu and pick a second campaign", !!gqg);
@@ -102,7 +102,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("GQG uses its own will label", txt().includes("MORALE") && !txt().includes("ARMY MORALE") && !txt().includes("HOME FRONT"));
   t("GQG uses its own document treatment", txt().includes("COMPTE RENDU"));
 
-  const home2 = btns().find(b => b.textContent.trim() === "Home");
+  const home2 = btns().find(b => b.textContent.trim() === "Menu");
   if (home2) { click(home2); await wait(60); }
   const stavka = btns().find(b => !b.disabled && b.textContent.includes("Russia"));
   t("Stavka is enabled", !!stavka);
@@ -117,12 +117,12 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   const byText = (x) => btns().find((b) => b.textContent.trim() === x || (/ mode$/.test(x) && b.textContent.trim().endsWith(x)));
   const byIncludes = (x) => btns().find((b) => b.textContent.includes(x));
   // Stavka is in progress: going Home offers it back.
-  click(byText("Home")); await wait(60);
+  click(byText("Menu")); await wait(60);
   t("a run in progress is offered back as a saved file", txt().includes("File in progress") && txt().includes("Russian Stavka"));
   t("the saved file survives in localStorage", !!window.localStorage.getItem("dispatches1914_save_v1"));
   click(byText("Resume file")); await wait(60);
   t("Resume file returns to the node the run was on", txt().includes("Before the Concentration"));
-  click(byText("Home")); await wait(60);
+  click(byText("Menu")); await wait(60);
 
   // Hard mode switch: on the briefing, after the command is chosen.
   click(byIncludes("Germany")); await wait(60);
@@ -131,12 +131,12 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("hard mode shows the command's pressure", txt().includes("the war effort consuming the country that sustains it"));
   await enter();
   t("a hard-mode run shows the erosion track", txt().includes("HARD MODE") && txt().includes("EROSION 0/"));
-  click(byText("Home")); await wait(60);
+  click(byText("Menu")); await wait(60);
   click(byIncludes("Germany")); await wait(60);
   click(byText("Standard")); await wait(40);
   await enter();
   t("a standard run shows no erosion track", !txt().includes("EROSION"));
-  click(byText("Home")); await wait(60);
+  click(byText("Menu")); await wait(60);
 
   // War record.
   click(byIncludes("War record")); await wait(60);
@@ -152,7 +152,7 @@ const enter = async () => { click(btns().find((b) => b.textContent.trim() === "E
   t("endings gallery counts endings found", /\d+ of \d+ endings found/.test(txt()));
   click(byText("Battles")); await wait(40);
   t("the battles tab lists the Orders of Battle", txt().includes("the Marne") && !txt().includes("Not yet fought"));
-  click(byText("Return to file")); await wait(60);
+  click(byText("Menu")); await wait(60);
   t("the war record is kept in localStorage", !!window.localStorage.getItem("dispatches1914_record_v1"));
 
   // How to play.

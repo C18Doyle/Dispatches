@@ -309,7 +309,7 @@ export const ECHOES = {
     label: "Serbia, October 1914",
     historical: "invaded",
     values: { invaded: "A third invasion of Serbia, as it was.", declined: "The Balkan divisions were held for Galicia." },
-    setBy: "Austro-Hungarian AOK", readBy: "Russian Stavka (Przemysl, October 1914)",
+    setBy: "Austro-Hungarian AOK", readBy: "Russian Stavka (Przemyśl, October 1914)",
   },
   xc_ukraine: {
     label: "Grain from Ukraine, February 1918",

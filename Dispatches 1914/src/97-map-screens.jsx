@@ -204,7 +204,7 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
           <div className="dg-modal-inner">
             <div className="dg-maphead">
               <span className="t">The front · {nodeDate(campaignId, node.date)}</span>
-              <button ref={closer} className="dg-btn" onClick={() => setOpen(false)}>Close the map</button>
+              <button ref={closer} className="dg-btn" onClick={() => setOpen(false)}>Close</button>
             </div>
             <MapCanvas campaignId={campaignId} node={node} visited={visited} full pins={meanwhile} ops={ops} ground={ground} />
             {meanwhile.length > 0 && (
@@ -233,7 +233,7 @@ function FrontMapPanel({ campaignId, node, nodeId, visited, focus, taken, execut
                 <h2 className="dg-order">Your file against the record</h2>
                 <ul className="dg-groundlist">
                   {ground.map((g) => (
-                    <li key={g.id} className={"dg-ground-" + g.kind}><b>{g.kind === "gained" ? "Held or taken" : "Lost or not taken"}: {g.name}.</b> Speculative. {g.text}</li>
+                    <li key={g.id} className={"dg-ground-" + g.kind}><b>{g.kind === "gained" ? "Held or taken" : "Lost or not taken"}: {g.name}.</b> <span className="dg-offrecord">Not in the record</span> {g.text}</li>
                   ))}
                 </ul>
               </>

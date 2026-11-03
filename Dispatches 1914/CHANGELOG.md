@@ -5,6 +5,18 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## 1.4.4 (2026-10-28)
+### Changed: the game written one way
+- **Names keep their accents** everywhere (Pétain, Poincaré, Przemyśl, Sarıkamış, Łódź and the rest). A check keeps the plain spellings out.
+- **Dates in the UK form.** A bulletin's date no longer shows as year-month-day, and the screen audit fails on one.
+- **One set of ways out.** Menu leaves a file, Back goes one step, Close closes a dialog. Home, Return to file, Back to the commands, Back to the order and Close the map are gone.
+- **One type scale.** Every size in the interface is one of twelve (10, 11, 12, 13, 14, 16, 20, 24, 28, 32, 40, 48 px); about ninety stray sizes were moved onto it.
+- **One marker for what is not in the record.** A modelled outcome, a newspaper page and a mark on the ground carry the same small tag, Not in the record, instead of three different wordings.
+- **A line written for each report in the Meanwhile list.** The other commands' news is one sentence per report, written by hand, and no longer the clipped first sentences of the report.
+- **Tidier endings.** Epilogues and the guide no longer close on a short line that names nothing (An army is an agreement about who gives orders; The terms were always the casualty list), and a check keeps them from coming back.
+- **Dead text removed.** The 142 background notes on reports that no screen showed, and the dates on the briefing quotations, are gone.
+- **A screenshot comparison** (`npm run visual`) takes nine screens in both looks at phone and desktop width and lists the ones a change has altered.
+
 ## 1.4.3 (2026-10-27)
 ### Changed: Night is the default look, and the text says less
 - **Night is the default theme.** Anyone who has not chosen a look now gets Night (it was Paper), and the page itself opens dark so that nothing flashes light first. A look that a player has chosen is kept.

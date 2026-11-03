@@ -203,7 +203,7 @@ t("flag prefixes are unique",
   const same = E.allNodes().every(({ nodeId }) => Object.entries(E.ECHOES).every(([k, e]) => {
     const a = E.resolveNode(nodeId, {}, E.emptyMeters(), E.emptyHardState());
     const b = E.resolveNode(nodeId, { [k]: e.historical }, E.emptyMeters(), E.emptyHardState());
-    return JSON.stringify([a.situation, a.context, a.title]) === JSON.stringify([b.situation, b.context, b.title]);
+    return JSON.stringify([a.situation, a.title]) === JSON.stringify([b.situation, b.title]);
   }));
   t("the historical value of every echo leaves every node's text unchanged", same);
   const differs = Object.entries(E.ECHOES).every(([k, e]) => Object.keys(e.values).filter((v) => v !== e.historical).every((v) =>

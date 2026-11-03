@@ -5,7 +5,7 @@
 // One event, shown once between two reports (src/67-events.jsx). It has its own screen so that it reads as news from outside the war room and
 // not as another decision: the date, a title, two short paragraphs, and a button back to the file. A paper's front page is set as the paper would set it: a
 // masthead, a dateline with the weekday in the paper's language, a headline, a line saying whom it is from, two justified columns and a drop capital. The page says
-// at its foot, in small type, that it comes from the file and not from the record.
+// at its foot, in small type, that it is not in the record.
 
 const PAPER_LANG = {
   "Le Temps": "fr", "Le Matin": "fr", "Le Figaro": "fr",
@@ -56,7 +56,7 @@ function EventScreen({ campaignId, event, onContinue }) {
           <div className="dg-paper-cols">
             {paras.map((p, i) => <p key={i} className={i === 0 ? "dg-paper-first" : ""}>{p}</p>)}
           </div>
-          <p className="dg-paper-foot">A page from your file, not from the record.</p>
+          <p className="dg-paper-foot"><span className="dg-offrecord">Not in the record</span></p>
         </article>
       ) : (
         <>

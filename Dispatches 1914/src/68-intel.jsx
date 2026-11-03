@@ -41,7 +41,7 @@ export const INTEL_ITEMS = {
   ],
   otto_1914_03_sarikamis: [
     { id: "thin", grade: "doubtful", holds: false, relied: ["launch"], source: "Enver's own reading of the front",
-      text: "The Russian line round Sarikamis is thin and has no winter equipment.",
+      text: "The Russian line round Sarıkamış is thin and has no winter equipment.",
       truth: "The Russians had more men in the area than Enver reckoned, and a railway to bring up the rest. It was the Ottoman columns that had no winter clothing." },
   ],
   otto_1915_02_gallipoli: [

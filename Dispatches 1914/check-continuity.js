@@ -24,7 +24,6 @@ for (const [target, sources] of inbound) {
   const node = found.node;
   const conditional =
     typeof node.situation === "function" ||
-    typeof node.context === "function" ||
     typeof node.bulletin === "function";
   if (!conditional) {
     review.push(`${target}: ${sources.length} inbound paths (${sources.join(", ")}) but no conditional prose`);

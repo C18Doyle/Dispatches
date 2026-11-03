@@ -226,7 +226,7 @@ function BattleScreen({ campaignId, config, choice, meters, easy, forcePostureId
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow">
         <span>ORDER OF BATTLE</span>
-        <button className="dg-btn" onClick={onBack}>Back to the order</button>
+        <button className="dg-btn" onClick={onBack}>Back</button>
       </div>
       <h1 className="dg-node-title">{config.title}</h1>
       <p className="dg-ask"><b>The task.</b> Plan the battle in {steps.length} {steps.length === 1 ? "step" : "steps"}, or let the staff plan it and change what you like.</p>

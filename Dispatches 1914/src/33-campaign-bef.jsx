@@ -94,10 +94,6 @@ CAMPAIGNS.bef.nodes = {
       "taken the chair and has not made up his mind.\n\n" +
       "The Admiralty is afraid of a German landing on the east coast, and the Territorial " +
       "Force, which is meant to defend the country, has not yet been called out.",
-    context:
-      "The French have been promised six divisions, and a smaller army is a broken promise. The " +
-      "fear of invasion is real, and so is the arithmetic: the divisions that go to France " +
-      "are the ones that cannot be at home.",
     choices: [
       {
         id: "four",
@@ -188,11 +184,6 @@ CAMPAIGNS.bef.nodes = {
       "army too small and too precious to be put so far forward, and would have it " +
       "assemble at Amiens, farther back, where it could strike once the route of the " +
       "German advance is known. Haig takes the same view.",
-    context:
-      "The office that sits at this table hears the Cabinet and the field commanders " +
-      "both. It has no army of its own to command. It decides what the Cabinet decides, " +
-      "and what the Cabinet can be made to hear from the generals, in the order they " +
-      "arrive.",
     choices: [
       {
         id: "maubeuge",
@@ -266,10 +257,6 @@ CAMPAIGNS.bef.nodes = {
       "Joffre has urged him not to, and so has the President of the Republic, through " +
       "the British ambassador. Kitchener has crossed to Paris to see him, in the " +
       "uniform of a field marshal, and has put the matter in front of the Cabinet.",
-    context:
-      "The army has been the whole of Britain's land force in the field. Taking it out " +
-      "of the line, even for a week, tells the French that the British are leaving the " +
-      "alliance's battle at its worst moment.",
     choices: [
       {
         id: "stay",
@@ -327,9 +314,6 @@ CAMPAIGNS.bef.nodes = {
       "Today German reserve corps made up of volunteers have begun to attack at " +
       "Langemarck in dense columns. They lose very heavily and gain little. Behind them " +
       "the German command is assembling fresh divisions for a larger blow.",
-    context:
-      "The ports are the army's supply line. A line farther back would be easier to " +
-      "hold and would give up Ypres, and the Belgian coast with it.",
     choices: [
       {
         id: "hold",
@@ -382,10 +366,6 @@ CAMPAIGNS.bef.nodes = {
       "division in Britain, to Lemnos as a back-up if the fleet should need an army. " +
       "Four days later he delayed its departure, and the War Council was not told. It " +
       "has still not sailed. Its release is the Cabinet's to give.",
-    context:
-      "The Navy's attack needs no soldiers. If it succeeds, the army was not wanted. If " +
-      "it fails, the army is the only way left to try again, and it will have to go " +
-      "by sea to a coast the enemy has had weeks to prepare.",
     choices: [
       {
         id: "release",
@@ -438,10 +418,6 @@ CAMPAIGNS.bef.nodes = {
       "The article will be in tomorrow's paper. The government has said the supply is " +
       "in hand. The Admiralty is in a quarrel over the Dardanelles that has already " +
       "put the Cabinet under strain.",
-    context:
-      "The shortage is real, and the War Office has not made it known. A statement " +
-      "from the army to the press that the government is failing it is an act of war " +
-      "against the government, whether it is meant as one or not.",
     choices: [
       {
         id: "tell",
@@ -500,10 +476,6 @@ CAMPAIGNS.bef.nodes = {
         : "The shell supply is still the army's chief grievance. ") +
       "Kitchener's view on 21 August is that the British must support the French " +
       "offensive, whatever the army thinks of the ground.",
-    context:
-      "The alliance is under strain. The French have been carrying most of the war " +
-      "on the Western Front for a year, and have made it clear what they think of " +
-      "British commitment.",
     choices: [
       {
         id: "attack",
@@ -561,9 +533,6 @@ CAMPAIGNS.bef.nodes = {
       "Haig, whose First Army is making the attack, wants the reserve close behind it, " +
       "so that it can go through if the line breaks. Foch has the same view. The two " +
       "new divisions have only just landed in France and have marched a long way.",
-    context:
-      "A reserve that is near can be used when the opening comes. One that is far has to " +
-      "march to it, and the opening is not there when it arrives.",
     choices: [
       {
         id: "keep",
@@ -636,10 +605,6 @@ CAMPAIGNS.bef.nodes = {
       "\n\nThe army in Gallipoli numbers some 93,000 men and 200 guns. The alternative " +
       "to evacuating is to reinforce it, with divisions that France and Salonika are also " +
       "asking for.",
-    context:
-      "The decision belongs to the Cabinet, and this office carries it out. An " +
-      "evacuation in the face of the enemy is the hardest operation in war, and the " +
-      "estimates of what it would cost run as high as half the force.",
     choices: [
       {
         id: "evacuate",
@@ -706,10 +671,6 @@ CAMPAIGNS.bef.nodes = {
       "their opinion of who should take his place, and the opinion of the army " +
       "commanders is for Haig. The other name is Robertson's, who is Chief of Staff of " +
       "the army and has no wish to leave the War Office.",
-    context:
-      "A change of Commander-in-Chief changes what the army will be asked to do. Haig " +
-      "believes more strongly than French in the possibility of a decisive blow, and " +
-      "is less willing to be told otherwise.",
     choices: [
       {
         id: "haig",
@@ -760,10 +721,6 @@ CAMPAIGNS.bef.nodes = {
       "are, and he is about to bring in a Bill to compel the single. Many Liberals and " +
       "the whole of the Labour movement are against compulsion on principle, and the " +
       "Home Secretary is going to resign.",
-    context:
-      "The army needs men for the offensive that has been agreed with the French for the " +
-      "summer. Compulsion is the way to get them, and a political price must be paid " +
-      "for it.",
     choices: [
       {
         id: "compel",
@@ -836,10 +793,6 @@ CAMPAIGNS.bef.nodes = {
       "breakthrough. His plan is for limited advances to take the high ground, a pause " +
       "to break up the German counter-attacks, and then another advance. He has " +
       "submitted it and Haig has said it is not ambitious enough.",
-    context:
-      "A plan that tries for a breakthrough needs more men, more guns and more reserves " +
-      "than the army has, and is judged by whether the gap opens. One that tries for " +
-      "a bite is judged by the ground it holds, and is a smaller thing to promise.",
     choices: [
       {
         id: "compromise",
@@ -915,10 +868,6 @@ CAMPAIGNS.bef.nodes = {
       "The Somme has been going on for ten weeks, and the army needs a success. Haig is " +
       "eager to try the new machines as soon as they are ready, and the Fourth Army's " +
       "attack on the 15th is the next chance.",
-    context:
-      "A weapon can be used once for the first time. Spent in small numbers on a " +
-      "difficult field, it teaches the enemy what to expect, and held back, it is " +
-      "not available when it is needed.",
     choices: [
       {
         id: "now",
@@ -1014,10 +963,6 @@ CAMPAIGNS.bef.nodes = {
       "that will carry the spring offensive. Lloyd George, with the approval of the " +
       "War Cabinet, has a different purpose: to place the British army under Nivelle for " +
       "the duration of the offensive. He has not told Haig or Robertson.",
-    context:
-      "A Prime Minister who can put the army under a foreign general is a Prime " +
-      "Minister who can put it under anyone. Haig and Robertson have to decide what " +
-      "they will accept, and what they will resign over.",
     choices: [
       {
         id: "accept",
@@ -1073,10 +1018,6 @@ CAMPAIGNS.bef.nodes = {
       "ports could not handle the arrivals. Its anti-submarine division has " +
       "recommended it, and the First Sea Lord, Jellicoe, has approved a trial. The Prime " +
       "Minister is going to the Admiralty to see for himself.",
-    context:
-      "Britain has some weeks of wheat in the country. A decision about convoy is a " +
-      "decision about whether the war can be kept going at all, and the Cabinet has " +
-      "to decide how hard to press it.",
     choices: [
       {
         id: "convoy",
@@ -1143,10 +1084,6 @@ CAMPAIGNS.bef.nodes = {
       "superiority in Flanders and parity in artillery, and the Americans are coming. " +
       "He would rather wait. Robertson backs Haig, and is the Cabinet's military " +
       "adviser.",
-    context:
-      "A Prime Minister can veto an offensive. He cannot replace the Commander-in-Chief " +
-      "and the Chief of the Imperial General Staff together without a political " +
-      "crisis, and the War Cabinet is divided about whether it would be worth one.",
     choices: [
       {
         id: "authorise",
@@ -1219,10 +1156,6 @@ CAMPAIGNS.bef.nodes = {
       "Germans are tired. The Prime Minister believes that the first step has shown " +
       "what the army can do and that a second would show what it cannot. The weather " +
       "has begun to break.",
-    context:
-      "A limited attack that succeeds is the hardest kind to stop. The ground that has " +
-      "been taken is a base for the next step, and every argument for going on is " +
-      "made by a man who has just been proved right.",
     choices: [
       {
         id: "goon",
@@ -1308,14 +1241,10 @@ CAMPAIGNS.bef.nodes = {
       "to Barisis, a line that would need six more divisions in the front. The French " +
       "have been carrying the war for longer and are in worse condition." +
       (flags.xc_usw === "restricted" ? "\n\nThe Americans are not coming. The United States is not at war with Germany, and the Allies cannot count on a single division from her in 1918." : ""),
-    context:
-      "To take the front is to go into the spring with a longer line and fewer men to " +
-      "hold it. To refuse is to tell the French that their ally is keeping its men " +
-      "for itself.",
     choices: [
       {
         id: "extend",
-        label: "Take over the line to Barisis as Petain asks, with the men the Cabinet allows",
+        label: "Take over the line to Barisis as Pétain asks, with the men the Cabinet allows",
         historical: true,
         advisor: { name: "Haig", position:
           "The French are asking what they need. We will take the line, and I will ask the Cabinet for the men to hold it." },
@@ -1350,7 +1279,7 @@ CAMPAIGNS.bef.nodes = {
           "Speculative. The extension is delayed, and the French are told that they " +
           "must hold what they have for some weeks longer. The British line is shorter " +
           "when the German offensive comes, and the French line is longer. Clemenceau " +
-          "and Petain say what they think of an ally who takes the French armies' " +
+          "and Pétain say what they think of an ally who takes the French armies' " +
           "losses and gives them nothing in return.",
       },
       {
@@ -1363,7 +1292,7 @@ CAMPAIGNS.bef.nodes = {
         next: "bef_1918_17_reserve",
         outcome:
           "Speculative. The British take over a shorter sector, as far as the Oise, and tell the French " +
-          "that the rest will follow when the reinforcements arrive. Petain, who has asked for Barisis, " +
+          "that the rest will follow when the reinforcements arrive. Pétain, who has asked for Barisis, " +
           "is not pleased, and puts a French division where a British one would have stood. The Fifth " +
           "Army has fewer miles to hold when the German blow falls in March, and the French have more, " +
           "and Clemenceau, who was told that the army would help, says what he thinks.",
@@ -1386,12 +1315,8 @@ CAMPAIGNS.bef.nodes = {
         : "Robertson resigned on 11 February over the general reserve, and Henry Wilson is Chief of the Imperial General Staff.") +
       "\n\nThe Council has asked each army to contribute divisions to the general " +
       "reserve. Haig has been told to find them, from an army that is short of men " +
-      "and holding a longer front than it did. Petain and Clemenceau are against the " +
+      "and holding a longer front than it did. Pétain and Clemenceau are against the " +
       "scheme too.",
-    context:
-      "A Commander-in-Chief who refuses a decision of the Supreme War Council is " +
-      "refusing the government that sent him. He has Petain and Clemenceau on his " +
-      "side, and the Prime Minister has to decide whether to dismiss him.",
     choices: [
       {
         id: "refuse",
@@ -1405,7 +1330,7 @@ CAMPAIGNS.bef.nodes = {
         next: "bef_1918_18_doullens",
         outcome:
           "In the first days of March Haig refuses to carry out the Council's order. " +
-          "With Petain and Clemenceau, who also oppose the measure, he defeats the " +
+          "With Pétain and Clemenceau, who also oppose the measure, he defeats the " +
           "scheme. The Prime Minister decides it is too late, with a great German " +
           "attack expected, to replace him. The general reserve is never formed, and " +
           "the offensive opens on 21 March against armies that have no common reserve.",
@@ -1441,10 +1366,6 @@ CAMPAIGNS.bef.nodes = {
       "said that he wanted General Foch, or some other determined general, given " +
       "supreme command of the operations. Milner has been sent by the Prime Minister, " +
       "with the powers to settle the matter.",
-    context:
-      "A British Commander-in-Chief who accepts a French general's orders is " +
-      "giving up what no British commander has given up before. The alternative is " +
-      "two armies falling back in different directions.",
     choices: [
       {
         id: "foch",
@@ -1503,10 +1424,6 @@ CAMPAIGNS.bef.nodes = {
       "Channel ports. The army has been fighting for three weeks, and the reserves " +
       "that were to have come from France are not yet in the line.\n\n" +
       "The commanders in the north are asking for orders. The ports are not far away.",
-    context:
-      "An order that forbids any retirement may save a position and may waste a " +
-      "division that was holding it. An order that permits one may be read as a " +
-      "signal that the whole line is giving way.",
     choices: [
       {
         id: "order",
@@ -1568,10 +1485,6 @@ CAMPAIGNS.bef.nodes = {
       "said, would become anxious if the army suffered heavy punishment in attacking it " +
       "without success. The Cabinet is also worried about keeping troops at home, " +
       "because of a police strike.",
-    context:
-      "To pause is to give the Germans time to fall back and consolidate behind the " +
-      "strongest line on the front. To go on is to attack the Hindenburg Line against " +
-      "the wishes of the Cabinet that the army serves.",
     choices: [
       {
         id: "attack",
@@ -1633,10 +1546,6 @@ CAMPAIGNS.bef.nodes = {
       "and has fought hard, and its command still has men and guns. The French and " +
       "the Americans, he believes, are asking for more than the Germans will " +
       "accept. His advice is moderate.",
-    context:
-      "Terms that are too hard will be refused and the war will go on into the winter. " +
-      "Terms that are too soft will be called a betrayal by the people who have " +
-      "carried it for four years, and a pause for the German army to recover in.",
     choices: [
       {
         id: "moderate",
@@ -1866,7 +1775,7 @@ CAMPAIGNS.bef.nodes = {
     ending: { family: "unified-reserve", badge: BADGES.SPECULATIVE },
     epilogue: () =>
       "Speculative. The general reserve was proposed by the Supreme War Council and " +
-      "defeated by Haig, Petain and Clemenceau. What actually happened: Robertson, " +
+      "defeated by Haig, Pétain and Clemenceau. What actually happened: Robertson, " +
       "who opposed it, was forced to resign on 11 February 1918 and replaced by " +
       "Wilson. In the first days of March Haig refused to carry out the order. " +
       "After the German offensive began on 21 March, Foch was given the " +
