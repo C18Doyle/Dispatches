@@ -1249,6 +1249,11 @@ function mapDiscRadius(id) {
 // "close the NODE_HIGHLIGHT_REGIONS gaps" work).
 const NODE_HIGHLIGHT_REGIONS = {
   german: {
+  fallWeiss39: ["poland"],
+  phoneyWar39: ["germany", "france"],
+  mechelen40: ["benelux"],
+  altmark40: ["norway"],
+  ore40: ["norway", "denmark"],
   norway40: ["norway"],
   caseYellow40: ["france", "benelux"],
   caseYellowOriginal40: ["france", "benelux"],
