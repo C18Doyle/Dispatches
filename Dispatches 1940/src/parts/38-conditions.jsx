@@ -103,9 +103,12 @@ const DYSLEXIA_CSS = `
  */
 const NIGHT_CSS = `
   html { color-scheme: dark; }
-  .bg-white { filter: invert(0.9) hue-rotate(180deg); box-shadow: 0 8px 30px rgba(255, 255, 255, 0.5) !important; }
+  .bg-white { filter: invert(1) hue-rotate(180deg); background-color: #e6e6e6; box-shadow: 0 8px 30px rgba(255, 255, 255, 0.5) !important; }
   .bg-white .bg-white { filter: none; }
   .bg-white img, .bg-white video, .bg-white canvas { filter: invert(1) hue-rotate(180deg); }
+  .bg-white .dg-reportmap { filter: invert(1) hue-rotate(180deg); }
+  .bg-white .dg-reportmap img { filter: none; }
+  .bg-white .dg-reportmap .dg-reportmap-inner { filter: invert(0.88) hue-rotate(180deg) brightness(0.86); }
 `;
 
 /** Reads a report aloud with the browser's own voice, where it has one; nothing is drawn where it has none. */

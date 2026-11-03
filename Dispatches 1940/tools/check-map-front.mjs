@@ -118,6 +118,39 @@ for (const cid of Object.keys(FILES)) {
 }
 for (const key of Object.keys(offNames)) { const [cid, id] = key.split("/"); if (!(M.MAP_PLACES[cid] || {})[id]) problems.push(`MAP_OFF_MAP ${key}: not a report with a place`); }
 
+// ---- the teeth of a front stand on the side nearer Germany, and the scale bar of a map window fits it ----
+{
+  const bboxSrc = maps.slice(maps.indexOf("const CAMPAIGN_MAP_BBOX = {"), maps.indexOf("};", maps.indexOf("const CAMPAIGN_MAP_BBOX = {")) + 2);
+  const projSrc = "const MAP_OVERLAY_W = 800; const MAP_OVERLAY_H = 600;";
+  const mercSrc = maps.slice(maps.indexOf("function mercY("), maps.indexOf("}", maps.indexOf("function mercY(")) + 1);
+  const projFn = maps.slice(maps.indexOf("function projectLonLat("), maps.indexOf("\n}\n", maps.indexOf("function projectLonLat(")) + 3);
+  const teeth = front.slice(front.indexOf("function frontTeeth("), front.indexOf("/** The fronts, drawn under the names"));
+  const scale = front.slice(front.indexOf("function mapScaleBar("), front.indexOf("/**\n * The map under the title of a report"));
+  const G = new Function(I18N_STUB + projSrc + "\n" + mercSrc + "\n" + projFn + "\n" + bboxSrc + "\n" + teeth + "\n" + scale + "\nreturn { CAMPAIGN_MAP_BBOX, projectLonLat, frontTeeth, mapScaleBar, MAP_OVERLAY_W, MAP_OVERLAY_H };")();
+  const home = G.projectLonLat(10.5, 51.0, G.CAMPAIGN_MAP_BBOX.german);
+  let teethChecked = 0;
+  for (const th of M.FRONT_SERIES) {
+    if (th.kind === "zone") continue;
+    for (const e of th.entries) {
+      for (const ln of e.lines || []) {
+        teethChecked++;
+        const d = G.frontTeeth(ln, G.CAMPAIGN_MAP_BBOX.german, home, 11, 3.6, 2.8);
+        if (!d && ln.length > 1) {
+          // a line that only touches the edge of the map has no room for a tooth: it takes three points inside to need one
+          const inside = ln.filter(([lo, la]) => { const [x, y] = G.projectLonLat(lo, la, G.CAMPAIGN_MAP_BBOX.german); return x > 0 && x < G.MAP_OVERLAY_W && y > 0 && y < G.MAP_OVERLAY_H; }).length >= 3;
+          if (inside) problems.push("front " + th.id + " " + e.from + ": a line inside the German map has no teeth");
+        }
+      }
+    }
+  }
+  for (const cid of Object.keys(G.CAMPAIGN_MAP_BBOX)) {
+    for (const zoom of [1, 1.5, 2, 3, 4]) {
+      const bar = G.mapScaleBar(G.CAMPAIGN_MAP_BBOX[cid], zoom);
+      if (!(bar.pct >= 4 && bar.pct <= 30) || !(bar.km >= 25)) problems.push("scale bar " + cid + " at zoom " + zoom + ": " + bar.km + " km is " + bar.pct.toFixed(1) + " percent of the window");
+    }
+  }
+}
+
 // ---- meanwhile ----
 let meanwhile = 0;
 for (const cid of Object.keys(FILES)) {
