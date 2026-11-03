@@ -40,6 +40,10 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 - The first year and a half has seven reports of its own (Burma Road, Neutrality Pact, Indian Ocean raid; China air force, Stilwell, Wasp request, Pacific route) and sixteen reports carry a third order added in the second fork wave. Facts: `claims/early-branching-round1.json`, `claims/forks-round1.json`. `npm run test:branch-nodes` clicks every option of the seven and the added order of the sixteen from a save on each report.
 - Adding a report: atlas entry, `NODE_TOTAL`, a map hint in `NODE_REGION_HINTS` (30-screens), and a reader for every flag it sets (`check-reachability` fails on a flag written and never read).
 
+## Playing it as a bot, and balance
+- `npm run playthrough` (`tools/playthrough.mjs`, needs `npm run build` and `npx playwright install chromium`) plays each command to an ending in real Chromium, easy with a battle planned by hand and hard with the staff planning, and fails on a console error, a stall, a damaged-file screen or a serious axe finding. It runs in the CI browser job. `RUNS=1`, `CAMPAIGNS=japan`, `VERBOSE=1` narrow it.
+- `npm run balance` (`tools/balance.mjs`, `docs/BALANCE.md` with `--write`) plays each command in six styles on the game's own rules and reports the length of a run, the endings each style reaches, pinned meters and decisions where one order beats another by more than four points of meter. Read it before adding forks.
+
 ## Commands
 - `npm run build` writes `dist/full` and `dist/demo` (demo = `process.env.DEMO_BUILD` defined true).
 - `npm run typecheck` checks `src/logic.ts` (App.jsx is not typed yet).
