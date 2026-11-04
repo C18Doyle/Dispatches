@@ -378,12 +378,12 @@
             },
             {
               label: "Return the fleet to San Diego, as Richardson asks",
-              advisor: { name: "Nimitz", position: "The fleet\x27s crews are trained and fed from the coast. Bringing them back keeps the ships ready, and keeping them at Hawaii wears them out without making them any safer." },
+              advisor: { name: "Nimitz", position: "The fleet's crews are trained and fed from the coast. Bringing them back keeps the ships ready, and keeping them at Hawaii wears them out without making them any safer." },
               setFlags: { fleetBasingPath: "coast" },
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               next: "richardsonObjection40",
               outcome:
-                "A modeled alternative. The fleet goes home to the coast, and the President\x27s signal to Tokyo is not sent. The fleet is better manned and supplied, and it is a week\x27s steaming from Hawaii when the crisis of 1941 comes.",
+                "A modeled alternative. The fleet goes home to the coast, and the President's signal to Tokyo is not sent. The fleet is better manned and supplied, and it is a week's steaming from Hawaii when the crisis of 1941 comes.",
             },
             {
               label: "Keep the fleet at Hawaii, and order the tenders, tankers and repair ships out to meet it",
@@ -392,7 +392,7 @@
               impact: { readiness: 0, pipeline: -2, initiative: 1 },
               next: "richardsonObjection40",
               outcome:
-                "A modeled alternative. Richardson\x27s complaint was that the fleet was sent to Hawaii without the ships that keep it there. Sending the train as well costs the Navy auxiliaries it does not have in numbers, and takes them from the West Coast and the Atlantic.",
+                "A modeled alternative. Richardson's complaint was that the fleet was sent to Hawaii without the ships that keep it there. Sending the train as well costs the Navy auxiliaries it does not have in numbers, and takes them from the West Coast and the Atlantic.",
             },
           ],
         };
@@ -403,9 +403,9 @@
           title: "Richardson's Objection",
           historicalRecord: true,
           situation:
-            "On 8 October Richardson lunches with the President at the White House and says that the fleet should not be at Hawaii, and that the Navy\x27s senior officers do not have confidence in the civilian leadership to use it properly. On 26 October a Washington newsletter predicts that he will be relieved. The Navy Department has a decision to make about the man who commands the fleet and about the place where it lies." +
+            "On 8 October Richardson lunches with the President at the White House and says that the fleet should not be at Hawaii, and that the Navy's senior officers do not have confidence in the civilian leadership to use it properly. On 26 October a Washington newsletter predicts that he will be relieved. The Navy Department has a decision to make about the man who commands the fleet and about the place where it lies." +
             (flags.fleetBasingPath === "coast"
-              ? " The fleet is on the West Coast. Richardson\x27s argument is about the next time it is asked to move."
+              ? " The fleet is on the West Coast. Richardson's argument is about the next time it is asked to move."
               : ""),
           choices: [
             {
@@ -425,7 +425,7 @@
               impact: { readiness: 1, pipeline: 1, initiative: -2 },
               next: "atlanticTransfer41",
               outcome:
-                "A modeled alternative. The President\x27s signal to Tokyo is withdrawn, and the officer who argued against it keeps the fleet. The Navy\x27s senior officers are told that an honest objection is heard, and the White House is told that the Navy has a mind of its own.",
+                "A modeled alternative. The President's signal to Tokyo is withdrawn, and the officer who argued against it keeps the fleet. The Navy's senior officers are told that an honest objection is heard, and the White House is told that the Navy has a mind of its own.",
             },
             {
               label: "Keep Richardson at Hawaii and give him the reinforcements and auxiliaries he asked for",
@@ -464,12 +464,12 @@
             },
             {
               label: "Send the older ships and keep the carrier in the Pacific",
-              advisor: { name: "Layton", position: "Japan counts the Pacific Fleet\x27s carriers and battleships, and the Atlantic has no use for one carrier more. The old ships can go, and the carrier is the one thing the fleet cannot spare." },
+              advisor: { name: "Layton", position: "Japan counts the Pacific Fleet's carriers and battleships, and the Atlantic has no use for one carrier more. The old ships can go, and the carrier is the one thing the fleet cannot spare." },
               setFlags: { atlanticTransferPath: "partial" },
               impact: { readiness: -1, pipeline: 0, initiative: 0 },
               next: "americanEmbargoResponse41",
               outcome:
-                "A modeled alternative. The Atlantic gets battleships and cruisers that are no use in a carrier war, and the Pacific keeps the carrier that will matter in one. Admiral King\x27s escorts in the Atlantic have less than the Navy Department promised the President.",
+                "A modeled alternative. The Atlantic gets battleships and cruisers that are no use in a carrier war, and the Pacific keeps the carrier that will matter in one. Admiral King's escorts in the Atlantic have less than the Navy Department promised the President.",
             },
             {
               label: "Refuse the transfer: tell the Chief of Naval Operations that the Pacific Fleet cannot spare a ship",
@@ -492,11 +492,11 @@
                   setFlags: { atlanticTransferResult: "overruled" },
                   impact: { readiness: -2, pipeline: 0, initiative: -1 },
                   outcome:
-                    "Speculative. The President\x27s decision is not for a fleet commander to refuse. The ships go anyway, and the objection is on the record in Washington.",
+                    "Speculative. The President's decision is not for a fleet commander to refuse. The ships go anyway, and the objection is on the record in Washington.",
                 },
               ],
               outcome:
-                "A modeled alternative. The transfer was ordered by the President and the Chief of Naval Operations, and the Pacific Fleet\x27s staff could object but not refuse. Here the objection is made as a refusal, and the answer decides how it is remembered.",
+                "A modeled alternative. The transfer was ordered by the President and the Chief of Naval Operations, and the Pacific Fleet's staff could object but not refuse. Here the objection is made as a refusal, and the answer decides how it is remembered.",
             },
           ],
         };

@@ -235,7 +235,7 @@
                 },
               ],
               outcome:
-                "A modeled alternative. The Army\x27s wish was bases in the north of Indochina, and it got them in the autumn of 1940 by a harder road, after a short fight at Lang Son. Whether a demand in June would have been met is not something the record settles.",
+                "A modeled alternative. The Army's wish was bases in the north of Indochina, and it got them in the autumn of 1940 by a harder road, after a short fight at Lang Son. Whether a demand in June would have been met is not something the record settles.",
             },
             {
               label: "Leave Indochina alone and put the effort into the war in China",
@@ -244,7 +244,7 @@
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
               next: "burmaRoad40",
               outcome:
-                "A modeled alternative. The railway from Haiphong goes on carrying part of what China needs, and the Army\x27s divisions in China have one fewer reason to complain. The southern argument is put off to a month when Germany is winning and Japan has less to say.",
+                "A modeled alternative. The railway from Haiphong goes on carrying part of what China needs, and the Army's divisions in China have one fewer reason to complain. The southern argument is put off to a month when Germany is winning and Japan has less to say.",
             },
           ],
         };
