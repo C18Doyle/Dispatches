@@ -593,6 +593,7 @@ function WW2CommandInner() {
           instantText={instantText}
           soundOn={soundOn}
           onChoose={chooseOption}
+          onIntelCheck={(nodeId, itemId, hard) => setFlags((f) => intelCheck(f, nodeId, itemId, hard))}
           onRewind={rewindTo}
           onSave={manualSave}
           onHome={goHome}

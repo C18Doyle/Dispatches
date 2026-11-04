@@ -2854,7 +2854,31 @@ function FirstRunGuide({ accent, onDismiss }) {
   );
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onRewind, onSave, onHome }) {
+/** The adviser's line on an order, by how far the player has trusted them (see adviserStanding in logic.ts). Phrasing content only: it sits inside the order's button. */
+function AdviserLine({ advisor, date, flags }) {
+  const standing = adviserStanding(flags || {}, advisor.name);
+  const who = advisorAttribution(advisor.name, date);
+  if (standing === "gone") return null;
+  if (standing === "quiet") {
+    return (
+      <span className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100" style={{ borderLeft: "2px solid currentColor" }}>
+        {who} says little now: overruled too often to argue this one.
+      </span>
+    );
+  }
+  return (
+    <span className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100" style={{ borderLeft: "2px solid currentColor" }}>
+      {standing === "trusted" && (
+        <span className="not-italic mr-2 border border-current px-1.5 py-[1px] text-[10px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          Trusted
+        </span>
+      )}
+      {who} argues: {advisor.position}
+    </span>
+  );
+}
+
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onIntelCheck, onRewind, onSave, onHome }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [guideSeen, setGuideSeen] = useState(() => {
     try {
@@ -3203,6 +3227,9 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
         >
           {campaign.id === "japan" ? "Decoded Text Follows" : "BT"}
         </div>
+        {campaign.dynamic && onIntelCheck && (
+          <IntelPanel campaignId={campaign.id} nodeId={nodeId} flags={flags} easy={mode === "easy"} hard={mode === "fanatical" || mode === "coalition"} onCheck={(itemId) => onIntelCheck(nodeId, itemId, mode === "fanatical" || mode === "coalition")} accent={campaign.accent} />
+        )}
         <div className="flex flex-col mb-6 border-2 border-black">
           {stage.choices.map((choice, i) => {
             // Ordinal prefix per campaign convention: A/B/C for the Navy message
@@ -3228,6 +3255,11 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
               >
                 {ordinal}. {choice.label}
               </span>
+              {campaign.dynamic && onIntelCheck && intelRests(campaign.id, nodeId, i, flags, mode === "easy") && (
+                <span className="block mt-1 text-[11px] uppercase tracking-widest font-bold opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  {intelRests(campaign.id, nodeId, i, flags, mode === "easy")}
+                </span>
+              )}
               {iron && choice.favor && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
@@ -3337,14 +3369,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
                   “{choice.attested.text}”: {advisorAttribution(choice.attested.by, stage.date)}
                 </span>
               ) : (
-                choice.advisor && (
-                  <span
-                    className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100"
-                    style={{ borderLeft: "2px solid currentColor" }}
-                  >
-                    {advisorAttribution(choice.advisor.name, stage.date)} argues: {choice.advisor.position}
-                  </span>
-                )
+                choice.advisor && <AdviserLine advisor={choice.advisor} date={stage.date} flags={flags} />
               )}
               {choice.strain && choice.strain.points > 0 && (
                 <span className="block mt-1 text-[12px] font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>

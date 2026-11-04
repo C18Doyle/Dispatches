@@ -22,6 +22,10 @@ React + Tone.js, esbuild + Tailwind v4. Two campaigns (`japan`, `alliedPacific`)
 
 - Nine battles: Midway, the November battles off Guadalcanal, the Philippine Sea, Watchtower (CINCPAC), Sho-Go (IGHQ), Iwo Jima and Okinawa from both sides. Facts: `claims/battles-round1.json`, `claims/battles-round2.json`. `npm run test:battle-hosts` plays each through the real UI from a save on its hosting report, both outcomes.
 
+## The staff's reading and the advisers' standing
+- `INTEL_ITEMS` (36-staffs-reading) are beliefs a report carries, with a grade, a source, whether it holds and what the truth was; `relied` names the orders (by position) that rest on it. The player spends one of `INTEL.checks` per file to see the verdict (`ix_<node>_<id>` flags, `ix_used`); easy mode shows it free. It changes nothing in the rules: only the screens and the app may name it (`npm run check-staffs-reading` fails on any other part, and each belief needs a claim in `claims/staffs-reading.json`).
+- Trust is in `logic.ts` (`trustAfter` runs inside `resolveChoice`): flags `tr_<name>` (half-points), `trn_`, `trgone_`. Quiet at -4, gone at -6 (a state event, `resignationEvent`), trusted at +4 (a free reconnaissance pass, `trustedAdvisers`). The flag families `tr_`, `trn_`, `trgone_`, `ev_` and `ix_` are excluded from the write-only audit and from the engine equivalence test.
+
 ## Special events (state-driven)
 - `STATE_EVENTS` (20-registries) are short pieces of context shown once, between two reports, when the file's state calls for them: a window of months (`from`, `to`) that holds the report being arrived at, and `when(flags, meters)`. The rule is `dueStateEvent` / `arrivalScreen` in `logic.ts` (a divergence reveal and a report-keyed SPECIAL_EVENTS entry come first); the screen is `StateEventScreen`; the flag `ev_<id>` records that it was shown. They ask for no decision and change no meter. An event needs two paragraphs (no quotation marks, no em dashes), an `anchor` report inside its window, and claims in `claims/events-round1.json` under its id. `npm run check-events` and `npm run test:state-events` are in `test:fast`.
 

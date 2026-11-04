@@ -35,6 +35,10 @@
       "start": "^function BattleAllocationScreen\\("
     },
     {
+      "name": "36-staffs-reading",
+      "start": "^const INTEL = "
+    },
+    {
       "name": "40-app",
       "start": "^function WW2CommandInner\\("
     }
