@@ -588,6 +588,7 @@ function WW2CommandInner() {
           pastStages={pastStages}
           hasSeenProjectedBadge={hasSeenProjectedBadge}
           log={log}
+          history={history}
           mode={mode}
           favor={favor}
           instantText={instantText}

@@ -2329,7 +2329,7 @@ function ringsPathD(rings) {
 
 // `date` is the report's own date (the map shows the state on the day it opens); `atEnd` shows the war as it ended; `year` is the fallback for a
 // caller with only a year. The slider steps back month by month to January 1940.
-function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
+function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId, report }) {
   const MIN_MONTH = 1940 * 12;
   const maxKey = atEnd ? 19451231 : nodeDayKey(date) || (year ? Math.max(1940, Math.min(1945, year)) * 10000 + 101 : 19450101);
   const monthOf = (key) => Math.floor(key / 10000) * 12 + (Math.floor(key / 100) % 100) - 1;
@@ -2363,6 +2363,11 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
 
   const VBW = 960;
   const VBH = 650;
+  // On a report's own map (ReportMap, 37-map-front.jsx) the sheet can be framed on a window, the regions stand still, and the fronts, the place of the report and its orders are drawn.
+  const passive = !!(report && report.passive);
+  const view = report && report.frame ? report.frame : { x: 0, y: 0, w: VBW, h: VBH };
+  const markScale = Math.max(0.55, Math.min(1, (view.w / VBW) * 1.5));
+  const fronts = frontsOn(dayKey, statuses);
 
   const header = (
     <div
@@ -2427,7 +2432,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
   return (
     <div className="mb-2">
       {header}
-      <svg viewBox={`0 0 ${VBW} ${VBH}`} role="group" aria-label={`Pacific theater map, ${monthLabel}`} className="w-full border-[3px]" style={{ background: "#e3d5ae", borderColor: "#3a2a18" }}>
+      <svg viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`} role="group" aria-label={`Pacific theater map, ${monthLabel}`} className="w-full border-[3px]" style={{ background: "#e3d5ae", borderColor: "#3a2a18" }}>
         <defs>
           <pattern id={`hexTexture${uid}`} width="16" height="27.7" patternUnits="userSpaceOnUse">
             <path
@@ -2512,7 +2517,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
           if (!reg) return null;
           const status = statuses[id] || "neutral";
           const isHighlighted = highlightRegions.includes(id);
-          const hasNote = !!regionNotes[id];
+          const hasNote = !passive && !!regionNotes[id];
           const d = ringsPathD(reg.rings);
           const [lx, ly] = reg.label;
           const labelBelow = LABEL_BELOW[id];
@@ -2578,7 +2583,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
           const tier = tierFor(id);
           const r = mapRadiusFor(tier);
           const isHighlighted = highlightRegions.includes(id);
-          const hasNote = !!regionNotes[id];
+          const hasNote = !passive && !!regionNotes[id];
           const [x, y] = reg.label;
           const labelBelow = LABEL_BELOW[id];
           const labelY = labelBelow ? y + r + 12 : y - r - 6;
@@ -2621,16 +2626,24 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
           );
         })}
 
-        <rect x={VBW - 230} y={VBH - 56} width="216" height="42" fill="#e3d5ae" stroke="#3a2a18" strokeWidth="2" />
-        <text x={VBW - 220} y={VBH - 40} fontSize="9" fontWeight="700" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-          THEATER MAP
-        </text>
-        <text x={VBW - 220} y={VBH - 27} fontSize="8" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-          REAL COASTLINES · SMALLER POINTS SIZED BY POPULATION
-        </text>
+        <PacificFronts fronts={fronts} s={markScale} />
+        {report && month === maxMonth && <PacificMarks marks={report.marks} arrows={report.arrows} accent={accent} view={view} />}
+
+        {!(report && report.frame) && (
+          <g>
+            <rect x={VBW - 230} y={VBH - 56} width="216" height="42" fill="#e3d5ae" stroke="#3a2a18" strokeWidth="2" />
+            <text x={VBW - 220} y={VBH - 40} fontSize="9" fontWeight="700" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              THEATER MAP
+            </text>
+            <text x={VBW - 220} y={VBH - 27} fontSize="8" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              REAL COASTLINES · SMALLER POINTS SIZED BY POPULATION
+            </text>
+          </g>
+        )}
       </svg>
       <p className="sr-only">
         {`The map on ${monthLabel}. `}
+        {report && report.marks && report.marks.name ? `This report is set at ${report.marks.name}. ` : ""}
         {Object.entries(
           MAP_REGIONS.reduce((acc, r) => {
             const st = statuses[r.id] || "neutral";
@@ -2840,7 +2853,7 @@ function FirstRunGuide({ accent, onDismiss }) {
         <li className={item}>The three bars are Readiness (the force), Pipeline (what feeds it) and Initiative (who sets the pace). Press the arrow beside a bar to see the three readings under it. A bar that is low costs you: it worsens the odds of the decisions it touches, and the course says so in red.</li>
         <li className={item}>"Contested" means the dice are rolled. The percentages are the odds of each result, and they move with the bars.</li>
         <li className={item}>A course marked "Leads to battle planning" opens an Order of Battle before it resolves: you place your effort, and read the battle as it happens.</li>
-        <li className={item}>"Show Pacific Situation" opens the map as it stood on the day of this report. Its slider steps back through the war.</li>
+        <li className={item}>The map under the title shows the war on the day of this report, with the report's place marked. Its slider steps back through the war, and the buttons under it draw each order on the map.</li>
         <li className={item}>Save keeps your place. Home leaves the war to be resumed from the title page.</li>
       </ul>
       <button
@@ -2878,7 +2891,7 @@ function AdviserLine({ advisor, date, flags }) {
   );
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onIntelCheck, onRewind, onSave, onHome }) {
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onIntelCheck, onRewind, onSave, onHome, history }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [guideSeen, setGuideSeen] = useState(() => {
     try {
@@ -3079,24 +3092,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
         )}
 
         {campaign.dynamic && (
-          <details className="mb-3 border-2 border-black px-3 py-1.5">
-            <summary
-              className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              Show Pacific Situation
-            </summary>
-            <div className="mt-3">
-              <PacificMap
-                date={stage.date}
-                year={yearFrom(stage.date, 1941)}
-                flags={flags}
-                meters={meters}
-                accent={campaign.accent}
-                nodeId={nodeId}
-              />
-            </div>
-          </details>
+          <ReportMap key={nodeId} campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} log={log} />
         )}
 
         {campaign.dynamic && !iron && <MeterPanel meters={meters} flags={flags} prev={prevSnap} />}
