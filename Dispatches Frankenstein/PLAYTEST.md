@@ -1,7 +1,7 @@
 # Playtesting Dispatches: Frankenstein
 
 **Status, stated plainly: no human playtest of this game has been run.** What exists is automated. 240 recorded runs replay identically through the
-rules (`npm run verify:baseline`); an exhaustive search of about 2.1 million game states reaches all 15 endings and every option on every difficulty
+rules (`npm run verify:baseline`); an exhaustive search of about 3.6 million game states reaches all 16 endings and every option on every difficulty
 (`npm run validate`); three simulated players (random, cautious, bold) collapse and finish at sane rates (`npm run check:balance`); 24 headless
 playthroughs through the real screens replay identically (`npm run verify:ui`); and the screens are checked for names, headings, focus and contrast
 (`npm run check-a11y`). None of that says whether the game is clear, fair, frightening or worth finishing.

@@ -4,6 +4,9 @@ import type { GameDefinition } from "@dispatches/engine";
 declare const __DEMO__: boolean;
 export const IS_DEMO: boolean = typeof __DEMO__ !== "undefined" && __DEMO__;
 
+/** Where the demo's last screen sends a player who wants the rest: the page the full game is published on. */
+export const FULL_GAME_URL = "https://dispatches.itch.io/dispatchesfrankensteinconfidential";
+
 /**
  * Is this scene the first of Act II? Act I is every scene on the starting branch (the foundation, before the player has chosen a track), so the
  * demo stops the player on arriving at a scene of any other branch: they have played all of Act I, including the choice that decides the track,

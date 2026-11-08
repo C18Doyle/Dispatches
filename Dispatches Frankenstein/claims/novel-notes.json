@@ -235,6 +235,34 @@
       "claim": "Victor tells the whole story to a Geneva magistrate, who half believes it and will not act.",
       "where": "Vol. III, ch. 6",
       "evidence": "the whole tide of his incredulity returned"
+    },
+    {
+      "ending": "ENDING_FRAME",
+      "kind": "fact",
+      "claim": "Walton’s crew see a being of gigantic stature on a dog sledge going north, the day before they take Victor aboard.",
+      "where": "Letter 4",
+      "evidence": "a being which had the shape of a man, but apparently of gigantic stature"
+    },
+    {
+      "ending": "ENDING_FRAME",
+      "kind": "fact",
+      "claim": "Victor will not come aboard until he has been told where the ship is bound.",
+      "where": "Letter 4",
+      "evidence": "will you have the kindness to inform me whither you are bound"
+    },
+    {
+      "ending": "ENDING_FRAME",
+      "kind": "fact",
+      "claim": "Victor says he is seeking one who fled from him.",
+      "where": "Letter 4",
+      "evidence": "To seek one who fled from me."
+    },
+    {
+      "ending": "ENDING_FRAME",
+      "kind": "fact",
+      "claim": "The creature says he will collect his funeral pile in the far north.",
+      "where": "Vol. III, ch. 7",
+      "evidence": "I shall collect my funeral pile"
     }
   ]
 }
