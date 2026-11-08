@@ -28,6 +28,19 @@ const hatch = (x: number, y: number, w: number, n: number, gap = 3) =>
   Array.from({ length: n }, (_, i) => <line key={i} x1={x} y1={y + i * gap} x2={x + w} y2={y + i * gap} strokeWidth="0.6" opacity="0.6" />);
 
 export const PLATES = {
+  moor: (
+    <Plate>
+      <path d="M0 100H240" />
+      <path d="M0 100C30 86 50 84 70 90S110 96 140 84S190 78 240 92" />
+      <path d="M28 90l14-34 16 34M120 86l18-46 20 46" />
+      <circle cx="190" cy="26" r="10" />
+      <path d="M186 32a8 8 0 0 0 12-10" strokeWidth="0.8" />
+      <path d="M60 100c14-8 26-6 34 0s20 4 30-4" strokeWidth="0.9" opacity="0.7" />
+      <path d="M176 100v-12M182 100v-8M170 100v-6" strokeWidth="0.8" opacity="0.7" />
+      <path d="M88 92l4-12 4 12M92 80v-6" strokeWidth="0.9" />
+      {hatch(150, 94, 70, 3, 2.5)}
+    </Plate>
+  ),
   window: (
     <Plate>
       <path d="M0 100H240" />
@@ -623,6 +636,16 @@ export function plateForInterlude(id: string): PlateId | null {
     case "TRANSITION_LEAGUE":
     case "TRANSITION_RETURN":
       return "newspaper";
+    case "TRANSITION_HOUND":
+    case "HOUND_R1":
+    case "HOUND_R2":
+    case "HOUND_R3":
+    case "TRANSITION_PROFESSOR":
+      return "note";
+    case "TRANSITION_MOOR":
+      return "train";
+    case "PROF_CARD":
+      return "envelope";
     case "TRANSITION_CAMDEN":
       return "note";
     case "CRISIS_EVIDENCE":
@@ -686,6 +709,33 @@ export function plateForEnding(id: string): PlateId {
       return "tunnel";
     case "ENDING_THE_ENCYCLOPAEDIA":
       return "book";
+    case "ENDING_THE_GREAT_MIRE":
+    case "ENDING_A_NAME_ON_THE_MOOR":
+    case "ENDING_THE_HOUND_LOOSE":
+      return "moor";
+    case "ENDING_THE_NETS_DRAWN":
+    case "ENDING_THE_CONVICT_SAVED":
+      return "cuffs";
+    case "ENDING_THE_WIFE_FREED":
+      return "portrait";
+    case "ENDING_THE_QUIET_WARRANT":
+      return "seal";
+    case "ENDING_THE_NERVE_BROKEN":
+      return "lamp";
+    case "ENDING_THE_PROFESSOR_STOPPED":
+      return "ship";
+    case "ENDING_THE_FIRST_WARNING":
+      return "chess";
+    case "ENDING_THE_MILD_MAN":
+      return "book";
+    case "ENDING_THE_OFFER":
+      return "ledger";
+    case "ENDING_A_NOTE_ON_THE_TABLE":
+      return "note";
+    case "ENDING_THE_WRONG_MAN":
+      return "cab";
+    case "ENDING_THE_LOST_WINTER":
+      return "magnifier";
     case "ENDING_THE_TIGER_TAKEN":
     case "ENDING_THE_EMPTY_WINDOW":
       return "window";

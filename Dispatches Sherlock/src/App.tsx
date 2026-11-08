@@ -69,6 +69,8 @@ const BRANCH_LABELS: Record<string, string> = {
   MYCROFT: "Act II · The Cabinet",
   HIATUS: "Act III · The Years Away",
   RETURN: "April 1894 · The Empty House",
+  HOUND: "October 1889 · The Moor",
+  PROFESSOR: "Winter 1887 · The Board",
   BOHEMIA: "Case · A Scandal in Bohemia",
   BAND: "Case · The Speckled Band",
   CARBUNCLE: "Case · The Blue Carbuncle",
@@ -445,7 +447,7 @@ function StampBadge({ resource, delta }: { resource: Resource; delta: number }) 
   );
 }
 
-const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT", "RETURN", ...MINOR_BRANCHES];
+const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT", "RETURN", "HOUND", "PROFESSOR", ...MINOR_BRANCHES];
 const BRANCH_TINT: Record<string, string> = {
   WEB: "bg-brass-dim",
   YARD: "bg-blood",
@@ -454,6 +456,8 @@ const BRANCH_TINT: Record<string, string> = {
   MYCROFT: "bg-brass",
   HIATUS: "bg-ink-soft",
   RETURN: "bg-verdigris",
+  HOUND: "bg-brass",
+  PROFESSOR: "bg-blood",
   BOHEMIA: "bg-brass",
   BAND: "bg-verdigris",
   CARBUNCLE: "bg-blood",
@@ -1162,7 +1166,7 @@ export default function App() {
             Dispatches: Sherlock
           </h1>
           <p className="font-heading text-sm sm:text-base uppercase tracking-[0.35em] text-brass mb-10">
-            Six Cases, 1883 to 1894
+            Eight Cases, 1883 to 1894
           </p>
           <OrnamentDivider />
           <button

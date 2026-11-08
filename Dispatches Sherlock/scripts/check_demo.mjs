@@ -29,8 +29,8 @@ const allowedTitles = [...allowedIds].map((id) => events.endings[id].title);
 const locks = new Set();
 for (const n of Object.values(events.nodes)) if (!ROADS.includes(n.branch)) for (const o of n.options) for (const t of targets(o)) if (events.nodes[t] && ROADS.includes(events.nodes[t].branch)) locks.add(t);
 if (!locks.size) fail("no scene leads from the opening of the long case onto a road, so the demo would never stop");
-// The Return is one branch, so its three ways to hunt are named here, as in src/demo.ts
-for (const id of ["E6", "E10", "E14"]) {
+// The Return, The Hound and The Professor are one branch each, so the scenes that lock them are named here, as in src/demo.ts
+for (const id of ["E6", "E10", "E14", "D8", "P9"]) {
   if (!events.nodes[id]) fail(`the demo locks scene ${id} of The Return, which is not a scene`);
   locks.add(id);
 }

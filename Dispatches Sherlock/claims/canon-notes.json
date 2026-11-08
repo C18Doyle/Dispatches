@@ -482,6 +482,188 @@
       "endings": [
         "ENDING_THE_EMPTY_WINDOW"
       ]
+    },
+    {
+      "id": "h-mire-boot",
+      "statement": "On the night of the fog Stapleton flees into the Grimpen Mire. Holmes and Watson, searching it, find Sir Henry's missing boot (marked Meyers, Toronto), which he had used to put the hound on the track and threw away in his flight. They find no other trace, conclude that he never reached the island of refuge, and take it that he is buried in the Mire.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_GREAT_MIRE",
+        "ENDING_THE_HOUND_LOOSE"
+      ]
+    },
+    {
+      "id": "h-wife-tied",
+      "statement": "Mrs Stapleton, who has posed as his sister, is found at Merripit House tied to a post in an upper room. She had tried to warn Sir Henry, and her husband bound her.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_GREAT_MIRE",
+        "ENDING_THE_WIFE_FREED",
+        "ENDING_THE_QUIET_WARRANT"
+      ]
+    },
+    {
+      "id": "h-identity",
+      "statement": "Stapleton is the son of Rodger Baskerville, Sir Charles's younger brother, who was said to have died in South America unmarried. He married Beryl Garcia of Costa Rica, took public money, changed his name to Vandeleur and fled to England, where he kept a school (St Oliver's) in the east of Yorkshire.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_NETS_DRAWN",
+        "ENDING_THE_WIFE_FREED",
+        "ENDING_THE_QUIET_WARRANT",
+        "ENDING_THE_HOUND_LOOSE"
+      ]
+    },
+    {
+      "id": "h-dog",
+      "statement": "The dog was bought in London from Ross and Mangles of the Fulham Road, the strongest and most savage in their shop, and was made to look diabolical by artificial means: the creature was painted with phosphorus. Holmes empties five barrels into it on the night of the fog.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_NETS_DRAWN",
+        "ENDING_THE_QUIET_WARRANT",
+        "ENDING_A_NAME_ON_THE_MOOR"
+      ]
+    },
+    {
+      "id": "h-voyage",
+      "statement": "Sir Henry's nerves are shattered by the night on the moor, and he and Dr Mortimer go on a long voyage that has been recommended for their restoration.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_NERVE_BROKEN"
+      ]
+    },
+    {
+      "id": "h-selden-clothes",
+      "statement": "Selden, the convict, is killed in a fall from the rocks while dressed in clothes that had been Sir Henry's; Holmes says that the clothes were the poor devil's death, and the hound followed the scent of them.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_CONVICT_SAVED"
+      ]
+    },
+    {
+      "id": "h-inv-assizes",
+      "statement": "Stapleton taken alive and tried at the Exeter Assizes. In the book he is lost in the Mire and never tried.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_NETS_DRAWN"
+      ]
+    },
+    {
+      "id": "h-inv-wife-evidence",
+      "statement": "Mrs Stapleton giving evidence at the Exeter Assizes.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_WIFE_FREED"
+      ]
+    },
+    {
+      "id": "h-inv-warrant",
+      "statement": "Stapleton arrested at Merripit House on Laura Lyons's sworn statement before the night of the fog.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_QUIET_WARRANT"
+      ]
+    },
+    {
+      "id": "h-inv-henry-dead",
+      "statement": "Sir Henry Baskerville killed by the hound. In the book he is saved.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_A_NAME_ON_THE_MOOR"
+      ]
+    },
+    {
+      "id": "h-inv-selden-spared",
+      "statement": "Selden kept in the cellar of the Hall and spared the rope through the Home Office.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_CONVICT_SAVED"
+      ]
+    },
+    {
+      "id": "h-inv-hound-loose",
+      "statement": "Stapleton never found, and the county police left to the case.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_HOUND_LOOSE"
+      ]
+    },
+    {
+      "id": "fp-prof-career",
+      "statement": "Moriarty wrote a treatise upon the binomial theorem at the age of twenty-one, which had a European vogue. On the strength of it he won the mathematical chair at one of the smaller universities. Dark rumours gathered round him in the university town, and he was compelled to resign his chair and come down to London, where he set up as an Army coach.",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_MILD_MAN",
+        "ENDING_THE_PROFESSOR_STOPPED",
+        "ENDING_THE_LOST_WINTER"
+      ]
+    },
+    {
+      "id": "fp-prof-power",
+      "statement": "Holmes tells Watson that for years past he has continually been conscious of some power behind the malefactor, a deep organising power that stands in the way of the law and shields the wrongdoer; Moriarty is aloof from the police and has no criminal record.",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_FIRST_WARNING",
+        "ENDING_A_NOTE_ON_THE_TABLE",
+        "ENDING_THE_WRONG_MAN"
+      ]
+    },
+    {
+      "id": "vof-asteroid",
+      "statement": "Moriarty is the celebrated author of The Dynamics of an Asteroid, a book that ascends to such rarefied heights of pure mathematics that no man in the scientific press was capable of criticising it. Holmes says that he is so aloof from general suspicion that he could have a man who called him a criminal into court for libel.",
+      "source": "Project Gutenberg, The Valley of Fear (#3289) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_MILD_MAN",
+        "ENDING_A_NOTE_ON_THE_TABLE"
+      ]
+    },
+    {
+      "id": "er-stewart-1887",
+      "statement": "Holmes is sure that Colonel Moran was at the bottom of the death of Mrs Stewart of Lauder in 1887, though nothing could be proved, and says that Moran was for a time Moriarty's chief of staff.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_PROFESSOR_STOPPED",
+        "ENDING_THE_WRONG_MAN"
+      ]
+    },
+    {
+      "id": "p-inv-meeting",
+      "statement": "Holmes meeting Moriarty in 1887, the tea in Kensington and what is said there. In the canon Holmes comes upon the organisation gradually and meets Moriarty in person only in the last weeks of 1891.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_PROFESSOR_STOPPED",
+        "ENDING_THE_FIRST_WARNING",
+        "ENDING_THE_OFFER"
+      ]
+    },
+    {
+      "id": "p-inv-cases",
+      "statement": "The four cases of the winter, the cab-yard and the note to the Yard are the game's own.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_MILD_MAN",
+        "ENDING_A_NOTE_ON_THE_TABLE",
+        "ENDING_THE_WRONG_MAN",
+        "ENDING_THE_LOST_WINTER",
+        "ENDING_THE_OFFER"
+      ]
     }
   ]
 }

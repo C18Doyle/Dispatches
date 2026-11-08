@@ -81,7 +81,7 @@ export const flavor2 = {
   howToPlay: [
     {
       heading: "Your Part",
-      body: "You are Sherlock Holmes. The Case-Book holds two major cases, The Final Problem and The Return, and four short ones that stand alone. Each scene is a dated report. Read it, then choose: tap an option once to mark it and again to confirm. Early choices open and shut later doors.",
+      body: "You are Sherlock Holmes. The Case-Book holds four major cases (The Final Problem, The Return, The Hound and The Professor) and four short ones that stand alone. Each scene is a dated report. Read it, then choose: tap an option once to mark it and again to confirm. Early choices open and shut later doors.",
     },
     {
       heading: "The Gauges",

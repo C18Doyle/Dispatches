@@ -40,7 +40,7 @@ if (!demo) {
     "Open index.html in any modern browser. It is one file and needs no network: the fonts and the story are inside it.",
     "Your saved cases and your settings live in the browser that you open it with, and stay there; they are not in this folder.",
     "",
-    "The Case-Book holds two major cases (The Final Problem, 1891, and The Return, 1894) and four minor cases. Tap a choice once to mark it and again to confirm it.",
+    "The Case-Book holds four major cases (The Final Problem, 1891; The Return, 1894; The Hound of the Baskervilles, 1889; and The Professor, 1887) and four minor cases. Tap a choice once to mark it and again to confirm it.",
     "",
     "Part of the Dispatches series: https://dispatches.itch.io",
     "",

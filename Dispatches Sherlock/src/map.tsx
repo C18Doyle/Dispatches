@@ -3,7 +3,7 @@
  * drawn by hand and is only approximately where the streets and coasts are; the how-to page says so. Place names are labels on the map, not story.
  */
 
-export type MapId = "london" | "europe";
+export type MapId = "london" | "europe" | "moor";
 export interface Place {
   map: MapId;
   name: string;
@@ -43,6 +43,28 @@ export const PLACES: Record<string, Place> = {
   conduit: { map: "london", name: "Conduit Street", x: 78, y: 64 },
   soho: { map: "london", name: "Soho", x: 96, y: 58 },
   stjames: { map: "london", name: "St James's Street", x: 84, y: 74 },
+  paddington: { map: "london", name: "Paddington Station", x: 34, y: 52 },
+  northumberland: { map: "london", name: "The Northumberland Hotel", x: 98, y: 68 },
+  fulham: { map: "london", name: "The Fulham Road", x: 44, y: 94 },
+  chancery: { map: "london", name: "Chancery Lane", x: 116, y: 58 },
+  fetter: { map: "london", name: "Fetter Lane", x: 124, y: 62 },
+  blackfriars: { map: "london", name: "Blackfriars", x: 128, y: 74 },
+  southwark: { map: "london", name: "Southwark", x: 136, y: 84 },
+  clapham: { map: "london", name: "Clapham", x: 92, y: 108 },
+  lauder: { map: "london", name: "Off the map: Lauder", x: 12, y: 8 },
+  leith: { map: "london", name: "Off the map: Leith", x: 12, y: 18 },
+  college: { map: "london", name: "Off the map: the provincial college", x: 12, y: 28 },
+  // The moor (viewBox 240 x 160)
+  gateway: { map: "moor", name: "Grimpen Road halt", x: 24, y: 52 },
+  hall: { map: "moor", name: "Baskerville Hall", x: 72, y: 62 },
+  yewalley: { map: "moor", name: "The Yew Alley", x: 60, y: 76 },
+  crag: { map: "moor", name: "The crag below the tor", x: 96, y: 44 },
+  hut: { map: "moor", name: "The stone hut on the tor", x: 112, y: 34 },
+  merripit: { map: "moor", name: "Merripit House", x: 160, y: 74 },
+  mire: { map: "moor", name: "The Great Grimpen Mire", x: 150, y: 108 },
+  grimpen: { map: "moor", name: "Grimpen", x: 108, y: 94 },
+  coombe: { map: "moor", name: "Coombe Tracey", x: 200, y: 44 },
+  princetown: { map: "moor", name: "Princetown", x: 60, y: 120 },
   // Europe (viewBox 240 x 160)
   victoria: { map: "europe", name: "London", x: 36, y: 46 },
   canterbury: { map: "europe", name: "Canterbury", x: 50, y: 54 },
@@ -77,6 +99,13 @@ export const SCENE_PLACE: Record<string, string> = {
   "0": "baker", B1: "baker", B2: "briony", B3: "briony", B4: "briony", R1: "baker", R2: "stoke", R3: "stoke", R4: "stoke",
   G1: "baker", G2: "baker", G3: "covent", G4: "baker",
   L1: "baker", L2: "saxe", L3: "baker", L4: "citybank",
+  D1: "baker", D2: "baker", D3: "baker", D4: "baker", D5: "baker", D5A: "southwark", D5B: "northumberland", D5C: "baker", D6: "baker", D7: "paddington",
+  D8: "baker", D9: "yard", D10: "chancery", D11: "fulham", D12: "baker", D13: "baker", D14: "baker", D15: "baker", D16: "baker", D17: "baker", D18: "yard", D19: "pallmall", D20: "baker",
+  D21: "gateway", D22: "hut", D23: "hut", D24: "crag", D24B: "hall", D25: "hut", D26: "coombe", D26B: "coombe", D27: "hut",
+  D28: "merripit", D29: "merripit", D30: "merripit", D31: "mire", D32: "merripit", D33: "hut",
+  P1: "baker", P2: "lauder", P3: "blackfriars", P4: "city", P5: "kensington", P6: "fetter", P7: "oldbailey", P8: "clapham",
+  P9: "baker", P10: "baker", P11: "southwark", P12: "baker", P13: "college", P14: "leith", P15: "pallmall", P16: "pallmall", P17: "baker", P18: "baker",
+  P19: "kensington", P20: "kensington", P21: "kensington", P22: "kensington", P23: "baker",
   E1: "victoriastn", E1A: "baker", E1B: "kensington", E2: "pallmall", E3: "parklane", E4: "baker", E5: "pallmall",
   E6: "yard", E7: "yard", E8: "pallmall", E9: "yard", E10: "baker", E11: "camden", E12: "marylebone", E13: "conduit",
   E14: "pallmall", E15: "soho", E16: "stjames", E17: "baker", E18: "baker", E19: "camden", E20: "camden", E21: "camden", E21B: "camden", E22: "camden", E23: "yard",
@@ -95,6 +124,7 @@ export function MapView({ nodeId, history }: { nodeId: string; history: Array<{ 
   if (!here) return null;
   const map = here.map;
   const box = map === "london" ? "0 0 200 120" : "0 0 240 160";
+  const mapName = map === "london" ? "London" : map === "moor" ? "Dartmoor" : "the Channel and the Continent";
   const seen: string[] = [];
   for (const h of history) {
     const p = SCENE_PLACE[h.nodeId];
@@ -111,7 +141,7 @@ export function MapView({ nodeId, history }: { nodeId: string; history: Array<{ 
         viewBox={box}
         className="w-full h-auto text-ink"
         role="img"
-        aria-label={`Sketch map of ${map === "london" ? "London" : "the Channel and the Continent"}. You are at ${here.name}. You have been to ${seen.length} place${seen.length === 1 ? "" : "s"} on this map.`}
+        aria-label={`Sketch map of ${mapName}. You are at ${here.name}. You have been to ${seen.length} place${seen.length === 1 ? "" : "s"} on this map.`}
       >
         <rect x="0" y="0" width="100%" height="100%" fill="rgba(15,15,14,0.04)" stroke="rgba(15,15,14,0.25)" />
         {map === "london" ? (
@@ -120,6 +150,15 @@ export function MapView({ nodeId, history }: { nodeId: string; history: Array<{ 
             <path d={`${LONDON_THAMES}`} fill="none" stroke="rgba(15,15,14,0.35)" strokeWidth="0.7" />
             <text x="190" y="102" fontSize="6" textAnchor="end" fill="currentColor" opacity="0.55" style={{ fontStyle: "italic" }}>the Thames</text>
             <path d="M54 30C70 28 84 34 90 46" fill="none" stroke="rgba(61,92,69,0.4)" strokeWidth="1" strokeDasharray="2 3" />
+          </>
+        ) : map === "moor" ? (
+          <>
+            <path d="M0 150C40 142 90 146 130 150S210 146 240 150V160H0Z" fill="rgba(143,136,122,0.28)" />
+            <path d="M118 96l10-8 12 4 10-8 14 6 10-4 12 10-10 12-16-2-12 8-14-4Z" fill="rgba(61,92,69,0.32)" stroke="rgba(15,15,14,0.35)" strokeWidth="0.6" />
+            <path d="M84 56l12-16 12 16Z M104 46l10-14 10 14Z M178 30l8-12 8 12Z M44 112l10-14 10 14Z" fill="rgba(15,15,14,0.1)" stroke="rgba(15,15,14,0.4)" strokeWidth="0.6" />
+            <path d="M24 52C44 56 56 62 72 62S130 78 160 74S196 56 200 44" fill="none" stroke="rgba(15,15,14,0.4)" strokeWidth="0.8" strokeDasharray="1.5 2.5" />
+            <text x="132" y="126" fontSize="5.5" fill="currentColor" opacity="0.5" style={{ fontStyle: "italic" }}>the Mire</text>
+            <text x="14" y="140" fontSize="5.5" fill="currentColor" opacity="0.5" style={{ fontStyle: "italic" }}>Dartmoor</text>
           </>
         ) : (
           <>

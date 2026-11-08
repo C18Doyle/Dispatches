@@ -25,7 +25,7 @@ function expectedStamps(o: Option, s: GameState): Record<string, number> {
 }
 
 type Policy = "random" | "cautious" | "bold";
-/** `book` is the volume taken from the shelf at the start: 0 is The Final Problem, 1 The Return, 2 to 5 the standalone cases. */
+/** `book` is the volume taken from the shelf at the start: 0 is The Final Problem, 1 The Return, 2 The Hound, 3 The Professor, 4 to 7 the standalone cases. */
 function play(policy: Policy, seed: number, difficulty: "EASY" | "MEDIUM" | "HARD", book = 0): string {
   const rng = makeRng(seed * 7919 + (policy === "random" ? 1 : policy === "cautious" ? 2 : 3));
   let s = createInitialState(def);
@@ -73,8 +73,8 @@ const pool = (volume: string, end: string) => {
   pooled[volume] ??= {};
   pooled[volume][end] = (pooled[volume][end] ?? 0) + 1;
 };
-// the two major cases: The Final Problem (book 0) and The Return (book 1)
-for (const [book, volume] of [[0, "FINAL"], [1, "RETURN"]] as const)
+// the four major cases: The Final Problem (book 0), The Return (1), The Hound (2) and The Professor (3)
+for (const [book, volume] of [[0, "FINAL"], [1, "RETURN"], [2, "HOUND"], [3, "PROFESSOR"]] as const)
 for (const policy of policies) {
   const tally: Record<string, number> = {};
   for (let n = 0; n < RUNS; n++) {
@@ -95,7 +95,7 @@ for (const policy of policies) {
   }
 }
 // the three short cases: each should end in more than one way for every policy, and a careful player should not often fail
-for (const [book, name] of [[2, "Band"], [3, "Bohemia"], [4, "Carbuncle"], [5, "League"]] as const) {
+for (const [book, name] of [[4, "Band"], [5, "Bohemia"], [6, "Carbuncle"], [7, "League"]] as const) {
   for (const policy of policies) {
     const tally: Record<string, number> = {};
     for (let n = 0; n < 200; n++) {

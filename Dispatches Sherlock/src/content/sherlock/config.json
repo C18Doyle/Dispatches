@@ -698,6 +698,48 @@
       ]
     },
     {
+      "interludeId": "TRANSITION_HOUND",
+      "onEnterNodes": [
+        "D1"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_MOOR",
+      "onEnterNodes": [
+        "D21"
+      ]
+    },
+    {
+      "interludeId": "HOUND_R1",
+      "onEnterNodes": [
+        "D8"
+      ]
+    },
+    {
+      "interludeId": "HOUND_R2",
+      "onEnterNodes": [
+        "D12"
+      ]
+    },
+    {
+      "interludeId": "HOUND_R3",
+      "onEnterNodes": [
+        "D16"
+      ]
+    },
+    {
+      "interludeId": "TRANSITION_PROFESSOR",
+      "onEnterNodes": [
+        "P1"
+      ]
+    },
+    {
+      "interludeId": "PROF_CARD",
+      "onEnterNodes": [
+        "P17"
+      ]
+    },
+    {
       "interludeId": "TRANSITION_MYCROFT",
       "onEnterNodes": [
         "M1"

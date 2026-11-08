@@ -1,6 +1,6 @@
 # A third and a fourth major case: a plan
 
-The shelf holds two major cases (The Final Problem, 1891; The Return, 1894) and four minor ones. This plans the next two major cases. Nothing here is built. It follows PLAN_SECOND_CASE.md, whose lessons are written into the steps below.
+The shelf holds two major cases (The Final Problem, 1891; The Return, 1894) and four minor ones. This plans the next two major cases. **Built in 0.8.0** as The Hound (38 scenes, `gen/hound*.mjs`; Holmes stays Holmes and Watson is his hands, as recommended) and The Professor (23 scenes, `gen/prof*.mjs`); the plan below is as it was written, and the two came out smaller than its estimates (about 60 and about 30 scenes). It follows PLAN_SECOND_CASE.md, whose lessons are written into the steps below.
 
 ## The third case: The Hound of the Baskervilles (1889)
 
