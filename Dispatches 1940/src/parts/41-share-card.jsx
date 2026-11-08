@@ -46,7 +46,7 @@ function shareCardSvg(d) {
     }
   }
   const ending = shareWrap(d.ending, 30, 3);
-  const judgement = d.comparable > 0 ? shareWrap(`Chose the historical option at ${d.matched} of ${d.comparable} comparable decisions and out-positioned it at ${d.outperformed}.`, 46, 3) : [];
+  const judgement = d.comparable > 0 ? shareWrap(t("Chose the historical option at {matched} of {comparable} comparable decisions and out-positioned it at {outperformed}.", { matched: d.matched, comparable: d.comparable, outperformed: d.outperformed }), 46, 3) : [];
   let y = 150;
   let text = "";
   const put = (s, size, font, fill, weight, spacing) => {
@@ -61,11 +61,11 @@ function shareCardSvg(d) {
     y += 34;
   } else y += 8;
   if (d.rank) {
-    put("COMMAND RANK", 14, mono, "#241d12", 700, "4");
+    put(t("COMMAND RANK"), 14, mono, "#241d12", 700, "4");
     y += 50;
     put(`${d.rank}`, 54, serif, "#1a1410", 700);
     y += 28;
-    put(`${d.score} of 100`, 16, mono, "#241d12", 400);
+    put(t("{score} of 100", { score: d.score }), 16, mono, "#241d12", 400);
     y += 40;
   }
   for (const l of ending) {
@@ -77,7 +77,7 @@ function shareCardSvg(d) {
     y += 26;
   }
   if (d.endStamp) {
-    put(`End of hostilities: ${d.endStamp}`, 14, mono, "#241d12", 400);
+    put(t("End of hostilities: {endStamp}", { endStamp: d.endStamp }), 14, mono, "#241d12", 400);
     y += 26;
   }
   for (const l of judgement) {
@@ -91,7 +91,7 @@ function shareCardSvg(d) {
     `<text x="139" y="96" text-anchor="middle" font-family="${mono}" font-size="24" font-weight="700" fill="${accent}" letter-spacing="3" transform="rotate(-2 139 87)">${xmlEscape(d.campaign.seal)}</text>` +
     `<rect x="632" y="104" width="520" height="390" fill="#b7c9c6" stroke="#1a1410" stroke-width="3"/>` +
     `<clipPath id="card-map"><rect x="632" y="104" width="520" height="390"/></clipPath><g clip-path="url(#card-map)"><g transform="translate(632 104) scale(0.65)">${regions}</g></g>` +
-    `<text x="632" y="524" font-family="${mono}" font-size="13" fill="#241d12">The map at the end of the war (approximate)</text>` +
+    `<text x="632" y="524" font-family="${mono}" font-size="13" fill="#241d12">${xmlEscape(t("The map at the end of the war (approximate)"))}</text>` +
     text +
     `</svg>`;
 }
@@ -152,7 +152,7 @@ function ShareCardButton({ build, name, accent }) {
       className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
       style={{ borderColor: accent, fontFamily: "Oswald, sans-serif" }}
     >
-      {state === "working" ? "Drawing…" : state === "done" ? "✓ Share card" : state === "failed" ? "Share card failed: retry" : "Share Card"}
+      {state === "working" ? t("Drawing…") : state === "done" ? t("✓ Share card") : state === "failed" ? t("Share card failed: retry") : t("Share Card")}
     </button>
   );
 }

@@ -101,7 +101,7 @@ function intelCheck(flags, nodeId, itemId, hard) {
   return { ...flags, [intelKey(nodeId, itemId)]: true, ix_used: (Number(flags.ix_used) || 0) + 1 };
 }
 
-const INTEL_GRADE_TAG = { firm: "Reported as firm", doubtful: "Doubtful", poor: "Poor" };
+const INTEL_GRADE_TAG = { firm: T("Reported as firm"), doubtful: T("Doubtful"), poor: T("Poor") };
 
 /** The beliefs of a report, each with its grade and source and a button to see the evidence; once seen (at once, in easy mode) whether it held and what the truth was. */
 function IntelPanel({ campaignId, nodeId, flags, easy, hard, onCheck, accent }) {
@@ -109,18 +109,18 @@ function IntelPanel({ campaignId, nodeId, flags, easy, hard, onCheck, accent }) 
   if (!items.length) return null;
   const left = intelChecksLeft(flags, hard);
   return (
-    <section className="mb-4 border-l-4 pl-3" style={{ borderColor: accent, fontFamily: "'IBM Plex Mono', monospace" }} aria-label="What the staff believes">
-      <div className="text-xs uppercase tracking-[0.25em] mb-1 text-[#000000] font-semibold">What the staff believes</div>
+    <section className="mb-4 border-l-4 pl-3" style={{ borderColor: accent, fontFamily: "'IBM Plex Mono', monospace" }} aria-label={t("What the staff believes")}>
+      <div className="text-xs uppercase tracking-[0.25em] mb-1 text-[#000000] font-semibold">{t("What the staff believes")}</div>
       <ul className="list-none m-0 p-0">
         {items.map((it) => {
           const known = easy || intelChecked(flags, nodeId, it.id);
           return (
             <li key={it.id} className="mb-2 text-sm text-[#000000]">
-              <span className="inline-block mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]">{INTEL_GRADE_TAG[it.grade]}</span>
-              {it.text} <span className="opacity-70">Source: {it.source}.</span>
+              <span className="inline-block mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]">{t(INTEL_GRADE_TAG[it.grade])}</span>
+              {it.text} <span className="opacity-70">{t("Source: {itSource}.", { itSource: it.source })}</span>
               {known ? (
                 <p className="m-0 mt-1 text-sm">
-                  <b>{it.holds ? "The evidence leans towards it." : "The evidence leans against it."}</b> {it.truth}
+                  <b>{it.holds ? t("The evidence leans towards it.") : t("The evidence leans against it.")}</b> {it.truth}
                 </p>
               ) : (
                 <p className="m-0 mt-1">
@@ -130,7 +130,7 @@ function IntelPanel({ campaignId, nodeId, flags, easy, hard, onCheck, accent }) 
                     className="border-2 px-3 py-1 uppercase tracking-widest text-xs hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] disabled:opacity-50"
                     style={{ borderColor: accent, fontFamily: "Oswald, sans-serif" }}
                   >
-                    {left < 1 ? "Show the evidence: no checks left" : "Show the evidence (" + left + " left)"}
+                    {left < 1 ? t("Show the evidence: no checks left") : t("Show the evidence ({left} left)", { left })}
                   </button>
                 </p>
               )}
@@ -147,7 +147,7 @@ function intelRests(campaignId, nodeId, orderIndex, flags, easy) {
   const items = intelItemsAt(campaignId, nodeId).filter((it) => it.relied.includes(orderIndex));
   if (!items.length) return "";
   const states = items.map((it) => (easy || intelChecked(flags, nodeId, it.id) ? (it.holds ? "held" : "wrong") : "open"));
-  if (states.includes("wrong")) return "Rests on a belief the evidence goes against";
-  if (states.includes("open")) return "Rests on a belief the staff has not tested";
-  return "Rests on a belief the evidence supports";
+  if (states.includes("wrong")) return t("Rests on a belief the evidence goes against");
+  if (states.includes("open")) return t("Rests on a belief the staff has not tested");
+  return t("Rests on a belief the evidence supports");
 }

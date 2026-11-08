@@ -602,11 +602,11 @@ const ENDINGS_GALLERY = [
 // campaigns can produce strong or truly costly outcomes relative to their
 // own objectives, independent of the war's larger, fixed result.
 const TIER_META = {
-  "Major Victory": { short: "Major Victory", color: "#2f5233" },
-  "Minor Victory": { short: "Minor Victory", color: "#40694c" },
-  "Contested Outcome": { short: "Contested", color: "#6b5b1f" },
-  "Minor Defeat": { short: "Minor Defeat", color: "#8a4a2f" },
-  "Major Defeat": { short: "Major Defeat", color: "#7a2e2e" },
+  "Major Victory": { short: T("Major Victory"), color: "#2f5233" },
+  "Minor Victory": { short: T("Minor Victory"), color: "#40694c" },
+  "Contested Outcome": { short: T("Contested"), color: "#6b5b1f" },
+  "Minor Defeat": { short: T("Minor Defeat"), color: "#8a4a2f" },
+  "Major Defeat": { short: T("Major Defeat"), color: "#7a2e2e" },
 };
 
 function EndingTierBadge({ tier }) {
@@ -621,7 +621,7 @@ function EndingTierBadge({ tier }) {
         color: meta.color,
       }}
     >
-      {meta.short}
+      {t(meta.short)}
     </span>
   );
 }

@@ -258,13 +258,13 @@ function SpecialEventScreen({ campaign, event, onContinue }) {
     <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10">
       <div className="w-full max-w-lg">
         <h1 ref={headingRef} tabIndex={-1} className="sr-only outline-none">
-          Special dispatch
+          {t("Special dispatch")}
         </h1>
         <div className="wire-tear" style={{ "--wire-paper": paperTint }}></div>
         <div className="px-5 py-5" style={{ backgroundColor: paperTint }}>
           <div className="pb-2 mb-3" style={{ borderBottom: `2px solid ${campaign.accent}`, fontFamily: "'IBM Plex Mono', monospace" }}>
             <div className="text-xs font-bold tracking-[0.16em]" style={{ color: campaign.accent }}>
-              SPECIAL DISPATCH
+              {t("SPECIAL DISPATCH")}
             </div>
             <div className="text-[11px] text-[#444] mt-0.5">{event.dateline}</div>
           </div>
@@ -277,7 +277,7 @@ function SpecialEventScreen({ campaign, event, onContinue }) {
             </p>
           ))}
           <div className="text-[11px] pt-2 text-[#555]" style={{ borderTop: "1px dashed #ccc4b8", fontFamily: "'IBM Plex Mono', monospace" }}>
-            {event.source ? `For the record: ${event.source}` : "Nothing in this dispatch changes a meter."}
+            {event.source ? t("For the record: {eventSource}", { eventSource: event.source }) : t("Nothing in this dispatch changes a meter.")}
           </div>
         </div>
         <div className="wire-tear wire-tear-bottom" style={{ "--wire-paper": paperTint }}></div>
@@ -286,7 +286,7 @@ function SpecialEventScreen({ campaign, event, onContinue }) {
           className="w-full border-2 mt-4 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-150"
           style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: paperTint }}
         >
-          Continue
+          {t("Continue")}
         </button>
       </div>
     </div>
