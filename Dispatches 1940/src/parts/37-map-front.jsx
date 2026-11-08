@@ -189,6 +189,7 @@ const MAP_PLACES = {
     finlandOccupationCost44: [24.94, 60.17], vistulaOder45: [14.65, 52.6], berlinFeb45: [14.65, 52.6], maskingForceQuestion45: [14.65, 52.6], berlinRace45: [14.4, 52.55],
   },
   allied: {
+    saar39: [7.0, 49.23], dyle39: [2.45, 48.84], altmarkRaid40: [6.35, 58.31], finland40: [2.35, 48.86], wilfred40: [-0.13, 51.5],
     narvik40: [17.43, 68.44], dunkirk40: [2.37, 51.03], halifaxCrisis40: [-0.13, 51.5], battleOfBritain40: [-0.48, 51.55], compassGreece41: [19.2, 30.25], greeceFalls41: [22.55, 38.8],
     crete41: [25.1, 35.4], aidRussia41: [37.6, 55.75], malaya41: [103.8, 1.3], forceZ41: [103.8, 1.3], crusader41: [23.97, 32.08], europeFirst42: [-77.04, 38.9],
     atlanticConvoys42: [-2.99, 53.4], pq17_1942: [33.1, 68.97], australiaLifeline42: [151.2, -33.9], secondFront42: [-0.13, 51.5], untestedDoctrine44: [-0.13, 51.5], darlanDeal42: [3.06, 36.75],
@@ -201,6 +202,7 @@ const MAP_PLACES = {
     scheldt44: [4.4, 51.22], stalinTestsTheFront45: [13.4, 52.5], strategicBombing45: [13.74, 51.05], germanyOccupation45: [13.4, 52.5],
   },
   italy: {
+    nonBelligerence39: [12.5, 41.9], coal40: [12.5, 41.9], brenner40: [11.5, 47.0], memo40: [12.5, 41.9],
     nonBelligerence40: [12.5, 41.9], extendedHoldout40: [12.5, 41.9], britainAloneQuestion40: [12.5, 41.9], enduringNeutrality40: [12.5, 41.9], germanPressure41: [11.5, 47.0], neutralItalyOccupied42: [11.5, 47.0],
     neutralItalyEnd45: [12.5, 41.9], alpsFront40: [7.5, 43.78], medStrategy40: [12.5, 41.9], gibraltarGambit40: [-5.35, 36.14], gibraltarResolution40: [-1.77, 43.37], greeceDecision40: [12.5, 41.9],
     tarantoDoctrine40: [17.24, 40.47], greeceWinter40: [20.78, 40.62], compass40: [25.92, 31.62], germanRescue41: [12.5, 41.9], matapan41: [21.5, 35.8], yugoslaviaBalkans41: [15.98, 45.8],
@@ -264,6 +266,8 @@ const MAP_MEANWHILE = {
     mapNow("1945-05-09", [14.4, 50.1], "Prague is relieved."),
   ],
   allied: [
+    mapNow("1939-09-07", [7.0, 49.23], "French troops advance into the Saar."),
+    mapNow("1940-02-16", [6.35, 58.31], "HMS Cossack boards the Altmark in the Jøssingfjord."),
     mapNow("1940-04-14", [17.43, 68.44], "British troops land near Narvik."),
     mapNow("1940-05-26", [2.37, 51.03], "The evacuation from Dunkirk begins."),
     mapNow("1940-07-10", [1.0, 51.1], "The air battle over the Channel convoys begins."),
@@ -283,6 +287,8 @@ const MAP_MEANWHILE = {
     mapNow("1945-04-25", [13.0, 51.56], "American and Soviet troops meet on the Elbe."),
   ],
   italy: [
+    mapNow("1939-09-01", [12.5, 41.9], "Italy declares non-belligerence."),
+    mapNow("1940-03-18", [11.5, 47.0], "Hitler and Mussolini meet at the Brenner Pass."),
     mapNow("1940-06-10", [12.5, 41.9], "Italy declares war on Britain and France."),
     mapNow("1940-06-21", [7.5, 43.78], "The offensive in the Alps opens."),
     mapNow("1940-09-13", [25.2, 31.55], "Italian troops cross the frontier into Egypt."),

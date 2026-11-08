@@ -1421,6 +1421,11 @@ const NODE_HIGHLIGHT_REGIONS = {
   prague45: ["czechia"],
   },
   allied: {
+  saar39: ["france", "germany"],
+  dyle39: ["benelux", "france"],
+  altmarkRaid40: ["norway"],
+  finland40: ["norway", "finland"],
+  wilfred40: ["norway"],
   narvik40: ["norway"],
   dunkirk40: ["france"],
   halifaxCrisis40: ["britain"],
@@ -1475,6 +1480,10 @@ const NODE_HIGHLIGHT_REGIONS = {
   crusader41: ["libya", "egypt"],
   },
   italy: {
+    nonBelligerence39: ["italy"],
+    coal40: ["italy"],
+    brenner40: ["italy", "austria"],
+    memo40: ["italy"],
     nonBelligerence40: ["italy"],
     extendedHoldout40: ["italy", "france"],
     britainAloneQuestion40: ["italy", "britain"],

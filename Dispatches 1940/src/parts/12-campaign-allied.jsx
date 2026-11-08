@@ -2,13 +2,317 @@
     id: "allied",
     seal: "SHAEF",
     name: "Allied Combined Chiefs",
-    dates: "1940–1945",
-    brief: "Direct the Western Allied war effort from Europe First to the halt on the Elbe.",
+    dates: "1939–1945",
+    brief: "Direct the Western Allied war effort from the first autumn of the war to the halt on the Elbe.",
     accent: "#2f4a3a",
     dynamic: true,
-    start: "narvik40",
+    start: "saar39",
     resolveNode(id, flags, meters) {
       const nodes = {
+        // The prelude (September 1939 to April 1940). The campaign used to open at Narvik; these five reports are the decisions before it that the record
+        // leaves a command to make: how far to push the Saar offensive that was promised to Poland, which plan to meet the German attack with, whether to
+        // go into Norwegian waters after the Altmark, whether to prepare a force for Finland, and how to answer the German reaction to the mining of the Leads.
+        // What the player chooses is carried as flags (saar39, planD39, altmarkRaid, finland40, wilfred40) that the later reports mention in a sentence
+        // and that move the meters; none of it is a hidden bonus. Dates and figures are checked against Wikipedia (Phoney War; Battle of France; Altmark
+        // incident; Operation Wilfred; Winter War) and the rest are drafted from the secondary literature (claims/allied-italian-prelude.json).
+        get saar39() {
+          return {
+          date: "SEPTEMBER 1939",
+          title: "The Promise to Poland",
+          historicalRecord: true,
+          situation:
+            "Britain and France declared war on 3 September, two days after the German army crossed the Polish frontier. The French staff had told the Poles in the spring that an offensive would open by the fifteenth day of mobilisation, and the Poles are asking where it is. The army on the Saar front is the best France has ready: the covering divisions are in place, the reserve divisions are still joining, and the guns, the tanks and the aircraft that make an offensive possible are not. The British Expeditionary Force is only beginning to cross the Channel, and its commander has been told that he serves under French orders. Across the frontier the Germans have left a thin screen behind the Westwall, with mines and a few divisions, and every report from Warsaw says that the screen will not be thin for long. The question for this room is not whether to attack in force, since nobody here is proposing that, but how much of an attack to put in the field in order to say that the promise was kept." +
+            (flags.hardMode ? " Nobody who remembers 1914 to 1918 needs to be told what the first week of a French offensive costs." : ""),
+          choices: [
+            {
+              label: "Probe into the Saar with the covering divisions, then halt and fall back on the fortified line: save the army for the long war",
+              advisor: { name: "Gamelin", position: "France cannot win a short war and does not need to; the army that goes into the Saar without its guns is wasted, and a long war is won by the blockade and by the factories." },
+              historical: true,
+              setFlags: { saar39: "probe" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "dyle39",
+              outcome:
+                "What happened. The French offensive began on 7 September and reached up to eight kilometres into German territory, with a few villages taken and no strong point. It was halted on 12 September, and on 21 September the troops were ordered back to the Maginot Line; the last of them left German soil on 17 October. The Poles were told that a relief was under way. The army kept its strength and its fortified line, and learned what a half-hearted offensive does to a promise.",
+            },
+            {
+              label: "Press the offensive with the covering armies and the first reserves, and keep it going while the Germans are in Poland",
+              advisor: { name: "Georges", position: "If the army is ever to hurt the Germans while they are tied down in the east, it is now, and an offensive that stops after a week has told Berlin that the west is quiet." },
+              setFlags: { saar39: "press" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "dyle39",
+              uncertain: [
+                {
+                  weight: modWeight(45, meters.initiative),
+                  title: "The mines and the Westwall",
+                  setFlags: { saar39: "press" },
+                  impact: { manpower: -1, fuel: -1, initiative: 1 },
+                  outcome:
+                    "Speculative. The covering divisions reach the Westwall within the fortnight and are stopped there by mines, by the fortified belt and by the German guns that did not need to be sent east. The attack costs a few thousand men and some tanks that France has no spare for, and it draws two or three German divisions back from the Polish front. Poland falls on the same schedule. The army learns the weight of the Westwall in September instead of the following spring.",
+                },
+                {
+                  weight: 100 - modWeight(45, meters.initiative),
+                  title: "A winter of garrisons",
+                  setFlags: { saar39: "press" },
+                  impact: { manpower: -2, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Speculative. The offensive is stopped short of the Westwall by the first counterattacks, and the army, having taken losses it cannot replace in a hurry, is pulled back under German guns and sits the winter in a line that is a little further forward than the one it left. The divisions that went in are tired and shorter of equipment than the ones that did not, and nobody in the room can say what the attack achieved.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get dyle39() {
+          return {
+          date: "NOVEMBER 1939 – MARCH 1940",
+          title: "The Plan for the North",
+          historicalRecord: true,
+          situation:
+            "Poland is gone and the Germans are turning west, and nobody knows when. Belgium has gone back to strict neutrality and will not let the British and French staffs talk to its own, so the Allied armies can enter the country only after the Germans have. The army's choice is therefore about where to meet them. The first plan, Plan E, would hold the line of the Escaut, short and well within French reach. The second, Plan D, would run the best of the armies forward to the Dyle in front of Brussels, to hold the Germans on a shorter front further out and to fight beside the Belgians. In March a variant goes further: the Seventh Army, which is the general reserve and the best motorised force in France, would race north to Breda, to give the Dutch a hand. The weakness every officer in the room knows about is the Ardennes, where the line is held by second-line divisions on the argument that the forest is difficult country for tanks." +
+            (flags.saar39 === "press" ? " The divisions that went into the Saar in September have been refitting since, and the reserve is thinner than it was." : "") +
+            (flags.saar39 === "probe" ? " The army has spent the autumn behind its fortifications, and its commanders know it has not yet been tested." : "") +
+            (flags.hardMode ? " Every general in the room wants the Seventh Army for a different front." : ""),
+          choices: [
+            {
+              label: "Plan D with the Breda variant: advance to the Dyle and send the Seventh Army to meet the Dutch",
+              advisor: { name: "Gamelin", position: "The war must be fought in Belgium and not in France, and the army must carry the Dutch coast and the Belgian plain with it." },
+              historical: true,
+              setFlags: { planD39: "breda" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "altmarkRaid40",
+              outcome:
+                "What happened. The Allied armies adopted the advance to the Dyle in the winter and in March added the Breda variant, which moved the Seventh Army from the reserve to the extreme left of the line. When the attack came on 10 May the best mobile army of the French was in Holland, a long way from the Meuse, and the forces the plan left behind were those on which the thrust through the Ardennes fell. The plan gave the Germans precisely the kind of battle on the Belgian plain that their own staff had been preparing to fight.",
+            },
+            {
+              label: "Plan D without the Breda variant: advance to the Dyle but keep the Seventh Army in reserve behind the hinge",
+              advisor: { name: "Georges", position: "The front's reserve is thin and the hinge at Sedan is held by weak divisions, so the best army should stay where it can be sent to either." },
+              setFlags: { planD39: "dyle" },
+              impact: { manpower: 0, fuel: 0, initiative: 0 },
+              next: "altmarkRaid40",
+              uncertain: [
+                {
+                  weight: modWeight(50, meters.initiative),
+                  title: "A reserve behind the hinge",
+                  setFlags: { planD39: "dyle" },
+                  impact: { manpower: 1, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. The Dutch are told that no French army will reach Breda, and the Dutch staff, who had hoped for one, plan the defence of their own country on the old lines. In the staff exercises of the spring the reserve is always asked to be in two places at once, and the French staff has a line on its map for what it would do with it. It is not a better plan than the other. It is a plan with a reserve in it.",
+                },
+                {
+                  weight: 100 - modWeight(50, meters.initiative),
+                  title: "Neither one thing nor the other",
+                  setFlags: { planD39: "dyle" },
+                  impact: { manpower: 0, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The reserve stays where it is and nobody can say what it is for. The Belgians read the refusal as a sign that the French do not mean to come far, the Dutch as a sign that they will be alone, and the staff, which has now two plans for the north and a variant on neither, spends the spring explaining to each ally what the other one has been told.",
+                },
+              ],
+            },
+            {
+              label: "Plan E: hold the Escaut, keep the best armies back, and let the Germans come to the Belgian frontier",
+              advisor: { name: "Gort", position: "The Belgians will not talk to us, so going forward to meet a German attack on ground nobody has reconnoitred means meeting it blind, and the short line is the safe one." },
+              setFlags: { planD39: "escaut" },
+              impact: { manpower: 1, fuel: 1, initiative: -2 },
+              next: "altmarkRaid40",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "The short line holds the north",
+                  setFlags: { planD39: "escaut" },
+                  impact: { manpower: 1, fuel: 1, initiative: -1 },
+                  outcome:
+                    "Speculative. The Allied armies stay on the Franco-Belgian frontier and the Escaut, and Belgium, left to fight alone for a week, falls back on them. The Germans come to a line that is further from the Meuse and is not hurried. They do not need to be hurried, since the attack through the Ardennes does not depend on where the northern armies are, only on whether they are free to turn.",
+                },
+                {
+                  weight: 100 - modWeight(40, meters.initiative),
+                  title: "Belgium alone",
+                  setFlags: { planD39: "escaut" },
+                  impact: { manpower: 0, fuel: 1, initiative: -2 },
+                  outcome:
+                    "Speculative. The Belgian army fights its first days with no ally on its ground, and the country's government and public are told what they had feared: that the Allies mean to defend France and not Belgium. The decision is defended as caution, and is remembered as a refusal to come when called.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get altmarkRaid40() {
+          return {
+          date: "FEBRUARY 1940",
+          title: "The Altmark",
+          historicalRecord: true,
+          situation:
+            "The German supply ship Altmark, which served the pocket battleship Graf Spee, has been reported in Norwegian waters with British merchant seamen below decks, men from ships sunk in the South Atlantic. She is making the passage home along the Norwegian coast inside the territorial limit, and Norwegian torpedo boats have twice looked her over without searching her. The Admiralty has the destroyer Cossack nearby under Captain Vian, and Churchill, the First Lord, wants the prisoners freed. The Foreign Office wants to know how that is to be reconciled with a neutral country's rights, and Oslo has said that the ship was inspected and found to be unarmed. The Norwegians are the neutral that Britain most wants to keep on its side. A boarding in a Norwegian fjord is a breach of their neutrality and will be treated as one in Berlin, which has its own plans for the coast." +
+            (flags.planD39 === "breda" ? " The Seventh Army is on its way to the Dutch frontier, and the War Cabinet wants a victory, however small." : "") +
+            (flags.hardMode ? " The Altmark may be the last occasion on which the Navy is thanked for breaking a rule." : ""),
+          choices: [
+            {
+              label: "Order the Cossack into the fjord to board the Altmark and free the prisoners, and answer for the breach afterwards",
+              advisor: { name: "Churchill", position: "The prisoners are British seamen held in a German ship, and the Norwegians have twice declined to look hard enough, so the Navy should go in and answer for it afterwards." },
+              historical: true,
+              setFlags: { altmarkRaid: "board" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "finland40",
+              outcome:
+                "What happened. HMS Cossack, under Captain Philip Vian, entered the Jøssingfjord and boarded the Altmark at about 22:20 on 16 February, and freed 299 prisoners (the German records say 303). There was a short fight and some Germans were killed. London had a victory; Oslo protested at the violation of its waters, and Berlin concluded that Norway could not or would not keep the British out. Hitler ordered his planning for Norway and Denmark to be intensified three days later.",
+            },
+            {
+              label: "Respect Norwegian waters: ask Oslo to search the ship again, and protest at Berlin's use of them",
+              advisor: { name: "Halifax", position: "Britain has a case against Germany for the use of neutral waters, which is a poor case to spoil by doing the same, and the Norwegians are worth more to the Allies as friends than the prisoners are as a prize." },
+              setFlags: { altmarkRaid: "respect" },
+              impact: { manpower: -1, fuel: 0, initiative: -1 },
+              next: "finland40",
+              uncertain: [
+                {
+                  weight: modWeight(45, meters.initiative),
+                  title: "A second search",
+                  setFlags: { altmarkRaid: "respect" },
+                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. A Norwegian officer goes aboard and finds what the first search did not, and the prisoners are freed under the Norwegian flag, to the embarrassment of both Oslo and Berlin. It is a smaller victory than a boarding would have been, and it does not give the German staff a reason to say that the Norwegians have failed.",
+                },
+                {
+                  weight: 100 - modWeight(45, meters.initiative),
+                  title: "The ship goes home",
+                  setFlags: { altmarkRaid: "respect" },
+                  impact: { manpower: -1, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The Altmark goes down the coast with the prisoners below, and arrives at her home port a day later. The sailors are in a German camp, the press says that the Navy has let a ship slip through its fingers, and the neutral whose waters were respected makes no sign that it will do more to keep them from being used again.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get finland40() {
+          return {
+          date: "FEBRUARY – MARCH 1940",
+          title: "A Force for Finland",
+          historicalRecord: true,
+          situation:
+            "The Finns have been fighting the Red Army since the end of November, and the press and the Parliament of both countries want something done. On 5 February the Supreme War Council agreed in principle on an expeditionary force to Finland, to land at Narvik and cross Norway and Sweden by the ore railway. The ore fields at Gällivare lie on the way, and the staffs have noticed that a force which takes them will have done two things at once. Norway and Sweden have refused to give a passage, since they have no wish to be at war with Germany or with the Soviet Union, and neither is it clear that the Finns can hold until the spring. The French are the keener, and the British service chiefs the more doubtful. If the Finns ask for terms the whole scheme falls." +
+            (flags.altmarkRaid === "board" ? " The Norwegians, still smarting from the Jøssingfjord, are in no mood to oblige." : "") +
+            (flags.altmarkRaid === "respect" ? " The Norwegian government has shown no reason for its neutrality to be doubted, and is not asked to give it up lightly." : "") +
+            (flags.hardMode ? " The French government is under the same pressure to be seen to act as the Finns are to be seen to hold." : ""),
+          choices: [
+            {
+              label: "Prepare the expedition and press Oslo and Stockholm for a passage, with the ore fields as the real aim",
+              advisor: { name: "Chamberlain", position: "The country wants help given to Finland, and a force that can land at Narvik and move on the ore fields will be of use in either case." },
+              historical: true,
+              setFlags: { finland40: "prepare" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "wilfred40",
+              outcome:
+                "What happened. The expedition was prepared through February and early March, and Norway and Sweden refused it a passage. The Finns asked for terms and the Peace of Moscow was signed on 12 March, and the force was stood down. Daladier's government fell on 20 March, in part over Finland. The planning was not wasted: the brigades, the shipping and the staff work for the Narvik landing were the ones that were reached for in April.",
+            },
+            {
+              label: "Send arms and aircraft to Finland but commit no troops: the army is wanted in France",
+              advisor: { name: "Ironside", position: "The army is needed in France, and a force sent through two neutral countries to a war that is nearly over would be a force lost for the spring." },
+              setFlags: { finland40: "arms" },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
+              next: "wilfred40",
+              uncertain: [
+                {
+                  weight: modWeight(55, meters.initiative),
+                  title: "Guns in time",
+                  setFlags: { finland40: "arms" },
+                  impact: { manpower: 1, fuel: 1, initiative: 0 },
+                  outcome:
+                    "Speculative. The guns and the fighters reach the Finns in time to be used in the last weeks, and the peace of 12 March is signed on terms that are a little less hard. The staff does not draw up a plan for Narvik, since there is no force to land there, and when the Germans go to Norway in April the Allies have nothing in hand.",
+                },
+                {
+                  weight: 100 - modWeight(55, meters.initiative),
+                  title: "Too little, too late",
+                  setFlags: { finland40: "arms" },
+                  impact: { manpower: 0, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The aircraft arrive after the line at Viipuri has gone, and the guns arrive in March with their ammunition still on the way. The press says that the Allies sent everything but men. The French government, which had wanted a force, falls within the fortnight, and the staff has no plan for Norway on its table.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get wilfred40() {
+          return {
+          date: "APRIL 1940",
+          title: "Wilfred and R 4",
+          historicalRecord: true,
+          situation:
+            "The Peace of Moscow took away the cover for a landing in Norway, and the Admiralty has been pressing for the other plan. Wilfred would lay mines in the Norwegian Leads, the sheltered channel along the coast by which the ore ships bring Narvik's iron to Germany, to drive them out into open water where the Navy can take them. The French have been the more willing and the British the more cautious, since the Norwegians are likely to protest and Germany may well reply. R 4 is the plan for that: if Germany sends troops to Norway, British and French troops will be put ashore at Narvik, Trondheim, Bergen and Stavanger before they can dig in. The mining has been put back from 5 April to 8 April. The troops for R 4 are embarked in cruisers in the Scottish ports. Every report from Copenhagen and the Baltic says that German ships are moving." +
+            (flags.finland40 === "prepare" ? " The troops and the shipping that were drawn up for Finland in the winter are the force available, and their orders were written for a different war." : "") +
+            (flags.finland40 === "arms" ? " No force has been prepared since the Peace of Moscow, and R 4 is a plan for troops who are still in their depots." : "") +
+            (flags.altmarkRaid === "board" ? " The Germans have not forgotten what the Navy did in the Jøssingfjord, and nor has anyone in Oslo." : "") +
+            (flags.hardMode ? " Nobody here has seen a German sailing order, and every guess is at the mercy of the next signal." : ""),
+          choices: [
+            {
+              label: "Lay the mines on 8 April and hold the troops embarked, ready to land if Germany answers with force",
+              advisor: { name: "Churchill", position: "The ore route must be cut, Norway will protest and Germany may reply, and for that the troops must be afloat and not in barracks." },
+              historical: true,
+              setFlags: { wilfred40: "mines" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "narvik40",
+              outcome:
+                "What happened. Notes were delivered to Norway and Sweden on 8 April, and the mines were laid that morning. On 7 April the Admiralty had taken the troops off the cruisers so that the ships could put to sea against a German force reported off Norway, and the landings of R 4 were thereby delayed. The Germans landed at Narvik, Trondheim, Bergen, Stavanger, Kristiansand and Oslo on 9 April, and the Allies arrived after them.",
+            },
+            {
+              label: "Send the troops with the mines: land at Narvik and Trondheim at once and hold them before the Germans come",
+              advisor: { name: "Pound", position: "A landing on the same day as the mines would put the force ashore before the German ships can reach the coast, and the Navy can hold the sea for it." },
+              setFlags: { wilfred40: "occupy" },
+              impact: { manpower: -2, fuel: -1, initiative: 2 },
+              next: "narvik40",
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.initiative),
+                  title: "The first ashore",
+                  setFlags: { wilfred40: "occupy" },
+                  impact: { manpower: -1, fuel: -1, initiative: 2 },
+                  outcome:
+                    "Speculative. The first troops reach Narvik and Trondheim a day before the Germans, and the Norwegians, who have been told that they are being protected from an attack that has not yet come, protest and then do not resist. When the German ships arrive they find British troops already ashore and a Norwegian army that has been warned. It is a gamble that has paid, and everything in the plan has depended on a German signal being read in time.",
+                },
+                {
+                  weight: 100 - modWeight(35, meters.initiative),
+                  title: "Uninvited",
+                  setFlags: { wilfred40: "occupy" },
+                  impact: { manpower: -2, fuel: -2, initiative: 0 },
+                  outcome:
+                    "Speculative. The British are ashore in a neutral country before any German has crossed its frontier, and Berlin says so to the world. The Norwegians are insulted and do not co-operate, and the Germans arrive the next day anyway. The troops are in the wrong places, on a coast with no friends and with their stores on the wrong ships, and the first week of the campaign is spent arguing with the people they have come to defend.",
+                },
+              ],
+            },
+            {
+              label: "Leave Norwegian waters alone: the neutrality of a small country is worth more than the ore",
+              advisor: { name: "Halifax", position: "Britain went to war over a small neutral country, and a plan to mine another one's waters will be paid for in the opinion of every neutral that is watching." },
+              setFlags: { wilfred40: "neutral" },
+              impact: { manpower: 1, fuel: 0, initiative: -2 },
+              next: "narvik40",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "Clean hands",
+                  setFlags: { wilfred40: "neutral" },
+                  impact: { manpower: 1, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. No mines are laid, and the Allies are the only party to the war that has not violated a Norwegian rule. The Germans land on 9 April all the same, and the Norwegian government, which had no help from the British to expect, finds that it has them anyway. The ships that were meant for the mines are available for the sea battle off Narvik, and the troops are in their barracks.",
+                },
+                {
+                  weight: 100 - modWeight(40, meters.initiative),
+                  title: "Nothing to stand on",
+                  setFlags: { wilfred40: "neutral" },
+                  impact: { manpower: 0, fuel: 0, initiative: -2 },
+                  outcome:
+                    "Speculative. The Germans land on 9 April and the Allies, who had made no preparation of any kind, send what they have two days later. There is no plan, no embarked force and no agreement with the Norwegians, and the British press asks why, with the ore route plainly in danger, the Navy was left to do nothing.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
         get narvik40() {
           return {
           date: "APRIL 1940",
@@ -23,7 +327,12 @@
               : "") +
             (flags.forkNarvikHeld
               ? " The garrison's own reports this week are more confident than expected: German counter-landings meant to dislodge them have so far failed, and the port itself hasn't changed hands again since the initial fighting."
-              : ""),
+              : "") +
+            (flags.finland40 === "prepare" ? " The brigades and the shipping that were drawn up in the winter for a force to Finland are the ones that are sailing, and the plans for the ore railway are the plans they carry." : "") +
+            (flags.finland40 === "arms" ? " There was no force prepared in the winter, and the expedition to Norway has been put together in days from what was at hand." : "") +
+            (flags.wilfred40 === "occupy" ? " British troops were put ashore before the Germans came, and the garrison has had its first week to dig in." : "") +
+            (flags.wilfred40 === "neutral" ? " No mines were laid and no troops were landed first, and the garrison has come to a coast that the Germans had a day to take." : "") +
+            (flags.altmarkRaid === "board" ? " The Germans have been in Norwegian waters since the Altmark, and they came prepared." : ""),
           choices: [
             {
               label: "Hold Narvik and reinforce it: the iron ore route matters enough to commit further",
@@ -61,7 +370,11 @@
               : "") +
             (flags.forkNarvikHeld
               ? " Norway, unusually, is not the drain on ships and attention it might have been: the garrison there is still holding on its own, and this crisis is not competing with it for the fleet's time."
-              : ""),
+              : "") +
+            (flags.planD39 === "breda" ? " The Seventh Army, the best of the reserve, went north into Holland on the first day, and the divisions that might have been turned south to meet the break at the Meuse are not there to be turned." : "") +
+            (flags.planD39 === "dyle" ? " The reserve was kept behind the hinge, and some of it has been used to meet the break at the Meuse, though not enough to close it." : "") +
+            (flags.planD39 === "escaut" ? " The armies stood on the Escaut, and the line they have been pulled back to is a short one, though the German thrust has come in behind it all the same." : "") +
+            (flags.saar39 === "press" ? " The army that went into the Saar in September knew the weight of the Westwall from the first day, and a good part of it has been rebuilt since." : ""),
           choices: [
             {
               label: "Full evacuation effort: every available vessel, civilian and military, risk the fleet to save the army",
