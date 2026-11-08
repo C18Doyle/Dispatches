@@ -379,6 +379,19 @@ const MAP_LANDMARKS = [
 // game's own text leans on most (Stalingrad, Leningrad) — not an exhaustive gazetteer.
 // Drawn smaller and lighter than the landmark pins above so they read as background
 // orientation, not competing strategic markers.
+// The face of the names on the map: a serif, as on a printed map. Names of seas are set italic and spaced out, countries in small capitals, towns in italic.
+const MAP_SERIF = "Georgia, 'Times New Roman', serif";
+const MAP_SEAS = [
+  { id: "north", name: T("North Sea"), lon: 3.0, lat: 56.4 },
+  { id: "baltic", name: T("Baltic Sea"), lon: 19.6, lat: 58.4 },
+  { id: "norwegian", name: T("Norwegian Sea"), lon: 1.0, lat: 66.6 },
+  { id: "black", name: T("Black Sea"), lon: 34.0, lat: 43.3 },
+  { id: "med", name: T("Mediterranean Sea"), lon: 17.5, lat: 34.9 },
+  { id: "atlantic", name: T("Atlantic Ocean"), lon: -9.5, lat: 46.0 },
+  { id: "barents", name: T("Barents Sea"), lon: 36.0, lat: 72.0 },
+  { id: "caspian", name: T("Caspian Sea"), lon: 50.6, lat: 41.4 },
+];
+
 const MAP_CITIES = [
   { id: "london", name: T("London"), lon: -0.13, lat: 51.51 },
   { id: "paris", name: T("Paris"), lon: 2.35, lat: 48.86 },
@@ -576,7 +589,7 @@ function MapOpArrows({ arrows, bbox }) {
   );
 }
 
-function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses: givenStatuses, divergedRegions, selectedRegion, setSelectedRegion, highlightRegions, accent, changedRegions, opArrows, fronts, marks }) {
+function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses: givenStatuses, divergedRegions, selectedRegion, setSelectedRegion, highlightRegions, accent, changedRegions, opArrows, fronts, marks, zoom = 1, clip = null, cities = true }) {
   const [geometry, setGeometry] = useState(null);
   useEffect(() => {
     let cancelled = false;
@@ -597,7 +610,15 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
   // (the briefing's "Show Continental Situation" panel and this checkpoint map modal can
   // both be open), so reusing the same id would be a duplicate-SVG-id — this map defines
   // its own gradient under its own id (below) instead of trusting STATUS_COLORS.divided.
-  const fillFor = (status) => (status === "divided" ? "url(#checkpointDivideGradient)" : STATUS_COLORS[status]);
+  const fillFor = (status) => (status === "divided" ? "url(#checkpointDivideGradient)" : status === "contested" ? "url(#checkpointContestedHatch)" : STATUS_COLORS[status]);
+  // The map's marks and names keep their size when the map is zoomed (the whole map is scaled by the page): lines scale with zoom to a power below one, and labels with a smaller one.
+  const lw = (w) => w * Math.pow(zoom, -0.6);
+  const ls = Math.pow(zoom, -0.55);
+  const fits = (x, y, text, size) => {
+    if (!clip) return true;
+    const half = text.length * size * 0.31;
+    return x - half > clip.x0 + 4 && x + half < clip.x1 - 4 && y - size > clip.y0 + 3 && y + size * 0.45 < clip.y1 - 3;
+  };
   // Computed once so the label pass below can reuse each region's fill/geometry without
   // redoing the lookup, and so labels only ever appear for a region that actually drew
   // (same "does this region have geometry and a status color" gate as the path itself).
@@ -621,6 +642,10 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
             1945): objectBoundingBox (the SVG default) means this one definition scales
             to each path's own bounding box, so every divided region gets its own correctly
             proportioned half-and-half fill from a single <linearGradient>. */}
+        <pattern id="checkpointContestedHatch" width="4.5" height="4.5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="4.5" height="4.5" fill="#b9ad84" fillOpacity="0.55" />
+          <line x1="0" y1="0" x2="0" y2="4.5" stroke="#4a3d22" strokeWidth="1.1" />
+        </pattern>
         <linearGradient id="checkpointDivideGradient" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor={STATUS_COLORS.allied} />
           <stop offset="50%" stopColor={STATUS_COLORS.allied} />
@@ -653,7 +678,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
           otherwise) shows whichever region is on top, never the blended third color two
           independently semi-transparent paths would produce. Masked to land/sea (above) so
           the fill never tints water regardless of how the polygon itself falls. */}
-      <g mask="url(#checkpointLandMask)" opacity={0.42}>
+      <g mask="url(#checkpointLandMask)" opacity={0.5}>
         {drawnRegions.map((r) => (
           <path key={r.id} d={r.d} fill={r.fill} style={{ pointerEvents: "none" }} />
         ))}
@@ -693,12 +718,12 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
           points={line.map(([lon, lat]) => projectLonLat(lon, lat, bbox).map((n) => n.toFixed(1)).join(",")).join(" ")}
           fill="none"
           stroke="#2a2015"
-          strokeOpacity={0.55}
-          strokeWidth={1}
+          strokeOpacity={0.5}
+          strokeWidth={lw(0.9)}
           style={{ pointerEvents: "none" }}
         />
       ))}
-      <MapFrontLines fronts={fronts} bbox={bbox} />
+      <MapFrontLines fronts={fronts} bbox={bbox} zoom={zoom} />
       {/* Diverged-region emphasis + click/keyboard handling, unmasked. The grid above
           already draws every region's ordinary border, so this pass only has work to do
           for a region that has actually diverged from the historical record: its own
@@ -719,7 +744,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
             stroke={isSelected ? "#0a0a0a" : "#7a2e2e"}
             strokeOpacity={0.9}
             strokeWidth={isSelected ? 2.6 : 1.8}
-            strokeDasharray="3,2"
+            strokeDasharray={`${3 * Math.pow(zoom, -0.6)},${2 * Math.pow(zoom, -0.6)}`}
             style={{ pointerEvents: "auto", cursor: "pointer" }}
             role="button"
             tabIndex={0}
@@ -746,7 +771,7 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
             // for a highlighted region, adapted to a filled polygon: a bright halo ring
             // in the campaign's own accent color, drawn over the base fill/border so it
             // reads at a glance without changing the region's actual ownership color.
-            <path key={`hl-${r.id}`} d={r.d} fill="none" stroke={accent || "#c9a227"} strokeOpacity={0.85} strokeWidth={4} style={{ pointerEvents: "none" }} />
+            <path key={`hl-${r.id}`} d={r.d} fill="none" stroke={accent || "#c9a227"} strokeOpacity={0.6} strokeWidth={lw(2)} style={{ pointerEvents: "none" }} />
           ))}
       {changedRegions &&
         changedRegions.size > 0 &&
@@ -762,15 +787,26 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
               <animate attributeName="stroke-opacity" values="0;0.95;0" dur="1.1s" repeatCount="3" />
             </path>
           ))}
+      {MAP_SEAS.filter((sea) => sea.lon >= bbox.llcrnrlon && sea.lon <= bbox.urcrnrlon && sea.lat >= bbox.llcrnrlat && sea.lat <= bbox.urcrnrlat).map((sea) => {
+        const [px, py] = projectLonLat(sea.lon, sea.lat, bbox);
+        const name = t(sea.name);
+        const size = 8.5 * ls;
+        if (!fits(px, py, name, size * 1.6)) return null;
+        return (
+          <text key={`sea-${sea.id}`} x={px} y={py} fontSize={size} fill="#2f5666" fillOpacity={0.85} textAnchor="middle" style={{ fontFamily: MAP_SERIF, fontStyle: "italic", letterSpacing: "0.32em", pointerEvents: "none" }}>
+            {name}
+          </text>
+        );
+      })}
       {drawnRegions.map((r) => {
         if (!r.label) return null;
         const [px, py] = projectLonLat(r.label[0], r.label[1], bbox);
-        // Outside the visible frame — Ussr's representative point in particular sits
-        // well east of most campaigns' bbox — so skip it rather than draw an
-        // off-screen <text> with no visual effect.
+        // Outside the visible frame, or cut by the edge of the window: skip it rather than draw a name that is half cut.
         if (px < -20 || px > MAP_OVERLAY_W + 20 || py < -20 || py > MAP_OVERLAY_H + 20) return null;
         const tier = MAP_REGION_SIZE[r.id] || "medium";
-        const fontSize = tier === "massive" ? 11 : tier === "large" ? 10 : tier === "medium" ? 8.5 : 7;
+        const fontSize = (tier === "massive" ? 11.5 : tier === "large" ? 10.5 : tier === "medium" ? 9 : 7.5) * ls;
+        const name = t(r.name);
+        if (!fits(px, py, name, fontSize)) return null;
         return (
           <text
             key={`label-${r.id}`}
@@ -779,60 +815,46 @@ function CheckpointMapRegions({ campaignId, statusYear, flags, meters, statuses:
             fontSize={fontSize}
             fill="#241d12"
             stroke="#f2ead9"
-            strokeWidth={2}
+            strokeWidth={1.8 * ls}
+            strokeOpacity={0.8}
             paintOrder="stroke"
             textAnchor="middle"
-            style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 600, pointerEvents: "none" }}
+            style={{ fontFamily: MAP_SERIF, fontVariant: "small-caps", letterSpacing: "0.07em", fontWeight: 600, pointerEvents: "none" }}
           >
-            {t(r.name)}
+            {name}
           </text>
         );
       })}
-      {MAP_CITIES.filter(
-        (c) => c.lon >= bbox.llcrnrlon && c.lon <= bbox.urcrnrlon && c.lat >= bbox.llcrnrlat && c.lat <= bbox.urcrnrlat
-      ).map((c) => {
-        const [px, py] = projectLonLat(c.lon, c.lat, bbox);
-        return (
-          <g key={c.id} style={{ pointerEvents: "none" }}>
-            <circle cx={px} cy={py} r={1.6} fill="#241d12" stroke="#f2ead9" strokeWidth={0.6} />
-            <text
-              x={px + 4}
-              y={py + 2.5}
-              fontSize={7}
-              fill="#241d12"
-              stroke="#f2ead9"
-              strokeWidth={2}
-              paintOrder="stroke"
-              style={{ fontFamily: "'IBM Plex Mono', monospace", fontStyle: "italic" }}
-            >
-              {t(c.name)}
-            </text>
-          </g>
-        );
-      })}
-      {MAP_LANDMARKS.filter(
-        (lm) => lm.lon >= bbox.llcrnrlon && lm.lon <= bbox.urcrnrlon && lm.lat >= bbox.llcrnrlat && lm.lat <= bbox.urcrnrlat
-      ).map((lm) => {
+      {cities &&
+        MAP_CITIES.filter((c) => c.lon >= bbox.llcrnrlon && c.lon <= bbox.urcrnrlon && c.lat >= bbox.llcrnrlat && c.lat <= bbox.urcrnrlat).map((c) => {
+          const [px, py] = projectLonLat(c.lon, c.lat, bbox);
+          const name = t(c.name);
+          const size = 7.6 * ls;
+          if (!fits(px + 4, py, name, size)) return null;
+          return (
+            <g key={c.id} style={{ pointerEvents: "none" }}>
+              <circle cx={px} cy={py} r={1.5 * ls} fill="#241d12" stroke="#f2ead9" strokeWidth={0.5 * ls} />
+              <text x={px + 3.6 * ls} y={py + 2.4 * ls} fontSize={size} fill="#241d12" stroke="#f2ead9" strokeWidth={1.8 * ls} strokeOpacity={0.8} paintOrder="stroke" style={{ fontFamily: MAP_SERIF, fontStyle: "italic" }}>
+                {name}
+              </text>
+            </g>
+          );
+        })}
+      {MAP_LANDMARKS.filter((lm) => lm.lon >= bbox.llcrnrlon && lm.lon <= bbox.urcrnrlon && lm.lat >= bbox.llcrnrlat && lm.lat <= bbox.urcrnrlat).map((lm) => {
         const [px, py] = projectLonLat(lm.lon, lm.lat, bbox);
+        const name = t(lm.name);
+        const size = 8.2 * ls;
+        if (!fits(px + 5, py, name, size)) return null;
         return (
           <g key={lm.id} style={{ pointerEvents: "none" }}>
-            <circle cx={px} cy={py} r={3} fill="#1a1410" stroke="#f2ead9" strokeWidth={1} />
-            <text
-              x={px + 5}
-              y={py + 3}
-              fontSize={9}
-              fill="#1a1410"
-              stroke="#f2ead9"
-              strokeWidth={2.5}
-              paintOrder="stroke"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              {t(lm.name)}
+            <circle cx={px} cy={py} r={2.4 * ls} fill="#1a1410" stroke="#f2ead9" strokeWidth={0.8 * ls} />
+            <text x={px + 4.4 * ls} y={py + 2.8 * ls} fontSize={size} fill="#1a1410" stroke="#f2ead9" strokeWidth={2 * ls} strokeOpacity={0.8} paintOrder="stroke" style={{ fontFamily: MAP_SERIF, fontStyle: "italic" }}>
+              {name}
             </text>
           </g>
         );
       })}
-      {marks && <MapFrontMarks bbox={bbox} here={marks.here} trail={marks.trail} pins={marks.pins} ground={marks.ground} accent={accent} seal={marks.seal} offLabel={marks.offLabel} />}
+      {marks && <MapFrontMarks bbox={bbox} here={marks.here} trail={marks.trail} pins={marks.pins} ground={marks.ground} accent={accent} seal={marks.seal} offLabel={marks.offLabel} zoom={zoom} clip={clip} />}
       <MapOpArrows arrows={opArrows} bbox={bbox} />
     </svg>
   );
@@ -1078,12 +1100,13 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             {review}
           </p>
         )}
-        <div className="relative w-full border-2 border-black overflow-hidden" style={{ aspectRatio: "4 / 3" }}>
-          <div className="absolute inset-0" style={zoomStyle}>
+        <div className="dg-reportmap relative w-full overflow-hidden" style={{ aspectRatio: "4 / 3", border: "3px double #1a1410" }}>
+          <div className="dg-reportmap-inner absolute inset-0" style={zoomStyle}>
           <img
             src={src}
             alt={`${campaign.name}: ${clampedYear}`}
             className="w-full h-full object-cover absolute inset-0"
+            style={{ filter: "saturate(0.72) contrast(0.96)" }}
             onError={(e) => {
               e.currentTarget.style.display = "none";
             }}
@@ -1102,6 +1125,8 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             changedRegions={changedRegions}
             opArrows={opArrows}
             fronts={fronts}
+            zoom={zoomed && frame ? frame.k : 1}
+            clip={zoomed && frame ? { x0: frame.x, y0: frame.y, x1: frame.x + MAP_OVERLAY_W / frame.k, y1: frame.y + MAP_OVERLAY_H / frame.k } : null}
             marks={marks}
           />
           {revealedForks.map((fk, i) => (
@@ -1139,8 +1164,9 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               {t("Meanwhile, in the record")}
             </div>
             <ul className="list-none p-0 m-0">
-              {meanwhile.map((m) => (
+              {meanwhile.map((m, i) => (
                 <li key={m.campaignId} className="text-[12px] leading-snug mb-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                  <span className="inline-flex items-center justify-center rounded-full text-white font-bold mr-1 align-middle" style={{ fontFamily: "'IBM Plex Mono', monospace", width: 15, height: 15, fontSize: 9, background: (CAMPAIGNS[m.campaignId] || {}).accent || "#241d12" }}>{i + 1}</span>
                   <span className="text-[10px] uppercase tracking-wider font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace", color: (CAMPAIGNS[m.campaignId] || {}).accent }}>{m.short}</span>
                   {" · "}
                   {mapIsoLabel(m.on)}: {m.text}
@@ -1155,9 +1181,9 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               {t("Ground against the record")}
             </div>
             <ul className="list-none p-0 m-0">
-              {groundNow.map((g) => (
+              {groundNow.map((g, i) => (
                 <li key={g.id} className="text-[12px] leading-snug mb-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                  <span aria-hidden="true">{g.kind === "gained" ? "⊕ " : "⊗ "}</span>
+                  <span className={"inline-flex items-center justify-center font-bold mr-1 align-middle border-2 bg-[#f2ead9] " + (g.kind === "gained" ? "rounded-full" : "")} style={{ fontFamily: "'IBM Plex Mono', monospace", width: 15, height: 15, fontSize: 9, borderColor: g.kind === "gained" ? "#2f5233" : "#7a2e2e", color: g.kind === "gained" ? "#2f5233" : "#7a2e2e" }}>{String.fromCharCode(65 + i)}</span>
                   <span className="font-bold">{g.name}</span>
                   {t("{p}{gText} (projection)", { p: g.kind === "gained" ? t(", held or taken beyond the record: ") : t(", given up or not taken against the record: "), gText: g.text })}
                 </li>
@@ -1246,11 +1272,11 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
             : t("No confirmed divergences from the historical record yet.")}
           {" "}{t("Ownership shown through end of {statusYear}.", { statusYear })}
           {fronts.some((f) => f.kind === "zone") && t(" The dotted line marks the demarcation between the occupied zone and Vichy.")}
-          {fronts.some((f) => f.kind !== "zone" && !f.projection) && t(" The dark line is the front, drawn from the course of the fighting and approximate.")}
+          {fronts.some((f) => f.kind !== "zone" && !f.projection) && t(" The dark line is the front, drawn from the course of the fighting and approximate; its teeth stand on the side nearer Germany.")}
           {fronts.some((f) => f.projection) && t(" A dashed red line is where the record put the front: this run has departed from it.")}
-          {hereAt && t(" The ringed square is where this report is set.")}
-          {meanwhile.length > 0 && t(" A diamond marks what another command was doing.")}
-          {groundNow.length > 0 && t(" A ring and a plus mark ground held or taken beyond the record; a square and a cross, ground given up or not taken.")}
+          {hereAt && t(" The boxed cross is where this report is set; dots mark where the last reports were set.")}
+          {meanwhile.length > 0 && t(" A numbered disc marks what another command was doing, keyed to the list below.")}
+          {groundNow.length > 0 && t(" A lettered circle marks ground held or taken beyond the record, and a lettered square ground given up or not taken, keyed to the list below.")}
         </p>
       </div>
   );

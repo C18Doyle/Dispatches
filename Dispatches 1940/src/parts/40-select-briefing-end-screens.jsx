@@ -1,4 +1,4 @@
-function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia }) {
+function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
   const language = getLanguage();
   const [record, setRecord] = useState(null);
   const [activeRun, setActiveRun] = useState(null);
@@ -636,6 +636,20 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {dyslexia ? t("On") : t("Off")}
+          </button>
+        </div>
+        <div className={`${paper} p-4 flex items-center justify-between`}>
+          <span id="setting-night-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            {t("Night reading (a dark page)")}
+          </span>
+          <button
+            onClick={onToggleNight}
+            aria-pressed={!!night}
+            aria-labelledby="setting-night-label"
+            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            {night ? t("On") : t("Off")}
           </button>
         </div>
         <div className={`${paper} p-4 flex items-center justify-between`}>
@@ -1558,12 +1572,12 @@ const NODE_HIGHLIGHT_REGIONS = {
 // another — closest neighbor is axisAllied's orange-brown at ~55, which reads as a clearly
 // different hue (red vs. orange) even though the raw distance is similar in magnitude.
 const STATUS_COLORS = {
-  axis: "#5c1a1a",
-  axisAllied: "#a8562b",
-  soviet: "#c62828",
-  allied: "#28497a",
-  neutral: "#a8a08c",
-  contested: "#c9a227",
+  axis: "#6b4b45",
+  axisAllied: "#8a6d57",
+  soviet: "#a34a3b",
+  allied: "#46648a",
+  neutral: "#b8b09c",
+  contested: "#a89a6a",
   divided: "url(#divideGradient)",
 };
 
