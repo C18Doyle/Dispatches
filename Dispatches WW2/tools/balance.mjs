@@ -1,0 +1,179 @@
+#!/usr/bin/env node
+// Balance report for Dispatches 1940: plays each campaign headlessly, many times, in several styles, and says where the design is lopsided.
+//
+//   node tools/balance.mjs [runs] [--write]      (run `npm run extract-campaigns` first; 6000 runs a campaign takes under a minute)
+//
+// Per campaign, for each style of player (random, the historical choice every time, always the first, always the last, the choice with the best
+// immediate effect on the meters, and a gambler who takes a contested choice when there is one):
+//   * how the file ends (the three most common endings and the tier each is worth);
+//   * where the meters sit: the mean of each meter at the end, and the share of runs that end with a meter on the floor (-9 or worse) or the ceiling;
+//   * for random play, the share of runs with a meter on the floor at each decision, and the first decision where more than a third are on it
+//     (a "pinned" meter has stopped being a decision: nothing the player did made a difference to it);
+//   * decisions where one order beats another by more than GAP points on the three meters taken together (a quiz, not a choice).
+// With --write it also writes docs/BALANCE.md. It changes nothing in the game. Thresholds come from reading these numbers; do not tune by intuition.
+import { createRequire } from "node:module";
+import { writeFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const require = createRequire(join(ROOT, "package.json"));
+const CAMPAIGNS = require("./tools/campaigns_extracted.js");
+const RUNS = Number(process.argv.find((a) => /^\d+$/.test(a)) || 6000);
+const WRITE = process.argv.includes("--write");
+const GAP = 4;
+const FLOOR = -9;
+const clamp = (v) => Math.max(-10, Math.min(10, v));
+
+const gallery = (() => {
+  // the tier of each ending, read from the gallery in the assembled game
+  const fs = require("node:fs");
+  const src = fs.readFileSync(join(ROOT, "src/App.jsx"), "utf8");
+  const start = src.indexOf("const ENDINGS_GALLERY");
+  const block = src.slice(start, src.indexOf("const NODE_TOTAL", start));
+  const t = {};
+  for (const m of block.matchAll(/label: "((?:[^"\\]|\\.)*)"[^\n]*?tier: "([^"]+)"/g)) t[m[1]] = m[2];
+  return t;
+})();
+
+function roll(u, rnd) {
+  const total = u.reduce((a, v) => a + v.weight, 0);
+  let r = rnd() * total;
+  for (let k = 0; k < u.length; k++) { r -= u[k].weight; if (r <= 0) return k; }
+  return 0;
+}
+const sum = (m) => (m.manpower || 0) + (m.fuel || 0) + (m.initiative || 0);
+const meanImpact = (ch) => (ch.uncertain && ch.uncertain.length
+  ? ch.uncertain.reduce((s, u) => s + u.weight * sum(u.impact || ch.impact || {}), 0) / ch.uncertain.reduce((s, u) => s + u.weight, 0)
+  : sum(ch.impact || {}));
+
+function rngFor(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+
+function play(c, style, rnd) {
+  let pos = c.start;
+  let flags = {};
+  let m = { manpower: 0, fuel: 0, initiative: 0 };
+  const trace = [];
+  for (let step = 0; step < 400; step++) {
+    let node;
+    try { node = c.resolveNode(pos, flags, m); } catch (e) { return null; }
+    if (!node || !node.choices) return null;
+    const avail = node.choices.filter((x) => !x.disabledReason);
+    if (!avail.length) return null;
+    let ch;
+    if (style === "record") ch = avail.find((x) => x.historical) || avail[0];
+    else if (style === "first") ch = avail[0];
+    else if (style === "last") ch = avail[avail.length - 1];
+    else if (style === "greedy") ch = avail.reduce((a, b) => (meanImpact(b) > meanImpact(a) ? b : a));
+    else if (style === "gambler") ch = avail.find((x) => x.uncertain && x.uncertain.length) || avail[Math.floor(rnd() * avail.length)];
+    else ch = avail[Math.floor(rnd() * avail.length)];
+    const ri = ch.uncertain && ch.uncertain.length ? roll(ch.uncertain, rnd) : null;
+    const mf = { ...flags, ...(ch.setFlags || {}), ...((ch.uncertain && ch.uncertain[ri].setFlags) || {}) };
+    if (ch.suspicionDelta) mf.suspicion = (mf.suspicion || 0) + ch.suspicionDelta;
+    const eff = ch.uncertain && ri != null ? ch.uncertain[ri].impact || ch.impact : ch.impact;
+    if (eff) m = { manpower: clamp(m.manpower + (eff.manpower || 0)), fuel: clamp(m.fuel + (eff.fuel || 0)), initiative: clamp(m.initiative + (eff.initiative || 0)) };
+    flags = mf;
+    trace.push({ pos: String(pos), m: { ...m } });
+    const next = (ch.uncertain && ri != null && ch.uncertain[ri].next) || ch.next;
+    if (next === "END" || next === undefined) return { flags, m, title: c.positionLabel(flags, m), trace };
+    pos = next;
+  }
+  return null;
+}
+
+const STYLES = ["random", "record", "first", "last", "greedy", "gambler"];
+const out = [];
+const log = (s = "") => { console.log(s); out.push(s); };
+log("# Dispatches 1940: balance report");
+log("");
+log(`Generated by \`node tools/balance.mjs ${RUNS} --write\`: ${RUNS} runs a style, in standard mode, no battles planned (a battle is its own order here).`);
+for (const cid of ["german", "soviet", "allied", "italy"]) {
+  const c = CAMPAIGNS[cid];
+  log("");
+  log(`## ${cid}`);
+  log("");
+  log("| style | runs | most common ending (tier) | share | mean end meters (manpower / matériel / initiative) | end with a meter on the floor |");
+  log("|---|---|---|---|---|---|");
+  let randomTraces = null;
+  for (const style of STYLES) {
+    const rnd = rngFor(1000 + STYLES.indexOf(style));
+    const n = style === "record" || style === "first" || style === "last" || style === "greedy" ? Math.min(RUNS, 600) : RUNS;
+    const titles = {};
+    const meanM = { manpower: 0, fuel: 0, initiative: 0 };
+    let done = 0;
+    let floored = 0;
+    const traces = [];
+    for (let i = 0; i < n; i++) {
+      const r = play(c, style, rnd);
+      if (!r || r.flags.purged) continue;
+      done++;
+      titles[r.title] = (titles[r.title] || 0) + 1;
+      for (const k of Object.keys(meanM)) meanM[k] += r.m[k];
+      if (Object.values(r.m).some((v) => v <= FLOOR)) floored++;
+      if (style === "random") traces.push(r.trace);
+    }
+    if (style === "random") randomTraces = traces;
+    if (!done) { log(`| ${style} | 0 | | | | |`); continue; }
+    const top = Object.entries(titles).sort((a, b) => b[1] - a[1])[0];
+    log(`| ${style} | ${done} | ${top[0]} (${gallery[top[0]] || "no tier"}) | ${(100 * top[1] / done).toFixed(0)}% | ${Object.values(meanM).map((v) => (v / done).toFixed(1)).join(" / ")} | ${(100 * floored / done).toFixed(0)}% |`);
+  }
+  // where a meter gets pinned, under random play: the share of runs with a meter on the floor after each decision, by position in the run
+  const longest = Math.max(...randomTraces.map((t) => t.length));
+  const rows = [];
+  for (let k = 0; k < longest; k++) {
+    const at = randomTraces.filter((t) => t.length > k);
+    if (at.length < RUNS * 0.2) break;
+    const share = { manpower: 0, fuel: 0, initiative: 0 };
+    for (const t of at) for (const key of Object.keys(share)) if (t[k].m[key] <= FLOOR) share[key]++;
+    rows.push({ k, n: at.length, share: Object.fromEntries(Object.entries(share).map(([a, v]) => [a, v / at.length])) });
+  }
+  const pinned = ["manpower", "fuel", "initiative"].map((key) => {
+    const hit = rows.find((r) => r.share[key] > 1 / 3);
+    return hit ? `${key} on the floor in over a third of runs from decision ${hit.k + 1}` : null;
+  }).filter(Boolean);
+  log("");
+  log(pinned.length ? `Pinned meters under random play: ${pinned.join("; ")}.` : "No meter is pinned under random play.");
+  // dominant orders: at each node (any, with two or more available choices) compare the mean impact of the best and worst choice
+  const dominant = [];
+  let decisions = 0;
+  for (const [id] of Object.entries(c.nodeIds || {})) { /* nodeIds not provided by the extractor */ }
+  log("");
+}
+// the dominant orders are found by walking the historical record and the sample of reached nodes
+for (const cid of ["german", "soviet", "allied", "italy"]) {
+  const c = CAMPAIGNS[cid];
+  const seen = new Map();
+  const rnd = rngFor(77);
+  for (let i = 0; i < 400; i++) {
+    let pos = c.start; let flags = {}; let m = { manpower: 0, fuel: 0, initiative: 0 };
+    for (let step = 0; step < 400; step++) {
+      let node;
+      try { node = c.resolveNode(pos, flags, m); } catch (e) { break; }
+      if (!node || !node.choices) break;
+      const avail = node.choices.filter((x) => !x.disabledReason);
+      if (!avail.length) break;
+      if (avail.length >= 2 && !seen.has(String(pos))) seen.set(String(pos), avail);
+      const ch = avail[Math.floor(rnd() * avail.length)];
+      const ri = ch.uncertain && ch.uncertain.length ? roll(ch.uncertain, rnd) : null;
+      flags = { ...flags, ...(ch.setFlags || {}), ...((ch.uncertain && ch.uncertain[ri].setFlags) || {}) };
+      const eff = ch.uncertain && ri != null ? ch.uncertain[ri].impact || ch.impact : ch.impact;
+      if (eff) m = { manpower: clamp(m.manpower + (eff.manpower || 0)), fuel: clamp(m.fuel + (eff.fuel || 0)), initiative: clamp(m.initiative + (eff.initiative || 0)) };
+      const next = (ch.uncertain && ri != null && ch.uncertain[ri].next) || ch.next;
+      if (next === "END" || next === undefined) break;
+      pos = next;
+    }
+  }
+  const dominant = [];
+  for (const [id, avail] of seen) {
+    const scores = avail.map(meanImpact);
+    const hi = Math.max(...scores);
+    const lo = Math.min(...scores);
+    if (hi - lo > GAP) dominant.push(`${id} (${(hi - lo).toFixed(1)})`);
+  }
+  log(`**${cid}**: decisions where one order beats another by more than ${GAP} points of meter in total: ${dominant.length} of ${seen.size}${dominant.length ? ": " + dominant.join(", ") : ""}.`);
+  log("");
+}
+if (WRITE) {
+  writeFileSync(join(ROOT, "docs/BALANCE.md"), out.join("\n") + "\n");
+  console.log("written docs/BALANCE.md");
+}

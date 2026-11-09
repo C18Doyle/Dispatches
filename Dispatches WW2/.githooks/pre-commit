@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Runs `npm run audit` before every commit, once this hooks path is enabled:
+#   git config core.hooksPath .githooks
+# (a per-clone opt-in, not automatic — see README.md's "Audits" section.)
+#
+# The full audit takes a couple of minutes (check-reachability and
+# check-outcome-sign each run tens of thousands of simulated playthroughs), so
+# a work-in-progress commit can skip it with:
+#   SKIP_AUDIT=1 git commit ...
+# Don't make that a habit on a commit that touches src/App.jsx, docs/, or
+# tools/ — that's exactly what this hook exists to catch before it ships.
+
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+if [ "${SKIP_AUDIT:-0}" = "1" ]; then
+  echo "pre-commit: SKIP_AUDIT=1 set, skipping npm run audit"
+  exit 0
+fi
+
+echo "pre-commit: running npm run audit (skip with SKIP_AUDIT=1 git commit ...)"
+if ! npm run audit; then
+  echo ""
+  echo "pre-commit: npm run audit failed — commit blocked."
+  echo "  Fix the failure above, or SKIP_AUDIT=1 git commit ... to bypass (not recommended)."
+  exit 1
+fi

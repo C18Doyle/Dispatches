@@ -1,0 +1,11 @@
+advisors in dossiers: 110 (terminal year extracted for 95)
+advisor quotes checked: 440
+
+No advisor quoted after their recorded terminal year.
+
+7 quote(s) from 7 advisor(s) with no dossier entry:
+   the OKW staff, Guderian's doctrine, invoked by staff, a staff officer, unnamed in the record, Stauffenberg's own proclamation, relayed, a loyalist colonel, unnamed in the record, Rundstedt's staff, a State Department cable, unsigned
+   (These cannot be date-checked. Adding dossiers brings them under this audit.)
+
+15 dossier(s) with no extractable terminal year (not checkable):
+   Bulganin, The Special Section, McNaughton, Raeder, Dönitz, Speer, Weizsäcker, Heisenberg, Gehlen, Terboven's staff officer, Eisenhower, Churchill, Marshall, Spaatz, Eden

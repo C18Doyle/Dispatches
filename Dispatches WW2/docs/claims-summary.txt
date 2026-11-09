@@ -1,0 +1,2 @@
+claims extracted: 658  (HIGH 64, MED 41, LOW 552)
+HIGH verdicts: 60 verified, 3 fixed (real errors found and corrected), 1 plausible/unverifiable in-universe estimate

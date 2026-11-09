@@ -1,0 +1,13 @@
+runs: 20000 per campaign per mode · simulation errors: 0
+titles produced: 108 · flags written: 212 · nodes: 189
+
+WARNINGS (reachable-content gaps — review, do not necessarily block):
+  ! german: 2/47 titles never produced:
+     - Collapse ahead of schedule
+     - The war that never went east
+  ! soviet: 1/35 titles never produced:
+     - Victory, Priced About the Same
+  ! allied: 1/30 titles never produced:
+     - The War, Fought Close to Schedule
+
+All hard checks passed.
