@@ -38292,12 +38292,13 @@ function edgeViability(statusA, statusB) {
   return "severed";
 }
 
+// Dispatches WW2: the European map's colours (STATUS_COLORS in 40-select-briefing-end-screens.jsx), so that both theatres read alike.
 const STATUS_COLORS = {
-  axis: "#5c1a1a",
-  axisAllied: "#a8562b",
-  allied: "#28497a",
-  neutral: "#a8a08c",
-  contested: "#c9a227",
+  axis: "#6b4b45",
+  axisAllied: "#8a6d57",
+  allied: "#46648a",
+  neutral: "#b8b09c",
+  contested: "#a89a6a",
 };
 
 const STATUS_LABELS = {
@@ -38815,7 +38816,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId, report }
         {header}
         <div
           className="w-full border-[3px] flex items-center justify-center"
-          style={{ background: "#e3d5ae", borderColor: "#3a2a18", aspectRatio: `${VBW} / ${VBH}` }}
+          style={{ background: "#a6bbb5", borderColor: "#3a2a18", aspectRatio: `${VBW} / ${VBH}` }}
         >
           <p className="text-[12px] text-[#3a2a18]" style={{ fontFamily: "'Courier Prime', monospace" }}>
             {geometryFailed ? "Theater map unavailable this session." : "Loading theater map…"}
@@ -38834,26 +38835,25 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId, report }
   return (
     <div className="mb-2">
       {header}
-      <svg viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`} role="group" aria-label={`Pacific theater map, ${monthLabel}`} className="w-full border-[3px]" style={{ background: "#e3d5ae", borderColor: "#3a2a18" }}>
+      {/* dg-reportmap / dg-reportmap-inner: Night reading draws this map as it draws the European one (NIGHT_CSS in 38-conditions). */}
+      <div className="dg-reportmap">
+        <div className="dg-reportmap-inner">
+      <svg viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`} role="group" aria-label={`Pacific theater map, ${monthLabel}`} className="w-full border-[3px]" style={{ background: "#a6bbb5", borderColor: "#3a2a18" }}>
         <defs>
-          <pattern id={`hexTexture${uid}`} width="16" height="27.7" patternUnits="userSpaceOnUse">
-            <path
-              d="M8 0 L16 4.6 L16 13.85 L8 18.5 L0 13.85 L0 4.6 Z M8 18.5 L16 23.1 L16 27.7 M0 23.1 L8 18.5 M8 0 L8 -4.6"
-              fill="none"
-              stroke="#3a2a1830"
-              strokeWidth="0.5"
-            />
+          {/* The European map's hatch for contested ground (checkpointContestedHatch in 30-warroom-and-maps.jsx). */}
+          <pattern id={`pacContestedHatch${uid}`} width="4.5" height="4.5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="4.5" height="4.5" fill="#b9ad84" fillOpacity="0.55" />
+            <line x1="0" y1="0" x2="0" y2="4.5" stroke="#4a3d22" strokeWidth="1.1" />
           </pattern>
         </defs>
 
         {/* Ocean */}
-        <rect x="0" y="0" width={VBW} height={VBH} fill="#e3d5ae" />
-        <rect x="0" y="0" width={VBW} height={VBH} fill={`url(#hexTexture${uid})`} opacity="0.25" />
+        <rect x="0" y="0" width={VBW} height={VBH} fill="#a6bbb5" />
 
         {/* Real coastlines/borders for every landmass in view that isn't itself one of
             this game's colorable regions: geographic context, not interactive. */}
         {geometry.backdrop.map((country) => (
-          <path key={country.name} d={ringsPathD(country.rings)} fill="#d8cba8" stroke="#8a7a5c" strokeWidth="0.6" />
+          <path key={country.name} d={ringsPathD(country.rings)} fill="#cdbc9a" stroke="#3a2a18" strokeWidth="0.6" />
         ))}
 
         {/* Faint lat/long reference grid: also a real WWII navigational-chart convention */}
@@ -38940,7 +38940,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId, report }
               aria-label={hasNote ? `${nameOf(id)}: ${STATUS_LABELS[status]}. Tap for why.` : `${nameOf(id)}: ${STATUS_LABELS[status]}`}
             >
               <title>{`${nameOf(id)}: ${STATUS_LABELS[status]}${hasNote ? " (tap for why)" : ""}`}</title>
-              <path d={d} fill={STATUS_COLORS[status]} fillOpacity="0.88" stroke="#241a10" strokeWidth="1" />
+              <path d={d} fill={status === "contested" ? `url(#pacContestedHatch${uid})` : STATUS_COLORS[status]} fillOpacity="0.5" stroke="#241a10" strokeWidth="1" />
               {isHighlighted && <path d={d} fill="none" stroke={accent} strokeWidth="3" strokeDasharray="6 3" />}
               {hasNote && <circle cx={lx + 12} cy={ly - 10} r="4" fill="#241a10" opacity="0.85" />}
             </g>
@@ -38960,11 +38960,11 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId, report }
                 fontSize="9"
                 fontWeight="700"
                 fill="#241a10"
-                stroke="#f6efdf"
+                stroke="#f2ead9"
                 strokeWidth="3"
                 strokeLinejoin="round"
                 paintOrder="stroke"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                style={{ fontFamily: MAP_SERIF, fontStyle: "italic" }}
               >
                 {nameOf(region.id)}
               </text>
@@ -39015,11 +39015,11 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId, report }
                 fontSize="9"
                 fontWeight="700"
                 fill="#241a10"
-                stroke="#f6efdf"
+                stroke="#f2ead9"
                 strokeWidth="3"
                 strokeLinejoin="round"
                 paintOrder="stroke"
-                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                style={{ fontFamily: MAP_SERIF, fontStyle: "italic" }}
               >
                 {nameOf(id)}
               </text>
@@ -39033,7 +39033,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId, report }
 
         {!(report && report.frame) && (
           <g>
-            <rect x={VBW - 230} y={VBH - 56} width="216" height="42" fill="#e3d5ae" stroke="#3a2a18" strokeWidth="2" />
+            <rect x={VBW - 230} y={VBH - 56} width="216" height="42" fill="#f2ead9" stroke="#3a2a18" strokeWidth="2" />
             <text x={VBW - 220} y={VBH - 40} fontSize="9" fontWeight="700" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               THEATER MAP
             </text>
@@ -39043,6 +39043,8 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId, report }
           </g>
         )}
       </svg>
+        </div>
+      </div>
       <p className="sr-only">
         {`The map on ${monthLabel}. `}
         {report && report.marks && report.marks.name ? `This report is set at ${report.marks.name}. ` : ""}
