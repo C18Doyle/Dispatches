@@ -50,6 +50,32 @@ for (const e of EVENTS) {
     if (/\b(color|armor|armored|defense|honor|labor|center|neighbor|harbor|kilometers|gray|theater)\b/i.test(t.replace(/Pearl Harbor/g, ""))) problems.push(`${at}: American spelling in "${t.slice(0, 40)}" (the new text is written in British English)`);
   }
 }
+// The Pacific commands' state-driven events (PACIFIC_STATE_EVENTS, from Dispatches 1941), held to 1941's rules: an anchor report inside a
+// window of months, two paragraphs, a year in the date, no dashes or quotation marks, and an ev_ flag never written by anything else.
+const ps = src.indexOf("const PACIFIC_STATE_EVENTS = ");
+if (ps >= 0) {
+  const pe = src.indexOf("\n];", ps);
+  const STATE = new Function("return " + src.slice(ps + "const PACIFIC_STATE_EVENTS = ".length, pe + 2))();
+  for (const e of STATE) {
+    const at = `state event ${e.id}`;
+    if (ids.has(e.id)) problems.push(`${at}: duplicate id`);
+    ids.add(e.id);
+    const c = CAMPAIGNS[e.campaign];
+    if (!c) { problems.push(`${at}: campaign "${e.campaign}" is not a campaign`); continue; }
+    perCampaign[e.campaign] = (perCampaign[e.campaign] || 0) + 1;
+    let node = null;
+    try { node = c.resolveNode(e.anchor, {}, { manpower: 0, fuel: 0, initiative: 0 }); } catch (err) { /* none */ }
+    if (!node || !node.choices) problems.push(`${at}: anchor "${e.anchor}" is not a report of ${e.campaign}`);
+    if (!/^19\d\d-\d\d$/.test(e.from || "") || !/^19\d\d-\d\d$/.test(e.to || "") || e.from > e.to) problems.push(`${at}: the window ${e.from} to ${e.to} is not a pair of months in order`);
+    if (!/\b19\d\d\b/.test(e.date || "")) problems.push(`${at}: the date names no year`);
+    if (typeof e.when !== "function") problems.push(`${at}: no condition`);
+    if (!Array.isArray(e.paras) || e.paras.length !== 2) problems.push(`${at}: needs two paragraphs`);
+    for (const t of [e.title || "", ...(e.paras || [])]) {
+      if (/[—–]/.test(t)) problems.push(`${at}: a dash in "${t.slice(0, 40)}"`);
+      if (/["“”]/.test(t)) problems.push(`${at}: a quotation mark in "${t.slice(0, 40)}"`);
+    }
+  }
+}
 for (const id of Object.keys(CAMPAIGNS)) if ((perCampaign[id] || 0) < 4) problems.push(`${id}: only ${perCampaign[id] || 0} events (at least four)`);
 if (problems.length) {
   console.error("check-events: " + problems.length + " problem(s)");

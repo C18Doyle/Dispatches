@@ -363,7 +363,7 @@ function WW2CommandInner() {
     setOutcomeStage(null);
     if (!isEnd) {
       // A special dispatch is due on arriving at some reports (and when an adviser has asked to be relieved): shown once, before the report.
-      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: campaignId, flags, meters }) : null;
+      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: campaignId, flags, meters }) || pacificStateEvent(campaignId, nextPos, flags, meters) : null;
       const flagsOut = dueEv ? { ...flags, [eventSeenKey(dueEv.id)]: true } : flags;
       if (dueEv) setFlags(flagsOut);
       const newHistory = [...history, { position: nextPos, flags: flagsOut, meters, log: newLog }];

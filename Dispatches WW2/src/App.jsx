@@ -39905,6 +39905,171 @@ function SpecialEventScreen({ campaign, event, onContinue }) {
   );
 }
 
+// ---------- THE PACIFIC COMMANDS' STATE-DRIVEN EVENTS (from Dispatches 1941) ----------
+// 1941's STATE_EVENTS, unchanged but for the meters (Readiness is manpower, Pipeline is fuel): a piece of context the state of the file
+// brings to a headquarters between two reports, shown once before the first report whose date starts inside its window (from, to) when
+// `when` holds. They are shown on the special-dispatch screen above (pacificStateEvent turns one into a dispatch); the flag ev_<id>
+// records it, the same flag the European dispatches use. Claims: claims/pacific-events-round1.json.
+const PACIFIC_STATE_EVENTS = [
+  // ---- IGHQ ----
+  {
+    id: "japan_munitions", campaign: "japan", kind: "Politics", anchor: "theMainlandCrisis44",
+    from: "1943-10", to: "1944-03", date: "NOVEMBER 1943",
+    title: "The Ministry of Munitions",
+    when: (f) => f.unificationPath !== "forced",
+    paras: [
+      "In November 1943 the government sets up a Ministry of Munitions to unify the production of arms, aircraft above all. The Army and the Navy have been bidding against each other for aluminum and engines, and each has kept its own factories and its own designs.",
+      "The new ministry moves the quarrel into one building and does not end it. Aircraft output goes on rising through 1944, and the pilots to fly the aircraft do not keep pace.",
+    ],
+  },
+  {
+    id: "japan_students", campaign: "japan", kind: "The home front", anchor: "theMainlandCrisis44",
+    from: "1943-10", to: "1944-06", date: "OCTOBER 1943",
+    title: "The Students Are Called Up",
+    when: (f, m) => m.manpower <= -2,
+    paras: [
+      "On 21 October 1943 tens of thousands of students march past Prime Minister Tojo in the rain at the Meiji Jingu stadium in Tokyo. The deferment that kept university students out of the army has ended, and the first of them are called up in December.",
+      "The armed forces need officers and pilots, and the classrooms that trained them are emptying. Factories lose the young men who ran the machines, and schoolgirls take their places on the lines.",
+    ],
+  },
+  {
+    id: "japan_tankers", campaign: "japan", kind: "The sea lanes", anchor: "philippineSea44",
+    from: "1943-06", to: "1944-09", date: "NOVEMBER 1943",
+    title: "The Tankers",
+    when: (f, m) => m.fuel <= -3,
+    paras: [
+      "American submarines are sinking merchant ships faster than Japan can build them, and the tankers that carry oil from Borneo and Sumatra to the home islands are among the first to go. The Navy has too few escorts, and the ships run in small groups with little cover.",
+      "The Navy forms an independent escort command in November 1943. By then the voyage from the Indies to the home islands has become the most dangerous one in the war.",
+    ],
+  },
+  {
+    id: "japan_tojo", campaign: "japan", kind: "Politics", anchor: "onishiKamikaze44",
+    from: "1944-07", to: "1944-10", date: "JULY 1944",
+    title: "The Cabinet Falls",
+    when: () => true,
+    paras: [
+      "Saipan falls in early July 1944, and with it the home islands come within range of the new bombers. On 16 July Tojo is removed as Chief of the Army General Staff, and on 18 July he and his cabinet announce their resignation, under pressure from the senior statesmen and from inside the Navy. General Koiso becomes Prime Minister on 22 July.",
+      "In August a Supreme Council for the Direction of the War is formed from the Prime Minister, the Foreign Minister, the two service ministers and the two chiefs of staff, to settle the basic policy of the war.",
+    ],
+  },
+  {
+    id: "japan_rice", campaign: "japan", kind: "The home front", anchor: "theSubmarineCarriersQuestion45",
+    from: "1945-04", to: "1945-08", date: "JUNE 1945",
+    title: "The Rice Crop",
+    when: (f, m) => m.fuel <= -3,
+    paras: [
+      "The year's rice crop is poor, and the city ration has already been cut to a level that leaves people hungry. Farm labor has gone to the war, and the blockade has stopped the rice that came from Korea, Taiwan and Indochina.",
+      "The ministries tell the cabinet that the food will not last into the winter. It is one of the figures the cabinet is shown that summer.",
+    ],
+  },
+  // ---- CINCPAC ----
+  {
+    id: "allied_carriers", campaign: "alliedPacific", kind: "Production", anchor: "unconditionalSurrender43",
+    from: "1943-01", to: "1943-12", date: "1943",
+    title: "The New Carriers",
+    when: (f, m) => m.fuel >= 2,
+    paras: [
+      "The carrier Essex joins the fleet at the end of 1942, and more of her class follow through 1943. The carriers the fleet lost in 1942, Lexington, Yorktown, Wasp and Hornet, are being replaced faster than Japan can replace the ones it lost.",
+      "The first of the new carriers do not reach the Pacific in strength until the autumn, and the staff in Hawaii plans around that date. Until then the fleet has the carriers it has.",
+    ],
+  },
+  {
+    id: "allied_landing_ships", campaign: "alliedPacific", kind: "Production", anchor: "philippineSeaAllied44",
+    from: "1943-12", to: "1944-06", date: "FEBRUARY 1944",
+    title: "The Landing Ship Shortage",
+    when: (f, m) => m.fuel <= -2,
+    paras: [
+      "Landing ships tank are the scarcest ships in the Allied navies. The Atlantic needs every one it can get for the landing in Normandy, and the Pacific has a fraction of what its commanders have asked for. The operations in the Central Pacific are timed around the few that are available.",
+      "The planners in Hawaii and Washington argue over every ship, and the Pacific is told again that the Atlantic comes first.",
+    ],
+  },
+  {
+    id: "allied_special_attack", campaign: "alliedPacific", kind: "The enemy", anchor: "quezonsSuccessor44",
+    from: "1944-10", to: "1944-12", date: "OCTOBER 1944",
+    title: "The First Special Attacks",
+    when: () => true,
+    paras: [
+      "On 25 October 1944, off Samar, Japanese naval aircraft dive into the escort carriers of Taffy 3 on purpose. The escort carrier St. Lo is sunk by a single hit, the first major warship lost to a kamikaze attack.",
+      "The attacks go on over Leyte Gulf in the days that follow. The fleet has no answer to them except to shoot the aircraft down before they arrive.",
+    ],
+  },
+  {
+    id: "allied_roosevelt", campaign: "alliedPacific", kind: "Politics", anchor: "okinawaAllied45",
+    from: "1945-04", to: "1945-04", date: "APRIL 1945",
+    title: "The President Is Dead",
+    when: () => true,
+    paras: [
+      "President Roosevelt dies at Warm Springs, Georgia, on 12 April 1945. Vice President Truman is sworn in that evening, and he has been told almost nothing of the war's secret programs.",
+      "The Joint Chiefs carry on as they were. The fleet is off Okinawa, and the war does not pause for the change of President.",
+    ],
+  },
+  {
+    id: "allied_fatigue", campaign: "alliedPacific", kind: "The fleet", anchor: "strategicBombingAllied45Delayed",
+    from: "1945-04", to: "1945-06", date: "MAY 1945",
+    title: "The Ships on Station",
+    when: (f, m) => m.manpower <= -3,
+    paras: [
+      "The ships on the Okinawa stations are at general quarters for much of every day and night. Sailors who have gone without sleep for days fall ill with what the medical officers call combat fatigue, and the sick lists show it.",
+      "The fatigue is one reason the Navy relieves the ships on the stations by turn, and one more cost of a campaign that lasts close to three months.",
+    ],
+  },
+  // ---- more from outside the headquarters ----
+  {
+    id: "japan_singapore", campaign: "japan", kind: "The war", anchor: "burmaRangoon42",
+    from: "1942-02", to: "1942-03", date: "FEBRUARY 1942",
+    title: "Singapore",
+    when: () => true,
+    paras: [
+      "Singapore surrenders on 15 February 1942, a week after the first Japanese troops cross the strait. Percival, the British commander, gives up a garrison of tens of thousands of British, Indian and Australian troops. It is the largest surrender in British military history.",
+      "The Southern Operation is weeks ahead of its timetable. The Army and Navy staffs have to plan the next stage of a war that is going better than they expected.",
+    ],
+  },
+  {
+    id: "japan_tokyo_raid", campaign: "japan", kind: "The home front", anchor: "okinawa45",
+    from: "1945-03", to: "1945-04", date: "MARCH 1945",
+    title: "The Night of 9 March",
+    when: () => true,
+    paras: [
+      "On the night of 9 to 10 March 1945, B-29s from the Marianas drop incendiaries on the crowded east side of Tokyo from low altitude. The fire destroys about sixteen square miles of the city. Estimates of the dead run from about 80,000 to more than 100,000.",
+      "It is the first of the low-level fire raids on the large cities. In the ten days that follow the same method is used on Nagoya, Osaka and Kobe.",
+    ],
+  },
+  {
+    id: "allied_singapore", campaign: "alliedPacific", kind: "The war", anchor: "curtinsTurn42",
+    from: "1942-02", to: "1942-02", date: "FEBRUARY 1942",
+    title: "Singapore Falls",
+    when: () => true,
+    paras: [
+      "Singapore surrenders on 15 February 1942. Percival gives up a garrison of tens of thousands of British, Indian and Australian troops, the largest surrender in British military history.",
+      "In Washington and Canberra the fall is read as the end of the Malay Barrier. The Australian government, with its best divisions in the Middle East, turns to the United States for its defense.",
+    ],
+  },
+  {
+    id: "allied_germany", campaign: "alliedPacific", kind: "Politics", anchor: "kyotoTargetDebate45",
+    from: "1945-05", to: "1945-06", date: "MAY 1945",
+    title: "Germany Surrenders",
+    when: () => true,
+    paras: [
+      "Germany signs an unconditional surrender at Reims early on 7 May 1945, and the act is ratified in Berlin on 8 May. The war in Europe is over.",
+      "The Pacific is now the whole of the war, and the forces that fought in Europe are to be redeployed across the world to the Pacific.",
+    ],
+  },
+];
+
+/** The state-driven event due on arriving at a Pacific command's report, as a special dispatch, or null. */
+function pacificStateEvent(campaignId, nextPos, flags, meters) {
+  if (!PACIFIC_COMMANDS.includes(campaignId)) return null;
+  let nextDate;
+  try {
+    nextDate = CAMPAIGNS[campaignId].resolveNode(String(nextPos), flags, meters)?.date;
+  } catch (e) {
+    nextDate = undefined;
+  }
+  const e = dueStateEvent({ campaignId, events: PACIFIC_STATE_EVENTS, nextDate, flags, meters });
+  if (!e) return null;
+  const dateline = String(e.date || "").toLowerCase().replace(/(^|[\s–-])([a-z])/g, (m, s, c) => s + c.toUpperCase());
+  return { id: e.id, campaign: e.campaign, kind: e.kind, dateline: e.kind ? `${e.kind}, ${dateline}` : dateline, title: e.title, text: e.paras };
+}
 const mapArrow = (kind, from, to) => ({ kind, from, to });
 const mapStand = (at) => ({ kind: "hold", at });
 
@@ -48077,7 +48242,7 @@ function WW2CommandInner() {
     setOutcomeStage(null);
     if (!isEnd) {
       // A special dispatch is due on arriving at some reports (and when an adviser has asked to be relieved): shown once, before the report.
-      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: campaignId, flags, meters }) : null;
+      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: campaignId, flags, meters }) || pacificStateEvent(campaignId, nextPos, flags, meters) : null;
       const flagsOut = dueEv ? { ...flags, [eventSeenKey(dueEv.id)]: true } : flags;
       if (dueEv) setFlags(flagsOut);
       const newHistory = [...history, { position: nextPos, flags: flagsOut, meters, log: newLog }];
