@@ -32,7 +32,8 @@
     "check:demo": "node scripts/check_demo.mjs",
     "check:style": "node scripts/check_style.mjs",
     "check:continuity": "node scripts/check_continuity.mjs",
-    "check:layout": "tsx scripts/check_layout.ts"
+    "check:layout": "tsx scripts/check_layout.ts",
+    "report:stamps": "tsx scripts/report_stamps.ts"
   },
   "dependencies": {
     "react": "^18.3.1",
