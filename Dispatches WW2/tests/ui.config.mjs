@@ -1,4 +1,4 @@
-// UI-differential config for Dispatches 1940 (see packages/testkit/README.md).
+// UI-differential config for Dispatches WW2 (see packages/testkit/README.md).
 import { JSDOM } from "jsdom";
 
 // [campaign id, card text prefix on the select screen]
@@ -7,6 +7,8 @@ const CAMPAIGNS = [
   ["soviet", "STAVKA"],
   ["allied", "SHAEF"],
   ["italy", "COMANDO"],
+  ["japan", "IGHQ"],
+  ["alliedPacific", "CINCPAC"],
 ];
 // The three difficulties, by the order of the cases below.
 const MODES = ["easy", "open", "hard"];

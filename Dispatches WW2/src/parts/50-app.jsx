@@ -3,6 +3,8 @@ function WW2CommandInner() {
   const language = useLanguage();
   const [screen, setScreen] = useState("select");
   const [campaignId, setCampaignId] = useState(null);
+  // The rules this command plays by (src/rules.ts): 1940's for the European commands, 1941's for the Pacific ones.
+  selectRules(campaignId);
   const [position, setPosition] = useState(0);
   const [choiceIndex, setChoiceIndex] = useState(null);
   const [rollIndex, setRollIndex] = useState(null);
@@ -136,6 +138,7 @@ function WW2CommandInner() {
     setMode("open");
     setFavor(5);
     setDefiance(0);
+    selectRules(testCampaign);
     setCampaignId(testCampaign);
     setPosition(testNode);
     setChoiceIndex(null);
@@ -188,6 +191,7 @@ function WW2CommandInner() {
     setFavor(5);
     setDefiance(0);
     clearActiveRun();
+    selectRules(id);
     setCampaignId(id);
     const baseSeedFlags = startFlags(playMode);
     const seedFlags = seed ? { ...baseSeedFlags, ...seed.seedFlags } : baseSeedFlags;
@@ -606,6 +610,7 @@ function WW2CommandInner() {
   }, [musicOn]);
 
   function resumeRun(saved) {
+    selectRules(saved.campaignId);
     setCampaignId(saved.campaignId);
     setMode(saved.mode || "open");
     setControlBattles(saved.controlBattles !== false);

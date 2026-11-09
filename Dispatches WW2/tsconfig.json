@@ -19,6 +19,8 @@
     }
   },
   "include": [
-    "src/logic.ts"
+    "src/logic.ts",
+    "src/logic-pacific.ts",
+    "src/rules.ts"
   ]
 }

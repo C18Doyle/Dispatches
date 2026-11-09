@@ -4424,9 +4424,3 @@
       return "This file closes before the armistice fork that defines what 'a year later' would even mean for the rest of this campaign: an incomplete record with no later chapter to project.";
     },
   },
-};
-
-// ---------- STYLE HELPERS ----------
-// The artifact environment ships only Tailwind's precompiled core classes — arbitrary
-// values like text-[#ffffff] are never generated. This stylesheet implements every
-// arbitrary class this campaign uses, so the classes behave as written.

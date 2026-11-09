@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useRef, useId, useSyncExternalStore, Comp
 import * as Tone from "tone";
 import { t, T, initLanguage, setLanguage, getLanguage, subscribe as subscribeLanguage, registerTables, LANGUAGES } from "@dispatches/i18n";
 import I18N_TABLES from "./i18n/tables.js";
-import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey } from "./logic";
+import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey, dueStateEvent, selectRules, rulesOf, PACIFIC_COMMANDS } from "./rules";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
 // the file:// protocol, under which both fetch() of a relative path and a MediaElementAudioSource
@@ -202,4 +202,22 @@ function playMeter(up) {
 }
 
 // ---------- DATA ----------
+// A node stored as JSON: a fresh copy per call, as a getter returned a fresh object before.
+// A choice with `rollMeter` has a two-outcome roll whose first weight is nudged by that meter (modWeight), as the code nodes do.
+const dataNode = (data, id, meters) => {
+  const node = JSON.parse(JSON.stringify(data[id]));
+  if (meters) {
+    for (const c of node.choices || []) {
+      if (c.rollMeter && c.uncertain && c.uncertain.length === 2) {
+        const w = modWeight(c.uncertain[0].weight, meters[c.rollMeter]);
+        c.uncertain[0].weight = w;
+        c.uncertain[1].weight = Math.max(5, 100 - w);
+      }
+    }
+  }
+  return node;
+};
+// alliedPacific: nodes that are plain data live in src/data/alliedPacific.nodes.json (inlined at assembly). Nodes that read flags or meters stay code in the campaign part.
+const ALLIED_PACIFIC_DATA = /*@inline-json src/data/alliedPacific.nodes.json*/null;
+
 const CAMPAIGNS = {
