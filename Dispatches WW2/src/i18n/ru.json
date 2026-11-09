@@ -77,7 +77,6 @@
   "For the record: {eventSource}": "Для справки: {eventSource}",
   "Nothing in this dispatch changes a meter.": "Это донесение не меняет ни одного показателя.",
   "Restricted: Command Eyes Only": "Секретно: только для командующего",
-  "Dispatches 1940": "Dispatches 1940",
   "Free Demo: OKW Command Only": "Бесплатная демоверсия: только командование ОКВ",
   "Choose a high command and endeavor to lead your armies to victory.": "Выберите верховное командование и постарайтесь привести свои армии к победе.",
   "↻ War in Progress": "↻ Война продолжается",
@@ -543,7 +542,6 @@
   " You reached it across {rewinds} {rewinds, plural, one {rewind} other {rewinds}}.": " Вы дошли до него через {rewinds} {rewinds, plural, one {откат} few {отката} many {откатов} other {отката}}.",
   "Parts of this path are marked alternate history: invented beyond the point where any serious historian's argument would follow.": "Части этого пути помечены как альтернативная история: выдуманная за пределами того, куда последовал бы довод любого серьёзного историка.",
   "Parts of this path are marked speculative: beyond what the evidence supports.": "Части этого пути помечены как гипотетические: за пределами того, что подтверждают свидетельства.",
-  "DISPATCHES 1940: After-Action Report": "DISPATCHES 1940: Отчёт после операции",
   "Command rank: {ratingRank} ({ratingScore}/100)": "Командное звание: {ratingRank} ({ratingScore}/100)",
   "Ending: {endingLabel}{p}{p2}": "Финал: {endingLabel}{p}{p2}",
   "Standing at the end: Manpower {p}, Matériel {p2}, Initiative {p3}": "Положение в конце: Живая сила {p}, Матчасть {p2}, Инициатива {p3}",
@@ -811,5 +809,14 @@
   "Another command": "Другое командование",
   "about {km} km": "около {km} км",
   "Situation, {date}": "Обстановка, {date}",
-  "Key to the map": "Условные знаки карты"
+  "Key to the map": "Условные знаки карты",
+  "Fanatical Resolve Mode": "Режим фанатичной решимости",
+  "Coalition Resolve Mode": "Режим коалиционной решимости",
+  "Shinano Command": "Командование «Синано»",
+  "Mark 14 Command": "Командование «Марк 14»",
+  "No rewind. IGHQ's tolerance for choices that break with dogma is counted out of 5: each draws a charge of insubordination, and at 5 the file ends in a coup.": "Нельзя вернуться назад. Терпимость Императорской ставки к решениям, отступающим от догмы, ограничена пятью: каждое такое решение влечёт обвинение в неповиновении, а на пятом дело заканчивается переворотом.",
+  "No rewind. Overriding a partner's strong objection costs Coalition Resolve between Washington, London, Chongqing and Canberra, and a broken coalition relieves you.": "Нельзя вернуться назад. Игнорирование сильных возражений партнёра стоит решимости коалиции Вашингтона, Лондона, Чунцина и Канберры, а распад коалиции ведёт к вашему смещению.",
+  "Insubordination rises with each choice that breaks with dogma, counted out of 5. At 5 the hardliners remove you.": "Обвинения в неповиновении растут с каждым решением, отступающим от догмы; шкала из 5 делений. При 5 сторонники жёсткой линии вас смещают.",
+  "Dispatches WW2": "Dispatches WW2",
+  "DISPATCHES WW2: After-Action Report": "DISPATCHES WW2: Отчёт после операции"
 }

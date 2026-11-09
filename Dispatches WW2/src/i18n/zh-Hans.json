@@ -77,7 +77,6 @@
   "For the record: {eventSource}": "史实依据：{eventSource}",
   "Nothing in this dispatch changes a meter.": "这份电讯不会改变任何指标。",
   "Restricted: Command Eyes Only": "限制级：仅限指挥官阅览",
-  "Dispatches 1940": "电讯 1940",
   "Free Demo: OKW Command Only": "免费试玩：仅限国防军最高统帅部指挥",
   "Choose a high command and endeavor to lead your armies to victory.": "选择一个最高统帅部，努力率领你的军队走向胜利。",
   "↻ War in Progress": "↻ 战争进行中",
@@ -543,7 +542,6 @@
   " You reached it across {rewinds} {rewinds, plural, one {rewind} other {rewinds}}.": " 你经过 {rewinds} 次{rewinds, plural, other {回溯}}才走到这里。",
   "Parts of this path are marked alternate history: invented beyond the point where any serious historian's argument would follow.": "这条路径的部分内容被标为另类历史：编造到连任何严肃历史学家的论证都不会跟进的地步。",
   "Parts of this path are marked speculative: beyond what the evidence supports.": "这条路径的部分内容被标为推测性：超出了证据所能支持的范围。",
-  "DISPATCHES 1940: After-Action Report": "DISPATCHES 1940：战后报告",
   "Command rank: {ratingRank} ({ratingScore}/100)": "指挥军衔：{ratingRank}（{ratingScore}/100）",
   "Ending: {endingLabel}{p}{p2}": "结局：{endingLabel}{p}{p2}",
   "Standing at the end: Manpower {p}, Matériel {p2}, Initiative {p3}": "终局时的状态：兵力 {p}，物资 {p2}，主动权 {p3}",
@@ -811,5 +809,14 @@
   "Another command": "另一个司令部",
   "about {km} km": "约 {km} 公里",
   "Situation, {date}": "态势，{date}",
-  "Key to the map": "地图图例"
+  "Key to the map": "地图图例",
+  "Fanatical Resolve Mode": "狂热决意模式",
+  "Coalition Resolve Mode": "联盟决意模式",
+  "Shinano Command": "信浓 指挥",
+  "Mark 14 Command": "Mark 14 指挥",
+  "No rewind. IGHQ's tolerance for choices that break with dogma is counted out of 5: each draws a charge of insubordination, and at 5 the file ends in a coup.": "不能回退。大本营对背离教条的选择的容忍以 5 为限：每一次都会招来一项抗命指控，达到 5 时档案以政变告终。",
+  "No rewind. Overriding a partner's strong objection costs Coalition Resolve between Washington, London, Chongqing and Canberra, and a broken coalition relieves you.": "不能回退。无视盟友的强烈反对会损耗华盛顿、伦敦、重庆与堪培拉之间的联盟决意，联盟破裂则你会被撤职。",
+  "Insubordination rises with each choice that breaks with dogma, counted out of 5. At 5 the hardliners remove you.": "每做出一次背离教条的选择，抗命指控就上升一点，满分为 5。达到 5 时强硬派会将你撤换。",
+  "Dispatches WW2": "Dispatches WW2",
+  "DISPATCHES WW2: After-Action Report": "DISPATCHES WW2：战后报告"
 }

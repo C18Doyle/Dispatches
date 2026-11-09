@@ -77,7 +77,6 @@
   "For the record: {eventSource}": "Para registro: {eventSource}",
   "Nothing in this dispatch changes a meter.": "Nada neste despacho altera um medidor.",
   "Restricted: Command Eyes Only": "Restrito: só para o comandante",
-  "Dispatches 1940": "Dispatches 1940",
   "Free Demo: OKW Command Only": "Demo gratuita: só o comando do OKW",
   "Choose a high command and endeavor to lead your armies to victory.": "Escolha um alto comando e procure levar seus exércitos à vitória.",
   "↻ War in Progress": "↻ Guerra em andamento",
@@ -543,7 +542,6 @@
   " You reached it across {rewinds} {rewinds, plural, one {rewind} other {rewinds}}.": " Você chegou a ele após {rewinds} {rewinds, plural, one {retrocesso} other {retrocessos}}.",
   "Parts of this path are marked alternate history: invented beyond the point where any serious historian's argument would follow.": "Partes deste caminho estão marcadas como história alternativa: inventada além do ponto a que o argumento de qualquer historiador sério chegaria.",
   "Parts of this path are marked speculative: beyond what the evidence supports.": "Partes deste caminho estão marcadas como especulativas: além do que as evidências sustentam.",
-  "DISPATCHES 1940: After-Action Report": "DISPATCHES 1940: Relatório pós-ação",
   "Command rank: {ratingRank} ({ratingScore}/100)": "Patente de comando: {ratingRank} ({ratingScore}/100)",
   "Ending: {endingLabel}{p}{p2}": "Desfecho: {endingLabel}{p}{p2}",
   "Standing at the end: Manpower {p}, Matériel {p2}, Initiative {p3}": "Situação ao final: Efetivo {p}, Material {p2}, Iniciativa {p3}",
@@ -811,5 +809,14 @@
   "Another command": "Outro comando",
   "about {km} km": "cerca de {km} km",
   "Situation, {date}": "Situação, {date}",
-  "Key to the map": "Legenda do mapa"
+  "Key to the map": "Legenda do mapa",
+  "Fanatical Resolve Mode": "Modo Determinação Fanática",
+  "Coalition Resolve Mode": "Modo Determinação da Coalizão",
+  "Shinano Command": "Comando Shinano",
+  "Mark 14 Command": "Comando Mark 14",
+  "No rewind. IGHQ's tolerance for choices that break with dogma is counted out of 5: each draws a charge of insubordination, and at 5 the file ends in a coup.": "Sem voltar atrás. A tolerância do Quartel-General Imperial com escolhas que rompem com o dogma é contada até 5: cada uma traz uma acusação de insubordinação, e em 5 o arquivo termina em golpe.",
+  "No rewind. Overriding a partner's strong objection costs Coalition Resolve between Washington, London, Chongqing and Canberra, and a broken coalition relieves you.": "Sem voltar atrás. Ignorar a forte objeção de um parceiro custa Determinação da Coalizão entre Washington, Londres, Chongqing e Camberra, e uma coalizão rompida afasta você do comando.",
+  "Insubordination rises with each choice that breaks with dogma, counted out of 5. At 5 the hardliners remove you.": "A insubordinação sobe a cada escolha que rompe com o dogma, contada até 5. Em 5 a linha dura afasta você.",
+  "Dispatches WW2": "Dispatches WW2",
+  "DISPATCHES WW2: After-Action Report": "DISPATCHES WW2: Relatório pós-ação"
 }
