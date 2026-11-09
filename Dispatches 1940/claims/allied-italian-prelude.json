@@ -1,0 +1,79 @@
+[
+  {
+    "id": "a-saar",
+    "where": "saar39",
+    "claim": "Britain and France declared war on 3 September 1939; the French Saar offensive began on 7 September, reached up to eight kilometres into German territory, was halted on 12 September, and the troops were ordered back to the Maginot Line on 21 September; the last French troops left German soil on 17 October. The French staff had promised the Poles an offensive by the fifteenth day of mobilisation.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Phoney War (Saar Offensive dates). The fifteenth-day promise is the standard account of the Kasprzycki-Gamelin talks of May 1939 and was not reopened."
+  },
+  {
+    "id": "a-plan-d",
+    "where": "dyle39",
+    "claim": "The Allied armies adopted the Dyle plan (Plan D) over the Escaut plan (Plan E) in the winter of 1939 to 1940, and in March 1940 added the Breda variant, which moved the Seventh Army from the general reserve to the extreme left of the line; Belgium had returned to strict neutrality and refused staff talks; the Ardennes sector was held by second-line divisions.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Battle of France (Plan D and the Breda variant). The month of the first decision is left unstated in the report."
+  },
+  {
+    "id": "a-georges-position",
+    "where": "dyle39",
+    "claim": "Georges, commanding the North-East Front, is given the position that the front's reserve was thin and the Sedan hinge weakly held; Gort is given the position that a British corps would move forward to ground nobody had reconnoitred.",
+    "status": "drafted",
+    "source": "A reading of the standard accounts; not a quotation and not reopened against a primary source. The positions are written in the third person as the game's convention requires."
+  },
+  {
+    "id": "a-altmark",
+    "where": "altmarkRaid40",
+    "claim": "HMS Cossack under Captain Philip Vian boarded the Altmark in the Jøssingfjord at about 22:20 on 16 February 1940 and freed 299 prisoners (German documents say 303); Norwegian torpedo boats had inspected the ship earlier without finding the prisoners; Norway protested the violation of its waters; Hitler ordered intensified planning for Norway and Denmark on 19 February.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Altmark incident. Also used in claims/german-prelude.json (g-altmark)."
+  },
+  {
+    "id": "a-finland",
+    "where": "finland40",
+    "claim": "The Supreme War Council agreed on 5 February 1940 on an expeditionary force for Finland by way of Narvik and the ore railway to Gällivare; Norway and Sweden refused a passage; the Peace of Moscow was signed on 12 March; Daladier's government fell on 20 March, in part over Finland; the planning and shipping drawn up for the Finland force were used again in April.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Winter War (the foreign aid and the Allied plan); the 5 February and 20 March dates are the standard accounts and the reuse of the force is from Operation Wilfred and the Norwegian campaign, not reopened."
+  },
+  {
+    "id": "a-wilfred",
+    "where": "wilfred40",
+    "claim": "Operation Wilfred, the mining of the Norwegian Leads, was put back from 5 April to 8 April; notes were delivered to Norway and Sweden and the mines laid on 8 April; R 4 was the plan to land troops at Narvik, Trondheim, Bergen and Stavanger if Germany answered; on 7 April the Admiralty took the troops off the cruisers so that the ships could put to sea against a German force; the German landings began on 9 April.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Operation Wilfred and Plan R 4; Norwegian campaign. The troops embarked in cruisers in the Scottish ports; the report does not name the ports."
+  },
+  {
+    "id": "i-nonbelligerence",
+    "where": "nonBelligerence39",
+    "claim": "Italy signed the Pact of Steel with Germany in May 1939; the Italian staff's estimate was that the armed forces would not be ready before 1942; Hitler did not warn Rome of the date of the attack on Poland; the Italian Council of Ministers declared non-belligerence on 1 September 1939.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Pact of Steel and Italy in World War II. The 1942 date is the Cavallero memorandum of May 1939 as usually cited and was not reopened; the Italian list of needs that Germany could not supply is likewise from the standard accounts."
+  },
+  {
+    "id": "i-ciano-neutral",
+    "where": "nonBelligerence39",
+    "claim": "Ciano is given the position that Italy had no interest in the Polish quarrel and that the Pact had not been meant to be called on so soon; Badoglio the position that the army could not fight a modern war without the guns, vehicles and stocks.",
+    "status": "drafted",
+    "source": "A reading of Ciano's diary and the standard accounts; not a quotation. Both are written in the third person."
+  },
+  {
+    "id": "i-coal",
+    "where": "coal40",
+    "claim": "Italy imported nearly all its coal by sea, much of it from Britain, Poland and Germany; the British tightened contraband control from the autumn of 1939 and stopped German coal going to Italy by sea from 1 March 1940; Germany offered coal by rail through the Brenner, and the dependence grew through the spring.",
+    "status": "drafted",
+    "source": "Standard accounts of the Italian economy in 1939 and 1940 and of the coal dispute; the 1 March date appears in the German-Italian coal arrangements as usually cited, not reopened. The sources used were secondary."
+  },
+  {
+    "id": "i-brenner",
+    "where": "brenner40",
+    "claim": "Hitler and Mussolini met by train at the Brenner Pass on 18 March 1940; Ribbentrop had visited Rome a week before; Hitler spoke at length and Mussolini said that Italy would enter the war on Germany's side, without a date; Hitler gave no details of the plan for the attack in the west.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Brenner Pass meetings and Italy in World War II. The accounts differ over what Mussolini committed himself to in so many words; the report states only the general commitment."
+  },
+  {
+    "id": "i-memo",
+    "where": "memo40",
+    "claim": "Mussolini wrote a memorandum dated 31 March 1940 to the King, to Ciano and to the chiefs of the armed forces: Italy could not stay out of the war for its duration without giving up its place as a great power, and the war it would fight was a war of its own in the Mediterranean and Africa, with the army on the defensive in the Alps; it gave no date.",
+    "status": "drafted",
+    "source": "Standard accounts of the Italian road to war; the memorandum was not reopened against a primary source, and the report paraphrases it without quoting. The phrase 'parallel war' is the later and usual name for the strategy."
+  }
+]
