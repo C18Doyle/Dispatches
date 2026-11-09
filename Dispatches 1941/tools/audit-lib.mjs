@@ -14,7 +14,7 @@ export const AXES = ["readiness", "pipeline", "initiative"];
 export const MONTHS = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
 
 export function loadGame() {
-  const game = loadFromJsx(esbuild, "src/App.jsx", ["ENDINGS_GALLERY", "ADVISOR_DOSSIERS", "ADVISOR_TITLE", "NODE_ATLAS", "NODE_TOTAL", "advisorAttribution", "classifyEnding", "ENDING_CLASSIFICATION", "evaluateObjectives", "STATE_EVENTS"]);
+  const game = loadFromJsx(esbuild, "src/App.jsx", ["ENDINGS_GALLERY", "ADVISOR_DOSSIERS", "ADVISOR_TITLE", "NODE_ATLAS", "NODE_TOTAL", "advisorAttribution", "classifyEnding", "ENDING_CLASSIFICATION", "evaluateObjectives", "STATE_EVENTS", "INTEL", "INTEL_ITEMS", "intelChecked", "intelChecksLeft", "intelCheck", "MAP_REGIONS", "MAP_FRONT_SERIES", "MAP_PLACES", "MAP_OPS", "MAP_OFF_MAP_NAMES", "pacificXY", "frontsOn", "baselineStatuses", "nodeDayKey", "mapOrdersOf", "PAC_VBW", "PAC_VBH"]);
   // The game's own rules (logic.ts), bundled once into a temp module so the audits cannot drift from the app.
   const out = esbuild.buildSync({ entryPoints: ["src/logic.ts"], bundle: true, format: "esm", platform: "node", write: false, logLevel: "silent" });
   const dir = mkdtempSync(path.join(tmpdir(), "dispatches1941-"));

@@ -12,6 +12,8 @@ import {
   nextVisited,
   arrivalScreen,
   STATE_EVENT_FLAG_PREFIX,
+  adviserStanding,
+  trustedAdvisers,
   startFlags,
   strandReadout,
   commandRating,

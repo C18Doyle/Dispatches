@@ -70,7 +70,7 @@ export default {
   choose(ctx, policy) {
     const lab = ctx.lab;
     const t = ctx.text();
-    const bs = ctx.buttons("button,[role=tab]").filter((b) => !SKIP.test(lab(b)) && !/rewind|expand|collapse/i.test(lab(b)));
+    const bs = ctx.buttons("button,[role=tab]").filter((b) => !SKIP.test(lab(b)) && !/rewind|expand|collapse|tap for why/i.test(lab(b)));
     if (/Order of Battle/.test(t) && bs.some((x) => /^Add effort/.test(lab(x)) || /Tactical Approach/.test(t))) {
       // The Order of Battle planning screen. Policy: commit if a commit-like button is live; otherwise choose a tactical approach once,
       // then spend effort at random, then commit.

@@ -35,6 +35,14 @@
       "start": "^function BattleAllocationScreen\\("
     },
     {
+      "name": "36-staffs-reading",
+      "start": "^const INTEL = "
+    },
+    {
+      "name": "37-map-front",
+      "start": "^const PAC_VBW = "
+    },
+    {
       "name": "40-app",
       "start": "^function WW2CommandInner\\("
     }
