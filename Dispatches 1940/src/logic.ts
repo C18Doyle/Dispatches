@@ -9,6 +9,7 @@
  * campaign primitives (@dispatches/engine); this file holds only 1940's rules for them, the battle
  * subgame's roll nudge and the screen-flow glue.
  */
+import { t, T } from "@dispatches/i18n";
 import { applyCeilings, applyImpact as engineApplyImpact, endsRun, pickWeighted as enginePickWeighted } from "@dispatches/engine";
 import type { AxisSpec, Ceiling, EndFlag, RollRule } from "@dispatches/engine";
 
@@ -127,21 +128,21 @@ export interface StrandDef {
 }
 
 export const MATERIEL_STRANDS: readonly StrandDef[] = [
-  { id: "oil", flag: "matOil", name: "Fuel & Oil", bands: ["Exhausted", "Short", "Strained", "Adequate", "Plentiful"], words: /\b(fuel|oil|oilfields?|petrol|gasoline|tankers?|refiner(?:y|ies)|synthetic|aviation spirit|ploesti|baku|maikop|coal)\b/gi },
-  { id: "arms", flag: "matArms", legacy: ["matAmmo", "matSteel"], name: "Arms & Ammunition", bands: ["Exhausted", "Short", "Strained", "Adequate", "Plentiful"], words: /\b(ammunition|shells?|munitions|artillery|ordnance|rounds|bombs?|torpedoes|steel|tanks?|panzers?|armou?r(?:ed)?|production|factor(?:y|ies)|industr(?:y|ial)|armaments?|arms|weapons?|output|tungsten|wolfram|rearmw*|equipment|aircraft)\b/gi },
-  { id: "ship", flag: "matShip", name: "Shipping & Rail", bands: ["Exhausted", "Short", "Strained", "Adequate", "Plentiful"], words: /\b(shipping|convoys?|rail(?:way|ways|road)?|ports?|tonnage|transport|lend-lease|logistics?|supplies|supply|merchant|trains?|locomotives?|lifeline|ships?)\b/gi },
+  { id: "oil", flag: "matOil", name: T("Fuel & Oil"), bands: [T("Exhausted"), T("Short"), T("Strained"), T("Adequate"), T("Plentiful")], words: /\b(fuel|oil|oilfields?|petrol|gasoline|tankers?|refiner(?:y|ies)|synthetic|aviation spirit|ploesti|baku|maikop|coal)\b/gi },
+  { id: "arms", flag: "matArms", legacy: ["matAmmo", "matSteel"], name: T("Arms & Ammunition"), bands: [T("Exhausted"), T("Short"), T("Strained"), T("Adequate"), T("Plentiful")], words: /\b(ammunition|shells?|munitions|artillery|ordnance|rounds|bombs?|torpedoes|steel|tanks?|panzers?|armou?r(?:ed)?|production|factor(?:y|ies)|industr(?:y|ial)|armaments?|arms|weapons?|output|tungsten|wolfram|rearmw*|equipment|aircraft)\b/gi },
+  { id: "ship", flag: "matShip", name: T("Shipping & Rail"), bands: [T("Exhausted"), T("Short"), T("Strained"), T("Adequate"), T("Plentiful")], words: /\b(shipping|convoys?|rail(?:way|ways|road)?|ports?|tonnage|transport|lend-lease|logistics?|supplies|supply|merchant|trains?|locomotives?|lifeline|ships?)\b/gi },
 ];
 
 export const MANPOWER_STRANDS: readonly StrandDef[] = [
-  { id: "org", flag: "manOrg", name: "Organisation", bands: ["Shattered", "Disordered", "Strained", "Sound", "Tight"], words: /\b(reorgani[sz]\w*|restructur\w*|regroup\w*|reform(?:ed|ing)?|consolidat\w*|amalgamat\w*|merg(?:e|ed|es|ing)|disband\w*|cohesi\w+|discipline|order of battle|encircle\w*|pockets?|rout\w*|collaps\w*|frontage|fortress\w*)\b/gi },
-  { id: "exp", flag: "manExp", name: "Experience", bands: ["Raw recruits", "Green", "Thin", "Seasoned", "Veteran"], words: /\b(veterans?|experienced?|trained|training|trainers?|instructors?|schools?|academy|cadres?|officers?|officer corps|ncos?|conscripts?|recruits?|volunteers?|draftees?|skilled|elite|paratroop\w*|airborne|mountain troops|specialists?|purg(?:e|ed|es|ing)|dismiss\w*|generals?|marshals?|commanders?|leadership|staff college)\b/gi },
-  { id: "rdy", flag: "manRdy", name: "Readiness", bands: ["Spent", "Exhausted", "Worn", "Ready", "Fresh"], words: /\b(rest(?:ed|ing)?|refit\w*|rotat\w*|fatigue\w*|exhaust\w*|winter|clothing|rations?|health|sick\w*|disease|leave|replacements?|reinforce\w*|reserves?|fresh|reliev\w*|casualt\w*|losses|wounded|attrition|manpower|strength|understrength|depleted)\b/gi },
+  { id: "org", flag: "manOrg", name: T("Organisation"), bands: [T("Shattered"), T("Disordered"), T("Strained"), T("Sound"), T("Tight")], words: /\b(reorgani[sz]\w*|restructur\w*|regroup\w*|reform(?:ed|ing)?|consolidat\w*|amalgamat\w*|merg(?:e|ed|es|ing)|disband\w*|cohesi\w+|discipline|order of battle|encircle\w*|pockets?|rout\w*|collaps\w*|frontage|fortress\w*)\b/gi },
+  { id: "exp", flag: "manExp", name: T("Experience"), bands: [T("Raw recruits"), T("Green"), T("Thin"), T("Seasoned"), T("Veteran")], words: /\b(veterans?|experienced?|trained|training|trainers?|instructors?|schools?|academy|cadres?|officers?|officer corps|ncos?|conscripts?|recruits?|volunteers?|draftees?|skilled|elite|paratroop\w*|airborne|mountain troops|specialists?|purg(?:e|ed|es|ing)|dismiss\w*|generals?|marshals?|commanders?|leadership|staff college)\b/gi },
+  { id: "rdy", flag: "manRdy", name: T("Readiness"), bands: [T("Spent"), T("Exhausted"), T("Worn"), T("Ready"), T("Fresh")], words: /\b(rest(?:ed|ing)?|refit\w*|rotat\w*|fatigue\w*|exhaust\w*|winter|clothing|rations?|health|sick\w*|disease|leave|replacements?|reinforce\w*|reserves?|fresh|reliev\w*|casualt\w*|losses|wounded|attrition|manpower|strength|understrength|depleted)\b/gi },
 ];
 
 export const INITIATIVE_STRANDS: readonly StrandDef[] = [
-  { id: "int", flag: "iniInt", name: "Intelligence", bands: ["Blind", "Poor", "Patchy", "Clear", "Penetrating"], words: /\b(intelligence|reconnaissance|recon|spy|spies|agents?|ultra|enigma|ciphers?|decrypt\w*|intercepts?|signals?|observation|scout\w*|informants?|abwehr|gehlen|estimates?|assessments?|warnings?|deception|maskirovka|espionage|codebreak\w*|aerial photograph\w*|radar)\b/gi },
-  { id: "cmd", flag: "iniCmd", name: "Command", bands: ["Paralysed", "Divided", "Uncertain", "Steady", "Decisive"], words: /\b(command\w*|directives?|authority|orders?|f[uü]hrer|hitler|stavka|okw|okh|shaef|comando supremo|coordinat\w*|coalition|alliance|allies|allied|diplomat\w*|negotiat\w*|overrul\w*|dismiss\w*|appoint\w*|relieved of|unified|political|agreement|treaty|armistice|council|conference|cabinet)\b/gi },
-  { id: "tmp", flag: "iniTmp", name: "Tempo", bands: ["Stalled", "Slow", "Sluggish", "Brisk", "Rapid"], words: /\b(offensives?|attacks?|advance\w*|pursuit|pursue\w*|momentum|speed\w*|rapid\w*|surprise|strikes?|blitz\w*|timetable|schedule\w*|delay\w*|paus\w*|halt\w*|rush\w*|tempo|pace|launch\w*|counteroffensives?|breakthrough|exploit\w*|spearhead\w*)\b/gi },
+  { id: "int", flag: "iniInt", name: T("Intelligence"), bands: [T("Blind"), T("Poor"), T("Patchy"), T("Clear"), T("Penetrating")], words: /\b(intelligence|reconnaissance|recon|spy|spies|agents?|ultra|enigma|ciphers?|decrypt\w*|intercepts?|signals?|observation|scout\w*|informants?|abwehr|gehlen|estimates?|assessments?|warnings?|deception|maskirovka|espionage|codebreak\w*|aerial photograph\w*|radar)\b/gi },
+  { id: "cmd", flag: "iniCmd", name: T("Command"), bands: [T("Paralysed"), T("Divided"), T("Uncertain"), T("Steady"), T("Decisive")], words: /\b(command\w*|directives?|authority|orders?|f[uü]hrer|hitler|stavka|okw|okh|shaef|comando supremo|coordinat\w*|coalition|alliance|allies|allied|diplomat\w*|negotiat\w*|overrul\w*|dismiss\w*|appoint\w*|relieved of|unified|political|agreement|treaty|armistice|council|conference|cabinet)\b/gi },
+  { id: "tmp", flag: "iniTmp", name: T("Tempo"), bands: [T("Stalled"), T("Slow"), T("Sluggish"), T("Brisk"), T("Rapid")], words: /\b(offensives?|attacks?|advance\w*|pursuit|pursue\w*|momentum|speed\w*|rapid\w*|surprise|strikes?|blitz\w*|timetable|schedule\w*|delay\w*|paus\w*|halt\w*|rush\w*|tempo|pace|launch\w*|counteroffensives?|breakthrough|exploit\w*|spearhead\w*)\b/gi },
 ];
 
 export const METER_STRANDS: Record<MeterKey, readonly StrandDef[]> = {
@@ -310,11 +311,11 @@ export function resignationEvent(flags: Flags): GameEvent | null {
     return {
       id,
       at: [],
-      dateline: "The headquarters",
-      title: `${v} asks to be relieved`,
+      dateline: t("The headquarters"),
+      title: t("{name} asks to be relieved", { name: v }),
       text: [
-        `${v} has put in a request to leave the staff. The orders you have given have passed over ${v}'s advice too often, and ${v} will not go on arguing a case that is not heard.`,
-        `The request is granted. ${v}'s advice will not be put to you again, and the orders ${v} would have argued will have to stand on their own.`,
+        t("{name} has put in a request to leave the staff. The orders you have given have passed over {name}'s advice too often, and {name} will not go on arguing a case that is not heard.", { name: v }),
+        t("The request is granted. {name}'s advice will not be put to you again, and the orders {name} would have argued will have to stand on their own.", { name: v }),
       ],
     };
   }
@@ -590,6 +591,9 @@ export const METER_AXES = AXES;
 // went, how the decisions compare with the historical ones, and the objectives earned. Luck in the dice is not
 // scored. Being removed from command caps the rank, and the training-wheels mode cannot reach General.
 export const COMMAND_RANKS = ["Private", "Corporal", "Sergeant", "Lieutenant", "Captain", "Major", "Colonel", "General"] as const;
+/** The ranks and the three words as text of the interface (shown through t(), so the extractor finds them). */
+export const COMMAND_RANK_TEXT = [T("Private"), T("Corporal"), T("Sergeant"), T("Lieutenant"), T("Captain"), T("Major"), T("Colonel"), T("General")];
+export const RATING_WORD_TEXT = [T("Strong"), T("Fair"), T("Weak")];
 const RANK_FROM = [0, 20, 32, 44, 55, 65, 74, 83];
 
 export interface RatingInput {
@@ -625,10 +629,18 @@ export interface Rating {
 const TIER_POINTS: Record<string, number> = { "Major Victory": 30, "Minor Victory": 24, "Contested Outcome": 15, "Minor Defeat": 8, "Major Defeat": 2 };
 const TIER_FACT: Record<string, string> = {
   "Major Victory": "A major victory",
-  "Minor Victory": "A minor victory",
-  "Contested Outcome": "A contested outcome",
-  "Minor Defeat": "A minor defeat",
-  "Major Defeat": "A major defeat",
+  "Minor Victory": T("A minor victory"),
+  "Contested Outcome": T("A contested outcome"),
+  "Minor Defeat": T("A minor defeat"),
+  "Major Defeat": T("A major defeat"),
+};
+// the same phrases in the middle of a sentence
+const TIER_FACT_MID: Record<string, string> = {
+  "Major Victory": T("a major victory"),
+  "Minor Victory": T("a minor victory"),
+  "Contested Outcome": T("a contested outcome"),
+  "Minor Defeat": T("a minor defeat"),
+  "Major Defeat": T("a major defeat"),
 };
 // The best tier any ending on a command's path can award. The ending is worth 30 of the 100 points, and it is scored
 // against this ceiling, so a command whose war could not be won (the Italian co-belligerent path, the Salò Republic,
@@ -666,63 +678,63 @@ export function commandRating(i: RatingInput): Rating {
   const rawEnding = i.tier && TIER_POINTS[i.tier] != null ? TIER_POINTS[i.tier] : 15;
   const ceilingPts = i.ceiling && TIER_POINTS[i.ceiling] ? TIER_POINTS[i.ceiling] : 30;
   const endingPts = i.removed ? 0 : Math.round(Math.min(30, (30 * rawEnding) / ceilingPts) * 10) / 10;
-  let endingFact = i.tier && TIER_FACT[i.tier] ? TIER_FACT[i.tier] : "An ending with no verdict of its own";
+  let endingFact = i.tier && TIER_FACT[i.tier] ? t(TIER_FACT[i.tier]) : t("An ending with no verdict of its own");
   if (ceilingPts < 30 && i.ceiling && i.tier && TIER_FACT[i.tier] && TIER_FACT[i.ceiling]) {
-    const best = TIER_FACT[i.ceiling].charAt(0).toLowerCase() + TIER_FACT[i.ceiling].slice(1);
-    endingFact = i.tier === i.ceiling ? `${endingFact}, the best ending open to this command` : `${endingFact} (the best ending open to this command is ${best})`;
+    const best = t(TIER_FACT_MID[i.ceiling]);
+    endingFact = i.tier === i.ceiling ? t("{ending}, the best ending open to this command", { ending: endingFact }) : t("{ending} (the best ending open to this command is {best})", { ending: endingFact, best });
   }
   parts.push({
     id: "ending",
-    label: "How the war ended",
+    label: t("How the war ended"),
     points: endingPts,
     max: 30,
     word: word(endingPts, 30),
-    fact: i.removed ? "Removed from command before the war was over" : endingFact,
+    fact: i.removed ? t("Removed from command before the war was over") : endingFact,
   });
 
   const posPts = Math.max(0, Math.min(20, 10 + i.total));
   parts.push({
     id: "position",
-    label: "The command's condition",
+    label: t("The command's condition"),
     points: posPts,
     max: 20,
     word: word(posPts, 20),
-    fact: i.total >= 3 ? "Left in good order" : i.total <= -3 ? "Left spent" : "Left holding together",
+    fact: i.total >= 3 ? t("Left in good order") : i.total <= -3 ? t("Left spent") : t("Left holding together"),
   });
 
   // With no battle fought, or nothing to set against the record, those parts follow the ending: they cannot rescue a
   // lost war or lift a won one to the top.
   const endingShare = endingPts / 30;
   let batPts = Math.round(20 * endingShare * 0.7 * 10) / 10;
-  let fact = "No battle was fought";
+  let fact = t("No battle was fought");
   if (i.battles.length) {
     const weights = i.battles.map((b) => (b.staff ? 0.85 : 1));
     const avg = i.battles.reduce((a, b, k) => a + (GRADE_POINTS[b.grade] ?? 0.35) * weights[k], 0) / i.battles.length;
     batPts = Math.round(20 * avg * 10) / 10;
     const wins = i.battles.filter((b) => b.grade === "clean" || b.grade === "costly").length;
     const staffN = i.battles.filter((b) => b.staff).length;
-    fact = `Won ${wins} of ${i.battles.length} ${i.battles.length === 1 ? "battle" : "battles"}${staffN ? `, ${staffN} planned by the staff` : ""}`;
+    fact = t("Won {wins} of {n, plural, one {# battle} other {# battles}}", { wins, n: i.battles.length }) + (staffN ? t(", {staffN} planned by the staff", { staffN }) : "");
   }
-  parts.push({ id: "battles", label: "The battles", points: batPts, max: 20, word: word(batPts, 20), fact });
+  parts.push({ id: "battles", label: t("The battles"), points: batPts, max: 20, word: word(batPts, 20), fact });
 
   let judgePts = Math.round(20 * endingShare * 0.7 * 10) / 10;
-  let judgeFact = "No decision could be set against the record";
+  let judgeFact = t("No decision could be set against the record");
   if (i.judged.length) {
     const each = i.judged.map((e) => (e.sum > e.histSum ? 1 : e.sum === e.histSum ? 0.6 : 0.25));
     judgePts = Math.round(20 * (each.reduce((a, v) => a + v, 0) / each.length) * 10) / 10;
     const out = i.judged.filter((e) => e.sum > e.histSum).length;
-    judgeFact = `Out-positioned the historical choice at ${out} of ${i.judged.length} decisions`;
+    judgeFact = t("Out-positioned the historical choice at {out} of {n} decisions", { out, n: i.judged.length });
   }
-  parts.push({ id: "judgement", label: "Judgement against history", points: judgePts, max: 20, word: word(judgePts, 20), fact: judgeFact });
+  parts.push({ id: "judgement", label: t("Judgement against history"), points: judgePts, max: 20, word: word(judgePts, 20), fact: judgeFact });
 
   const objPts = Math.min(10, i.objectives * 3);
   parts.push({
     id: "objectives",
-    label: "Objectives",
+    label: t("Objectives"),
     points: objPts,
     max: 10,
     word: word(objPts, 10),
-    fact: i.objectives === 0 ? "None achieved" : `${i.objectives} achieved`,
+    fact: i.objectives === 0 ? t("None achieved") : t("{n} achieved", { n: i.objectives }),
   });
 
   const modeAdj = i.mode === "easy" ? -8 : i.mode === "open" ? 0 : 6;
@@ -732,10 +744,10 @@ export function commandRating(i: RatingInput): Rating {
   let capped: string | null = null;
   if (i.removed && rankIndex > 3) {
     rankIndex = 3;
-    capped = "Removed from command, which holds the rank at Lieutenant.";
+    capped = t("Removed from command, which holds the rank at Lieutenant.");
   } else if (i.mode === "easy" && rankIndex > 6) {
     rankIndex = 6;
-    capped = "Played with the training wheels on, which holds the rank at Colonel.";
+    capped = t("Played with the training wheels on, which holds the rank at Colonel.");
   }
   return { score, rank: COMMAND_RANKS[rankIndex], rankIndex, parts, capped };
 }

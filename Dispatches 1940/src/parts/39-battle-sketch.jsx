@@ -1,4 +1,4 @@
-const BS_STATUS_WORD = { gaining: "Gaining", holding: "Holding", breaking: "Breaking" };
+const BS_STATUS_WORD = { gaining: T("Gaining"), holding: T("Holding"), breaking: T("Breaking") };
 // THE SKETCH OF THE GROUND (1914's sketch of the ground, for the Order of Battle of 1940)
 //
 // One sector for each arm of the battle, left to right, the enemy above and our own side below, and the line between them. In the plan it is a straight line and
@@ -71,12 +71,12 @@ function BattleSketch({ categories, allocation, status, accent, onAdd, onRemove,
     d += " L " + (i * w + 10) + " " + ys[i] + " L " + ((i + 1) * w - 10) + " " + ys[i] + " L " + (i + 1) * w + " " + edge(i + 1);
   });
   const cols = Math.max(2, Math.floor((w - 14) / 17));
-  const summary = categories.map((c) => c.name + ": " + (status && status[c.id] ? BS_STATUS_WORD[status[c.id]].toLowerCase() : (allocation[c.id] || 0) + " placed")).join("; ");
+  const summary = categories.map((c) => c.name + ": " + (status && status[c.id] ? t(BS_STATUS_WORD[status[c.id]]).toLowerCase() : t("{n} placed", { n: allocation[c.id] || 0 }))).join("; ");
   const ink = accent || "#7a2e2e";
   const sector = (s) => (s === "gaining" ? "#d9e3d2" : s === "breaking" ? "#ecd2cc" : "#f2ead9");
   const mono = { fontFamily: "'IBM Plex Mono', monospace" };
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full block border-2 border-black" style={{ background: "#f2ead9" }} role="img" aria-label={"Sketch of the line. " + summary}>
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full block border-2 border-black" style={{ background: "#f2ead9" }} role="img" aria-label={t("Sketch of the line. {summary}", { summary })}>
       <defs>
         <pattern id={hatch} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
           <line x1="0" y1="0" x2="0" y2="6" stroke="#5a2a2a" strokeWidth="1.4" />
@@ -113,8 +113,8 @@ function BattleSketch({ categories, allocation, status, accent, onAdd, onRemove,
           {i + 1} {battleArmLabel(c.name, Math.floor((w - 8) / 4.5) - 2)}
         </text>
       ))}
-      <text x="6" y="12" fontSize="8.5" fill="#5a2a2a" style={{ ...mono, pointerEvents: "none" }}>ENEMY</text>
-      <text x="6" y={H - 18} fontSize="8.5" fill="#241d12" style={{ ...mono, pointerEvents: "none" }}>OURS</text>
+      <text x="6" y="12" fontSize="8.5" fill="#5a2a2a" style={{ ...mono, pointerEvents: "none" }}>{t("ENEMY")}</text>
+      <text x="6" y={H - 18} fontSize="8.5" fill="#241d12" style={{ ...mono, pointerEvents: "none" }}>{t("OURS")}</text>
     </svg>
   );
 }

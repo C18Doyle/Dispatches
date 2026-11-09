@@ -1,0 +1,8 @@
+{
+  "name": "@dispatches/i18n",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The language layer shared by the Dispatches games: t(), the language list, the stored choice. See docs/LOCALISATION.md.",
+  "main": "src/index.js"
+}

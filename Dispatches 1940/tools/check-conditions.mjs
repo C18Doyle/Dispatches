@@ -12,13 +12,14 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(join(ROOT, "package.json"));
+const I18N_STUB = "const T = (s) => s; const t = (s, p) => String(s).replace(/\\{(\\w+)\\}/g, (m, k) => (p && p[k] != null ? p[k] : m));\n";
 const CAMPAIGNS = require("./tools/campaigns_extracted.js");
 const src = readFileSync(join(ROOT, "src/parts/38-conditions.jsx"), "utf8");
 const front = readFileSync(join(ROOT, "src/parts/37-map-front.jsx"), "utf8");
 const maps = readFileSync(join(ROOT, "src/parts/30-warroom-and-maps.jsx"), "utf8");
 const data = src.slice(0, src.indexOf("/** The line about the guns on a report"));
 const places = front.slice(front.indexOf("const MAP_PLACES = {"), front.indexOf("// ---- what the commands were doing on a date in the record ----"));
-const C = new Function(`${data}\n${places}\nreturn { COMMS, CLIMATES, climateOf, usualWeather, railReading, reportAge, BOMBARDMENTS, MAP_PLACES };`)();
+const C = new Function(`${I18N_STUB}${data}\n${places}\nreturn { COMMS, CLIMATES, climateOf, usualWeather, railReading, reportAge, BOMBARDMENTS, MAP_PLACES };`)();
 
 const problems = [];
 const words = (t) => t.trim().split(/\s+/).filter(Boolean).length;

@@ -85,7 +85,7 @@ const code = [
 ]
   .join("\n")
   .replace(/\bconst\b/g, "var");
-const sb = {};
+const sb = { T: (s) => s, t: (s, p) => String(s).replace(/\{(\w+)\}/g, (m, k) => (p && p[k] != null ? p[k] : m)) };
 vm.createContext(sb);
 vm.runInContext(code, sb);
 

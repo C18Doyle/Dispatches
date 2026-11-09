@@ -12,6 +12,9 @@
     "paths": {
       "@dispatches/engine": [
         "../packages/engine/src/index.ts"
+      ],
+      "@dispatches/i18n": [
+        "../packages/i18n/src/index"
       ]
     }
   },
