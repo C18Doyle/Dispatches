@@ -9,13 +9,14 @@ import { createRequire } from "node:module";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(join(ROOT, "package.json"));
+const I18N_STUB = "const T = (s) => s; const t = (s, p) => String(s).replace(/\\{(\\w+)\\}/g, (m, k) => (p && p[k] != null ? p[k] : m));\n";
 const { JSDOM } = require("jsdom");
 const src = readFileSync(join(ROOT, "src/parts/41-share-card.jsx"), "utf8");
 const code = src.slice(0, src.indexOf("/** The card as a PNG blob"));
 const stubs = `const MAP_REGIONS = [{ id: "france" }, { id: "poland" }, { id: "none" }];
 const STATUS_COLORS = { axis: "#5c1a1a", allied: "#28497a", soviet: "#c62828", divided: "url(#x)" };
 const regionPathD = (rings) => (rings && rings.length ? "M0,0L10,0L10,10Z" : "");`;
-const C = new Function(stubs + "\n" + code + "\nreturn { shareCardSvg, shareWrap, xmlEscape, SHARE_CARD_W, SHARE_CARD_H };")();
+const C = new Function(I18N_STUB + stubs + "\n" + code + "\nreturn { shareCardSvg, shareWrap, xmlEscape, SHARE_CARD_W, SHARE_CARD_H };")();
 
 const problems = [];
 const ok = (c, m) => { if (!c) problems.push(m); };

@@ -47,6 +47,7 @@ const wrapped =
   `class StubComponent {};\n` +
   `const React = { createElement: () => null, Fragment: Symbol("Fragment"), useState: () => [undefined, () => {}], useEffect: () => {}, useMemo: (fn) => fn(), useRef: () => ({ current: undefined }), Component: StubComponent };\n` +
   `const useState = React.useState, useEffect = React.useEffect, useMemo = React.useMemo, useRef = React.useRef, Component = StubComponent;\n` +
+  `const t = (s, p) => s; const T = (s) => s; const subscribeLanguage = () => {}; const initLanguage = () => "en"; const setLanguage = () => {}; const getLanguage = () => "en"; const registerTables = () => {}; const LANGUAGES = []; const I18N_TABLES = {};\n` +
   `const THEME_MUSIC_DATA_URL = ""; const REGIONS_GEOMETRY = {};
 ` +
   `const Tone = new Proxy({}, { get: () => new Proxy(function () {}, { get: () => () => ({}), apply: () => ({}) }) });\n` +

@@ -18,6 +18,8 @@ export function loadFromJsx(esbuild, appPath, names = []) {
     `const useState = React.useState, useEffect = React.useEffect, useMemo = React.useMemo, useRef = React.useRef, useCallback = React.useCallback, Component = StubComponent;\n` +
     `const Tone = new Proxy({}, { get: () => new Proxy(function () {}, { get: () => () => ({}), apply: () => ({}) }) });\n` +
     `const THEME_MUSIC_DATA_URL = "", REGIONS_GEOMETRY = {};\n` +
+    // the language layer (@dispatches/i18n): t() returns its English, nothing is translated here
+    `const t = (s) => s, T = (s) => s, initLanguage = () => "en", registerTables = () => {}, subscribeLanguage = () => {}, getLanguage = () => "en", setLanguage = () => {}, LANGUAGES = [], I18N_TABLES = {};\n` +
     `const EMPTY_METERS = { manpower: 0, fuel: 0, initiative: 0, readiness: 0, pipeline: 0 };\n`;
   const sandbox = { module: { exports: {} }, console, process: { env: {} }, setTimeout, clearTimeout };
   sandbox.exports = sandbox.module.exports;

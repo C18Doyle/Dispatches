@@ -218,10 +218,10 @@ const MAP_PLACES = {
 
 // ---- the reports set beyond the frame of their map: the name of the place, drawn with an arrow at the edge ----
 const MAP_OFF_MAP = {
-  "german/suezFirst41": "Suez", "german/suezHorizon42": "Suez", "german/suezOpening42": "Alexandria", "german/elAlamein": "El Alamein", "german/sovietFracture42": "Sverdlovsk",
-  "soviet/lendLease42": "Murmansk", "soviet/athensRace44": "Athens", "soviet/athensStandoff44": "Athens",
-  "allied/narvik40": "Narvik", "allied/malaya41": "Singapore", "allied/forceZ41": "The South China Sea", "allied/europeFirst42": "Washington", "allied/pacificPressure42": "Washington",
-  "allied/pq17_1942": "Murmansk", "allied/australiaLifeline42": "Australia", "allied/tehran43": "Tehran",
+  "german/suezFirst41": T("Suez"), "german/suezHorizon42": T("Suez"), "german/suezOpening42": T("Alexandria"), "german/elAlamein": T("El Alamein"), "german/sovietFracture42": T("Sverdlovsk"),
+  "soviet/lendLease42": T("Murmansk"), "soviet/athensRace44": T("Athens"), "soviet/athensStandoff44": T("Athens"),
+  "allied/narvik40": T("Narvik"), "allied/malaya41": T("Singapore"), "allied/forceZ41": T("The South China Sea"), "allied/europeFirst42": T("Washington"), "allied/pacificPressure42": T("Washington"),
+  "allied/pq17_1942": T("Murmansk"), "allied/australiaLifeline42": T("Australia"), "allied/tehran43": T("Tehran"),
 };
 
 // ---- what the commands were doing on a date in the record ----
@@ -424,19 +424,57 @@ function mapFrame(points, bbox, aspect = 4 / 3) {
 
 const mapPoints = (pts, bbox) => pts.map(([lo, la]) => projectLonLat(lo, la, bbox).map((n) => n.toFixed(1)).join(",")).join(" ");
 
-/** The fronts, drawn under the names: a pale halo and an ink line (red and dashed where the run has departed from the record), and the demarcation line dotted. */
-function MapFrontLines({ fronts, bbox }) {
+/**
+ * The teeth of a front: small triangles along the line, standing on the side that is nearer Germany (the side of the Axis, as the staff maps of the time drew the ground
+ * a front held). Walks the line in overlay units and puts a tooth every step units.
+ */
+function frontTeeth(line, bbox, home, step, height, half) {
+  const pts = line.map(([lo, la]) => projectLonLat(lo, la, bbox));
+  let d = "";
+  let carry = step / 2;
+  for (let i = 1; i < pts.length; i++) {
+    const [x0, y0] = pts[i - 1];
+    const [x1, y1] = pts[i];
+    const len = Math.hypot(x1 - x0, y1 - y0);
+    if (len < 0.01) continue;
+    const tx = (x1 - x0) / len;
+    const ty = (y1 - y0) / len;
+    let at = carry;
+    while (at <= len) {
+      const cx = x0 + tx * at;
+      const cy = y0 + ty * at;
+      let nx = -ty;
+      let ny = tx;
+      if (nx * (home[0] - cx) + ny * (home[1] - cy) < 0) {
+        nx = -nx;
+        ny = -ny;
+      }
+      if (cx > 0 && cx < MAP_OVERLAY_W && cy > 0 && cy < MAP_OVERLAY_H) {
+        d += "M" + (cx - tx * half).toFixed(1) + " " + (cy - ty * half).toFixed(1) + "L" + (cx + tx * half).toFixed(1) + " " + (cy + ty * half).toFixed(1) + "L" + (cx + nx * height).toFixed(1) + " " + (cy + ny * height).toFixed(1) + "Z";
+      }
+      at += step;
+    }
+    carry = at - len;
+  }
+  return d;
+}
+
+/** The fronts, drawn under the names: a fine ink line with a pale halo and its teeth (a red dashed line, without teeth, where the run has departed from the record), and the demarcation line dotted. */
+function MapFrontLines({ fronts, bbox, zoom = 1 }) {
   if (!fronts || !fronts.length) return null;
+  const w = (x) => x * Math.pow(zoom, -0.6);
+  const home = projectLonLat(10.5, 51.0, bbox);
   return (
     <g style={{ pointerEvents: "none" }} aria-hidden="true">
       {fronts.flatMap((f) =>
         f.lines.map((line, i) =>
           f.kind === "zone" ? (
-            <polyline key={f.id + i} points={mapPoints(line, bbox)} fill="none" stroke="#3a2f1d" strokeWidth={1.6} strokeDasharray="5,4" strokeOpacity={0.8} />
+            <polyline key={f.id + i} points={mapPoints(line, bbox)} fill="none" stroke="#3a2f1d" strokeWidth={w(1.2)} strokeDasharray={w(1.4) + "," + w(3.4)} strokeLinecap="round" strokeOpacity={0.8} />
           ) : (
             <g key={f.id + i}>
-              <polyline points={mapPoints(line, bbox)} fill="none" stroke="#f2ead9" strokeWidth={5.4} strokeOpacity={0.85} strokeLinejoin="round" strokeLinecap="round" />
-              <polyline points={mapPoints(line, bbox)} fill="none" stroke={f.projection ? "#7a2e2e" : "#1a1410"} strokeWidth={2.4} strokeDasharray={f.projection ? "7,4" : undefined} strokeLinejoin="round" strokeLinecap="round" />
+              <polyline points={mapPoints(line, bbox)} fill="none" stroke="#f2ead9" strokeWidth={w(3.8)} strokeOpacity={0.75} strokeLinejoin="round" strokeLinecap="round" />
+              <polyline points={mapPoints(line, bbox)} fill="none" stroke={f.projection ? "#7a2e2e" : "#1a1410"} strokeWidth={w(1.4)} strokeDasharray={f.projection ? w(6) + "," + w(3.6) : undefined} strokeLinejoin="round" strokeLinecap="round" />
+              {!f.projection && <path d={frontTeeth(line, bbox, home, w(11), w(3.6), w(2.8))} fill="#1a1410" fillOpacity={0.9} />}
             </g>
           )
         )
@@ -445,90 +483,114 @@ function MapFrontLines({ fronts, bbox }) {
   );
 }
 
-/** The report's place and the places before it, the other commands' pins, and the ground a run has taken or given up. */
-function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal, offLabel }) {
+/**
+ * The report's place and the places before it, the other commands' pins, and the ground a run has taken or given up, as the symbols of a staff map: the place is a
+ * boxed cross on a short stem, the places before it are dots, another command's pin is a numbered disc and a ground mark a lettered circle or square (the numbers and
+ * letters are those of the lists under the map). Every mark keeps its size when the map is zoomed.
+ */
+function MapFrontMarks({ bbox, here, trail, pins, ground, accent, seal, offLabel, zoom = 1, clip = null }) {
   const P = (p) => projectLonLat(p[0], p[1], bbox);
-  const inFrame = ([x, y]) => x > 4 && x < MAP_OVERLAY_W - 4 && y > 4 && y < MAP_OVERLAY_H - 4;
-  const font = { fontFamily: "'IBM Plex Mono', monospace" };
-  const label = { fill: "#241d12", stroke: "#f2ead9", strokeWidth: 2.4, paintOrder: "stroke", style: { ...font, fontWeight: 600 } };
+  const s = 1 / zoom;
+  const box = clip || { x0: 0, y0: 0, x1: MAP_OVERLAY_W, y1: MAP_OVERLAY_H };
+  const inFrame = ([x, y]) => x > box.x0 + 10 * s && x < box.x1 - 10 * s && y > box.y0 + 12 * s && y < box.y1 - 8 * s;
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" };
+  const ink = accent || "#7a2e2e";
   const route = (trail || []).filter(Boolean);
+  const before = route.slice(0, -1);
   const at = here ? P(here) : null;
   return (
     <g style={{ pointerEvents: "none" }} aria-hidden="true">
-      {route.length > 1 && (
-        <g>
-          <polyline points={mapPoints(route, bbox)} fill="none" stroke="#f2ead9" strokeWidth={4.2} strokeOpacity={0.8} strokeLinejoin="round" />
-          <polyline points={mapPoints(route, bbox)} fill="none" stroke={accent || "#7a2e2e"} strokeWidth={1.8} strokeDasharray="2,4" strokeLinecap="round" strokeLinejoin="round" />
-        </g>
-      )}
-      {route.slice(0, -1).map((p, i) => {
+      {before.map((p, i) => {
         const [x, y] = P(p);
-        return inFrame([x, y]) ? <circle key={"v" + i} cx={x} cy={y} r={3} fill="#f2ead9" stroke={accent || "#7a2e2e"} strokeWidth={1.4} /> : null;
+        const age = before.length - i;
+        return inFrame([x, y]) ? <circle key={"v" + i} cx={x} cy={y} r={2.7 * s} fill="#f2ead9" fillOpacity={Math.max(0.35, 1 - 0.22 * (age - 1))} stroke={ink} strokeOpacity={Math.max(0.35, 1 - 0.22 * (age - 1))} strokeWidth={1.1 * s} /> : null;
       })}
-      {(pins || []).map((p) => {
+      {(pins || []).map((p, i) => {
         const [x, y] = P(p.at);
         if (!inFrame([x, y])) return null;
         const colour = (CAMPAIGNS[p.campaignId] && CAMPAIGNS[p.campaignId].accent) || "#241d12";
         return (
-          <g key={p.campaignId} transform={`translate(${x} ${y})`}>
-            <rect x={-4.6} y={-4.6} width={9.2} height={9.2} transform="rotate(45)" fill={colour} stroke="#f2ead9" strokeWidth={1.6} />
-            <text x={8} y={3} fontSize={8} {...label}>{p.short}</text>
+          <g key={p.campaignId} transform={"translate(" + x + " " + y + ") scale(" + s + ")"}>
+            <circle r={6.4} fill={colour} stroke="#f2ead9" strokeWidth={1.2} />
+            <text y={2.9} textAnchor="middle" fontSize={8.2} fontWeight={700} fill="#ffffff" style={mono}>{i + 1}</text>
           </g>
         );
       })}
-      {(ground || []).map((g) => {
+      {(ground || []).map((g, i) => {
         const [x, y] = P(g.at);
         if (!inFrame([x, y])) return null;
         const gained = g.kind === "gained";
         const colour = gained ? "#2f5233" : "#7a2e2e";
         return (
-          <g key={g.id} transform={`translate(${x} ${y})`}>
-            {gained ? <circle r={7.5} fill="#f2ead9" stroke={colour} strokeWidth={2} /> : <rect x={-7} y={-7} width={14} height={14} fill="#f2ead9" stroke={colour} strokeWidth={2} />}
-            <path d={gained ? "M-3.4 0H3.4M0 -3.4V3.4" : "M-3.4 -3.4L3.4 3.4M-3.4 3.4L3.4 -3.4"} stroke={colour} strokeWidth={2} fill="none" />
-            <text x={11} y={3.5} fontSize={8.5} {...label}>{g.name}</text>
+          <g key={g.id} transform={"translate(" + x + " " + y + ") scale(" + s + ")"}>
+            {gained ? <circle r={6.4} fill="#f2ead9" stroke={colour} strokeWidth={1.5} /> : <rect x={-6} y={-6} width={12} height={12} fill="#f2ead9" stroke={colour} strokeWidth={1.5} />}
+            <text y={3} textAnchor="middle" fontSize={8.4} fontWeight={700} fill={colour} style={mono}>{String.fromCharCode(65 + i)}</text>
           </g>
         );
       })}
       {at && !inFrame(at) && offLabel && (() => {
         // the report is set beyond the frame: an arrow on the nearest edge, pointing the way, with the name of the place
-        const cx = MAP_OVERLAY_W / 2;
-        const cy = MAP_OVERLAY_H / 2;
+        const cx = (box.x0 + box.x1) / 2;
+        const cy = (box.y0 + box.y1) / 2;
         const dx = at[0] - cx;
         const dy = at[1] - cy;
-        const m = 22;
-        const t = Math.min(dx !== 0 ? (cx - m) / Math.abs(dx) : Infinity, dy !== 0 ? (cy - m) / Math.abs(dy) : Infinity);
-        const ex = cx + dx * t;
-        const ey = cy + dy * t;
+        const mx = 22 * s;
+        const my = 22 * s;
+        const k = Math.min(dx !== 0 ? ((box.x1 - box.x0) / 2 - mx) / Math.abs(dx) : Infinity, dy !== 0 ? ((box.y1 - box.y0) / 2 - my) / Math.abs(dy) : Infinity);
+        const ex = cx + dx * k;
+        const ey = cy + dy * k;
         const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
-        const right = ex > cx + 40;
-        const left = ex < cx - 40;
+        const right = ex > cx + 40 * s;
+        const left = ex < cx - 40 * s;
         return (
-          <g transform={`translate(${ex} ${ey})`}>
-            <g transform={`rotate(${ang})`}>
-              <path d="M10,0 L-8,-9 L-8,9 Z" fill={accent || "#7a2e2e"} stroke="#f2ead9" strokeWidth="2" />
+          <g transform={"translate(" + ex + " " + ey + ") scale(" + s + ")"}>
+            <g transform={"rotate(" + ang + ")"}>
+              <path d="M10,0 L-8,-9 L-8,9 Z" fill={ink} stroke="#f2ead9" strokeWidth="1.6" />
             </g>
-            <text x={left ? 14 : right ? -14 : 0} y={dy < 0 && !left && !right ? 22 : dy > 0 && !left && !right ? -14 : 4} textAnchor={left ? "start" : right ? "end" : "middle"} fontSize="10" {...label}>{offLabel}</text>
+            <text x={left ? 14 : right ? -14 : 0} y={dy < 0 && !left && !right ? 22 : dy > 0 && !left && !right ? -14 : 4} textAnchor={left ? "start" : right ? "end" : "middle"} fontSize="10" fill="#241d12" stroke="#f2ead9" strokeWidth="2" paintOrder="stroke" style={{ fontFamily: MAP_SERIF, fontStyle: "italic", fontWeight: 600 }}>{t(offLabel)}</text>
           </g>
         );
       })()}
       {at && inFrame(at) && (
-        <g transform={`translate(${at[0]} ${at[1]})`}>
-          <circle r={12} fill="none" stroke="#f2ead9" strokeWidth={6} />
-          <circle r={12} fill="none" stroke={accent || "#7a2e2e"} strokeWidth={2.6}>
-            <animate attributeName="r" values="12;19;12" dur="1.4s" repeatCount="3" />
-            <animate attributeName="stroke-opacity" values="1;0.2;1" dur="1.4s" repeatCount="3" />
-          </circle>
-          <rect x={-4.4} y={-4.4} width={8.8} height={8.8} fill={accent || "#7a2e2e"} stroke="#f2ead9" strokeWidth={1.4} />
-          {seal && <text x={16} y={3.5} fontSize={9} {...label}>{seal}</text>}
+        <g transform={"translate(" + at[0] + " " + at[1] + ") scale(" + s + ")"}>
+          <line x1={0} y1={0} x2={0} y2={-6} stroke={ink} strokeWidth={1.4} />
+          <circle r={2} fill={ink} stroke="#f2ead9" strokeWidth={0.8} />
+          <rect x={-9.5} y={-18} width={19} height={12} fill="#f2ead9" stroke={ink} strokeWidth={1.5} />
+          <path d="M-9.5 -18L9.5 -6M9.5 -18L-9.5 -6" stroke={ink} strokeWidth={1.1} fill="none" />
+          {seal && <text x={14} y={-8} fontSize={8} fontWeight={700} fill="#241d12" stroke="#f2ead9" strokeWidth={2} paintOrder="stroke" style={mono}>{seal}</text>}
         </g>
       )}
     </g>
   );
 }
 
+/** The paper grain of a printed map: faint noise over the map, multiplied into it. */
+function MapGrain() {
+  const id = "map-grain-" + useId().replace(/[^a-zA-Z0-9]/g, "");
+  return (
+    <svg className="absolute inset-0 w-full h-full" style={{ mixBlendMode: "multiply", opacity: 0.12, pointerEvents: "none" }} aria-hidden="true">
+      <filter id={id} x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" />
+        <feColorMatrix type="saturate" values="0" />
+      </filter>
+      <rect width="100%" height="100%" filter={"url(#" + id + ")"} />
+    </svg>
+  );
+}
+
+/** The length of the scale bar of a map window: the largest round distance that fills no more than about a quarter of the window, and its share of the window's width. */
+function mapScaleBar(bbox, zoom) {
+  const midLat = (bbox.llcrnrlat + bbox.urcrnrlat) / 2;
+  const kmPerUnit = ((bbox.urcrnrlon - bbox.llcrnrlon) * 111.32 * Math.cos((midLat * Math.PI) / 180)) / MAP_OVERLAY_W;
+  const visible = MAP_OVERLAY_W / zoom;
+  let km = 25;
+  for (const n of [25, 50, 100, 200, 250, 500, 1000, 2000]) if (n / kmPerUnit <= visible * 0.27) km = n;
+  return { km, pct: (km / kmPerUnit / visible) * 100 };
+}
+
 /**
  * The map under the title of a report (the always-on map of 1914): a wide window framed on the report's place and the places before it, with the front on the
- * day, the other commands' pins, the ground against the record and, below it, the three nearest reports of the others. A button opens the whole map (the
+ * day, the other commands' pins, the ground against the record and, below it, a key and the lists of what the marks are. A button opens the whole map (the
  * checkpoint map with its timeline and its orders), and another shows the whole theatre in place of the frame.
  */
 function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) {
@@ -553,40 +615,74 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
   const wide = 2;
   const frame = !whole && here && bbox ? mapFrame([here, ...route.slice(-3)], bbox, wide) : null;
   const inner = frame
-    ? { transformOrigin: "0 0", transform: `scale(${frame.k}) translate(${(-frame.x / MAP_OVERLAY_W) * 100}%, ${(-frame.y / MAP_OVERLAY_H) * 100}%)` }
+    ? { transformOrigin: "0 0", transform: "scale(" + frame.k + ") translate(" + (-frame.x / MAP_OVERLAY_W) * 100 + "%, " + (-frame.y / MAP_OVERLAY_H) * 100 + "%)" }
     : undefined;
   if (!bbox || !clampedYear) return null;
+  const zoom = frame ? frame.k : 1;
+  const clip = frame ? { x0: frame.x, y0: frame.y, x1: frame.x + MAP_OVERLAY_W / frame.k, y1: frame.y + MAP_OVERLAY_W / frame.k / wide } : null;
+  const bar = mapScaleBar(bbox, zoom);
   const mono = { fontFamily: "'IBM Plex Mono', monospace" };
   const button = "border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]";
+  const ink = campaign.accent || "#7a2e2e";
+  const keyItems = [];
+  if (fronts.some((fr) => fr.kind !== "zone" && !fr.projection)) keyItems.push([<path key="a" d="M2 10H22" stroke="#1a1410" strokeWidth="1.4" />, <path key="b" d="M4 10L7 6.4L10 10ZM13 10L16 6.4L19 10Z" fill="#1a1410" />, t("Front, teeth towards Germany")]);
+  if (here) keyItems.push([<rect key="a" x="4" y="2" width="16" height="10" fill="#f2ead9" stroke={ink} strokeWidth="1.4" />, <path key="b" d="M4 2L20 12M20 2L4 12" stroke={ink} strokeWidth="1" />, t("This report")]);
+  if (route.length > 1) keyItems.push([<circle key="a" cx="12" cy="7" r="2.7" fill="#f2ead9" stroke={ink} strokeWidth="1.1" />, null, t("Earlier reports")]);
+  if (meanwhile.length > 0) keyItems.push([<circle key="a" cx="12" cy="7" r="6" fill="#4a4a4a" />, <text key="b" x="12" y="10" textAnchor="middle" fontSize="8" fontWeight="700" fill="#fff" style={mono}>1</text>, t("Another command")]);
+  if (ground.length > 0) keyItems.push([<circle key="a" cx="12" cy="7" r="6" fill="#f2ead9" stroke="#2f5233" strokeWidth="1.4" />, <text key="b" x="12" y="10" textAnchor="middle" fontSize="8" fontWeight="700" fill="#2f5233" style={mono}>A</text>, t("Ground against the record")]);
   return (
-    <div className="mb-4" role="group" aria-label="The map of the front on the day of this report">
-      <div className="relative w-full border-2 border-black overflow-hidden" style={{ aspectRatio: frame ? "2 / 1" : "4 / 3" }}>
-        <div className="absolute left-0 top-0 w-full" style={{ aspectRatio: "4 / 3", ...inner }}>
-          <img src={`assets/maps/${campaign.id}/${clampedYear}.png`} alt="" className="w-full h-full object-cover absolute inset-0" onError={(e) => { e.currentTarget.style.display = "none"; }} />
-          <CheckpointMapRegions
-            campaignId={campaign.id}
-            statusYear={statusYear}
-            flags={flags}
-            meters={meters || {}}
-            statuses={statuses}
-            divergedRegions={new Set()}
-            highlightRegions={(NODE_HIGHLIGHT_REGIONS[campaign.id] || {})[nodeId]}
-            accent={campaign.accent}
-            fronts={fronts}
-            marks={{ here, trail: route, pins: meanwhile, ground, seal: campaign.seal, offLabel: MAP_OFF_MAP[campaign.id + "/" + nodeId] }}
-          />
+    <div className="mb-4" role="group" aria-label={t("The map of the front on the day of this report")}>
+      <div className="dg-reportmap relative w-full overflow-hidden" style={{ aspectRatio: frame ? "2 / 1" : "4 / 3", border: "3px double #1a1410" }}>
+        <div className="dg-reportmap-inner absolute inset-0">
+          <div className="absolute left-0 top-0 w-full" style={{ aspectRatio: "4 / 3", ...inner }}>
+            <img src={"assets/maps/" + campaign.id + "/" + clampedYear + ".png"} alt="" className="w-full h-full object-cover absolute inset-0" style={{ filter: "saturate(0.72) contrast(0.96)" }} onError={(e) => { e.currentTarget.style.display = "none"; }} />
+            <CheckpointMapRegions
+              campaignId={campaign.id}
+              statusYear={statusYear}
+              flags={flags}
+              meters={meters || {}}
+              statuses={statuses}
+              divergedRegions={new Set()}
+              highlightRegions={(NODE_HIGHLIGHT_REGIONS[campaign.id] || {})[nodeId]}
+              accent={campaign.accent}
+              fronts={fronts}
+              zoom={zoom}
+              clip={clip}
+              cities={!!frame}
+              marks={{ here, trail: route, pins: meanwhile, ground, seal: campaign.seal, offLabel: MAP_OFF_MAP[campaign.id + "/" + nodeId] }}
+            />
+          </div>
+          <MapGrain />
+          <div className="absolute left-2 right-2 bottom-2 flex items-end justify-between" style={{ ...mono, pointerEvents: "none", color: "#241d12" }}>
+            <div style={{ width: bar.pct + "%" }}>
+              <span className="inline-block text-[9px] leading-none px-1 mb-0.5" style={{ background: "rgba(242,234,217,0.82)" }}>{t("about {km} km", { km: bar.km })}</span>
+              <div style={{ height: 5, borderLeft: "1.5px solid #241d12", borderRight: "1.5px solid #241d12", borderBottom: "1.5px solid #241d12" }} />
+            </div>
+            <span className="text-[9px] uppercase tracking-widest leading-none px-1.5 py-1" style={{ background: "rgba(242,234,217,0.82)" }}>{t("Situation, {date}", { date: stage.date })}</span>
+          </div>
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-2 mt-2">
-        <button onClick={onOpen} className={button} style={mono}>Show Theater Map</button>
+        <button onClick={onOpen} className={button} style={mono}>{t("Show Theater Map")}</button>
         {here && bbox && (frame || whole) && (
-          <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button} style={mono}>{whole ? "Frame this report" : "Show the whole theatre"}</button>
+          <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button} style={mono}>{whole ? t("Frame this report") : t("Show the whole theatre")}</button>
         )}
       </div>
+      {keyItems.length > 0 && (
+        <ul className="list-none p-0 m-0 mt-2 flex flex-wrap gap-x-4 gap-y-1" aria-label={t("Key to the map")}>
+          {keyItems.map(([a1, a2, label], i) => (
+            <li key={i} className="flex items-center gap-1 text-[10px] leading-none" style={{ ...mono, color: "#241d12" }}>
+              <svg width="24" height="14" viewBox="0 0 24 14" aria-hidden="true">{a1}{a2}</svg>
+              {label}
+            </li>
+          ))}
+        </ul>
+      )}
       {meanwhile.length > 0 && (
         <ul className="list-none p-0 m-0 mt-2">
-          {meanwhile.map((m) => (
+          {meanwhile.map((m, i) => (
             <li key={m.campaignId} className="text-[12px] leading-snug mb-0.5" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              <span className="inline-flex items-center justify-center rounded-full text-white font-bold mr-1 align-middle" style={{ ...mono, width: 15, height: 15, fontSize: 9, background: (CAMPAIGNS[m.campaignId] || {}).accent || "#241d12" }}>{i + 1}</span>
               <span className="text-[10px] uppercase tracking-wider font-bold" style={{ ...mono, color: (CAMPAIGNS[m.campaignId] || {}).accent }}>{m.short}</span>
               {" \u00b7 "}
               {mapIsoLabel(m.on)}: {m.text}
@@ -596,12 +692,11 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
       )}
       {ground.length > 0 && (
         <ul className="list-none p-0 m-0 mt-1">
-          {ground.map((g) => (
+          {ground.map((g, i) => (
             <li key={g.id} className="text-[12px] leading-snug mb-0.5" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              <span aria-hidden="true">{g.kind === "gained" ? "\u2295 " : "\u2297 "}</span>
+              <span className={"inline-flex items-center justify-center font-bold mr-1 align-middle border-2 bg-[#f2ead9] " + (g.kind === "gained" ? "rounded-full" : "")} style={{ ...mono, width: 15, height: 15, fontSize: 9, borderColor: g.kind === "gained" ? "#2f5233" : "#7a2e2e", color: g.kind === "gained" ? "#2f5233" : "#7a2e2e" }}>{String.fromCharCode(65 + i)}</span>
               <span className="font-bold">{g.name}</span>
-              {g.kind === "gained" ? ", beyond the record: " : ", against the record: "}
-              {g.text} (projection)
+              {t("{p}{gText} (projection)", { p: g.kind === "gained" ? t(", beyond the record: ") : t(", against the record: "), gText: g.text })}
             </li>
           ))}
         </ul>
