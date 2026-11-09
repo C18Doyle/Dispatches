@@ -75,5 +75,122 @@
     "claim": "The Italian camps at Sidi Barrani were not linked into a continuous line; the British attacked on 9 December 1940 through the gap, took Nibeiwa from the rear, and within days the Tenth Army was beaten with tens of thousands of prisoners.",
     "status": "confirmed-secondary",
     "source": "Standard accounts of Operation Compass; the gap is the report's own situation text."
+  },
+  {
+    "id": "ix-pearlHarbor41-anchor",
+    "where": "japan/pearlHarbor41",
+    "claim": "On 7 December 1941 the battleships were at their moorings and eight of them were hit; 2,403 Americans were killed; the three carriers were not in the harbor",
+    "status": "secondary",
+    "source": "Standard histories; the 2,403 figure is the one the report already gives",
+    "checked": "2026-11-04",
+    "note": "The consulate's reports as the staff's source is interpretation."
+  },
+  {
+    "id": "ix-pearlHarbor41-year",
+    "where": "japan/pearlHarbor41",
+    "claim": "Six of the eight battleships hit were repaired and returned to service; the carriers, shipyards and oil tanks were untouched; American carriers fought at Coral Sea within five months",
+    "status": "unchecked",
+    "source": "From memory of the standard histories",
+    "checked": "2026-11-04",
+    "note": "To be checked: the count of six repaired. Yamamoto's estimate is in the report's own text."
+  },
+  {
+    "id": "ix-midway42-carriers",
+    "where": "japan/midway42",
+    "claim": "Station HYPO read the Japanese plan; Nimitz had Enterprise, Hornet and Yorktown waiting north east of Midway; Yorktown was patched in seventy-two hours",
+    "status": "secondary",
+    "source": "Existing Midway battle register (battles-round1.json); NHHC",
+    "checked": "2026-11-04",
+    "note": "That the staff expected one or two carriers at most is interpretation of the plan's assumption."
+  },
+  {
+    "id": "ix-guadalcanal42-small",
+    "where": "japan/guadalcanal42",
+    "claim": "Ichiki's first echelon, about 900 men, attacked at the Tenaru river on the night of 20 to 21 August 1942 against prepared Marine positions and most of it was killed",
+    "status": "secondary",
+    "source": "Wikipedia, Battle of the Tenaru and Kiyonao Ichiki; HistoryNet",
+    "checked": "2026-11-04",
+    "note": "Some Japanese scholarship disputes that Ichiki underestimated the American force; the report gives the Army's estimate as the belief, with no number."
+  },
+  {
+    "id": "ix-leyteGulf44-bait",
+    "where": "japan/leyteGulf44",
+    "claim": "Halsey took the Third Fleet's carriers north on 24 October 1944; Ozawa's carriers were sunk off Cape Engano on 25 October; Kurita came through San Bernardino Strait that night",
+    "status": "secondary",
+    "source": "Britannica; Naval History and Heritage Command (see battles-round2.json)",
+    "checked": "2026-11-04",
+    "note": ""
+  },
+  {
+    "id": "ix-okinawa45-break",
+    "where": "japan/okinawa45",
+    "claim": "The Kikusui attacks sank thirty or more American ships, damaged hundreds and killed nearly five thousand sailors; the fleet stayed until the island was taken in June",
+    "status": "secondary",
+    "source": "Wikipedia, Operation Kikusui; NHHC H-Grams on Okinawa (see battles-round2.json)",
+    "checked": "2026-11-04",
+    "note": "The figures are for the whole campaign, not for the Kikusui attacks alone."
+  },
+  {
+    "id": "ix-wakeIslandRelief41-carriers",
+    "where": "alliedPacific/wakeIslandRelief41",
+    "claim": "Soryu and Hiryu struck Wake on 21 December 1941 and stood off while the landing went in on 23 December; Pye recalled Task Force 14 on learning of two carriers",
+    "status": "secondary",
+    "source": "NPS Marines in WWII, 'Marines at Wake'; Pacific Wrecks chronology; Citizendium",
+    "checked": "2026-11-04",
+    "note": "Sources differ on the day of the recall (22 or 23 December)."
+  },
+  {
+    "id": "ix-coralSeaMidwayAllied42-af",
+    "where": "alliedPacific/coralSeaMidwayAllied42",
+    "claim": "Rochefort's team read AF as Midway and gave the date; the Japanese carriers were found north west of Midway on 4 June and four were sunk",
+    "status": "secondary",
+    "source": "Existing Midway battle register (battles-round1.json)",
+    "checked": "2026-11-04",
+    "note": "That Washington's analysts doubted the reading is the existing node text."
+  },
+  {
+    "id": "ix-guadalcanalAllied42-light",
+    "where": "alliedPacific/guadalcanalAllied42",
+    "claim": "The Marines landed on 7 August 1942 and took the unfinished airfield on the 8th with almost no fighting; the Japanese there were mostly construction troops and had withdrawn",
+    "status": "secondary",
+    "source": "HistoryNet; National WWII Museum (see battles-round2.json)",
+    "checked": "2026-11-04",
+    "note": "The coastwatchers and air photographs as the source is interpretation."
+  },
+  {
+    "id": "ix-torpedoCrisis43-sound",
+    "where": "alliedPacific/torpedoCrisis43",
+    "claim": "The Mark 14 ran deeper than set and its exploder did not work as designed; the fleet's tests found the faults through 1942 and 1943",
+    "status": "unchecked",
+    "source": "From memory of the standard histories",
+    "checked": "2026-11-04",
+    "note": "To be checked against Blair, Silent Victory. The report's own node text gives the Bureau's official position."
+  },
+  {
+    "id": "ix-tehransPromise43-entry",
+    "where": "alliedPacific/tehransPromise43",
+    "claim": "The Soviet Union declared war on Japan on 8 August 1945, three months after Germany's surrender, and attacked Manchuria the next day",
+    "status": "secondary",
+    "source": "Standard histories; the existing Tehran node text",
+    "checked": "2026-11-04",
+    "note": "Declaration of war text: jewishvirtuallibrary.org, USSR Declaration of War on Japan."
+  },
+  {
+    "id": "ix-peleliuDecision44-days",
+    "where": "alliedPacific/peleliuDecision44",
+    "claim": "Rupertus forecast that Peleliu would be taken in a few days (two to four, by different sources); the fighting lasted from 15 September to 27 November 1944",
+    "status": "secondary",
+    "source": "Osprey, 'Tragic Peleliu'; Warfare History Network (Haskew); Wikipedia, Battle of Peleliu",
+    "checked": "2026-11-04",
+    "note": "Sources differ on the forecast: three days, perhaps two; or four days. The report says two to four."
+  },
+  {
+    "id": "ix-iwoJimaAllied45-gunfire",
+    "where": "alliedPacific/iwoJimaAllied45",
+    "claim": "Marine planners asked for ten days of bombardment and were given three; of about 915 fortified positions fewer than 200 had been silenced when the Marines landed",
+    "status": "secondary",
+    "source": "Warfare History Network summary of the battle (see battles-round2.json)",
+    "checked": "2026-11-04",
+    "note": "The 915 and 200 figures are from one account."
   }
 ]

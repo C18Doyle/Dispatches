@@ -41,6 +41,84 @@ function WarRoomDocOKW({ campaign, modeInfo, easy }) {
   );
 }
 
+function WarRoomDocIGHQ({ campaign, modeInfo, easy }) {
+  return (
+    <>
+      <div className="flex justify-between items-start mb-3">
+        <div style={{ fontFamily: "'IBM Plex Mono', monospace" }} className="text-left">
+          <div className="text-[10px] font-bold tracking-[0.18em]" style={{ color: campaign.accent }}>
+            大本營 · IMPERIAL GENERAL HEADQUARTERS
+          </div>
+          <div className="text-[9px] text-[#555] mt-0.5">{campaign.name}</div>
+        </div>
+        <div className="briefing-stamp-okw" style={{ border: `2.5px solid ${campaign.accent}`, color: campaign.accent }}>
+          極秘
+        </div>
+      </div>
+      <div className="briefing-fields-okw" style={{ borderTop: "1px solid #ccc4b8", borderBottom: "1px solid #ccc4b8" }}>
+        <span>件名.</span>
+        <span>
+          <b>{campaign.name}</b>
+        </span>
+        <span>日付.</span>
+        <span>{campaign.dates}</span>
+      </div>
+      {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id] && (
+        <p className="text-[14px] italic leading-relaxed mb-4 text-[#000000] text-left" style={{ fontFamily: "'Courier Prime', monospace" }}>
+          "{CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].text}"
+          {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker && (
+            <span className="block not-italic text-[11px] uppercase tracking-widest font-semibold mt-1 opacity-60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              — {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker}, {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].date}
+            </span>
+          )}
+        </p>
+      )}
+      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#595959", fontFamily: "'IBM Plex Mono', monospace" }}>
+        配布: 大本營陸軍部 / 海軍部: ARMY AND NAVY SECTIONS ONLY
+      </div>
+    </>
+  );
+}
+
+function WarRoomDocCINCPAC({ campaign, modeInfo, easy }) {
+  return (
+    <>
+      <div className="flex justify-between items-start mb-3">
+        <div style={{ fontFamily: "'IBM Plex Mono', monospace" }} className="text-left">
+          <div className="text-[10px] font-bold tracking-[0.18em]" style={{ color: campaign.accent }}>
+            COMMANDER IN CHIEF, U.S. PACIFIC FLEET
+          </div>
+          <div className="text-[9px] text-[#555] mt-0.5">{campaign.name}</div>
+        </div>
+        <div className="briefing-stamp-okw" style={{ border: `2.5px solid ${campaign.accent}`, color: campaign.accent }}>
+          SECRET
+        </div>
+      </div>
+      <div className="briefing-fields-okw" style={{ borderTop: "1px solid #ccc4b8", borderBottom: "1px solid #ccc4b8" }}>
+        <span>SUBJ.</span>
+        <span>
+          <b>{campaign.name}</b>
+        </span>
+        <span>DATE.</span>
+        <span>{campaign.dates}</span>
+      </div>
+      {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id] && (
+        <p className="text-[14px] italic leading-relaxed mb-4 text-[#000000] text-left" style={{ fontFamily: "'Courier Prime', monospace" }}>
+          "{CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].text}"
+          {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker && (
+            <span className="block not-italic text-[11px] uppercase tracking-widest font-semibold mt-1 opacity-60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              — {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker}, {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].date}
+            </span>
+          )}
+        </p>
+      )}
+      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#595959", fontFamily: "'IBM Plex Mono', monospace" }}>
+        DISTRIBUTION: CINCPAC / COMINCH: OFFICIAL FILES ONLY
+      </div>
+    </>
+  );
+}
+
 function WarRoomDocComandoSupremo({ campaign, modeInfo, easy }) {
   return (
     <>
@@ -1364,7 +1442,7 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   useEffect(() => {
     if (headingRef.current) headingRef.current.focus();
   }, [campaign.id, mode]);
-  const Doc = { german: WarRoomDocOKW, soviet: WarRoomDocSTAVKA, allied: WarRoomDocSHAEF, italy: WarRoomDocComandoSupremo }[campaign.id] || WarRoomDocOKW;
+  const Doc = { german: WarRoomDocOKW, soviet: WarRoomDocSTAVKA, allied: WarRoomDocSHAEF, italy: WarRoomDocComandoSupremo, japan: WarRoomDocIGHQ, alliedPacific: WarRoomDocCINCPAC }[campaign.id] || WarRoomDocOKW;
 
   // Historical Divergence Mode toggle. Available from a player's very first run of a campaign —
   // Round 11 (Craig: "Can the make the historically accurate unlock available from the

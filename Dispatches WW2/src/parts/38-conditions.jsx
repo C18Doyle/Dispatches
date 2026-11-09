@@ -3,6 +3,10 @@ const COMMS = {
   soviet: [[1939, 16], [1941, 30], [1942, 20], [1943, 12], [1944, 8]],
   allied: [[1939, 10], [1942, 8], [1944, 5]],
   italy: [[1939, 14], [1941, 24], [1943, 20], [1944, 16]],
+  // The two Pacific commands (modelled like the rows above): IGHQ in Tokyo, its news slower as the perimeter stretches in 1942 and as shipping and
+  // the outlying garrisons are cut off from 1944; CINCPAC at Pearl Harbor, its news quicker as radio, aircraft and staff grow through 1943.
+  japan: [[1939, 12], [1942, 18], [1944, 30]],
+  alliedPacific: [[1940, 12], [1942, 14], [1943, 8]],
 };
 // THE CONDITIONS OF A REPORT (the conditions of 1914's 48-conditions.jsx, for 1940)
 //

@@ -81,7 +81,7 @@ for (const [key, b] of Object.entries(C.BOMBARDMENTS)) {
 let noMonth = 0;
 let reports = 0;
 for (const cid of Object.keys(CAMPAIGNS)) {
-  const files = { german: "10-campaign-german.jsx", soviet: "11-campaign-soviet.jsx", allied: "12-campaign-allied.jsx", italy: "13-campaign-italy.jsx" };
+  const files = { german: "10-campaign-german.jsx", soviet: "11-campaign-soviet.jsx", allied: "12-campaign-allied.jsx", italy: "13-campaign-italy.jsx", japan: "14-campaign-japan.jsx", alliedPacific: "15-campaign-alliedpacific.jsx" };
   const text = readFileSync(join(ROOT, "src/parts", files[cid]), "utf8");
   const ids = [...new Set([...text.matchAll(/\bget (\w+)\(\) \{/g)].map((m) => m[1]))];
   for (const id of ids) {

@@ -242,7 +242,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                 className="text-[12px] text-[#000000] border-l-4 pl-2 mb-1"
                 style={{ borderColor: "#7a2e2e", fontFamily: "'Courier Prime', monospace" }}
               >
-                {t("{p}{p2}: ended {p3}{p4}", { p: r.mode === "iron" ? "⚔ " : r.mode === "purge" ? "☭ " : r.mode === "coalition" ? "★ " : r.mode === "axis" ? "⚖ " : "", p2: r.label || t("War concluded"), p3: r.endDate || "—", p4: r.rank ? ` · ${r.rank}` : "" })}
+                {t("{p}{p2}: ended {p3}{p4}", { p: r.mode === "iron" ? "⚔ " : r.mode === "purge" ? "☭ " : r.mode === "fanatical" ? "⚔ " : r.mode === "coalition" ? "★ " : r.mode === "axis" ? "⚖ " : "", p2: r.label || t("War concluded"), p3: r.endDate || "—", p4: r.rank ? ` · ${r.rank}` : "" })}
               </div>
             ))}
           </div>
@@ -2841,7 +2841,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
   const [showMap, setShowMap] = useState(false);
   const easy = mode === "easy";
   const iron = mode === "iron";
-  const purge = mode === "purge";
+  // Japan's Fanatical Resolve is the same rule as the NKVD mode: a count of suspicion out of five (flags.suspicion).
+  const purge = mode === "purge" || mode === "fanatical";
   const coalition = mode === "coalition";
   const axis = mode === "axis";
   const noRewind = iron || purge || coalition || axis;

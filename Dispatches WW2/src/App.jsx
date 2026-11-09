@@ -29504,6 +29504,162 @@ const NODE_ATLAS = {
     { id: "clnLiaison44", date: "JULY 1944", title: "The War the South Can Only Fund, Not Fight" },
     { id: "neutralItalyEnd45", date: "1945", title: "The War That Passed Rome By" },
   ],
+  // From Dispatches 1941.
+  japan: [
+    { id: "nomonhan39", date: "AUGUST – SEPTEMBER 1939", title: "Nomonhan and the Pact" },
+    { id: "chinaPeaceQuestion40", date: "1940", title: "The China Question, Unsolved" },
+    { id: "indochinaMission40", date: "JUNE 1940", title: "France Falls: The Door to China" },
+    { id: "burmaRoad40", date: "JULY 1940", title: "The Burma Road" },
+    { id: "tripartitePact40", date: "SEPTEMBER 1940", title: "The Tripartite Pact" },
+    { id: "unificationQuestion40", date: "LATE 1940", title: "Two Services, Two Wars" },
+    { id: "neutralityPact41", date: "APRIL 1941", title: "The Neutrality Pact" },
+    { id: "hokushinDebate41", date: "JULY 1941", title: "Kantokuen: The Road Not Taken North" },
+    { id: "kantokuenOffensive41", date: "AUGUST 1941", title: "The Kwantung Army's Wager" },
+    { id: "siberianReckoning42", date: "1942", title: "A War on Two Fronts, By Choice" },
+    { id: "indochinaOccupation41", date: "JULY 1941", title: "Indochina and the Embargo Question" },
+    { id: "novemberUltimatum41", date: "LATE NOVEMBER 1941", title: "The Hull Note" },
+    { id: "pearlHarbor41", date: "DECEMBER 1941", title: "The Opening Vector" },
+    { id: "burmaRangoon42", date: "MARCH 1942", title: "The Road to Rangoon" },
+    { id: "indianOceanRaid42", date: "APRIL 1942", title: "The Indian Ocean Raid" },
+    { id: "burmaRangoon42Delayed", date: "LATE 1942", title: "The Road to Rangoon, Months Late" },
+    { id: "bataanPOWQuestion42", date: "APRIL 1942", title: "Bataan: More Prisoners Than Anyone Planned For" },
+    { id: "doolittleRaid42", date: "APRIL 1942", title: "Sixteen Bombers Over Tokyo" },
+    { id: "doolittleAirmen42", date: "AUGUST 1942", title: "The Captured Airmen" },
+    { id: "coralSea42", date: "MAY 1942", title: "Coral Sea and the Port Moresby Question" },
+    { id: "midway42", date: "JUNE 1942", title: "Midway: The Search for the Decisive Battle" },
+    { id: "yamamotoAscendant42", date: "JUNE 1942", title: "The Fantasy Considered Seriously for a Single Afternoon" },
+    { id: "aPacificWonTwice43", date: "1943", title: "A Free Hand's Price" },
+    { id: "theRommelQuestion43", date: "1943", title: "Berlin's Real Offer" },
+    { id: "earlyPeaceQuestion42", date: "JUNE – JULY 1942", title: "Midway's Concealed Cost" },
+    { id: "aStrongerHandToPlay42", date: "AUGUST 1942", title: "Peace From Strength" },
+    { id: "aPeaceNooneExpected42", date: "SEPTEMBER 1942", title: "The Shape of a Peace That Wasn't Supposed to Happen" },
+    { id: "earlyPeaceChannel42", date: "AUGUST 1942", title: "A Channel, If Anyone Answers" },
+    { id: "earlyPeaceOutcome42", date: "1942 – 1945", title: "Three Years Early" },
+    { id: "kokodaTrail42", date: "JULY – NOVEMBER 1942", title: "The Kokoda Track" },
+    { id: "guadalcanal42", date: "AUGUST – NOVEMBER 1942", title: "The Attrition Nobody Planned For" },
+    { id: "keGoWithdrawal43", date: "JANUARY – FEBRUARY 1943", title: "Operation Ke-Go" },
+    { id: "yamamotoDeath43", date: "APRIL 1943", title: "Operation Vengeance" },
+    { id: "attu43", date: "MAY 1943", title: "Attu" },
+    { id: "theMainlandCrisis44", date: "1944", title: "Two Fronts, One Army Left" },
+    { id: "ichiGoTriumph44", date: "LATE 1944", title: "The Corridor" },
+    { id: "philippineSea44", date: "JUNE 1944", title: "The Marianas: What's Left of the Carrier Air Arm" },
+    { id: "onishiKamikaze44", date: "OCTOBER 1944", title: "Onishi's Proposal" },
+    { id: "leyteGulf44", date: "OCTOBER 1944", title: "Sho-Go: The Fleet as Decoy" },
+    { id: "kuritaAtLeyte44", date: "OCTOBER 25, 1944", title: "Taffy 3" },
+    { id: "leyteBeachheadAftermath44", date: "OCTOBER 1944", title: "The Beachhead's Reach" },
+    { id: "iwoJima45", date: "FEBRUARY 1945", title: "Iwo Jima: The Doctrine That Abandoned the Beach" },
+    { id: "okinawa45", date: "APRIL – JUNE 1945", title: "Okinawa: What's Left to Spend" },
+    { id: "theSubmarineCarriersQuestion45", date: "JUNE 1945", title: "The World's Largest Submarines, Still Waiting for Orders" },
+    { id: "ketsuGo45", date: "1945", title: "Ketsu-Go: The Home Islands Question" },
+    { id: "afterHiroshima45", date: "AUGUST 6, 1945", title: "Hiroshima" },
+    { id: "afterNagasaki45", date: "AUGUST 9, 1945", title: "Nagasaki" },
+    { id: "sacredDecision45", date: "AUGUST 14 – 15, 1945", title: "The Recording" },
+    { id: "ketsuGoFinalStand45", date: "AUGUST 1945", title: "A Deadlock With No One Left to Break It" },
+    { id: "theDeadlockHolds45", date: "LATE AUGUST 1945", title: "What the Deadlock Doesn't Stop" },
+    { id: "termsWorthHaving45", date: "1945", title: "A Negotiation With Something Behind It" },
+    { id: "unhinderedSouth42", date: "EARLY – MID 1942", title: "The War America Didn't Wake Up To" },
+    { id: "australiaLanding42", date: "LATE 1942", title: "Darwin: The Beachhead Nobody Could Supply" },
+    { id: "washingtonDecides42", date: "LATE 1942", title: "Washington's Verdict" },
+    { id: "perimeterDoctrine42", date: "MID 1942", title: "The Fortress That Held Longer" },
+    { id: "severSupplyLine42", date: "MID 1942", title: "The Road Not Cut at Midway" },
+    { id: "operationFsCulmination42", date: "LATE 1942", title: "Finishing What FS Started" },
+    { id: "earlyPerimeter43", date: "1943", title: "The Line Held at Bougainville" },
+    { id: "theLongWarFooting45", date: "1945", title: "A War Fought From a Different Position" },
+    { id: "moscowMediates45", date: "1945", title: "Moscow's Price" },
+    { id: "surrenderInquiry45", date: "1945", title: "A Fleet Preserved, A War Still Lost" },
+    { id: "twoFrontStrain44", date: "1943 – 1944", title: "The Southern Operation, Delayed" },
+    { id: "theDelayedStrike44", date: "1943 – 1944", title: "A Fleet That Was Never Attacked" },
+    { id: "theUnbloodiedFleets45", date: "1945", title: "Two Fleets, Neither Blooded" },
+    { id: "theUndemolishedFields44", date: "1944", title: "The Fields Nobody Burned" },
+    { id: "theFuelLedger44", date: "1944", title: "The Fuel Ledger Between Two Fronts" },
+    { id: "aSecondArmisticeQuestion44", date: "1944", title: "A Second Front's Own Bill Comes Due" },
+    { id: "theBelatedReckoning45", date: "1945", title: "A War Two Years Behind Its Own Clock" },
+    { id: "kantokuenFinalWord46", date: "1946", title: "The Price of Striking North" },
+    { id: "americaDecides44", date: "1943 – 1944", title: "Two Years Without a Pearl Harbor" },
+    { id: "aQuietEmpire45", date: "1945", title: "The War That Waited" },
+    { id: "newWorldOrder45", date: "1945 – 1946", title: "A Charter With No Chair for This Japan" },
+    { id: "coldWarOpening48", date: "1947 – 1950", title: "The Uses of an Unconquered Japan" },
+  ],
+  alliedPacific: [
+    { id: "fleetAtHawaii40", date: "MAY 1940", title: "The Fleet Stays at Hawaii" },
+    { id: "richardsonObjection40", date: "OCTOBER 1940", title: "Richardson's Objection" },
+    { id: "atlanticTransfer41", date: "MAY – JUNE 1941", title: "Ships for the Atlantic" },
+    { id: "americanEmbargoResponse41", date: "JULY 1941", title: "The Embargo Decision" },
+    { id: "chinaAirForce41", date: "JULY – NOVEMBER 1941", title: "A Bomber Force for China" },
+    { id: "aStandoffInsteadOfAWar41", date: "LATE 1941 – 1943", title: "A War Fought Without the United States" },
+    { id: "theSlowerDeclaration42", date: "EARLY 1942", title: "Five Weeks in 1917, and No Guarantee of the Same Now" },
+    { id: "warBeginsLate42", date: "1942", title: "A War Congress Chose Rather Than Had Chosen For It" },
+    { id: "theUnopposedConsolidation42", date: "LATE 1942", title: "A Resource Area With Nobody Contesting It" },
+    { id: "twoForcesNeitherTested43", date: "1943", title: "Two Forces, Neither Tested" },
+    { id: "chinasWarAlone43", date: "1943", title: "The War Nobody Came to Help Finish" },
+    { id: "britainsCalculus43", date: "1943", title: "No Asiatic Possession Worth the Cost" },
+    { id: "japanUnopposed43", date: "1943", title: "The Tide's High-Water Mark" },
+    { id: "chinaCivilWarShadow43", date: "1943", title: "Five Hundred Thousand Men Not Fighting Japan" },
+    { id: "dutchExileCalculus44", date: "1944", title: "Recolonization Without the Means to Enforce It" },
+    { id: "warWithoutAmerica45", date: "1945", title: "Manchuria, Not Hiroshima" },
+    { id: "wakeIslandRelief41", date: "DECEMBER 1941", title: "The Relief Force" },
+    { id: "arcadia41", date: "DECEMBER 1941 – JANUARY 1942", title: "Arcadia: Europe First, Confirmed" },
+    { id: "internmentQuestion42", date: "FEBRUARY 1942", title: "Executive Order 9066" },
+    { id: "stilwellInChungking42", date: "FEBRUARY – MARCH 1942", title: "A General for Chiang" },
+    { id: "rangoonRetreatAllied42", date: "MARCH – APRIL 1942", title: "The Fall of Rangoon" },
+    { id: "curtinsTurn42", date: "FEBRUARY 1942", title: "Curtin's Turn" },
+    { id: "corregidorEvacuation42", date: "MARCH 1942", title: "The Order to Leave" },
+    { id: "doolittleRaidAllied42", date: "APRIL 1942", title: "Doolittle's Gamble" },
+    { id: "carrierRequest42", date: "APRIL 1942", title: "Churchill Asks for a Carrier" },
+    { id: "coralSeaMidwayAllied42", date: "MAY – JUNE 1942", title: "Midway: The Ambush Nobody Was Supposed to Win" },
+    { id: "kokodaTrailAllied42", date: "JULY – NOVEMBER 1942", title: "The Kokoda Track" },
+    { id: "guadalcanalAllied42", date: "AUGUST 1942", title: "Watchtower: The First Offensive" },
+    { id: "savoIslandReckoning42", date: "AUGUST 1942", title: "Savo Island" },
+    { id: "vladivostokRoute42", date: "LATE 1942", title: "The Pacific Route to Russia" },
+    { id: "unconditionalSurrender43", date: "JANUARY 1943", title: "The Casablanca Declaration" },
+    { id: "torpedoCrisis43", date: "JANUARY 1943", title: "The Torpedo That Won't Explode" },
+    { id: "theBatBombQuestion43", date: "JANUARY 1943", title: "Project X-Ray: A Dentist's Idea, Sixteen Months Later" },
+    { id: "bismarckSea43", date: "MARCH 1943", title: "The Bismarck Sea" },
+    { id: "yamamotoIntercept43", date: "APRIL 1943", title: "Operation Vengeance: The Yamamoto Intercept" },
+    { id: "yamamotoSurvives43", date: "SUMMER 1943", title: "Yamamoto's Silence" },
+    { id: "tehransPromise43", date: "NOVEMBER – DECEMBER 1943", title: "Stalin's Promise, Pressed Early" },
+    { id: "centralPacificDrive43", date: "1943 – 1944", title: "Leapfrogging the Strong Points" },
+    { id: "theTarawaQuestion43", date: "LATE 1943", title: "The Tarawa Question" },
+    { id: "macArthurTension44", date: "1944", title: "MacArthur Goes to the Press" },
+    { id: "macArthurAftermath44", date: "1944", title: "Eichelberger's Command" },
+    { id: "philippineSeaAllied44", date: "JUNE 1944", title: "The Marianas: Spruance's Choice" },
+    { id: "chinaCrisisAllied44", date: "1944", title: "Two Fronts, One Air Bridge" },
+    { id: "stilwellUltimatum44", date: "SEPTEMBER 1944", title: "Deliver It Now, or Not At All" },
+    { id: "stilwellPreserved44", date: "OCTOBER 1944", title: "Stilwell's Narrower Command" },
+    { id: "peleliuDecision44", date: "SEPTEMBER 1944", title: "Halsey's Recommendation" },
+    { id: "peleliuForcesRedirected44", date: "SEPTEMBER 1944", title: "Peleliu's Redirected Divisions" },
+    { id: "aDifferentPacific45", date: "1945", title: "The Extra Tonnage" },
+    { id: "aDifferentPacificFinalWord45", date: "1945", title: "The Different Road's Price" },
+    { id: "portChicago44", date: "AUGUST 1944", title: "Port Chicago: The Order Back to the Pier" },
+    { id: "philippinesFormosaAllied44", date: "LATE 1944", title: "Return to the Philippines, or Bypass for Formosa" },
+    { id: "quezonsSuccessor44", date: "OCTOBER 1944", title: "A President Who Didn't Live to See the Beach" },
+    { id: "halseyTyphoon44", date: "DECEMBER 1944", title: "Typhoon Cobra" },
+    { id: "halseyAftermath44", date: "1945", title: "One Command, Not Two" },
+    { id: "burmaReconquest45", date: "1945", title: "Reopening the Overland Route" },
+    { id: "cabanatuanRaid45", date: "JANUARY 1945", title: "Cabanatuan: Thirty Miles Behind the Lines" },
+    { id: "iwoJimaAllied45", date: "FEBRUARY 1945", title: "Iwo Jima: The Bombardment Argument" },
+    { id: "okinawaAllied45", date: "APRIL – JUNE 1945", title: "Okinawa: The Picket Line" },
+    { id: "strategicBombingAllied45Delayed", date: "APRIL – JUNE 1945", title: "The Incendiary Campaign, Already Underway" },
+    { id: "atomicDemonstration45", date: "JUNE – JULY 1945", title: "The Interim Committee's Question" },
+    { id: "targetSelection45", date: "JULY 1945", title: "The Remaining List" },
+    { id: "kyotoTargetDebate45", date: "JUNE 1945", title: "The City Groves Wanted Most" },
+    { id: "kyotoStruck45", date: "AUGUST 6, 1945", title: "Stimson's Warning, Ignored" },
+    { id: "hiroshima45", date: "AUGUST 6, 1945", title: "Hiroshima" },
+    { id: "nagasaki45", date: "AUGUST 9, 1945", title: "Nagasaki" },
+    { id: "nagasakiDelayed45", date: "AUGUST 1945", title: "The Extra Days" },
+    { id: "radiationDisclosure45", date: "SEPTEMBER 1945", title: "A Very Pleasant Way to Die" },
+    { id: "indianapolisSinking45", date: "JULY 1945", title: "The Indianapolis" },
+    { id: "indianapolisReview45", date: "1945", title: "The Indianapolis Findings" },
+    { id: "downfallOrBlockade45", date: "1945", title: "Downfall or Starvation" },
+    { id: "gasWarfareQuestion45", date: "1945", title: "The Argument for Gas" },
+    { id: "combinedPressureCollapse45", date: "AUGUST 1945", title: "Two Strategies, One Question" },
+    { id: "sovietHokkaido45", date: "AUGUST 1945", title: "Stalin's Request" },
+    { id: "theEmperorQuestion45", date: "SEPTEMBER 1945", title: "The Emperor Question" },
+    { id: "occupationAuthority45", date: "SEPTEMBER 1945", title: "One Man, One Occupation" },
+    { id: "pacificFirstGamble42", date: "1942", title: "The Atlantic, Thinner" },
+    { id: "conservativePacific42", date: "MID-LATE 1942", title: "The Fleet That Didn't Gamble" },
+    { id: "japanStrikesAgain42", date: "MID-LATE 1942", title: "The Fleet That Wasn't Beaten" },
+  ],
 };
 
 
@@ -29539,6 +29695,74 @@ const CONTEXT_NOTES = {
     { term: "The Armistice, September 1943", note: "Announced before Rome's own military had coherent orders for what came next: the army disintegrated in the chaos, some 600,000 soldiers were deported to Germany as forced labor, and Italy split into two rival governments within weeks." },
     { term: "Monte Cassino, 1944", note: "Four Allied offensives (American, British and Commonwealth, Polish among them) were needed to break a single defensive position anchored on a medieval abbey, at a combined cost of over 50,000 Allied casualties." },
     { term: "The Death of Mussolini, April 1945", note: "Captured by Communist partisans fleeing toward Switzerland, shot without trial, and displayed hanging in a Milan piazza: on the same square where Fascist authorities had displayed partisan bodies the previous summer." },
+  ],
+  // From Dispatches 1941.
+  japan: [
+    { term: "The China War's Unresolved Peace, 1937–40", note: "Prince Konoe's government declared in January 1938 that it would no longer deal with Chiang Kai-shek's government at all, foreclosing a negotiated settlement many historians consider to have been available on relatively generous terms at the time: a decision whose cost in tied-up divisions compounded for the rest of the war." },
+    { term: "The Road to War, 1940–41", note: "The Tripartite Pact, the occupation of southern Indochina, and the resulting American oil embargo, in that order, did more to set the war's actual deadline than any single decision made after Pearl Harbor. The Hull Note in November 1941 closed the last diplomatic track Ambassador Nomura and Prince Konoe had spent the year trying to keep open." },
+    { term: "Army-Navy Rivalry", note: "Japan's Army and Navy ran separate codebreaking bureaus, separate intelligence networks, and separate aircraft procurement programs throughout the war, with well-documented duplication and poor coordination between them. Unlike Germany's or the Allies' eventual joint command structures, no serious wartime attempt at unification succeeded." },
+    { term: "Kantokuen, Summer 1941", note: "Nearly 700,000 Kwantung Army troops secretly mobilized on the Manchurian border for a possible strike into Siberia while Germany's invasion of the Soviet Union appeared to be succeeding, quietly stood down by late August once Soviet resistance around Smolensk proved harder than expected. It was the last live moment for the Army's decade-long preference for a war against Russia over the Navy's war against the resource-rich south." },
+    { term: "The Southern Operation, 1941–42", note: "The whole point of the war from Tokyo's side: seizing the oil, rubber, and tin of Southeast Asia and the Indies after the American oil embargo made continuing the China war, on the existing footing, a matter of months rather than years." },
+    { term: "Pearl Harbor, December 1941", note: "A tactical triumph that missed the fleet's carriers and its fuel and repair infrastructure: the two assets that mattered most for the year that followed. It also unified American opinion behind the war overnight, the one outcome Yamamoto's plan could least afford." },
+    { term: "The Fall of Rangoon, March 1942", note: "Fifteenth Army's capture of Rangoon closed the Burma Road, China's only land connection to Western supply, and forced the rest of the war's China lifeline through the far lower-capacity Hump airlift over the Himalayas." },
+    { term: "The Doolittle Raid, April 1942", note: "Sixteen Army bombers hit Tokyo and four other cities in a raid that killed almost nobody and destroyed almost nothing physically, but the shock of the home islands proving vulnerable is widely credited with silencing the remaining internal skepticism about the Midway operation." },
+    { term: "The Captured Airmen, August 1942", note: "Eight of the raid's eighty airmen were captured and tried on an unsubstantiated charge of strafing civilians. Three were executed by firing squad; the Emperor commuted the remaining five death sentences, one of whom later died of malnutrition in captivity." },
+    { term: "Midway, June 1942", note: "Four fleet carriers and their veteran air crews lost in a single morning, in a five-to-six-minute window that turned on American codebreaking and a dive-bomber squadron arriving just as Japanese flight decks were loaded and exposed. Japan's carrier arm never recovered the trained air crews this battle cost." },
+    { term: "The Peace Question Never Asked, 1942", note: "No documented Japanese peace feeler toward Washington exists from 1942. Admiral Yonai's real, well-recorded skepticism about the war never translated into a concrete initiative before 1945, and Roosevelt's unconditional surrender doctrine, declared at Casablanca in January 1943, closed even the theoretical window explored here as one of the campaign's most speculative forks." },
+    { term: "The UN Charter's Enemy-State Clauses, 1945", note: "The United Nations Charter, signed at San Francisco by fifty Allied nations, named Japan and Germany directly in its enemy-state clauses (Articles 53 and 107). Japan did not become a UN member until December 1956, after a peace treaty and years of Soviet veto obstruction, a decade after the war this alternate path imagines Japan never fighting." },
+    { term: "The Kokoda Track, 1942", note: "Horii's South Seas Detachment pushed to within thirty miles of Port Moresby along a single mountain foot-track before an unsustainable supply line forced a withdrawal that became its own catastrophe: of roughly 13,000 men committed across the campaign, fewer than half remained fit to fight by the time it ended." },
+    { term: "The Australia Invasion That Never Was, 1942", note: "Japan's Army General Staff studied and rejected an invasion of Australia in real 1942 planning, concluding the necessary shipping tonnage simply didn't exist and any attempt would starve every other front. It never reached operational planning, let alone an actual landing." },
+    { term: "Guadalcanal, 1942–43", note: "Not the decisive battle either side planned for, but a half-year campaign of attrition: night destroyer actions, jungle starvation, and a steady bleed of naval air crews Japan's training pipeline had no capacity to replace at the historical rate." },
+    { term: "Yamamoto's Death, April 1943", note: "American codebreakers intercepted his detailed flight itinerary and shot his aircraft down over Bougainville. Japan concealed his death from the public for over a month, informing the Emperor immediately but timing the public announcement for the least damaging moment available." },
+    { term: "U-Go and Ichi-Go, 1944", note: "Japan's two largest mainland offensives of the war, launched almost simultaneously: Ichi-Go overran American airbases in China and succeeded tactically; U-Go's invasion of India via Imphal and Kohima, launched on a twenty-day ration assumption, became one of the Imperial Army's costliest defeats anywhere in the war." },
+    { term: "Ichi-Go's Strategic Value", note: "Despite being the largest and most successful Japanese ground offensive of the war by territory taken, historians generally consider Ichi-Go to have had little to no effect on the war's actual outcome, which was being decided by submarine blockade and strategic bombing, neither of which the China theater could touch." },
+    { term: "Operation Ke-Go, January–February 1943", note: "Roughly 11,000 Japanese soldiers were evacuated from Guadalcanal in twenty destroyer runs, under a deception plan convincing enough that American command didn't recognize the withdrawal for what it was until it was essentially complete, one of the more skillful logistics operations either side managed in the entire war." },
+    { term: "Attu, May 1943", note: "Of a roughly 2,600-man Japanese garrison cut off in the Aleutians, fewer than 30 were taken alive after Colonel Yamasaki led a final banzai charge on May 29th. It was the first mass banzai charge of the war on this scale, a pattern later repeated at far greater scale at Saipan and Okinawa." },
+    { term: "The Marianas Turkey Shoot, June 1944", note: "Roughly 600 Japanese aircraft destroyed in a single battle against a handful of American losses: the worst single-day defeat of Japanese naval aviation in the war, and the effective end of Japan's carrier-pilot training pipeline as a serious fighting force." },
+    { term: "Taffy 3 and Kurita's Withdrawal, October 1944", note: "Kurita's battleship force broke through San Bernardino Strait to find only a single escort carrier group, Taffy 3, and its destroyers standing between his guns and Leyte's vulnerable invasion transports. After a fierce defense by the destroyers and amid fragmentary intelligence about American carrier strength, Kurita withdrew rather than pressing the attack, a decision historians still debate as one of the war's most consequential command choices." },
+    { term: "Organized Kamikaze Doctrine, October 1944", note: "Vice Admiral Onishi proposed formally organizing suicide attacks as First Air Fleet doctrine at Leyte Gulf, reasoning that a force reduced to roughly thirty operational aircraft had no other way to meaningfully strike an American carrier force. The doctrine spread to become official Navy and Army policy for the rest of the war." },
+    { term: "Leyte Gulf, October 1944", note: "The Imperial Navy's last major operation and the largest naval battle in history by some measures. Kurita's battleship force broke through to the invasion beaches and then withdrew, a decision still argued over; the surface navy ceased to exist as an offensive force afterward regardless." },
+    { term: "Iwo Jima and Okinawa, 1945", note: "The last two island battles before the home islands. Iwo Jima cost the Marine Corps its highest single-battle death toll of the war against a tunnel-dug defense that abandoned beach-defense doctrine entirely; Okinawa's Kikusui kamikaze campaign, including the battleship Yamato's one-way sortie, became the costliest single battle of the Pacific War for the U.S. Navy." },
+    { term: "Ketsu-Go and the Surrender, 1945", note: "Japan's home-islands defense plan assumed the political cost of an invasion could be made unbearable for America. Two atomic bombs and a Soviet declaration of war, inside a single week in August, forced a surrender the war ministry's hardliners had not planned an exit from." },
+    { term: "Stalin's Yalta Commitment, February 1945", note: "Stalin secretly promised Roosevelt at Yalta that the Soviet Union would enter the Pacific war within roughly three months of Germany's surrender, in exchange for territorial concessions in Manchuria, the Kurils, and southern Sakhalin. Tokyo's real, contemporaneous outreach to Moscow as a peace mediator went unanswered because Stalin had already committed against Japan months before the approach was made." },
+    { term: "The I-400 and the Panama Canal, 1945", note: "The largest submarines built by any navy in the war, ordered by Yamamoto before his 1943 death specifically to bomb the Panama Canal's lock gates. Real preparations were halted on June 25, 1945, redirected toward American forces massing at Ulithi Atoll instead; a missed radio rendezvous pushed that attack to August 25th, thirteen days after the actual surrender, and it never happened either." },
+  ],
+  alliedPacific: [
+    { term: "The Oil Embargo, July–August 1941", note: "Japan's occupation of southern Indochina triggered an American asset freeze that hardened, largely through strict administrative implementation rather than an explicit presidential order, into a near-total oil embargo: the single biggest factor in Japan's eighteen-month war clock, set five months before Pearl Harbor." },
+    { term: "Arcadia, December 1941 – January 1942", note: "Roosevelt and Churchill confirmed Germany as the priority enemy within weeks of Pearl Harbor: a decision Admiral King spent the rest of the war contesting, without ever formally overturning it." },
+    { term: "Executive Order 9066, February 1942", note: "Authorized the forced removal of roughly 120,000 Japanese Americans, most of them citizens, from the West Coast, on a military necessity claim later government reviews found unsupported by actual evidence. Attorney General Biddle's Justice Department opposed it and lost the argument." },
+    { term: "Ambassador Grew's Warning, 1941", note: "Joseph Grew's real cables from Tokyo repeatedly warned Washington that a total oil embargo would strengthen Japan's war faction's argument that negotiation had failed, rather than restraining Japanese expansion. Historians still debate whether a more calibrated embargo could have delayed or altered the path to Pearl Harbor." },
+    { term: "Wake Island's Relief Force, December 1941", note: "A relief force built around the carrier Saratoga was recalled roughly a day before it would have reached the besieged Wake garrison, which surrendered on December 23rd after repelling an earlier invasion attempt outright. The decision remains one of the most disputed command calls of the early Pacific war." },
+    { term: "The Casablanca Declaration, January 1943", note: "Roosevelt announced unconditional surrender as declared Allied policy against Germany, Italy, and Japan alike. Historians remain divided on whether removing any negotiated off-ramp prolonged Japanese resistance or made no difference to a war ministry that was never going to negotiate regardless." },
+    { term: "The Battle of the Bismarck Sea, March 1943", note: "Every transport in an eight-ship Japanese convoy was sunk by Fifth Air Force skip-bombing, killing roughly 3,000 of the roughly 6,900 troops aboard. Japan effectively abandoned daylight convoy reinforcement of New Guinea by sea afterward, one of the most lopsided air-versus-naval engagements of the war." },
+    { term: "Tarawa's Public Reckoning, November 1943", note: "Over a thousand Marines died in seventy-six hours taking Betio, and Life magazine's publication of photographs showing American dead in the surf, over Navy objection, shocked the public and prompted real Congressional scrutiny of assault-doctrine casualties, though it never actually forced a change in operational strategy." },
+    { term: "Stalin's Tehran Promise, November 1943", note: "Stalin privately told Roosevelt at Tehran that the Soviet Union would enter the Pacific war after Germany's defeat, formalized fourteen months later at Yalta and honored to the letter in August 1945. The Eastern Front's manpower needs were never seriously negotiable before Germany's actual collapse." },
+    { term: "The Retreat from Burma, 1942", note: "Still called, without much exaggeration, the longest retreat in British military history: nearly a thousand miles from Rangoon to the Indian frontier, fought the entire way. The army Slim rebuilt from it became Fourteenth Army, which broke Japan at Imphal and Kohima two years later." },
+    { term: "Curtin's Turn, 1941–42", note: "Prime Minister Curtin's December 1941 declaration that Australia looked to America rather than Britain for defense, followed by his defiance of Churchill's attempt to redirect Australian troops from home defense to Burma, is generally credited as the real, lasting rupture point in Australian-British strategic relations." },
+    { term: "Quezon's Death and Philippine Independence, 1944–46", note: "President Manuel Quezon died in August 1944, weeks before the Leyte landing he had spent years pressing for; Vice President Osmeña succeeded him and waded ashore beside MacArthur. The Philippines became independent on schedule on July 4, 1946, alongside a Military Bases Agreement granting the United States extensive, long-contested access to Clark Field, Subic Bay, and other installations." },
+    { term: "The Order to Leave, March 1942", note: "Roosevelt ordered MacArthur to leave the besieged Philippines for Australia rather than remain with his garrison. MacArthur reportedly considered defying the order to stay and fight or die with his men before ultimately complying, departing by PT boat and submarine relay." },
+    { term: "The Doolittle Raid, April 1942", note: "Sixteen B-25s launched from carriers on a one-way mission gave American morale its first unambiguous good headline after four months of defeats, and inside Imperial Headquarters, the raid's shock is credited with silencing the last skepticism about Midway's accelerated timetable." },
+    { term: "Midway, June 1942", note: "American codebreakers identified the target and date weeks in advance; Yorktown was patched in seventy-two hours against a ninety-day repair estimate to sail as a third carrier the Japanese plan didn't expect. Four Japanese fleet carriers were destroyed for one American loss." },
+    { term: "The Kokoda Track, 1942", note: "Australian militia conducted a skillful fighting withdrawal down the track that MacArthur, without having visited it himself, publicly read as a failure of nerve: a criticism military historians now generally consider unfair and a lasting source of friction between American and Australian commands." },
+    { term: "Guadalcanal, August 1942", note: "The first American offensive of the Pacific war, launched well ahead of what Joint Chiefs staff studies said an operation this size should attempt: held for six months on a logistical shoestring that became the campaign that started converting American production into a Pacific-wide offensive." },
+    { term: "Savo Island, August 1942", note: "Four Allied heavy cruisers sunk in under an hour by a Japanese night attack four days into the Guadalcanal landing, one of the worst single defeats in U.S. Navy history. The subsequent inquiry found real, specific command and doctrine failures and became a turning point in how the Navy handled night surface combat for the rest of the war." },
+    { term: "Island-Hopping, 1943–44", note: "Nimitz's strategy of bypassing heavily fortified positions like Truk rather than assaulting them directly: starving tens of thousands of Japanese troops on isolated islands for the rest of the war while the advance moved past them." },
+    { term: "MacArthur and the Chain of Command", note: "MacArthur repeatedly used friendly press contacts to argue his preferred strategy over agreed Joint Chiefs doctrine throughout the Pacific War, a tolerated pattern of insubordination that finally cost him his command seven years later, in Korea, not in World War II." },
+    { term: "The Philippine Sea and Spruance's Caution, June 1944", note: "Spruance's decision to keep Task Force 58 close to the Saipan landing rather than releasing it to hunt Ozawa's fleet remains one of the more disputed command calls of the war: the 'Turkey Shoot' gutted Japanese naval aviation regardless, but Ozawa's carrier hulls escaped, a fact Mitscher and other aviators argued for years represented a missed opportunity." },
+    { term: "Typhoon Cobra, December 1944", note: "Halsey's Third Fleet sailed into a typhoon whose track his staff misjudged, losing three destroyers and nearly 800 sailors, more than some actual naval battles cost. A court of inquiry found questionable judgment and recommended no punitive action; Halsey repeated a similar error in a second typhoon six months later." },
+    { term: "The Stilwell-Chiang Crisis and Ichi-Go, 1944", note: "Chronic friction between Stilwell and Chiang over command and supply came to a head during Ichi-Go's advance; Stilwell was recalled from China in October 1944 at Chiang's explicit demand, the same year the Dixie Mission's observers at Yan'an were reporting Communist forces fighting the occupation more effectively than the Nationalist front." },
+    { term: "The Ledo Road and Burma's Reconquest, 1945", note: "Slim's Fourteenth Army retook Burma in early 1945, and the Ledo Road, an overland supply route into China built through the reconquered north, opened that same year, so late in the war that the Hump airlift it was meant to supplement was already carrying more tonnage than the finished road ever did." },
+    { term: "The Shift to Incendiary Bombing, March 1945", note: "LeMay's low-altitude firebombing campaign against Japanese cities began with the March 9–10, 1945 Tokyo raid, which killed an estimated 100,000 people in a single night: the deadliest bombing raid in history, exceeding either atomic bomb's immediate death toll." },
+    { term: "The Franck Report and the Demonstration Question, 1945", note: "A group of Manhattan Project scientists formally proposed demonstrating the atomic bomb on an uninhabited site before any use on a populated city. The Interim Committee rejected the idea, citing the limited number of bombs available and the risk that a failed or unimpressive demonstration would embolden rather than deter Japan's war ministry." },
+    { term: "Target Selection, 1945", note: "Kyoto was removed from the target list by Secretary of War Stimson personally over the objections of officers who considered it operationally ideal. Nagasaki was not the original secondary target for the second bomb; cloud cover over the primary target, Kokura, forced a last-minute switch on the day of the mission." },
+    { term: "USS Indianapolis, July 1945", note: "Sunk four days after delivering components used in the atomic strikes; roughly 300 of her crew died in the sinking and hundreds more over four days awaiting rescue after her overdue status went unreported through a routing failure spread across multiple stations. Captain McVay was the only U.S. Navy captain court-martialed for losing his ship to enemy action in the entire war." },
+    { term: "Stalin's Hokkaido Request, August 1945", note: "The Soviet Union requested an occupation zone on northern Hokkaido, mirroring the division of Germany. Truman refused, and American forces secured the island before any serious Soviet landing could be mounted: a decision with major, largely unexplored consequences for Japan's postwar political shape." },
+    { term: "The Emperor Question, September 1945", note: "MacArthur argued strongly against prosecuting Hirohito, warning it would require far more occupation troops than were available. Hirohito retained the throne, stripped of official divine status; Tojo's war cabinet was tried separately, and several members were executed." },
+    { term: "MacArthur's Occupation Authority, 1945–51", note: "MacArthur governed occupied Japan for six years with extraordinarily broad personal authority, largely outmaneuvering or ignoring the nominal Far Eastern Commission meant to provide Allied oversight. Britain and the Soviet Union both reportedly favored a more shared governing structure. Truman relieved him of an unrelated Korean War command in 1951 in one of the more consequential civil-military confrontations in American history." },
+    { term: "Leyte Gulf and the Philippines, 1944", note: "MacArthur's argument for liberating the Philippines outright won out over the Navy's preference for bypassing them for Formosa: a decision that drew the Imperial Navy's remaining strength into the war's largest naval battle." },
+    { term: "The Bomb and the Planned Invasion, 1945", note: "Operation Downfall, the invasion of Kyushu and Honshu, was prepared in full at casualty estimates that directly shaped the decision to use the atomic bombs instead. The invasion was never executed; the plan still shaped how the war actually ended." },
+    { term: "Peleliu, September–November 1944", note: "Codenamed Stalemate II, the assault on a small, heavily fortified island cost roughly 1,800 American dead against a Japanese garrison of about 10,900, nearly all of whom fought to their deaths in a cave-and-tunnel defense that became the template for Iwo Jima and Okinawa. Historians still widely debate whether it was strategically necessary at all, given how thoroughly the Central Pacific advance had already bypassed the wider Palau group." },
+    { term: "Project X-Ray, 1942–44", note: "A real, funded Army and later Navy program to attach small incendiary bombs to hibernating Mexican free-tailed bats and release them over Japanese cities before dawn. Testing showed it was more fire-efficient per pound than conventional incendiaries; Fleet Admiral King cancelled the program in 1944 once it became clear it couldn't reach combat readiness before the Manhattan Project would." },
   ],
 };
 
@@ -33541,7 +33765,7 @@ function battleDecisionEffect(option, postureId) {
 }
 
 // Round 23: the campaign hard modes that can put orders from above on a battle (config.hardRule).
-const HARD_MODE_NAMES = { iron: T("Führer Mode"), purge: T("NKVD Mode"), coalition: T("Coalition Mode"), axis: T("Axis Mode") };
+const HARD_MODE_NAMES = { iron: T("Führer Mode"), purge: T("NKVD Mode"), coalition: T("Coalition Mode"), axis: T("Axis Mode"), fanatical: T("Fanatical Resolve Mode") };
 
 // Round 23: how a Matériel strand's reading (see materielReadout in logic.ts) changes the weight an
 // arm can bring. Each category may name the strand it draws on (category.strand: "oil", "ammo",
@@ -33746,6 +33970,28 @@ const DIVERGENCE_FORKS = {
     { id: "fleetRepairedFast", flag: "forkFleetFast", revealNode: "tarantoDoctrine40", endingCapable: false },
     { id: "desertGapNarrower", flag: "forkDesertGap", revealNode: "compass40", endingCapable: false },
   ],
+  // From Dispatches 1941.
+  japan: [
+    // Real: Yorktown's Coral Sea damage was estimated at 90 days' repair; Nimitz demanded
+    // three, and the Pearl Harbor yard delivered — 1,400 men working around the clock,
+    // standard safety protocol waived, one plate welded over the worst of the hull damage
+    // rather than a proper repair. The dockyard officer who got the order is recorded as
+    // having "gulped" before saying it could be done. This was a genuinely contingent,
+    // scrambled effort, not a foregone conclusion — a divergence where it drags past three
+    // days or fails outright is real, not invented. (Source: Defense Media Network, "You've
+    // Got Three Days: Repairing the Yorktown After Coral Sea.")
+    { id: "yorktownDelayed", flag: "forkYorktownDelayed", revealNode: "coralSea42", endingCapable: false },
+  ],
+  alliedPacific: [
+    // Real: the Japanese cruiser Tone's No. 4 scout plane launched roughly 30 minutes late on
+    // the morning of Midway, cutting its search leg short — popularly blamed for the Japanese
+    // defeat. Naval historians' actual assessment inverts that: had it launched on schedule
+    // and flown the full prescribed leg, it would have missed the American task force
+    // entirely. The late, shortened search was "one of Nagumo's few lucky breaks," not a
+    // costly mistake — a real, ironic, well-documented contingency. (Source: Naval History
+    // and Heritage Command, H-Gram 006.)
+    { id: "toneOnTime", flag: "forkToneOnTime", revealNode: "kokodaTrailAllied42", endingCapable: false },
+  ],
 };
 
 // Reveal bulletins for each fork — same shape as WIRE_HEADLINES ({id, year, month, headline,
@@ -33776,6 +34022,21 @@ const DIVERGENCE_HEADLINES = {
   rhodesGarrisonWeak: { id: "rhodesGarrisonWeak", year: 1943, month: "SEPTEMBER", headline: "Rhodes Garrison Reported Below Full Strength", dek: "Aerial reconnaissance ahead of any Aegean move suggests the island's defenders may be fewer than the planning figures assumed. Confidence in the estimate is, so far, limited." },
   fleetRepairedFast: { id: "fleetRepairedFast", year: 1940, month: "DECEMBER", headline: "Taranto-Damaged Battleships Reported Ahead of Repair Schedule", dek: "Naval yard officials describe work on the crippled battle line proceeding faster than the fleet's own engineers initially projected, though no return-to-service date is yet being made public." },
   desertGapNarrower: { id: "desertGapNarrower", year: 1940, month: "DECEMBER", headline: "Western Desert Camps Reported Partially Linked Ahead of British Push", dek: "Engineers report some progress closing the gap between the fortified camps west of Sidi Barrani, though how much of the line is actually continuous remains unclear even to Comando Supremo." },
+  // From Dispatches 1941.
+  yorktownDelayed: {
+    id: "yorktownDelayed",
+    year: 1942,
+    month: "JUNE",
+    headline: "Naval Intelligence: American Carrier Repair Efforts Reportedly Faltering",
+    dek: "Reports reaching this staff describe difficulty within the American Pacific Fleet returning its Coral Sea casualty to service on the timetable earlier intercepts suggested. Whether this changes the number of flight decks actually opposing this command's next operation cannot yet be confirmed with certainty.",
+  },
+  toneOnTime: {
+    id: "toneOnTime",
+    year: 1942,
+    month: "JUNE",
+    headline: "Signals Analysis: Japanese Scout Pattern May Have Flown as Originally Planned",
+    dek: "A postwar-style review of the intercepted search pattern flown ahead of the Midway engagement suggests the cruiser-launched scout aircraft credited with the contact report may in fact have held to its original assigned leg rather than the shortened one earlier accounts described. Fleet intelligence notes the distinction matters less for what was found than for how easily, on this specific morning, it might not have been.",
+  },
 };
 
 function rollDivergenceForks(campaignId) {
@@ -33823,7 +34084,7 @@ function migrateSave(saved) {
   return s;
 }
 
-const NODE_TOTAL = 300; // 105 German + 71 Soviet + 63 Allied + 61 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 30: Allied +5 for the prelude: saar39, dyle39, altmarkRaid40, finland40 and wilfred40; Italian +4: nonBelligerence39, coal40, brenner40 and memo40.) (Round 29: German +5 for the prelude: fallWeiss39, phoneyWar39, mechelen40, altmark40 and ore40.) (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
+const NODE_TOTAL = 451; // 105 German + 71 Soviet + 63 Allied + 61 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 30: Allied +5 for the prelude: saar39, dyle39, altmarkRaid40, finland40 and wilfred40; Italian +4: nonBelligerence39, coal40, brenner40 and memo40.) (Round 29: German +5 for the prelude: fallWeiss39, phoneyWar39, mechelen40, altmark40 and ore40.) (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 // Framing quotes shown on entering the War Room. Where a clean, verified, short quote from
 // the actual command figure at this moment exists, it's used with a real name and date. Where
@@ -33831,6 +34092,17 @@ const NODE_TOTAL = 300; // 105 German + 71 Soviet + 63 Allied + 61 Italian — c
 // specific window), the line is left unattributed rather than inventing a false citation —
 // same standard the Pacific build's advisor dossier work established.
 const CAMPAIGN_WAR_ROOM_QUOTE = {
+  // From Dispatches 1941 (its LEADER_QUOTES). Yamamoto's words are as Prince Konoe recorded them in his memoir.
+  japan: {
+    text: "In the first six months to a year of war with the United States and Britain I will run wild and win victory after victory. But then, if the war continues after that, I have no expectation of success.",
+    speaker: "Admiral Yamamoto Isoroku",
+    date: "to Prince Konoe, September 1940",
+  },
+  alliedPacific: {
+    text: "Yesterday, December 7, 1941, a date which will live in infamy.",
+    speaker: "Franklin D. Roosevelt",
+    date: "address to Congress, December 8, 1941",
+  },
   soviet: {
     text: "A grave danger hangs over our country.",
     speaker: "Joseph Stalin",
@@ -33854,7 +34126,7 @@ const CAMPAIGN_WAR_ROOM_QUOTE = {
 // war context and mechanics, not the name's own backstory — so EASY_MODE_NOTES (which used to
 // open with "Named for the X — a Y...") was retired in favor of warRoomModeInfo()'s shared
 // mechanics-only fallback text, identical in substance across all four campaigns anyway.
-const EASY_MODE_NAMES = { german: T("Elefant Command"), soviet: T("T-35 Command"), allied: T("Defiant Command"), italy: T("Breda Command") };
+const EASY_MODE_NAMES = { german: T("Elefant Command"), soviet: T("T-35 Command"), allied: T("Defiant Command"), italy: T("Breda Command"), japan: T("Shinano Command"), alliedPacific: T("Mark 14 Command") };
 
 function warRoomModeInfo(mode, campaignId) {
   const names = {
@@ -33864,7 +34136,9 @@ function warRoomModeInfo(mode, campaignId) {
     purge: t("NKVD Mode"),
     coalition: t("Yalta Mode"),
     axis: t("Axis Mode"),
+    fanatical: t("Fanatical Resolve Mode"),
   };
+  if (campaignId === "alliedPacific") names.coalition = t("Coalition Resolve Mode");
   const hard = !!HARD_MODE_NAMES[mode];
   const summaries = {
     easy: t("Each choice shows what it will do to the meters, the choice the record made is marked, and you can rewind."),
@@ -33873,12 +34147,15 @@ function warRoomModeInfo(mode, campaignId) {
     purge: t("No rewind, and the NKVD is watching: five counts of suspicion end in a recall."),
     coalition: t("No rewind. Overriding a partner's strong objection costs Coalition Cohesion, and a broken alliance relieves you."),
     axis: t("No rewind. Berlin watches every act of independent Italian judgment, and losing its trust ends the command."),
+    fanatical: t("No rewind. IGHQ's tolerance for choices that break with dogma is counted out of 5: each draws a charge of insubordination, and at 5 the file ends in a coup."),
   };
+  if (campaignId === "alliedPacific") summaries.coalition = t("No rewind. Overriding a partner's strong objection costs Coalition Resolve between Washington, London, Chongqing and Canberra, and a broken coalition relieves you.");
   const trackerRules = {
     iron: t("Political capital: you have five points to spend defying the historical command. Five defiances and you are dismissed."),
     purge: t("Suspicion rises as you defy the apparatus, counted out of 5. At 5 you are recalled."),
     coalition: t("Coalition Cohesion falls when you override a partner's strong objection. At -6 the alliance relieves you of command."),
     axis: t("German Trust falls when Berlin notices independent Italian judgment. At -5 you are superseded."),
+    fanatical: t("Insubordination rises with each choice that breaks with dogma, counted out of 5. At 5 the hardliners remove you."),
   };
   const rules = hard
     ? [
@@ -33895,7 +34172,7 @@ function warRoomModeInfo(mode, campaignId) {
 }
 
 // The hard mode of each campaign.
-const HARD_MODE_OF = { german: "iron", soviet: "purge", allied: "coalition", italy: "axis" };
+const HARD_MODE_OF = { german: "iron", soviet: "purge", allied: "coalition", italy: "axis", japan: "fanatical", alliedPacific: "coalition" };
 
 // The Pacific battles that open on the Order of Battle screen. Each entry of KEY_BATTLE_CONFIGS is the `keyBattleSubgame` of the
 // choice that hosts it, and the registries in 25-battle-subgame.jsx are filled in below, keyed by the same id. Facts were checked on
@@ -36379,6 +36656,84 @@ function WarRoomDocOKW({ campaign, modeInfo, easy }) {
   );
 }
 
+function WarRoomDocIGHQ({ campaign, modeInfo, easy }) {
+  return (
+    <>
+      <div className="flex justify-between items-start mb-3">
+        <div style={{ fontFamily: "'IBM Plex Mono', monospace" }} className="text-left">
+          <div className="text-[10px] font-bold tracking-[0.18em]" style={{ color: campaign.accent }}>
+            大本營 · IMPERIAL GENERAL HEADQUARTERS
+          </div>
+          <div className="text-[9px] text-[#555] mt-0.5">{campaign.name}</div>
+        </div>
+        <div className="briefing-stamp-okw" style={{ border: `2.5px solid ${campaign.accent}`, color: campaign.accent }}>
+          極秘
+        </div>
+      </div>
+      <div className="briefing-fields-okw" style={{ borderTop: "1px solid #ccc4b8", borderBottom: "1px solid #ccc4b8" }}>
+        <span>件名.</span>
+        <span>
+          <b>{campaign.name}</b>
+        </span>
+        <span>日付.</span>
+        <span>{campaign.dates}</span>
+      </div>
+      {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id] && (
+        <p className="text-[14px] italic leading-relaxed mb-4 text-[#000000] text-left" style={{ fontFamily: "'Courier Prime', monospace" }}>
+          "{CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].text}"
+          {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker && (
+            <span className="block not-italic text-[11px] uppercase tracking-widest font-semibold mt-1 opacity-60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              — {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker}, {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].date}
+            </span>
+          )}
+        </p>
+      )}
+      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#595959", fontFamily: "'IBM Plex Mono', monospace" }}>
+        配布: 大本營陸軍部 / 海軍部: ARMY AND NAVY SECTIONS ONLY
+      </div>
+    </>
+  );
+}
+
+function WarRoomDocCINCPAC({ campaign, modeInfo, easy }) {
+  return (
+    <>
+      <div className="flex justify-between items-start mb-3">
+        <div style={{ fontFamily: "'IBM Plex Mono', monospace" }} className="text-left">
+          <div className="text-[10px] font-bold tracking-[0.18em]" style={{ color: campaign.accent }}>
+            COMMANDER IN CHIEF, U.S. PACIFIC FLEET
+          </div>
+          <div className="text-[9px] text-[#555] mt-0.5">{campaign.name}</div>
+        </div>
+        <div className="briefing-stamp-okw" style={{ border: `2.5px solid ${campaign.accent}`, color: campaign.accent }}>
+          SECRET
+        </div>
+      </div>
+      <div className="briefing-fields-okw" style={{ borderTop: "1px solid #ccc4b8", borderBottom: "1px solid #ccc4b8" }}>
+        <span>SUBJ.</span>
+        <span>
+          <b>{campaign.name}</b>
+        </span>
+        <span>DATE.</span>
+        <span>{campaign.dates}</span>
+      </div>
+      {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id] && (
+        <p className="text-[14px] italic leading-relaxed mb-4 text-[#000000] text-left" style={{ fontFamily: "'Courier Prime', monospace" }}>
+          "{CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].text}"
+          {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker && (
+            <span className="block not-italic text-[11px] uppercase tracking-widest font-semibold mt-1 opacity-60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              — {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker}, {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].date}
+            </span>
+          )}
+        </p>
+      )}
+      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#595959", fontFamily: "'IBM Plex Mono', monospace" }}>
+        DISTRIBUTION: CINCPAC / COMINCH: OFFICIAL FILES ONLY
+      </div>
+    </>
+  );
+}
+
 function WarRoomDocComandoSupremo({ campaign, modeInfo, easy }) {
   return (
     <>
@@ -37702,7 +38057,7 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   useEffect(() => {
     if (headingRef.current) headingRef.current.focus();
   }, [campaign.id, mode]);
-  const Doc = { german: WarRoomDocOKW, soviet: WarRoomDocSTAVKA, allied: WarRoomDocSHAEF, italy: WarRoomDocComandoSupremo }[campaign.id] || WarRoomDocOKW;
+  const Doc = { german: WarRoomDocOKW, soviet: WarRoomDocSTAVKA, allied: WarRoomDocSHAEF, italy: WarRoomDocComandoSupremo, japan: WarRoomDocIGHQ, alliedPacific: WarRoomDocCINCPAC }[campaign.id] || WarRoomDocOKW;
 
   // Historical Divergence Mode toggle. Available from a player's very first run of a campaign —
   // Round 11 (Craig: "Can the make the historically accurate unlock available from the
@@ -39017,6 +39372,10 @@ const COMMS = {
   soviet: [[1939, 16], [1941, 30], [1942, 20], [1943, 12], [1944, 8]],
   allied: [[1939, 10], [1942, 8], [1944, 5]],
   italy: [[1939, 14], [1941, 24], [1943, 20], [1944, 16]],
+  // The two Pacific commands (modelled like the rows above): IGHQ in Tokyo, its news slower as the perimeter stretches in 1942 and as shipping and
+  // the outlying garrisons are cut off from 1944; CINCPAC at Pearl Harbor, its news quicker as radio, aircraft and staff grow through 1943.
+  japan: [[1939, 12], [1942, 18], [1944, 30]],
+  alliedPacific: [[1940, 12], [1942, 14], [1943, 8]],
 };
 // THE CONDITIONS OF A REPORT (the conditions of 1914's 48-conditions.jsx, for 1940)
 //
@@ -39528,7 +39887,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
                 className="text-[12px] text-[#000000] border-l-4 pl-2 mb-1"
                 style={{ borderColor: "#7a2e2e", fontFamily: "'Courier Prime', monospace" }}
               >
-                {t("{p}{p2}: ended {p3}{p4}", { p: r.mode === "iron" ? "⚔ " : r.mode === "purge" ? "☭ " : r.mode === "coalition" ? "★ " : r.mode === "axis" ? "⚖ " : "", p2: r.label || t("War concluded"), p3: r.endDate || "—", p4: r.rank ? ` · ${r.rank}` : "" })}
+                {t("{p}{p2}: ended {p3}{p4}", { p: r.mode === "iron" ? "⚔ " : r.mode === "purge" ? "☭ " : r.mode === "fanatical" ? "⚔ " : r.mode === "coalition" ? "★ " : r.mode === "axis" ? "⚖ " : "", p2: r.label || t("War concluded"), p3: r.endDate || "—", p4: r.rank ? ` · ${r.rank}` : "" })}
               </div>
             ))}
           </div>
@@ -42127,7 +42486,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
   const [showMap, setShowMap] = useState(false);
   const easy = mode === "easy";
   const iron = mode === "iron";
-  const purge = mode === "purge";
+  // Japan's Fanatical Resolve is the same rule as the NKVD mode: a count of suspicion out of five (flags.suspicion).
+  const purge = mode === "purge" || mode === "fanatical";
   const coalition = mode === "coalition";
   const axis = mode === "axis";
   const noRewind = iron || purge || coalition || axis;
@@ -45056,6 +45416,74 @@ const INTEL_ITEMS = {
         truth: "The British attacked on 9 December through the gap and took the camps one at a time, Nibeiwa first, from the rear. Within days the Tenth Army was beaten and tens of thousands of its men were prisoners." },
     ],
   },
+  // From Dispatches 1941.
+  japan: {
+    pearlHarbor41: [
+      { id: "anchor", grade: "firm", holds: true, relied: [0, 2], source: "the consulate's reports from Honolulu",
+        text: "The American battleships will lie at anchor at Pearl Harbor on a Sunday morning, with no warning given and no ship ready for sea.",
+        truth: "On 7 December the battleships were at their moorings and eight of them were hit. 2,403 Americans were killed. The three American carriers were not in the harbor." },
+      { id: "year", grade: "doubtful", holds: false, relied: [0, 2], source: "Yamamoto's own estimate",
+        text: "A blow at Pearl Harbor will leave the American fleet unable to act in the Pacific for a year or more.",
+        truth: "The carriers survived, and the shipyards, repair shops and oil tanks were untouched. Six of the eight battleships that were hit were repaired and returned to service, and American carriers were fighting at Coral Sea within five months." },
+    ],
+    midway42: [
+      { id: "carriers", grade: "firm", holds: false, relied: [0, 2], source: "the Combined Fleet staff's plan",
+        text: "The American carriers will not come out until after the landing on Midway, and at most one or two of them will be in the area.",
+        truth: "Station HYPO had read the plan. Nimitz had three carriers, Enterprise, Hornet and Yorktown, waiting north east of Midway before the Japanese carriers arrived, and Yorktown had been patched in seventy-two hours at Pearl Harbor." },
+    ],
+    guadalcanal42: [
+      { id: "small", grade: "firm", holds: false, relied: [0], source: "the Army's estimate in August",
+        text: "The Americans on Guadalcanal are few, and a detachment of a few hundred men can retake the airfield before reinforcements come.",
+        truth: "Ichiki's first echelon, about 900 men, attacked at the Tenaru river on the night of 20 to 21 August against prepared Marine positions, and most of it was killed." },
+    ],
+    leyteGulf44: [
+      { id: "bait", grade: "doubtful", holds: true, relied: [0], source: "Ozawa's plan for the decoy force",
+        text: "The American fast carriers will go north after Ozawa's carriers and leave San Bernardino Strait uncovered.",
+        truth: "Halsey took the Third Fleet's carriers north on 24 October. Ozawa's carriers were sunk off Cape Engano on 25 October, and Kurita came through the strait that night." },
+    ],
+    okinawa45: [
+      { id: "break", grade: "firm", holds: false, relied: [0], source: "the Fifth Air Fleet's estimate",
+        text: "Mass attacks by suicide aircraft will force the American fleet to break off the invasion of Okinawa.",
+        truth: "The Kikusui attacks sank thirty or more American ships, damaged hundreds and killed nearly five thousand sailors. The fleet stayed at Okinawa until the island was taken in June." },
+    ],
+  },
+  alliedPacific: {
+    wakeIslandRelief41: [
+      { id: "carriers", grade: "doubtful", holds: true, relied: [0], source: "radio intelligence at Pearl Harbor",
+        text: "Two Japanese carriers are close to Wake and will cover the second landing.",
+        truth: "Soryu and Hiryu, detached from the Pearl Harbor force, struck Wake with their aircraft on 21 December and stood off the island while the landing went in on 23 December." },
+    ],
+    coralSeaMidwayAllied42: [
+      { id: "af", grade: "doubtful", holds: true, relied: [0], source: "Station HYPO under Commander Rochefort",
+        text: "The Japanese target is Midway, called AF in their traffic, and the attack will come in the first days of June.",
+        truth: "The Japanese carriers were found north west of Midway on 4 June, as Rochefort's team had said, and four of them were sunk in the battle." },
+    ],
+    guadalcanalAllied42: [
+      { id: "light", grade: "firm", holds: true, relied: [0], source: "coastwatchers and air photographs",
+        text: "The Japanese garrison on Guadalcanal is small and mostly construction troops, and the airfield is lightly held.",
+        truth: "The Marines landed on 7 August and walked onto the unfinished airfield on the 8th with almost no fighting. The Japanese there had withdrawn into the jungle." },
+    ],
+    torpedoCrisis43: [
+      { id: "sound", grade: "firm", holds: false, relied: [1], source: "the Bureau of Ordnance",
+        text: "The Mark 14 torpedo is sound, and the failures the submarines report are errors of approach and handling.",
+        truth: "The torpedo ran deeper than it was set, and its exploder did not work as designed. The fleet's own tests found the faults one by one through 1942 and 1943." },
+    ],
+    tehransPromise43: [
+      { id: "entry", grade: "firm", holds: true, relied: [0], source: "Stalin's word to Roosevelt at Tehran",
+        text: "The Soviet Union will enter the war against Japan once Germany has been defeated.",
+        truth: "The Soviet Union declared war on Japan on 8 August 1945, three months after Germany's surrender, and attacked Manchuria the next day." },
+    ],
+    peleliuDecision44: [
+      { id: "days", grade: "firm", holds: false, relied: [0], source: "the First Marine Division's planning",
+        text: "Peleliu will be taken in two to four days, and the airfield with it.",
+        truth: "The Japanese had fortified the ridges in depth. The fighting lasted from 15 September to 27 November 1944, and the First Marine Division suffered very heavy losses." },
+    ],
+    iwoJimaAllied45: [
+      { id: "gunfire", grade: "doubtful", holds: false, relied: [0], source: "the Navy's schedule for the bombardment",
+        text: "Three days of naval gunfire will break the island's defenses before the landing.",
+        truth: "Marine planners had asked for ten days. Of about 915 fortified positions on the island, fewer than 200 had been silenced when the Marines landed." },
+    ],
+  },
 };
 
 /** The beliefs a report carries, or []. */
@@ -45279,6 +45707,65 @@ const ADVISOR_DOSSIERS = {
   Utili: { role: "General: Italian Co-Belligerent Army combat commander", bio: "Commanded the 1st Motorized Group, the Corpo Italiano di Liberazione and later the Combat Group 'Legnano,' the Co-Belligerent Army's combat formations built up through 1943–45 to fight alongside Allied forces.", fate: "Commanded the Legnano Group to the end of the war and continued a postwar army career in Milan; died in 1952.", faction: "italy", rank: 4 },
   Dapino: { role: "General: commander, 1st Motorized Group (1943–44)", bio: "Commanded the first Italian formation sent against the Germans after the armistice, the 1st Motorized Group, through its attacks on Monte Lungo in December 1943.", fate: "Left the Group's command in January 1944 for special assignments on the Army General Staff, handing it to Utili.", faction: "italy", rank: 3 },
   Cadorna: { role: "General: military commander, Corps of Volunteers of Freedom (1944–45)", bio: "A regular army general parachuted into the north in August 1944 to command the partisan formations as the Allied command and the Bonomi government's military adviser, with Parri and Longo as his deputies.", fate: "Served in the Senate after the war; died in December 1973.", faction: "italy", rank: 3 },
+  // From Dispatches 1941.
+  Konoe: { role: "Prime Minister (1937–39, 1940–41)", bio: "Presided over the China war's early escalation and, in January 1938, declared his government would no longer deal with Chiang Kai-shek's government at all, foreclosing settlement while relatively generous terms were still available, a decision many historians consider one of the war's more consequential unforced errors. Resigned in October 1941 rather than confirm the war decision Tojo's cabinet ultimately made; took his own life in December 1945 rather than face the Tokyo tribunal.", faction: "japan", rank: 1 },
+  Umezu: { role: "General: Chief of the Army General Staff", bio: "One of the war ministry's most committed holdouts against surrender in 1945, reportedly among the last senior officers to accept the Emperor's decision even after it was made. Signed the instrument of surrender on behalf of the Army anyway; convicted at the Tokyo tribunal and died in prison in 1949.", faction: "japan", rank: 1 },
+  Onishi: { role: "Vice Admiral: First Air Fleet commander", bio: "Proposed organizing suicide attacks as formal Navy doctrine in October 1944, arguing a First Air Fleet reduced to barely thirty operational aircraft had no other way to meaningfully strike an American carrier force. Took his own life the day after Japan's surrender broadcast, leaving a letter apologizing to the pilots he had sent to die.", faction: "japan", rank: 2 },
+  Yonai: { role: "Admiral: former Prime Minister, Navy Minister", bio: "Opposed the Tripartite Pact and the drift toward war with the United States before it began, real, documented skepticism that never translated into a concrete peace initiative he or anyone else in government actually attempted before 1945. Served as Navy Minister through the war's end and supported the surrender; died in 1948, largely out of public life.", faction: "japan", rank: 1 },
+  Koga: { role: "Admiral: Yamamoto's successor as Combined Fleet Commander-in-Chief", bio: "Inherited command after Yamamoto's death in April 1943 with a fleet already past the point where any single commander's tactical skill could offset the production gap it faced. Died in an air accident in March 1944 en route to a staff conference, in circumstances almost as poorly documented as Yamamoto's own death was well documented.", faction: "japan", rank: 2 },
+  Matsuoka: { role: "Foreign Minister (1940–41)", bio: "Championed the Tripartite Pact with Germany and Italy as a deterrent against American intervention, then pursued a neutrality pact with the Soviet Union on similar logic, a diplomatic style built around dramatic gestures colleagues increasingly found erratic. Removed from office in 1941 partly over his handling of Soviet relations; died in 1946 while on trial at the Tokyo tribunal, before a verdict was reached.", faction: "japan", rank: 2 },
+  Tojo: { role: "War Minister, later Prime Minister (1941–44)", bio: "A firm advocate of the Indochina occupation and the war decision as War Minister, he became Prime Minister in October 1941 and personally confirmed the deadline that led to Pearl Harbor at the Imperial Conference that December. Removed as Prime Minister in July 1944 after Saipan fell; convicted at the Tokyo tribunal and executed in 1948.", faction: "japan", rank: 1 },
+  Nomura: { role: "Ambassador to the United States (1941)", bio: "A retired admiral sent to Washington specifically for his known moderation, he conducted the Hull-Nomura talks through 1941 trying to find terms both governments could accept, working against a deadline he was never fully informed about. Survived the war, later serving in the postwar House of Councillors; died in 1964.", faction: "japan", rank: 2 },
+  Kuribayashi: { role: "Lieutenant General: Iwo Jima garrison commander", bio: "Abandoned the beach-defense doctrine that had failed at every prior island in favor of a deep tunnel network built to bleed an invasion for as long as physically possible, in a battle he privately told his staff he did not expect to survive. Killed in the battle's final days, March 1945; his body was never conclusively identified.", faction: "japan", rank: 3 },
+  Horii: { role: "Major General: South Seas Detachment commander", bio: "Led the overland push toward Port Moresby across the Kokoda Track, reaching within thirty miles of the objective before a collapsing supply line forced a withdrawal IGHQ ordered over his own preference to press on. Drowned crossing the Kumusi River during the detachment's retreat in November 1942.", faction: "japan", rank: 3 },
+  Imamura: { role: "Lieutenant General: Eighth Area Army commander", bio: "Took command of Japan's New Guinea and Solomons theater after the Kokoda campaign's collapse, generally favoring consolidation and supply discipline over the more aggressive commitments some subordinates preferred. Survived the war; convicted of war crimes related to his command's conduct and served a prison sentence; died in 1968.", faction: "japan", rank: 2 },
+  Yamamoto: { role: "Admiral: Commander in Chief, Combined Fleet", bio: "Architect of the Pearl Harbor strike, and privately its most consistent skeptic about what it could actually buy, having studied at Harvard and toured American industry, and said so in terms his own staff found unwelcome. Warned Tokyo he could run wild for six months but promised nothing beyond that, a prediction the war's actual timeline bore out with uncomfortable precision. Killed in April 1943 when American fighters, guided by intercepted and decoded travel plans, shot down his aircraft over Bougainville, a targeted strike his own staff argued against for fear of confirming Japan's code was broken.", faction: "japan", rank: 0 },
+  Nagano: { role: "Admiral: Chief of the Navy General Staff", bio: "Signed off on the Pearl Harbor plan after resisting it, and oversaw the Navy's argument for prioritizing the Southern Resource Area over a Hawaii strike in early planning. Died in American custody in 1947 while on trial at the Tokyo tribunal, before a verdict was reached.", faction: "japan", rank: 1 },
+  Nagumo: { role: "Vice Admiral: First Air Fleet commander", bio: "Led the Pearl Harbor strike force and the Midway invasion fleet, a battleship officer given command of the Navy's carriers more for seniority than for any enthusiasm about naval aviation. Commanded the garrison on Saipan in 1944; took his own life as the island fell rather than be captured.", faction: "japan", rank: 1 },
+  Inoue: { role: "Vice Admiral: Fourth Fleet, South Seas", bio: "One of the more openly skeptical senior officers about the war's odds against American industrial capacity, and an early advocate of land-based naval air power over the battleship doctrine most peers still favored. Survived the war in a training command; died in 1975, remembered as one of the more clear-eyed strategic minds Japan didn't fully listen to.", faction: "japan", rank: 2 },
+  Ugaki: { role: "Rear Admiral: Chief of Staff, Combined Fleet", bio: "Yamamoto's closest staff officer and diarist, whose wartime journal remains one of the most detailed insider accounts of Imperial Navy decision-making. Led a final kamikaze sortie on the day of Japan's surrender broadcast, in defiance of the ceasefire; killed in the attack.", faction: "japan", rank: 2 },
+  Tanaka: { role: "Rear Admiral: Destroyer Squadron 2, 'Tokyo Express'", bio: "Ran the night resupply and reinforcement runs to Guadalcanal with a tactical skill his American opponents came to respect, under conditions of near-total air inferiority. Relieved after criticizing high command's Guadalcanal strategy too openly; survived the war and died in 1969.", faction: "japan", rank: 3 },
+  Kurita: { role: "Vice Admiral: First Diversion Attack Force, Leyte Gulf", bio: "Commanded the battleship force that broke through San Bernardino Strait at Leyte and then withdrew short of the invasion beaches, a decision made on incomplete information that historians still debate. Survived the war in a training post; gave few interviews about Leyte before his death in 1977.", faction: "japan", rank: 2 },
+  Toyoda: { role: "Admiral: Commander in Chief, Combined Fleet (1944–45)", bio: "Oversaw the Sho-Go plans and the fleet's final operations, inheriting a navy with barely enough fuel left to conduct them. Tried at the Tokyo tribunal and acquitted; died in 1957.", faction: "japan", rank: 1 },
+  Anami: { role: "General: Army Minister", bio: "The war ministry's leading holdout against surrender in August 1945, arguing the home islands' defense could still make an invasion politically unbearable for the Allies. Took his own life the night before the surrender broadcast, leaving a note apologizing for his 'great crime.'", faction: "japan", rank: 1 },
+  Togo: { role: "Foreign Minister (1941–42, 1945)", bio: "Argued against the Pearl Harbor timing's diplomatic handling in 1941 and, returning to office in 1945, pushed the peace faction's case through the war's final, deadlocked cabinet meetings. Convicted at the Tokyo tribunal for his role in the war's opening; died in prison in 1950.", faction: "japan", rank: 2 },
+  Sato: { role: "Ambassador to the Soviet Union", bio: "Cabled Tokyo repeatedly in the war's final weeks expressing frustration at Moscow's unreadable silence in response to Japan's real approach for peace mediation, without knowing the Soviets had already committed to entering the war at Yalta. Survived the war, later serving in postwar Japanese diplomatic and political roles; died in 1975.", faction: "japan", rank: 2 },
+  Yoshida: { role: "Diplomat and postwar political figure", bio: "A career diplomat with real prewar doubts about war with the Anglo-American powers, who went on to serve as Prime Minister and architect of Japan's postwar economic rebuilding under American occupation and Cold War alignment. Served as Prime Minister for most of 1946–54; died in 1967, regarded as the chief architect of postwar Japan's recovery.", faction: "japan", rank: 2 },
+  Sugiyama: { role: "General: Army Chief of Staff", bio: "Oversaw Army planning through the war's opening expansion, consistently more optimistic about timelines than events subsequently justified. Took his own life in September 1945 rather than face the occupation's reckoning.", faction: "japan", rank: 2 },
+  Iida: { role: "Lieutenant General: Fifteenth Army, Burma", bio: "Drove the invasion of Burma at a pace prewar staff studies had rated impassable, cutting the Burma Road and China's last land supply route within weeks of crossing the frontier. Later commanded occupation forces in Sumatra; survived the war and died in 1980.", faction: "japan", rank: 3 },
+  Sakurai: { role: "Lieutenant General: 33rd Division, Burma", bio: "Commanded one of Fifteenth Army's two divisions through the Rangoon campaign and the subsequent push toward India. Continued in Burma theater command through the war's later reversals; details of his postwar life are sparsely recorded.", faction: "japan", rank: 4 },
+  Kawabe: { role: "General: Burma Area Army commander", bio: "Held nominal authority over Mutaguchi's U-Go offensive and harbored serious private doubts about its logistics that he ultimately failed to act on before the campaign's launch. Relieved of command amid U-Go's collapse; survived the war and later served in Japan's postwar Self-Defense Forces advisory circles.", faction: "japan", rank: 3 },
+  Slim: { role: "Lieutenant General: Burma Corps, later Fourteenth Army", bio: "Led the near-thousand-mile fighting retreat from Burma into India in 1942, then rebuilt the shattered force into the Fourteenth Army that broke Japan's U-Go offensive at Imphal and Kohima two years later. Later Chief of the Imperial General Staff and Governor-General of Australia; widely regarded as one of the war's most capable field commanders; died in 1970.", faction: "alliedPacific", rank: 1 },
+  Stilwell: { role: "Lieutenant General: U.S. commander, China-Burma-India theater", bio: "Commanded American forces in the CBI theater while serving simultaneously as Chiang Kai-shek's chief of staff, a dual role that put him in near-constant friction with Chiang over strategy, supply priority, and command of Chinese forces. Recalled from China in October 1944 at Chiang's explicit demand after their relationship broke down entirely; died in 1946.", faction: "alliedPacific", rank: 2 },
+  Davies: { role: "Foreign Service officer: Yan'an observer group", bio: "A State Department China hand attached to the Dixie Mission, the first American observer group to reach Communist-held territory, whose reports argued Communist forces were fighting the Japanese occupation more effectively than the Nationalist front. Caught up in the McCarthy-era loyalty investigations of the 1950s and dismissed from the Foreign Service; formally exonerated decades later; died in 1999.", faction: "alliedPacific", rank: 4 },
+  Ozawa: { role: "Vice Admiral: Mobile Fleet", bio: "Commanded Japan's last carrier force at the Philippine Sea and served as the Sho-Go decoy at Leyte, widely regarded by both sides as one of the Imperial Navy's more capable tacticians working with steadily diminishing means. Survived the war; declined most interview requests and died in 1966.", faction: "japan", rank: 2 },
+  Kusaka: { role: "Rear Admiral: Chief of Staff, Combined Fleet air operations", bio: "A senior carrier-doctrine planner involved in the Pearl Harbor strike and subsequent carrier operations' staff work. Survived the war in a home-defense post; died in 1971.", faction: "japan", rank: 3 },
+  Spruance: { role: "Admiral: Fifth Fleet commander", bio: "A famously unflappable, methodical commander who took the Fifth Fleet through the Marianas, Iwo Jima, and Okinawa, generally favoring the more conservative operational choice available to him over the bolder one. Later President of the Naval War College and ambassador to the Philippines; died in 1969.", faction: "alliedPacific", rank: 1 },
+  Arnold: { role: "General: Commanding General, Army Air Forces", bio: "Built the wartime Army Air Forces from a fraction of its final size and championed strategic bombing doctrine throughout, though its actual execution against Japan's dispersed industry increasingly diverged from what he'd originally envisioned. The only Air Force officer ever to hold five-star rank; died in 1950.", faction: "alliedPacific", rank: 1 },
+  Acheson: { role: "Assistant Secretary of State", bio: "Administered the July 1941 freezing order on Japanese assets, interpreting the licensing system strictly enough that it functioned as a near-total oil embargo in practice, reportedly beyond what Roosevelt had explicitly intended. Later Secretary of State under Truman, a principal architect of the Marshall Plan and NATO; died in 1971.", faction: "alliedPacific", rank: 3 },
+  Grew: { role: "Ambassador to Japan (1932–41)", bio: "Spent a decade watching Japanese politics shift toward the military faction and warned Washington repeatedly through 1941 that an oil embargo severe enough to threaten Japan's survival would strengthen the case for war rather than deter it. Later Under Secretary of State; died in 1965.", faction: "alliedPacific", rank: 3 },
+  Halsey: { role: "Vice Admiral: Task Force 16, Doolittle Raid escort", bio: "Commanded the carrier task force that launched the Doolittle Raid, and made the call to launch early once the force was spotted by a Japanese picket boat rather than risk the carriers searching for a better position. Later commanded the Third Fleet through the war's final years; died in 1959.", faction: "alliedPacific", rank: 2 },
+  Doolittle: { role: "Lieutenant Colonel: commander, Tokyo Raid", bio: "Led the sixteen-bomber raid on Tokyo that carried his name, personally flying the lead aircraft despite holding a rank that made the mission's actual risk to him a matter of real internal debate beforehand. Promoted to Brigadier General immediately after the raid and awarded the Medal of Honor; later commanded the Eighth Air Force; died in 1993.", faction: "alliedPacific", rank: 2 },
+  Groves: { role: "Major General: director, Manhattan Project", bio: "Ran the Manhattan Project's military side with a famously singular focus on the mission's success, favoring target selection criteria that preserved the bomb's effects as a clean, measurable baseline over cities already damaged by conventional bombing. Left the Army in 1948; died in 1970.", faction: "alliedPacific", rank: 2 },
+  Compton: { role: "Physicist: Manhattan Project, National Defense Research Committee", bio: "A Nobel laureate and member of the Scientific Panel that advised the Interim Committee in June 1945 and recommended using the bomb on Japan without a prior demonstration. Later chancellor of Washington University in St. Louis; died in 1962.", faction: "alliedPacific", rank: 3 },
+  Franck: { role: "Physicist: chairman of the committee that wrote the Franck Report", bio: "A Nobel laureate who chaired the Manhattan Project scientists whose June 1945 report urged a demonstration of the atomic bomb before any use on a populated city, a minority position among the scientists and officials the Interim Committee consulted. Died in 1964.", faction: "alliedPacific", rank: 3 },
+  Blamey: { role: "General: Commander, Allied Land Forces, Australia", bio: "Backed his commanders' fighting-withdrawal strategy on the Kokoda Track against considerable pressure from MacArthur, who read the retreat as a failure of Australian fighting quality rather than the sound tactical choice historians now generally consider it. Australia's only field marshal; died in 1951.", faction: "alliedPacific", rank: 2 },
+  Mitscher: { role: "Vice Admiral: Task Force 58 carrier commander", bio: "Argued for an aggressive pursuit of Ozawa's fleet at the Philippine Sea over Spruance's more protective posture, a disagreement about carrier doctrine that recurred in various forms for the rest of the war. Later commanded fast carrier task forces through the war's end; died in 1947.", faction: "alliedPacific", rank: 2 },
+  Curtin: { role: "Prime Minister of Australia", bio: "Publicly declared in December 1941 that Australia looked to America rather than Britain for its defense, and defied Churchill's attempt to redirect Australian troops to Burma in early 1942, insisting they return home instead. Died in office in July 1945, weeks before the war he'd spent it directing Australia through actually ended.", faction: "alliedPacific", rank: 1 },
+  Biddle: { role: "Attorney General", bio: "Opposed the forced removal of Japanese Americans from the West Coast, arguing the Justice Department had no evidence to support the military necessity claim being used to justify it, and lost the argument to the War Department. Later served as the American judge at the Nuremberg trials; died in 1968.", faction: "alliedPacific", rank: 1 },
+  Nimitz: { role: "Fleet Admiral: Commander in Chief, Pacific Fleet", bio: "Took command days after Pearl Harbor, when American morale and the fleet's own material state were both at their lowest point of the war, and staked its remaining three carriers on codebreaking intelligence at Midway, a wager that became the Pacific war's turning point. Balanced Central Pacific island-hopping against MacArthur's Southwest Pacific priorities for years without the command structure ever fully resolving which theater actually came first. Accepted the Japanese surrender aboard USS Missouri; later Chief of Naval Operations; died in 1966, remembered as uncommonly unflappable even by his own command's standards.", faction: "alliedPacific", rank: 0 },
+  Fletcher: { role: "Rear Admiral: Task Force 17", bio: "Commanded the American carrier forces at both Coral Sea and Midway, cautious with his ships in a war that could not yet afford to lose them carelessly. Later commanded the North Pacific Force; died in 1973.", faction: "alliedPacific", rank: 2 },
+  Pye: { role: "Vice Admiral: acting Commander in Chief, Pacific Fleet", bio: "Held temporary command of the Pacific Fleet in the weeks after Pearl Harbor and made the actual decision to recall the Wake Island relief force, a call that remains one of the most argued-over of the early Pacific war. Reverted to his prior command after Nimitz's arrival; died in 1959.", faction: "alliedPacific", rank: 2 },
+  Ghormley: { role: "Vice Admiral: South Pacific Area commander", bio: "Oversaw the planning for the Guadalcanal landing on a compressed and under-resourced timetable he privately doubted was adequate. Relieved of command in October 1942 amid the campaign's darkest weeks; served in administrative posts for the war's remainder; died in 1958.", faction: "alliedPacific", rank: 3 },
+  "Holland Smith": { role: "Lieutenant General: V Amphibious Corps", bio: "A leading advocate of direct amphibious assault over bypass strategy, and the Marine Corps' most influential voice on fortified-atoll doctrine through the Central Pacific campaign. Retired after the war with the nickname 'Howlin' Mad' intact; died in 1967.", faction: "alliedPacific", rank: 2 },
+  MacArthur: { role: "General: Supreme Commander, Southwest Pacific Area", bio: "Left the Philippines in 1942 promising to return, and spent two years making both the strategic and moral case for doing so over the Navy's preference for bypassing them entirely. Accepted the Japanese surrender and administered the postwar occupation of Japan; relieved of Korean War command in 1951; died in 1964.", faction: "alliedPacific", rank: 1 },
+  Kenney: { role: "General: Commander, Fifth Air Force", bio: "Developed and championed low-altitude skip-bombing tactics against Japanese shipping, applied with devastating effect at the Bismarck Sea, one of the most lopsided air-versus-naval engagements of the war. Later commanded Far East Air Forces; retired from the Air Force in 1951; died in 1977.", faction: "alliedPacific", rank: 2 },
+  Wainwright: { role: "Lieutenant General: Philippines commander after MacArthur's evacuation", bio: "Inherited command of the doomed Bataan and Corregidor garrisons after MacArthur left for Australia, and was ultimately forced to surrender the largest American force in history to that point. Survived brutal Japanese captivity for the rest of the war; present at the formal Japanese surrender in 1945; died in 1953.", faction: "alliedPacific", rank: 2 },
+  Sutherland: { role: "Major General: MacArthur's Chief of Staff", bio: "Ran MacArthur's Southwest Pacific Area headquarters with a famously controlling grip on what reached the general's desk, to the point other senior officers routinely complained of having to go through him rather than around him. Fell out of favor after the war over a personal scandal involving an Australian officer; died in 1966.", faction: "alliedPacific", rank: 2 },
+  Webb: { role: "President of the International Military Tribunal for the Far East", bio: "Presided over the Tokyo war crimes trials and was known to be personally frustrated by the political decision to exempt Hirohito from prosecution despite testimony implicating the imperial government at every level below the throne. Returned to the Australian judiciary after the tribunal concluded; died in 1972.", faction: "alliedPacific", rank: 2 },
+  Eichelberger: { role: "General: Eighth Army commander under MacArthur", bio: "Took Buna in a grinding 1942 campaign MacArthur's headquarters publicly credited to MacArthur himself, a lasting source of friction between the two men that never became open insubordination. Commanded occupation forces in Japan after the war; died in 1961.", faction: "alliedPacific", rank: 2 },
+  Attlee: { role: "British Prime Minister (from July 1945)", bio: "Won the 1945 general election by landslide against Churchill and inherited Britain's role in the Pacific war's final weeks and the postwar settlement that followed, generally favoring more shared Allied authority over occupied Japan than the arrangement the United States actually pursued. Led Britain's postwar Labour government through 1951, including creation of the National Health Service; died in 1967.", faction: "alliedPacific", rank: 1 },
+  LeMay: { role: "Major General: XXI Bomber Command", bio: "Directed the incendiary bombing campaign against Japanese cities and was among the strongest advocates that blockade and air power alone might force surrender without a home-islands invasion. Later led Strategic Air Command and served as Air Force Chief of Staff; died in 1990.", faction: "alliedPacific", rank: 2 },
 };
 
 const OBJECTIVES = [

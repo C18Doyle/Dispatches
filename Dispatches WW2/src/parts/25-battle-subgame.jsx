@@ -3730,7 +3730,7 @@ function battleDecisionEffect(option, postureId) {
 }
 
 // Round 23: the campaign hard modes that can put orders from above on a battle (config.hardRule).
-const HARD_MODE_NAMES = { iron: T("Führer Mode"), purge: T("NKVD Mode"), coalition: T("Coalition Mode"), axis: T("Axis Mode") };
+const HARD_MODE_NAMES = { iron: T("Führer Mode"), purge: T("NKVD Mode"), coalition: T("Coalition Mode"), axis: T("Axis Mode"), fanatical: T("Fanatical Resolve Mode") };
 
 // Round 23: how a Matériel strand's reading (see materielReadout in logic.ts) changes the weight an
 // arm can bring. Each category may name the strand it draws on (category.strand: "oil", "ammo",
@@ -3935,6 +3935,28 @@ const DIVERGENCE_FORKS = {
     { id: "fleetRepairedFast", flag: "forkFleetFast", revealNode: "tarantoDoctrine40", endingCapable: false },
     { id: "desertGapNarrower", flag: "forkDesertGap", revealNode: "compass40", endingCapable: false },
   ],
+  // From Dispatches 1941.
+  japan: [
+    // Real: Yorktown's Coral Sea damage was estimated at 90 days' repair; Nimitz demanded
+    // three, and the Pearl Harbor yard delivered — 1,400 men working around the clock,
+    // standard safety protocol waived, one plate welded over the worst of the hull damage
+    // rather than a proper repair. The dockyard officer who got the order is recorded as
+    // having "gulped" before saying it could be done. This was a genuinely contingent,
+    // scrambled effort, not a foregone conclusion — a divergence where it drags past three
+    // days or fails outright is real, not invented. (Source: Defense Media Network, "You've
+    // Got Three Days: Repairing the Yorktown After Coral Sea.")
+    { id: "yorktownDelayed", flag: "forkYorktownDelayed", revealNode: "coralSea42", endingCapable: false },
+  ],
+  alliedPacific: [
+    // Real: the Japanese cruiser Tone's No. 4 scout plane launched roughly 30 minutes late on
+    // the morning of Midway, cutting its search leg short — popularly blamed for the Japanese
+    // defeat. Naval historians' actual assessment inverts that: had it launched on schedule
+    // and flown the full prescribed leg, it would have missed the American task force
+    // entirely. The late, shortened search was "one of Nagumo's few lucky breaks," not a
+    // costly mistake — a real, ironic, well-documented contingency. (Source: Naval History
+    // and Heritage Command, H-Gram 006.)
+    { id: "toneOnTime", flag: "forkToneOnTime", revealNode: "kokodaTrailAllied42", endingCapable: false },
+  ],
 };
 
 // Reveal bulletins for each fork — same shape as WIRE_HEADLINES ({id, year, month, headline,
@@ -3965,6 +3987,21 @@ const DIVERGENCE_HEADLINES = {
   rhodesGarrisonWeak: { id: "rhodesGarrisonWeak", year: 1943, month: "SEPTEMBER", headline: "Rhodes Garrison Reported Below Full Strength", dek: "Aerial reconnaissance ahead of any Aegean move suggests the island's defenders may be fewer than the planning figures assumed. Confidence in the estimate is, so far, limited." },
   fleetRepairedFast: { id: "fleetRepairedFast", year: 1940, month: "DECEMBER", headline: "Taranto-Damaged Battleships Reported Ahead of Repair Schedule", dek: "Naval yard officials describe work on the crippled battle line proceeding faster than the fleet's own engineers initially projected, though no return-to-service date is yet being made public." },
   desertGapNarrower: { id: "desertGapNarrower", year: 1940, month: "DECEMBER", headline: "Western Desert Camps Reported Partially Linked Ahead of British Push", dek: "Engineers report some progress closing the gap between the fortified camps west of Sidi Barrani, though how much of the line is actually continuous remains unclear even to Comando Supremo." },
+  // From Dispatches 1941.
+  yorktownDelayed: {
+    id: "yorktownDelayed",
+    year: 1942,
+    month: "JUNE",
+    headline: "Naval Intelligence: American Carrier Repair Efforts Reportedly Faltering",
+    dek: "Reports reaching this staff describe difficulty within the American Pacific Fleet returning its Coral Sea casualty to service on the timetable earlier intercepts suggested. Whether this changes the number of flight decks actually opposing this command's next operation cannot yet be confirmed with certainty.",
+  },
+  toneOnTime: {
+    id: "toneOnTime",
+    year: 1942,
+    month: "JUNE",
+    headline: "Signals Analysis: Japanese Scout Pattern May Have Flown as Originally Planned",
+    dek: "A postwar-style review of the intercepted search pattern flown ahead of the Midway engagement suggests the cruiser-launched scout aircraft credited with the contact report may in fact have held to its original assigned leg rather than the shortened one earlier accounts described. Fleet intelligence notes the distinction matters less for what was found than for how easily, on this specific morning, it might not have been.",
+  },
 };
 
 function rollDivergenceForks(campaignId) {
@@ -4012,7 +4049,7 @@ function migrateSave(saved) {
   return s;
 }
 
-const NODE_TOTAL = 300; // 105 German + 71 Soviet + 63 Allied + 61 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 30: Allied +5 for the prelude: saar39, dyle39, altmarkRaid40, finland40 and wilfred40; Italian +4: nonBelligerence39, coal40, brenner40 and memo40.) (Round 29: German +5 for the prelude: fallWeiss39, phoneyWar39, mechelen40, altmark40 and ore40.) (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
+const NODE_TOTAL = 451; // 105 German + 71 Soviet + 63 Allied + 61 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 30: Allied +5 for the prelude: saar39, dyle39, altmarkRaid40, finland40 and wilfred40; Italian +4: nonBelligerence39, coal40, brenner40 and memo40.) (Round 29: German +5 for the prelude: fallWeiss39, phoneyWar39, mechelen40, altmark40 and ore40.) (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 // Framing quotes shown on entering the War Room. Where a clean, verified, short quote from
 // the actual command figure at this moment exists, it's used with a real name and date. Where
@@ -4020,6 +4057,17 @@ const NODE_TOTAL = 300; // 105 German + 71 Soviet + 63 Allied + 61 Italian — c
 // specific window), the line is left unattributed rather than inventing a false citation —
 // same standard the Pacific build's advisor dossier work established.
 const CAMPAIGN_WAR_ROOM_QUOTE = {
+  // From Dispatches 1941 (its LEADER_QUOTES). Yamamoto's words are as Prince Konoe recorded them in his memoir.
+  japan: {
+    text: "In the first six months to a year of war with the United States and Britain I will run wild and win victory after victory. But then, if the war continues after that, I have no expectation of success.",
+    speaker: "Admiral Yamamoto Isoroku",
+    date: "to Prince Konoe, September 1940",
+  },
+  alliedPacific: {
+    text: "Yesterday, December 7, 1941, a date which will live in infamy.",
+    speaker: "Franklin D. Roosevelt",
+    date: "address to Congress, December 8, 1941",
+  },
   soviet: {
     text: "A grave danger hangs over our country.",
     speaker: "Joseph Stalin",
@@ -4043,7 +4091,7 @@ const CAMPAIGN_WAR_ROOM_QUOTE = {
 // war context and mechanics, not the name's own backstory — so EASY_MODE_NOTES (which used to
 // open with "Named for the X — a Y...") was retired in favor of warRoomModeInfo()'s shared
 // mechanics-only fallback text, identical in substance across all four campaigns anyway.
-const EASY_MODE_NAMES = { german: T("Elefant Command"), soviet: T("T-35 Command"), allied: T("Defiant Command"), italy: T("Breda Command") };
+const EASY_MODE_NAMES = { german: T("Elefant Command"), soviet: T("T-35 Command"), allied: T("Defiant Command"), italy: T("Breda Command"), japan: T("Shinano Command"), alliedPacific: T("Mark 14 Command") };
 
 function warRoomModeInfo(mode, campaignId) {
   const names = {
@@ -4053,7 +4101,9 @@ function warRoomModeInfo(mode, campaignId) {
     purge: t("NKVD Mode"),
     coalition: t("Yalta Mode"),
     axis: t("Axis Mode"),
+    fanatical: t("Fanatical Resolve Mode"),
   };
+  if (campaignId === "alliedPacific") names.coalition = t("Coalition Resolve Mode");
   const hard = !!HARD_MODE_NAMES[mode];
   const summaries = {
     easy: t("Each choice shows what it will do to the meters, the choice the record made is marked, and you can rewind."),
@@ -4062,12 +4112,15 @@ function warRoomModeInfo(mode, campaignId) {
     purge: t("No rewind, and the NKVD is watching: five counts of suspicion end in a recall."),
     coalition: t("No rewind. Overriding a partner's strong objection costs Coalition Cohesion, and a broken alliance relieves you."),
     axis: t("No rewind. Berlin watches every act of independent Italian judgment, and losing its trust ends the command."),
+    fanatical: t("No rewind. IGHQ's tolerance for choices that break with dogma is counted out of 5: each draws a charge of insubordination, and at 5 the file ends in a coup."),
   };
+  if (campaignId === "alliedPacific") summaries.coalition = t("No rewind. Overriding a partner's strong objection costs Coalition Resolve between Washington, London, Chongqing and Canberra, and a broken coalition relieves you.");
   const trackerRules = {
     iron: t("Political capital: you have five points to spend defying the historical command. Five defiances and you are dismissed."),
     purge: t("Suspicion rises as you defy the apparatus, counted out of 5. At 5 you are recalled."),
     coalition: t("Coalition Cohesion falls when you override a partner's strong objection. At -6 the alliance relieves you of command."),
     axis: t("German Trust falls when Berlin notices independent Italian judgment. At -5 you are superseded."),
+    fanatical: t("Insubordination rises with each choice that breaks with dogma, counted out of 5. At 5 the hardliners remove you."),
   };
   const rules = hard
     ? [
@@ -4084,5 +4137,5 @@ function warRoomModeInfo(mode, campaignId) {
 }
 
 // The hard mode of each campaign.
-const HARD_MODE_OF = { german: "iron", soviet: "purge", allied: "coalition", italy: "axis" };
+const HARD_MODE_OF = { german: "iron", soviet: "purge", allied: "coalition", italy: "axis", japan: "fanatical", alliedPacific: "coalition" };
 

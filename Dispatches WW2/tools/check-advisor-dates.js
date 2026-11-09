@@ -84,7 +84,10 @@ while ((m = entryRe.exec(dossierBlock)) !== null) {
 // ---- 2. Node dates and the advisors quoted inside them --------------------------------
 // Walk the CAMPAIGNS source, tracking the most recent `date:` seen before each advisor quote.
 const campStart = src.indexOf("\n  german: {");
-const campEnd = src.indexOf("\n};", src.indexOf("\n  allied: {"));
+// Dispatches WW2: only the four European commands. The Pacific commands (from Dispatches 1941) date their advisers by tenure
+// (1941's tests/adviser-tenures.json and its own audit), not by a dossier's fate line; see docs/PORT_STATUS.md.
+const pacificStart = src.indexOf("\n  japan: {");
+const campEnd = pacificStart > 0 ? pacificStart : src.indexOf("\n};", src.indexOf("\n  allied: {"));
 const camp = src.slice(campStart, campEnd);
 
 const tokenRe = /date:\s*"([^"]*)"|advisor:\s*\{\s*name:\s*"([^"]+)"|get ([a-zA-Z0-9_]+)\(\)/g;

@@ -75,6 +75,74 @@ const INTEL_ITEMS = {
         truth: "The British attacked on 9 December through the gap and took the camps one at a time, Nibeiwa first, from the rear. Within days the Tenth Army was beaten and tens of thousands of its men were prisoners." },
     ],
   },
+  // From Dispatches 1941.
+  japan: {
+    pearlHarbor41: [
+      { id: "anchor", grade: "firm", holds: true, relied: [0, 2], source: "the consulate's reports from Honolulu",
+        text: "The American battleships will lie at anchor at Pearl Harbor on a Sunday morning, with no warning given and no ship ready for sea.",
+        truth: "On 7 December the battleships were at their moorings and eight of them were hit. 2,403 Americans were killed. The three American carriers were not in the harbor." },
+      { id: "year", grade: "doubtful", holds: false, relied: [0, 2], source: "Yamamoto's own estimate",
+        text: "A blow at Pearl Harbor will leave the American fleet unable to act in the Pacific for a year or more.",
+        truth: "The carriers survived, and the shipyards, repair shops and oil tanks were untouched. Six of the eight battleships that were hit were repaired and returned to service, and American carriers were fighting at Coral Sea within five months." },
+    ],
+    midway42: [
+      { id: "carriers", grade: "firm", holds: false, relied: [0, 2], source: "the Combined Fleet staff's plan",
+        text: "The American carriers will not come out until after the landing on Midway, and at most one or two of them will be in the area.",
+        truth: "Station HYPO had read the plan. Nimitz had three carriers, Enterprise, Hornet and Yorktown, waiting north east of Midway before the Japanese carriers arrived, and Yorktown had been patched in seventy-two hours at Pearl Harbor." },
+    ],
+    guadalcanal42: [
+      { id: "small", grade: "firm", holds: false, relied: [0], source: "the Army's estimate in August",
+        text: "The Americans on Guadalcanal are few, and a detachment of a few hundred men can retake the airfield before reinforcements come.",
+        truth: "Ichiki's first echelon, about 900 men, attacked at the Tenaru river on the night of 20 to 21 August against prepared Marine positions, and most of it was killed." },
+    ],
+    leyteGulf44: [
+      { id: "bait", grade: "doubtful", holds: true, relied: [0], source: "Ozawa's plan for the decoy force",
+        text: "The American fast carriers will go north after Ozawa's carriers and leave San Bernardino Strait uncovered.",
+        truth: "Halsey took the Third Fleet's carriers north on 24 October. Ozawa's carriers were sunk off Cape Engano on 25 October, and Kurita came through the strait that night." },
+    ],
+    okinawa45: [
+      { id: "break", grade: "firm", holds: false, relied: [0], source: "the Fifth Air Fleet's estimate",
+        text: "Mass attacks by suicide aircraft will force the American fleet to break off the invasion of Okinawa.",
+        truth: "The Kikusui attacks sank thirty or more American ships, damaged hundreds and killed nearly five thousand sailors. The fleet stayed at Okinawa until the island was taken in June." },
+    ],
+  },
+  alliedPacific: {
+    wakeIslandRelief41: [
+      { id: "carriers", grade: "doubtful", holds: true, relied: [0], source: "radio intelligence at Pearl Harbor",
+        text: "Two Japanese carriers are close to Wake and will cover the second landing.",
+        truth: "Soryu and Hiryu, detached from the Pearl Harbor force, struck Wake with their aircraft on 21 December and stood off the island while the landing went in on 23 December." },
+    ],
+    coralSeaMidwayAllied42: [
+      { id: "af", grade: "doubtful", holds: true, relied: [0], source: "Station HYPO under Commander Rochefort",
+        text: "The Japanese target is Midway, called AF in their traffic, and the attack will come in the first days of June.",
+        truth: "The Japanese carriers were found north west of Midway on 4 June, as Rochefort's team had said, and four of them were sunk in the battle." },
+    ],
+    guadalcanalAllied42: [
+      { id: "light", grade: "firm", holds: true, relied: [0], source: "coastwatchers and air photographs",
+        text: "The Japanese garrison on Guadalcanal is small and mostly construction troops, and the airfield is lightly held.",
+        truth: "The Marines landed on 7 August and walked onto the unfinished airfield on the 8th with almost no fighting. The Japanese there had withdrawn into the jungle." },
+    ],
+    torpedoCrisis43: [
+      { id: "sound", grade: "firm", holds: false, relied: [1], source: "the Bureau of Ordnance",
+        text: "The Mark 14 torpedo is sound, and the failures the submarines report are errors of approach and handling.",
+        truth: "The torpedo ran deeper than it was set, and its exploder did not work as designed. The fleet's own tests found the faults one by one through 1942 and 1943." },
+    ],
+    tehransPromise43: [
+      { id: "entry", grade: "firm", holds: true, relied: [0], source: "Stalin's word to Roosevelt at Tehran",
+        text: "The Soviet Union will enter the war against Japan once Germany has been defeated.",
+        truth: "The Soviet Union declared war on Japan on 8 August 1945, three months after Germany's surrender, and attacked Manchuria the next day." },
+    ],
+    peleliuDecision44: [
+      { id: "days", grade: "firm", holds: false, relied: [0], source: "the First Marine Division's planning",
+        text: "Peleliu will be taken in two to four days, and the airfield with it.",
+        truth: "The Japanese had fortified the ridges in depth. The fighting lasted from 15 September to 27 November 1944, and the First Marine Division suffered very heavy losses." },
+    ],
+    iwoJimaAllied45: [
+      { id: "gunfire", grade: "doubtful", holds: false, relied: [0], source: "the Navy's schedule for the bombardment",
+        text: "Three days of naval gunfire will break the island's defenses before the landing.",
+        truth: "Marine planners had asked for ten days. Of about 915 fortified positions on the island, fewer than 200 had been silenced when the Marines landed." },
+    ],
+  },
 };
 
 /** The beliefs a report carries, or []. */

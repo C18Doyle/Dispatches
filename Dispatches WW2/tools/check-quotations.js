@@ -24,7 +24,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
-const PARTS = ["10-campaign-german", "11-campaign-soviet", "12-campaign-allied", "13-campaign-italy"];
+const PARTS = ["10-campaign-german", "11-campaign-soviet", "12-campaign-allied", "13-campaign-italy", "14-campaign-japan", "15-campaign-alliedpacific"];
 const STR = '"(?:[^"\\\\]|\\\\.)*"';
 const STATUSES = new Set(["primary", "secondary"]);
 
