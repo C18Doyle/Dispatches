@@ -11,6 +11,7 @@ One folder per game. Each is a standalone project (own package.json, src/, scrip
 | Dispatches 1922 | Builds. Pure run logic in `src/logic.ts`; 48-run headless UI baseline; shipped crash fixed; validators green. Content still code in App.jsx. See its CLAUDE.md. |
 | Dispatches 1940 | Builds (no-zip on Windows). Pure run logic in `src/logic.ts`; 48-run headless UI baseline; audit tooling repaired. Content still code in App.jsx. See its CLAUDE.md. |
 | Dispatches 1941 | Builds (full + demo). Pure run logic extracted to `src/logic.ts`; 24-run UI baseline; shipped crash fixed. Content still code inside App.jsx. See its CLAUDE.md. |
+| Dispatches WW2 | New (2026-11): 1940 and 1941 joined into one game, six commands. Built from 1940; the Pacific commands keep 1941's rules through `src/rules.ts`. See its CLAUDE.md and docs/COMMANDS.md. |
 
 Shared engine: `packages/engine/` (`@dispatches/engine`), imported by each game through a tsconfig path alias. Amend it there; each game must stay green (`npm test`).
 

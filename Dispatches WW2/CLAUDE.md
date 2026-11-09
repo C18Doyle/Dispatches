@@ -1,4 +1,16 @@
-# Dispatches 1940 (WWII: OKW, STAVKA, SHAEF, Comando Supremo)
+# Dispatches WW2 (six commands: OKW, STAVKA, SHAEF, Comando Supremo, IGHQ, CINCPAC)
+
+Dispatches 1940 and Dispatches 1941 joined into one game. This folder began as a copy of Dispatches 1940 (November 2026); 1941's two commands, battles, map, events, dossiers and claims were ported in. Everything below the "Joined game" section is 1940's guide and still holds for the European commands and for the shared screens. The plan for the commands (Britain and the US replacing SHAEF and CINCPAC, the US effort split, the record across theatres) is `docs/COMMANDS.md`; what is ported and what is not yet is `docs/PORT_STATUS.md`.
+
+## Joined game: how the two games live together
+- **Rules by command.** `src/rules.ts` is the only rules module App.jsx imports. It forwards each call to `src/logic.ts` (1940's rules) for the European commands or to `src/logic-pacific.ts` (1941's rules, meters renamed) for `PACIFIC_COMMANDS` (`japan`, `alliedPacific`). `selectRules(campaignId)` switches; WW2CommandInner calls it on every render and wherever the command is set. The tables it re-exports (`METER_STRANDS`, `MATERIEL_STRANDS`, `COMMAND_RANKS`, `STRAND_ALIAS`) are `export let` live bindings. A change to a rule must be made in the right file, and a rule meant for all six commands must be made in both until the two are merged.
+- **Meters.** Every command has `manpower`, `fuel` (Matériel) and `initiative`. 1941's `readiness` and `pipeline` were renamed in the ported content, battles, JSON nodes, state events and rules; prose that uses the words ("a training pipeline") was left alone. Its arrears flags keep their old names (`arrearsReadiness`, `arrearsPipeline`).
+- **Parts from 1941.** `14-campaign-japan`, `15-campaign-alliedpacific` (plus `src/data/alliedPacific.nodes.json`, inlined by `/*@inline-json*/`, so `npm run split` refuses in this game; edit parts and JSON, then `npm run assemble`), `26-battles-pacific` (the nine Pacific battles on 1940's Order of Battle registries), `33-pacific-map` (1941's whole map layer inside the closure `PACIFIC_MAP`: its `MAP_REGIONS`, `MAP_TIMELINE`, `MAP_PLACES`, `ReportMap` and the rest shadow the European ones only there; its geometry is fetched from `assets/maps/pacific-regions.json`). 1941's state events are `PACIFIC_STATE_EVENTS` at the end of `35-events`, shown through the special-dispatch screen by `pacificStateEvent`.
+- **The Pacific map's look** follows the European map (sea `#a6bbb5` and land `#cdbc9a` sampled from `assets/maps/*/1942.png`, the European `STATUS_COLORS` at half strength, the contested hatch, serif labels). Keep the two in step when either changes.
+- **Audits.** The tools read all six command files. `check-advisor-dates` covers the European commands only (the Pacific advisers are dated by tenure in 1941; see PORT_STATUS). `tools/check-undefined.mjs` (from 1941) catches a name used in one part and declared in none.
+- **Storage keys** are `dispatches-ww2-active`, `dispatches-ww2-record` and `dispatchesWW2_*`; never reuse a 1940 or 1941 key.
+
+## Dispatches 1940's guide (still in force)
 
 React 19 + Tone.js, esbuild + Tailwind v4. Four campaigns, 278 nodes, Easy / Standard / hard modes (Führer, Purge, Coalition, Axis), region map, wire bulletins, Historical Divergence forks, and the Key Battle (Order of Battle) subgame. Two build variants: `full` and `demo`. Assets: `assets/theme.mp3` (inlined into the bundle as a data URL), `assets/maps/` (region geometry JSON plus placeholder PNGs).
 

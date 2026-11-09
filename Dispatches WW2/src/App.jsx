@@ -46592,6 +46592,16 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
           </details>
         )}
 
+        {/* The Pacific commands (from Dispatches 1941) have no projected end: their theatre map at the end is drawn at the date of the last report, as in 1941. */}
+        {PACIFIC_COMMANDS.includes(campaign.id) && campaign.dynamic && (log || []).length > 0 && (
+          <details className="mb-6">
+            <summary className="text-xs uppercase tracking-[0.25em] font-semibold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              {t("The Theater Map at the end of the war")}
+            </summary>
+            <PACIFIC_MAP.PacificMap date={log[log.length - 1].date} atEnd flags={flags} meters={meters} accent={campaign.accent} />
+          </details>
+        )}
+
         {rating && (
           <div className="mb-6 border-2 px-4 py-3" style={{ borderColor: campaign.accent }}>
             <div className="text-xs uppercase tracking-[0.25em] font-semibold opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
