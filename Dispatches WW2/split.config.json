@@ -47,6 +47,10 @@
       "start": "^function WarRoomDocOKW\\("
     },
     {
+      "name": "33-pacific-map",
+      "start": "^const PACIFIC_MAP = \\(\\(\\) => \\{"
+    },
+    {
       "name": "35-events",
       "start": "^const SPECIAL_EVENTS = "
     },

@@ -3129,7 +3129,12 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         </h2>
         {campaign.dynamic && <ReportConditions campaign={campaign} stage={stage} nodeId={nodeId} meters={meters} />}
         {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
-        {campaign.dynamic && <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />}
+        {campaign.dynamic &&
+          (PACIFIC_COMMANDS.includes(campaign.id) ? (
+            <PACIFIC_MAP.ReportMap key={nodeId} campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} log={log} />
+          ) : (
+            <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />
+          ))}
         <Typewriter text={situationWithNote} instant={instantText} soundOn={soundOn} />
         {campaign.dynamic && onIntelCheck && <IntelPanel campaignId={campaign.id} nodeId={nodeId} flags={flags} easy={easy} hard={noRewind} onCheck={(id) => onIntelCheck(nodeId, id, noRewind)} accent={campaign.accent} />}
 

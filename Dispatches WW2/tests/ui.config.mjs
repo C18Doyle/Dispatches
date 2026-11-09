@@ -24,6 +24,7 @@ const PROCEED = /^(continue|proceed|acknowledge|next|file|report|commit|confirm|
 export default {
   JSDOM,
   bundle: "dist/full/bundle.js",
+  assetRoot: ".", // the Pacific map fetches assets/maps/pacific-regions.json at runtime (the European map is in the bundle)
   cases: CASES,
   seeds: [1, 2, 3, 4],
   meta: ([id, , mode, staff]) => ({ id: `${id}-${mode}${staff ? "-staff" : ""}`, campaignId: id, mode }),
