@@ -57,7 +57,7 @@ for (const grp of Object.values(m.NODE_ATLAS))
   for (const n of grp) {
     const k = m.nodeDayKey(n.date);
     if (k == null) problems.push(`report ${n.id}: the date "${n.date}" holds no year the map can read`);
-    else if (k < 19400101 || k > 19501231) problems.push(`report ${n.id}: the date "${n.date}" reads as ${k}`);
+    else if (k < 19390101 || k > 19501231) problems.push(`report ${n.id}: the date "${n.date}" reads as ${k}`);
   }
 for (const s of statuses) if (!m.STATUS_LABELS[s]) problems.push(`status ${s} has a colour and no label`);
 for (const [year, map] of Object.entries(m.MAP_YEAR_STATUS)) {

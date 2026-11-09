@@ -2,13 +2,13 @@
     id: "japan",
     seal: "IGHQ",
     name: "Imperial General Headquarters",
-    dates: "Beginning 1940",
-    brief: "Direct Japan's war from the road to the Tripartite Pact to the surrender debate.",
+    dates: "Beginning 1939",
+    brief: "Direct Japan's war from the ceasefire at Nomonhan to the surrender debate.",
     teaser: "A war chosen in confidence, fought in doubt.",
     accent: "#5c1a1a",
     dynamic: true,
-    intro: "September 1940. The alliance with Germany and Italy is on the table. China is unresolved after three years of war, and the oil and rubber of the Southern Resource Area lie behind every argument in the room.",
-    start: "chinaPeaceQuestion40",
+    intro: "August 1939. The Army has been beaten on the Manchurian border by a Soviet army it thought inferior, and Berlin has signed a pact with Moscow without a word to Tokyo. China is unresolved after two years of war, and the oil and rubber of the Southern Resource Area lie behind every argument in the room.",
+    start: "nomonhan39",
     resolveNode(id, flags, meters) {
       const carriersUntouched = !!flags.usCarriersUntouched;
 
@@ -27,7 +27,7 @@
               historical: true,
               setFlags: { chinaPeacePath: "continueWar" },
               impact: { readiness: 0, pipeline: -1, initiative: 0 },
-              next: "burmaRoad40",
+              next: "indochinaMission40",
               outcome:
                 "China's war grinds on with no resolution, consuming roughly a million men Japan will spend the rest of the war wishing it had for the Southern Operation and, later, for the mainland crisis of 1944. Tokyo recognizes Wang Jingwei's government in November 1940, Germany and Italy in 1941, and almost no one else ever does.",
             },
@@ -36,7 +36,7 @@
               advisor: { name: "Konoe", position: "Refusing to deal with Chiang's government has failed for three years, and continuing to refuse is the real weakness, however much saying so now sounds like weakness." },
               setFlags: { chinaPeacePath: "negotiate", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
-              next: "burmaRoad40",
+              next: "indochinaMission40",
               uncertain: [
                 {
                   weight: modWeight(40, meters.readiness),
@@ -63,7 +63,7 @@
               advisor: { name: "Sugiyama", position: "Pressure alone has not produced terms in three years, so the army should press and keep a back channel open, and try both before conceding that either has failed." },
               setFlags: { chinaPeacePath: "pressureAndTalk" },
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
-              next: "burmaRoad40",
+              next: "indochinaMission40",
               outcome:
                 "A harder push against Chiang's remaining strongholds, paired with an intermediary channel neither side treats as a real offer yet. It satisfies neither the Army's wish for a decisive campaign nor Konoe's case for genuine terms, and it reproduces the war as it was: pressure without resolution, a channel that is never seriously used, and the same million men committed to a war that was supposed to be over in months.",
             },
@@ -90,7 +90,7 @@
               ? " London refused the demand over the Burma Road in July. The Navy says this is what a pact with Germany will bring on, from Britain and from America."
               : flags.burmaRoadPath === "bombed"
               ? " The Army's bombers have raided the Burma Road since July, and Chinese labor has repaired it each time."
-              : ""),
+              : "") + (flags.indochinaNorthPath === "inspectors" ? " Nishihara's inspectors have been in Hanoi since the summer, and the route to China through Indochina is closed to arms." : flags.indochinaNorthPath === "demand" && flags.indochinaMissionResult === "yielded" ? " France gave way to the demand for bases in the north of Indochina, and the Army has them." : flags.indochinaNorthPath === "demand" && flags.indochinaMissionResult === "refused" ? " France refused the demand for bases in the north of Indochina and has taken it to London and Washington." : flags.indochinaNorthPath === "leave" ? " The Army left Indochina alone this summer, and the railway to Kunming still carries part of what China needs." : ""),
           choices: [
             {
               label: "Sign the Tripartite Pact, formalizing the alliance with Germany and Italy",
@@ -158,6 +158,93 @@
               next: "neutralityPact41",
               outcome:
                 "A modeled alternative. The Army and Navy bureaus are merged into one office for decryption, and the services otherwise stay apart. It is a smaller change than a joint command and a less painful one. Intercepts are read once and shared, and the quarrel over aircraft and intelligence goes on.",
+            },
+          ],
+        };
+        },
+        get nomonhan39() {
+          return {
+          date: "AUGUST – SEPTEMBER 1939",
+          title: "Nomonhan and the Pact",
+          historicalRecord: true,
+          situation:
+            "On the Manchurian border near Nomonhan, the Kwantung Army has been fighting a Soviet army since May. In August the Soviet army under Zhukov attacks with tanks and artillery and mauls the Japanese 23rd Division. On 23 August Berlin signs a non-aggression pact with Moscow, without a word to Tokyo, after two years in which Japan has counted on Germany as the enemy of the Soviet Union. The Hiranuma cabinet resigns, and General Abe forms a new one on 30 August. The Army and the Navy have to say what the border war is for now.",
+          choices: [
+            {
+              label: "Accept a ceasefire on the border: stop the fighting at Nomonhan and open talks on the frontier",
+              advisor: { name: "Umezu", position: "The Kwantung Army has lost its best division on the border, and the way to keep the rest is a ceasefire on the ground that is left. The frontier can be argued about after the fighting has stopped." },
+              historical: true,
+              setFlags: { nomonhanPath: "ceasefire" },
+              impact: { readiness: 1, pipeline: 0, initiative: -1 },
+              next: "chinaPeaceQuestion40",
+              outcome:
+                "A ceasefire is agreed in Moscow on 15 September and the fighting on the border stops. The Army has lost a division's worth of men and guns to a Soviet army it had judged inferior, and the idea of a war against the Soviet Union loses ground inside the General Staff. The Navy, which wanted its war in the south, gains by it.",
+            },
+            {
+              label: "Prepare a second battle: keep the Sixth Army on the border and plan a larger offensive for the spring",
+              advisor: { name: "Sugiyama", position: "A defeat on the border is not a reason to leave the border. The Army can bring in the divisions and the guns it lacked in August, and answer in the spring." },
+              setFlags: { nomonhanPath: "renew", suspicion: (flags.suspicion || 0) + 1 },
+              impact: { readiness: -2, pipeline: -1, initiative: 1 },
+              next: "chinaPeaceQuestion40",
+              outcome:
+                "A modeled alternative. Staff officers did plan to renew the fighting, and the ceasefire after the pact stopped it. A second battle against the same Soviet army, on the same ground and the same railhead, risks a second defeat, and it takes divisions that the China war is already using.",
+            },
+          ],
+        };
+        },
+        get indochinaMission40() {
+          return {
+          date: "JUNE 1940",
+          title: "France Falls: The Door to China",
+          historicalRecord: true,
+          situation:
+            "France has asked for an armistice, and Britain stands alone. Chiang's government still receives much of what it needs through French Indochina, by the railway from Haiphong to Kunming. The Army and the Navy both press Tokyo to use France's collapse. The Governor-General in Hanoi accepts a Japanese demand on 20 June to stop shipments of arms and fuel to China, and the Army sends a small mission under General Nishihara to Hanoi to check that he does. What the mission is to do next has not been decided.",
+          choices: [
+            {
+              label: "Send Nishihara's inspectors to Hanoi to watch the border and the railway, and ask for nothing else yet",
+              advisor: { name: "Yonai", position: "The Navy wants the supply route closed without a war with France, and inspectors can close it. A demand for bases would turn a bargain into a quarrel before Washington has made up its mind." },
+              historical: true,
+              setFlags: { indochinaNorthPath: "inspectors" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "burmaRoad40",
+              outcome:
+                "The mission reaches Hanoi at the end of June and watches the railway and the frontier. It asks for no troops and no bases, and the Army asks for them in September, when Vichy has had time to be frightened of Germany's victory and not of Japan. The route to China through Indochina is closed to arms.",
+            },
+            {
+              label: "Demand air bases and the right to move troops through northern Indochina at once",
+              advisor: { name: "Sugiyama", position: "France will not be weaker than it is this month. A demand for bases made now will be met, and a demand made when Vichy has recovered will be refused." },
+              setFlags: { indochinaNorthPath: "demand", suspicion: (flags.suspicion || 0) + 1 },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "burmaRoad40",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "The Governor-General gives way",
+                  setFlags: { indochinaMissionResult: "yielded" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                  outcome:
+                    "Speculative. The Governor-General yields in July, and the Army has airfields and a railhead in the north of Indochina two months before the real agreement. Washington notes the date.",
+                },
+                {
+                  weight: (() => { const w = modWeight(40, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The Governor-General refuses and appeals abroad",
+                  setFlags: { indochinaMissionResult: "refused" },
+                  impact: { readiness: -1, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. Hanoi refuses and sends the demand to London and Washington. The demand has told both what Japan wants in the south, and it has not got it.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The Army's wish was bases in the north of Indochina, and it got them in the autumn of 1940 by a harder road, after a short fight at Lang Son. Whether a demand in June would have been met is not something the record settles.",
+            },
+            {
+              label: "Leave Indochina alone and put the effort into the war in China",
+              advisor: { name: "Yamamoto", position: "Every new front is a new quarrel with Britain, America or France, and the war in China is not finished. A pause in the south would leave the Army with fewer enemies and the Navy with its fuel." },
+              setFlags: { indochinaNorthPath: "leave" },
+              impact: { readiness: 1, pipeline: 1, initiative: -1 },
+              next: "burmaRoad40",
+              outcome:
+                "A modeled alternative. The railway from Haiphong goes on carrying part of what China needs, and the Army's divisions in China have one fewer reason to complain. The southern argument is put off to a month when Germany is winning and Japan has less to say.",
             },
           ],
         };
@@ -233,7 +320,7 @@
             "Matsuoka is in Moscow on his way home from Berlin. In Berlin, Ribbentrop pressed him to take Singapore. Moscow has offered a neutrality pact. For the Navy it secures the northern border while the fleet turns south. For the Army's northern school it ends the plan for a war against the Soviet Union that the Army has preferred since Nomonhan two years ago. The Soviet army in the Far East is one of the largest in the world." +
             (flags.tripartitePath === "signed"
               ? " Japan is an ally of Germany by the Tripartite Pact, and Berlin has said nothing about a pact with Moscow."
-              : ""),
+              : "") + (flags.nomonhanPath === "ceasefire" ? " The ceasefire of September 1939 still holds on the border." : flags.nomonhanPath === "renew" ? " The Army's plan for a second battle at Nomonhan has not been dropped." : ""),
           choices: [
             {
               label: "Sign the five-year neutrality pact with the Soviet Union",
