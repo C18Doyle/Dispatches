@@ -84,7 +84,9 @@ for (const th of M.FRONT_SERIES) {
 }
 
 // ---- the reports of each campaign (the node getters of its file) ----
-const FILES = { german: "10-campaign-german.jsx", soviet: "11-campaign-soviet.jsx", allied: "12-campaign-allied.jsx", italy: "13-campaign-italy.jsx", japan: "14-campaign-japan.jsx", alliedPacific: "15-campaign-alliedpacific.jsx" };
+// Dispatches WW2: the European commands only. The Pacific commands' places, fronts and orders are 1941's, inside PACIFIC_MAP (33-pacific-map.jsx),
+// and 1941's own check of them is not ported yet (docs/PORT_STATUS.md).
+const FILES = { german: "10-campaign-german.jsx", soviet: "11-campaign-soviet.jsx", allied: "12-campaign-allied.jsx", italy: "13-campaign-italy.jsx" };
 const ids = {};
 for (const [cid, f] of Object.entries(FILES)) {
   const src = readFileSync(join(ROOT, "src/parts", f), "utf8");

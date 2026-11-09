@@ -23,7 +23,16 @@ import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const src = readFileSync(path.join(ROOT, "src/App.jsx"), "utf8");
+// Dispatches WW2: the Pacific map (src/parts/33-pacific-map.jsx, the closure PACIFIC_MAP) has its own MAP_REGIONS, MAP_TIMELINE and the rest
+// under the same names; this check is about the European map, so the closure is cut out before any name is looked up.
+const src = (() => {
+  const all = readFileSync(path.join(ROOT, "src/App.jsx"), "utf8");
+  const a = all.indexOf("const PACIFIC_MAP = (() => {");
+  if (a < 0) return all;
+  const b = all.indexOf("\n})();\n", a);
+  if (b < 0) throw new Error("the PACIFIC_MAP closure has no end");
+  return all.slice(0, a) + all.slice(b + "\n})();\n".length);
+})();
 const require = createRequire(import.meta.url);
 const camps = (() => {
   const c = require(path.join(ROOT, "tools/campaigns_extracted.js"));

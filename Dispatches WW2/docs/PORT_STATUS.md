@@ -24,7 +24,7 @@ What of 1941 is in WW2, what is not yet, and what was changed on the way. The pl
 - **1941's first-run guide, glossary underlines (GlossText), paper wear and seasonal grain** are not shown.
 - **The war record's objectives and the endings gallery** do not list the Pacific objectives (1941's OBJECTIVES) or endings yet.
 - **The Pacific advisers' dates** are not audited in WW2: 1941 dates them by tenure (`tests/adviser-tenures.json`, `ADVISOR_TITLE_BY_DATE`), and that audit and the dated titles are not ported. 1940's fate-based audit covers the European commands only.
-- **1941's own audits** (check-rolls, check-glossary, check-battle-balance for the Pacific battles' registries, check-map for the Pacific timeline, test:branch-nodes, test:battle-hosts, test:state-events) are not run in WW2.
+- **1941's own audits** (check-rolls, check-glossary, check-battle-balance for the Pacific battles' registries, check-map and check-map-front for the Pacific timeline, places, fronts and orders (WW2's check-map, check-map-ops and check-map-front cover the European map only), test:branch-nodes, test:battle-hosts, test:state-events) are not run in WW2.
 - **The conditions line** has no weather for Pacific reports (their places are in `PACIFIC_MAP.MAP_PLACES`, which the climate table does not read).
 - **The interface strings of the Pacific screens** (the map's legends and buttons) are English only: the seven languages cover the European screens and the new mode names (improvement 2 in COMMANDS.md).
 - **The engine equivalence test** (`packages/engine/tests/campaign-equivalence.test.mjs`) checks 1940's and 1941's own rule files, which WW2's `logic.ts` and `logic-pacific.ts` copy; WW2 is not listed there.

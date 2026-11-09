@@ -29,7 +29,8 @@ const words = (t) => t.trim().split(/\s+/).filter(Boolean).length;
 const problems = [];
 let checked = 0;
 const perCampaign = {};
-for (const cid of Object.keys(CAMPAIGNS)) {
+// Dispatches WW2: the European commands only (the Pacific commands draw their orders on PACIFIC_MAP; see check-map-front).
+for (const cid of Object.keys(CAMPAIGNS).filter((c) => !["japan", "alliedPacific"].includes(c))) {
   const bbox = BBOX[cid];
   if (!bbox) { problems.push(`${cid}: no map frame found in 30-warroom-and-maps.jsx`); continue; }
   for (const [nodeId, ops] of Object.entries(MAP_OPS[cid] || {})) {
