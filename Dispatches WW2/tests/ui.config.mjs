@@ -5,10 +5,10 @@ import { JSDOM } from "jsdom";
 const CAMPAIGNS = [
   ["german", "OKW"],
   ["soviet", "STAVKA"],
-  ["allied", "SHAEF"],
+  ["british", "WAR CABINET"],
   ["italy", "COMANDO"],
   ["japan", "IGHQ"],
-  ["alliedPacific", "CINCPAC"],
+  ["american", "JOINT CHIEFS"],
 ];
 // The three difficulties, by the order of the cases below.
 const MODES = ["easy", "open", "hard"];

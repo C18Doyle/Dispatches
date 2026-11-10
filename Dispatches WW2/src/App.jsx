@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useRef, useId, useSyncExternalStore, Comp
 import * as Tone from "tone";
 import { t, T, initLanguage, setLanguage, getLanguage, subscribe as subscribeLanguage, registerTables, LANGUAGES } from "@dispatches/i18n";
 import I18N_TABLES from "./i18n/tables.js";
-import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey, dueStateEvent, selectRules, rulesOf, PACIFIC_COMMANDS } from "./rules";
+import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey, dueStateEvent, selectRules, rulesOf, PACIFIC_COMMANDS, PACIFIC_RULES } from "./rules";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
 // the file:// protocol, under which both fetch() of a relative path and a MediaElementAudioSource
@@ -12780,6 +12780,8 @@ const CAMPAIGNS = {
 
   allied: {
     id: "allied",
+    // Dispatches WW2: a source file, not offered; its reports are played by the British and American commands (16-commands-britain-us).
+    sourceOnly: true,
     seal: "SHAEF",
     name: "Allied Combined Chiefs",
     dates: "1939–1945",
@@ -25593,6 +25595,8 @@ const CAMPAIGNS = {
   },
   alliedPacific: {
     id: "alliedPacific",
+    // Dispatches WW2: a source file, not offered; its reports are played by the British and American commands (16-commands-britain-us).
+    sourceOnly: true,
     seal: "CINCPAC",
     name: "Allied Pacific Command",
     dates: "Beginning 1940",
@@ -29082,7 +29086,228 @@ const CAMPAIGNS = {
       return "The war reaches its historical conclusion by whatever route this history's specific choices carved to it, an ending the broad record would still recognize even where the path here diverged from it in the details.";
     },
   },
+  // ---------- THE BRITISH AND AMERICAN COMMANDS (Dispatches WW2) ----------
+  // SHAEF (Dispatches 1940's `allied`) and CINCPAC (Dispatches 1941's `alliedPacific`) are no longer offered: their reports are shared out
+  // between a British command and an American one by whose government made the decision in the record (docs/COMMANDS.md). Each of the two
+  // runs two TRACKS, one through each source file, in date order (compositeNext, below the CAMPAIGNS object). Where a track reaches a report
+  // that belongs to the other command, the record's own order is taken without a screen (its flags, not its meters), so the later reports
+  // read as they were written. The British command plays by 1940's rules and its ending is 1940's Allied ending; the American command plays
+  // by 1941's rules and its ending is 1941's (src/rules.ts: PACIFIC_RULES).
+  british: {
+    id: "british",
+    seal: "WAR CABINET",
+    name: "The War Cabinet and Chiefs of Staff",
+    dates: "1939–1945",
+    brief: "Direct Britain's war from the promise to Poland to Burma: Norway, Dunkirk, the Atlantic, the Mediterranean, Singapore and the road back through Italy and the Low Countries.",
+    teaser: "An empire's war, fought on every front at once.",
+    accent: "#2f4a3a",
+    dynamic: true,
+    start: "saar39",
+    // The source file the war room, the end of the war and the European map are drawn from.
+    endSource: "allied",
+    tracks: [
+      { key: "E", source: "allied", start: "saar39", theatre: "europe" },
+      { key: "P", source: "alliedPacific", start: "fleetAtHawaii40", theatre: "pacific" },
+    ],
+    resolveNode(id, flags, meters) {
+      return compositeResolve("british", id, flags, meters);
+    },
+    historicity(...a) { return CAMPAIGNS.allied.historicity ? CAMPAIGNS.allied.historicity(...a) : null; },
+    projectedEnd(...a) { return CAMPAIGNS.allied.projectedEnd(...a); },
+    positionLabel(...a) { return CAMPAIGNS.allied.positionLabel(...a); },
+    epilogue(...a) { return CAMPAIGNS.allied.epilogue(...a); },
+    oneYearLater(...a) { return CAMPAIGNS.allied.oneYearLater ? CAMPAIGNS.allied.oneYearLater(...a) : null; },
+  },
+  american: {
+    id: "american",
+    seal: "JOINT CHIEFS",
+    name: "The Joint Chiefs of Staff",
+    dates: "1940–1945",
+    brief: "Direct America's war on two oceans, from the fleet at Hawaii to Tokyo Bay, and from Torch to the Elbe.",
+    teaser: "Two wars, one arsenal, and the question of which comes first.",
+    accent: "#28497a",
+    dynamic: true,
+    start: "fleetAtHawaii40",
+    endSource: "alliedPacific",
+    tracks: [
+      { key: "P", source: "alliedPacific", start: "fleetAtHawaii40", theatre: "pacific" },
+      // The war in Europe begins for the American file once it is at war: when the Pacific track has reached Arcadia.
+      { key: "E", source: "allied", start: "saar39", theatre: "europe", opensAt: "arcadia41" },
+    ],
+    resolveNode(id, flags, meters) {
+      return compositeResolve("american", id, flags, meters);
+    },
+    positionLabel(...a) { return CAMPAIGNS.alliedPacific.positionLabel(...a); },
+    epilogue(...a) { return CAMPAIGNS.alliedPacific.epilogue(...a); },
+  },
 };
+
+// ---------- WHO OWNS EACH ALLIED REPORT ----------
+// Every report of the two source files belongs to the British command, the American command, or both (BOTH: Yalta, the one conference
+// neither file has twice). The other conferences are in both source files under two ids (Arcadia: europeFirst42 and arcadia41; Casablanca:
+// casablanca43 and unconditionalSurrender43; Tehran: tehran43 and tehransPromise43), so each command takes one of them and passes the other
+// by the record. A report missing from both lists below is American (most of CINCPAC's file).
+const BRITISH_REPORTS = new Set([
+  // 1939 to 1941, the British war before America's
+  "saar39", "dyle39", "altmarkRaid40", "finland40", "wilfred40", "narvik40", "dunkirk40", "halifaxCrisis40", "battleOfBritain40",
+  "compassGreece41", "greeceFalls41", "crete41", "aidRussia41", "malaya41", "forceZ41", "crusader41",
+  // the conferences from London's chair
+  "europeFirst42", "casablanca43", "tehran43",
+  // the sea, the bombers and the Mediterranean
+  "atlanticConvoys42", "pq17_1942", "australiaLifeline42", "dieppe42", "bomberDirective43", "italyOrOverlord43", "dodecanese43", "aegeanReckoning43",
+  "turkishQuestion44", "turkishBelligerence44", "anzio44", "anzioSiege44", "romeDividend44", "gothicLineEarly44", "ljubljanaGap44", "gapStalled44",
+  "viennaStandoff44", "strategicBombing45",
+  // Montgomery's front
+  "marketGarden44", "arnhemPerimeter44", "scheldt44",
+  // the Commonwealth's war in Asia (from CINCPAC's file)
+  "curtinsTurn42", "rangoonRetreatAllied42", "kokodaTrailAllied42", "burmaReconquest45",
+]);
+const BOTH_REPORTS = new Set(["yaltaFeb45"]);
+const AMERICAN_FROM_ALLIED = new Set([
+  "pacificPressure42", "secondFront42", "darlanDeal42", "resistanceContact44", "sicilyHusky43", "untestedDoctrine44", "overlordPrep44",
+  "omahaCrisis44", "omahaIsolated44", "omahaBreakthroughLate44", "omahaToehold44", "falaise44", "normandy44", "eisenhowerIntervenes44",
+  "anvilDragoon44", "ardennesResponse44", "bulgeExploited44", "stalinTestsTheFront45", "westernCollapse45", "berlinDecision45", "berlinRace45",
+  "germanyOccupation45",
+]);
+
+/** Whether a report of one of the two Allied source files is played in this command's file. */
+function compositeOwns(commandId, nodeId) {
+  if (BOTH_REPORTS.has(nodeId)) return true;
+  if (commandId === "british") return BRITISH_REPORTS.has(nodeId);
+  if (commandId === "american") return !BRITISH_REPORTS.has(nodeId) && (compositeSourceOf(nodeId) === "alliedPacific" || AMERICAN_FROM_ALLIED.has(nodeId));
+  return false;
+}
+
+/** The source file a report of the British or American command comes from: "allied" or "alliedPacific". */
+function compositeSourceOf(nodeId) {
+  const id = String(nodeId);
+  if (COMPOSITE_SOURCE_CACHE.has(id)) return COMPOSITE_SOURCE_CACHE.get(id);
+  let src = "allied";
+  try {
+    if (!CAMPAIGNS.allied.resolveNode(id, {}, { manpower: 0, fuel: 0, initiative: 0 })) src = "alliedPacific";
+  } catch (e) {
+    src = "alliedPacific";
+  }
+  COMPOSITE_SOURCE_CACHE.set(id, src);
+  return src;
+}
+const COMPOSITE_SOURCE_CACHE = new Map();
+
+function compositeResolve(commandId, id, flags, meters) {
+  return CAMPAIGNS[compositeSourceOf(id)].resolveNode(id, flags, meters);
+}
+
+/** The campaign object that a report's screens are drawn for: the source file's (its maps, its staff's reading, its events), under the
+ * command's seal, name and colour. Commands that are not composite are their own view. */
+function campaignView(campaign, nodeId) {
+  if (!campaign || !campaign.tracks) return campaign;
+  const src = CAMPAIGNS[compositeSourceOf(nodeId)];
+  return { ...src, id: src.id, seal: campaign.seal, name: campaign.name, accent: campaign.accent, dates: campaign.dates, commandId: campaign.id, positionLabel: campaign.positionLabel, projectedEnd: campaign.projectedEnd, epilogue: campaign.epilogue };
+}
+
+/** A map draws the trail of the reports before this one from its own source file: a British or American file's history holds reports of
+ * both, and each map knows only its own. A report's view (campaignView) keeps its source's; the end of the war keeps the endSource's. */
+function mapHistory(campaign, history) {
+  if (!campaign || !Array.isArray(history)) return history;
+  const src = campaign.tracks ? campaign.endSource : campaign.commandId ? campaign.id : null;
+  if (!src) return history;
+  return history.filter((h) => h && compositeSourceOf(h.position) === src);
+}
+
+// ---------- STEPPING THROUGH TWO TRACKS ----------
+const TRACK_FLAG = (key) => `trk_${key}`; // the track's next report not yet shown, or "END"
+const TRACK_OPEN = (key) => `trkOpen_${key}`;
+const TRACK_ENDS = new Set(["END", "end", ""]);
+const REPORT_MONTH_NAMES = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+/** The month a report's date starts in, for ordering two tracks: "SEPTEMBER 1944" is 194409; a season or a part of the year counts as its
+ * usual month ("EARLY 1944" 194402, "SPRING" 04, "MID-" 06, "SUMMER" 07, "LATE" or "AUTUMN" 10, "WINTER" 12); a bare year ("1943", "1943 – 1944")
+ * counts as its middle, 194306, so that a year-long report falls among the year's dated ones rather than before them. */
+const TRACK_SEASON_MONTH = [[/\bEARLY\b/, 2], [/\bSPRING\b/, 4], [/\bMID\b|\bMID-/, 6], [/\bSUMMER\b/, 7], [/\bAUTUMN\b|\bFALL\b|\bLATE\b/, 10], [/\bWINTER\b/, 12]];
+function trackMonth(date) {
+  const s = String(date || "").toUpperCase();
+  const y = s.match(/19\d{2}/);
+  if (!y) return 999999;
+  const head = s.slice(0, s.indexOf(y[0])); // only what comes before the first year: "JUNE – JULY 1942" is June
+  const m = head.match(/JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC/);
+  if (m) return Number(y[0]) * 100 + REPORT_MONTH_NAMES.indexOf(m[0]) + 1;
+  for (const [re, month] of TRACK_SEASON_MONTH) if (re.test(head)) return Number(y[0]) * 100 + month;
+  return Number(y[0]) * 100 + 6;
+}
+
+/** The order the record took at a report this command does not play: the historical order (else the first), and for a roll its likeliest
+ * outcome (else the first). Returns the flags it sets and where it leads. */
+function recordStep(node) {
+  const choices = (node && node.choices) || [];
+  const c = choices.find((x) => x.historical) || choices[0];
+  if (!c) return { next: "END", setFlags: {} };
+  let v = null;
+  if (c.uncertain && c.uncertain.length) v = c.uncertain.reduce((best, x) => ((x.weight || 0) > (best.weight || 0) ? x : best), c.uncertain[0]);
+  return { next: (v && v.next) || c.next || "END", setFlags: { ...(c.setFlags || {}), ...((v && v.setFlags) || {}) } };
+}
+
+/** From a report id in a track's source file, pass the other command's reports by the record until one of this command's (or the end). */
+function trackForward(commandId, track, id, flags, meters) {
+  let f = flags;
+  let cur = id;
+  for (let guard = 0; guard < 300; guard++) {
+    if (cur == null || TRACK_ENDS.has(String(cur))) return { at: "END", flags: f };
+    if (compositeOwns(commandId, cur)) return { at: String(cur), flags: f };
+    let node = null;
+    try {
+      node = CAMPAIGNS[track.source].resolveNode(String(cur), f, meters);
+    } catch (e) {
+      node = null;
+    }
+    if (!node) return { at: "END", flags: f };
+    const step = recordStep(node);
+    f = { ...f, ...step.setFlags };
+    cur = step.next;
+  }
+  return { at: "END", flags: f };
+}
+
+/**
+ * The next report of a British or American file. `position` is the report just played and `rawNext` where its order leads in its own
+ * source file (`rawEnd` when that is the end of the file). Each track keeps its next unplayed report in the flag trk_<key>; a track opens at
+ * its start, or when the file reaches its `opensAt` report. The next report is the one, among the open tracks, whose date starts earliest
+ * (the track just played wins a tie). The file ends when every open track has ended.
+ */
+function compositeNext(campaign, position, rawNext, rawEnd, flags, meters) {
+  const commandId = campaign.id;
+  let f = { ...flags };
+  const here = compositeSourceOf(position);
+  for (const tr of campaign.tracks) {
+    if (tr.opensAt && String(position) === tr.opensAt) f[TRACK_OPEN(tr.key)] = true;
+  }
+  for (const tr of campaign.tracks) {
+    const open = !tr.opensAt || f[TRACK_OPEN(tr.key)];
+    if (!open) continue;
+    if (tr.source === here) {
+      const r = trackForward(commandId, tr, rawEnd ? "END" : rawNext, f, meters);
+      f = { ...r.flags, [TRACK_FLAG(tr.key)]: r.at };
+    } else if (f[TRACK_FLAG(tr.key)] == null) {
+      const r = trackForward(commandId, tr, tr.start, f, meters);
+      f = { ...r.flags, [TRACK_FLAG(tr.key)]: r.at };
+    }
+  }
+  let best = null;
+  for (const tr of campaign.tracks) {
+    const at = f[TRACK_FLAG(tr.key)];
+    if (at == null || at === "END") continue;
+    let node = null;
+    try {
+      node = CAMPAIGNS[tr.source].resolveNode(String(at), f, meters);
+    } catch (e) {
+      node = null;
+    }
+    const month = trackMonth(node && node.date);
+    const score = month * 2 + (tr.source === here ? 0 : 1);
+    if (!best || score < best.score) best = { score, at, key: tr.key };
+  }
+  if (!best) return { nextPos: "END", isEnd: true, flags: f };
+  // The report about to be shown is no longer waiting in its track.
+  return { nextPos: best.at, isEnd: false, flags: { ...f, [TRACK_FLAG(best.key)]: undefined } };
+}
 
 // ---------- STYLE HELPERS ----------
 // The artifact environment ships only Tailwind's precompiled core classes — arbitrary
@@ -29153,6 +29378,8 @@ function campaignPaperStyle(campaignId, accent) {
     italy: "#f2f0e8",
     japan: "#f6efdf",
     alliedPacific: "#eef2f6",
+    british: "#eff3f4",
+    american: "#eef2f6",
   };
   const style = {
     backgroundColor: tints[campaignId] || "#ffffff",
@@ -34140,7 +34367,7 @@ function warRoomModeInfo(mode, campaignId) {
     axis: t("Axis Mode"),
     fanatical: t("Fanatical Resolve Mode"),
   };
-  if (campaignId === "alliedPacific") names.coalition = t("Coalition Resolve Mode");
+  if (campaignId === "alliedPacific" || campaignId === "american") names.coalition = t("Coalition Resolve Mode");
   const hard = !!HARD_MODE_NAMES[mode];
   const summaries = {
     easy: t("Each choice shows what it will do to the meters, the choice the record made is marked, and you can rewind."),
@@ -34151,7 +34378,7 @@ function warRoomModeInfo(mode, campaignId) {
     axis: t("No rewind. Berlin watches every act of independent Italian judgment, and losing its trust ends the command."),
     fanatical: t("No rewind. IGHQ's tolerance for choices that break with dogma is counted out of 5: each draws a charge of insubordination, and at 5 the file ends in a coup."),
   };
-  if (campaignId === "alliedPacific") summaries.coalition = t("No rewind. Overriding a partner's strong objection costs Coalition Resolve between Washington, London, Chongqing and Canberra, and a broken coalition relieves you.");
+  if (campaignId === "alliedPacific" || campaignId === "american") summaries.coalition = t("No rewind. Overriding a partner's strong objection costs Coalition Resolve between Washington, London, Chongqing and Canberra, and a broken coalition relieves you.");
   const trackerRules = {
     iron: t("Political capital: you have five points to spend defying the historical command. Five defiances and you are dismissed."),
     purge: t("Suspicion rises as you defy the apparatus, counted out of 5. At 5 you are recalled."),
@@ -36615,6 +36842,25 @@ KEY_BATTLE_ECHOES.okinawaAllied45 = {
   },
 };
 KEY_BATTLE_TITLES.push({ id: "okinawaAllied45", seal: "CINCPAC", title: "Okinawa" });
+// ---------- THE BRITISH AND AMERICAN COMMANDS IN THE SHARED TABLES (Dispatches WW2) ----------
+// The two commands of part 16 play reports from SHAEF's and CINCPAC's files, so the command-level tables take their rows from those two:
+// the atlas (the reports a command owns, in date order), the context notes, the divergence forks whose reveal is one of its reports, and its
+// modes and war-room quotation. Report-level tables (maps, the staff's reading, events, conditions) are read under the source file's id
+// through campaignView, so they need nothing here.
+const COMPOSITE_COMMANDS = ["british", "american"];
+for (const cmd of COMPOSITE_COMMANDS) {
+  const own = (id) => compositeOwns(cmd, id);
+  NODE_ATLAS[cmd] = [...(NODE_ATLAS.allied || []), ...(NODE_ATLAS.alliedPacific || [])].filter((e) => own(e.id)).sort((a, b) => trackMonth(a.date) - trackMonth(b.date));
+  CONTEXT_NOTES[cmd] = [...(CONTEXT_NOTES.allied || []), ...(CONTEXT_NOTES.alliedPacific || [])];
+  DIVERGENCE_FORKS[cmd] = [...(DIVERGENCE_FORKS.allied || []), ...(DIVERGENCE_FORKS.alliedPacific || [])].filter((f) => !f.revealNode || own(f.revealNode));
+}
+HARD_MODE_OF.british = "coalition";
+HARD_MODE_OF.american = "coalition";
+EASY_MODE_NAMES.british = T("Defiant Command");
+EASY_MODE_NAMES.american = T("Mark 14 Command");
+CAMPAIGN_WAR_ROOM_QUOTE.british = CAMPAIGN_WAR_ROOM_QUOTE.allied;
+CAMPAIGN_WAR_ROOM_QUOTE.american = CAMPAIGN_WAR_ROOM_QUOTE.alliedPacific;
+
 function WarRoomDocOKW({ campaign, modeInfo, easy }) {
   return (
     <>
@@ -36697,6 +36943,82 @@ function WarRoomDocIGHQ({ campaign, modeInfo, easy }) {
   );
 }
 
+function WarRoomDocWarCabinet({ campaign, modeInfo, easy }) {
+  return (
+    <>
+      <div className="flex justify-between items-start mb-3">
+        <div style={{ fontFamily: "'IBM Plex Mono', monospace" }} className="text-left">
+          <div className="text-[10px] font-bold tracking-[0.18em]" style={{ color: campaign.accent }}>
+            WAR CABINET OFFICES · GREAT GEORGE STREET
+          </div>
+          <div className="text-[9px] text-[#555] mt-0.5">{campaign.name}</div>
+        </div>
+        <div className="briefing-stamp-okw" style={{ border: `2.5px solid ${campaign.accent}`, color: campaign.accent }}>
+          MOST SECRET
+        </div>
+      </div>
+      <div className="briefing-fields-okw" style={{ borderTop: "1px solid #ccc4b8", borderBottom: "1px solid #ccc4b8" }}>
+        <span>SUBJECT.</span>
+        <span>
+          <b>{campaign.name}</b>
+        </span>
+        <span>DATE.</span>
+        <span>{campaign.dates}</span>
+      </div>
+      {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id] && (
+        <p className="text-[14px] italic leading-relaxed mb-4 text-[#000000] text-left" style={{ fontFamily: "'Courier Prime', monospace" }}>
+          "{CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].text}"
+          {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker && (
+            <span className="block not-italic text-[11px] uppercase tracking-widest font-semibold mt-1 opacity-60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              — {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker}, {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].date}
+            </span>
+          )}
+        </p>
+      )}
+      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#595959", fontFamily: "'IBM Plex Mono', monospace" }}>
+        TO BE KEPT UNDER LOCK AND KEY: WAR CABINET / CHIEFS OF STAFF COMMITTEE
+      </div>
+    </>
+  );
+}
+function WarRoomDocJCS({ campaign, modeInfo, easy }) {
+  return (
+    <>
+      <div className="flex justify-between items-start mb-3">
+        <div style={{ fontFamily: "'IBM Plex Mono', monospace" }} className="text-left">
+          <div className="text-[10px] font-bold tracking-[0.18em]" style={{ color: campaign.accent }}>
+            JOINT CHIEFS OF STAFF · WASHINGTON
+          </div>
+          <div className="text-[9px] text-[#555] mt-0.5">{campaign.name}</div>
+        </div>
+        <div className="briefing-stamp-okw" style={{ border: `2.5px solid ${campaign.accent}`, color: campaign.accent }}>
+          SECRET
+        </div>
+      </div>
+      <div className="briefing-fields-okw" style={{ borderTop: "1px solid #ccc4b8", borderBottom: "1px solid #ccc4b8" }}>
+        <span>SUBJECT.</span>
+        <span>
+          <b>{campaign.name}</b>
+        </span>
+        <span>DATE.</span>
+        <span>{campaign.dates}</span>
+      </div>
+      {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id] && (
+        <p className="text-[14px] italic leading-relaxed mb-4 text-[#000000] text-left" style={{ fontFamily: "'Courier Prime', monospace" }}>
+          "{CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].text}"
+          {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker && (
+            <span className="block not-italic text-[11px] uppercase tracking-widest font-semibold mt-1 opacity-60" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              — {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].speaker}, {CAMPAIGN_WAR_ROOM_QUOTE[campaign.id].date}
+            </span>
+          )}
+        </p>
+      )}
+      <div className="text-[9px] tracking-[0.08em] text-left pt-2 mb-6" style={{ borderTop: "1px solid #ccc4b8", color: "#595959", fontFamily: "'IBM Plex Mono', monospace" }}>
+        DISTRIBUTION: J.C.S. / C.C.S.: OFFICIAL FILES ONLY
+      </div>
+    </>
+  );
+}
 function WarRoomDocCINCPAC({ campaign, modeInfo, easy }) {
   return (
     <>
@@ -38059,7 +38381,7 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   useEffect(() => {
     if (headingRef.current) headingRef.current.focus();
   }, [campaign.id, mode]);
-  const Doc = { german: WarRoomDocOKW, soviet: WarRoomDocSTAVKA, allied: WarRoomDocSHAEF, italy: WarRoomDocComandoSupremo, japan: WarRoomDocIGHQ, alliedPacific: WarRoomDocCINCPAC }[campaign.id] || WarRoomDocOKW;
+  const Doc = { german: WarRoomDocOKW, soviet: WarRoomDocSTAVKA, allied: WarRoomDocSHAEF, italy: WarRoomDocComandoSupremo, japan: WarRoomDocIGHQ, alliedPacific: WarRoomDocCINCPAC, british: WarRoomDocWarCabinet, american: WarRoomDocJCS }[campaign.id] || WarRoomDocOKW;
 
   // Historical Divergence Mode toggle. Available from a player's very first run of a campaign —
   // Round 11 (Craig: "Can the make the historically accurate unlock available from the
@@ -41373,7 +41695,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           </button>
         )}
         {Object.values(CAMPAIGNS)
-          .filter((c) => !c.hidden)
+          .filter((c) => !c.hidden && !c.sourceOnly)
           .map((c) => {
             const unlocked = !DEMO_BUILD || DEMO_UNLOCKED_CAMPAIGNS.includes(c.id);
             const body = (
@@ -41417,7 +41739,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           })}
 
         {Object.values(CAMPAIGNS)
-          .filter((c) => c.hidden)
+          .filter((c) => c.hidden && !c.sourceOnly)
           .map((c) => (
             <div
               key={c.id}
@@ -44238,7 +44560,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             nodeId={nodeId}
             lastSeenMapStatuses={lastSeenMapStatuses}
             onStatusesChange={onStatusesChange}
-            history={history}
+            history={mapHistory(campaign, history)}
             orders={stage.choices}
             review={showReview ? (!iron ? (total >= 3 ? t(" · ahead of the historical baseline") : total <= -3 ? t(" · behind the historical baseline") : t(" · tracking the historical record")) : "") + (comparableSoFar.length > 0 ? t(" · history matched at {matchedSoFar} of {comparableSoFarLength} points", { matchedSoFar, comparableSoFarLength: comparableSoFar.length }) : "") : null}
           />
@@ -44399,9 +44721,9 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
         {campaign.dynamic &&
           (PACIFIC_COMMANDS.includes(campaign.id) ? (
-            <PACIFIC_MAP.ReportMap key={nodeId} campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} log={log} />
+            <PACIFIC_MAP.ReportMap key={nodeId} campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={mapHistory(campaign, history)} log={log} />
           ) : (
-            <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />
+            <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={mapHistory(campaign, history)} onOpen={() => setShowMap(true)} />
           ))}
         <Typewriter text={situationWithNote} instant={instantText} soundOn={soundOn} />
         {campaign.dynamic && onIntelCheck && <IntelPanel campaignId={campaign.id} nodeId={nodeId} flags={flags} easy={easy} hard={noRewind} onCheck={(id) => onIntelCheck(nodeId, id, noRewind)} accent={campaign.accent} />}
@@ -46579,21 +46901,21 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
             </summary>
             <CheckpointMap
               embedded
-              campaign={campaign}
+              campaign={campaign.endSource ? { ...CAMPAIGNS[campaign.endSource], seal: campaign.seal, name: campaign.name, accent: campaign.accent } : campaign}
               year={yearFrom(endStamp, 1945)}
               flags={flags}
               meters={meters}
               resolved
               seenWireHeadlines={seenWireHeadlines || []}
               nodeId={position}
-              history={history}
+              history={mapHistory(campaign, history)}
               endDate={endStamp.replace(/\s*\(.*\)\s*$/, "")}
             />
           </details>
         )}
 
         {/* The Pacific commands (from Dispatches 1941) have no projected end: their theatre map at the end is drawn at the date of the last report, as in 1941. */}
-        {PACIFIC_COMMANDS.includes(campaign.id) && campaign.dynamic && (log || []).length > 0 && (
+        {(PACIFIC_COMMANDS.includes(campaign.id) || campaign.endSource === "alliedPacific") && campaign.dynamic && (log || []).length > 0 && (
           <details className="mb-6">
             <summary className="text-xs uppercase tracking-[0.25em] font-semibold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               {t("The Theater Map at the end of the war")}
@@ -47593,7 +47915,7 @@ async function saveRunRecord(campaign, flags, meters, visited, mode, log, rewind
     const earned = evaluateObjectives({ campaignId: campaign.id, flags, meters, log, rewinds, mode, favor });
     record.objectives = [...new Set([...(record.objectives || []), ...earned])];
     record.campaignsPlayed = [...new Set([...(record.campaignsPlayed || []), campaign.id])];
-    if (record.campaignsPlayed.length >= Object.keys(CAMPAIGNS).length && !record.objectives.includes("threeCommands"))
+    if (record.campaignsPlayed.length >= Object.values(CAMPAIGNS).filter((c) => !c.sourceOnly && !c.hidden).length && !record.objectives.includes("threeCommands"))
       record.objectives.push("threeCommands");
     const advisors = record.advisors || {};
     (log || []).forEach((e) => {
@@ -48047,6 +48369,8 @@ function WW2CommandInner() {
   }, []);
 
   const campaign = campaignId ? CAMPAIGNS[campaignId] : null;
+  // The British and American commands draw each report as its source file did (maps, staff's reading, events): campaignView in part 16.
+  const view = campaignView(campaign, position);
   const stage = useMemo(() => {
     if (!campaign) return null;
     // Führer Mode necessity rule lives in logic.ts (playableStage).
@@ -48239,7 +48563,7 @@ function WW2CommandInner() {
     const newLog = [...log, buildLogEntry(seen, choiceIndex, rollIndex)];
     setLog(newLog);
 
-    const { nextPos, isEnd } = nextPosition({
+    const raw = nextPosition({
       dynamic: !!campaign.dynamic,
       length: campaign.length,
       position,
@@ -48248,12 +48572,19 @@ function WW2CommandInner() {
       mode,
       flags,
     });
+    // A British or American file runs two tracks in date order (compositeNext, part 16); every other command goes where the order leads.
+    const step = campaign.tracks ? compositeNext(campaign, position, raw.nextPos, raw.isEnd, flags, meters) : { ...raw, flags };
+    const { nextPos, isEnd } = step;
+    const flagsStep = step.flags;
+    if (flagsStep !== flags) setFlags(flagsStep);
+    // Events and divergence forks are filed under the source file of the report being arrived at.
+    const evCampaign = campaign.tracks && !isEnd ? compositeSourceOf(nextPos) : campaignId;
 
     setOutcomeStage(null);
     if (!isEnd) {
       // A special dispatch is due on arriving at some reports (and when an adviser has asked to be relieved): shown once, before the report.
-      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: campaignId, flags, meters }) || pacificStateEvent(campaignId, nextPos, flags, meters) : null;
-      const flagsOut = dueEv ? { ...flags, [eventSeenKey(dueEv.id)]: true } : flags;
+      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: evCampaign, flags: flagsStep, meters }) || pacificStateEvent(evCampaign, nextPos, flagsStep, meters) : null;
+      const flagsOut = dueEv ? { ...flagsStep, [eventSeenKey(dueEv.id)]: true } : flagsStep;
       if (dueEv) setFlags(flagsOut);
       const newHistory = [...history, { position: nextPos, flags: flagsOut, meters, log: newLog }];
       setHistory(newHistory);
@@ -48262,16 +48593,16 @@ function WW2CommandInner() {
       setPosition(nextPos);
       setChoiceIndex(null);
       setRollIndex(null);
-      const nextStage = resolveStage(campaign, nextPos, flags, meters);
+      const nextStage = resolveStage(campaign, nextPos, flagsStep, meters);
       // Historical Divergence Mode reveal check runs first and, when it matches, wins outright —
       // it's deterministic (this fork fired, this is its one reveal point) rather than the
       // probabilistic ~1-in-7 real-news check below. seenWireHeadlines is shared with the real
       // Wire Bulletin list; onContinue below already pushes whichever id was shown into it.
       const divergeFork = arrivalFork({
         dynamic: !!campaign.dynamic,
-        campaignId,
+        campaignId: evCampaign,
         nextPos,
-        flags,
+        flags: flagsStep,
         forks: DIVERGENCE_FORKS,
         seenWireIds: seenWireHeadlines,
       });
@@ -48312,7 +48643,7 @@ function WW2CommandInner() {
       }
     } else {
       clearActiveRun();
-      saveRunRecord(campaign, flags, meters, visited, mode, newLog, rewinds, favor);
+      saveRunRecord(campaign, flagsStep, meters, visited, mode, newLog, rewinds, favor);
       setScreen("end");
     }
   }
@@ -48640,7 +48971,7 @@ function WW2CommandInner() {
       )}
       {screen === "event" && campaign && pendingEvent && (
         <SpecialEventScreen
-          campaign={campaign}
+          campaign={view}
           event={pendingEvent.event}
           onContinue={() => {
             const wire = pendingEvent.wire;
@@ -48656,7 +48987,7 @@ function WW2CommandInner() {
       )}
       {screen === "wire" && campaign && pendingWireHeadline && (
         <WireBulletin
-          campaign={campaign}
+          campaign={view}
           headline={pendingWireHeadline}
           onContinue={() => {
             setSeenWireHeadlines((prev) => [...prev, pendingWireHeadline.id]);
@@ -48667,7 +48998,7 @@ function WW2CommandInner() {
       )}
       {screen === "battleAllocation" && campaign && pendingBattle && (
         <BattleAllocationScreen
-          campaign={campaign}
+          campaign={view}
           config={pendingBattle.config}
           meters={meters}
           flags={flags}
@@ -48715,7 +49046,7 @@ function WW2CommandInner() {
       )}
       {screen === "battleResult" && campaign && displayStage && pendingBattle && pendingBattle.plan && (
         <BattleSimulationScreen
-          campaign={campaign}
+          campaign={view}
           mode={mode}
           config={pendingBattle.config}
           plan={pendingBattle.plan}
@@ -48736,7 +49067,7 @@ function WW2CommandInner() {
       )}
       {screen === "briefing" && campaign && stage && (
         <BriefingScreen
-          campaign={campaign}
+          campaign={view}
           stage={stage}
           nodeId={position}
           meters={meters}
@@ -48762,7 +49093,7 @@ function WW2CommandInner() {
       )}
       {screen === "outcome" && campaign && displayStage && (
         <OutcomeScreen
-          campaign={campaign}
+          campaign={view}
           stage={displayStage}
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}

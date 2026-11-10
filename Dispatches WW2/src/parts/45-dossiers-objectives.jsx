@@ -393,7 +393,7 @@ async function saveRunRecord(campaign, flags, meters, visited, mode, log, rewind
     const earned = evaluateObjectives({ campaignId: campaign.id, flags, meters, log, rewinds, mode, favor });
     record.objectives = [...new Set([...(record.objectives || []), ...earned])];
     record.campaignsPlayed = [...new Set([...(record.campaignsPlayed || []), campaign.id])];
-    if (record.campaignsPlayed.length >= Object.keys(CAMPAIGNS).length && !record.objectives.includes("threeCommands"))
+    if (record.campaignsPlayed.length >= Object.values(CAMPAIGNS).filter((c) => !c.sourceOnly && !c.hidden).length && !record.objectives.includes("threeCommands"))
       record.objectives.push("threeCommands");
     const advisors = record.advisors || {};
     (log || []).forEach((e) => {

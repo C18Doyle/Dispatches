@@ -27,7 +27,7 @@ const MAX_STEPS = 1200;
 // brackets and, at the end, lists the lines on screen that do not carry them (the interface text that is still English). docs/LOCALISATION.md.
 const LANG = process.env.I18N_LANG || "";
 const untranslated = new Map();
-const ALL = [["german", "OKW"], ["soviet", "STAVKA"], ["allied", "SHAEF"], ["italy", "COMANDO"], ["japan", "IGHQ"], ["alliedPacific", "CINCPAC"]];
+const ALL = [["german", "OKW"], ["soviet", "STAVKA"], ["italy", "COMANDO"], ["japan", "IGHQ"], ["british", "WAR CABINET"], ["american", "JOINT CHIEFS"]];
 const CAMPAIGNS = ALL.filter(([id]) => !process.env.CAMPAIGNS || process.env.CAMPAIGNS.split(",").includes(id));
 const PLAYS = [
   { label: "easy-manual", mode: "Easy", seed: 7, staff: false },
