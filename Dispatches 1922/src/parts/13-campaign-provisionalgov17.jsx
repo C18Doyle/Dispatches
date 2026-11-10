@@ -22,10 +22,10 @@ CAMPAIGNS.provisionalGov17 = {
   ],
   initialLegitimacy: 0,
   plannedEnding: {
-    date: "OCTOBER 1917",
+    date: "NOVEMBER 1917",
     title: "The Winter Palace Falls",
     note:
-      "The historical terminus, not a defeat this command can avert by playing well -- every choice in this campaign shapes how isolated the government is by October, not whether October happens. That's deliberate: a version of this campaign where good play prevents the Bolshevik seizure of power would contradict what every other campaign in this file already treats as settled fact.",
+      "The historical terminus, not a defeat this command can avert by playing well -- every choice in this campaign shapes how isolated the government is when the rising comes, not whether it comes. That's deliberate: a version of this campaign where good play prevents the Bolshevik seizure of power would contradict what every other campaign in this file already treats as settled fact.",
   },
   hardMode: {
     key: "decreeCapital",
@@ -48,16 +48,16 @@ CAMPAIGNS.provisionalGov17 = {
       bio:
         "A lawyer and Duma deputy before 1917, the only man to hold high office simultaneously in the Provisional Government and, in its first months, as a deputy chairman of the Petrograd Soviet -- dual power's contradictions embodied in one person rather than argued between two institutions. Became Minister of War in the first coalition formed after this campaign's opening crisis, then Minister-Chairman from July after the second.",
       fate:
-        "Fled Petrograd by car on 25 October (7 November NS) to rally General Krasnov's Cossacks at the front; the counter-attack collapsed at Pulkovo within days, and he never returned to Russian soil in a position of power. Lived another fifty-three years in exile, mostly in France and the United States, and died in New York in 1970 -- long enough to see nearly the entire war this file's other campaigns describe fought and finished.",
+        "Fled Petrograd by car on 7 November to rally General Krasnov's Cossacks at the front; the counter-attack collapsed at Pulkovo within days, and he never returned to Russian soil in a position of power. Lived another fifty-three years in exile, mostly in France and the United States, and died in New York in 1970 -- long enough to see nearly the entire war this file's other campaigns describe fought and finished.",
       faction: "Provisional Government, Coalition Cabinet",
       rank: 0,
     },
     kornilov: {
-      role: "Supreme Commander-in-Chief (from 19 July/1 August 1917)",
+      role: "Supreme Commander-in-Chief (from 31 July 1917)",
       bio:
-        "An escaped Austrian prisoner of war with a real battlefield reputation, appointed Supreme Commander by Kerensky himself after the June Offensive's collapse, on Kornilov's own condition that the government back restoring the death penalty and formal discipline at the front. What exactly Kerensky authorized before Kornilov's own advance on Petrograd in late August is still disputed -- an intermediary, Vladimir Lvov, carried proposals between them that each man afterward described differently, and whether this was a deliberate coup from the start or a plan Kerensky first encouraged and then publicly recast as mutiny is a real historians' argument, not settled the way the coup's failure itself is.",
+        "An escaped Austrian prisoner of war with a real battlefield reputation, appointed Supreme Commander by Kerensky himself after the Kerensky Offensive's collapse, on Kornilov's own condition that the government back restoring the death penalty and formal discipline at the front. What exactly Kerensky authorized before Kornilov's own advance on Petrograd in early September is still disputed -- an intermediary, Vladimir Lvov, carried proposals between them that each man afterward described differently, and whether this was a deliberate coup from the start or a plan Kerensky first encouraged and then publicly recast as mutiny is a real historians' argument, not settled the way the coup's failure itself is.",
       fate:
-        "Arrested and held with the other generals implicated at Bykhov Monastery, under a guard lenient enough that he escaped in the chaos of the Bolshevik seizure of power that November, disguised as a Turkoman soldier. Made his way south to the Don. See the Armed Forces of South Russia campaign for what he does next -- and how it ends.",
+        "Arrested and held with the other generals implicated at Bykhov Monastery, under a guard lenient enough that he escaped in the chaos of the Bolshevik seizure of power that December, disguised as a Turkoman soldier. Made his way south to the Don. See the Armed Forces of South Russia campaign for what he does next -- and how it ends.",
       faction: "Supreme Command, Army General Staff",
       rank: 0,
     },
@@ -66,7 +66,7 @@ CAMPAIGNS.provisionalGov17 = {
       bio:
         "A Georgian Menshevik released from Siberian exile in March 1917, and the real architect of the coalition this campaign's opening crisis produces -- the leading voice of 'revolutionary defencism' (hold the front, seek a negotiated peace without annexations, and work with the Provisional Government rather than against it) against the Soviet's own more radical minority. The government's ability to speak with the Soviet's actual majority at all runs through him more than through Kerensky.",
       fate:
-        "Opposed the July rising as recklessness that could only help the government's enemies, then opposed the Bolshevik seizure of power in October just as firmly. Left Russia in 1921 after the Georgian Menshevik republic he helped lead was itself overrun by the Red Army, and died in exile in New York in 1959.",
+        "Opposed the July rising as recklessness that could only help the government's enemies, then opposed the Bolshevik seizure of power in November just as firmly. Left Russia in 1921 after the Georgian Menshevik republic he helped lead was itself overrun by the Red Army, and died in exile in New York in 1959.",
       faction: "Petrograd Soviet, Menshevik-SR Majority",
       rank: 1,
     },
@@ -84,23 +84,23 @@ CAMPAIGNS.provisionalGov17 = {
       bio:
         "A Socialist Revolutionary who had organized the assassinations of the interior minister Plehve in 1904 and of Grand Duke Sergei in 1905. In 1917 he served as a commissar with the army and then as Kerensky's deputy at the War Ministry. He was one of those who pressed for Kornilov to be made Supreme Commander.",
       fate:
-        "Left the War Ministry in the first days of September, after the Kornilov affair. He fought the Bolsheviks in 1918, lived in exile in Europe, and was arrested after crossing back into the Soviet Union in 1924. He was sentenced to death, the sentence was reduced to ten years, and he died in the Lubyanka on 7 May 1925. The official finding was suicide.",
+        "Left the War Ministry in September, after the Kornilov affair. He fought the Bolsheviks in 1918, lived in exile in Europe, and was arrested after crossing back into the Soviet Union in 1924. He was sentenced to death, the sentence was reduced to ten years, and he died in the Lubyanka on 7 May 1925. The official finding was suicide.",
       faction: "Provisional Government, War Ministry",
       rank: 1,
     },
   },
 
   NODE_ATLAS: [
-    { id: "aprilCrisis17", date: "APRIL 1917", title: "Petrograd: The Note That Became Public" },
+    { id: "aprilCrisis17", date: "MAY 1917", title: "Petrograd: The Note That Became Public" },
     { id: "armyCommissars17", date: "MAY 1917", title: "The Ministry of War: Committees, Commissars and a Declaration" },
-    { id: "juneOffensive17", date: "JUNE 1917", title: "The Southwestern Front: An Offensive With a Government's Name On It" },
+    { id: "juneOffensive17", date: "JULY 1917", title: "The Southwestern Front: An Offensive With a Government's Name On It" },
     { id: "julyDays17", date: "JULY 1917", title: "Petrograd: The Days the Machine Guns Came Out" },
     { id: "supremeCommand17", date: "JULY 1917", title: "Stavka: Who Commands the Army" },
     { id: "moscowConference17", date: "AUGUST 1917", title: "Moscow: The State Conference" },
-    { id: "kornilovAffair17", date: "AUGUST 1917", title: "Petrograd: The General's Trains" },
+    { id: "kornilovAffair17", date: "SEPTEMBER 1917", title: "Petrograd: The General's Trains" },
     { id: "directory17", date: "SEPTEMBER 1917", title: "Petrograd: Five Ministers and a Republic" },
     { id: "democraticConference17", date: "SEPTEMBER 1917", title: "Petrograd: The Democratic Conference" },
-    { id: "octoberStand17", date: "OCTOBER 1917", title: "Petrograd: The Morning of the 24th" },
+    { id: "octoberStand17", date: "NOVEMBER 1917", title: "Petrograd: The Morning of 6 November" },
   ],
   NODE_TOTAL: 10,
   ENDINGS_GALLERY: [
@@ -119,12 +119,12 @@ CAMPAIGNS.provisionalGov17 = {
       // -----------------------------------------------------------------
       case "aprilCrisis17":
         return {
-          date: "APRIL 1917",
+          date: "MAY 1917",
           title: "Petrograd: The Note That Became Public",
           bulletin: {
             headline: "AN EMPIRE ENDS WITHOUT A COMMAND STRUCTURE TO END IT",
             body:
-              "Nine weeks ago there was a Tsar. The abdication itself -- 2 March, at Pskov, after five days of strikes, a garrison mutiny, and a Duma committee that formed to fill the vacuum before anyone had decided it should -- wasn't a decision this government made; it inherited the result. Power split on arrival between this Cabinet, appointed by the old Duma's committee, and the Petrograd Soviet of Workers' and Soldiers' Deputies, elected in the same chaotic week and controlling the garrison, the railways, and the printing presses this government needs to be obeyed at all. Neither side calls the other illegitimate. Neither side can act without the other's cooperation, either.",
+              "Seven weeks ago there was a Tsar. The abdication itself -- 15 March, at Pskov, after five days of strikes, a garrison mutiny, and a Duma committee that formed to fill the vacuum before anyone had decided it should -- wasn't a decision this government made; it inherited the result. Power split on arrival between this Cabinet, appointed by the old Duma's committee, and the Petrograd Soviet of Workers' and Soldiers' Deputies, elected in the same chaotic week and controlling the garrison, the railways, and the printing presses this government needs to be obeyed at all. Neither side calls the other illegitimate. Neither side can act without the other's cooperation, either.",
             meanwhile: {
               southRussia: "Does not exist yet as a command. The Volunteer Army's founders are still serving officers of an army that answers, for now, to this government.",
               siberia: "Does not exist yet as a command. The Czechoslovak Legion is still an Allied unit in transit through Russian territory, over a year from the revolt that will make Siberia a front at all.",
@@ -159,7 +159,7 @@ CAMPAIGNS.provisionalGov17 = {
               impact: {},
               next: "armyCommissars17",
               outcome:
-                "Miliukov and War Minister Guchkov resign within days. On 5 May a reorganized coalition cabinet is sworn in with six socialist ministers, Kerensky moving from Justice to War among them -- the first time the Soviet's own people sit in the government rather than merely supervising it from outside.",
+                "Miliukov and War Minister Guchkov resign within days. On 18 May a reorganized coalition cabinet is sworn in with six socialist ministers, Kerensky moving from Justice to War among them -- the first time the Soviet's own people sit in the government rather than merely supervising it from outside.",
             },
           ],
         };
@@ -183,7 +183,7 @@ CAMPAIGNS.provisionalGov17 = {
             meanwhile: {
               southRussia: "Does not exist yet as a command. General Alekseev, the Supreme Commander, will raise the Volunteer Army on the Don after the October rising.",
               siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
-              bolsheviks: "Lenin has been back in Petrograd since 3 April and argues for all power to the Soviets. The Bolsheviks are a minority in the Soviet.",
+              bolsheviks: "Lenin has been back in Petrograd since 16 April and argues for all power to the Soviets. The Bolsheviks are a minority in the Soviet.",
             },
           },
           historicalRecord: true,
@@ -234,7 +234,7 @@ CAMPAIGNS.provisionalGov17 = {
       // separate versions of June that would say the same thing anyway.
       case "juneOffensive17":
         return {
-          date: "JUNE 1917",
+          date: "JULY 1917",
           title: "The Southwestern Front: An Offensive With a Government's Name On It",
           bulletin: {
             headline: "THE FIRST FREE PRESS IN THE EMPIRE'S HISTORY IS ALSO ARGUING FOR THE ARMY TO STOP FIGHTING",
@@ -248,7 +248,7 @@ CAMPAIGNS.provisionalGov17 = {
           },
           historicalRecord: true,
           situation:
-            "As the new War Minister, you campaigned across the front for this offensive personally, on the argument that Russia keeps its seat among the Allies -- and its claim on any postwar settlement -- only by fighting, not merely by surviving. The Southwestern Front attacks at dawn on 18 June. The first two days go well: real ground, real prisoners. What happens after that is not yet written." +
+            "As the new War Minister, you campaigned across the front for this offensive personally, on the argument that Russia keeps its seat among the Allies -- and its claim on any postwar settlement -- only by fighting, not merely by surviving. The Southwestern Front attacks at dawn on 1 July. The first two days go well: real ground, real prisoners. What happens after that is not yet written." +
             (flags.armyPolicy === "withheld"
               ? " The committees have not accepted the May order. Several regiments on the line have voted on whether to attack at all."
               : flags.armyPolicy === "declaration"
@@ -277,7 +277,7 @@ CAMPAIGNS.provisionalGov17 = {
                     setFlags: { offensiveOutcome: "contained" },
                     impact: { frontDiscipline: 1 },
                     outcome:
-                      "The German-Austrian counterattack on 6 July still breaks the front near Tarnopol, exactly as it did in the record -- committing the reserve doesn't change that. It does mean the retreat that follows is a retreat, with formations still answering to their officers, rather than the wholesale collapse the same counterattack produced where units had already stopped listening to anyone.",
+                      "The German-Austrian counterattack on 19 July still breaks the front near Tarnopol, exactly as it did in the record -- committing the reserve doesn't change that. It does mean the retreat that follows is a retreat, with formations still answering to their officers, rather than the wholesale collapse the same counterattack produced where units had already stopped listening to anyone.",
                   },
                   {
                     weight: 100 - holdsWeight,
@@ -330,7 +330,7 @@ CAMPAIGNS.provisionalGov17 = {
           situation:
             "For four days the city has been armed and in the streets, and the rising has no single command giving it direction -- which makes it harder to negotiate with and, this Cabinet's staff believe, easier to break, if there are still loyal units left to do the breaking with." +
             (flags.aprilCrisisChoice === "standFirm"
-              ? " The coalition that never formed in April is being felt now: there is no socialist minister in this room whose own presence might have kept the Soviet's moderate majority talking instead of watching the streets to see who wins."
+              ? " The coalition that never formed in May is being felt now: there is no socialist minister in this room whose own presence might have kept the Soviet's moderate majority talking instead of watching the streets to see who wins."
               : ""),
           choices: [
             {
@@ -380,7 +380,7 @@ CAMPAIGNS.provisionalGov17 = {
           bulletin: {
             headline: "THE FRONT BROKE AT TARNOPOL. THE SUPREME COMMANDER IS TO CHANGE.",
             body:
-              "The German and Austrian counterattack of 6 July broke the Southwestern Front near Tarnopol. The government has restored the death penalty at the front. General Kornilov, who took the Southwestern Front on 8 July, has told the government what he will need as Supreme Commander. He asks for the death penalty behind the lines as well, and for the removal of General Cheremisov.",
+              "The German and Austrian counterattack of 19 July broke the Southwestern Front near Tarnopol. The government has restored the death penalty at the front. General Kornilov, who took the Southwestern Front on 21 July, has told the government what he will need as Supreme Commander. He asks for the death penalty behind the lines as well, and for the removal of General Cheremisov.",
             meanwhile: {
               southRussia: "Does not exist yet as a command. General Denikin commands the Western Front and is about to be given the Southwestern Front that Kornilov is leaving.",
               siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
@@ -440,7 +440,7 @@ CAMPAIGNS.provisionalGov17 = {
           bulletin: {
             headline: "A CONFERENCE OPENS UNDER A STRIKE",
             body:
-              "The State Conference meets in Moscow from 12 August. Delegates come from the Duma, the Soviets, the army, the banks, the cooperatives and the Cossack hosts. It opens under a strike called by the Bolsheviks. You tell the delegates that any attempt to resist the government will be put down with iron and blood.",
+              "The State Conference meets in Moscow from 25 August. Delegates come from the Duma, the Soviets, the army, the banks, the cooperatives and the Cossack hosts. It opens under a strike called by the Bolsheviks. You tell the delegates that any attempt to resist the government will be put down with iron and blood.",
             meanwhile: {
               southRussia: "Kornilov and General Alekseev are among the generals in Moscow. Kaledin, ataman of the Don Host, speaks for the Cossacks.",
               siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
@@ -504,15 +504,15 @@ CAMPAIGNS.provisionalGov17 = {
       // -----------------------------------------------------------------
       case "kornilovAffair17":
         return {
-          date: "AUGUST 1917",
+          date: "SEPTEMBER 1917",
           title: "Petrograd: The General's Trains",
           bulletin: {
             headline: "THE COMMANDER YOU APPOINTED IS MOVING ON THE CAPITAL",
             body:
               "Six weeks ago you made Kornilov Supreme Commander yourself, over the objections of the Soviet's own left, because the front needed someone the officer corps still believed in. What passed between you and him through the intermediary Lvov this past week -- an agreed plan to suppress a Bolshevik rising nobody has actually staged yet, or a coup you encouraged and are now publicly disowning -- is a question the two of you will spend the rest of your lives answering differently. What isn't in dispute: General Krymov's Third Cavalry Corps is moving on Petrograd by rail, and you have just publicly dismissed Kornilov and called it mutiny." +
               (flags.offensiveChoice === "pressForward"
-                ? " Kornilov's own case for the appointment always ran through June -- that a War Minister who pressed the offensive forward understood, as he did, that an army without discipline stops being an army. He is, in effect, invoking your own June decision against you now."
-                : " Kornilov never had much use for the June Offensive's caution, and says so to anyone who asks -- an army you preferred to consolidate rather than push, in his account, is exactly the kind of army you're now relying on to stop him.") +
+                ? " Kornilov's own case for the appointment always ran through the offensive -- that a War Minister who pressed it forward understood, as he did, that an army without discipline stops being an army. He is, in effect, invoking your own June decision against you now."
+                : " Kornilov never had much use for the Offensive's caution, and says so to anyone who asks -- an army you preferred to consolidate rather than push, in his account, is exactly the kind of army you're now relying on to stop him.") +
               (flags.supremeCommand === "written_pledge"
                 ? " In July he gave you a written pledge that he answers to the government. He has now acted without you."
                 : flags.supremeCommand === "on_his_terms"
@@ -701,9 +701,9 @@ CAMPAIGNS.provisionalGov17 = {
               impact: {},
               next: "octoberStand17",
               outcome:
-                "On 25 September the new cabinet is sworn in. It has six socialist ministers, six liberals and six without party. The Council of the Republic, called the Pre-Parliament, meets at the Mariinsky Palace.",
+                "On 8 October the new cabinet is sworn in. It has six socialist ministers, six liberals and six without party. The Council of the Republic, called the Pre-Parliament, meets at the Mariinsky Palace.",
               aftermath:
-                "The Directory ended on 25 September, when this cabinet was formed.",
+                "The Directory ended on 8 October, when this cabinet was formed.",
             },
             {
               label: "Keep the Directory. Tell the Conference that it advises and does not appoint.",
@@ -723,7 +723,7 @@ CAMPAIGNS.provisionalGov17 = {
         };
 
       // -----------------------------------------------------------------
-      // 24 October 1917. Documented: at dawn on 24 October (OS) cadets were sent to close the plant
+      // 6 November 1917 (24 October Old Style). Documented: at dawn on 24 October (OS) cadets were sent to close the plant
       // that printed the Bolshevik paper Rabochii Put; the Military Revolutionary Committee ordered
       // it reopened and sent the Lithuanian Regiment and a reserve sapper battalion to guard it;
       // Kerensky spoke to the Pre-Parliament that day and Dan answered him; Kerensky left
@@ -731,12 +731,12 @@ CAMPAIGNS.provisionalGov17 = {
       // had voted ten to two for an armed uprising on 10 October.
       case "octoberStand17":
         return {
-          date: "OCTOBER 1917",
-          title: "Petrograd: The Morning of the 24th",
+          date: "NOVEMBER 1917",
+          title: "Petrograd: The Morning of 6 November",
           bulletin: {
             headline: "THE GOVERNMENT TRIES TO CLOSE TWO NEWSPAPERS",
             body:
-              "At dawn on 24 October cadets arrive to close the plant that prints the Bolshevik newspaper Rabochii Put. The Military Revolutionary Committee of the Petrograd Soviet orders the plant reopened and sends the Lithuanian Regiment and a reserve sapper battalion to guard it.",
+              "At dawn on 6 November cadets arrive to close the plant that prints the Bolshevik newspaper Rabochii Put. The Military Revolutionary Committee of the Petrograd Soviet orders the plant reopened and sends the Lithuanian Regiment and a reserve sapper battalion to guard it.",
             meanwhile: {
               southRussia: "Kornilov and the generals are still held under arrest.",
               siberia: "Does not exist yet as a command. The Czechoslovak units are still part of the Russian army.",
@@ -790,9 +790,9 @@ CAMPAIGNS.provisionalGov17 = {
               impact: {},
               next: "endingWinterPalaceFalls17",
               outcome:
-                "On the morning of 25 October you leave Petrograd by car for Pskov. The ministers stay in the Winter Palace.",
+                "On the morning of 7 November you leave Petrograd by car for Pskov. The ministers stay in the Winter Palace.",
               aftermath:
-                "Kerensky spoke to the Pre-Parliament on 24 October and left the capital the next morning. The Winter Palace was taken in the night of 25 to 26 October.",
+                "Kerensky spoke to the Pre-Parliament on 6 November and left the capital the next morning. The Winter Palace was taken in the night of 7 to 8 November.",
             },
           ],
         };
@@ -807,22 +807,22 @@ CAMPAIGNS.provisionalGov17 = {
         return {
           isEnding: true,
           title: "The Winter Palace Falls",
-          date: "OCTOBER 1917",
+          date: "NOVEMBER 1917",
           badge: "◆ HISTORICAL RECORD",
           classification: "historical",
           epilogue:
-            "Whatever this Cabinet did differently through the summer, October does not move. The Kornilov Affair's real casualty was never the general's advance, which dissolved in three days without much of a fight -- it was the last plausible argument that this government still had the right's confidence and the left's cooperation at the same time. Arming the Soviet's Red Guards to stop Kornilov left several thousand rifles in Bolshevik-organized hands that were never collected back, and a Petrograd Soviet whose Bolshevik share of seats, negligible in April, is now a majority. On the night of 24-25 October the Military Revolutionary Committee -- a Soviet body, not this Cabinet's -- takes the telephone exchange, the State Bank, the bridges, and the Winter Palace itself by the early hours of the 26th, with barely a shot fired in its actual defense. Kerensky is already gone, driving south in a borrowed car to find loyal troops that mostly do not exist anymore.\n\nEverything the rest of this file's campaigns take as their own opening backstory starts here: the Council of People's Commissars formed that same week; the Constituent Assembly elected in November and dissolved by force in January when it returns a non-Bolshevik majority; Brest-Litovsk signed in March, ceding a quarter of the empire to end a war this government spent this whole campaign trying to keep fighting; and, within weeks of that peace, the civil war that the Armed Forces of South Russia, the Siberian government, and the Revolutionary Military Council fight through 1922. None of that changes no matter how well or badly this Cabinet is played. What changes is only how much warning the men who found the Volunteer Army in the Don that winter had, and how isolated a government it was that fell." +
+            "Whatever this Cabinet did differently through the summer, the rising does not move. The Kornilov Affair's real casualty was never the general's advance, which dissolved in three days without much of a fight -- it was the last plausible argument that this government still had the right's confidence and the left's cooperation at the same time. Arming the Soviet's Red Guards to stop Kornilov left several thousand rifles in Bolshevik-organized hands that were never collected back, and a Petrograd Soviet whose Bolshevik share of seats, negligible in May, is now a majority. On the night of 6–7 November the Military Revolutionary Committee -- a Soviet body, not this Cabinet's -- takes the telephone exchange, the State Bank, the bridges, and the Winter Palace itself by the early hours of 8 November, with barely a shot fired in its actual defense. Kerensky is already gone, driving south in a borrowed car to find loyal troops that mostly do not exist anymore.\n\nEverything the rest of this file's campaigns take as their own opening backstory starts here: the Council of People's Commissars formed that same week; the Constituent Assembly elected in November and dissolved by force in January when it returns a non-Bolshevik majority; Brest-Litovsk signed in March, ceding a quarter of the empire to end a war this government spent this whole campaign trying to keep fighting; and, within weeks of that peace, the civil war that the Armed Forces of South Russia, the Siberian government, and the Revolutionary Military Council fight through 1922. None of that changes no matter how well or badly this Cabinet is played. What changes is only how much warning the men who found the Volunteer Army in the Don that winter had, and how isolated a government it was that fell." +
             (flags.kornilovAffairChoice === "refusedRedGuards" && flags.kornilovOutcome === "garrisonHeld"
-              ? "\n\nThe Soviet's Red Guards were never actually armed for this crisis, in this branch -- the garrison held on its own, on the same railway refusals that happened in the record. It changes remarkably little about October. The Bolsheviks' rifles come from elsewhere over the following two months regardless, and a Soviet Executive Committee that watched this Cabinet decline its help once, and survive anyway, extends noticeably less benefit of the doubt the second time its cooperation is asked for."
+              ? "\n\nThe Soviet's Red Guards were never actually armed for this crisis, in this branch -- the garrison held on its own, on the same railway refusals that happened in the record. It changes remarkably little about the rising. The Bolsheviks' rifles come from elsewhere over the following two months regardless, and a Soviet Executive Committee that watched this Cabinet decline its help once, and survive anyway, extends noticeably less benefit of the doubt the second time its cooperation is asked for."
               : "") +
             (flags.armyPolicy === "withheld"
-              ? "\n\nThe committees never accepted the May order that confined them to supply and welfare. In October the regiments in the capital took their instructions from the Soviet's own committee."
+              ? "\n\nThe committees never accepted the May order that confined them to supply and welfare. In November the regiments in the capital took their instructions from the Soviet's own committee."
               : "") +
             (flags.conferenceChoice === "directory_continues"
               ? "\n\nThe Directory never gave way to a wider cabinet. The Pre-Parliament that sat in October advised a government it had not chosen."
               : "") +
             (flags.octoberChoice === "strike_first"
-              ? "\n\nIn this telling the cabinet ordered the Military Revolutionary Committee arrested on 24 October. The cadets could not carry the order out, and the Palace fell on the same night as in the record."
+              ? "\n\nIn this telling the cabinet ordered the Military Revolutionary Committee arrested on 6 November. The cadets could not carry the order out, and the Palace fell on the same night as in the record."
               : flags.octoberChoice === "stake_on_vote"
               ? "\n\nIn this telling the cabinet put its fate to a vote of the Pre-Parliament. The debate lasted the afternoon, and the Palace fell that night."
               : ""),
@@ -840,11 +840,11 @@ CAMPAIGNS.provisionalGov17 = {
         return {
           isEnding: true,
           title: "The General's Republic",
-          date: "AUGUST 1917",
+          date: "SEPTEMBER 1917",
           badge: "◇ SPECULATIVE -- DOWNSTREAM OF DIVERGENCE",
           classification: "speculative",
           epilogue:
-            "Krymov's Third Cavalry Corps was perhaps fifteen thousand men against a capital of over two million -- the real historical margin was that thin, and it held on railway refusals and soldier committees that simply declined to fight, not on any garrison actually stopping the advance by force. Take the Soviet's Red Guards out of the defense and that thin margin does not hold. Krymov's Cossacks reach central Petrograd; Kornilov, following behind, is not arrested at Mogilev but is in the capital inside the week, and this Cabinet is not the government that survives the encounter.\n\nWhat forms afterward is not the historical dictatorship the word 'Bonapartist' was already being used to warn against that same month -- Kornilov's own program, so far as he ever stated one plainly, was closer to a military-backed government of national unity than personal rule, with the death penalty and labor conscription he'd wanted since taking command extended well past the front. Kerensky's own fate in this branch is unresolved by anything the record can settle: arrested alongside the rest of the Cabinet is the most likely outcome contemporaries would have expected, though nothing here should be read as claiming more certainty about that than the record actually supports.\n\nSay plainly what this branch means for the rest of this file: it does not happen. There is no Bolshevik seizure of power in October, because the Petrograd Soviet that would have staged it has just watched a military government take the capital by force with the left's own militia unable or unwilling to stop it. No Council of People's Commissars, no Brest-Litovsk, no Constituent Assembly dissolved by a Bolshevik decree instead of a Cossack one. Whatever civil war follows a Kornilov government's attempt to actually govern a country still fighting a war it cannot win is not the war the Armed Forces of South Russia, the Siberian government, or the Revolutionary Military Council in this file were built to fight -- it is a different war, against a different opponent, that this file does not contain. That is not a coy way of saying 'to be continued.' It means this branch's ending is genuinely the end of what this file can tell you about what happens next.",
+            "Krymov's Third Cavalry Corps was perhaps fifteen thousand men against a capital of over two million -- the real historical margin was that thin, and it held on railway refusals and soldier committees that simply declined to fight, not on any garrison actually stopping the advance by force. Take the Soviet's Red Guards out of the defense and that thin margin does not hold. Krymov's Cossacks reach central Petrograd; Kornilov, following behind, is not arrested at Mogilev but is in the capital inside the week, and this Cabinet is not the government that survives the encounter.\n\nWhat forms afterward is not the historical dictatorship the word 'Bonapartist' was already being used to warn against that same month -- Kornilov's own program, so far as he ever stated one plainly, was closer to a military-backed government of national unity than personal rule, with the death penalty and labor conscription he'd wanted since taking command extended well past the front. Kerensky's own fate in this branch is unresolved by anything the record can settle: arrested alongside the rest of the Cabinet is the most likely outcome contemporaries would have expected, though nothing here should be read as claiming more certainty about that than the record actually supports.\n\nSay plainly what this branch means for the rest of this file: it does not happen. There is no Bolshevik seizure of power in November, because the Petrograd Soviet that would have staged it has just watched a military government take the capital by force with the left's own militia unable or unwilling to stop it. No Council of People's Commissars, no Brest-Litovsk, no Constituent Assembly dissolved by a Bolshevik decree instead of a Cossack one. Whatever civil war follows a Kornilov government's attempt to actually govern a country still fighting a war it cannot win is not the war the Armed Forces of South Russia, the Siberian government, or the Revolutionary Military Council in this file were built to fight -- it is a different war, against a different opponent, that this file does not contain. That is not a coy way of saying 'to be continued.' It means this branch's ending is genuinely the end of what this file can tell you about what happens next.",
         };
 
       // -----------------------------------------------------------------
@@ -859,7 +859,7 @@ CAMPAIGNS.provisionalGov17 = {
           badge: "◇ SPECULATIVE -- HARD MODE",
           classification: "speculative",
           epilogue:
-            "A modeled alternative. The cabinet takes its fifth emergency decree without the consent of the Soviet Executive Committee. Each earlier decree had a reason that could be written down: the army, the railways, the presses. The fifth has none that the Executive Committee accepts, and it stops sending delegates to the cabinet. From that day the government rules by ministerial order in Petrograd and nowhere else, and the regiments of the garrison take their orders from the Soviet.\n\nThis is not what happened. In the record the government never broke with the Soviet in form. It lost the Soviet's confidence between April and October, a little at a time. No source says what a formal break would have led to.",
+            "A modeled alternative. The cabinet takes its fifth emergency decree without the consent of the Soviet Executive Committee. Each earlier decree had a reason that could be written down: the army, the railways, the presses. The fifth has none that the Executive Committee accepts, and it stops sending delegates to the cabinet. From that day the government rules by ministerial order in Petrograd and nowhere else, and the regiments of the garrison take their orders from the Soviet.\n\nThis is not what happened. In the record the government never broke with the Soviet in form. It lost the Soviet's confidence between May and November, a little at a time. No source says what a formal break would have led to.",
         };
 
       default:

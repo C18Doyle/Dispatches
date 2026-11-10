@@ -7,6 +7,7 @@ listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
 ## Unreleased (2026-10)
 ### Changed
+- One calendar. Every date is Western and written day then month (7 November 1917, not October 25 and not 25 October Old Style). The 1917 campaign is converted: the Miliukov note is now May, the Kerensky Offensive July, the Kornilov affair September, and the rising falls on 6 and 7 November, so those reports carry the new months in the timeline and on the map stepper. The 1917 reports lose their Old Style dates; the How to Read screen says so once. US-order dates in the other campaigns (July 29) are reordered.
 - Hard mode: South Russia and the Bolsheviks can now reach their capital cap, so The Mutiny and The Central Committee Moves can fire. Wrangel's dismissal and the Novorossiysk evacuation order (South Russia) and the Tsaritsyn reassertion, the intensified requisitioning and the unified Cavalry Army (Bolsheviks) now cost capital. Measured with tools/capital-reach.mjs on greedy play: South Russia reaches 5 on about 25% of runs (3 or 4 before), the Bolsheviks on about 66% (3 before).
 - Layout is mobile-first: the whole app is a centred column at most 600px wide on desktop (it was full width). Phones are unchanged.
 - tools/monte-carlo.js replaced by tools/monte-carlo.mjs, which plays the real src/logic.ts (seeded). It reports gate-bite rate and which endings are reached. It no longer reproduces the old routing.

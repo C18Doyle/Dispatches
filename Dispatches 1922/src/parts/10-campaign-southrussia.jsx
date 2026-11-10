@@ -41,11 +41,11 @@
     NEWSPAPER_SUBHEAD: "Great Russia — as read at AFSR field headquarters",
     ADVISOR_DOSSIERS: {
       kornilov: {
-        role: "Commander-in-Chief, Volunteer Army (until April 13, 1918)",
+        role: "Commander-in-Chief, Volunteer Army (until 13 April 1918)",
         bio:
-          "Former commander of the Petrograd Military District under the Provisional Government, arrested and imprisoned after his failed August 1917 attempt to establish a military dictatorship. Escaped to organize the Volunteer Army in the Don region with Alekseev after the Bolshevik seizure of power.",
+          "Former commander of the Petrograd Military District under the Provisional Government, arrested and imprisoned after his failed September 1917 attempt to establish a military dictatorship. Escaped to organize the Volunteer Army in the Don region with Alekseev after the Bolshevik seizure of power.",
         fate:
-          "Killed on April 13, 1918, when a Red artillery shell struck the single room of his farmhouse headquarters near Ekaterinodar. His death was concealed from the army for a time to prevent a collapse in morale; he was buried in secret.",
+          "Killed on 13 April 1918, when a Red artillery shell struck the single room of his farmhouse headquarters near Ekaterinodar. His death was concealed from the army for a time to prevent a collapse in morale; he was buried in secret.",
         faction: "Volunteer Army Founding Command",
         rank: 0,
       },
@@ -61,7 +61,7 @@
       denikin: {
         role: "Commander-in-Chief, AFSR — nominally subordinate to Kolchak's Supreme Ruler government from June 1919",
         bio:
-          "Career Imperial Army officer of humble birth, risen on merit rather than aristocratic connection. Committed to a unified, centrally-governed Russia and instinctively suspicious of regional autonomy movements — a position that put him at odds with the Cossack Hosts and Ukrainian nationalists whose cooperation his campaign depended on. On June 12, 1919, he formally submitted to Kolchak's authority, telegraphing: 'Safety of cause lies in a single high commander-in-chief... I yield to Admiral Kolchak and recognize him as Supreme Governor Russian state and commander-in-chief Russia Army.' The recognition was real but purely symbolic — it changed nothing about AFSR's operational independence, which every later decision from this command reflects.",
+          "Career Imperial Army officer of humble birth, risen on merit rather than aristocratic connection. Committed to a unified, centrally-governed Russia and instinctively suspicious of regional autonomy movements — a position that put him at odds with the Cossack Hosts and Ukrainian nationalists whose cooperation his campaign depended on. On 12 June 1919, he formally submitted to Kolchak's authority, telegraphing: 'Safety of cause lies in a single high commander-in-chief... I yield to Admiral Kolchak and recognize him as Supreme Governor Russian state and commander-in-chief Russia Army.' The recognition was real but purely symbolic — it changed nothing about AFSR's operational independence, which every later decision from this command reflects.",
         fate:
           "Named Kolchak's successor as Supreme Ruler in December 1919; briefly held that title himself, in name only, from January to April 1920 — while personally commanding the Novorossiysk evacuation and the retreat that followed. Resigned command in April 1920 after the retreat into Crimea, handing over to Wrangel. Died in exile in the United States in 1947, having spent his final years urging émigrés not to side with Nazi Germany against the USSR.",
         faction: "AFSR High Command",
@@ -90,7 +90,7 @@
         bio:
           "A straightforward, respected combat officer with no real background in politics or administration — as Governor-General of the Black Sea region in 1918 he executed suspected looters and pogrom perpetrators without much regard for legal process. Oversaw the evacuation commission at Novorossiysk in 1920.",
         fate:
-          "Evacuated to Gallipoli with his corps after Crimea fell, eventually settling in Paris as chairman of the Russian All-Military Union, an émigré veterans' organization that ran sabotage operations into the USSR. Kidnapped off a Paris street by Soviet OGPU agents on January 26, 1930; died of a heart attack during the struggle. His body was never found.",
+          "Evacuated to Gallipoli with his corps after Crimea fell, eventually settling in Paris as chairman of the Russian All-Military Union, an émigré veterans' organization that ran sabotage operations into the USSR. Kidnapped off a Paris street by Soviet OGPU agents on 26 January 1930; died of a heart attack during the struggle. His body was never found.",
         faction: "AFSR High Command",
         rank: 1,
       },
@@ -115,7 +115,7 @@
       holman: {
         role: "Brigadier-General, head of the British Military Mission to South Russia",
         bio:
-          "Led Britain's military mission from mid-1919, overseeing the delivery of over 200,000 rifles and substantial artillery to the AFSR. At Novorossiysk personally promised Denikin that British forces would see the women and children of White officers evacuated safely, and stood on the harbor mole through the night of March 26 supervising the Don Cossacks' embarkation himself.",
+          "Led Britain's military mission from mid-1919, overseeing the delivery of over 200,000 rifles and substantial artillery to the AFSR. At Novorossiysk personally promised Denikin that British forces would see the women and children of White officers evacuated safely, and stood on the harbor mole through the night of 26 March supervising the Don Cossacks' embarkation himself.",
         fate:
           "Left South Russia with the evacuation's completion. His personal emotional investment in the people he'd promised to save was noted by those who served under him — described by one contemporary as visibly overwhelmed by what he witnessed on the docks.",
         faction: "British Military Mission",
@@ -1298,7 +1298,7 @@
                 costsCapital: true,
                 next: "kubanRadaReorganized19",
                 outcome:
-                  "Kalabukhov is hanged on November 7, a sign reading 'For treason to the Motherland and Cossackdom' left on his chest. The Rada is reorganized under Denikin loyalists. It does not restore the trust the earlier leniency was meant to buy — a considerable portion of the Kuban Cossacks still in the army's ranks do not forgive this either.",
+                  "Kalabukhov is hanged on 7 November, a sign reading 'For treason to the Motherland and Cossackdom' left on his chest. The Rada is reorganized under Denikin loyalists. It does not restore the trust the earlier leniency was meant to buy — a considerable portion of the Kuban Cossacks still in the army's ranks do not forgive this either.",
               },
               {
                 label: "Overrule Pokrovsky. Negotiate with the Rada's separatist faction rather than crush it by force.",
@@ -1569,13 +1569,13 @@
         // -------------------------------------------------------------------
         // DIVERGENT BRANCH — downstream of holding the extended perimeter.
         // historicalRecord true: the cavalry breakthrough that actually took
-        // the port on March 27 is real, commanded by the same Voroshilov
+        // the port on 27 March is real, commanded by the same Voroshilov
         // whose Tsaritsyn conduct this campaign's Bolshevik counterpart may
         // already have addressed — or left unaddressed — eighteen months
         // earlier.
         case "voroshilovsCavalry20":
           return {
-            date: "MARCH 27, 1920",
+            date: "27 MARCH 1920",
             title: "The Mole: Whoever Holds It Last",
             historicalRecord: true,
             situation:
@@ -1621,7 +1621,7 @@
         // boarding time rather than a battlefield outcome.
         case "moleRearguardFate20":
           return {
-            date: "MARCH 27, 1920",
+            date: "27 MARCH 1920",
             title: "The Mole: The Rearguard's Own Minutes",
             historicalRecord: false,
             situation:
