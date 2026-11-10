@@ -11,7 +11,10 @@ export const IN_RUN_SCREENS = new Set(["PROLOGUE", "CHAPTER_CARD", "NODE", "OUTC
 export const SAVE_SCHEMA_VERSION = 1;
 
 /** Old node id -> new node id. Add an entry whenever a node is renamed so earlier saves still resume. */
-export const NODE_ALIASES: Record<string, string> = {};
+export const NODE_ALIASES: Record<string, string> = {
+  // The frame scene after the storm became two scenes (3-BLUE and 3-ACID); a run saved on the old one resumes on the first.
+  "3": "3-BLUE",
+};
 
 type Save = Record<string, unknown>;
 /** SAVE_MIGRATIONS[n] upgrades a save from version n to n + 1. */

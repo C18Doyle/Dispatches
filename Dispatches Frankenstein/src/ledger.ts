@@ -13,6 +13,8 @@ export interface RunRecord {
   resources: Record<string, number>;
   money: number;
   flags: string[];
+  /** The challenges the run was played under ("Without Fritz", "No Rewind"); absent for an ordinary run. */
+  challenge?: string[];
 }
 
 export interface Ledger {
@@ -45,9 +47,10 @@ export function parseLedger(raw: string | null): Ledger {
 }
 
 /** The facts worth keeping about a finished run. */
-export function runRecord(def: GameDefinition, state: GameState): RunRecord {
+export function runRecord(def: GameDefinition, state: GameState, challenge: string[] = []): RunRecord {
   const experiments = state.history.filter((h) => !!def.content.nodes[h.nodeId]?.options[h.optionIndex]?.roll).length;
   return {
+    ...(challenge.length ? { challenge } : {}),
     endingId: state.endingId ?? "",
     difficulty: state.difficulty,
     branch: state.activeBranch,
@@ -91,6 +94,7 @@ export function summaryText(def: GameDefinition, run: RunRecord, endingTitle: st
     `Frankenstein: The Modern Prometheus. ${endingTitle}`,
     `${label}. ${count(run.choices, "choice")}, ${count(run.experiments, "experiment")}. ${res}.`,
   ];
+  if (run.challenge?.length) lines.push(`Challenge: ${run.challenge.join(", ")}.`);
   if (carried.length) lines.push(`Carried: ${carried.join(" ")}`);
   return lines.join("\n");
 }

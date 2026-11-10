@@ -62,7 +62,7 @@ export default {
     const boost = bs.filter((b) => /^Boost /.test(ctx.lab(b)));
     if (boost.length) return boost[Math.floor(ctx.pick() * boost.length)];
     if (policy.fritz < 2 && ctx.pick() < 0.35) {
-      const panel = bs.filter((b) => /^(Ask Fritz's Advice|Fritz's Favor|Gossip|Creature Report)/.test(ctx.lab(b)));
+      const panel = bs.filter((b) => /^(Ask Fritz[’']s Advice|Fritz[’']s Favor|Gossip|Creature Report)/.test(ctx.lab(b)));
       const open = by(/^Send for Fritz/);
       if (open) {
         policy.fritz++;

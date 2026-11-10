@@ -26,6 +26,12 @@ export default {
         "brass-dim": "#4a463f",
         ash: "#847f74",
       },
+      // The type scale. Everything on screen uses one of these roles, so no screen invents a size of its own:
+      // text-xs for labels and fine print, text-sm for detail and notes, text-base for choices, text-prose for reading text
+      // (scene text, outcomes, the prologue, endings), then the Tailwind headings (lg to 5xl) for titles.
+      fontSize: {
+        prose: ["1.05rem", { lineHeight: "1.625" }],
+      },
       fontFamily: {
         // True blackletter (UnifrakturMaguntia) read as too hard to read at
         // the menu title's size per Craig — toned down one notch to Pirata

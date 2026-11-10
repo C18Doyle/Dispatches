@@ -49,7 +49,7 @@
     gap: 0.2rem;
     font-family: "Cinzel", Georgia, serif;
     font-weight: 600;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     letter-spacing: 0.04em;
     padding: 0.15rem 0.45rem;
     border-radius: 1px;
@@ -135,6 +135,41 @@
     68% { opacity: 0.9; text-shadow: 0 0 10px rgba(201, 48, 44, 0.35); }
     71% { opacity: 1; text-shadow: 0 0 18px rgba(201, 48, 44, 0.55), 0 0 40px rgba(201, 48, 44, 0.25); }
   }
+}
+
+/* Reading options (Settings > Reading). Both are classes on <html>, set by App.tsx and remembered in this browser only.
+   Plain Type swaps the display faces for the system's own: the engraved capitals and the gothic title are the hardest text to read on a phone.
+   High Contrast makes the cards white with black text and lifts the muted text on the dark ground. They never touch a hovered control, so
+   a button's own hover colours still work. */
+html.plain-type .font-display,
+html.plain-type .font-heading,
+html.plain-type .font-broadsheet,
+html.plain-type .stamp {
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+html.plain-type .font-body {
+  font-family: Georgia, "Times New Roman", serif;
+}
+html.plain-type .flicker {
+  animation: none;
+}
+html.high-contrast .parchment-card {
+  background-color: #ffffff;
+  background-image: none;
+}
+html.high-contrast .parchment-card [class*="text-ink"]:not(:hover),
+html.high-contrast .parchment-card [class*="text-ink-soft"]:not(:hover) {
+  color: #000000;
+}
+html.high-contrast .parchment-card [class*="border-ink/"]:not(:hover) {
+  border-color: #000000;
+}
+html.high-contrast [class*="text-ash"]:not(:hover),
+html.high-contrast [class*="text-brass"]:not([class*="text-brass-dim"]):not(:hover) {
+  color: #f6f3ea;
+}
+html.high-contrast .opacity-60 {
+  opacity: 0.85;
 }
 
 /* Mobile-first shell: every screen renders inside this container. */
