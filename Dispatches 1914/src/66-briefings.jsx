@@ -33,7 +33,7 @@ export const BRIEFINGS = {
     modes: { easy: "Big Bertha", hard: "The Pickelhaube" },
     title: "German Supreme Army Command",
     side: "central",
-    quote: { text: "You will be home before the leaves have fallen from the trees.", by: "Kaiser Wilhelm II", date: "August 1914" },
+    quote: { text: "You will be home before the leaves have fallen from the trees.", by: "Kaiser Wilhelm II" },
     standing: [
       "Germany is at war with France and Russia, and from 4 August with Britain. The army has one plan for a war on two fronts and has rehearsed little else: beat France in a few weeks by a wide march through Belgium, then send the armies east by rail before Russia is ready. Every railway timetable in the country is written around it.",
       "The plan leaves little room to change course once the trains are running. Belgium's neutrality is guaranteed by treaty, and Britain is one of the guarantors.",
@@ -45,7 +45,7 @@ export const BRIEFINGS = {
     modes: { easy: "The Soixante-Quinze", hard: "The Red Trousers" },
     title: "French General Headquarters",
     side: "entente",
-    quote: { text: "France will be heroically defended by all her sons, whose sacred union in the face of the enemy nothing will break.", by: "President Poincare", date: "4 August 1914" },
+    quote: { text: "France will be heroically defended by all her sons, whose sacred union in the face of the enemy nothing will break.", by: "President Poincaré" },
     standing: [
       "France mobilised on 1 August and Germany declared war on 3 August. The army's Plan XVII sends its armies at the German frontier in Lorraine and towards the Ardennes, to recover the provinces lost in 1871. It rests on a doctrine of the offensive that shapes the army's training, its tactics and its officers' careers.",
       "France is bound to Russia, which has promised to take the field within weeks, and to Britain, whose small army is crossing the Channel. Neither can be commanded from Vitry.",
@@ -57,7 +57,7 @@ export const BRIEFINGS = {
     modes: { easy: "The Ilya Muromets", hard: "The Shared Rifle" },
     title: "Russian Supreme Command",
     side: "entente",
-    quote: { text: "Let Russia, rising like one man, repel the insolent assault of the enemy.", by: "Tsar Nicholas II", date: "2 August 1914" },
+    quote: { text: "Let Russia, rising like one man, repel the insolent assault of the enemy.", by: "Tsar Nicholas II" },
     standing: [
       "Russia has the largest army in Europe on paper and far fewer railways than its enemies to move it by. It mobilised at the end of July. By treaty, and by years of French loans, it is committed to attack Germany quickly, before its own concentration is finished.",
       "Its enemies are Germany in the north and Austria-Hungary in the south, and the front between the Baltic and the Carpathians is too long to be held everywhere.",
@@ -69,7 +69,7 @@ export const BRIEFINGS = {
     modes: { easy: "The Lee-Enfield", hard: "The Mark I" },
     title: "British Army and War Cabinet",
     side: "entente",
-    quote: { text: "The lamps are going out all over Europe; we shall not see them lit again in our lifetime.", by: "Sir Edward Grey", date: "3 August 1914" },
+    quote: { text: "The lamps are going out all over Europe; we shall not see them lit again in our lifetime.", by: "Sir Edward Grey" },
     standing: [
       "Britain declared war on Germany on 4 August, over the invasion of Belgium. Its strength is the fleet, its money and its empire. Its army is small, professional and spread across the world, and it has promised to send a force to fight beside the French.",
       "The government has no plan for a long war, and the country has never raised a mass army without conscription.",
@@ -81,19 +81,19 @@ export const BRIEFINGS = {
     modes: { easy: "The Skoda Mortar", hard: "The Horse-Drawn Gun" },
     title: "Austro-Hungarian Army High Command",
     side: "central",
-    quote: { text: "I have examined and weighed everything, and with a serene conscience I set out on the path to which my duty points.", by: "Emperor Franz Joseph", date: "28 July 1914" },
+    quote: { text: "I have examined and weighed everything, and with a serene conscience I set out on the path to which my duty points.", by: "Emperor Franz Joseph" },
     standing: [
       "The monarchy declared war on Serbia on 28 July, after the assassination at Sarajevo. Russia's mobilisation has made it a war on two fronts. The army is short of guns and railways for the war it has planned, and it is made up of soldiers of many nationalities who speak many languages.",
       "Its plan divides the army in three: a group for Serbia, a larger one in Galicia for Russia, and a swing force that can go to either. Everything depends on Germany keeping its promise to engage Russia.",
     ],
-    seat: "You hold the seat of the Chief of the General Staff, and Conrad von Hotzendorf sits in it. Six armies are mobilising: two for Serbia, three in Galicia against Russia, and the Second Army, which can go to either. The Emperor Franz Joseph, who is eighty-four, is above you, and the German ally beside you does not have the same war in mind.",
+    seat: "You hold the seat of the Chief of the General Staff, and Conrad von Hötzendorf sits in it. Six armies are mobilising: two for Serbia, three in Galicia against Russia, and the Second Army, which can go to either. The Emperor Franz Joseph, who is eighty-four, is above you, and the German ally beside you does not have the same war in mind.",
   },
   otto: {
     nation: "The Ottoman Empire",
     modes: { easy: "The Nusret", hard: "The Peabody-Martini" },
     title: "Ottoman General Staff",
     side: "central",
-    quote: { text: "I did not wish to condemn the ships of an allied State to certain destruction.", by: "Enver Pasha", date: "August 1914" },
+    quote: { text: "I did not wish to condemn the ships of an allied State to certain destruction.", by: "Enver Pasha" },
     standing: [
       "The empire has lost Libya and nearly all its European provinces in the wars of 1911 to 1913. It is poor, thinly industrialised, short of railways and short of trained officers. It has signed a secret alliance with Germany and is, for the moment, neutral.",
       "Two German warships, the Goeben and the Breslau, are at the mouth of the Dardanelles and have asked to be let in.",
@@ -123,7 +123,7 @@ export const HOW_TO = [
     id: "orders",
     title: "Orders and risk",
     paras: [
-      "Some orders do what they say. Others are contested: the result is rolled and the odds are shown in words. An outcome that begins Speculative is an alternative the game has modelled, not what happened.",
+      "Some orders do what they say. Others are contested: the result is rolled and the odds are shown in words. An outcome marked Not in the record is an alternative the game has modelled, not what happened.",
     ],
   },
   {
@@ -137,7 +137,7 @@ export const HOW_TO = [
     id: "modes",
     title: "Modes",
     paras: [
-      "Easy shows what each order does and lets you take back the last one. Hard adds a track for the pressure on the command. A file in progress is kept on this device.",
+      "Easy shows what each order does and lets you take back the last one. Hard adds a track for the pressure on the command, and a file in progress is kept on this device.",
     ],
   },
   {

@@ -40,6 +40,9 @@ const ok = (where, what) => { checks++; if (process.env.VERBOSE) console.log(`ok
 
 async function scan(page, where, { viewport }) {
   checks++;
+  const shown = await page.evaluate(() => document.body.innerText);
+  const iso = shown.match(/\b1[0-9]{3}-[0-9]{2}-[0-9]{2}\b/);
+  if (iso) fail(where, "a date in the year-month-day form on the page: " + iso[0]);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   if (overflow > 1) fail(where, `scrolls sideways by ${overflow}px`);
   const res = await new AxeBuilder({ page }).analyze();

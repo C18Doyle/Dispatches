@@ -56,7 +56,7 @@ async function resume(saved) {
   check(/Where the file left the record/.test(t) && /Serbia/.test(t), "ending: the order that left the record is listed");
   check(ctx.d.querySelectorAll(".dg-strip-maps svg").length === 2, "ending: the first day and the last day are drawn side by side");
   check(ctx.d.querySelectorAll(".dg-strip-maps .dg-ground-lost").length === 1 && ctx.d.querySelectorAll(".dg-strip-maps .dg-ground-gained").length === 1, "ending: the last map marks the ground lost and the ground held");
-  check(/Speculative\. Serbia is not attacked/.test(t) && /Speculative\. Lorraine is reinforced/.test(t), "ending: the marks are written as speculative");
+  check(/Not in the record Serbia is not attacked/.test(t) && /Not in the record Lorraine is reinforced/.test(t), "ending: the marks carry the not-in-the-record tag");
   check(/1 place held or taken beyond the record, 1 lost or not taken/.test(t), "ending: the rank's ground part counts the ledger");
   check(/No adviser ended trusted/.test(t) && /beliefs checked/.test(t), "ending: the staff line is shown");
   ctx.restore();
@@ -88,7 +88,7 @@ async function resume(saved) {
   await ctx.click(btn(ctx, /^Continue$/));
   const t = ctx.text();
   check(!!ctx.d.querySelector('[data-screen="event"]') && /Le Temps/.test(t) && /Salonika Army Finds No Enemy/.test(t), "newspaper: a speculative order brings a front page from another front before the next report");
-  check(!/Speculative/.test(t) && !!ctx.d.querySelector(".dg-paper-mast") && /Saturday|Monday|Tuesday|Wednesday|Thursday|Friday|dimanche|lundi|mardi|mercredi|jeudi|vendredi|samedi/.test(ctx.d.querySelector(".dg-paper-date").textContent) && /not from the record/.test(t), "newspaper: a masthead, a dateline with the weekday, no label at the top and a line at the foot that it is from the file");
+  check(!/Speculative/.test(t) && !!ctx.d.querySelector(".dg-paper-mast") && /Saturday|Monday|Tuesday|Wednesday|Thursday|Friday|dimanche|lundi|mardi|mercredi|jeudi|vendredi|samedi/.test(ctx.d.querySelector(".dg-paper-date").textContent) && /Not in the record/.test(t), "newspaper: a masthead, a dateline with the weekday, no label at the top and the not-in-the-record tag at the foot");
   await ctx.click(btn(ctx, /^Continue$/));
   check(!/Le Temps/.test(ctx.text()) && /The Meuse/.test(ctx.text()) && orders(ctx).length >= 1, "newspaper: and then the report follows, and the paper is not shown again");
   ctx.restore();

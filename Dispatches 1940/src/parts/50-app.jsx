@@ -1,4 +1,6 @@
 function WW2CommandInner() {
+  // Re-renders the whole tree when the language is changed (every text is read with t() while rendering).
+  const language = useLanguage();
   const [screen, setScreen] = useState("select");
   const [campaignId, setCampaignId] = useState(null);
   const [position, setPosition] = useState(0);
@@ -37,6 +39,42 @@ function WW2CommandInner() {
   const [soundOn, setSoundOn] = useState(false);
   const [fontScale, setFontScale] = useState(1);
   const [reducedMotion, setReducedMotion] = useState(false);
+  // The dyslexia-friendly typeface is the one setting that is kept between visits: a reader who needs it needs it on the first screen.
+  const [dyslexia, setDyslexia] = useState(() => {
+    try {
+      return window.localStorage.getItem("dispatches1940_dyslexia") === "1";
+    } catch (e) {
+      return false;
+    }
+  });
+  useEffect(() => {
+    try {
+      window.localStorage.setItem("dispatches1940_dyslexia", dyslexia ? "1" : "0");
+    } catch (e) {
+      /* not kept */
+    }
+  }, [dyslexia]);
+  // Night reading is kept between visits too, and on the first visit follows the browser's dark scheme.
+  const [night, setNight] = useState(() => {
+    try {
+      const saved = window.localStorage.getItem("dispatches1940_night");
+      if (saved === "1" || saved === "0") return saved === "1";
+    } catch (e) {
+      /* no storage: follow the browser */
+    }
+    try {
+      return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    } catch (e) {
+      return false;
+    }
+  });
+  useEffect(() => {
+    try {
+      window.localStorage.setItem("dispatches1940_night", night ? "1" : "0");
+    } catch (e) {
+      /* not kept */
+    }
+  }, [night]);
   // Round 11 (Craig: "The music didn't play during the game"): on by default (previously
   // false, matching the sound-effects toggle's deliberately silent-until-asked pattern — right
   // for typewriter clacks/stamps, wrong for a game score nobody would think to go looking for
@@ -693,6 +731,8 @@ function WW2CommandInner() {
           *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
         }
       `}</style>
+      {dyslexia && <style>{DYSLEXIA_CSS}</style>}
+      {night && <style>{NIGHT_CSS}</style>}
       {reducedMotion && (
         <style>{`
           .stamp-in { animation: none !important; }
@@ -700,7 +740,7 @@ function WW2CommandInner() {
         `}</style>
       )}
       <audio ref={musicRef} src={MUSIC_TRACK_SRC} loop preload="none" />
-      {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
+      {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} dyslexia={dyslexia} onToggleDyslexia={() => setDyslexia((v) => !v)} night={night} onToggleNight={() => setNight((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
       {screen === "warroom" && campaign && (
         <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaignId, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
       )}
@@ -816,6 +856,7 @@ function WW2CommandInner() {
           soundOn={soundOn}
           controlBattles={controlBattles}
           onChoose={chooseOption}
+          onIntelCheck={(nodeId, itemId, hard) => setFlags((f) => intelCheck(f, nodeId, itemId, hard))}
           onRewind={rewindTo}
           onSave={manualSave}
           onHome={goHome}

@@ -1,0 +1,79 @@
+[
+  {
+    "id": "ix-caseYellow40-dyle",
+    "where": "caseYellow40",
+    "claim": "On 10 May 1940 the French First Army Group and the British Expeditionary Force advanced into Belgium under Plan D to the line of the Dyle, and the French Seventh Army moved north towards Breda; the German staff expected the Allies to move forward into Belgium.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Battle of France (Plan D, the Dyle line and the Breda variant); the German expectation is the premise of the Manstein Plan."
+  },
+  {
+    "id": "ix-barbarossa41-clay",
+    "where": "barbarossa41",
+    "claim": "Halder's diary for 11 August 1941 says that at the outset the staff reckoned with about 200 enemy divisions and had already counted 360; the German estimate before the invasion treated the Red Army as weakened by the purges and poorly equipped.",
+    "status": "confirmed-secondary",
+    "source": "Megargee, Rejecting Catastrophe (NIDS, 2019), citing the Halder diary for 11 August 1941; the pre-war estimate is the standard account and the report's own situation text."
+  },
+  {
+    "id": "ix-bagration44-south",
+    "where": "bagration44",
+    "claim": "Fremde Heere Ost under Gehlen judged that the main Soviet summer blow of 1944 would fall in the south; Operation Bagration opened on 22 June 1944 against Army Group Centre, which lost most of its strength in the following weeks.",
+    "status": "confirmed-secondary",
+    "source": "Standard accounts of Operation Bagration; the FHO assessment is the report's own premise."
+  },
+  {
+    "id": "ix-plan40-south",
+    "where": "plan40",
+    "claim": "Stalin held that Hitler's main aim was the grain of Ukraine and the coal of the Donbas, and the 1940 plan was redrafted with the weight in the south; in June 1941 Army Group Centre had two of the four panzer groups (the 2nd and 3rd), Army Group North one (the 4th) and Army Group South one (the 1st).",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Operation Barbarossa (units involved: 4th in North, 2nd and 3rd in Centre, 1st in South, called Panzer Armies there and Panzer Groups in 1941); the Soviet planning is from the prelude's own claims register (claims/soviet-prelude.json)."
+  },
+  {
+    "id": "ix-memo41-notthisyear",
+    "where": "memo41",
+    "claim": "Stalin did not believe that Germany would attack in the summer of 1941; the memorandum is dated 15 May and Germany attacked on 22 June 1941, with over three million men.",
+    "status": "confirmed-secondary",
+    "source": "Standard accounts of the warnings of 1941; the date of the memorandum and the strength are those of claims/soviet-prelude.json and the border41 report."
+  },
+  {
+    "id": "ix-kurskDefense43-twosides",
+    "where": "kurskDefense43",
+    "claim": "Soviet intelligence identified the attack on the Kursk salient, its axis and approximate date; Operation Citadel opened on 5 July 1943 from both sides of the salient, Army Group Centre from the north and Army Group South from the south.",
+    "status": "confirmed-secondary",
+    "source": "Standard accounts of the Battle of Kursk; the intelligence is the report's own situation text."
+  },
+  {
+    "id": "ix-narvik40-time",
+    "where": "narvik40",
+    "claim": "The German attack in the west opened on 10 May 1940 and the Meuse was crossed at Sedan on 13 and 14 May; the Allied force at Narvik was evacuated in the first week of June to meet the crisis in France.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Battle of France and Norwegian campaign (the Sedan crossing is from the report's own order of battle on caseYellow40); the evacuation dates are the standard account."
+  },
+  {
+    "id": "ix-malaya41-deter",
+    "where": "malaya41",
+    "claim": "The Prince of Wales and the Repulse were sunk by Japanese aircraft off the coast of Malaya on 10 December 1941, without fighter cover, after Japan attacked Malaya and Pearl Harbor on 7 and 8 December.",
+    "status": "confirmed-secondary",
+    "source": "Standard accounts of Force Z; the report forceZ41 in this game."
+  },
+  {
+    "id": "ix-marketGarden44-weak",
+    "where": "marketGarden44",
+    "claim": "The 9th and 10th SS Panzer Divisions of II SS Panzer Corps were refitting near Arnhem in September 1944; Dutch reports and air photographs showed armour there, and the 1st Airborne Division met them.",
+    "status": "drafted",
+    "source": "Standard accounts of Operation Market Garden; not reopened against a source in this pass."
+  },
+  {
+    "id": "ix-greeceDecision40-ten",
+    "where": "greeceDecision40",
+    "claim": "Visconti Prasca promised to finish the Greek forces in Epirus and take Preveza in ten to fifteen days; the Italian invasion was stopped inside Greek territory by mid-November 1940, the Greek counteroffensive began on 14 November, and it ended on 6 January 1941 with the capture of the Klisura Pass.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Greco-Italian War."
+  },
+  {
+    "id": "ix-compass40-camps",
+    "where": "compass40",
+    "claim": "The Italian camps at Sidi Barrani were not linked into a continuous line; the British attacked on 9 December 1940 through the gap, took Nibeiwa from the rear, and within days the Tenth Army was beaten with tens of thousands of prisoners.",
+    "status": "confirmed-secondary",
+    "source": "Standard accounts of Operation Compass; the gap is the report's own situation text."
+  }
+]

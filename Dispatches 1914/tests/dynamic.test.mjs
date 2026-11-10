@@ -157,8 +157,8 @@ const mouseClick = (ctx, el) => el.dispatchEvent(new ctx.w.MouseEvent("click", {
   await ctx.settle();
   check(!ctx.d.querySelector(".dg-modal"), "Escape closes it");
   await ctx.click(btn(ctx, /^Expand the map$/));
-  await ctx.click(btn(ctx, /^Close the map$/));
-  check(!ctx.d.querySelector(".dg-modal"), "Close the map closes it");
+  await ctx.click(btn(ctx, /^Close$/));
+  check(!ctx.d.querySelector(".dg-modal"), "Close closes the map");
   ctx.restore();
 }
 

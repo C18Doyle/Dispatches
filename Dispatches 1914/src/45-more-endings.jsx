@@ -56,7 +56,7 @@ export const MORE_ENDINGS = [
 
   // ---- the French Grand Quartier General ----
   MORE("gqg", "pursuit", {
-    title: "The Pursuit to the Rhine", year: 1918, date: "1918-11-11", city: "Compiegne", advisors: ["petain", "foch"],
+    title: "The Pursuit to the Rhine", year: 1918, date: "1918-11-11", city: "Compiègne", advisors: ["petain", "foch"],
     family: "pursuit-to-the-rhine", tier: 3, ground: 3,
     at: ["gqg_1918_16_senlis/bridgeheads", "gqg_1918_16_senlis/moderate"],
     when: (m, f) => f.gqg_malmaison === "exploited" && f.gqg_americans === "army",

@@ -94,10 +94,6 @@ CAMPAIGNS.stavka.nodes = {
       "The French want everything sent against Germany, to draw troops from the west. The " +
       "generals in the south want everything sent against Austria, which is the weaker enemy " +
       "and is certain to come into Galicia.",
-    context:
-      "The plan that was made in peace was a compromise between two schools in the army, and " +
-      "a compromise is what is likely to come out of the next days. What has to be settled is how " +
-      "the army is divided, not whether it is.",
     choices: [
       {
         id: "both",
@@ -158,8 +154,7 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The two armies that would have gone into East Prussia are held on the " +
           "frontier, and the whole weight of the army goes into Galicia. The Austrians are met by " +
-          "more men than they met in fact. Paris is told that the offensive it was promised will " +
-          "come later, and the French, who had counted on it, ask why a promise given in writing " +
+          "more men than they met in fact. Paris learns that the offensive it was promised will come later, and the French, who had counted on it, ask why a promise given in writing " +
           "can be kept in part.",
       },
     ],
@@ -189,10 +184,6 @@ CAMPAIGNS.stavka.nodes = {
         : flags.stavka_plan === "austria"
         ? "\n\nOnly a screen has been left in the north, and the army that would have joined these two is in Galicia."
         : ""),
-    context:
-      "Waiting three weeks produces two armies that can operate together. It also " +
-      "means the French fight the opening of the war alone, having been promised they " +
-      "would not, and they are not likely to forget which it was.",
     choices: [
       {
         id: "advance",
@@ -249,9 +240,6 @@ CAMPAIGNS.stavka.nodes = {
       "that they are marching away from their railheads and their bread. The two armies " +
       "are too far apart to help each other, and the wireless messages that pass between " +
       "them are sent in clear.",
-    context:
-      "The question put to this headquarters is whether to let the orders of the front " +
-      "commander stand. Nothing in the situation will be clearer in a week than it is today.",
     choices: [
       {
         id: "press",
@@ -348,10 +336,6 @@ CAMPAIGNS.stavka.nodes = {
       "Reinforcing success in Galicia means accepting that East Prussia stays a " +
       "German victory. Renewing in the north means taking the better front's divisions " +
       "to repair the worse one.",
-    context:
-      "Austria-Hungary can be beaten and Germany, on present evidence, cannot. That is " +
-      "an argument for Galicia and it is also an argument for a war that never touches " +
-      "the enemy who matters.",
     choices: [
       {
         id: "galicia",
@@ -397,7 +381,7 @@ CAMPAIGNS.stavka.nodes = {
     title: "The Fortress Behind Our Lines",
     advisors: ["grandduke", "brusilov"],
     situation: (flags) =>
-      "On 28 October (10 November in the west) the Austro-Hungarian fortress of Przemysl " +
+      "On 28 October (10 November in the west) the Austro-Hungarian fortress of Przemyśl " +
       "is cut off again, with a garrison of about 120,000 men inside it. The first siege " +
       "was lifted when the relieving army came up, and the assault the Third Army ordered " +
       "before that, after a short bombardment, got nowhere and cost some forty thousand men in " +
@@ -407,11 +391,6 @@ CAMPAIGNS.stavka.nodes = {
       "and the army that would storm it is the army that is needed to hold the line " +
       "outside." +
       (flags.xc_kolubara === "declined" ? "\n\nRussian intelligence reports that the Austro-Hungarian divisions meant for a third invasion of Serbia have been kept in Galicia, and that the relief of the fortress will be made in more strength than it would otherwise have been." : ""),
-    context:
-      "A fortress that is starved costs the besiegers an army and a winter. A fortress " +
-      "that is stormed costs them men, and the first attempt showed what that price " +
-      "is. Neither is free, and the garrison inside will eat the winter's stores " +
-      "while the choice is argued.",
     choices: [
       {
         id: "invest",
@@ -483,23 +462,18 @@ CAMPAIGNS.stavka.nodes = {
       "frontier, and the Grand Duke has approved the plan.\n\n" +
       "Meanwhile the German Ninth Army has been moved by rail to the Thorn area and has " +
       "struck the right flank of the Russian line, in the neighbourhood of Wloclawek " +
-      "and Kutno. It is aimed at the city of Lodz, at cutting it off from Warsaw and " +
+      "and Kutno. It is aimed at the city of Łódź, at cutting it off from Warsaw and " +
       "surrounding the troops in it. The Fifth Army, under Plehve, is the one that can " +
       "meet it, and it is facing the wrong way.",
-    context:
-      "Turning the Fifth Army north gives up the invasion of Silesia on the day it " +
-      "begins, and it asks a hundred kilometres of marching of men who are not " +
-      "expecting it. Going on into Silesia leaves the Second Army to meet a German " +
-      "army with what it has.",
     choices: [
       {
         id: "turn",
         label: "Turn the Fifth Army north against the German thrust and give up the Silesian offensive",
         historical: true,
         advisor: { name: "Grand Duke Nikolai Nikolaevich", position:
-          "The German army is on our flank and Lodz is the point. Silesia can wait until the flank is safe, and the Fifth Army is the only one near enough to make it safe." },
+          "The German army is on our flank and Łódź is the point. Silesia can wait until the flank is safe, and the Fifth Army is the only one near enough to make it safe." },
         dispute:
-          "Lodz is read two ways. On the field the Russian armies avoided the " +
+          "Łódź is read two ways. On the field the Russian armies avoided the " +
           "encirclement that was intended for them and a German corps was surrounded " +
           "and broke out; the Russians kept the city until they chose to leave it and " +
           "fell back to the Bzura only at the end of November. At the level of the " +
@@ -514,7 +488,7 @@ CAMPAIGNS.stavka.nodes = {
             outcome:
               "The Fifth Army covers some hundred and sixteen kilometres in two days and " +
               "strikes the German flank. The Germans are not able to close the ring " +
-              "round Lodz, and one of their own corps is nearly surrounded and " +
+              "round Łódź, and one of their own corps is nearly surrounded and " +
               "breaks out. At the end of November the Russian line falls back to the " +
               "Bzura and the Rawka. The Silesian offensive is not made, and the winter " +
               "will be spent on the defensive. The army has kept itself and lost its chance." },
@@ -533,7 +507,7 @@ CAMPAIGNS.stavka.nodes = {
       },
       {
         id: "silesia",
-        label: "Press on into Silesia and let the Second Army hold Lodz with what it has",
+        label: "Press on into Silesia and let the Second Army hold Łódź with what it has",
         advisor: { name: "Ruzsky", position:
           "The way to answer a blow at our flank is to be in Germany before it lands. The plan was to cross the frontier, and the army that crosses it is the one the enemy must answer." },
         gate: (m) => m.will >= -1,
@@ -543,7 +517,7 @@ CAMPAIGNS.stavka.nodes = {
         next: "stavka_1915_01_masuria",
         outcome:
           "Speculative. The Fifth Army crosses the frontier and the Second is left to meet " +
-          "the German Ninth Army alone at Lodz. It is a gamble on the two armies " +
+          "the German Ninth Army alone at Łódź. It is a gamble on the two armies " +
           "passing in the night, and the Germans, who had expected the Russians to " +
           "turn, have to decide what to do. A Russian army on German soil is something " +
           "the war has not seen, and whether it can stay there is " +
@@ -565,11 +539,6 @@ CAMPAIGNS.stavka.nodes = {
       "The front commander, Ruzsky, is not persuaded. The border line is the anchor of " +
       "the whole position in East Prussia, and Plehve's Twelfth Army is assembling " +
       "a hundred kilometres to the south-west to take the offensive in its turn.",
-    context:
-      "Giving up the border gives up the anchor that Stavka has been planning " +
-      "round, and gives it up on a warning. Holding it risks the army that holds " +
-      "it, in forest, in winter, and a long way from the nearest road that would " +
-      "carry it out.",
     choices: [
       {
         id: "hold",
@@ -640,10 +609,10 @@ CAMPAIGNS.stavka.nodes = {
   // ---------------------------------------------------------------- 1915-03
   stavka_1915_12_carpathians: {
     year: 1915, date: "1915-03-09", city: "Baranovichi",
-    title: "Przemysl Has Fallen",
+    title: "Przemyśl Has Fallen",
     advisors: ["grandduke", "brusilov"],
     situation: (flags) =>
-      "Przemysl has fallen today, 9 March (22 March in the west), after a siege that " +
+      "Przemyśl has fallen today, 9 March (22 March in the west), after a siege that " +
       "began in September. About 117,000 men and nine generals are taken. " +
       (flags.stavka_1914theatre === "prussia"
         ? "Divisions were taken from the south in the autumn for the northern effort, and the Carpathian armies are thinner than they would have been."
@@ -656,10 +625,6 @@ CAMPAIGNS.stavka.nodes = {
       "easier to make good.\n\n" +
       "The question for Stavka is what the armies in the mountains are to do now that " +
       "the fortress they were covering is gone.",
-    context:
-      "A crossing of the Carpathians would put Russian armies on the Hungarian plain. " +
-      "It would also stretch a line that is short of shells and short of rifles, over " +
-      "passes that are blocked with snow.",
     choices: [
       {
         id: "press",
@@ -684,7 +649,7 @@ CAMPAIGNS.stavka.nodes = {
         outcome:
           "Speculative. The armies hold the passes they have and stop attacking. The " +
           "rifles and shells that would have been spent in the snow are kept, and the " +
-          "Austrians have the spring to recover. Przemysl has been taken and nothing " +
+          "Austrians have the spring to recover. Przemyśl has been taken and nothing " +
           "more is asked of it. The army is less tired, and the shells it has saved are few.",
       },
     ],
@@ -702,7 +667,7 @@ CAMPAIGNS.stavka.nodes = {
         "confidence in the valour of the army.",
     },
     situation:
-      "The breakthrough at Gorlice-Tarnow is being made with an artillery weight this " +
+      "The breakthrough at Gorlice-Tarnów is being made with an artillery weight this " +
       "army cannot answer, and it cannot answer it because the shells are not there. " +
       "Brusilov reports men going into action without rifles, waiting for casualties " +
       "among their comrades to supply them.\n\n" +
@@ -710,11 +675,6 @@ CAMPAIGNS.stavka.nodes = {
       "it. Giving it up means giving up Warsaw and a great deal of the Empire's western " +
       "territory, and saying so to a court that regards territory as the thing being " +
       "defended.",
-    context:
-      "The war ministry that presided over the munitions position is still in office. " +
-      "The public bodies and war-industry committees offering to fix it are exactly the " +
-      "organisations the court most distrusts, because organising anything creates " +
-      "people who have organised something.",
     choices: [
       {
         id: "withdraw",
@@ -776,9 +736,6 @@ CAMPAIGNS.stavka.nodes = {
       "The case for is not nothing. The Grand Duke's authority was extraordinary and " +
       "answerable to nobody except the Emperor. Civil and military authority in the " +
       "border regions have not been coordinated at all.",
-    context:
-      "Whoever holds the title, Alekseyev will run the operations. Orders still come from headquarters. What changes with this decision is where blame goes, and what happens in the capital while the Emperor is four hundred miles " +
-      "away at headquarters.",
     choices: [
       {
         id: "assume",
@@ -859,10 +816,6 @@ CAMPAIGNS.stavka.nodes = {
       "fronts.\n\n" +
       "The Emperor has been in command for six days. The only force at hand to send " +
       "against the breach is a newly raised army that has not yet been under fire.",
-    context:
-      "Cavalry with no infantry or artillery to support it runs out of strength " +
-      "quickly. It also runs a long way before it does, and into ground where the " +
-      "railway the army depends on is only a day's ride off.",
     choices: [
       {
         id: "counter",
@@ -904,7 +857,7 @@ CAMPAIGNS.stavka.nodes = {
         id: "partial",
         label: "Counterattack with the cavalry and the leading divisions of the new army only, and keep the rest in reserve",
         advisor: { name: "Polivanov", position:
-          "The new army has never been tried. Put in a part of it and the rest is still an army if the part is lost." },
+          "Nobody has tried the new army. Put in a part of it and the rest is still an army if the part is lost." },
         impact: { manpower: 0, munitions: 0, will: 0 },
         dispute:
           "Historians differ about the German cavalry drive at Sventsiany: whether it " +
@@ -931,9 +884,7 @@ CAMPAIGNS.stavka.nodes = {
               "Speculative. The divisions put in at the breach are not enough to stop " +
               "the cavalry, which reaches the railway at Molodechno and cuts it for two " +
               "days. The rest of the new army arrives to find the breach wider than the " +
-              "report that sent it. The gap is closed in the end, a week after it would " +
-              "have been, and the army has learned what a reserve held back is worth " +
-              "when the moment to use it has gone." },
+              "report that sent it. The gap is closed in the end, a week after it would have been, because the reserve was held back until the moment to use it had gone." },
         ],
       },
     ],
@@ -954,11 +905,6 @@ CAMPAIGNS.stavka.nodes = {
       "The conference sets no date. The Russian representative is being asked to " +
       "accept the principle. In 1915, when the Russian line broke at Gorlice, the " +
       "Western Allies were not ready to help.",
-    context:
-      "Russia can say yes and mean it as an obligation, or say yes and mean it as an " +
-      "aspiration, and the French will take it as the first. Saying no leaves the " +
-      "armies of the largest ally outside the plan, at the moment when they have " +
-      "just lost Poland.",
     choices: [
       {
         id: "commit",
@@ -1013,11 +959,6 @@ CAMPAIGNS.stavka.nodes = {
       "and Western Fronts, round Lake Naroch, where Kuropatkin has 266,000 infantry " +
       "and Evert 643,000, against some 495,000 Germans, behind lakes and marsh " +
       "that are still frozen.",
-    context:
-      "The ground is a thaw away from impassable. The French are fighting for their " +
-      "lives and have a claim on the alliance. The Chantilly undertaking was to " +
-      "attack together in the summer, and this would be an offensive made months " +
-      "ahead of it.",
     choices: [
       {
         id: "launch",
@@ -1104,10 +1045,6 @@ CAMPAIGNS.stavka.nodes = {
       "reserves rather than trying to outweigh them.\n\n" +
       "The other fronts are meant to attack in support. Whether they will is a " +
       "question about the men commanding them, not about the plan.",
-    context:
-      "This is the one offensive design of the war that solves the problem everyone " +
-      "has been failing at. Whether it can be exploited depends entirely on whether " +
-      "the rest of the army moves when this front does.",
     choices: [
       {
         id: "support",
@@ -1185,9 +1122,6 @@ CAMPAIGNS.stavka.nodes = {
       "the railway junction that would carry the front west toward Brest-Litovsk. The " +
       "ground in front of it is marsh and river, and the Germans have been bringing " +
       "divisions to hold it.",
-    context:
-      "The offensive has already done more than anyone expected of it. Going on costs " +
-      "the Guards, who are the best troops left in the army.",
     choices: [
       {
         id: "kovel",
@@ -1250,10 +1184,6 @@ CAMPAIGNS.stavka.nodes = {
       "The offensive has been going for two months. The armies have lost heavily, the " +
       "supply is stretched, and every day gives the Germans time to bring divisions " +
       "from the west.",
-    context:
-      "Brusilov wants a decision before the German reserves arrive. Alekseyev wants an " +
-      "army that is still there in the autumn. Romania is about to declare, and what " +
-      "Russia has left is what it will have to give her.",
     choices: [
       {
         id: "stop",
@@ -1267,8 +1197,7 @@ CAMPAIGNS.stavka.nodes = {
           "Speculative. The attack on Lemberg is not made. The armies in the south dig " +
           "in where they stand, the Guards are kept for what comes in the autumn, and " +
           "the front holds the line it has won. The Germans use the pause to bring up " +
-          "divisions, and Brusilov, who wanted one more effort, is told that the effort " +
-          "is over. The army goes into August with its strength intact and its " +
+          "divisions, and Brusilov, who wanted one more effort, has his order to stop. The army goes into August with its strength intact and its " +
           "opportunity behind it.",
       },
       {
@@ -1350,9 +1279,6 @@ CAMPAIGNS.stavka.nodes = {
       "has a long frontier and an army that is short of guns and of the experience of " +
       "the war. Russia has promised to help, and the help has to come from the same " +
       "armies that are fighting in Galicia.",
-    context:
-      "A force sent to Romania is a force taken from the front, where Brusilov has been " +
-      "told to stop. A force not sent is an ally left to its own frontier.",
     choices: [
       {
         id: "small",
@@ -1410,11 +1336,6 @@ CAMPAIGNS.stavka.nodes = {
       "and what it is for is not settled: it may hold the Romanian front, " +
       "under a command that is partly Romanian, or only the Russian frontier " +
       "behind it.",
-    context:
-      "Taking over the Romanian front lengthens the line the army has to hold, " +
-      "in the middle of a winter, with the divisions that were to be spared for the " +
-      "spring. Not taking it over leaves the Romanians to be overrun, and the " +
-      "alliance that brought them in is the alliance that is asked to rescue them.",
     choices: [
       {
         id: "take",
@@ -1473,11 +1394,6 @@ CAMPAIGNS.stavka.nodes = {
       "Russia is to be supplied with the equipment it has been asking for. At Port " +
       "Romanov thousands of tons of munitions are lying on the docks.\n\n" +
       "Stavka is asked what to tell them about the spring. The Allies want a Russian offensive to go in with their own.",
-    context:
-      "The conference is meant to do the thing Chantilly did not: to put dates on " +
-      "the promises. Russia is the one partner whose answer depends on the " +
-      "weather, the railways and the temper of the capital, and the delegates know " +
-      "it, and have come to judge for themselves.",
     choices: [
       {
         id: "postpone",
@@ -1536,10 +1452,6 @@ CAMPAIGNS.stavka.nodes = {
       "the dynasty it swore to. Refusing makes it the last institution standing " +
       "between the crowds and the throne, which is a war behind the front while there " +
       "is a war in front of it.",
-    context:
-      "Whatever government follows will issue orders to this army. Within days, one " +
-      "of them will make the authority of officers subject to soldiers' committees. " +
-      "Nobody in this room knows that yet, and everybody in it can see the shape of it.",
     choices: [
       {
         id: "advise",
@@ -1604,10 +1516,6 @@ CAMPAIGNS.stavka.nodes = {
       "executing them, and some debate them instead. An offensive requires men to " +
       "leave a trench and walk toward machine guns because they were told to, and the " +
       "mechanism by which men are told to do that has been formally dismantled.",
-    context:
-      "The command's position is that this cannot be done. The government's position " +
-      "is that the alternative is a government that has done nothing, in a capital " +
-      "where doing nothing is being noticed by people with a plan.",
     choices: [
       {
         id: "attack",
@@ -1641,7 +1549,7 @@ CAMPAIGNS.stavka.nodes = {
             setFlags: { stavka_kerenskyResult: "limited" },
             next: "stavka_1917_12_deathpenalty",
             outcome:
-              "Speculative. The attack takes ground where the committees agreed to it and " +
+              "Speculative. The attack in Galicia takes ground where the committees agreed to it and " +
               "stops where they did not. The government has something to show the allies " +
               "and the army has not been destroyed proving it. The commanders who were told " +
               "that an order is now a proposal discover how much of a proposal can be " +
@@ -1687,10 +1595,6 @@ CAMPAIGNS.stavka.nodes = {
       "against it. The Minister of War is being asked whether the orders of the " +
       "command can still be enforced, and the committees will take the answer as " +
       "an answer to the question of who commands the army.",
-    context:
-      "A penalty that is ordered and not carried out is worse than none. A penalty " +
-      "that is carried out by an officer on a soldier who belongs to a committee has " +
-      "consequences that the order does not describe.",
     choices: [
       {
         id: "restore",
@@ -1737,11 +1641,6 @@ CAMPAIGNS.stavka.nodes = {
       "The Supreme Commander wants Riga held. The commanders on the spot want " +
       "to take the army out of it before it is surrounded, and a rearguard " +
       "of the Forty-third Corps would have to do the holding.",
-    context:
-      "Riga is a city, a bridge and a symbol, and the Supreme Commander has judged " +
-      "most of the infantry to be in poor condition and likely to run. To " +
-      "hold it is to find out whether that is true, with the army that has the " +
-      "most to lose by the answer.",
     choices: [
       {
         id: "withdraw",
@@ -1816,10 +1715,6 @@ CAMPAIGNS.stavka.nodes = {
         : "The Supreme Commander is the officer whose demand was refused in July.") +
       "\n\nKornilov is at this headquarters, and the corps is on the road. The order to " +
       "stop it can come from one of two men, and they are not speaking to each other.",
-    context:
-      "Whether this is a coup or a misunderstanding is not clear from here, and is not " +
-      "going to be settled in the next three days. The corps will arrive at Petrograd " +
-      "or it will not.",
     choices: [
       {
         id: "refuse",
@@ -1928,10 +1823,6 @@ CAMPAIGNS.stavka.nodes = {
       "\n\nWhat is left to decide is what this headquarters does with the fact that " +
       "it no longer has a government it recognises and still has an enemy in front of " +
       "it.",
-    context:
-      "Whatever is chosen, the officers in this building will shortly be choosing " +
-      "sides in a different war, on ground that runs from the Don to Siberia. Some of " +
-      "them are already choosing.",
     choices: [
       {
         id: "standdown",
@@ -1989,10 +1880,6 @@ CAMPAIGNS.stavka.nodes = {
       "commands them by the courtesy of their committees. The men who gave the order " +
       "say they speak for the soldiers and the people, and the soldiers' committees " +
       "have not said that they do not.",
-    context:
-      "To obey is to recognise the new authority and to open a negotiation the army " +
-      "cannot stop. To refuse is to be dismissed, and a headquarters that has been " +
-      "dismissed by wireless has nobody it can command.",
     choices: [
       {
         id: "refuse",
@@ -2057,8 +1944,8 @@ CAMPAIGNS.stavka.nodes = {
       "Romania: " + (flags.stavka_romania === "army" ? "an army sent at once." : "three divisions sent.") + "\n" +
       "The death penalty: " + (flags.stavka_deathpenalty === "refused" ? "not restored." : "restored at the front on 12 July 1917.") + "\n" +
       "The Kornilov affair: " + (flags.stavka_kornilov === "obeyed" ? "the dismissal obeyed." : flags.stavka_kornilov === "mediated" ? "a mediator sent, and the corps halted at Luga." : "the dismissal refused, and the march collapsed.") + "\n" +
-      "Przemysl, winter 1914: " + (flags.stavka_przemysl === "stormed" ? "assaulted." : flags.stavka_przemysl === "watched" ? "watched by a covering force." : "invested and starved out.") + "\n" +
-      "Lodz, November 1914: " + (flags.stavka_lodz === "silesia" ? "the Silesian offensive pressed on." : flags.stavka_lodzResult === "covered" ? "the Fifth Army turned north and covered the flank." : "the Fifth Army turned north and the Silesian offensive was given up.") + "\n" +
+      "Przemyśl, winter 1914: " + (flags.stavka_przemysl === "stormed" ? "assaulted." : flags.stavka_przemysl === "watched" ? "watched by a covering force." : "invested and starved out.") + "\n" +
+      "Łódź, November 1914: " + (flags.stavka_lodz === "silesia" ? "the Silesian offensive pressed on." : flags.stavka_lodzResult === "covered" ? "the Fifth Army turned north and covered the flank." : "the Fifth Army turned north and the Silesian offensive was given up.") + "\n" +
       "East Prussia, February 1915: " + (flags.stavka_masuria === "pulled" ? "the Tenth Army was drawn back to the Niemen." : flags.stavka_masuria === "reinforced" ? "the Tenth Army was reinforced at the border." : "the border line was held and the Twentieth Corps lost.") + "\n" +
       "Sventsiany, September 1915: " + (flags.stavka_sventsiany === "withdrew" ? "the line was shortened." : flags.stavka_sventsiany === "partial" ? "the breach was met by a part of the new army, the rest held back." : "the breach was met by counterattack.") + "\n" +
       "Chantilly, December 1915: " + (flags.stavka_chantilly === "declined" ? "no commitment was made." : "Russia joined the plan for simultaneous offensives.") + "\n" +
@@ -2069,7 +1956,7 @@ CAMPAIGNS.stavka.nodes = {
       "The order to open talks: " + (flags.stavka_armistice === "obeyed" ? "carried out." : "declined; Dukhonin dismissed and killed.") + "\n" +
       "October 1917: " + (flags.stavka_october === "resisted" ? "the new authority was refused recognition." : "the headquarters took no side.") + "\n\n" +
       "The officers of this headquarters disperse toward the Don, toward Siberia, and " +
-      "toward the new Republic's own army. What they do next is not this war." +
+      "toward the new Republic's own army." +
       "\n\n" +
       "What actually happened: The treaty was signed on 3 March 1918 and ratified " +
       "in the weeks after. It was annulled by the armistice of 11 November, and " +
@@ -2088,8 +1975,8 @@ CAMPAIGNS.stavka.nodes = {
       "The front is vacated rather than broken.",
     ending: { family: "disintegration-without-defeat", badge: BADGES.CONTESTED },
     epilogue: () =>
-      "An army is an agreement about who gives orders. Once that agreement lapses, " +
-      "nothing in the field replaces it.\n\nWhat actually happened: The front did " +
+      "Orders from this headquarters are no longer obeyed at the front, and nothing " +
+      "there takes their place.\n\nWhat actually happened: The front did " +
       "dissolve. Desertion had been heavy since the summer, and after the " +
       "revolution of October the armistice signed at Brest-Litovsk on 2 December " +
       "(15 December in the west) only recognised what had occurred. The old army " +
@@ -2178,9 +2065,7 @@ CAMPAIGNS.stavka.nodes = {
       "is the same territory conceded later by people with nothing to offer.",
     ending: { family: "separate-peace-earlier", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative. Separate-peace soundings existed and none came to anything. The " +
-      "obstacle was never arithmetic. It was that the dynasty could not sign such a " +
-      "thing and remain the dynasty.\n\nWhat actually happened: Russia did not " +
+      "Speculative. Separate-peace soundings existed and none came to anything. The obstacle was not arithmetic. The dynasty could not sign such a peace and remain on the throne.\n\nWhat actually happened: Russia did not " +
       "leave the war on its own initiative in 1917. It was taken out of it by " +
       "revolution, first in March, when the Provisional Government that replaced " +
       "the monarchy pledged to continue the war with the Allies, and again in " +
@@ -2202,9 +2087,7 @@ CAMPAIGNS.stavka.nodes = {
       "different is that the exhaustion arrives at a state rather than at a vacuum.",
     ending: { family: "political-order-survives-the-war", badge: BADGES.SPECULATIVE },
     epilogue: () =>
-      "Speculative, and the most speculative ending here. It requires the court to " +
-      "have behaved differently over eighteen months, which is a great deal to ask " +
-      "of a counterfactual.\n\nWhat actually happened: The capital did not hold " +
+      "Speculative, and the furthest from the record of any ending here. It requires the court to have behaved differently for eighteen months.\n\nWhat actually happened: The capital did not hold " +
       "together. The strikes and the mutiny of the Petrograd garrison at the end of " +
       "February, Old Style, brought down the monarchy within about a week, and the " +
       "Emperor abdicated on 2 March (15 March in the west), while he was on his way " +
@@ -2229,8 +2112,7 @@ CAMPAIGNS.stavka.nodes = {
     ending: { family: "coalition-obligations-honoured", badge: BADGES.CONTESTED },
     epilogue: () =>
       "Whether Russia was spent for the alliance or by its own arrangements is the " +
-      "oldest argument about this front. It is not going to be settled " +
-      "here.\n\nWhat actually happened: Russia kept its obligations to the Allies " +
+      "oldest argument about this front.\n\nWhat actually happened: Russia kept its obligations to the Allies " +
       "through 1917. The Provisional Government pledged to fight on and ordered the " +
       "offensive of June, whose failure left the army incapable of another, and the " +
       "Allies continued to supply it and to lend to its government until the " +
@@ -2251,8 +2133,8 @@ CAMPAIGNS.stavka.nodes = {
       "the successor regime keeps.",
     ending: { family: "hard-mode-relieved", badge: BADGES.CONTESTED, hardModeOnly: true },
     epilogue: () =>
-      "The staff is dispersed to other duties. The war continues without them and " +
-      "does not go better.\n\nWhat actually happened: Alekseyev was Supreme " +
+      "The staff is dispersed to other duties, and the war continues without " +
+      "them.\n\nWhat actually happened: Alekseyev was Supreme " +
       "Commander from 2 March to 22 May 1917, when Brusilov replaced him. Brusilov " +
       "was replaced by Kornilov in July, and Kornilov was dismissed in August and " +
       "arrested. The Supreme Command changed hands several times in six months, and " +

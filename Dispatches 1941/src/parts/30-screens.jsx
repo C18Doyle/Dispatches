@@ -743,7 +743,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               const found = endings.includes(e.label);
               return (
                 <div key={i} className="flex items-baseline gap-2 mb-1 text-[13px]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                  <span className="text-[10px] uppercase tracking-widest font-bold text-[#000000] opacity-50 w-14 shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <span className="text-[10px] uppercase tracking-widest font-bold text-[#000000] opacity-60 w-14 shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                     {e.campaign}
                   </span>
                   {found ? (
@@ -780,7 +780,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               return (
                 <div key={b.id} className="border-l-4 pl-2 mb-3" style={{ borderColor: r ? "#b08d3f" : "#00000033", fontFamily: "'Courier Prime', monospace" }}>
                   <div className="text-[13px] text-[#000000]">
-                    <span className="text-[10px] uppercase tracking-widest font-bold opacity-50 mr-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    <span className="text-[10px] uppercase tracking-widest font-bold opacity-60 mr-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                       {b.seal}
                     </span>
                     {r ? <b>{b.title}</b> : <span className="opacity-40">████████████</span>}
@@ -835,7 +835,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                       const found = (record?.nodes || []).includes(n.id);
                       return (
                         <div key={n.id} className="flex items-baseline gap-2 text-[12px] mb-[2px]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                          <span className="text-[10px] text-[#000000] opacity-50 w-32 shrink-0 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                          <span className="text-[10px] text-[#000000] opacity-60 w-32 shrink-0 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                             {n.date}
                           </span>
                           {found ? (
@@ -2244,6 +2244,11 @@ const NODE_REGION_HINTS = {
   wakeIslandRelief41: ["marshalls"],
   burmaRangoon42: ["burma"],
   burmaRoad40: ["burma", "freeChina"],
+  nomonhan39: ["manchuria", "sovietFarEast"],
+  indochinaMission40: ["indochina", "freeChina"],
+  fleetAtHawaii40: ["pearlHarbor"],
+  richardsonObjection40: ["pearlHarbor"],
+  atlanticTransfer41: ["pearlHarbor"],
   neutralityPact41: ["manchuria", "sovietFarEast"],
   indianOceanRaid42: ["india"], // Ceylon has no region of its own; India is the nearest on the map
   chinaAirForce41: ["freeChina"],
@@ -2324,7 +2329,7 @@ function ringsPathD(rings) {
 
 // `date` is the report's own date (the map shows the state on the day it opens); `atEnd` shows the war as it ended; `year` is the fallback for a
 // caller with only a year. The slider steps back month by month to January 1940.
-function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
+function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId, report }) {
   const MIN_MONTH = 1940 * 12;
   const maxKey = atEnd ? 19451231 : nodeDayKey(date) || (year ? Math.max(1940, Math.min(1945, year)) * 10000 + 101 : 19450101);
   const monthOf = (key) => Math.floor(key / 10000) * 12 + (Math.floor(key / 100) % 100) - 1;
@@ -2358,6 +2363,11 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
 
   const VBW = 960;
   const VBH = 650;
+  // On a report's own map (ReportMap, 37-map-front.jsx) the sheet can be framed on a window, the regions stand still, and the fronts, the place of the report and its orders are drawn.
+  const passive = !!(report && report.passive);
+  const view = report && report.frame ? report.frame : { x: 0, y: 0, w: VBW, h: VBH };
+  const markScale = Math.max(0.55, Math.min(1, (view.w / VBW) * 1.5));
+  const fronts = frontsOn(dayKey, statuses);
 
   const header = (
     <div
@@ -2422,7 +2432,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
   return (
     <div className="mb-2">
       {header}
-      <svg viewBox={`0 0 ${VBW} ${VBH}`} role="group" aria-label={`Pacific theater map, ${monthLabel}`} className="w-full border-[3px]" style={{ background: "#e3d5ae", borderColor: "#3a2a18" }}>
+      <svg viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`} role="group" aria-label={`Pacific theater map, ${monthLabel}`} className="w-full border-[3px]" style={{ background: "#e3d5ae", borderColor: "#3a2a18" }}>
         <defs>
           <pattern id={`hexTexture${uid}`} width="16" height="27.7" patternUnits="userSpaceOnUse">
             <path
@@ -2507,7 +2517,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
           if (!reg) return null;
           const status = statuses[id] || "neutral";
           const isHighlighted = highlightRegions.includes(id);
-          const hasNote = !!regionNotes[id];
+          const hasNote = !passive && !!regionNotes[id];
           const d = ringsPathD(reg.rings);
           const [lx, ly] = reg.label;
           const labelBelow = LABEL_BELOW[id];
@@ -2573,7 +2583,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
           const tier = tierFor(id);
           const r = mapRadiusFor(tier);
           const isHighlighted = highlightRegions.includes(id);
-          const hasNote = !!regionNotes[id];
+          const hasNote = !passive && !!regionNotes[id];
           const [x, y] = reg.label;
           const labelBelow = LABEL_BELOW[id];
           const labelY = labelBelow ? y + r + 12 : y - r - 6;
@@ -2616,16 +2626,24 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
           );
         })}
 
-        <rect x={VBW - 230} y={VBH - 56} width="216" height="42" fill="#e3d5ae" stroke="#3a2a18" strokeWidth="2" />
-        <text x={VBW - 220} y={VBH - 40} fontSize="9" fontWeight="700" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-          THEATER MAP
-        </text>
-        <text x={VBW - 220} y={VBH - 27} fontSize="8" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-          REAL COASTLINES · SMALLER POINTS SIZED BY POPULATION
-        </text>
+        <PacificFronts fronts={fronts} s={markScale} />
+        {report && month === maxMonth && <PacificMarks marks={report.marks} arrows={report.arrows} accent={accent} view={view} />}
+
+        {!(report && report.frame) && (
+          <g>
+            <rect x={VBW - 230} y={VBH - 56} width="216" height="42" fill="#e3d5ae" stroke="#3a2a18" strokeWidth="2" />
+            <text x={VBW - 220} y={VBH - 40} fontSize="9" fontWeight="700" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              THEATER MAP
+            </text>
+            <text x={VBW - 220} y={VBH - 27} fontSize="8" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              REAL COASTLINES · SMALLER POINTS SIZED BY POPULATION
+            </text>
+          </g>
+        )}
       </svg>
       <p className="sr-only">
         {`The map on ${monthLabel}. `}
+        {report && report.marks && report.marks.name ? `This report is set at ${report.marks.name}. ` : ""}
         {Object.entries(
           MAP_REGIONS.reduce((acc, r) => {
             const st = statuses[r.id] || "neutral";
@@ -2835,7 +2853,7 @@ function FirstRunGuide({ accent, onDismiss }) {
         <li className={item}>The three bars are Readiness (the force), Pipeline (what feeds it) and Initiative (who sets the pace). Press the arrow beside a bar to see the three readings under it. A bar that is low costs you: it worsens the odds of the decisions it touches, and the course says so in red.</li>
         <li className={item}>"Contested" means the dice are rolled. The percentages are the odds of each result, and they move with the bars.</li>
         <li className={item}>A course marked "Leads to battle planning" opens an Order of Battle before it resolves: you place your effort, and read the battle as it happens.</li>
-        <li className={item}>"Show Pacific Situation" opens the map as it stood on the day of this report. Its slider steps back through the war.</li>
+        <li className={item}>The map under the title shows the war on the day of this report, with the report's place marked. Its slider steps back through the war, and the buttons under it draw each order on the map.</li>
         <li className={item}>Save keeps your place. Home leaves the war to be resumed from the title page.</li>
       </ul>
       <button
@@ -2849,7 +2867,31 @@ function FirstRunGuide({ accent, onDismiss }) {
   );
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onRewind, onSave, onHome }) {
+/** The adviser's line on an order, by how far the player has trusted them (see adviserStanding in logic.ts). Phrasing content only: it sits inside the order's button. */
+function AdviserLine({ advisor, date, flags }) {
+  const standing = adviserStanding(flags || {}, advisor.name);
+  const who = advisorAttribution(advisor.name, date);
+  if (standing === "gone") return null;
+  if (standing === "quiet") {
+    return (
+      <span className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100" style={{ borderLeft: "2px solid currentColor" }}>
+        {who} says little now: overruled too often to argue this one.
+      </span>
+    );
+  }
+  return (
+    <span className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100" style={{ borderLeft: "2px solid currentColor" }}>
+      {standing === "trusted" && (
+        <span className="not-italic mr-2 border border-current px-1.5 py-[1px] text-[10px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          Trusted
+        </span>
+      )}
+      {who} argues: {advisor.position}
+    </span>
+  );
+}
+
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onIntelCheck, onRewind, onSave, onHome, history }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [guideSeen, setGuideSeen] = useState(() => {
     try {
@@ -2937,7 +2979,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
           // prototype. Deterministic from nodeId so it doesn't reshuffle on re-render,
           // not a real cipher and not meant to be read as one.
           <div
-            className="text-[10px] tracking-[0.2em] mb-2 pb-2 border-b border-dashed border-black opacity-50"
+            aria-hidden="true"
+            className="text-[10px] tracking-[0.2em] mb-2 pb-2 border-b border-dashed border-black opacity-60"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {codeGroupStrip(nodeId)}
@@ -3049,24 +3092,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
         )}
 
         {campaign.dynamic && (
-          <details className="mb-3 border-2 border-black px-3 py-1.5">
-            <summary
-              className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              Show Pacific Situation
-            </summary>
-            <div className="mt-3">
-              <PacificMap
-                date={stage.date}
-                year={yearFrom(stage.date, 1941)}
-                flags={flags}
-                meters={meters}
-                accent={campaign.accent}
-                nodeId={nodeId}
-              />
-            </div>
-          </details>
+          <ReportMap key={nodeId} campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} log={log} />
         )}
 
         {campaign.dynamic && !iron && <MeterPanel meters={meters} flags={flags} prev={prevSnap} />}
@@ -3197,6 +3223,9 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
         >
           {campaign.id === "japan" ? "Decoded Text Follows" : "BT"}
         </div>
+        {campaign.dynamic && onIntelCheck && (
+          <IntelPanel campaignId={campaign.id} nodeId={nodeId} flags={flags} easy={mode === "easy"} hard={mode === "fanatical" || mode === "coalition"} onCheck={(itemId) => onIntelCheck(nodeId, itemId, mode === "fanatical" || mode === "coalition")} accent={campaign.accent} />
+        )}
         <div className="flex flex-col mb-6 border-2 border-black">
           {stage.choices.map((choice, i) => {
             // Ordinal prefix per campaign convention: A/B/C for the Navy message
@@ -3222,6 +3251,11 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
               >
                 {ordinal}. {choice.label}
               </span>
+              {campaign.dynamic && onIntelCheck && intelRests(campaign.id, nodeId, i, flags, mode === "easy") && (
+                <span className="block mt-1 text-[11px] uppercase tracking-widest font-bold opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  {intelRests(campaign.id, nodeId, i, flags, mode === "easy")}
+                </span>
+              )}
               {iron && choice.favor && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
@@ -3331,14 +3365,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
                   “{choice.attested.text}”: {advisorAttribution(choice.attested.by, stage.date)}
                 </span>
               ) : (
-                choice.advisor && (
-                  <span
-                    className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100"
-                    style={{ borderLeft: "2px solid currentColor" }}
-                  >
-                    {advisorAttribution(choice.advisor.name, stage.date)} argues: {choice.advisor.position}
-                  </span>
-                )
+                choice.advisor && <AdviserLine advisor={choice.advisor} date={stage.date} flags={flags} />
               )}
               {choice.strain && choice.strain.points > 0 && (
                 <span className="block mt-1 text-[12px] font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>

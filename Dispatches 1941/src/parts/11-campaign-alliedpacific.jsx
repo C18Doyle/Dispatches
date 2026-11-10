@@ -2,13 +2,13 @@
     id: "alliedPacific",
     seal: "CINCPAC",
     name: "Allied Pacific Command",
-    dates: "Beginning 1941",
-    brief: "Direct the Allied war against Japan from the embargo decision to the surrender.",
+    dates: "Beginning 1940",
+    brief: "Direct the Allied war against Japan from the fleet at Hawaii to the surrender.",
     teaser: "One war, four allies, and no agreement on how to win it.",
     accent: "#28497a",
     dynamic: true,
-    intro: "July 1941. Japan has occupied southern Indochina, and how strictly Washington enforces the freeze on Japanese assets is still an open question.",
-    start: "americanEmbargoResponse41",
+    intro: "May 1940. The Pacific Fleet has finished its spring exercise off Hawaii, and the President has asked the Navy to keep it there. Germany is sweeping across Europe, and Japan is watching what America does.",
+    start: "fleetAtHawaii40",
     resolveNode(id, flags, meters) {
       return {
         get americanEmbargoResponse41() {
@@ -17,7 +17,7 @@
           title: "The Embargo Decision",
           historicalRecord: true,
           situation:
-            "Japan's occupation of southern Indochina is complete, and Roosevelt has signed an order freezing Japanese assets in the United States, a step meant to signal serious displeasure without necessarily foreclosing every avenue of trade. Britain and the Dutch East Indies government have moved in step, freezing Japanese assets of their own on the assumption that Washington's order will hold as a real, coordinated front. The order itself doesn't specify exactly how strictly the resulting licensing system should be enforced, and in the weeks that follow, whether Japan can still buy any oil at all is effectively decided administratively: State and Treasury officials interpret the freeze more strictly than some in the administration privately expected, and the licenses that would let limited oil shipments continue simply stop being issued. What began as calculated pressure is quietly becoming a total embargo without anyone in the Cabinet having explicitly voted for one.",
+            "Japan's occupation of southern Indochina is complete, and Roosevelt has signed an order freezing Japanese assets in the United States, a step meant to signal serious displeasure without necessarily foreclosing every avenue of trade. Britain and the Dutch East Indies government have moved in step, freezing Japanese assets of their own on the assumption that Washington's order will hold as a real, coordinated front. The order itself doesn't specify exactly how strictly the resulting licensing system should be enforced, and in the weeks that follow, whether Japan can still buy any oil at all is effectively decided administratively: State and Treasury officials interpret the freeze more strictly than some in the administration privately expected, and the licenses that would let limited oil shipments continue simply stop being issued. What began as calculated pressure is quietly becoming a total embargo without anyone in the Cabinet having explicitly voted for one." + (flags.fleetBasingPath === "hawaii" ? " The fleet has lain at Pearl Harbor since the spring of 1940." : flags.fleetBasingPath === "hawaiiSupplied" ? " The fleet has lain at Pearl Harbor since the spring of 1940, with its tenders and tankers beside it." : flags.fleetBasingPath === "coast" ? " The fleet went home to the West Coast in 1940 and is a week's steaming from Hawaii." : "") + (flags.atlanticTransferPath === "sent" ? " The Atlantic has taken a carrier, three battleships and their escorts from the Pacific Fleet." : flags.atlanticTransferPath === "partial" ? " The Atlantic has taken the older ships of the Pacific Fleet and left it the carrier." : flags.atlanticTransferPath === "refused" && flags.atlanticTransferResult === "yielded" ? " The Pacific Fleet kept part of the ships the Atlantic asked for." : flags.atlanticTransferPath === "refused" && flags.atlanticTransferResult === "overruled" ? " The Atlantic has taken its ships from the Pacific Fleet over its objection." : ""),
           choices: [
             {
               label: "Let the strict interpretation stand: a de facto total oil embargo",
@@ -357,6 +357,149 @@
         },
         get warWithoutAmerica45() {
           return dataNode(ALLIED_PACIFIC_DATA, "warWithoutAmerica45", meters);
+        },
+        get fleetAtHawaii40() {
+          return {
+          date: "MAY 1940",
+          title: "The Fleet Stays at Hawaii",
+          historicalRecord: true,
+          situation:
+            "The Pacific Fleet has finished its spring exercise off Hawaii. Its home is the West Coast, and it is due to go back. With Germany sweeping across Europe, the President has asked the Navy to keep the fleet at Pearl Harbor, to give Japan something to think about. Admiral Richardson, who commands it, doubts that the ships can be supplied and manned there, and doubts that staying will deter anyone. The fleet's tankers, tenders and training establishments are on the coast.",
+          choices: [
+            {
+              label: "Keep the fleet at Pearl Harbor, as the President asks",
+              advisor: { name: "Roosevelt", position: "A fleet at Hawaii tells Tokyo that America is watching the Pacific while Europe burns. It can go home when the signal stops mattering." },
+              historical: true,
+              setFlags: { fleetBasingPath: "hawaii" },
+              impact: { readiness: -1, pipeline: -1, initiative: 1 },
+              next: "richardsonObjection40",
+              outcome:
+                "The fleet stays at Pearl Harbor through the summer and on into the autumn. Richardson protests in Washington that Hawaii has too few tenders, tankers and training facilities, and that the move will do no good with Tokyo. The ships spend a year at a base that was built to hold them for an exercise.",
+            },
+            {
+              label: "Return the fleet to San Diego, as Richardson asks",
+              advisor: { name: "Nimitz", position: "The fleet's crews are trained and fed from the coast. Bringing them back keeps the ships ready, and keeping them at Hawaii wears them out without making them any safer." },
+              setFlags: { fleetBasingPath: "coast" },
+              impact: { readiness: 1, pipeline: 1, initiative: -2 },
+              next: "richardsonObjection40",
+              outcome:
+                "A modeled alternative. The fleet goes home to the coast, and the President's signal to Tokyo is not sent. The fleet is better manned and supplied, and it is a week's steaming from Hawaii when the crisis of 1941 comes.",
+            },
+            {
+              label: "Keep the fleet at Hawaii, and order the tenders, tankers and repair ships out to meet it",
+              advisor: { name: "King", position: "A fleet that stays should be supplied to stay. The train comes first, and the base can be built around the ships that are already there." },
+              setFlags: { fleetBasingPath: "hawaiiSupplied" },
+              impact: { readiness: 0, pipeline: -2, initiative: 1 },
+              next: "richardsonObjection40",
+              outcome:
+                "A modeled alternative. Richardson's complaint was that the fleet was sent to Hawaii without the ships that keep it there. Sending the train as well costs the Navy auxiliaries it does not have in numbers, and takes them from the West Coast and the Atlantic.",
+            },
+          ],
+        };
+        },
+        get richardsonObjection40() {
+          return {
+          date: "OCTOBER 1940",
+          title: "Richardson's Objection",
+          historicalRecord: true,
+          situation:
+            "On 8 October Richardson lunches with the President at the White House and says that the fleet should not be at Hawaii, and that the Navy's senior officers do not have confidence in the civilian leadership to use it properly. On 26 October a Washington newsletter predicts that he will be relieved. The Navy Department has a decision to make about the man who commands the fleet and about the place where it lies." +
+            (flags.fleetBasingPath === "coast"
+              ? " The fleet is on the West Coast. Richardson's argument is about the next time it is asked to move."
+              : ""),
+          choices: [
+            {
+              label: "Relieve Richardson and give the fleet to Kimmel early in the new year",
+              advisor: { name: "Roosevelt", position: "A fleet commander who tells the Commander in Chief that his order is wrong cannot keep the fleet, whatever his reasons are. The order stands, and an officer who will carry it out gets the command." },
+              historical: true,
+              setFlags: { richardsonPath: "relieved" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "atlanticTransfer41",
+              outcome:
+                "Richardson hands the fleet to Admiral Husband Kimmel on 1 February 1941. The fleet stays at Pearl Harbor. The Navy has shown that an officer who argues with the President about where the fleet lies does not keep it.",
+            },
+            {
+              label: "Keep Richardson and bring the fleet home to the West Coast",
+              advisor: { name: "King", position: "An admiral who tells the Commander in Chief what he thinks of an order should be heard before he is relieved, and the fleet is his to judge. The order can be changed." },
+              setFlags: { richardsonPath: "heard" },
+              impact: { readiness: 1, pipeline: 1, initiative: -2 },
+              next: "atlanticTransfer41",
+              outcome:
+                "A modeled alternative. The President's signal to Tokyo is withdrawn, and the officer who argued against it keeps the fleet. The Navy's senior officers are told that an honest objection is heard, and the White House is told that the Navy has a mind of its own.",
+            },
+            {
+              label: "Keep Richardson at Hawaii and give him the reinforcements and auxiliaries he asked for",
+              advisor: { name: "Nimitz", position: "He asked for ships, crews and a base that can hold them. A commander who gets what he asks for can be held to the task, and one who does not cannot." },
+              setFlags: { richardsonPath: "reinforced" },
+              impact: { readiness: 1, pipeline: -2, initiative: 0 },
+              next: "atlanticTransfer41",
+              outcome:
+                "A modeled alternative. Richardson stays at Pearl Harbor with some of what he asked for, at the cost of ships and men that the Atlantic and the training establishments wanted. He is a harder man to move later and a more cooperative one now.",
+            },
+          ],
+        };
+        },
+        get atlanticTransfer41() {
+          return {
+          date: "MAY – JUNE 1941",
+          title: "Ships for the Atlantic",
+          historicalRecord: true,
+          situation:
+            "The war in the Atlantic is going badly for Britain: German submarines are sinking merchant ships faster than they can be replaced, and the President wants more escorts west of Iceland. In May the Navy Department orders part of the Pacific Fleet to the Atlantic: a carrier, three battleships, four light cruisers and a number of destroyers. The staff at Pearl Harbor knows what the Pacific will have left." +
+            (flags.richardsonPath === "relieved"
+              ? " Kimmel has had the fleet since the first of February."
+              : flags.richardsonPath === "heard" || flags.richardsonPath === "reinforced"
+              ? " Richardson, who still has the fleet, has said in writing what he thinks of a fleet divided."
+              : ""),
+          choices: [
+            {
+              label: "Send the ships to the Atlantic as ordered",
+              advisor: { name: "King", position: "The Atlantic is where the war is being lost this spring, and the ships are needed there now. The Pacific can do without them for a few months." },
+              historical: true,
+              setFlags: { atlanticTransferPath: "sent" },
+              impact: { readiness: -2, pipeline: 0, initiative: -1 },
+              next: "americanEmbargoResponse41",
+              outcome:
+                "The carrier Yorktown, three battleships, four light cruisers and a number of destroyers go through the Panama Canal in May and June. The Pacific Fleet that is left is the fleet that will be at Pearl Harbor in December, with the old battleships and no carrier at the anchorage.",
+            },
+            {
+              label: "Send the older ships and keep the carrier in the Pacific",
+              advisor: { name: "Layton", position: "Japan counts the Pacific Fleet's carriers and battleships, and the Atlantic has no use for one carrier more. The old ships can go, and the carrier is the one thing the fleet cannot spare." },
+              setFlags: { atlanticTransferPath: "partial" },
+              impact: { readiness: -1, pipeline: 0, initiative: 0 },
+              next: "americanEmbargoResponse41",
+              outcome:
+                "A modeled alternative. The Atlantic gets battleships and cruisers that are no use in a carrier war, and the Pacific keeps the carrier that will matter in one. Admiral King's escorts in the Atlantic have less than the Navy Department promised the President.",
+            },
+            {
+              label: "Refuse the transfer: tell the Chief of Naval Operations that the Pacific Fleet cannot spare a ship",
+              advisor: { name: "Nimitz", position: "A fleet cut in half does not deter anyone, and Japan can count the ships that are left. The Pacific is a theater, and it should not be left to look after itself." },
+              setFlags: { atlanticTransferPath: "refused" },
+              impact: { readiness: 1, pipeline: 0, initiative: -1 },
+              next: "americanEmbargoResponse41",
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.initiative),
+                  title: "The Navy Department gives part of the order up",
+                  setFlags: { atlanticTransferResult: "yielded" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                  outcome:
+                    "Speculative. The Chief of Naval Operations lets the Pacific keep some of the ships, and the Atlantic escorts are a few ships short of the plan.",
+                },
+                {
+                  weight: (() => { const w = modWeight(30, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The order stands",
+                  setFlags: { atlanticTransferResult: "overruled" },
+                  impact: { readiness: -2, pipeline: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The President's decision is not for a fleet commander to refuse. The ships go anyway, and the objection is on the record in Washington.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The transfer was ordered by the President and the Chief of Naval Operations, and the Pacific Fleet's staff could object but not refuse. Here the objection is made as a refusal, and the answer decides how it is remembered.",
+            },
+          ],
+        };
         },
         get chinaAirForce41() {
           return {

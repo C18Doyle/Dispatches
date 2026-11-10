@@ -3,7 +3,7 @@
 // =============================================================================
 //
 // RECONCILE: 1922's resolveNode(nodeId, flags, meters) returns the whole node
-// with situation/context/bulletin/epilogue optionally built from flags. This
+// with situation/bulletin/epilogue optionally built from flags. This
 // reproduces that contract from the handover description. Verify against the
 // real implementation before content work.
 // =============================================================================
@@ -44,7 +44,6 @@ export function resolveNode(nodeId, flags = {}, meters = emptyMeters(), hardStat
     advisorsPresent: advisorsPresentAt(campaignId, node.date),
     meterLabels: meterLabels(campaignId),
     situation: (resolveField(node.situation, ctx) ?? "") + battleEchoText(nodeId, flags),
-    context: resolveField(node.context, ctx),
     bulletin: resolveField(node.bulletin, ctx),
     epilogue: resolveField(node.epilogue, ctx),
     choices,

@@ -3662,15 +3662,15 @@ function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contrib
   if (counter && counter.result !== "repulsed") {
     const cat = categories.find((c) => c.id === counter.category);
     if (counter.result === "gaveGround") {
-      lines.push({ meter: "initiative", delta: -1, reason: "Gave ground to the counterattack" });
+      lines.push({ meter: "initiative", delta: -1, reason: t("Gave ground to the counterattack") });
     } else if (cat) {
-      lines.push({ meter: cat.meter, delta: -1, reason: `${cat.name} mauled by the counterattack` });
-      if (counter.result === "broke") lines.push({ meter: "initiative", delta: -1, reason: "The counterattack broke through" });
+      lines.push({ meter: cat.meter, delta: -1, reason: t("{catName} mauled by the counterattack", { catName: cat.name }) });
+      if (counter.result === "broke") lines.push({ meter: "initiative", delta: -1, reason: t("The counterattack broke through") });
     }
   }
   for (const c of categories) {
     if ((finalAllocation[c.id] || 0) >= poolSize / 2) {
-      lines.push({ meter: c.meter, delta: -1, reason: `Heavy commitment to ${c.name}` });
+      lines.push({ meter: c.meter, delta: -1, reason: t("Heavy commitment to {cName}", { cName: c.name }) });
     }
   }
   // Round 24 (double jeopardy): an arm left uncovered used to cost its meter a point on a loss as well. The gap has
@@ -3678,9 +3678,9 @@ function computeBattlePlanCosts({ categories, finalAllocation, poolSize, contrib
   // charging it again was charging the same fault three times. A win with nothing neglected still earns the point.
   const neglected = categories.filter((c) => (contributions[c.id] || 0) < 0);
   if (won && neglected.length === 0) {
-    lines.push({ meter: "initiative", delta: 1, reason: "A coordinated plan" });
+    lines.push({ meter: "initiative", delta: 1, reason: t("A coordinated plan") });
   }
-  if (reservesHeld >= 2) lines.push({ meter: "manpower", delta: 1, reason: "Reserve returned intact" });
+  if (reservesHeld >= 2) lines.push({ meter: "manpower", delta: 1, reason: t("Reserve returned intact") });
   const totals = { manpower: 0, fuel: 0, initiative: 0 };
   for (const l of lines) totals[l.meter] = (totals[l.meter] || 0) + l.delta;
   // Round 27: random play reached -10 within a few decisions once battles charged their plans on top of their own
@@ -3730,7 +3730,7 @@ function battleDecisionEffect(option, postureId) {
 }
 
 // Round 23: the campaign hard modes that can put orders from above on a battle (config.hardRule).
-const HARD_MODE_NAMES = { iron: "Führer Mode", purge: "NKVD Mode", coalition: "Coalition Mode", axis: "Axis Mode" };
+const HARD_MODE_NAMES = { iron: T("Führer Mode"), purge: T("NKVD Mode"), coalition: T("Coalition Mode"), axis: T("Axis Mode") };
 
 // Round 23: how a Matériel strand's reading (see materielReadout in logic.ts) changes the weight an
 // arm can bring. Each category may name the strand it draws on (category.strand: "oil", "ammo",
@@ -4012,7 +4012,7 @@ function migrateSave(saved) {
   return s;
 }
 
-const NODE_TOTAL = 286; // 100 German + 71 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
+const NODE_TOTAL = 291; // 105 German + 71 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 29: German +5 for the prelude: fallWeiss39, phoneyWar39, mechelen40, altmark40 and ore40.) (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 // Framing quotes shown on entering the War Room. Where a clean, verified, short quote from
 // the actual command figure at this moment exists, it's used with a real name and date. Where
@@ -4043,43 +4043,43 @@ const CAMPAIGN_WAR_ROOM_QUOTE = {
 // war context and mechanics, not the name's own backstory — so EASY_MODE_NOTES (which used to
 // open with "Named for the X — a Y...") was retired in favor of warRoomModeInfo()'s shared
 // mechanics-only fallback text, identical in substance across all four campaigns anyway.
-const EASY_MODE_NAMES = { german: "Elefant Command", soviet: "T-35 Command", allied: "Defiant Command", italy: "Breda Command" };
+const EASY_MODE_NAMES = { german: T("Elefant Command"), soviet: T("T-35 Command"), allied: T("Defiant Command"), italy: T("Breda Command") };
 
 function warRoomModeInfo(mode, campaignId) {
   const names = {
-    easy: EASY_MODE_NAMES[campaignId] || "Easy Command",
-    open: "Standard Issue Command",
-    iron: "Führer Mode",
-    purge: "NKVD Mode",
-    coalition: "Yalta Mode",
-    axis: "Axis Mode",
+    easy: EASY_MODE_NAMES[campaignId] ? t(EASY_MODE_NAMES[campaignId]) : t("Easy Command"),
+    open: t("Standard Issue Command"),
+    iron: t("Führer Mode"),
+    purge: t("NKVD Mode"),
+    coalition: t("Yalta Mode"),
+    axis: t("Axis Mode"),
   };
   const hard = !!HARD_MODE_NAMES[mode];
   const summaries = {
-    easy: "Each choice shows what it will do to the meters, the choice the record made is marked, and you can rewind.",
-    open: "The full dashboard and the rewind. You judge each order on what you know.",
-    iron: "No dashboard and no rewind. You have five points of political capital to spend on defying Hitler.",
-    purge: "No rewind, and the NKVD is watching: five counts of suspicion end in a recall.",
-    coalition: "No rewind. Overriding a partner's strong objection costs Coalition Cohesion, and a broken alliance relieves you.",
-    axis: "No rewind. Berlin watches every act of independent Italian judgment, and losing its trust ends the command.",
+    easy: t("Each choice shows what it will do to the meters, the choice the record made is marked, and you can rewind."),
+    open: t("The full dashboard and the rewind. You judge each order on what you know."),
+    iron: t("No dashboard and no rewind. You have five points of political capital to spend on defying Hitler."),
+    purge: t("No rewind, and the NKVD is watching: five counts of suspicion end in a recall."),
+    coalition: t("No rewind. Overriding a partner's strong objection costs Coalition Cohesion, and a broken alliance relieves you."),
+    axis: t("No rewind. Berlin watches every act of independent Italian judgment, and losing its trust ends the command."),
   };
   const trackerRules = {
-    iron: "Political capital: you have five points to spend defying the historical command. Five defiances and you are dismissed.",
-    purge: "Suspicion rises as you defy the apparatus, counted out of 5. At 5 you are recalled.",
-    coalition: "Coalition Cohesion falls when you override a partner's strong objection. At -6 the alliance relieves you of command.",
-    axis: "German Trust falls when Berlin notices independent Italian judgment. At -5 you are superseded.",
+    iron: t("Political capital: you have five points to spend defying the historical command. Five defiances and you are dismissed."),
+    purge: t("Suspicion rises as you defy the apparatus, counted out of 5. At 5 you are recalled."),
+    coalition: t("Coalition Cohesion falls when you override a partner's strong objection. At -6 the alliance relieves you of command."),
+    axis: t("German Trust falls when Berlin notices independent Italian judgment. At -5 you are superseded."),
   };
   const rules = hard
     ? [
-        "Decisions are final: there is no rewind.",
-        mode === "iron" ? "There is no meter dashboard. Only the staff's notes say how you stand." : null,
+        t("Decisions are final: there is no rewind."),
+        mode === "iron" ? t("There is no meter dashboard. Only the staff's notes say how you stand.") : null,
         trackerRules[mode],
-        "Each battle can carry orders from above: a fixed approach or commander, or an order not to give ground.",
-        "Reports are partly censored as Manpower falls.",
+        t("Each battle can carry orders from above: a fixed approach or commander, or an order not to give ground."),
+        t("Reports are partly censored as Manpower falls."),
       ].filter(Boolean)
     : mode === "easy"
-    ? ["Each option shows its meter impact before you choose.", "The choice the historical record made is marked, where the record left one.", "In battle the intelligence summary is never wrong.", "Rewind is available."]
-    : ["Full meter dashboard.", "Rewind is available."];
+    ? [t("Each option shows its meter impact before you choose."), t("The choice the historical record made is marked, where the record left one."), t("In battle the intelligence summary is never wrong."), t("Rewind is available.")]
+    : [t("Full meter dashboard."), t("Rewind is available.")];
   return { label: names[mode] || mode, note: summaries[mode] || "", summary: summaries[mode] || "", rules };
 }
 

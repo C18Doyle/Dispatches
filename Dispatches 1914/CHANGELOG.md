@@ -5,6 +5,31 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## 1.4.5 (2026-10-29)
+### Added: four reports for the thinnest commands, and six more documents from the record
+- **The Ottoman command has two more reports.** Two Divisions at Bulair (August 1915, the landing at Suvla) and Divisions for the Eastern Front (August 1916, the offer of an army corps to Galicia). The Ottoman command now has 23 reports.
+- **The Austro-Hungarian command has two more reports.** The Flank in the Foothills (December 1914, Kraków and the Russian flank at Limanowa) and A New Enemy at the Passes (August 1916, Romania in Transylvania). It now has 24.
+- **Six more real documents open reports:** Trotsky's declaration at Brest-Litovsk, the Decree on Peace, Order No. 1 of the Petrograd Soviet, Emperor Karl's manifesto of 16 October 1918, the German-Ottoman treaty of alliance, and Lloyd George's address on war aims. Each is quoted whole from a published translation and logged as a checked quotation. Every command except the French now has at least two documents, and the German, Russian and British commands have three.
+- The claims for the new reports are logged as drafted and still need a source check.
+
+### Changed: the writing
+- **Fewer outcomes that report a result as being told.** Seventeen outcomes reported a result as someone being told it; all seventeen now say what happened, and a check keeps the habit to three. Five other closing clauses that summed up what the army had learned were cut back to the fact.
+- **Every outcome names something.** Thirteen outcomes that gave no figure, place or person now do (Cologne, Thiepval, Péronne, Przemyśl and the rest), and a check keeps new ones from going without.
+- **Advisers in their own voices.** One adviser who spoke of himself by name now speaks as himself, no two arguments in a report open with the same words, and a check holds the arguments that rest on must, has to or cannot to two fifths. The twelve arguments in the new reports were rewritten to sound like their speakers.
+- **Epilogues without a tidy line.** Ten epilogue openers and closers that read as sayings (what the line was for did not become clearer for having been held; territory is only an asset if it can be held) now say the plain thing.
+
+## 1.4.4 (2026-10-28)
+### Changed: the game written one way
+- **Names keep their accents** everywhere (Pétain, Poincaré, Przemyśl, Sarıkamış, Łódź and the rest). A check keeps the plain spellings out.
+- **Dates in the UK form.** A bulletin's date no longer shows as year-month-day, and the screen audit fails on one.
+- **One set of ways out.** Menu leaves a file, Back goes one step, Close closes a dialog. Home, Return to file, Back to the commands, Back to the order and Close the map are gone.
+- **One type scale.** Every size in the interface is one of twelve (10, 11, 12, 13, 14, 16, 20, 24, 28, 32, 40, 48 px); about ninety stray sizes were moved onto it.
+- **One marker for what is not in the record.** A modelled outcome, a newspaper page and a mark on the ground carry the same small tag, Not in the record, instead of three different wordings.
+- **A line written for each report in the Meanwhile list.** The other commands' news is one sentence per report, written by hand, and no longer the clipped first sentences of the report.
+- **Tidier endings.** Epilogues and the guide no longer close on a short line that names nothing (An army is an agreement about who gives orders; The terms were always the casualty list), and a check keeps them from coming back.
+- **Dead text removed.** The 142 background notes on reports that no screen showed, and the dates on the briefing quotations, are gone.
+- **A screenshot comparison** (`npm run visual`) takes nine screens in both looks at phone and desktop width and lists the ones a change has altered.
+
 ## 1.4.3 (2026-10-27)
 ### Changed: Night is the default look, and the text says less
 - **Night is the default theme.** Anyone who has not chosen a look now gets Night (it was Paper), and the page itself opens dark so that nothing flashes light first. A look that a player has chosen is kept.

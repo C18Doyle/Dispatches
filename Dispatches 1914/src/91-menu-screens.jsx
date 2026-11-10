@@ -114,7 +114,7 @@ function BriefingScreen({ campaignId, mode, onMode, signals, onSignals, press, o
       <div style={{ position: "relative", height: 18 }}><Stamp>{c.seal}</Stamp></div>
       <div className="dg-docrow">
         <span>{c.docLabel}</span>
-        <button className="dg-btn" onClick={onBack}>Back to the commands</button>
+        <button className="dg-btn" onClick={onBack}>Back</button>
       </div>
       <h1 className="dg-title dg-title-sm">{b.nation}</h1>
       <p className="dg-sub">{b.title} · {nodeDate(campaignId, c.span.from)}</p>

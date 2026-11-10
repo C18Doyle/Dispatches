@@ -1635,5 +1635,27 @@
       "nvcc-russian-manifesto"
     ],
     "note": "Quoted at the head of the report from the published text named in the sources; the spelling is made British."
+  },
+  {
+    "id": "doc-stavka_1917_14_armistice-1",
+    "node": "stavka_1917_14_armistice",
+    "kind": "quotation",
+    "claim": "The Decree on Peace of 26 October 1917 (Old Style) says that the workers' and peasants' government calls upon all the belligerent peoples and their governments to start immediate negotiations for a just, democratic peace.",
+    "status": "web-checked",
+    "sources": [
+      "pitt-decree-peace"
+    ],
+    "note": "Quoted at the head of the report from the published text named in the sources; the date is Old Style, as the Russian command's reports are."
+  },
+  {
+    "id": "doc-stavka_1917_06_february-1",
+    "node": "stavka_1917_06_february",
+    "kind": "quotation",
+    "claim": "Order No. 1 of the Petrograd Soviet, 1 March 1917 (Old Style), says that arms of all kinds must be at the disposition and under the control of the company and battalion committees and are not in any case to be given out to officers, even upon their command.",
+    "status": "web-checked",
+    "sources": [
+      "avalon-order-1"
+    ],
+    "note": "Quoted at the head of the report from the published text named in the sources (point 5); the spelling is made British."
   }
 ]

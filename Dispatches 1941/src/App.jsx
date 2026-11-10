@@ -12,6 +12,8 @@ import {
   nextVisited,
   arrivalScreen,
   STATE_EVENT_FLAG_PREFIX,
+  adviserStanding,
+  trustedAdvisers,
   startFlags,
   strandReadout,
   commandRating,
@@ -850,13 +852,13 @@ const CAMPAIGNS = {
     id: "japan",
     seal: "IGHQ",
     name: "Imperial General Headquarters",
-    dates: "Beginning 1940",
-    brief: "Direct Japan's war from the road to the Tripartite Pact to the surrender debate.",
+    dates: "Beginning 1939",
+    brief: "Direct Japan's war from the ceasefire at Nomonhan to the surrender debate.",
     teaser: "A war chosen in confidence, fought in doubt.",
     accent: "#5c1a1a",
     dynamic: true,
-    intro: "September 1940. The alliance with Germany and Italy is on the table. China is unresolved after three years of war, and the oil and rubber of the Southern Resource Area lie behind every argument in the room.",
-    start: "chinaPeaceQuestion40",
+    intro: "August 1939. The Army has been beaten on the Manchurian border by a Soviet army it thought inferior, and Berlin has signed a pact with Moscow without a word to Tokyo. China is unresolved after two years of war, and the oil and rubber of the Southern Resource Area lie behind every argument in the room.",
+    start: "nomonhan39",
     resolveNode(id, flags, meters) {
       const carriersUntouched = !!flags.usCarriersUntouched;
 
@@ -875,7 +877,7 @@ const CAMPAIGNS = {
               historical: true,
               setFlags: { chinaPeacePath: "continueWar" },
               impact: { readiness: 0, pipeline: -1, initiative: 0 },
-              next: "burmaRoad40",
+              next: "indochinaMission40",
               outcome:
                 "China's war grinds on with no resolution, consuming roughly a million men Japan will spend the rest of the war wishing it had for the Southern Operation and, later, for the mainland crisis of 1944. Tokyo recognizes Wang Jingwei's government in November 1940, Germany and Italy in 1941, and almost no one else ever does.",
             },
@@ -884,7 +886,7 @@ const CAMPAIGNS = {
               advisor: { name: "Konoe", position: "Refusing to deal with Chiang's government has failed for three years, and continuing to refuse is the real weakness, however much saying so now sounds like weakness." },
               setFlags: { chinaPeacePath: "negotiate", suspicion: (flags.suspicion || 0) + 1 },
               impact: { readiness: 1, pipeline: 1, initiative: -1 },
-              next: "burmaRoad40",
+              next: "indochinaMission40",
               uncertain: [
                 {
                   weight: modWeight(40, meters.readiness),
@@ -911,7 +913,7 @@ const CAMPAIGNS = {
               advisor: { name: "Sugiyama", position: "Pressure alone has not produced terms in three years, so the army should press and keep a back channel open, and try both before conceding that either has failed." },
               setFlags: { chinaPeacePath: "pressureAndTalk" },
               impact: { readiness: -1, pipeline: 0, initiative: 1 },
-              next: "burmaRoad40",
+              next: "indochinaMission40",
               outcome:
                 "A harder push against Chiang's remaining strongholds, paired with an intermediary channel neither side treats as a real offer yet. It satisfies neither the Army's wish for a decisive campaign nor Konoe's case for genuine terms, and it reproduces the war as it was: pressure without resolution, a channel that is never seriously used, and the same million men committed to a war that was supposed to be over in months.",
             },
@@ -938,7 +940,7 @@ const CAMPAIGNS = {
               ? " London refused the demand over the Burma Road in July. The Navy says this is what a pact with Germany will bring on, from Britain and from America."
               : flags.burmaRoadPath === "bombed"
               ? " The Army's bombers have raided the Burma Road since July, and Chinese labor has repaired it each time."
-              : ""),
+              : "") + (flags.indochinaNorthPath === "inspectors" ? " Nishihara's inspectors have been in Hanoi since the summer, and the route to China through Indochina is closed to arms." : flags.indochinaNorthPath === "demand" && flags.indochinaMissionResult === "yielded" ? " France gave way to the demand for bases in the north of Indochina, and the Army has them." : flags.indochinaNorthPath === "demand" && flags.indochinaMissionResult === "refused" ? " France refused the demand for bases in the north of Indochina and has taken it to London and Washington." : flags.indochinaNorthPath === "leave" ? " The Army left Indochina alone this summer, and the railway to Kunming still carries part of what China needs." : ""),
           choices: [
             {
               label: "Sign the Tripartite Pact, formalizing the alliance with Germany and Italy",
@@ -1006,6 +1008,93 @@ const CAMPAIGNS = {
               next: "neutralityPact41",
               outcome:
                 "A modeled alternative. The Army and Navy bureaus are merged into one office for decryption, and the services otherwise stay apart. It is a smaller change than a joint command and a less painful one. Intercepts are read once and shared, and the quarrel over aircraft and intelligence goes on.",
+            },
+          ],
+        };
+        },
+        get nomonhan39() {
+          return {
+          date: "AUGUST – SEPTEMBER 1939",
+          title: "Nomonhan and the Pact",
+          historicalRecord: true,
+          situation:
+            "On the Manchurian border near Nomonhan, the Kwantung Army has been fighting a Soviet army since May. In August the Soviet army under Zhukov attacks with tanks and artillery and mauls the Japanese 23rd Division. On 23 August Berlin signs a non-aggression pact with Moscow, without a word to Tokyo, after two years in which Japan has counted on Germany as the enemy of the Soviet Union. The Hiranuma cabinet resigns, and General Abe forms a new one on 30 August. The Army and the Navy have to say what the border war is for now.",
+          choices: [
+            {
+              label: "Accept a ceasefire on the border: stop the fighting at Nomonhan and open talks on the frontier",
+              advisor: { name: "Umezu", position: "The Kwantung Army has lost its best division on the border, and the way to keep the rest is a ceasefire on the ground that is left. The frontier can be argued about after the fighting has stopped." },
+              historical: true,
+              setFlags: { nomonhanPath: "ceasefire" },
+              impact: { readiness: 1, pipeline: 0, initiative: -1 },
+              next: "chinaPeaceQuestion40",
+              outcome:
+                "A ceasefire is agreed in Moscow on 15 September and the fighting on the border stops. The Army has lost a division's worth of men and guns to a Soviet army it had judged inferior, and the idea of a war against the Soviet Union loses ground inside the General Staff. The Navy, which wanted its war in the south, gains by it.",
+            },
+            {
+              label: "Prepare a second battle: keep the Sixth Army on the border and plan a larger offensive for the spring",
+              advisor: { name: "Sugiyama", position: "A defeat on the border is not a reason to leave the border. The Army can bring in the divisions and the guns it lacked in August, and answer in the spring." },
+              setFlags: { nomonhanPath: "renew", suspicion: (flags.suspicion || 0) + 1 },
+              impact: { readiness: -2, pipeline: -1, initiative: 1 },
+              next: "chinaPeaceQuestion40",
+              outcome:
+                "A modeled alternative. Staff officers did plan to renew the fighting, and the ceasefire after the pact stopped it. A second battle against the same Soviet army, on the same ground and the same railhead, risks a second defeat, and it takes divisions that the China war is already using.",
+            },
+          ],
+        };
+        },
+        get indochinaMission40() {
+          return {
+          date: "JUNE 1940",
+          title: "France Falls: The Door to China",
+          historicalRecord: true,
+          situation:
+            "France has asked for an armistice, and Britain stands alone. Chiang's government still receives much of what it needs through French Indochina, by the railway from Haiphong to Kunming. The Army and the Navy both press Tokyo to use France's collapse. The Governor-General in Hanoi accepts a Japanese demand on 20 June to stop shipments of arms and fuel to China, and the Army sends a small mission under General Nishihara to Hanoi to check that he does. What the mission is to do next has not been decided.",
+          choices: [
+            {
+              label: "Send Nishihara's inspectors to Hanoi to watch the border and the railway, and ask for nothing else yet",
+              advisor: { name: "Yonai", position: "The Navy wants the supply route closed without a war with France, and inspectors can close it. A demand for bases would turn a bargain into a quarrel before Washington has made up its mind." },
+              historical: true,
+              setFlags: { indochinaNorthPath: "inspectors" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "burmaRoad40",
+              outcome:
+                "The mission reaches Hanoi at the end of June and watches the railway and the frontier. It asks for no troops and no bases, and the Army asks for them in September, when Vichy has had time to be frightened of Germany's victory and not of Japan. The route to China through Indochina is closed to arms.",
+            },
+            {
+              label: "Demand air bases and the right to move troops through northern Indochina at once",
+              advisor: { name: "Sugiyama", position: "France will not be weaker than it is this month. A demand for bases made now will be met, and a demand made when Vichy has recovered will be refused." },
+              setFlags: { indochinaNorthPath: "demand", suspicion: (flags.suspicion || 0) + 1 },
+              impact: { readiness: 0, pipeline: -1, initiative: 1 },
+              next: "burmaRoad40",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "The Governor-General gives way",
+                  setFlags: { indochinaMissionResult: "yielded" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                  outcome:
+                    "Speculative. The Governor-General yields in July, and the Army has airfields and a railhead in the north of Indochina two months before the real agreement. Washington notes the date.",
+                },
+                {
+                  weight: (() => { const w = modWeight(40, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The Governor-General refuses and appeals abroad",
+                  setFlags: { indochinaMissionResult: "refused" },
+                  impact: { readiness: -1, pipeline: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. Hanoi refuses and sends the demand to London and Washington. The demand has told both what Japan wants in the south, and it has not got it.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The Army's wish was bases in the north of Indochina, and it got them in the autumn of 1940 by a harder road, after a short fight at Lang Son. Whether a demand in June would have been met is not something the record settles.",
+            },
+            {
+              label: "Leave Indochina alone and put the effort into the war in China",
+              advisor: { name: "Yamamoto", position: "Every new front is a new quarrel with Britain, America or France, and the war in China is not finished. A pause in the south would leave the Army with fewer enemies and the Navy with its fuel." },
+              setFlags: { indochinaNorthPath: "leave" },
+              impact: { readiness: 1, pipeline: 1, initiative: -1 },
+              next: "burmaRoad40",
+              outcome:
+                "A modeled alternative. The railway from Haiphong goes on carrying part of what China needs, and the Army's divisions in China have one fewer reason to complain. The southern argument is put off to a month when Germany is winning and Japan has less to say.",
             },
           ],
         };
@@ -1081,7 +1170,7 @@ const CAMPAIGNS = {
             "Matsuoka is in Moscow on his way home from Berlin. In Berlin, Ribbentrop pressed him to take Singapore. Moscow has offered a neutrality pact. For the Navy it secures the northern border while the fleet turns south. For the Army's northern school it ends the plan for a war against the Soviet Union that the Army has preferred since Nomonhan two years ago. The Soviet army in the Far East is one of the largest in the world." +
             (flags.tripartitePath === "signed"
               ? " Japan is an ally of Germany by the Tripartite Pact, and Berlin has said nothing about a pact with Moscow."
-              : ""),
+              : "") + (flags.nomonhanPath === "ceasefire" ? " The ceasefire of September 1939 still holds on the border." : flags.nomonhanPath === "renew" ? " The Army's plan for a second battle at Nomonhan has not been dropped." : ""),
           choices: [
             {
               label: "Sign the five-year neutrality pact with the Soviet Union",
@@ -4456,13 +4545,13 @@ const CAMPAIGNS = {
     id: "alliedPacific",
     seal: "CINCPAC",
     name: "Allied Pacific Command",
-    dates: "Beginning 1941",
-    brief: "Direct the Allied war against Japan from the embargo decision to the surrender.",
+    dates: "Beginning 1940",
+    brief: "Direct the Allied war against Japan from the fleet at Hawaii to the surrender.",
     teaser: "One war, four allies, and no agreement on how to win it.",
     accent: "#28497a",
     dynamic: true,
-    intro: "July 1941. Japan has occupied southern Indochina, and how strictly Washington enforces the freeze on Japanese assets is still an open question.",
-    start: "americanEmbargoResponse41",
+    intro: "May 1940. The Pacific Fleet has finished its spring exercise off Hawaii, and the President has asked the Navy to keep it there. Germany is sweeping across Europe, and Japan is watching what America does.",
+    start: "fleetAtHawaii40",
     resolveNode(id, flags, meters) {
       return {
         get americanEmbargoResponse41() {
@@ -4471,7 +4560,7 @@ const CAMPAIGNS = {
           title: "The Embargo Decision",
           historicalRecord: true,
           situation:
-            "Japan's occupation of southern Indochina is complete, and Roosevelt has signed an order freezing Japanese assets in the United States, a step meant to signal serious displeasure without necessarily foreclosing every avenue of trade. Britain and the Dutch East Indies government have moved in step, freezing Japanese assets of their own on the assumption that Washington's order will hold as a real, coordinated front. The order itself doesn't specify exactly how strictly the resulting licensing system should be enforced, and in the weeks that follow, whether Japan can still buy any oil at all is effectively decided administratively: State and Treasury officials interpret the freeze more strictly than some in the administration privately expected, and the licenses that would let limited oil shipments continue simply stop being issued. What began as calculated pressure is quietly becoming a total embargo without anyone in the Cabinet having explicitly voted for one.",
+            "Japan's occupation of southern Indochina is complete, and Roosevelt has signed an order freezing Japanese assets in the United States, a step meant to signal serious displeasure without necessarily foreclosing every avenue of trade. Britain and the Dutch East Indies government have moved in step, freezing Japanese assets of their own on the assumption that Washington's order will hold as a real, coordinated front. The order itself doesn't specify exactly how strictly the resulting licensing system should be enforced, and in the weeks that follow, whether Japan can still buy any oil at all is effectively decided administratively: State and Treasury officials interpret the freeze more strictly than some in the administration privately expected, and the licenses that would let limited oil shipments continue simply stop being issued. What began as calculated pressure is quietly becoming a total embargo without anyone in the Cabinet having explicitly voted for one." + (flags.fleetBasingPath === "hawaii" ? " The fleet has lain at Pearl Harbor since the spring of 1940." : flags.fleetBasingPath === "hawaiiSupplied" ? " The fleet has lain at Pearl Harbor since the spring of 1940, with its tenders and tankers beside it." : flags.fleetBasingPath === "coast" ? " The fleet went home to the West Coast in 1940 and is a week's steaming from Hawaii." : "") + (flags.atlanticTransferPath === "sent" ? " The Atlantic has taken a carrier, three battleships and their escorts from the Pacific Fleet." : flags.atlanticTransferPath === "partial" ? " The Atlantic has taken the older ships of the Pacific Fleet and left it the carrier." : flags.atlanticTransferPath === "refused" && flags.atlanticTransferResult === "yielded" ? " The Pacific Fleet kept part of the ships the Atlantic asked for." : flags.atlanticTransferPath === "refused" && flags.atlanticTransferResult === "overruled" ? " The Atlantic has taken its ships from the Pacific Fleet over its objection." : ""),
           choices: [
             {
               label: "Let the strict interpretation stand: a de facto total oil embargo",
@@ -4811,6 +4900,149 @@ const CAMPAIGNS = {
         },
         get warWithoutAmerica45() {
           return dataNode(ALLIED_PACIFIC_DATA, "warWithoutAmerica45", meters);
+        },
+        get fleetAtHawaii40() {
+          return {
+          date: "MAY 1940",
+          title: "The Fleet Stays at Hawaii",
+          historicalRecord: true,
+          situation:
+            "The Pacific Fleet has finished its spring exercise off Hawaii. Its home is the West Coast, and it is due to go back. With Germany sweeping across Europe, the President has asked the Navy to keep the fleet at Pearl Harbor, to give Japan something to think about. Admiral Richardson, who commands it, doubts that the ships can be supplied and manned there, and doubts that staying will deter anyone. The fleet's tankers, tenders and training establishments are on the coast.",
+          choices: [
+            {
+              label: "Keep the fleet at Pearl Harbor, as the President asks",
+              advisor: { name: "Roosevelt", position: "A fleet at Hawaii tells Tokyo that America is watching the Pacific while Europe burns. It can go home when the signal stops mattering." },
+              historical: true,
+              setFlags: { fleetBasingPath: "hawaii" },
+              impact: { readiness: -1, pipeline: -1, initiative: 1 },
+              next: "richardsonObjection40",
+              outcome:
+                "The fleet stays at Pearl Harbor through the summer and on into the autumn. Richardson protests in Washington that Hawaii has too few tenders, tankers and training facilities, and that the move will do no good with Tokyo. The ships spend a year at a base that was built to hold them for an exercise.",
+            },
+            {
+              label: "Return the fleet to San Diego, as Richardson asks",
+              advisor: { name: "Nimitz", position: "The fleet's crews are trained and fed from the coast. Bringing them back keeps the ships ready, and keeping them at Hawaii wears them out without making them any safer." },
+              setFlags: { fleetBasingPath: "coast" },
+              impact: { readiness: 1, pipeline: 1, initiative: -2 },
+              next: "richardsonObjection40",
+              outcome:
+                "A modeled alternative. The fleet goes home to the coast, and the President's signal to Tokyo is not sent. The fleet is better manned and supplied, and it is a week's steaming from Hawaii when the crisis of 1941 comes.",
+            },
+            {
+              label: "Keep the fleet at Hawaii, and order the tenders, tankers and repair ships out to meet it",
+              advisor: { name: "King", position: "A fleet that stays should be supplied to stay. The train comes first, and the base can be built around the ships that are already there." },
+              setFlags: { fleetBasingPath: "hawaiiSupplied" },
+              impact: { readiness: 0, pipeline: -2, initiative: 1 },
+              next: "richardsonObjection40",
+              outcome:
+                "A modeled alternative. Richardson's complaint was that the fleet was sent to Hawaii without the ships that keep it there. Sending the train as well costs the Navy auxiliaries it does not have in numbers, and takes them from the West Coast and the Atlantic.",
+            },
+          ],
+        };
+        },
+        get richardsonObjection40() {
+          return {
+          date: "OCTOBER 1940",
+          title: "Richardson's Objection",
+          historicalRecord: true,
+          situation:
+            "On 8 October Richardson lunches with the President at the White House and says that the fleet should not be at Hawaii, and that the Navy's senior officers do not have confidence in the civilian leadership to use it properly. On 26 October a Washington newsletter predicts that he will be relieved. The Navy Department has a decision to make about the man who commands the fleet and about the place where it lies." +
+            (flags.fleetBasingPath === "coast"
+              ? " The fleet is on the West Coast. Richardson's argument is about the next time it is asked to move."
+              : ""),
+          choices: [
+            {
+              label: "Relieve Richardson and give the fleet to Kimmel early in the new year",
+              advisor: { name: "Roosevelt", position: "A fleet commander who tells the Commander in Chief that his order is wrong cannot keep the fleet, whatever his reasons are. The order stands, and an officer who will carry it out gets the command." },
+              historical: true,
+              setFlags: { richardsonPath: "relieved" },
+              impact: { readiness: 0, pipeline: 0, initiative: 1 },
+              next: "atlanticTransfer41",
+              outcome:
+                "Richardson hands the fleet to Admiral Husband Kimmel on 1 February 1941. The fleet stays at Pearl Harbor. The Navy has shown that an officer who argues with the President about where the fleet lies does not keep it.",
+            },
+            {
+              label: "Keep Richardson and bring the fleet home to the West Coast",
+              advisor: { name: "King", position: "An admiral who tells the Commander in Chief what he thinks of an order should be heard before he is relieved, and the fleet is his to judge. The order can be changed." },
+              setFlags: { richardsonPath: "heard" },
+              impact: { readiness: 1, pipeline: 1, initiative: -2 },
+              next: "atlanticTransfer41",
+              outcome:
+                "A modeled alternative. The President's signal to Tokyo is withdrawn, and the officer who argued against it keeps the fleet. The Navy's senior officers are told that an honest objection is heard, and the White House is told that the Navy has a mind of its own.",
+            },
+            {
+              label: "Keep Richardson at Hawaii and give him the reinforcements and auxiliaries he asked for",
+              advisor: { name: "Nimitz", position: "He asked for ships, crews and a base that can hold them. A commander who gets what he asks for can be held to the task, and one who does not cannot." },
+              setFlags: { richardsonPath: "reinforced" },
+              impact: { readiness: 1, pipeline: -2, initiative: 0 },
+              next: "atlanticTransfer41",
+              outcome:
+                "A modeled alternative. Richardson stays at Pearl Harbor with some of what he asked for, at the cost of ships and men that the Atlantic and the training establishments wanted. He is a harder man to move later and a more cooperative one now.",
+            },
+          ],
+        };
+        },
+        get atlanticTransfer41() {
+          return {
+          date: "MAY – JUNE 1941",
+          title: "Ships for the Atlantic",
+          historicalRecord: true,
+          situation:
+            "The war in the Atlantic is going badly for Britain: German submarines are sinking merchant ships faster than they can be replaced, and the President wants more escorts west of Iceland. In May the Navy Department orders part of the Pacific Fleet to the Atlantic: a carrier, three battleships, four light cruisers and a number of destroyers. The staff at Pearl Harbor knows what the Pacific will have left." +
+            (flags.richardsonPath === "relieved"
+              ? " Kimmel has had the fleet since the first of February."
+              : flags.richardsonPath === "heard" || flags.richardsonPath === "reinforced"
+              ? " Richardson, who still has the fleet, has said in writing what he thinks of a fleet divided."
+              : ""),
+          choices: [
+            {
+              label: "Send the ships to the Atlantic as ordered",
+              advisor: { name: "King", position: "The Atlantic is where the war is being lost this spring, and the ships are needed there now. The Pacific can do without them for a few months." },
+              historical: true,
+              setFlags: { atlanticTransferPath: "sent" },
+              impact: { readiness: -2, pipeline: 0, initiative: -1 },
+              next: "americanEmbargoResponse41",
+              outcome:
+                "The carrier Yorktown, three battleships, four light cruisers and a number of destroyers go through the Panama Canal in May and June. The Pacific Fleet that is left is the fleet that will be at Pearl Harbor in December, with the old battleships and no carrier at the anchorage.",
+            },
+            {
+              label: "Send the older ships and keep the carrier in the Pacific",
+              advisor: { name: "Layton", position: "Japan counts the Pacific Fleet's carriers and battleships, and the Atlantic has no use for one carrier more. The old ships can go, and the carrier is the one thing the fleet cannot spare." },
+              setFlags: { atlanticTransferPath: "partial" },
+              impact: { readiness: -1, pipeline: 0, initiative: 0 },
+              next: "americanEmbargoResponse41",
+              outcome:
+                "A modeled alternative. The Atlantic gets battleships and cruisers that are no use in a carrier war, and the Pacific keeps the carrier that will matter in one. Admiral King's escorts in the Atlantic have less than the Navy Department promised the President.",
+            },
+            {
+              label: "Refuse the transfer: tell the Chief of Naval Operations that the Pacific Fleet cannot spare a ship",
+              advisor: { name: "Nimitz", position: "A fleet cut in half does not deter anyone, and Japan can count the ships that are left. The Pacific is a theater, and it should not be left to look after itself." },
+              setFlags: { atlanticTransferPath: "refused" },
+              impact: { readiness: 1, pipeline: 0, initiative: -1 },
+              next: "americanEmbargoResponse41",
+              uncertain: [
+                {
+                  weight: modWeight(30, meters.initiative),
+                  title: "The Navy Department gives part of the order up",
+                  setFlags: { atlanticTransferResult: "yielded" },
+                  impact: { readiness: 1, pipeline: 0, initiative: 1 },
+                  outcome:
+                    "Speculative. The Chief of Naval Operations lets the Pacific keep some of the ships, and the Atlantic escorts are a few ships short of the plan.",
+                },
+                {
+                  weight: (() => { const w = modWeight(30, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The order stands",
+                  setFlags: { atlanticTransferResult: "overruled" },
+                  impact: { readiness: -2, pipeline: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The President's decision is not for a fleet commander to refuse. The ships go anyway, and the objection is on the record in Washington.",
+                },
+              ],
+              outcome:
+                "A modeled alternative. The transfer was ordered by the President and the Chief of Naval Operations, and the Pacific Fleet's staff could object but not refuse. Here the objection is made as a refusal, and the answer decides how it is remembered.",
+            },
+          ],
+        };
         },
         get chinaAirForce41() {
           return {
@@ -8201,7 +8433,9 @@ function Stamp({ text, color, campaignId }) {
 
 const NODE_ATLAS = {
   japan: [
+    { id: "nomonhan39", date: "AUGUST – SEPTEMBER 1939", title: "Nomonhan and the Pact" },
     { id: "chinaPeaceQuestion40", date: "1940", title: "The China Question, Unsolved" },
+    { id: "indochinaMission40", date: "JUNE 1940", title: "France Falls: The Door to China" },
     { id: "burmaRoad40", date: "JULY 1940", title: "The Burma Road" },
     { id: "tripartitePact40", date: "SEPTEMBER 1940", title: "The Tripartite Pact" },
     { id: "unificationQuestion40", date: "LATE 1940", title: "Two Services, Two Wars" },
@@ -8274,6 +8508,9 @@ const NODE_ATLAS = {
     { id: "coldWarOpening48", date: "1947 – 1950", title: "The Uses of an Unconquered Japan" },
   ],
   alliedPacific: [
+    { id: "fleetAtHawaii40", date: "MAY 1940", title: "The Fleet Stays at Hawaii" },
+    { id: "richardsonObjection40", date: "OCTOBER 1940", title: "Richardson's Objection" },
+    { id: "atlanticTransfer41", date: "MAY – JUNE 1941", title: "Ships for the Atlantic" },
     { id: "americanEmbargoResponse41", date: "JULY 1941", title: "The Embargo Decision" },
     { id: "chinaAirForce41", date: "JULY – NOVEMBER 1941", title: "A Bomber Force for China" },
     { id: "aStandoffInsteadOfAWar41", date: "LATE 1941 – 1943", title: "A War Fought Without the United States" },
@@ -8636,7 +8873,7 @@ const HARD_MODE_OF = { japan: "fanatical", alliedPacific: "coalition" };
 // Named for a famous failure of each side: the Shinano, the carrier sunk on her maiden voyage; the Mark 14 torpedo, which ran too deep and often did not explode.
 const EASY_MODE_NAMES = { japan: "Shinano Command", alliedPacific: "Mark 14 Command" };
 
-const NODE_TOTAL = 146; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
+const NODE_TOTAL = 151; // Corrected from 136 to 139: bataanPOWQuestion42 (japan), portChicago44 and cabanatuanRaid45 (alliedPacific)
 // or seriously built programs (Project X-Ray's bat bombs, the I-400 submarine carriers'
 // Panama Canal mission) that were genuinely pursued and then overtaken by events, not
 // invented for flavor. Both cite real, checked figures and dates.
@@ -8906,6 +9143,47 @@ const STATE_EVENTS = [
     paras: [
       "The ships on the Okinawa stations are at general quarters for much of every day and night. Sailors who have gone without sleep for days fall ill with what the medical officers call combat fatigue, and the sick lists show it.",
       "The fatigue is one reason the Navy relieves the ships on the stations by turn, and one more cost of a campaign that lasts close to three months.",
+    ],
+  },
+  // ---- more from outside the headquarters ----
+  {
+    id: "japan_singapore", campaign: "japan", kind: "The war", anchor: "burmaRangoon42",
+    from: "1942-02", to: "1942-03", date: "FEBRUARY 1942",
+    title: "Singapore",
+    when: () => true,
+    paras: [
+      "Singapore surrenders on 15 February 1942, a week after the first Japanese troops cross the strait. Percival, the British commander, gives up a garrison of tens of thousands of British, Indian and Australian troops. It is the largest surrender in British military history.",
+      "The Southern Operation is weeks ahead of its timetable. The Army and Navy staffs have to plan the next stage of a war that is going better than they expected.",
+    ],
+  },
+  {
+    id: "japan_tokyo_raid", campaign: "japan", kind: "The home front", anchor: "okinawa45",
+    from: "1945-03", to: "1945-04", date: "MARCH 1945",
+    title: "The Night of 9 March",
+    when: () => true,
+    paras: [
+      "On the night of 9 to 10 March 1945, B-29s from the Marianas drop incendiaries on the crowded east side of Tokyo from low altitude. The fire destroys about sixteen square miles of the city. Estimates of the dead run from about 80,000 to more than 100,000.",
+      "It is the first of the low-level fire raids on the large cities. In the ten days that follow the same method is used on Nagoya, Osaka and Kobe.",
+    ],
+  },
+  {
+    id: "allied_singapore", campaign: "alliedPacific", kind: "The war", anchor: "curtinsTurn42",
+    from: "1942-02", to: "1942-02", date: "FEBRUARY 1942",
+    title: "Singapore Falls",
+    when: () => true,
+    paras: [
+      "Singapore surrenders on 15 February 1942. Percival gives up a garrison of tens of thousands of British, Indian and Australian troops, the largest surrender in British military history.",
+      "In Washington and Canberra the fall is read as the end of the Malay Barrier. The Australian government, with its best divisions in the Middle East, turns to the United States for its defense.",
+    ],
+  },
+  {
+    id: "allied_germany", campaign: "alliedPacific", kind: "Politics", anchor: "kyotoTargetDebate45",
+    from: "1945-05", to: "1945-06", date: "MAY 1945",
+    title: "Germany Surrenders",
+    when: () => true,
+    paras: [
+      "Germany signs an unconditional surrender at Reims early on 7 May 1945, and the act is ratified in Berlin on 8 May. The war in Europe is over.",
+      "The Pacific is now the whole of the war, and the forces that fought in Europe are to be redeployed across the world to the Pacific.",
     ],
   },
 ];
@@ -12428,7 +12706,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               const found = endings.includes(e.label);
               return (
                 <div key={i} className="flex items-baseline gap-2 mb-1 text-[13px]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                  <span className="text-[10px] uppercase tracking-widest font-bold text-[#000000] opacity-50 w-14 shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <span className="text-[10px] uppercase tracking-widest font-bold text-[#000000] opacity-60 w-14 shrink-0" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                     {e.campaign}
                   </span>
                   {found ? (
@@ -12465,7 +12743,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
               return (
                 <div key={b.id} className="border-l-4 pl-2 mb-3" style={{ borderColor: r ? "#b08d3f" : "#00000033", fontFamily: "'Courier Prime', monospace" }}>
                   <div className="text-[13px] text-[#000000]">
-                    <span className="text-[10px] uppercase tracking-widest font-bold opacity-50 mr-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    <span className="text-[10px] uppercase tracking-widest font-bold opacity-60 mr-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                       {b.seal}
                     </span>
                     {r ? <b>{b.title}</b> : <span className="opacity-40">████████████</span>}
@@ -12520,7 +12798,7 @@ function SelectScreen({ onPick, onResume, instantText, onToggleInstant, soundOn,
                       const found = (record?.nodes || []).includes(n.id);
                       return (
                         <div key={n.id} className="flex items-baseline gap-2 text-[12px] mb-[2px]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                          <span className="text-[10px] text-[#000000] opacity-50 w-32 shrink-0 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                          <span className="text-[10px] text-[#000000] opacity-60 w-32 shrink-0 uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                             {n.date}
                           </span>
                           {found ? (
@@ -13929,6 +14207,11 @@ const NODE_REGION_HINTS = {
   wakeIslandRelief41: ["marshalls"],
   burmaRangoon42: ["burma"],
   burmaRoad40: ["burma", "freeChina"],
+  nomonhan39: ["manchuria", "sovietFarEast"],
+  indochinaMission40: ["indochina", "freeChina"],
+  fleetAtHawaii40: ["pearlHarbor"],
+  richardsonObjection40: ["pearlHarbor"],
+  atlanticTransfer41: ["pearlHarbor"],
   neutralityPact41: ["manchuria", "sovietFarEast"],
   indianOceanRaid42: ["india"], // Ceylon has no region of its own; India is the nearest on the map
   chinaAirForce41: ["freeChina"],
@@ -14009,7 +14292,7 @@ function ringsPathD(rings) {
 
 // `date` is the report's own date (the map shows the state on the day it opens); `atEnd` shows the war as it ended; `year` is the fallback for a
 // caller with only a year. The slider steps back month by month to January 1940.
-function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
+function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId, report }) {
   const MIN_MONTH = 1940 * 12;
   const maxKey = atEnd ? 19451231 : nodeDayKey(date) || (year ? Math.max(1940, Math.min(1945, year)) * 10000 + 101 : 19450101);
   const monthOf = (key) => Math.floor(key / 10000) * 12 + (Math.floor(key / 100) % 100) - 1;
@@ -14043,6 +14326,11 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
 
   const VBW = 960;
   const VBH = 650;
+  // On a report's own map (ReportMap, 37-map-front.jsx) the sheet can be framed on a window, the regions stand still, and the fronts, the place of the report and its orders are drawn.
+  const passive = !!(report && report.passive);
+  const view = report && report.frame ? report.frame : { x: 0, y: 0, w: VBW, h: VBH };
+  const markScale = Math.max(0.55, Math.min(1, (view.w / VBW) * 1.5));
+  const fronts = frontsOn(dayKey, statuses);
 
   const header = (
     <div
@@ -14107,7 +14395,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
   return (
     <div className="mb-2">
       {header}
-      <svg viewBox={`0 0 ${VBW} ${VBH}`} role="group" aria-label={`Pacific theater map, ${monthLabel}`} className="w-full border-[3px]" style={{ background: "#e3d5ae", borderColor: "#3a2a18" }}>
+      <svg viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`} role="group" aria-label={`Pacific theater map, ${monthLabel}`} className="w-full border-[3px]" style={{ background: "#e3d5ae", borderColor: "#3a2a18" }}>
         <defs>
           <pattern id={`hexTexture${uid}`} width="16" height="27.7" patternUnits="userSpaceOnUse">
             <path
@@ -14192,7 +14480,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
           if (!reg) return null;
           const status = statuses[id] || "neutral";
           const isHighlighted = highlightRegions.includes(id);
-          const hasNote = !!regionNotes[id];
+          const hasNote = !passive && !!regionNotes[id];
           const d = ringsPathD(reg.rings);
           const [lx, ly] = reg.label;
           const labelBelow = LABEL_BELOW[id];
@@ -14258,7 +14546,7 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
           const tier = tierFor(id);
           const r = mapRadiusFor(tier);
           const isHighlighted = highlightRegions.includes(id);
-          const hasNote = !!regionNotes[id];
+          const hasNote = !passive && !!regionNotes[id];
           const [x, y] = reg.label;
           const labelBelow = LABEL_BELOW[id];
           const labelY = labelBelow ? y + r + 12 : y - r - 6;
@@ -14301,16 +14589,24 @@ function PacificMap({ year, date, atEnd, accent, flags, meters, nodeId }) {
           );
         })}
 
-        <rect x={VBW - 230} y={VBH - 56} width="216" height="42" fill="#e3d5ae" stroke="#3a2a18" strokeWidth="2" />
-        <text x={VBW - 220} y={VBH - 40} fontSize="9" fontWeight="700" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-          THEATER MAP
-        </text>
-        <text x={VBW - 220} y={VBH - 27} fontSize="8" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-          REAL COASTLINES · SMALLER POINTS SIZED BY POPULATION
-        </text>
+        <PacificFronts fronts={fronts} s={markScale} />
+        {report && month === maxMonth && <PacificMarks marks={report.marks} arrows={report.arrows} accent={accent} view={view} />}
+
+        {!(report && report.frame) && (
+          <g>
+            <rect x={VBW - 230} y={VBH - 56} width="216" height="42" fill="#e3d5ae" stroke="#3a2a18" strokeWidth="2" />
+            <text x={VBW - 220} y={VBH - 40} fontSize="9" fontWeight="700" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              THEATER MAP
+            </text>
+            <text x={VBW - 220} y={VBH - 27} fontSize="8" fill="#3a2a18" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              REAL COASTLINES · SMALLER POINTS SIZED BY POPULATION
+            </text>
+          </g>
+        )}
       </svg>
       <p className="sr-only">
         {`The map on ${monthLabel}. `}
+        {report && report.marks && report.marks.name ? `This report is set at ${report.marks.name}. ` : ""}
         {Object.entries(
           MAP_REGIONS.reduce((acc, r) => {
             const st = statuses[r.id] || "neutral";
@@ -14520,7 +14816,7 @@ function FirstRunGuide({ accent, onDismiss }) {
         <li className={item}>The three bars are Readiness (the force), Pipeline (what feeds it) and Initiative (who sets the pace). Press the arrow beside a bar to see the three readings under it. A bar that is low costs you: it worsens the odds of the decisions it touches, and the course says so in red.</li>
         <li className={item}>"Contested" means the dice are rolled. The percentages are the odds of each result, and they move with the bars.</li>
         <li className={item}>A course marked "Leads to battle planning" opens an Order of Battle before it resolves: you place your effort, and read the battle as it happens.</li>
-        <li className={item}>"Show Pacific Situation" opens the map as it stood on the day of this report. Its slider steps back through the war.</li>
+        <li className={item}>The map under the title shows the war on the day of this report, with the report's place marked. Its slider steps back through the war, and the buttons under it draw each order on the map.</li>
         <li className={item}>Save keeps your place. Home leaves the war to be resumed from the title page.</li>
       </ul>
       <button
@@ -14534,7 +14830,31 @@ function FirstRunGuide({ accent, onDismiss }) {
   );
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onRewind, onSave, onHome }) {
+/** The adviser's line on an order, by how far the player has trusted them (see adviserStanding in logic.ts). Phrasing content only: it sits inside the order's button. */
+function AdviserLine({ advisor, date, flags }) {
+  const standing = adviserStanding(flags || {}, advisor.name);
+  const who = advisorAttribution(advisor.name, date);
+  if (standing === "gone") return null;
+  if (standing === "quiet") {
+    return (
+      <span className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100" style={{ borderLeft: "2px solid currentColor" }}>
+        {who} says little now: overruled too often to argue this one.
+      </span>
+    );
+  }
+  return (
+    <span className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100" style={{ borderLeft: "2px solid currentColor" }}>
+      {standing === "trusted" && (
+        <span className="not-italic mr-2 border border-current px-1.5 py-[1px] text-[10px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          Trusted
+        </span>
+      )}
+      {who} argues: {advisor.position}
+    </span>
+  );
+}
+
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, reportNumber, pastStages, hasSeenProjectedBadge, log, mode, favor, instantText, soundOn, onChoose, onIntelCheck, onRewind, onSave, onHome, history }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [guideSeen, setGuideSeen] = useState(() => {
     try {
@@ -14622,7 +14942,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
           // prototype. Deterministic from nodeId so it doesn't reshuffle on re-render,
           // not a real cipher and not meant to be read as one.
           <div
-            className="text-[10px] tracking-[0.2em] mb-2 pb-2 border-b border-dashed border-black opacity-50"
+            aria-hidden="true"
+            className="text-[10px] tracking-[0.2em] mb-2 pb-2 border-b border-dashed border-black opacity-60"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {codeGroupStrip(nodeId)}
@@ -14734,24 +15055,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
         )}
 
         {campaign.dynamic && (
-          <details className="mb-3 border-2 border-black px-3 py-1.5">
-            <summary
-              className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              Show Pacific Situation
-            </summary>
-            <div className="mt-3">
-              <PacificMap
-                date={stage.date}
-                year={yearFrom(stage.date, 1941)}
-                flags={flags}
-                meters={meters}
-                accent={campaign.accent}
-                nodeId={nodeId}
-              />
-            </div>
-          </details>
+          <ReportMap key={nodeId} campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} log={log} />
         )}
 
         {campaign.dynamic && !iron && <MeterPanel meters={meters} flags={flags} prev={prevSnap} />}
@@ -14882,6 +15186,9 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
         >
           {campaign.id === "japan" ? "Decoded Text Follows" : "BT"}
         </div>
+        {campaign.dynamic && onIntelCheck && (
+          <IntelPanel campaignId={campaign.id} nodeId={nodeId} flags={flags} easy={mode === "easy"} hard={mode === "fanatical" || mode === "coalition"} onCheck={(itemId) => onIntelCheck(nodeId, itemId, mode === "fanatical" || mode === "coalition")} accent={campaign.accent} />
+        )}
         <div className="flex flex-col mb-6 border-2 border-black">
           {stage.choices.map((choice, i) => {
             // Ordinal prefix per campaign convention: A/B/C for the Navy message
@@ -14907,6 +15214,11 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
               >
                 {ordinal}. {choice.label}
               </span>
+              {campaign.dynamic && onIntelCheck && intelRests(campaign.id, nodeId, i, flags, mode === "easy") && (
+                <span className="block mt-1 text-[11px] uppercase tracking-widest font-bold opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  {intelRests(campaign.id, nodeId, i, flags, mode === "easy")}
+                </span>
+              )}
               {iron && choice.favor && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
@@ -15016,14 +15328,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, prevSnap, repo
                   “{choice.attested.text}”: {advisorAttribution(choice.attested.by, stage.date)}
                 </span>
               ) : (
-                choice.advisor && (
-                  <span
-                    className="block text-[12px] italic mt-2 pl-2 opacity-80 group-hover:opacity-100"
-                    style={{ borderLeft: "2px solid currentColor" }}
-                  >
-                    {advisorAttribution(choice.advisor.name, stage.date)} argues: {choice.advisor.position}
-                  </span>
-                )
+                choice.advisor && <AdviserLine advisor={choice.advisor} date={stage.date} flags={flags} />
               )}
               {choice.strain && choice.strain.points > 0 && (
                 <span className="block mt-1 text-[12px] font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
@@ -16384,11 +16689,13 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // assessment is gated below (needs Initiative to spend, one use per screen instance — buying
   // a second look at the same ground has diminishing returns the design isn't trying to model).
   const [reconUsed, setReconUsed] = useState(!!(resume && resume.reconUsed));
+  // A trusted adviser's own staff has already looked at the ground: the pass costs nothing (see trustedAdvisers in logic.ts).
+  const reconAdviser = trustedAdvisers(flags || {})[0] || null;
   function requestRecon() {
-    if (reconUsed || (meters.initiative || 0) <= 0 || !posture) return;
+    if (reconUsed || (!reconAdviser && (meters.initiative || 0) <= 0) || !posture) return;
     setIntel(drawIntel(KEY_BATTLE_RECON_ERROR_RATE));
     setReconUsed(true);
-    if (onSpendInitiative) onSpendInitiative();
+    if (onSpendInitiative && !reconAdviser) onSpendInitiative();
     if (soundOn) playRadio();
   }
 
@@ -16748,11 +17055,11 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             {!reconUsed && !easyMode && (
               <button
                 onClick={requestRecon}
-                disabled={(meters.initiative || 0) <= 0}
+                disabled={!reconAdviser && (meters.initiative || 0) <= 0}
                 className="mt-2 text-[11px] uppercase tracking-widest underline disabled:opacity-40 disabled:cursor-not-allowed text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                 style={labelStyle}
               >
-                Call for a Reconnaissance Pass: costs 1 Initiative
+                {reconAdviser ? `Call for a Reconnaissance Pass from ${reconAdviser}'s staff: no cost` : "Call for a Reconnaissance Pass: costs 1 Initiative"}
               </button>
             )}
             {reconUsed && (
@@ -17848,6 +18155,679 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
   );
 }
 
+const INTEL = { checks: 3, hardChecks: 2 };
+// THE STAFF'S READING (ported from Dispatches 1940, which took it from 1914's fog of war)
+//
+// A report tells what the headquarters knows, and sometimes what it knows is wrong: the staff that thought the American carriers would stay away from Midway, the one that
+// thought Peleliu would fall in days, the one that trusted the Mark 14. A few reports carry such beliefs (INTEL_ITEMS), each with the grade the staff gave it, whether it
+// holds, and what the truth was. The grade is no guide: firm beliefs have been wrong and doubtful ones right.
+//
+// The player may ask to SEE THE EVIDENCE on a belief, spending one of a few checks for the file (INTEL.checks; INTEL.hardChecks in the hard modes), and is told whether it
+// holds. This changes NOTHING in the rules: no roll, no meter and no ending reads it (tools/check-staffs-reading.mjs proves it); it is a thing to know when choosing, and the
+// orders that rest on a belief say so. In easy mode every belief is shown with its verdict from the start, at no cost.
+// The beliefs are the record's (claims/staffs-reading.json); `relied` names the orders (by position in the report's list) that rest on the belief.
+
+/** { [campaignId]: { [nodeId]: [{ id, text, grade, holds, truth, source, relied: [orderIndex] }] } } */
+const INTEL_ITEMS = {
+  japan: {
+    pearlHarbor41: [
+      { id: "anchor", grade: "firm", holds: true, relied: [0, 2], source: "the consulate's reports from Honolulu",
+        text: "The American battleships will lie at anchor at Pearl Harbor on a Sunday morning, with no warning given and no ship ready for sea.",
+        truth: "On 7 December the battleships were at their moorings and eight of them were hit. 2,403 Americans were killed. The three American carriers were not in the harbor." },
+      { id: "year", grade: "doubtful", holds: false, relied: [0, 2], source: "Yamamoto's own estimate",
+        text: "A blow at Pearl Harbor will leave the American fleet unable to act in the Pacific for a year or more.",
+        truth: "The carriers survived, and the shipyards, repair shops and oil tanks were untouched. Six of the eight battleships that were hit were repaired and returned to service, and American carriers were fighting at Coral Sea within five months." },
+    ],
+    midway42: [
+      { id: "carriers", grade: "firm", holds: false, relied: [0, 2], source: "the Combined Fleet staff's plan",
+        text: "The American carriers will not come out until after the landing on Midway, and at most one or two of them will be in the area.",
+        truth: "Station HYPO had read the plan. Nimitz had three carriers, Enterprise, Hornet and Yorktown, waiting north east of Midway before the Japanese carriers arrived, and Yorktown had been patched in seventy-two hours at Pearl Harbor." },
+    ],
+    guadalcanal42: [
+      { id: "small", grade: "firm", holds: false, relied: [0], source: "the Army's estimate in August",
+        text: "The Americans on Guadalcanal are few, and a detachment of a few hundred men can retake the airfield before reinforcements come.",
+        truth: "Ichiki's first echelon, about 900 men, attacked at the Tenaru river on the night of 20 to 21 August against prepared Marine positions, and most of it was killed." },
+    ],
+    leyteGulf44: [
+      { id: "bait", grade: "doubtful", holds: true, relied: [0], source: "Ozawa's plan for the decoy force",
+        text: "The American fast carriers will go north after Ozawa's carriers and leave San Bernardino Strait uncovered.",
+        truth: "Halsey took the Third Fleet's carriers north on 24 October. Ozawa's carriers were sunk off Cape Engano on 25 October, and Kurita came through the strait that night." },
+    ],
+    okinawa45: [
+      { id: "break", grade: "firm", holds: false, relied: [0], source: "the Fifth Air Fleet's estimate",
+        text: "Mass attacks by suicide aircraft will force the American fleet to break off the invasion of Okinawa.",
+        truth: "The Kikusui attacks sank thirty or more American ships, damaged hundreds and killed nearly five thousand sailors. The fleet stayed at Okinawa until the island was taken in June." },
+    ],
+  },
+  alliedPacific: {
+    wakeIslandRelief41: [
+      { id: "carriers", grade: "doubtful", holds: true, relied: [0], source: "radio intelligence at Pearl Harbor",
+        text: "Two Japanese carriers are close to Wake and will cover the second landing.",
+        truth: "Soryu and Hiryu, detached from the Pearl Harbor force, struck Wake with their aircraft on 21 December and stood off the island while the landing went in on 23 December." },
+    ],
+    coralSeaMidwayAllied42: [
+      { id: "af", grade: "doubtful", holds: true, relied: [0], source: "Station HYPO under Commander Rochefort",
+        text: "The Japanese target is Midway, called AF in their traffic, and the attack will come in the first days of June.",
+        truth: "The Japanese carriers were found north west of Midway on 4 June, as Rochefort's team had said, and four of them were sunk in the battle." },
+    ],
+    guadalcanalAllied42: [
+      { id: "light", grade: "firm", holds: true, relied: [0], source: "coastwatchers and air photographs",
+        text: "The Japanese garrison on Guadalcanal is small and mostly construction troops, and the airfield is lightly held.",
+        truth: "The Marines landed on 7 August and walked onto the unfinished airfield on the 8th with almost no fighting. The Japanese there had withdrawn into the jungle." },
+    ],
+    torpedoCrisis43: [
+      { id: "sound", grade: "firm", holds: false, relied: [1], source: "the Bureau of Ordnance",
+        text: "The Mark 14 torpedo is sound, and the failures the submarines report are errors of approach and handling.",
+        truth: "The torpedo ran deeper than it was set, and its exploder did not work as designed. The fleet's own tests found the faults one by one through 1942 and 1943." },
+    ],
+    tehransPromise43: [
+      { id: "entry", grade: "firm", holds: true, relied: [0], source: "Stalin's word to Roosevelt at Tehran",
+        text: "The Soviet Union will enter the war against Japan once Germany has been defeated.",
+        truth: "The Soviet Union declared war on Japan on 8 August 1945, three months after Germany's surrender, and attacked Manchuria the next day." },
+    ],
+    peleliuDecision44: [
+      { id: "days", grade: "firm", holds: false, relied: [0], source: "the First Marine Division's planning",
+        text: "Peleliu will be taken in two to four days, and the airfield with it.",
+        truth: "The Japanese had fortified the ridges in depth. The fighting lasted from 15 September to 27 November 1944, and the First Marine Division suffered very heavy losses." },
+    ],
+    iwoJimaAllied45: [
+      { id: "gunfire", grade: "doubtful", holds: false, relied: [0], source: "the Navy's schedule for the bombardment",
+        text: "Three days of naval gunfire will break the island's defenses before the landing.",
+        truth: "Marine planners had asked for ten days. Of about 915 fortified positions on the island, fewer than 200 had been silenced when the Marines landed." },
+    ],
+  },
+};
+
+/** The beliefs a report carries, or []. */
+function intelItemsAt(campaignId, nodeId) {
+  return ((INTEL_ITEMS[campaignId] || {})[nodeId]) || [];
+}
+
+const intelKey = (nodeId, itemId) => "ix_" + nodeId + "_" + itemId;
+
+/** Whether a belief has been checked in this file. */
+function intelChecked(flags, nodeId, itemId) {
+  return Boolean(flags && flags[intelKey(nodeId, itemId)]);
+}
+
+/** How many checks are left: the file's allowance less those used. */
+function intelChecksLeft(flags, hard) {
+  const f = flags || {};
+  return Math.max(0, (hard ? INTEL.hardChecks : INTEL.checks) - (Number(f.ix_used) || 0));
+}
+
+/** The flags after checking one belief (the same flags if it is already checked or none are left). */
+function intelCheck(flags, nodeId, itemId, hard) {
+  if (intelChecked(flags, nodeId, itemId) || intelChecksLeft(flags, hard) < 1) return flags;
+  return { ...flags, [intelKey(nodeId, itemId)]: true, ix_used: (Number(flags.ix_used) || 0) + 1 };
+}
+
+const INTEL_GRADE_TAG = { firm: "Reported as firm", doubtful: "Doubtful", poor: "Poor" };
+
+/** The beliefs of a report, each with its grade and source and a button to see the evidence; once seen (at once, in easy mode) whether it held and what the truth was. */
+function IntelPanel({ campaignId, nodeId, flags, easy, hard, onCheck, accent }) {
+  const items = intelItemsAt(campaignId, nodeId);
+  if (!items.length) return null;
+  const left = intelChecksLeft(flags, hard);
+  return (
+    <section className="mb-4 border-l-4 pl-3" style={{ borderColor: accent, fontFamily: "'IBM Plex Mono', monospace" }} aria-label="What the staff believes">
+      <div role="heading" aria-level="2" className="text-xs uppercase tracking-[0.25em] mb-1 text-[#000000] font-semibold">
+        What the staff believes
+      </div>
+      <ul className="list-none m-0 p-0">
+        {items.map((it) => {
+          const known = easy || intelChecked(flags, nodeId, it.id);
+          return (
+            <li key={it.id} className="mb-2 text-sm text-[#000000]">
+              <span className="inline-block mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]">{INTEL_GRADE_TAG[it.grade]}</span>
+              {it.text} <span className="opacity-70">Source: {it.source}.</span>
+              {known ? (
+                <p className="m-0 mt-1 text-sm">
+                  <b>{it.holds ? "The evidence leans towards it." : "The evidence leans against it."}</b> {it.truth}
+                </p>
+              ) : (
+                <p className="m-0 mt-1">
+                  <button
+                    onClick={() => onCheck(it.id)}
+                    disabled={left < 1}
+                    className="border-2 px-3 py-1 uppercase tracking-widest text-xs [@media(hover:hover)]:hover:bg-[#000000] [@media(hover:hover)]:hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] disabled:opacity-40 disabled:cursor-not-allowed"
+                    style={{ borderColor: accent, fontFamily: "Oswald, sans-serif" }}
+                  >
+                    {left < 1 ? "Show the evidence: no checks left" : "Show the evidence (" + left + " left)"}
+                  </button>
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+/** The line under an order that rests on a belief: that it does, and how it stands. "" when the order rests on none. */
+function intelRests(campaignId, nodeId, orderIndex, flags, easy) {
+  const items = intelItemsAt(campaignId, nodeId).filter((it) => it.relied.includes(orderIndex));
+  if (!items.length) return "";
+  const states = items.map((it) => (easy || intelChecked(flags, nodeId, it.id) ? (it.holds ? "held" : "wrong") : "open"));
+  if (states.includes("wrong")) return "Rests on a belief the evidence goes against";
+  if (states.includes("open")) return "Rests on a belief the staff has not tested";
+  return "Rests on a belief the evidence supports";
+}
+const PAC_VBW = 960;
+const PAC_VBH = 650;
+/** [longitude, latitude] to the map's sheet (the projection PacificMap draws its coastlines with). Longitudes east of the date line are written above 180, so Pearl Harbor is 202.03. */
+const pacificXY = (lo, la) => [40 + (lo - 79) * 7.15, 30 + (53 - la) * 7.19];
+
+// The front through time, the place of each report, and the orders drawn on the map (ported from Dispatches 1940's report map).
+//
+// MAP_FRONT_SERIES: for each land theatre, the front as a list of entries; an entry holds from the day it begins until the next one (null lines end the theatre).
+// A line is a list of [longitude, latitude] points, drawn from the course of the fighting and not surveyed: the map says so. A front is drawn on a day only if the
+// regions it runs through (`watch`) stand as the record had them, or are still being fought over: a run that has departed from the record there gets the record's
+// line drawn dashed in red, and none at all if no fighting is left. tools/check-map-front.mjs checks the data.
+//
+// MAP_PLACES: where each report is set, by command and report, as [longitude, latitude, name]. The map marks the report's place and the last few places before it.
+// MAP_OFF_MAP: the reports set beyond the sheet, with the name of the place; the map draws an arrow at the edge.
+// MAP_OPS: the orders of some reports, drawn on the map when the player picks one from the list under it.
+
+const MAP_FRONT_SERIES = [
+  {
+    id: "china",
+    watch: ["hunanGuangxi", "eastChina", "northChina"],
+    entries: [
+      { from: "1940-01-01", lines: [[[111.0, 40.6], [111.2, 38.0], [110.4, 35.0], [112.4, 34.6], [114.0, 33.5], [115.0, 31.8], [114.2, 30.6], [113.1, 29.4], [115.8, 28.7], [117.5, 28.4], [119.5, 28.0]], [[113.0, 23.4], [114.4, 23.2]]] },
+      { from: "1944-04-17", lines: [[[111.0, 40.6], [111.2, 38.0], [110.4, 35.0], [111.6, 34.5], [113.7, 34.5], [114.0, 33.5], [115.0, 31.8], [114.2, 30.6], [113.1, 29.4], [115.8, 28.7], [117.5, 28.4], [119.5, 28.0]], [[113.0, 23.4], [114.4, 23.2]]] },
+      { from: "1944-06-20", lines: [[[111.0, 40.6], [111.2, 38.0], [110.4, 35.0], [111.6, 34.5], [113.7, 34.5], [114.0, 33.5], [115.0, 31.8], [113.4, 30.0], [112.9, 28.2], [114.0, 27.0], [115.8, 28.7], [117.5, 28.4], [119.5, 28.0]], [[113.0, 23.4], [114.4, 23.2]]] },
+      { from: "1944-08-10", lines: [[[111.0, 40.6], [111.2, 38.0], [110.4, 35.0], [111.6, 34.5], [113.7, 34.5], [114.0, 33.5], [115.0, 31.8], [113.4, 30.0], [112.6, 26.9], [113.6, 25.1], [115.8, 28.7], [117.5, 28.4], [119.5, 28.0]], [[113.0, 23.4], [114.4, 23.2]]] },
+      { from: "1944-12-10", lines: [[[111.0, 40.6], [111.2, 38.0], [110.4, 35.0], [111.6, 34.5], [113.7, 34.5], [114.0, 33.5], [115.0, 31.8], [113.4, 30.0], [112.6, 26.9], [111.3, 25.3], [109.4, 24.3], [108.3, 22.8], [106.0, 21.5]]] },
+      { from: "1945-05-26", lines: [[[111.0, 40.6], [111.2, 38.0], [110.4, 35.0], [111.6, 34.5], [113.7, 34.5], [114.0, 33.5], [115.0, 31.8], [113.4, 30.0], [112.6, 26.9], [113.6, 25.1], [115.8, 28.7], [117.5, 28.4], [119.5, 28.0]]] },
+      { from: "1945-08-15", lines: null },
+    ],
+  },
+  {
+    id: "burma",
+    watch: ["burma"],
+    entries: [
+      { from: "1942-01-20", lines: [[[98.6, 18.4], [97.6, 16.5], [98.2, 14.0]]] },
+      { from: "1942-03-08", lines: [[[96.4, 18.9], [96.1, 16.8], [95.0, 17.3]]] },
+      { from: "1942-05-20", lines: [[[96.3, 27.3], [94.8, 26.0], [94.4, 24.2], [93.8, 21.9], [92.9, 20.2]]] },
+      { from: "1944-03-08", lines: [[[96.3, 27.3], [94.6, 25.4], [93.9, 24.8], [93.8, 23.4], [93.2, 21.5], [92.9, 20.2]]] },
+      { from: "1944-07-05", lines: [[[97.4, 25.4], [95.5, 24.6], [94.5, 23.5], [94.3, 22.0], [93.5, 20.8], [92.9, 20.2]]] },
+      { from: "1945-03-03", lines: [[[98.0, 24.0], [96.2, 22.0], [95.9, 20.9], [94.7, 19.9], [94.5, 18.5], [95.0, 17.3]]] },
+      { from: "1945-05-03", lines: null },
+    ],
+  },
+  {
+    id: "newGuinea",
+    watch: ["newGuinea"],
+    entries: [
+      { from: "1942-07-21", lines: [[[148.4, -8.65], [147.73, -8.88]]] },
+      { from: "1942-09-17", lines: [[[148.4, -8.65], [147.55, -9.15]]] },
+      { from: "1943-01-22", lines: [[[148.3, -8.7], [147.0, -7.0], [146.4, -6.0]]] },
+      { from: "1943-09-16", lines: [[[147.85, -6.6], [146.8, -6.7], [145.8, -5.2]]] },
+      { from: "1944-04-22", lines: [[[145.8, -5.2], [143.6, -3.6]]] },
+      { from: "1945-01-01", lines: null },
+    ],
+  },
+];
+
+// ---- where each report is set ----
+const MAP_PLACES = {
+  japan: {
+    nomonhan39: [119.0, 47.7, "Nomonhan"], chinaPeaceQuestion40: [118.8, 32.05, "Nanking"], indochinaMission40: [105.85, 21.03, "Hanoi"], burmaRoad40: [102.7, 25.04, "Kunming"],
+    tripartitePact40: [139.7, 35.7, "Tokyo"], neutralityPact41: [37.6, 55.75, "Moscow"], unificationQuestion40: [139.7, 35.7, "Tokyo"], hokushinDebate41: [139.7, 35.7, "Tokyo"], kantokuenOffensive41: [125.3, 43.9, "Hsinking"],
+    siberianReckoning42: [131.9, 43.1, "Vladivostok"], indochinaOccupation41: [106.7, 10.8, "Saigon"], novemberUltimatum41: [139.7, 35.7, "Tokyo"], pearlHarbor41: [202.03, 21.35, "Pearl Harbor"],
+    burmaRangoon42: [96.15, 16.8, "Rangoon"], indianOceanRaid42: [79.85, 6.93, "Colombo"], burmaRangoon42Delayed: [96.15, 16.8, "Rangoon"], bataanPOWQuestion42: [120.45, 14.45, "Bataan"],
+    doolittleRaid42: [139.7, 35.7, "Tokyo"], doolittleAirmen42: [121.5, 31.2, "Shanghai"], coralSea42: [147.15, -9.45, "Port Moresby"], midway42: [182.63, 28.2, "Midway"],
+    yamamotoAscendant42: [202.03, 21.35, "Pearl Harbor"], aPacificWonTwice43: [79.85, 6.93, "Colombo"], earlyPeaceQuestion42: [139.7, 35.7, "Tokyo"], aStrongerHandToPlay42: [139.7, 35.7, "Tokyo"],
+    aPeaceNooneExpected42: [139.7, 35.7, "Tokyo"], earlyPeaceChannel42: [139.7, 35.7, "Tokyo"], earlyPeaceOutcome42: [139.7, 35.7, "Tokyo"], kokodaTrail42: [147.73, -8.88, "Kokoda"],
+    guadalcanal42: [160.0, -9.43, "Henderson Field"], keGoWithdrawal43: [159.8, -9.2, "Cape Esperance"], yamamotoDeath43: [155.7, -6.8, "Buin"], attu43: [172.9, 52.9, "Attu"],
+    theMainlandCrisis44: [112.6, 26.9, "Hengyang"], ichiGoTriumph44: [110.3, 25.3, "Guilin"], philippineSea44: [145.75, 15.2, "Saipan"], onishiKamikaze44: [120.55, 15.2, "Clark Field"],
+    leyteGulf44: [125.2, 11.0, "Leyte Gulf"], kuritaAtLeyte44: [126.0, 11.5, "Samar"], leyteBeachheadAftermath44: [124.9, 11.2, "Leyte"], iwoJima45: [141.3, 24.78, "Iwo Jima"],
+    okinawa45: [127.9, 26.3, "Okinawa"], theSubmarineCarriersQuestion45: [139.8, 10.0, "Ulithi"], ketsuGo45: [139.7, 35.7, "Tokyo"], afterHiroshima45: [132.45, 34.4, "Hiroshima"],
+    afterNagasaki45: [129.87, 32.75, "Nagasaki"], sacredDecision45: [139.7, 35.7, "Tokyo"], ketsuGoFinalStand45: [139.7, 35.7, "Tokyo"], theDeadlockHolds45: [139.7, 35.7, "Tokyo"],
+    termsWorthHaving45: [139.7, 35.7, "Tokyo"], unhinderedSouth42: [106.8, -6.2, "Batavia"], australiaLanding42: [130.85, -12.46, "Darwin"], washingtonDecides42: [283.0, 38.9, "Washington"],
+    perimeterDoctrine42: [152.2, -4.2, "Rabaul"], severSupplyLine42: [166.45, -22.27, "Noumea"], operationFsCulmination42: [178.4, -18.1, "Suva"], earlyPerimeter43: [155.2, -6.2, "Bougainville"],
+    theLongWarFooting45: [139.7, 35.7, "Tokyo"], moscowMediates45: [37.6, 55.75, "Moscow"], surrenderInquiry45: [139.7, 35.7, "Tokyo"], twoFrontStrain44: [103.85, 1.3, "Singapore"],
+    theDelayedStrike44: [202.03, 21.35, "Pearl Harbor"], theUnbloodiedFleets45: [145.75, 15.2, "Saipan"], theUndemolishedFields44: [104.75, -2.98, "Palembang"], theFuelLedger44: [139.7, 35.7, "Tokyo"],
+    aSecondArmisticeQuestion44: [139.7, 35.7, "Tokyo"], theBelatedReckoning45: [139.7, 35.7, "Tokyo"], kantokuenFinalWord46: [139.7, 35.7, "Tokyo"], americaDecides44: [283.0, 38.9, "Washington"],
+    aQuietEmpire45: [139.7, 35.7, "Tokyo"], newWorldOrder45: [139.7, 35.7, "Tokyo"], coldWarOpening48: [139.7, 35.7, "Tokyo"], theRommelQuestion43: [13.4, 52.5, "Berlin"],
+  },
+  alliedPacific: {
+    fleetAtHawaii40: [202.03, 21.35, "Pearl Harbor"], richardsonObjection40: [202.03, 21.35, "Pearl Harbor"], atlanticTransfer41: [202.03, 21.35, "Pearl Harbor"], americanEmbargoResponse41: [283.0, 38.9, "Washington"],
+    chinaAirForce41: [102.7, 25.04, "Kunming"], aStandoffInsteadOfAWar41: [283.0, 38.9, "Washington"], theSlowerDeclaration42: [283.0, 38.9, "Washington"], warBeginsLate42: [283.0, 38.9, "Washington"],
+    theUnopposedConsolidation42: [103.85, 1.3, "Singapore"], twoForcesNeitherTested43: [160.0, -9.43, "Guadalcanal"], chinasWarAlone43: [106.55, 29.56, "Chungking"], britainsCalculus43: [-0.13, 51.5, "London"],
+    japanUnopposed43: [103.85, 1.3, "Singapore"], chinaCivilWarShadow43: [109.5, 36.6, "Yan'an"], dutchExileCalculus44: [106.8, -6.2, "Batavia"], warWithoutAmerica45: [125.3, 43.9, "Hsinking"],
+    wakeIslandRelief41: [166.63, 19.3, "Wake"], arcadia41: [283.0, 38.9, "Washington"], internmentQuestion42: [283.0, 38.9, "Washington"], stilwellInChungking42: [106.55, 29.56, "Chungking"],
+    rangoonRetreatAllied42: [96.15, 16.8, "Rangoon"], curtinsTurn42: [149.1, -35.3, "Canberra"], corregidorEvacuation42: [120.58, 14.38, "Corregidor"], doolittleRaidAllied42: [153.0, 35.0, "The launch point"],
+    carrierRequest42: [-0.13, 51.5, "London"], coralSeaMidwayAllied42: [182.63, 28.2, "Midway"], kokodaTrailAllied42: [147.73, -8.88, "Kokoda"], guadalcanalAllied42: [160.0, -9.43, "Lunga"],
+    savoIslandReckoning42: [159.8, -9.15, "Savo Island"], vladivostokRoute42: [131.9, 43.1, "Vladivostok"], unconditionalSurrender43: [-7.6, 33.6, "Casablanca"], torpedoCrisis43: [202.03, 21.35, "Pearl Harbor"],
+    theBatBombQuestion43: [283.0, 38.9, "Washington"], bismarckSea43: [148.0, -7.3, "The Bismarck Sea"], yamamotoIntercept43: [160.0, -9.43, "Henderson Field"], yamamotoSurvives43: [151.8, 7.4, "Truk"],
+    tehransPromise43: [51.4, 35.7, "Tehran"], centralPacificDrive43: [173.0, 1.43, "Tarawa"], theTarawaQuestion43: [173.0, 1.43, "Tarawa"], macArthurTension44: [153.0, -27.5, "Brisbane"],
+    macArthurAftermath44: [140.7, -2.55, "Hollandia"], philippineSeaAllied44: [145.75, 15.2, "Saipan"], chinaCrisisAllied44: [106.55, 29.56, "Chungking"], stilwellUltimatum44: [106.55, 29.56, "Chungking"],
+    stilwellPreserved44: [106.55, 29.56, "Chungking"], peleliuDecision44: [134.25, 7.0, "Peleliu"], peleliuForcesRedirected44: [134.25, 7.0, "Peleliu"], aDifferentPacific45: [202.03, 21.35, "Pearl Harbor"],
+    aDifferentPacificFinalWord45: [283.0, 38.9, "Washington"], portChicago44: [238.0, 38.05, "Port Chicago"], philippinesFormosaAllied44: [202.03, 21.35, "Pearl Harbor"], quezonsSuccessor44: [125.0, 11.25, "Tacloban"],
+    halseyTyphoon44: [127.0, 14.0, "The Philippine Sea"], halseyAftermath44: [139.8, 10.0, "Ulithi"], burmaReconquest45: [97.4, 25.38, "Myitkyina"], cabanatuanRaid45: [121.05, 15.5, "Cabanatuan"],
+    iwoJimaAllied45: [141.3, 24.78, "Iwo Jima"], okinawaAllied45: [127.9, 26.3, "Okinawa"], strategicBombingAllied45Delayed: [139.7, 35.7, "Tokyo"], atomicDemonstration45: [283.0, 38.9, "Washington"],
+    targetSelection45: [145.63, 15.0, "Tinian"], kyotoTargetDebate45: [135.77, 35.01, "Kyoto"], kyotoStruck45: [135.77, 35.01, "Kyoto"], hiroshima45: [132.45, 34.4, "Hiroshima"],
+    nagasaki45: [129.87, 32.75, "Nagasaki"], nagasakiDelayed45: [129.87, 32.75, "Nagasaki"], radiationDisclosure45: [132.45, 34.4, "Hiroshima"], indianapolisSinking45: [133.5, 12.0, "The Philippine Sea"],
+    indianapolisReview45: [283.0, 38.9, "Washington"], downfallOrBlockade45: [130.55, 31.6, "Kyushu"], gasWarfareQuestion45: [283.0, 38.9, "Washington"], combinedPressureCollapse45: [139.7, 35.7, "Tokyo"],
+    sovietHokkaido45: [141.67, 45.4, "Wakkanai"], theEmperorQuestion45: [139.7, 35.7, "Tokyo"], occupationAuthority45: [139.7, 35.7, "Tokyo"], pacificFirstGamble42: [283.0, 38.9, "Washington"],
+    conservativePacific42: [202.03, 21.35, "Pearl Harbor"], japanStrikesAgain42: [166.45, -22.27, "Noumea"],
+  },
+};
+
+const mapArrow = (kind, from, to) => ({ kind, from, to });
+const mapStand = (at) => ({ kind: "hold", at });
+
+// ---- the orders on the map ----
+// For a report, each order that can be given is drawn when the player picks it from the list under the map: a solid arrow for an attack, a dashed one for a move,
+// a dotted one for a withdrawal, a ring for a stand. The drawing is schematic: it shows where the weight goes, not a line of advance. An order is found by the
+// start of its label (`match`), so a report whose orders change with the file still finds the ones it has. tools/check-map-front.mjs checks every entry.
+const MAP_OPS = {
+  japan: {
+    hokushinDebate41: [
+      { match: "Hold to the Southern Operation: the resources", note: "The weight stays on the south: the army gathers in Indochina for Malaya and the Indies.", arrows: [mapStand([106.7, 10.8]), mapArrow("move", [106.7, 10.8], [103.85, 1.3])] },
+      { match: "Execute Kantokuen", note: "The Kwantung Army attacks north and east from Manchukuo towards Vladivostok and the Amur.", arrows: [mapArrow("attack", [129.6, 44.6], [131.9, 43.1]), mapArrow("attack", [127.5, 50.3], [135.1, 48.5])] },
+      { match: "Hold to the Southern Operation, but run", note: "The south stays the main effort, and a limited probe goes across the eastern border.", arrows: [mapStand([106.7, 10.8]), mapArrow("attack", [129.6, 44.6], [130.6, 43.9])] },
+    ],
+    kantokuenOffensive41: [
+      { match: "Push deep", note: "The drive goes for the railway itself, at Vladivostok, Khabarovsk and Svobodny.", arrows: [mapArrow("attack", [129.6, 44.6], [131.9, 43.1]), mapArrow("attack", [133.0, 47.7], [135.1, 48.5]), mapArrow("attack", [127.5, 50.3], [128.1, 51.4])] },
+      { match: "Limit the objective", note: "The army takes the border country on the eastern side and goes no further.", arrows: [mapArrow("attack", [129.6, 44.6], [131.0, 44.0]), mapStand([131.0, 44.0])] },
+    ],
+    indochinaOccupation41: [
+      { match: "Proceed with the full occupation", note: "Troops come south by sea, from Hainan to Saigon and the naval base at Cam Ranh.", arrows: [mapArrow("move", [109.5, 18.3], [106.7, 10.8]), mapArrow("move", [109.5, 18.3], [109.2, 11.9])] },
+      { match: "Negotiate limited basing", note: "Japan asks for bases and the right of transit, and keeps its troops in the north.", arrows: [mapStand([105.85, 21.03]), mapStand([106.7, 10.8])] },
+      { match: "Occupy in stages", note: "The ports and airfields are taken first, around Saigon and Cam Ranh, and the rest is held back.", arrows: [mapArrow("move", [109.5, 18.3], [106.7, 10.8]), mapStand([109.2, 11.9])] },
+    ],
+    pearlHarbor41: [
+      { match: "Execute the Pearl Harbor strike as planned", note: "The carriers sail from the Kuriles by the northern route and strike Oahu from the north.", arrows: [mapArrow("move", [147.9, 43.5], [198.0, 33.0]), mapArrow("attack", [198.0, 33.0], [202.03, 21.35])] },
+      { match: "Bypass Oahu", note: "No carrier goes east. All of them go to the south, for the Philippines, Malaya and the Indies.", arrows: [mapArrow("move", [139.7, 35.7], [125.0, 18.0]), mapArrow("attack", [125.0, 18.0], [120.98, 14.6]), mapArrow("attack", [125.0, 18.0], [103.85, 1.3])] },
+      { match: "Execute the strike with orders for a follow-up", note: "The same approach, with a second strike held ready for the dockyards and the oil tanks.", arrows: [mapArrow("move", [147.9, 43.5], [198.0, 33.0]), mapArrow("attack", [198.0, 33.0], [202.03, 21.35]), mapStand([198.0, 33.0])] },
+    ],
+    burmaRangoon42: [
+      { match: "Press the jungle drive", note: "The 15th Army drives from Moulmein straight at Rangoon.", arrows: [mapArrow("attack", [97.63, 16.5], [96.15, 16.8])] },
+      { match: "Advance methodically along the coast", note: "The advance goes along the coast with the guns of the navy beside it.", arrows: [mapArrow("move", [97.63, 16.5], [96.15, 16.8])] },
+      { match: "Send a second column north", note: "A second column goes north to Toungoo and Lashio, to cut the Burma Road.", arrows: [mapArrow("attack", [97.63, 16.5], [96.15, 16.8]), mapArrow("attack", [96.15, 16.8], [96.43, 18.93]), mapArrow("attack", [96.43, 18.93], [97.75, 22.93])] },
+    ],
+    indianOceanRaid42: [
+      { match: "Send the five carriers into the Indian Ocean", note: "The carriers cross from the Celebes to strike Colombo and the ships at Ceylon.", arrows: [mapArrow("attack", [122.9, -4.0], [79.85, 6.93])] },
+      { match: "Raid in strength", note: "The same raid, with the force kept in the ocean to hunt for the Eastern Fleet.", arrows: [mapArrow("attack", [122.9, -4.0], [79.85, 6.93]), mapArrow("attack", [122.9, -4.0], [81.2, 8.57])] },
+      { match: "Skip the raid", note: "The carriers go home to rest before the next operation.", arrows: [mapArrow("withdraw", [122.9, -4.0], [139.7, 35.7])] },
+    ],
+    coralSea42: [
+      { match: "Accept the decisive battle", note: "The fleet is committed to Midway, from the Inland Sea.", arrows: [mapArrow("attack", [132.3, 34.2], [182.63, 28.2])] },
+      { match: "Consolidate", note: "The fleet holds what the south has won, at Rabaul and the Solomons.", arrows: [mapStand([152.2, -4.2])] },
+      { match: "Cancel the Aleutian operation", note: "The light carriers join the Midway force, and nothing goes to the Aleutians.", arrows: [mapArrow("attack", [132.3, 34.2], [182.63, 28.2])] },
+    ],
+    midway42: [
+      { match: "Proceed with the plan as built", note: "The carriers and the invasion force go for Midway, and a diversion goes to the Aleutians.", arrows: [mapArrow("attack", [132.3, 34.2], [182.63, 28.2]), mapArrow("attack", [141.15, 40.8], [193.5, 53.9])] },
+      { match: "Redirect at sea", note: "The carrier force turns south, for Fiji and Samoa and the American supply line.", arrows: [mapArrow("attack", [152.2, -4.2], [178.4, -18.1]), mapArrow("attack", [178.4, -18.1], [188.3, -13.8])] },
+      { match: "Proceed with the plan, and bring", note: "The same plan, with the battleships of the Main Body brought up close behind the carriers.", arrows: [mapArrow("attack", [132.3, 34.2], [182.63, 28.2]), mapStand([180.0, 29.8])] },
+    ],
+    kokodaTrail42: [
+      { match: "Press the final push", note: "The detachment goes on from Ioribaiwa towards Port Moresby, at the end of its supply line.", arrows: [mapArrow("attack", [147.55, -9.15], [147.15, -9.45])] },
+      { match: "Order an earlier withdrawal", note: "The detachment falls back over the track to Kokoda and the coast at Buna.", arrows: [mapArrow("withdraw", [147.55, -9.15], [147.73, -8.88]), mapArrow("withdraw", [147.73, -8.88], [148.4, -8.65])] },
+      { match: "Halt at Ioribaiwa", note: "The detachment stops on the high ground and waits for the supply line to be rebuilt.", arrows: [mapStand([147.55, -9.15])] },
+    ],
+    guadalcanal42: [
+      { match: "Commit destroyers and remaining naval air", note: "Destroyers and aircraft from the Shortlands and Rabaul go against Henderson Field.", arrows: [mapArrow("attack", [155.8, -7.1], [160.0, -9.43]), mapArrow("attack", [152.2, -4.2], [160.0, -9.43])] },
+      { match: "Concede Guadalcanal early", note: "The garrison is brought out, to a line at Bougainville and Rabaul.", arrows: [mapArrow("withdraw", [160.0, -9.43], [155.7, -6.8]), mapStand([152.2, -4.2])] },
+      { match: "Commit the Army's 2nd and 38th", note: "Two divisions go in a single lift from Rabaul, in place of battalions by destroyer.", arrows: [mapArrow("attack", [152.2, -4.2], [160.0, -9.43])] },
+    ],
+    philippineSea44: [
+      { match: "Commit the fleet to the decisive battle", note: "The Mobile Fleet sails from the Philippines to meet the American carriers off Saipan.", arrows: [mapArrow("attack", [122.0, 10.5], [145.75, 15.2])] },
+      { match: "Decline the fleet action", note: "The fleet stays away, and Saipan is left to its garrison.", arrows: [mapArrow("withdraw", [145.75, 15.2], [127.9, 26.3]), mapStand([145.75, 15.2])] },
+    ],
+    leyteGulf44: [
+      { match: "Execute Sho-Go as planned", note: "The carriers sail from Japan as a decoy, while the battleships come through San Bernardino and Surigao Straits.", arrows: [mapArrow("move", [132.3, 34.2], [127.0, 19.5]), mapArrow("attack", [114.95, 4.9], [124.2, 12.5]), mapArrow("attack", [119.0, 8.5], [125.4, 10.1])] },
+      { match: "Concentrate what remains on Formosa", note: "The fleet is kept back for Formosa and the home approaches, and the Philippines are given up.", arrows: [mapStand([121.0, 23.7]), mapArrow("withdraw", [125.2, 11.0], [121.0, 23.7])] },
+      { match: "Send the Southern Force through San Bernardino", note: "The Southern Force follows Kurita through San Bernardino Strait in one column.", arrows: [mapArrow("attack", [114.95, 4.9], [124.2, 12.5]), mapArrow("attack", [124.2, 12.5], [125.2, 11.0])] },
+    ],
+    iwoJima45: [
+      { match: "Reinforce and hold", note: "The garrison stays on the island to the end, with no way out.", arrows: [mapStand([141.3, 24.78])] },
+      { match: "Decline further reinforcement", note: "The island is left as it is, and the spare strength goes to Okinawa.", arrows: [mapStand([141.3, 24.78]), mapArrow("move", [139.7, 35.7], [127.9, 26.3])] },
+    ],
+    okinawa45: [
+      { match: "Commit everything", note: "Yamato sails from the Inland Sea, and the kamikaze aircraft fly from Kyushu, against the fleet off Okinawa.", arrows: [mapArrow("attack", [131.8, 34.0], [127.9, 26.3]), mapArrow("attack", [130.6, 31.4], [127.9, 26.3])] },
+      { match: "Withhold Yamato", note: "Yamato and the aircraft are kept in Japan for the defence of the home islands.", arrows: [mapStand([131.8, 34.0]), mapStand([130.6, 31.4])] },
+    ],
+    australiaLanding42: [
+      { match: "Force the landing", note: "Troops go ashore at Darwin from Timor, with the escort thinning.", arrows: [mapArrow("attack", [123.6, -10.17], [130.85, -12.46])] },
+      { match: "Abort the landing", note: "The fleet is turned back from Darwin to Timor.", arrows: [mapArrow("withdraw", [127.0, -11.0], [123.6, -10.17])] },
+    ],
+  },
+  alliedPacific: {
+    wakeIslandRelief41: [
+      { match: "Recall the relief force", note: "The carrier turns back for Pearl Harbor and Wake is left alone.", arrows: [mapArrow("withdraw", [185.0, 19.8], [202.03, 21.35])] },
+      { match: "Send the relief force onward", note: "The carrier goes on to Wake, towards a Japanese force that is already converging on it.", arrows: [mapArrow("move", [202.03, 21.35], [166.63, 19.3])] },
+      { match: "Use the carriers to raid the Marshalls", note: "The carriers strike the Marshalls as a diversion, and Wake is left alone.", arrows: [mapArrow("attack", [202.03, 21.35], [171.4, 7.1]), mapStand([166.63, 19.3])] },
+    ],
+    rangoonRetreatAllied42: [
+      { match: "Order a fighting retreat", note: "The army falls back from Rangoon north towards the Indian border at Imphal.", arrows: [mapArrow("withdraw", [96.15, 16.8], [93.9, 24.8])] },
+      { match: "Commit the Chinese divisions", note: "The army stands in Rangoon with the Chinese divisions beside it.", arrows: [mapStand([96.15, 16.8])] },
+    ],
+    corregidorEvacuation42: [
+      { match: "Comply with the order", note: "MacArthur leaves Corregidor by PT boat for Mindanao, and goes on by air to Australia.", arrows: [mapArrow("move", [120.58, 14.38], [124.7, 8.5]), mapArrow("move", [124.7, 8.5], [130.85, -12.46])] },
+      { match: "Defy the order", note: "MacArthur stays on Corregidor with the garrison and does not leave for Australia.", arrows: [mapStand([120.58, 14.38])] },
+    ],
+    doolittleRaidAllied42: [
+      { match: "Launch immediately", note: "The bombers take off far out at sea, strike Tokyo, and fly on towards China.", arrows: [mapArrow("attack", [153.0, 35.0], [139.7, 35.7]), mapArrow("move", [139.7, 35.7], [119.0, 29.0])] },
+      { match: "Abort the mission", note: "The task force turns away and the bombers do not fly.", arrows: [mapArrow("withdraw", [153.0, 35.0], [170.0, 34.0])] },
+    ],
+    coralSeaMidwayAllied42: [
+      { match: "Commit all three available carriers", note: "The carriers wait north east of Midway, out of sight, for the Japanese force to come in.", arrows: [mapArrow("move", [202.03, 21.35], [184.5, 32.5]), mapArrow("attack", [184.5, 32.5], [180.0, 31.3])] },
+      { match: "Play conservative", note: "The carriers stay at Hawaii, and the Australia route is guarded instead.", arrows: [mapStand([202.03, 21.35]), mapStand([166.45, -22.27])] },
+      { match: "Commit all three carriers, and hold", note: "The same ambush, with a reserve group held back to follow it up.", arrows: [mapArrow("move", [202.03, 21.35], [184.5, 32.5]), mapArrow("attack", [184.5, 32.5], [180.0, 31.3]), mapStand([186.0, 30.5])] },
+    ],
+    kokodaTrailAllied42: [
+      { match: "Back Blamey", note: "The Australians fall back along the track and fight as they go.", arrows: [mapArrow("withdraw", [147.73, -8.88], [147.55, -9.15]), mapArrow("withdraw", [147.55, -9.15], [147.15, -9.45])] },
+      { match: "Demand an immediate stand", note: "The line is ordered to stand at Kokoda.", arrows: [mapStand([147.73, -8.88])] },
+      { match: "Send the American 32nd Division", note: "The American division goes up the track from Port Moresby to take over the line.", arrows: [mapArrow("move", [147.15, -9.45], [147.73, -8.88])] },
+    ],
+    guadalcanalAllied42: [
+      { match: "Land the Marines immediately", note: "The force gathers in the South Pacific and the Marines land at Lunga on the seventh of August.", arrows: [mapArrow("attack", [166.45, -22.27], [160.0, -9.43])] },
+      { match: "Delay three months", note: "The force stays at its bases in the South Pacific while shipping, aircraft and supply are built up.", arrows: [mapStand([166.45, -22.27])] },
+    ],
+    peleliuDecision44: [
+      { match: "Proceed with the landing", note: "The invasion force sails for Peleliu, and Angaur is attacked with it.", arrows: [mapArrow("attack", [147.3, -2.0], [134.25, 7.0])] },
+      { match: "Cancel Stalemate II", note: "The force is recalled before it lands, and Peleliu is left alone.", arrows: [mapStand([147.3, -2.0])] },
+    ],
+    philippinesFormosaAllied44: [
+      { match: "Liberate the Philippines", note: "The advance goes from New Guinea to Leyte and then to Luzon.", arrows: [mapArrow("attack", [140.7, -2.55], [125.0, 11.0]), mapArrow("attack", [125.0, 11.0], [120.3, 16.0])] },
+      { match: "Bypass the Philippines", note: "The advance goes from the Marianas to Formosa.", arrows: [mapArrow("attack", [145.75, 15.2], [121.0, 23.7])] },
+    ],
+    burmaReconquest45: [
+      { match: "Force the Ledo Road", note: "The road is built on from Ledo to join the Burma Road at Wanting.", arrows: [mapArrow("move", [95.9, 27.3], [98.1, 24.0])] },
+      { match: "Rely permanently on the Hump", note: "Supplies keep going by air from Assam to Kunming.", arrows: [mapArrow("move", [95.2, 27.5], [102.7, 25.04])] },
+    ],
+    iwoJimaAllied45: [
+      { match: "Accept the compressed", note: "The landing force sails from the Marianas on the planned date.", arrows: [mapArrow("attack", [145.7, 15.0], [141.3, 24.78])] },
+      { match: "Insist on the full extended", note: "The landing force waits in the Marianas while the guns fire longer.", arrows: [mapStand([145.7, 15.0])] },
+    ],
+    okinawaAllied45: [
+      { match: "Hold the radar picket line", note: "Destroyers stand on picket stations to the north of the island, in the path of the aircraft.", arrows: [mapStand([128.0, 28.5]), mapStand([129.3, 27.6])] },
+      { match: "Pull the picket line back", note: "The stations are drawn back, and the warning comes later.", arrows: [mapArrow("withdraw", [128.0, 28.5], [127.5, 27.2])] },
+    ],
+    downfallOrBlockade45: [
+      { match: "Prepare Operation Downfall", note: "Landings are prepared on Kyushu and then on the Kanto plain, from Okinawa.", arrows: [mapArrow("attack", [127.9, 26.3], [130.55, 31.6]), mapArrow("attack", [127.9, 26.3], [140.0, 35.5])] },
+      { match: "Pursue Operation Starvation", note: "Mines and aircraft close the straits and the ports, and there is no landing.", arrows: [mapStand([130.9, 33.95]), mapStand([135.2, 34.5])] },
+      { match: "Accelerate Downfall's timetable", note: "The landings go in earlier, on Kyushu and the Kanto plain, before the force is ready.", arrows: [mapArrow("attack", [127.9, 26.3], [130.55, 31.6]), mapArrow("attack", [127.9, 26.3], [140.0, 35.5])] },
+    ],
+    sovietHokkaido45: [
+      { match: "Refuse the Soviet occupation zone", note: "All of Hokkaido stays under American administration, with no Soviet troops on it.", arrows: [mapStand([141.35, 43.06])] },
+      { match: "Grant a limited Soviet occupation zone", note: "Soviet troops cross from Sakhalin into the north of Hokkaido.", arrows: [mapArrow("move", [142.7, 46.6], [141.67, 45.4])] },
+    ],
+  },
+};
+
+const mapIsoKey = (iso) => Number(iso.replace(/-/g, ""));
+
+/**
+ * The fronts drawn on a day: each theatre's latest entry that began before the day. A theatre whose regions stand as the record had them draws the record's
+ * line; one that has departed from the record draws it dashed in red if some fighting is still going on there, and nothing if there is none.
+ */
+function frontsOn(dayKey, statuses) {
+  if (dayKey == null || !statuses) return [];
+  const base = baselineStatuses(dayKey);
+  const out = [];
+  for (const theatre of MAP_FRONT_SERIES) {
+    let hit = null;
+    for (const e of theatre.entries) {
+      if (mapIsoKey(e.from) < dayKey) hit = e;
+      else break;
+    }
+    if (!hit || !hit.lines) continue;
+    const watch = hit.watch || theatre.watch;
+    const moved = watch.some((r) => statuses[r] !== base[r]);
+    if (moved && !watch.some((r) => statuses[r] === "contested")) continue;
+    out.push({ id: theatre.id, lines: hit.lines, projection: moved });
+  }
+  return out;
+}
+
+/** The window of a framed map in sheet units around some places, at the shape of the window (width over height), or null if the places are too far apart or off the sheet. */
+function pacificFrame(points, aspect = 2) {
+  const ps = points.filter(Boolean).map(([lo, la]) => pacificXY(lo, la)).filter(([x, y]) => x > -30 && x < PAC_VBW + 30 && y > -30 && y < PAC_VBH + 30);
+  if (!ps.length) return null;
+  const xs = ps.map((p) => p[0]);
+  const ys = ps.map((p) => p[1]);
+  let w = Math.max(Math.max(...xs) - Math.min(...xs) + 220, 330);
+  let h = w / aspect;
+  const need = Math.max(Math.max(...ys) - Math.min(...ys) + 150, 165);
+  if (h < need) {
+    h = need;
+    w = h * aspect;
+  }
+  if (w > PAC_VBW || h > PAC_VBH) return null;
+  const x = Math.max(0, Math.min(PAC_VBW - w, (Math.min(...xs) + Math.max(...xs)) / 2 - w / 2));
+  const y = Math.max(0, Math.min(PAC_VBH - h, (Math.min(...ys) + Math.max(...ys)) / 2 - h / 2));
+  return { x, y, w, h };
+}
+
+const pacificPoints = (pts) => pts.map(([lo, la]) => pacificXY(lo, la).map((n) => n.toFixed(1)).join(",")).join(" ");
+
+/** The fronts, drawn over the land: a pale halo and an ink line, red and dashed where the run has departed from the record. */
+function PacificFronts({ fronts, s = 1 }) {
+  if (!fronts || !fronts.length) return null;
+  return (
+    <g style={{ pointerEvents: "none" }} aria-hidden="true">
+      {fronts.flatMap((f) =>
+        f.lines.map((line, i) => (
+          <g key={f.id + i}>
+            <polyline points={pacificPoints(line)} fill="none" stroke="#f2ead9" strokeWidth={5.4 * s} strokeOpacity={0.85} strokeLinejoin="round" strokeLinecap="round" />
+            <polyline points={pacificPoints(line)} fill="none" stroke={f.projection ? "#7a2e2e" : "#1a1410"} strokeWidth={2.4 * s} strokeDasharray={f.projection ? `${7 * s},${4 * s}` : undefined} strokeLinejoin="round" strokeLinecap="round" />
+          </g>
+        ))
+      )}
+    </g>
+  );
+}
+
+/** One drawn order: an arrow (attack solid, move dashed, withdrawal dotted) or a ring (a stand). */
+function PacificArrow({ a, accent, past, s }) {
+  const color = accent || "#7a2e2e";
+  const opacity = past ? 0.35 : 1;
+  if (a.kind === "hold") {
+    const [x, y] = pacificXY(a.at[0], a.at[1]);
+    return (
+      <g opacity={opacity}>
+        <circle cx={x} cy={y} r={11 * s} fill="none" stroke="#f2ead9" strokeWidth={5.4 * s} />
+        <circle cx={x} cy={y} r={11 * s} fill="none" stroke={color} strokeWidth={2.4 * s} />
+      </g>
+    );
+  }
+  const [x1, y1] = pacificXY(a.from[0], a.from[1]);
+  const [x2, y2] = pacificXY(a.to[0], a.to[1]);
+  const len = Math.hypot(x2 - x1, y2 - y1) || 1;
+  const ux = (x2 - x1) / len;
+  const uy = (y2 - y1) / len;
+  const head = Math.min(13 * s, len * 0.5);
+  const bx = x2 - ux * head;
+  const by = y2 - uy * head;
+  const wing = head * 0.5;
+  const dash = a.kind === "attack" ? undefined : a.kind === "withdraw" ? `${2 * s},${5 * s}` : `${7 * s},${5 * s}`;
+  const tip = `${x2.toFixed(1)},${y2.toFixed(1)} ${(bx - uy * wing).toFixed(1)},${(by + ux * wing).toFixed(1)} ${(bx + uy * wing).toFixed(1)},${(by - ux * wing).toFixed(1)}`;
+  return (
+    <g opacity={a.kind === "withdraw" ? opacity * 0.8 : opacity} strokeLinecap="round" strokeLinejoin="round">
+      <line x1={x1} y1={y1} x2={bx} y2={by} stroke="#f2ead9" strokeWidth={6 * s} />
+      <polygon points={tip} fill="#f2ead9" stroke="#f2ead9" strokeWidth={3 * s} />
+      <line x1={x1} y1={y1} x2={bx} y2={by} stroke={color} strokeWidth={2.6 * s} strokeDasharray={dash} />
+      <polygon points={tip} fill={color} />
+    </g>
+  );
+}
+
+/**
+ * The report's place and the places before it, and the orders drawn on the map. `view` is the window being shown, in sheet units, so an arrow for a place beyond
+ * it sits on the window's nearest edge. Everything here is for the eye; the map's text version is the sentence under it.
+ */
+function PacificMarks({ marks, arrows, accent, view }) {
+  const s = Math.max(0.55, Math.min(1, (view.w / PAC_VBW) * 1.5));
+  const font = { fontFamily: "'IBM Plex Mono', monospace" };
+  const label = { fill: "#241d12", stroke: "#f2ead9", strokeWidth: 2.6 * s, paintOrder: "stroke", style: { ...font, fontWeight: 600 } };
+  const inView = ([x, y]) => x > view.x + 6 && x < view.x + view.w - 6 && y > view.y + 6 && y < view.y + view.h - 6;
+  const here = marks && marks.here ? pacificXY(marks.here[0], marks.here[1]) : null;
+  const route = ((marks && marks.trail) || []).filter(Boolean);
+  const color = accent || "#7a2e2e";
+  return (
+    <g style={{ pointerEvents: "none" }} aria-hidden="true">
+      {route.length > 1 && (
+        <g>
+          <polyline points={pacificPoints(route)} fill="none" stroke="#f2ead9" strokeWidth={4.4 * s} strokeOpacity={0.8} strokeLinejoin="round" />
+          <polyline points={pacificPoints(route)} fill="none" stroke={color} strokeWidth={1.8 * s} strokeDasharray={`${2 * s},${4 * s}`} strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+      )}
+      {route.slice(0, -1).map((p, i) => {
+        const [x, y] = pacificXY(p[0], p[1]);
+        return inView([x, y]) ? <circle key={"v" + i} cx={x} cy={y} r={3.2 * s} fill="#f2ead9" stroke={color} strokeWidth={1.4 * s} /> : null;
+      })}
+      {(arrows || []).map((a, i) => (
+        <PacificArrow key={i} a={a} accent={accent} past={a.past} s={s} />
+      ))}
+      {here && !inView(here) && marks.offLabel && (() => {
+        // the report is set beyond the window: an arrow on the nearest edge, pointing the way, with the name of the place
+        const cx = view.x + view.w / 2;
+        const cy = view.y + view.h / 2;
+        const dx = here[0] - cx;
+        const dy = here[1] - cy;
+        const m = 22 * s;
+        const t = Math.min(dx !== 0 ? (view.w / 2 - m) / Math.abs(dx) : Infinity, dy !== 0 ? (view.h / 2 - m) / Math.abs(dy) : Infinity);
+        const ex = cx + dx * t;
+        const ey = cy + dy * t;
+        const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
+        const right = ex > cx + view.w * 0.2;
+        const left = ex < cx - view.w * 0.2;
+        return (
+          <g transform={`translate(${ex} ${ey})`}>
+            <g transform={`rotate(${ang})`}>
+              <path d={`M${10 * s},0 L${-8 * s},${-9 * s} L${-8 * s},${9 * s} Z`} fill={color} stroke="#f2ead9" strokeWidth={2 * s} />
+            </g>
+            <text x={left ? 14 * s : right ? -14 * s : 0} y={dy < 0 && !left && !right ? 22 * s : dy > 0 && !left && !right ? -14 * s : 4 * s} textAnchor={left ? "start" : right ? "end" : "middle"} fontSize={10 * s} {...label}>{marks.offLabel}</text>
+          </g>
+        );
+      })()}
+      {here && inView(here) && (
+        <g transform={`translate(${here[0]} ${here[1]})`}>
+          <circle r={12 * s} fill="none" stroke="#f2ead9" strokeWidth={6 * s} />
+          <circle r={12 * s} fill="none" stroke={color} strokeWidth={2.6 * s}>
+            <animate attributeName="r" values={`${12 * s};${19 * s};${12 * s}`} dur="1.4s" repeatCount="3" />
+            <animate attributeName="stroke-opacity" values="1;0.2;1" dur="1.4s" repeatCount="3" />
+          </circle>
+          <rect x={-4.4 * s} y={-4.4 * s} width={8.8 * s} height={8.8 * s} fill={color} stroke="#f2ead9" strokeWidth={1.4 * s} />
+          {marks.name && (
+            <text x={here[0] > view.x + view.w - 130 * s ? -16 * s : 16 * s} y={-10 * s} textAnchor={here[0] > view.x + view.w - 130 * s ? "end" : "start"} fontSize={10 * s} {...label}>{marks.name}</text>
+          )}
+        </g>
+      )}
+    </g>
+  );
+}
+
+/** The places before this report that have a place on the map, newest last, once each in a row. */
+function mapTrail(campaignId, history, nodeId) {
+  const places = MAP_PLACES[campaignId] || {};
+  const trail = [];
+  for (const h of history || []) {
+    const p = places[h.position];
+    const last = trail[trail.length - 1];
+    if (h.position !== nodeId && p && !(last && last[0] === p[0] && last[1] === p[1])) trail.push(p);
+  }
+  return trail.slice(-4);
+}
+
+/** The orders of a report that can be given and have a drawing: { index, label, op }. */
+function mapOrdersOf(campaignId, nodeId, choices) {
+  const ops = (MAP_OPS[campaignId] || {})[nodeId];
+  if (!ops) return [];
+  return choices
+    .map((c, index) => ({ index, label: c.label, op: c.disabledReason ? null : ops.find((o) => c.label.startsWith(o.match)) || null }))
+    .filter((x) => x.op);
+}
+
+const mapOrderName = (label) => {
+  const head = label.split(":")[0];
+  return head.length <= 58 ? head : head.split(" ").slice(0, 8).join(" ") + "...";
+};
+
+/**
+ * The map under the title of a report: a wide window framed on the report's place and the places before it, with the front on the day, and below it the orders of
+ * this report that can be drawn on it, one at a time, and the last few orders given, faint. A button opens the whole theatre, with the notes on each region.
+ */
+function ReportMap({ campaign, stage, nodeId, flags, meters, history, log }) {
+  const [whole, setWhole] = useState(false);
+  const [focus, setFocus] = useState(null);
+  const place = ((MAP_PLACES[campaign.id] || {})[nodeId]) || null;
+  const here = place ? [place[0], place[1]] : null;
+  const trail = mapTrail(campaign.id, history, nodeId);
+  const orders = mapOrdersOf(campaign.id, nodeId, stage.choices || []);
+  const focused = orders.find((x) => x.index === focus) || null;
+  const past = [];
+  const hist = history || [];
+  const given = (log || []);
+  for (let k = Math.max(0, hist.length - 3); k < hist.length - 1; k++) {
+    const e = given[k];
+    const ops = (MAP_OPS[campaign.id] || {})[hist[k].position] || [];
+    const op = e && ops.find((o) => e.label.startsWith(o.match));
+    if (op) for (const a of op.arrows) past.push({ ...a, past: true });
+  }
+  const arrows = [...past, ...(focused ? focused.op.arrows : [])];
+  const offLabel = MAP_OFF_MAP_NAMES[campaign.id + "/" + nodeId] || (place && place[2]) || null;
+  const framePoints = [here, ...trail.slice(-3), ...arrows.flatMap((a) => (a.kind === "hold" ? [a.at] : [a.from, a.to]))];
+  const frame = whole ? null : pacificFrame(framePoints, 2);
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" };
+  const button = (on) => `border-2 border-black px-2 py-1 text-[10px] uppercase tracking-widest font-bold hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] ${on ? "bg-[#000000] text-[#ffffff]" : "text-[#000000]"}`;
+  const marks = { here, trail, name: place ? place[2] : null, offLabel };
+  return (
+    <div className="mb-4" role="group" aria-label="The map on the day of this report">
+      <PacificMap
+        date={stage.date}
+        year={yearFrom(stage.date, 1941)}
+        flags={flags}
+        meters={meters}
+        accent={campaign.accent}
+        nodeId={nodeId}
+        report={{ marks, arrows, frame, passive: !whole }}
+      />
+      <div className="flex flex-wrap items-center gap-2 mt-2">
+        {(frame || whole) && (
+          <button onClick={() => setWhole(!whole)} aria-pressed={whole} className={button(whole)} style={mono}>
+            {whole ? "Show this report's place" : "Show the whole theater"}
+          </button>
+        )}
+      </div>
+      {orders.length > 0 && (
+        <div className="mt-2" role="group" aria-label="Orders drawn on the map">
+          <div className="text-[10px] uppercase tracking-widest font-bold text-[#000000] mb-1" style={mono}>Show an order on the map</div>
+          <div className="flex flex-wrap gap-2">
+            {orders.map((o) => (
+              <button key={o.index} onClick={() => setFocus(focus === o.index ? null : o.index)} aria-pressed={focus === o.index} className={button(focus === o.index)} style={mono}>
+                {`Show order ${o.index + 1}`}
+              </button>
+            ))}
+          </div>
+          {focused && (
+            <p className="text-[12px] leading-snug mt-2" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              <span className="font-bold">{mapOrderName(focused.label)}:</span> {focused.op.note}
+            </p>
+          )}
+        </div>
+      )}
+      <p className="text-[11px] leading-snug mt-2 opacity-80" style={{ fontFamily: "'Courier Prime', monospace" }}>
+        Front lines and arrows are drawn from the course of the fighting. They are not surveyed.
+      </p>
+    </div>
+  );
+}
+
+// The reports set beyond the sheet, named for the arrow at its edge. A report whose place is on the sheet needs no entry.
+const MAP_OFF_MAP_NAMES = {};
+for (const [cid, places] of Object.entries(MAP_PLACES)) {
+  for (const [id, p] of Object.entries(places)) {
+    const [x, y] = pacificXY(p[0], p[1]);
+    if (x < -30 || x > PAC_VBW + 30 || y < -30 || y > PAC_VBH + 30) MAP_OFF_MAP_NAMES[cid + "/" + id] = p[2];
+  }
+}
 function WW2CommandInner() {
   const [screen, setScreen] = useState("select");
   // Counts choices made in the current demo run (Japan campaign only). At 6, the demo
@@ -17988,9 +18968,10 @@ function WW2CommandInner() {
   }
 
   function dismissPress() {
-    // Pure context, not a choice — no meter or flag effects, just returns to the normal flow.
+    // Pure context, not a choice — no meter or flag effects, just returns to the normal flow. A state event that was due at the same
+    // arrival follows the press report.
     setPendingPressEvent(null);
-    setScreen("briefing");
+    setScreen(pendingStateEvent ? "stateEvent" : "briefing");
   }
 
   function dismissStateEvent() {
@@ -18008,7 +18989,7 @@ function WW2CommandInner() {
       setSeenDivergenceReveals((prev) => [...prev, pendingDivergenceReveal.id]);
     }
     setPendingDivergenceReveal(null);
-    setScreen("briefing");
+    setScreen(pendingStateEvent ? "stateEvent" : "briefing");
   }
 
   function chooseOption(i, subgamePayload) {
@@ -18101,7 +19082,7 @@ function WW2CommandInner() {
     // Demo build wall: intercept before any position/history state changes, so the
     // player stays parked at their last playable node rather than landing on a 7th
     // decision. A real ending (isEnd) is never overridden by this.
-    if (DEMO_BUILD && campaignId === "japan" && !isEnd && demoChoiceCount >= 6) {
+    if (DEMO_BUILD && campaignId === "japan" && !isEnd && demoChoiceCount >= 8) {
       setScreen("demoWall");
       return;
     }
@@ -18137,6 +19118,7 @@ function WW2CommandInner() {
       if (arrival.divergenceForkId) {
         setPendingDivergenceReveal(DIVERGENCE_HEADLINES[arrival.divergenceForkId]);
         setPendingPressEvent(null);
+        setPendingStateEvent(arrival.stateEvent);
         setScreen("divergence");
       } else {
         setPendingPressEvent(arrival.pressEvent);
@@ -18436,11 +19418,13 @@ function WW2CommandInner() {
           pastStages={pastStages}
           hasSeenProjectedBadge={hasSeenProjectedBadge}
           log={log}
+          history={history}
           mode={mode}
           favor={favor}
           instantText={instantText}
           soundOn={soundOn}
           onChoose={chooseOption}
+          onIntelCheck={(nodeId, itemId, hard) => setFlags((f) => intelCheck(f, nodeId, itemId, hard))}
           onRewind={rewindTo}
           onSave={manualSave}
           onHome={goHome}
