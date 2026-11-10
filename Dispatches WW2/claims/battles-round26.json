@@ -1,0 +1,100 @@
+[
+  {
+    "id": "b-kiev",
+    "where": "kievPocket41",
+    "claim": "23 Aug-26 Sep 1941; Hitler's directive of 21 Aug; Guderian crossed the Desna 26 Aug; the groups met south of Lokhvitsa on 16 Sep; 452,700 trapped at first, about 15,000 out by 2 Oct; Soviet total 616,304 killed, missing or captured; Kirponos killed; Stalin refused a withdrawal and dismissed Zhukov.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Battle of Kiev (1941). The Kleist breakout date is given only as 'in September' because the sources disagree on the bridgehead dates."
+  },
+  {
+    "id": "b-kharkov",
+    "where": "kharkovBackhand43 and backhandBlow43",
+    "claim": "19 Feb-15 Mar 1943; II SS Panzer Corps (1st, 2nd, 3rd SS Panzer Divisions) under Hausser, 4th Panzer Army under Hoth, 1st Panzer Army under Mackensen; Hausser left Kharkov on 15 Feb against orders; Popov's Mobile Group surrounded by 24 Feb; Fourth Air Fleet sorties from an average of 350 (Jan) to 1,000 (Feb); direct assault ordered 10 Mar, city retaken 15 Mar; Belgorod two days later; losses about 11,500 (SS corps) and about 86,000 (Soviet).",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Third Battle of Kharkov. Hitler's visit to Army Group South's headquarters in the middle of February is from the standard accounts and was not reopened."
+  },
+  {
+    "id": "b-ardennes",
+    "where": "ardennesWacht44",
+    "claim": "16 Dec 1944; Army Group B (Model) with Sixth SS Panzer (Dietrich), Fifth Panzer (Manteuffel), Seventh (Brandenberger) Armies; 406,342 men, 557 tanks at the start; objective Antwerp, Meuse by the third day; fuel plan; Bastogne relieved 26 Dec; offensive broken by 27 Dec; German casualties 63,000-104,000.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Battle of the Bulge"
+  },
+  {
+    "id": "b-kursk",
+    "where": "kurskSoviet43",
+    "claim": "Central Front (Rokossovsky), Voronezh Front (Vatutin), Steppe Front (Konev); 5,128 Soviet tanks; three main belts and three more behind, 130-150 km deep; 2,500 anti-personnel and 2,200 anti-tank mines per km; strongpoints of four to six anti-tank guns; 300,000 civilians; German attack 5 Jul with some 777,000 men; Prokhorovka 12 Jul (5th Guards Tank Army, Rotmistrov); offensive called off after about a week.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Battle of Kursk. The 2nd and 16th Air Armies and the 6th and 7th Guards Armies are from the standard order of battle."
+  },
+  {
+    "id": "b-stalingrad",
+    "where": "stalingradCity42",
+    "claim": "Chuikov took the 62nd Army on 11 Sep 1942; the 13th Guards Rifle Division (Rodimtsev) crossed the Volga 14-15 Sep; German offensives into the city from 13 Sep, the big tractor-factory assault 14 Oct, last assaults 11 Nov; supply by ferry from the east bank; Uranus began 19 Nov.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Battle of Stalingrad"
+  },
+  {
+    "id": "b-seelow",
+    "where": "seelow45",
+    "claim": "16-19 Apr 1945; 1st Belorussian Front with about a million men, 3,059 tanks and self-propelled guns, 16,934 guns and mortars; over 500,000 shells in the first 30 minutes; searchlights made useless by dust; Heinrici pulled his front-line troops back to the second line; the Oder plain flooded; German 9th Army about 110,000 men and 587 tanks; the second line broken on the second day and the last on 19 Apr.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Battle of the Seelow Heights. That the tank armies were committed on the first day and crowded the roads is from the standard accounts and was not reopened."
+  },
+  {
+    "id": "n-leningrad",
+    "where": "leningrad44",
+    "claim": "Offensive 14 Jan-1 Mar 1944; siege declared lifted 26 Jan with a 324-gun salute; Germans pushed back 60-100 km to the Luga; about 1.24 million Soviet men against 500,000; Küchler replaced by Model on 1 Feb; the plan to encircle the 18th Army failed; losses about 314,000 (Soviet) and 72,000 (German).",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Leningrad-Novgorod offensive"
+  },
+  {
+    "id": "n-korsun",
+    "where": "rightBank44",
+    "claim": "24 Jan-16/17 Feb 1944; ring closed 28 Jan at Zvenigorodka; about 60,000 Germans in six divisions at about 55 per cent strength; German count of escapees 40,423, Soviet claim 55,000 dead and 18,000 captured; Soviet casualties 80,188; Vatutin shot by insurgents on 29 Feb and died 15 Apr.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Korsun-Cherkassy Pocket"
+  },
+  {
+    "id": "n-crimea",
+    "where": "crimea44",
+    "claim": "8 Apr-12 May 1944; Kerch 11 Apr, Simferopol 13 Apr, Sevastopol 9 May; 113,000 evacuated by sea 14 Apr-14 May; Totila and Teja sunk 10 May with up to 10,000 dead; casualties about 85,000 (Soviet) and 97,000 (Axis).",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Crimean offensive"
+  },
+  {
+    "id": "n-iasi",
+    "where": "iasiKishinev44",
+    "claim": "20-29 Aug 1944; King Michael's coup 23 Aug; pincers met at Khushi 24 Aug; Ploesti 30 Aug, Bucharest 31 Aug.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Jassy-Kishinev offensive"
+  },
+  {
+    "id": "n-budapest",
+    "where": "budapest44",
+    "claim": "Siege from 26 Dec 1944 to 13 Feb 1945; about 33,000 German and 37,000 Hungarian soldiers and over 800,000 civilians; envoys killed 29 Dec; Konrad III came within 25 km by 26 Jan; 28,000 broke out on 11 Feb and 600-700 reached German lines; Soviet losses 320,082 in 108 days.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Siege of Budapest"
+  },
+  {
+    "id": "n-balaton",
+    "where": "balatonVienna45",
+    "claim": "Spring Awakening 6-15 Mar 1945 with about 260,000 men; Soviet defence in depth (700+ anti-tank and 600+ anti-personnel mines per km, 2,700 and 2,900 in the 26th Army's sector); Vienna offensive from 16 Mar, Vienna taken 13 Apr; German casualties about 30,000, Soviet 167,940.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Operation Spring Awakening"
+  },
+  {
+    "id": "n-prague",
+    "where": "prague45",
+    "claim": "6-11 May 1945; Konev, Malinovsky and Yeryomenko; about 1.77 million men; uprising 5 May; offensive begun a day early; tanks entered Prague 9 May; ROA 1st Division (Bunyachenko) fought in the city from 7 May; US halt at Plzen.",
+    "status": "confirmed-secondary",
+    "source": "Wikipedia, Prague offensive"
+  },
+  {
+    "id": "n-dossiers",
+    "where": "Govorov, Meretskov, Malinovsky dossiers",
+    "claim": "Govorov died in 1955 a Marshal; Meretskov was arrested in 1941 and released, commanded in the Far East in 1945 and died in 1968; Malinovsky died in 1967 while Minister of Defence.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; not looked up in this round."
+  }
+]

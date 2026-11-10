@@ -10,6 +10,7 @@ One folder per game plus a shared engine. Read the folder's own `CLAUDE.md` befo
 | `Dispatches Sherlock/` | New game on the engine (TypeScript, content in JSON). Copy of Frankenstein's shape, re-skinned. `npm test` green. |
 | `Dispatches 1940/` | Partly migrated: buildable, `src/logic.ts` extracted (incl. battle subgame resolution), headless UI baseline, audits green. Not on the shared engine yet. |
 | `Dispatches 1941/` | Partly migrated: buildable, `src/logic.ts` extracted, UI-differential baseline. Content is code in `src/App.jsx`; not on the shared engine yet. |
+| `Dispatches WW2/` | New: Dispatches 1940 and 1941 as one game (six commands). 1940's code with 1941's commands, battles, map and events ported in; `src/rules.ts` picks 1940's or 1941's rules by command. See its CLAUDE.md. |
 | `Dispatches 1922/` | Partly migrated: buildable, `src/logic.ts` extracted, headless UI baseline, validators in `tools/`. Not on the shared engine yet. |
 | `Dispatches 1914/` | Cleanest layout: pure logic layer (src/50-57), campaign-per-file, headless UI baseline. Reference shape for the engine "node provider" mode. |
 

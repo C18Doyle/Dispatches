@@ -1,0 +1,689 @@
+const ADVISOR_DOSSIERS = {
+  Mikoyan: { role: "Politburo: Lend-Lease administration", bio: "Ran the Soviet side of Lend-Lease logistics, and later acknowledged more openly than most Soviet officials how much American trucks and aviation fuel in fact mattered to the war effort.", fate: "One of the few Old Bolsheviks to survive every purge and outlast Stalin himself, dying peacefully in 1978.", faction: "soviet", rank: 2 },
+  Timoshenko: { role: "Marshal: early Eastern Front command", bio: "Replaced the disgraced Pavlov after the border collapse and steadied a front that had nearly ceased to exist, at a moment when steadying anything counted as a rare success.", fate: "Sidelined from top command after mixed results at Kharkov, but survived the war and Stalin both; died in 1970.", faction: "soviet", rank: 2 },
+  Shcherbakov: { role: "Political commissar: army morale and propaganda", bio: "Oversaw wartime political messaging, including the machinery Order No. 227 depended on to reach every unit in the army.", fate: "Died in 1945, days after the Berlin victory, from a heart condition worsened by the strain of the job.", faction: "soviet", rank: 3 },
+  Yeryomenko: { role: "General: Stalingrad front command", bio: "Commanded the Stalingrad Front through the city's darkest months, in an uneasy command relationship with Chuikov's more famous defense inside the ruins.", fate: "Continued in senior command through the war's end; died in 1970, his role at Stalingrad often overshadowed by Chuikov's.", faction: "soviet", rank: 2 },
+  Bulganin: { role: "Political commissar: Stavka liaison", bio: "A political officer attached to front commands, part of the apparatus balancing military judgment against the Party's confidence in the men making it.", fate: "Rose through postwar Soviet politics to briefly lead the government in the 1950s, before Khrushchev eclipsed him.", faction: "soviet", rank: 3 },
+  Molotov: { role: "Foreign Minister", bio: "The face of Soviet diplomacy for two decades: signed the 1939 non-aggression pact with Germany, then the wartime alliance with the powers Germany had made him sign against.", fate: "Outlived Stalin, was expelled from the leadership under Khrushchev, and lived to see the Soviet Union he helped build nearly to its final years, dying in 1986.", faction: "soviet", rank: 1 },
+  Ponomarenko: { role: "Head of the Central Staff of the Partisan Movement", bio: "Coordinated Soviet partisan operations behind German lines, including the mass rail-sabotage campaigns of 1943.", fate: "Moved into senior postwar Party administration; died in 1984.", faction: "soviet", rank: 3 },
+  Voznesensky: { role: "Economic planner: wartime production", bio: "Directed the wartime economy, including the industrial evacuation east that arguably did as much to win the war as any single battle.", fate: "Purged and executed in 1950 in the postwar 'Leningrad Affair': a wartime architect of Soviet victory, killed by the peace that followed it.", faction: "soviet", rank: 2 },
+  Sokolovsky: { role: "General: Western axis command", bio: "A senior staff officer and field commander associated with the western thrust toward Smolensk and, later, Berlin.", fate: "Rose to Marshal after the war and commanded Soviet forces in occupied Germany; died in 1968.", faction: "soviet", rank: 2 },
+  Tyulenev: { role: "General: Caucasus Front command", bio: "Commanded the defense of the Caucasus oil region against the German summer 1942 offensive, one of the war's most resource-critical fronts.", fate: "Continued in senior command through the war; died in 1978.", faction: "soviet", rank: 2 },
+  Sudoplatov: { role: "NKVD: intelligence and partisan operations", bio: "Ran Soviet intelligence and sabotage operations, including partisan coordination behind German lines: a career built as much on secrecy as on results.", fate: "Arrested after Stalin's death for his ties to Beria, imprisoned for fifteen years, and later published a controversial memoir; died in 1996.", faction: "soviet", rank: 3 },
+  Kaganovich: { role: "Commissar: transport and rail", bio: "Ran Soviet rail logistics, the unglamorous backbone every offensive in this campaign actually depended on to move men, fuel, and shells to the front.", fate: "A loyal Stalinist to the end, expelled from leadership under Khrushchev; died in 1991, one of the last purge-era figures still alive.", faction: "soviet", rank: 2 },
+  "The Special Section": { role: "NKVD: front-line political oversight", bio: "Not one man but an institution: the NKVD's presence inside the army, tasked with monitoring officers' political reliability alongside their military judgment.", fate: "Its wartime powers and personnel were absorbed into SMERSH counter-intelligence in 1943, and later folded into the postwar security apparatus.", faction: "soviet", rank: 4 },
+  Mountbatten: { role: "Chief of Combined Operations", bio: "Oversaw Britain's amphibious raiding doctrine, including the costly 1942 Dieppe raid whose lessons shaped invasion planning for the rest of the war.", fate: "Later the last Viceroy of India and a senior royal-family figure; assassinated by the IRA in 1979.", faction: "allied", rank: 2 },
+  Alexander: { role: "Field Marshal: Mediterranean theater command", bio: "Held senior Allied command across North Africa and Italy, known for a diplomatic touch that kept a truly multinational command structure functioning.", fate: "Became Governor General of Canada after the war; died in 1969.", faction: "allied", rank: 2 },
+  Clark: { role: "General: Fifth Army command (Italy)", bio: "Led the US Fifth Army through Salerno, Anzio, and the drive on Rome: his decision to race for the capital rather than close the trap on the retreating German Tenth Army at Valmontone remains one of the Italian campaign's most debated command calls.", fate: "Later commanded UN forces in the Korean War; died in 1984.", faction: "allied", rank: 2 },
+  Portal: { role: "Chief of the Air Staff, RAF", bio: "Britain's senior airman for most of the war, and the figure most responsible for the Combined Bomber Offensive's refusal to choose between Harris's area bombing and the American precision doctrine.", fate: "Ennobled after the war; died in 1971.", faction: "allied", rank: 1 },
+  Tedder: { role: "Air Marshal: Eisenhower's deputy at SHAEF", bio: "Eisenhower's own deputy supreme commander, and the chief architect of the pre-invasion Transportation Plan against the French rail network.", fate: "Continued in senior RAF leadership after the war; died in 1967.", faction: "allied", rank: 1 },
+  McNaughton: { role: "General: Canadian Army command", bio: "Commanded Canadian forces training in Britain, and was among the clearest internal skeptics of the 1942 Dieppe raid's plan before it went ahead regardless.", fate: "Removed from field command in 1943 amid friction with British planners; later served in Canadian politics and diplomacy.", faction: "allied", rank: 2 },
+
+  Manstein: { role: "Field Marshal: the operational mind", bio: "Architect of the Ardennes plan that felled France and of the eastern war's most admired counterstrokes. Argued constantly, and usually correctly, for mobile defense over rigid holding.", fate: "Dismissed by Hitler in 1944; convicted of war crimes by a British court in 1949, served four years, later advised the postwar West German army.", faction: "german", rank: 2 },
+  Guderian: { role: "Colonel-General: panzer doctrine's founder", bio: "Built the armored force and the doctrine that used it, then spent the war fighting the leadership over how it was spent. Famously asked how many Germans even knew where Kursk was.", fate: "Dismissed twice; ended the war as Chief of the General Staff, released without trial in 1948.", faction: "german", rank: 3 },
+  Rommel: { role: "Field Marshal: the theater commander", bio: "The desert war's defining commander and later architect of the Atlantic Wall's forward defense. His supply-line arithmetic in Africa was as sound as his tactics were bold.", fate: "Implicated, to a degree historians still debate, in the July 20 plot; forced to take poison in October 1944 in exchange for his family's safety, and buried with full honors under a state lie.", faction: "german", rank: 2 },
+  Model: { role: "Field Marshal'the Führer's fireman'", bio: "The defensive specialist sent wherever the front was collapsing, from Rzhev to the Ruhr. Blunt, tireless, and one of few who could tell Hitler no and keep his command.", fate: "Encircled in the Ruhr pocket in April 1945; dissolved his army group rather than surrender it, then took his own life in a forest near Duisburg.", faction: "german", rank: 2 },
+  Heinrici: { role: "Colonel-General: the defensive craftsman", bio: "Master of the elastic defense, most famously emptying the Seelow trenches ahead of Zhukov's bombardment. Openly contemptuous of orders that spent men for ground.", fate: "Relieved in the war's final week for refusing to sacrifice his troops in Berlin; died in 1971.", faction: "german", rank: 4 },
+  Brauchitsch: { role: "Field Marshal: Commander-in-Chief of the Army", bio: "Headed the army from 1938, carried out Hitler's wars while telling him, in the winter of 1939, that the army was not ready for the one in the west, and offered to resign over it.", fate: "Dismissed in December 1941 after the failure before Moscow; died in British custody in 1948 before he could be tried.", faction: "german", rank: 2 },
+  Halder: { role: "Colonel-General: Chief of the General Staff", bio: "Ran the army's planning through the war's ascendant years, from Case Yellow to Barbarossa, in permanent quiet tension with Hitler's intuitions.", fate: "Dismissed in 1942; imprisoned after July 20 and sent to a concentration camp; liberated in 1945, later led the U.S. Army's German war-history program.", faction: "german", rank: 3 },
+  Jodl: { role: "Colonel-General: OKW operations chief", bio: "The staff officer at Hitler's elbow for the entire war, translating intent into directives across every theater.", fate: "Signed the surrender at Reims; convicted at Nuremberg and executed in 1946.", faction: "german", rank: 3 },
+  Keitel: { role: "Field Marshal: OKW chief", bio: "The high command's administrator and the regime's most reliable military signature: his nickname among officers, 'Lakeitel,' was a pun on 'lackey.'", fate: "Signed the ratified surrender at Karlshorst; convicted at Nuremberg and executed in 1946.", faction: "german", rank: 2 },
+  Raeder: { role: "Grand Admiral: the surface fleet's advocate", bio: "Built the navy back from Versailles and argued the Mediterranean strategy the land-focused leadership never adopted. Spent his fleet at Norway with his eyes open.", fate: "Resigned in 1943 after Hitler threatened to scrap the surface fleet; sentenced to life at Nuremberg, released in 1955.", faction: "german", rank: 2 },
+  Dönitz: { role: "Grand Admiral: the U-boat war's commander", bio: "Ran the tonnage war with cold statistical clarity, including the decision to concede the Atlantic in Black May. Hitler's unexpected named successor.", fate: "Led the 23-day Flensburg government and ordered the surrender; served ten years after Nuremberg.", faction: "german", rank: 2 },
+  Göring: { role: "Reichsmarschall: the Luftwaffe's master", bio: "The air force's political chief, whose promises (Dunkirk from the air, Stalingrad by airlift) repeatedly wrote cheques his squadrons could not cash.", fate: "Convicted at Nuremberg; took poison hours before his scheduled execution in 1946.", faction: "german", rank: 1 },
+  Rundstedt: { role: "Field Marshal: the old school's dean", bio: "The army's senior professional, three times dismissed and three times recalled. Advocate of the massed reserve in the west and of telling uncomfortable truths in committee.", fate: "Captured in 1945; charges were prepared but never tried owing to his health; died in 1953.", faction: "german", rank: 2 },
+  Speer: { role: "Minister of Armaments: the technocrat", bio: "Ran the late-war production 'miracle' atop a system of forced and slave labor, a fact his postwar memoirs polished and historians have since restored to the ledger.", fate: "Served twenty years after Nuremberg: the architect who claimed not to have known, and profited from the claim.", faction: "german", rank: 2 },
+  Ribbentrop: { role: "Foreign Minister", bio: "The diplomat of the Pact and the Axis, whose assessments (of Britain, of America, of Japan's intentions) were wrong at nearly every decisive moment.", fate: "Convicted at Nuremberg and executed in 1946, the first of the condemned to hang.", faction: "german", rank: 2 },
+  Kesselring: { role: "Field Marshal: the optimist", bio: "'Smiling Albert,' commander of the Italian defense that ground the Allies down peninsula river by river. His optimism was a running staff joke and his defenses were not.", fate: "Sentenced to death by a British court for reprisal massacres in Italy, commuted; released in 1952.", faction: "german", rank: 2 },
+  Bock: { role: "Field Marshal: Army Group Center's commander", bio: "Led the drive on Moscow to its winter culmination, a professional of the old Prussian school with limited patience for ideology and less for interference.", fate: "Dismissed in 1942; killed with his family in an air attack in the war's final days, May 1945.", faction: "german", rank: 2 },
+  Kluge: { role: "Field Marshal: the man in the middle", bio: "Commanded in the east and then the west, courted by the resistance and never quite committed to it: a career of maintaining balance on a collapsing beam.", fate: "Recalled after the July 20 plot's suspicion touched him; took poison en route to Berlin in August 1944.", faction: "german", rank: 2 },
+  Weizsäcker: { role: "State Secretary: the professional diplomat", bio: "The foreign ministry's senior civil servant, running channels and caution beneath Ribbentrop's certainties.", fate: "Convicted at the Ministries Trial for his signature on deportation documents; released in 1950; his defense counsel included his son, a future German president.", faction: "german", rank: 2 },
+  Galland: { role: "Lieutenant-General: the fighter arm's voice", bio: "Fighter ace turned general who argued the defense-of-the-Reich case (fighters over bombers, quality over retaliation) and lost it until it was too late to matter.", fate: "Dismissed in early 1945 after the 'fighter pilots' revolt'; flew jets in combat in the war's last weeks; died in 1996.", faction: "german", rank: 4 },
+  Wenck: { role: "General: the war's youngest army commander", bio: "Given the improvised Twelfth Army in 1945 and history's most impossible relief order. Chose, in the end, to hold a corridor for the fleeing rather than die reaching Berlin.", fate: "Led perhaps a hundred thousand soldiers and civilians into American lines; died in 1982.", faction: "german", rank: 4 },
+  Weidling: { role: "General: Berlin's last commandant", bio: "Artillery officer handed the capital's final defense: a command he reportedly greeted by saying he'd rather have been shot, as ordered days earlier by mistake.", fate: "Surrendered Berlin to Chuikov; died in Soviet captivity in 1955.", faction: "german", rank: 4 },
+  Böhme: { role: "General: Festung Norwegen's commander", bio: "Commanded the war's strangest asset: a 350,000-man garrison in a country nobody invaded, intact from 1940 to the end.", fate: "Surrendered Norway's garrison unbeaten in May 1945; died in custody in 1947 awaiting extradition for Balkan-era reprisals.", faction: "german", rank: 4 },
+  Heisenberg: { role: "Physicist: the atomic program's face", bio: "Led a nuclear effort that was, by 1942, years behind the Allied one: starved of resources and, historians still debate how deliberately, of urgency.", fate: "Interned at Farm Hall, where hidden microphones recorded the German physicists learning of Hiroshima; led postwar German physics.", faction: "german", rank: 5 },
+  Goebbels: { role: "Propaganda Minister: Berlin's Defense Commissioner", bio: "The regime's voice, who conscripted the city's children and elders into its final defense and named the myth of the Werwolf resistance.", fate: "Took his own life in the bunker in May 1945, after he and his wife murdered their six children.", faction: "german", rank: 2 },
+  List: { role: "Field Marshal: Army Group A", bio: "Commanded the Caucasus drive of Case Blue until its impossible twin objectives consumed it.", fate: "Dismissed by Hitler in September 1942 for the geography's failures; sentenced at the Hostages Trial for Balkan reprisals; released in 1952.", faction: "german", rank: 2 },
+  Hitler: { role: "Führer: the regime itself", bio: "This game treats him as what the record shows at the map table: the strategic center every decision orbited, whose intuitions won the gambles of 1940 and whose refusals (to withdraw, to trade ground, to hear arithmetic) drove the catastrophes after. The regime's crimes, from the camps to the planned starvation of the East, proceed from his intent; no dossier entry can or should soften that.", fate: "Took his own life in the Berlin bunker on April 30, 1945, days before the surrender, leaving instructions that the war continue.", faction: "german", rank: 0 },
+  Paulus: { role: "Field Marshal: Sixth Army", bio: "The staff officer given the war's most famous field command, promoted to Field Marshal in the pocket precisely because no German officer of that rank had ever surrendered: an instruction he declined to take.", fate: "Surrendered at Stalingrad in 1943; testified for the prosecution at Nuremberg; died in Dresden in 1957.", faction: "german", rank: 2 },
+  Bayerlein: { role: "General: the desert staff hand", bio: "Rommel's chief of staff in Africa, later commander of the Panzer Lehr division through Normandy's attrition and the Ardennes.", fate: "Surrendered in the Ruhr pocket; died in 1970.", faction: "german", rank: 4 },
+  Westphal: { role: "General: the operations officer", bio: "Staff officer to Rommel, Kesselring, and Rundstedt in turn: the professional connective tissue of three theaters.", fate: "Ended the war as chief of staff in the west; died in 1982.", faction: "german", rank: 4 },
+  Speidel: { role: "Lieutenant-General: Army Group B's chief of staff", bio: "Ran Army Group B's staff work through Normandy, kept the command functioning after Rommel's wounding, and carried real, documented ties to the officers behind July 20th that were never conclusively proven.", fate: "Arrested in September 1944 on suspicion of complicity in the plot; held but not tried before the war ended. Rehabilitated after 1945 into a senior NATO command in the 1950s: a rare postwar career for a name that close to the conspiracy.", faction: "german", rank: 3 },
+  Godt: { role: "Rear Admiral: U-boat operations", bio: "Ran the day-to-day direction of the wolfpacks under Dönitz for nearly the whole tonnage war.", fate: "Briefly detained postwar; died in 1995.", faction: "german", rank: 4 },
+  Zeitzler: { role: "Colonel-General: Chief of the General Staff", bio: "Halder's successor, who argued hard for Sixth Army's breakout from Stalingrad and lost the argument to the airlift promise.", fate: "Dismissed in 1944 after repeated clashes; dismissed from the army entirely without the customary courtesies; died in 1963.", faction: "german", rank: 3 },
+  Gehlen: { role: "General: Foreign Armies East (FHO)", bio: "Ran eastern intelligence assessment: the confident, repeatedly wrong estimates this game keeps quoting are substantially his shop's.", fate: "Traded his files to the Americans in 1945; founded and led West Germany's postwar intelligence service until 1968.", faction: "german", rank: 4 },
+  Busch: { role: "Field Marshal: Army Group Center, 1944", bio: "Held the central front's command when Bagration struck it, executing the standing no-withdrawal orders as the front dissolved around them.", fate: "Relieved during the collapse; died a British prisoner in 1945.", faction: "german", rank: 4 },
+  Student: { role: "Colonel-General: the airborne's creator", bio: "Built the Fallschirmjäger arm and spent it at Crete: the victory whose casualties ended German airborne operations at scale.", fate: "Convicted for Crete-related reprisals, sentence not confirmed; released 1948; died in 1978.", faction: "german", rank: 4 },
+  Manteuffel: { role: "General: the panzer commander", bio: "Led Fifth Panzer Army through the Ardennes offensive's deepest advances and the war's final battles in the east.", fate: "Postwar member of the Bundestag; died in 1978.", faction: "german", rank: 4 },
+  "Terboven's staff officer": { role: "A composite voice: Reichskommissariat Norwegen", bio: "This speaker is the game's one composite character: a staff-level voice for the Norwegian occupation administration. Josef Terboven himself, Reichskommissar for Norway, ruled the country with documented brutality.", fate: "Terboven destroyed himself with dynamite in his bunker in May 1945 rather than surrender. The staff officer speaking here stands for the administrators who chose differently.", faction: "german", rank: 5 },
+  Krebs: { role: "General: the last Chief of the General Staff", bio: "The final holder of the army's senior staff post, whose last professional act was negotiating with Chuikov in a Berlin basement.", fate: "Took his own life in the Reich Chancellery on May 1, 1945.", faction: "german", rank: 3 },
+  Zhukov: { role: "Marshal: the Soviet war's central commander", bio: "From Khalkhin Gol to Berlin, present at nearly every decisive Soviet moment: fired for being right about Kiev, recalled to save Moscow, Leningrad, and Stalingrad.", fate: "Sidelined by Stalin after the war as too prominent; briefly Defense Minister under Khrushchev; died in 1974.", faction: "soviet", rank: 1 },
+  Stalin: { role: "Supreme Commander: the dictator", bio: "Ran the war through terror, will, and a slowly learned deference to his generals: the early catastrophes were substantially his; so, historians grant, was the machine that recovered from them.", fate: "Ruled until his death in 1953; his crimes (the purges, the Gulag, engineered famine) killed millions before a single German soldier crossed the border.", faction: "soviet", rank: 0 },
+  Vasilevsky: { role: "Marshal: Stavka's planner", bio: "The general staff's calm center, co-architect of Uranus and Bagration: the professional's professional, trusted by Stalin as few were.", fate: "Commanded the 1945 Manchurian campaign; died in 1977.", faction: "soviet", rank: 2 },
+  Rokossovsky: { role: "Marshal: Bagration's executor", bio: "Arrested and tortured in the purges, released to become one of the war's finest front commanders: his double-axis Bagration plan was argued to Stalin's face, twice.", fate: "Later Poland's imposed Defense Minister: a Soviet marshal governing a country that never asked for him; died in 1968.", faction: "soviet", rank: 2 },
+  Vatutin: { role: "General: the southern front's driver", bio: "Aggressive, gifted, and central to Stalingrad's encirclement and the Kursk defense's southern face.", fate: "Mortally wounded in a Ukrainian nationalist ambush in February 1944.", faction: "soviet", rank: 3 },
+  Konev: { role: "Marshal: Zhukov's rival", bio: "The other half of the race to Berlin, given his chance at the prize by Stalin's deliberately ambiguous boundary line.", fate: "Led the suppression of the 1956 Hungarian uprising; died in 1973.", faction: "soviet", rank: 2 },
+  Govorov: { role: "Marshal: Leningrad's commander", bio: "An artillery officer who commanded the Leningrad Front from 1942 and lifted the siege in January 1944.", fate: "Died in 1955, a Marshal of the Soviet Union.", faction: "soviet", rank: 3 },
+  Meretskov: { role: "Marshal: the Volkhov Front's commander", bio: "Arrested at the start of the war and released to command again; he fought the Volkhov Front's battles around Leningrad, and commanded in the Far East against Japan in 1945.", fate: "Died in 1968, a Marshal of the Soviet Union.", faction: "soviet", rank: 3 },
+  Malinovsky: { role: "Marshal: the 2nd Ukrainian Front's commander", bio: "Took Romania, Hungary and Budapest in 1944 and 1945 with the 2nd Ukrainian Front, then fought the Manchurian campaign against Japan.", fate: "Died in 1967, while serving as Minister of Defence.", faction: "soviet", rank: 2 },
+  Chuikov: { role: "General: Stalingrad's street-fighter", bio: "Held the city's rubble at hugging distance, then carried the same army to Berlin and took the capital's surrender in person.", fate: "Maintained to his death that Berlin could have fallen in February 1945; died in 1982, buried at Volgograd by his own wish.", faction: "soviet", rank: 2 },
+  Tolbukhin: { role: "Marshal: the Balkan front's commander", bio: "Drove the southern advance through Romania's defection and into the Balkans.", fate: "Died in 1949, still in command in the Transcaucasus.", faction: "soviet", rank: 2 },
+  Antonov: { role: "General: the staff's staff officer", bio: "Ran Stavka's operations directorate with a precision the memoirs of every marshal acknowledge; the only Soviet general awarded the Order of Victory without front command.", fate: "Served into the Warsaw Pact era; died in 1962.", faction: "soviet", rank: 3 },
+  Golikov: { role: "General: the intelligence chief", bio: "Ran military intelligence in 1941, filtering warnings of Barbarossa to match what Stalin wished to hear, then commanded fronts with mixed results.", fate: "Survived every purge and reorganization; died a Marshal in 1980.", faction: "soviet", rank: 3 },
+  Zhdanov: { role: "Party chief: Leningrad's political master", bio: "Ran the besieged city's party apparatus through the starvation winters, ruthless in defense and in doctrine alike.", fate: "Died in 1948; his death was later spun into the fabricated 'Doctors' Plot' that fed Stalin's final purge.", faction: "soviet", rank: 3 },
+  Eisenhower: { role: "General: Supreme Allied Commander", bio: "The coalition's manager more than its tactician: the broad front, the Berlin halt, and the alliance's cohesion were his real battlefield.", fate: "Thirty-fourth President of the United States.", faction: "allied", rank: 1 },
+  Churchill: { role: "Prime Minister", bio: "The coalition's voice and its Mediterranean strategist, wrong and right in equal measure and immovable on the only question that decided 1940.", fate: "Lost the 1945 election weeks after victory; returned to office in 1951; buried at Blenheim's parish church in 1965.", faction: "allied", rank: 0 },
+  Marshall: { role: "General: the organizer of victory", bio: "Built the American army from almost nothing and argued the earliest possible cross-Channel blow: Churchill called him the war's true architect.", fate: "Author of the Marshall Plan; Nobel Peace Prize, 1953.", faction: "allied", rank: 1 },
+  Montgomery: { role: "Field Marshal: the set-piece master", bio: "Methodical to a fault and vain past one, but Alamein and Normandy were his, and Arnhem, the one gamble, was too.", fate: "Postwar chief of the imperial general staff and NATO deputy commander; died in 1976.", faction: "allied", rank: 2 },
+  Patton: { role: "General: the pursuit commander", bio: "The Allies' finest exploiter of a broken front, whose Bastogne wheel remains a staff-college set piece.", fate: "Died in December 1945 from injuries in a road accident in occupied Germany.", faction: "allied", rank: 2 },
+  Bradley: { role: "General: the GI's general", bio: "The steady operational hand of the American advance, less quotable than Patton and more trusted with an army group.", fate: "First chairman of the Joint Chiefs; the army's last five-star general; died in 1981.", faction: "allied", rank: 2 },
+  King: { role: "Fleet Admiral: the Pacific's advocate", bio: "Fought the Navy's corner in every Europe First conference and kept the Pacific war resourced despite the formal priority.", fate: "Retired 1945; died in 1956.", faction: "allied", rank: 2 },
+  Harris: { role: "Air Chief Marshal: Bomber Command", bio: "Prosecuted the area-bombing campaign with total conviction: a strategy postwar surveys judged less effective than the precision targeting he resisted.", fate: "The one major British commander denied a peerage after the war: the campaign's controversy attached to him permanently; died in 1984.", faction: "allied", rank: 2 },
+  Spaatz: { role: "General: American strategic air", bio: "Champion of precision daylight bombing and, once escorts arrived, of the oil campaign that finally grounded the Luftwaffe.", fate: "First Chief of Staff of the independent US Air Force.", faction: "allied", rank: 2 },
+  Roosevelt: { role: "President", bio: "The coalition's strategic center of gravity: Europe First, unconditional surrender, and the Yalta accommodations were all, finally, his calls.", fate: "Died in office in April 1945, weeks before the surrender he had defined.", faction: "allied", rank: 0 },
+  Cunningham: { role: "Admiral of the Fleet: the Mediterranean's master", bio: "Ran the naval Mediterranean with Nelsonian aggression; his signal at Crete ('it takes three years to build a ship, three hundred to build a tradition') is the Royal Navy in one line.", fate: "First Sea Lord through the war's end; died in 1963.", faction: "allied", rank: 2 },
+  Browning: { role: "Lieutenant-General: the airborne's commander", bio: "Led the airborne corps at Market Garden; the phrase 'a bridge too far' is attributed to his pre-battle reservation about Arnhem.", fate: "Postwar comptroller of the royal household; died in 1965.", faction: "allied", rank: 3 },
+  Horton: { role: "Admiral: Western Approaches", bio: "The submariner set to catch submariners; his escort-group system and training regime broke the wolfpacks' spring in 1943.", fate: "Retired 1945; died in 1951.", faction: "allied", rank: 3 },
+  Eden: { role: "Foreign Secretary", bio: "Churchill's diplomatic right hand and designated successor, managing the alliance's political seams from Moscow to Washington.", fate: "Prime Minister 1955–57; his premiership broke on Suez.", faction: "allied", rank: 2 },
+  Stimson: { role: "Secretary of War", bio: "The elder statesman of the American war effort, who killed the Morgenthau Plan's harshest form and oversaw the Manhattan Project's civilian control.", fate: "Retired 1945 after arguing the bomb's use and Japan's surrender terms; died in 1950.", faction: "allied", rank: 2 },
+  Morgenthau: { role: "Treasury Secretary", bio: "Proposed pastoralizing Germany, dismantling its industry permanently, a plan briefly endorsed at Quebec and then buried by its own implications.", fate: "Resigned in 1945; led postwar Jewish philanthropy on a vast scale; died in 1967.", faction: "allied", rank: 2 },
+
+  "von Leeb": { role: "Field Marshal: Army Group North's commander", bio: "Led the drive on Leningrad and, before that, helped study the contingency plan for invading a neutral Switzerland that the Wehrmacht never executed.", fate: "Resigned in January 1942 over Hitler's no-retreat order; convicted on a minor count at the 1948 High Command Trial and released for time served; died in 1956.", faction: "german", rank: 2 },
+  Bormann: { role: "Reichsleiter: head of the Party Chancellery", bio: "Hitler's indispensable gatekeeper, who absorbed Hess's authority and access after the deputy's unauthorized flight to Scotland and never relinquished either.", fate: "Died fleeing the bunker in early May 1945, an SS companion said he took poison rather than be taken alive, though the fact stayed unconfirmed until remains found near Berlin in 1972 were DNA-matched in 1998.", faction: "german", rank: 2 },
+  "K.H. Frank": { role: "SS-Gruppenführer: State Secretary, Bohemia and Moravia", bio: "The Protectorate's day-to-day enforcer, who helped direct the Lidice reprisals after Heydrich's assassination.", fate: "Convicted by a Czechoslovak court and hanged publicly in Prague on May 22, 1946.", faction: "german", rank: 3 },
+  Daluege: { role: "Colonel-General: Order Police chief, Heydrich's stand-in", bio: "Took over as acting Reichsprotektor after Heydrich's assassination and oversaw the Ordnungspolizei's role in the Lidice reprisals.", fate: "Convicted by a Czechoslovak court and hanged in Prague in October 1946.", faction: "german", rank: 3 },
+  Himmler: { role: "Reichsführer-SS: the SS and police empire", bio: "Ran the SS apparatus that both sponsored and distrusted Vlasov's Russian Liberation Army, and by late 1944 held the Replacement Army command that shadowed Rommel's forced suicide.", fate: "Captured by British troops attempting to flee in disguise; bit a concealed cyanide capsule and died on May 23, 1945.", faction: "german", rank: 1 },
+  Vlasov: { role: "General: captured Red Army commander turned collaborator", bio: "A Soviet general taken prisoner in 1942 who agreed to front the German-sponsored Russian Liberation Army, a project the regime funded generously and trusted little.", fate: "Captured by Soviet forces in May 1945; tried for treason and hanged in Moscow on August 1, 1946.", faction: "soviet", rank: 3 },
+  Skorzeny: { role: "SS-Obersturmbannführer: commando specialist", bio: "Led the glider raid that pulled Mussolini out of Gran Sasso captivity in September 1943, the exploit that made his postwar legend.", fate: "Tried at Dachau in 1947 over the Ardennes false-flag operation and acquitted; escaped internment in 1948 and settled in Spain, where he died of lung cancer in 1975.", faction: "german", rank: 4 },
+  Kleist: { role: "Foreign Office: Ostministerium liaison", bio: "Ran the Foreign Office's quiet Stockholm back-channel probing Soviet intermediaries for a separate peace in late 1943, a track the leadership never seriously authorized.", fate: "Interned after the war; published memoirs on the failed contacts; died in 1971.", faction: "german", rank: 4 },
+  Friessner: { role: "Colonel-General: Army Group South Ukraine's commander", bio: "Held the Romanian front when Bucharest switched sides in August 1944, a collapse no defensive scheme could have absorbed.", fate: "Relieved soon after; survived the war and died in 1971.", faction: "german", rank: 3 },
+  Burgdorf: { role: "General: Hitler's chief adjutant and army personnel chief", bio: "Delivered Hitler's ultimatum to Rommel in October 1944: suicide by poison, framed as a heart attack, in exchange for his family's safety, or a public trial.", fate: "Took his own life in the Führerbunker on May 1–2, 1945, alongside Krebs.", faction: "german", rank: 3 },
+  Hausser: { role: "SS-Oberstgruppenführer: Waffen-SS field commander", bio: "One of the Waffen-SS's founding organizers, commanding Seventh Army in the Falaise pocket in August 1944, where he was severely wounded fighting clear of the encirclement.", fate: "Survived the war and later founded HIAG, the Waffen-SS veterans' lobbying organization; died in 1972.", faction: "german", rank: 3 },
+  Rotmistrov: { role: "General: tank corps commander", bio: "Led armor committed to stem the German winter 1942 breakout attempts toward the Stalingrad pocket's trapped Sixth Army.", fate: "Later led the Fifth Guards Tank Army at Kursk and rose to Chief Marshal of Armored Troops; died in 1982.", faction: "soviet", rank: 3 },
+  Khrulev: { role: "General: Red Army's chief of rear services", bio: "Ran Soviet military logistics, the unglamorous machinery behind Bagration's June 1944 supply and movement.", fate: "Continued in senior postwar defense-ministry roles before later administrative posts; died in 1962.", faction: "soviet", rank: 3 },
+  Kirponos: { role: "Colonel-General: commander, Southwestern Front (1941)", bio: "Commanded the front that took the first weight of the invasion in Ukraine, and argued for defensive consolidation over the immediate counterattack Moscow's Directive No. 3 demanded of it.", fate: "Killed on September 20, 1941, trying to break out of the Kiev pocket his front had been ordered to hold.", faction: "soviet", rank: 3 },
+  Voroshilov: { role: "Marshal: People's Commissar of Defence until May 1940", bio: "A civil-war cavalry commander and one of Stalin's oldest associates, who ran the army through the purges and the first months of the Winter War and was replaced by Timoshenko in the spring of 1940.", fate: "Failed as the commander at Leningrad in 1941 and was never again given a front; outlived Stalin and died in 1969, still a Marshal of the Soviet Union.", faction: "soviet", rank: 2 },
+  Pavlov: { role: "General: commander of the Western Special Military District", bio: "A tank officer who served in Spain and became the Red Army's armoured chief, then took the Western Special Military District, the one that faced the German centre, in 1940.", fate: "Arrested in the first days of July 1941 and shot on 22 July as a scapegoat for the collapse of the Western Front; rehabilitated after Stalin's death.", faction: "soviet", rank: 3 },
+  Shaposhnikov: { role: "Marshal: Chief of the General Staff (1937–40 and 1941–42)", bio: "The Red Army's most senior staff officer and the author of 'The Brain of the Army', who left the General Staff in the summer of 1940, fortified the new frontier, and took the General Staff over again when Zhukov was moved from it in the summer of 1941.", fate: "Died in March 1945, worn out, weeks before Berlin.", faction: "soviet", rank: 2 },
+  Gamelin: { role: "General: Chief of the French General Staff and commander of the Allied armies on land (to May 1940)", bio: "The senior French soldier of the first months of the war, who chose a long war of blockade and industry behind the Maginot Line and who put the Allied armies on the plan to meet the Germans in Belgium.", fate: "Dismissed on 19 May 1940 in the middle of the German breakthrough and replaced by Weygand; held by the Vichy government and deported to Germany in 1943; died in 1958.", faction: "allied", rank: 1 },
+  Georges: { role: "General: commander of the North-East Front", bio: "Gamelin's subordinate in command of the armies that faced the German frontier, and the officer who had the front's reserves to dispose of.", fate: "Kept his command until the armistice of June 1940; went to Algiers in 1943 and sat on the French Committee of National Liberation; died in 1951.", faction: "allied", rank: 2 },
+  Chamberlain: { role: "Prime Minister (to May 1940)", bio: "The Prime Minister who took Britain into the war in September 1939 and led it through the Phoney War, the Finnish crisis and the Norway landings.", fate: "Resigned on 10 May 1940 after the Norway debate and served under Churchill as Lord President until ill health forced him out that October; died on 9 November 1940.", faction: "allied", rank: 1 },
+  Ironside: { role: "Field Marshal: Chief of the Imperial General Staff", bio: "Britain's senior soldier during the Norway campaign's Narvik fighting in spring 1940, a command relationship strained by the campaign's confusion.", fate: "Replaced as CIGS that same month; created Baron Ironside; died in 1959.", faction: "allied", rank: 2 },
+  Gort: { role: "Field Marshal: commander of the British Expeditionary Force", bio: "Made the call to fall back on Dunkirk in May 1940 rather than fight on for a doomed link-up with French forces to the south.", fate: "Later governor of Gibraltar and Malta; died of cancer in 1946.", faction: "allied", rank: 2 },
+  Halifax: { role: "Foreign Secretary: the war cabinet's other voice", bio: "Pressed the War Cabinet in late May 1940 to explore terms through Mussolini's mediation, the road not taken that Churchill closed off.", fate: "Sent as ambassador to Washington from 1941; died in 1959.", faction: "allied", rank: 2 },
+  Dowding: { role: "Air Chief Marshal: Fighter Command's commander", bio: "Husbanded RAF Fighter Command's strength through the Battle of Britain, wary of the 'Big Wing' tactics Leigh-Mallory and Park's squadrons argued over.", fate: "Relieved of command that November amid the tactical dispute; ennobled after the war; died in 1970.", faction: "allied", rank: 2 },
+  "Leigh-Mallory": { role: "Air Marshal: AOC No. 11 Group, the 'Big Wing' advocate", bio: "Pushed the massed-squadron 'Big Wing' approach against Park's more cautious interceptions during the Battle of Britain.", fate: "Killed in a plane crash in the French Alps in November 1944, en route to a new Southeast Asia command.", faction: "allied", rank: 3 },
+  Pound: { role: "Admiral of the Fleet: First Sea Lord", bio: "Ordered convoy PQ-17 to scatter in July 1942 on fragmentary intelligence of the battleship Tirpitz's movements, a decision that cost the convoy most of its ships.", fate: "Resigned in September 1943 after a series of strokes; died weeks later, on October 21, 1943, of a brain tumor.", faction: "allied", rank: 1 },
+  Tovey: { role: "Admiral: Commander-in-Chief, Home Fleet", bio: "Commanded the covering force for convoy PQ-17 in July 1942 and had argued against the scatter order Pound issued from London.", fate: "Retired in 1946; died in 1971.", faction: "allied", rank: 2 },
+  "de Gaulle": { role: "General: leader of Free France", bio: "Denounced the Allies' November 1942 deal recognizing Vichy's Admiral Darlan in North Africa as a betrayal of principle for expedience.", fate: "Led the postwar provisional government, later founded the Fifth Republic and served as its President from 1959 to 1969; died in 1970.", faction: "allied", rank: 1 },
+  Dulles: { role: "OSS: Bern station chief", bio: "Ran American intelligence's Swiss listening post, cultivating the resistance contacts that fed Washington's picture of the opposition inside Germany through 1944.", fate: "Later the first civilian Director of Central Intelligence, serving until 1961; died in 1969.", faction: "allied", rank: 3 },
+  Horrocks: { role: "Lieutenant-General: XXX Corps commander", bio: "Led the ground column meant to relieve Arnhem's airborne perimeter in September 1944, stalled short by a single blown bridge and a road too narrow for the plan.", fate: "Retired in 1949 owing to war wounds; became a television historian and broadcaster; died in 1985.", faction: "allied", rank: 3 },
+  Urquhart: { role: "Major General: 1st Airborne Division commander at Arnhem", bio: "Commanded the division dropped too far from its objective and left holding a shrinking perimeter through late September 1944.", fate: "Continued a postwar army career; died in 1988.", faction: "allied", rank: 3 },
+  Truscott: { role: "Major General: VI Corps commander at Anzio", bio: "Took over the Anzio beachhead's stalled corps in the winter siege of early 1944 and led the eventual breakout that spring.", fate: "Later commanded Fifth Army and, briefly, Third Army; died in 1965.", faction: "allied", rank: 3 },
+  Kirk: { role: "Rear Admiral: commander, Western Naval Task Force", bio: "Ran the naval side of the Omaha Beach landings on the morning of June 6, 1944, as the assault stalled on the sand below the bluffs.", fate: "Later a career diplomat, serving as ambassador to Belgium, the Soviet Union, and Taiwan; died in 1963.", faction: "allied", rank: 3 },
+  Gerow: { role: "Major General: V Corps commander at Omaha", bio: "Commanded the corps fighting for a foothold above Omaha Beach on June 11, 1944, days after the landing's costliest hours.", fate: "Later commanded Fifteenth Army; died in 1972.", faction: "allied", rank: 3 },
+  Wavell: { role: "Field Marshal: Commander-in-Chief, Middle East (1939–41)", bio: "Commanded the British forces that destroyed the Italian army in Libya and was then ordered to send the best of them to Greece.", fate: "Relieved as Commander-in-Chief Middle East in July 1941 and sent to India; Viceroy of India from 1943 to 1947; died in 1950.", faction: "allied", rank: 2 },
+  "O'Connor": { role: "General: commander, Western Desert Force (1940–41)", bio: "Planned and led Operation Compass, the British Army's first great victory of the war, and believed Tripoli could have been reached.", fate: "Captured on April 6, 1941, in Cyrenaica; escaped from Italian captivity in December 1943 and commanded VIII Corps in Normandy; died in 1981.", faction: "allied", rank: 3 },
+  Auchinleck: { role: "General: Commander-in-Chief, Middle East (July 1941 – August 1942)", bio: "Took over from Wavell in July 1941, would not launch an offensive in the Western Desert before it was ready, and launched Operation Crusader in November.", fate: "Relieved as Commander-in-Chief Middle East in August 1942 after the retreat to Alamein; commanded the Indian Army until Partition; died in 1981.", faction: "allied", rank: 2 },
+  Phillips: { role: "Admiral: Commander-in-Chief, Eastern Fleet (1941)", bio: "Vice-Chief of the Naval Staff before he was given the Eastern Fleet; took Force Z, Prince of Wales and Repulse, to Singapore.", fate: "Killed on December 10, 1941, when HMS Prince of Wales was sunk off Kuantan.", faction: "allied", rank: 3 },
+  "Alan Cunningham": { role: "General: commander, Eighth Army (1941)", bio: "Commanded the Eighth Army through the first days of Operation Crusader, in which his tanks lost more than half their number, and asked whether to break off.", fate: "Relieved of command of the Eighth Army on November 26, 1941, in the middle of the battle; later High Commissioner for Palestine; died in 1983.", faction: "allied", rank: 3 },
+
+  Mussolini: { role: "Duce: head of government (to July 1943); RSI head of state (Sept 1943–Apr 1945)", bio: "Took Italy into the 'parallel war' on Germany's coattails in 1940, convinced a fast, cheap victory was there to be claimed; presided instead over a series of unforced disasters in Greece and North Africa that made the dependence he'd hoped to avoid unavoidable.", fate: "Captured by Communist partisans fleeing toward Switzerland on April 27, 1945; shot the next day and displayed hanging in a Milan piazza.", faction: "italy", rank: 1 },
+  Badoglio: { role: "Marshal: Chief of Comando Supremo (1925–Dec 1940); Prime Minister (July 1943–June 1944)", bio: "Ran Italy's armed forces through the war's opening disasters and resigned after Greece; recalled by the King in 1943 to negotiate the armistice he had no part in causing.", fate: "Retired after the war; died in 1956.", faction: "italy", rank: 2 },
+  Graziani: { role: "Marshal: Army Chief of Staff and Libya commander (1940); RSI Minister of Defense (1943–45)", bio: "Presided over the Tenth Army's destruction in Operation Compass, then returned in 1943 as the Republic of Salò's defense minister, building the only real RSI military the client state had.", fate: "Convicted of collaboration after the war, sentenced to 19 years, served under a year before amnesty; died in 1955.", faction: "italy", rank: 2 },
+  Cavallero: { role: "Marshal: Chief of Comando Supremo (Dec 1940–Jan 1943)", bio: "Took personal command in Albania to stabilize the Greek front's winter collapse, then oversaw the North African seesaw campaign through its worst years.", fate: "Found dead, reportedly by his own hand, in September 1943, days after the armistice: accounts of exactly what happened remain disputed.", faction: "italy", rank: 2 },
+  Ambrosio: { role: "General: Chief of Comando Supremo (Feb–Nov 1943)", bio: "Took over Comando Supremo amid North Africa's collapsing front in early 1943, months before Tunisia's final surrender, and became one of the central military figures pressing for a break with Germany that culminated in the July 1943 coup.", fate: "Retired after the armistice government reorganized its command; died in 1958.", faction: "italy", rank: 2 },
+  Ciano: { role: "Foreign Minister (1936–Feb 1943); Grand Council member", bio: "Mussolini's son-in-law and foreign minister, increasingly skeptical of the German alliance by 1943; voted with the majority to restore constitutional authority to the King at the Grand Council.", fate: "Arrested by the RSI and executed by firing squad at Verona in January 1944 for that vote, on his father-in-law's order.", faction: "italy", rank: 2 },
+  "Victor Emmanuel III": { role: "King of Italy", bio: "Stayed largely silent through two decades of Fascist rule, then used his still-intact constitutional authority to dismiss and arrest Mussolini in July 1943 once the Grand Council's own vote gave him the opening.", fate: "Abdicated in favor of his son in May 1946 days before the referendum that abolished the monarchy; died in exile in Egypt in 1947.", faction: "italy", rank: 1 },
+  Cavagnari: { role: "Admiral: Chief of Naval Staff (to Dec 1940)", bio: "Signed off on Taranto's harbor defenses without the torpedo nets those defenses assumed were in place, a gap the November 1940 raid exposed in a single night.", fate: "Resigned in the aftermath of the Taranto raid; died in 1966.", faction: "italy", rank: 3 },
+  Iachino: { role: "Admiral: battle fleet commander (Dec 1940–1943)", bio: "Took over the battle fleet after Taranto and commanded it at Cape Matapan, a night action Italian doctrine wasn't trained to fight against a British force reading Italian naval codes.", fate: "Relieved of sea command in 1943 after criticism of his Mediterranean convoy actions; died in 1976.", faction: "italy", rank: 3 },
+  Bastico: { role: "Marshal: Governor of Libya and Italian theater commander, North Africa (1941–43)", bio: "Held nominal authority over Rommel's Afrika Korps for most of the desert seesaw campaign, an arrangement more often honored on paper than in the field.", fate: "Recalled after El Alamein; died in 1972.", faction: "italy", rank: 3 },
+  Messe: { role: "Marshal: commander, 1st Italian Army, Tunisia (1943); Chief of Staff of the Co-Belligerent Army (1943–45)", bio: "Took over the reinforced Tunisia bridgehead in early 1943 and commanded the last organized Axis resistance in North Africa through its final collapse, was promoted to Field Marshal by radio hours before he surrendered, and came home from captivity in November 1943 to become the Co-Belligerent Army's chief of staff.", fate: "Chief of Staff of the Co-Belligerent Army until May 1945, then retired from the army and later served as a senator; died in 1968.", faction: "italy", rank: 3 },
+  Castellano: { role: "General: secret armistice negotiator (1943)", bio: "Conducted the covert negotiations with Allied representatives in Lisbon and Sicily that produced the September 1943 armistice.", fate: "Continued to serve in the postwar Italian army; died in 1977.", faction: "italy", rank: 3 },
+  Pavolini: { role: "Republican Fascist Party secretary; Black Brigades organizer (RSI)", bio: "Ran the Italian Social Republic's party apparatus and its anti-partisan Black Brigades militia, pushing the regime's hardest line through its final, shrinking territory.", fate: "Captured and shot with Mussolini's group at Dongo in April 1945.", faction: "italy", rank: 3 },
+  Utili: { role: "General: Italian Co-Belligerent Army combat commander", bio: "Commanded the 1st Motorized Group, the Corpo Italiano di Liberazione and later the Combat Group 'Legnano,' the Co-Belligerent Army's combat formations built up through 1943–45 to fight alongside Allied forces.", fate: "Commanded the Legnano Group to the end of the war and continued a postwar army career in Milan; died in 1952.", faction: "italy", rank: 4 },
+  Dapino: { role: "General: commander, 1st Motorized Group (1943–44)", bio: "Commanded the first Italian formation sent against the Germans after the armistice, the 1st Motorized Group, through its attacks on Monte Lungo in December 1943.", fate: "Left the Group's command in January 1944 for special assignments on the Army General Staff, handing it to Utili.", faction: "italy", rank: 3 },
+  Cadorna: { role: "General: military commander, Corps of Volunteers of Freedom (1944–45)", bio: "A regular army general parachuted into the north in August 1944 to command the partisan formations as the Allied command and the Bonomi government's military adviser, with Parri and Longo as his deputies.", fate: "Served in the Senate after the war; died in December 1973.", faction: "italy", rank: 3 },
+  // From Dispatches 1941.
+  Konoe: { role: "Prime Minister (1937–39, 1940–41)", bio: "Presided over the China war's early escalation and, in January 1938, declared his government would no longer deal with Chiang Kai-shek's government at all, foreclosing settlement while relatively generous terms were still available, a decision many historians consider one of the war's more consequential unforced errors. Resigned in October 1941 rather than confirm the war decision Tojo's cabinet ultimately made; took his own life in December 1945 rather than face the Tokyo tribunal.", faction: "japan", rank: 1 },
+  Umezu: { role: "General: Chief of the Army General Staff", bio: "One of the war ministry's most committed holdouts against surrender in 1945, reportedly among the last senior officers to accept the Emperor's decision even after it was made. Signed the instrument of surrender on behalf of the Army anyway; convicted at the Tokyo tribunal and died in prison in 1949.", faction: "japan", rank: 1 },
+  Onishi: { role: "Vice Admiral: First Air Fleet commander", bio: "Proposed organizing suicide attacks as formal Navy doctrine in October 1944, arguing a First Air Fleet reduced to barely thirty operational aircraft had no other way to meaningfully strike an American carrier force. Took his own life the day after Japan's surrender broadcast, leaving a letter apologizing to the pilots he had sent to die.", faction: "japan", rank: 2 },
+  Yonai: { role: "Admiral: former Prime Minister, Navy Minister", bio: "Opposed the Tripartite Pact and the drift toward war with the United States before it began, real, documented skepticism that never translated into a concrete peace initiative he or anyone else in government actually attempted before 1945. Served as Navy Minister through the war's end and supported the surrender; died in 1948, largely out of public life.", faction: "japan", rank: 1 },
+  Koga: { role: "Admiral: Yamamoto's successor as Combined Fleet Commander-in-Chief", bio: "Inherited command after Yamamoto's death in April 1943 with a fleet already past the point where any single commander's tactical skill could offset the production gap it faced. Died in an air accident in March 1944 en route to a staff conference, in circumstances almost as poorly documented as Yamamoto's own death was well documented.", faction: "japan", rank: 2 },
+  Matsuoka: { role: "Foreign Minister (1940–41)", bio: "Championed the Tripartite Pact with Germany and Italy as a deterrent against American intervention, then pursued a neutrality pact with the Soviet Union on similar logic, a diplomatic style built around dramatic gestures colleagues increasingly found erratic. Removed from office in 1941 partly over his handling of Soviet relations; died in 1946 while on trial at the Tokyo tribunal, before a verdict was reached.", faction: "japan", rank: 2 },
+  Tojo: { role: "War Minister, later Prime Minister (1941–44)", bio: "A firm advocate of the Indochina occupation and the war decision as War Minister, he became Prime Minister in October 1941 and personally confirmed the deadline that led to Pearl Harbor at the Imperial Conference that December. Removed as Prime Minister in July 1944 after Saipan fell; convicted at the Tokyo tribunal and executed in 1948.", faction: "japan", rank: 1 },
+  Nomura: { role: "Ambassador to the United States (1941)", bio: "A retired admiral sent to Washington specifically for his known moderation, he conducted the Hull-Nomura talks through 1941 trying to find terms both governments could accept, working against a deadline he was never fully informed about. Survived the war, later serving in the postwar House of Councillors; died in 1964.", faction: "japan", rank: 2 },
+  Kuribayashi: { role: "Lieutenant General: Iwo Jima garrison commander", bio: "Abandoned the beach-defense doctrine that had failed at every prior island in favor of a deep tunnel network built to bleed an invasion for as long as physically possible, in a battle he privately told his staff he did not expect to survive. Killed in the battle's final days, March 1945; his body was never conclusively identified.", faction: "japan", rank: 3 },
+  Horii: { role: "Major General: South Seas Detachment commander", bio: "Led the overland push toward Port Moresby across the Kokoda Track, reaching within thirty miles of the objective before a collapsing supply line forced a withdrawal IGHQ ordered over his own preference to press on. Drowned crossing the Kumusi River during the detachment's retreat in November 1942.", faction: "japan", rank: 3 },
+  Imamura: { role: "Lieutenant General: Eighth Area Army commander", bio: "Took command of Japan's New Guinea and Solomons theater after the Kokoda campaign's collapse, generally favoring consolidation and supply discipline over the more aggressive commitments some subordinates preferred. Survived the war; convicted of war crimes related to his command's conduct and served a prison sentence; died in 1968.", faction: "japan", rank: 2 },
+  Yamamoto: { role: "Admiral: Commander in Chief, Combined Fleet", bio: "Architect of the Pearl Harbor strike, and privately its most consistent skeptic about what it could actually buy, having studied at Harvard and toured American industry, and said so in terms his own staff found unwelcome. Warned Tokyo he could run wild for six months but promised nothing beyond that, a prediction the war's actual timeline bore out with uncomfortable precision. Killed in April 1943 when American fighters, guided by intercepted and decoded travel plans, shot down his aircraft over Bougainville, a targeted strike his own staff argued against for fear of confirming Japan's code was broken.", faction: "japan", rank: 0 },
+  Nagano: { role: "Admiral: Chief of the Navy General Staff", bio: "Signed off on the Pearl Harbor plan after resisting it, and oversaw the Navy's argument for prioritizing the Southern Resource Area over a Hawaii strike in early planning. Died in American custody in 1947 while on trial at the Tokyo tribunal, before a verdict was reached.", faction: "japan", rank: 1 },
+  Nagumo: { role: "Vice Admiral: First Air Fleet commander", bio: "Led the Pearl Harbor strike force and the Midway invasion fleet, a battleship officer given command of the Navy's carriers more for seniority than for any enthusiasm about naval aviation. Commanded the garrison on Saipan in 1944; took his own life as the island fell rather than be captured.", faction: "japan", rank: 1 },
+  Inoue: { role: "Vice Admiral: Fourth Fleet, South Seas", bio: "One of the more openly skeptical senior officers about the war's odds against American industrial capacity, and an early advocate of land-based naval air power over the battleship doctrine most peers still favored. Survived the war in a training command; died in 1975, remembered as one of the more clear-eyed strategic minds Japan didn't fully listen to.", faction: "japan", rank: 2 },
+  Ugaki: { role: "Rear Admiral: Chief of Staff, Combined Fleet", bio: "Yamamoto's closest staff officer and diarist, whose wartime journal remains one of the most detailed insider accounts of Imperial Navy decision-making. Led a final kamikaze sortie on the day of Japan's surrender broadcast, in defiance of the ceasefire; killed in the attack.", faction: "japan", rank: 2 },
+  Tanaka: { role: "Rear Admiral: Destroyer Squadron 2, 'Tokyo Express'", bio: "Ran the night resupply and reinforcement runs to Guadalcanal with a tactical skill his American opponents came to respect, under conditions of near-total air inferiority. Relieved after criticizing high command's Guadalcanal strategy too openly; survived the war and died in 1969.", faction: "japan", rank: 3 },
+  Kurita: { role: "Vice Admiral: First Diversion Attack Force, Leyte Gulf", bio: "Commanded the battleship force that broke through San Bernardino Strait at Leyte and then withdrew short of the invasion beaches, a decision made on incomplete information that historians still debate. Survived the war in a training post; gave few interviews about Leyte before his death in 1977.", faction: "japan", rank: 2 },
+  Toyoda: { role: "Admiral: Commander in Chief, Combined Fleet (1944–45)", bio: "Oversaw the Sho-Go plans and the fleet's final operations, inheriting a navy with barely enough fuel left to conduct them. Tried at the Tokyo tribunal and acquitted; died in 1957.", faction: "japan", rank: 1 },
+  Anami: { role: "General: Army Minister", bio: "The war ministry's leading holdout against surrender in August 1945, arguing the home islands' defense could still make an invasion politically unbearable for the Allies. Took his own life the night before the surrender broadcast, leaving a note apologizing for his 'great crime.'", faction: "japan", rank: 1 },
+  Togo: { role: "Foreign Minister (1941–42, 1945)", bio: "Argued against the Pearl Harbor timing's diplomatic handling in 1941 and, returning to office in 1945, pushed the peace faction's case through the war's final, deadlocked cabinet meetings. Convicted at the Tokyo tribunal for his role in the war's opening; died in prison in 1950.", faction: "japan", rank: 2 },
+  Sato: { role: "Ambassador to the Soviet Union", bio: "Cabled Tokyo repeatedly in the war's final weeks expressing frustration at Moscow's unreadable silence in response to Japan's real approach for peace mediation, without knowing the Soviets had already committed to entering the war at Yalta. Survived the war, later serving in postwar Japanese diplomatic and political roles; died in 1975.", faction: "japan", rank: 2 },
+  Yoshida: { role: "Diplomat and postwar political figure", bio: "A career diplomat with real prewar doubts about war with the Anglo-American powers, who went on to serve as Prime Minister and architect of Japan's postwar economic rebuilding under American occupation and Cold War alignment. Served as Prime Minister for most of 1946–54; died in 1967, regarded as the chief architect of postwar Japan's recovery.", faction: "japan", rank: 2 },
+  Sugiyama: { role: "General: Army Chief of Staff", bio: "Oversaw Army planning through the war's opening expansion, consistently more optimistic about timelines than events subsequently justified. Took his own life in September 1945 rather than face the occupation's reckoning.", faction: "japan", rank: 2 },
+  Iida: { role: "Lieutenant General: Fifteenth Army, Burma", bio: "Drove the invasion of Burma at a pace prewar staff studies had rated impassable, cutting the Burma Road and China's last land supply route within weeks of crossing the frontier. Later commanded occupation forces in Sumatra; survived the war and died in 1980.", faction: "japan", rank: 3 },
+  Sakurai: { role: "Lieutenant General: 33rd Division, Burma", bio: "Commanded one of Fifteenth Army's two divisions through the Rangoon campaign and the subsequent push toward India. Continued in Burma theater command through the war's later reversals; details of his postwar life are sparsely recorded.", faction: "japan", rank: 4 },
+  Kawabe: { role: "General: Burma Area Army commander", bio: "Held nominal authority over Mutaguchi's U-Go offensive and harbored serious private doubts about its logistics that he ultimately failed to act on before the campaign's launch. Relieved of command amid U-Go's collapse; survived the war and later served in Japan's postwar Self-Defense Forces advisory circles.", faction: "japan", rank: 3 },
+  Slim: { role: "Lieutenant General: Burma Corps, later Fourteenth Army", bio: "Led the near-thousand-mile fighting retreat from Burma into India in 1942, then rebuilt the shattered force into the Fourteenth Army that broke Japan's U-Go offensive at Imphal and Kohima two years later. Later Chief of the Imperial General Staff and Governor-General of Australia; widely regarded as one of the war's most capable field commanders; died in 1970.", faction: "alliedPacific", rank: 1 },
+  Stilwell: { role: "Lieutenant General: U.S. commander, China-Burma-India theater", bio: "Commanded American forces in the CBI theater while serving simultaneously as Chiang Kai-shek's chief of staff, a dual role that put him in near-constant friction with Chiang over strategy, supply priority, and command of Chinese forces. Recalled from China in October 1944 at Chiang's explicit demand after their relationship broke down entirely; died in 1946.", faction: "alliedPacific", rank: 2 },
+  Davies: { role: "Foreign Service officer: Yan'an observer group", bio: "A State Department China hand attached to the Dixie Mission, the first American observer group to reach Communist-held territory, whose reports argued Communist forces were fighting the Japanese occupation more effectively than the Nationalist front. Caught up in the McCarthy-era loyalty investigations of the 1950s and dismissed from the Foreign Service; formally exonerated decades later; died in 1999.", faction: "alliedPacific", rank: 4 },
+  Ozawa: { role: "Vice Admiral: Mobile Fleet", bio: "Commanded Japan's last carrier force at the Philippine Sea and served as the Sho-Go decoy at Leyte, widely regarded by both sides as one of the Imperial Navy's more capable tacticians working with steadily diminishing means. Survived the war; declined most interview requests and died in 1966.", faction: "japan", rank: 2 },
+  Kusaka: { role: "Rear Admiral: Chief of Staff, Combined Fleet air operations", bio: "A senior carrier-doctrine planner involved in the Pearl Harbor strike and subsequent carrier operations' staff work. Survived the war in a home-defense post; died in 1971.", faction: "japan", rank: 3 },
+  Spruance: { role: "Admiral: Fifth Fleet commander", bio: "A famously unflappable, methodical commander who took the Fifth Fleet through the Marianas, Iwo Jima, and Okinawa, generally favoring the more conservative operational choice available to him over the bolder one. Later President of the Naval War College and ambassador to the Philippines; died in 1969.", faction: "alliedPacific", rank: 1 },
+  Arnold: { role: "General: Commanding General, Army Air Forces", bio: "Built the wartime Army Air Forces from a fraction of its final size and championed strategic bombing doctrine throughout, though its actual execution against Japan's dispersed industry increasingly diverged from what he'd originally envisioned. The only Air Force officer ever to hold five-star rank; died in 1950.", faction: "alliedPacific", rank: 1 },
+  Acheson: { role: "Assistant Secretary of State", bio: "Administered the July 1941 freezing order on Japanese assets, interpreting the licensing system strictly enough that it functioned as a near-total oil embargo in practice, reportedly beyond what Roosevelt had explicitly intended. Later Secretary of State under Truman, a principal architect of the Marshall Plan and NATO; died in 1971.", faction: "alliedPacific", rank: 3 },
+  Grew: { role: "Ambassador to Japan (1932–41)", bio: "Spent a decade watching Japanese politics shift toward the military faction and warned Washington repeatedly through 1941 that an oil embargo severe enough to threaten Japan's survival would strengthen the case for war rather than deter it. Later Under Secretary of State; died in 1965.", faction: "alliedPacific", rank: 3 },
+  Halsey: { role: "Vice Admiral: Task Force 16, Doolittle Raid escort", bio: "Commanded the carrier task force that launched the Doolittle Raid, and made the call to launch early once the force was spotted by a Japanese picket boat rather than risk the carriers searching for a better position. Later commanded the Third Fleet through the war's final years; died in 1959.", faction: "alliedPacific", rank: 2 },
+  Doolittle: { role: "Lieutenant Colonel: commander, Tokyo Raid", bio: "Led the sixteen-bomber raid on Tokyo that carried his name, personally flying the lead aircraft despite holding a rank that made the mission's actual risk to him a matter of real internal debate beforehand. Promoted to Brigadier General immediately after the raid and awarded the Medal of Honor; later commanded the Eighth Air Force; died in 1993.", faction: "alliedPacific", rank: 2 },
+  Groves: { role: "Major General: director, Manhattan Project", bio: "Ran the Manhattan Project's military side with a famously singular focus on the mission's success, favoring target selection criteria that preserved the bomb's effects as a clean, measurable baseline over cities already damaged by conventional bombing. Left the Army in 1948; died in 1970.", faction: "alliedPacific", rank: 2 },
+  Compton: { role: "Physicist: Manhattan Project, National Defense Research Committee", bio: "A Nobel laureate and member of the Scientific Panel that advised the Interim Committee in June 1945 and recommended using the bomb on Japan without a prior demonstration. Later chancellor of Washington University in St. Louis; died in 1962.", faction: "alliedPacific", rank: 3 },
+  Franck: { role: "Physicist: chairman of the committee that wrote the Franck Report", bio: "A Nobel laureate who chaired the Manhattan Project scientists whose June 1945 report urged a demonstration of the atomic bomb before any use on a populated city, a minority position among the scientists and officials the Interim Committee consulted. Died in 1964.", faction: "alliedPacific", rank: 3 },
+  Blamey: { role: "General: Commander, Allied Land Forces, Australia", bio: "Backed his commanders' fighting-withdrawal strategy on the Kokoda Track against considerable pressure from MacArthur, who read the retreat as a failure of Australian fighting quality rather than the sound tactical choice historians now generally consider it. Australia's only field marshal; died in 1951.", faction: "alliedPacific", rank: 2 },
+  Mitscher: { role: "Vice Admiral: Task Force 58 carrier commander", bio: "Argued for an aggressive pursuit of Ozawa's fleet at the Philippine Sea over Spruance's more protective posture, a disagreement about carrier doctrine that recurred in various forms for the rest of the war. Later commanded fast carrier task forces through the war's end; died in 1947.", faction: "alliedPacific", rank: 2 },
+  Curtin: { role: "Prime Minister of Australia", bio: "Publicly declared in December 1941 that Australia looked to America rather than Britain for its defense, and defied Churchill's attempt to redirect Australian troops to Burma in early 1942, insisting they return home instead. Died in office in July 1945, weeks before the war he'd spent it directing Australia through actually ended.", faction: "alliedPacific", rank: 1 },
+  Biddle: { role: "Attorney General", bio: "Opposed the forced removal of Japanese Americans from the West Coast, arguing the Justice Department had no evidence to support the military necessity claim being used to justify it, and lost the argument to the War Department. Later served as the American judge at the Nuremberg trials; died in 1968.", faction: "alliedPacific", rank: 1 },
+  Nimitz: { role: "Fleet Admiral: Commander in Chief, Pacific Fleet", bio: "Took command days after Pearl Harbor, when American morale and the fleet's own material state were both at their lowest point of the war, and staked its remaining three carriers on codebreaking intelligence at Midway, a wager that became the Pacific war's turning point. Balanced Central Pacific island-hopping against MacArthur's Southwest Pacific priorities for years without the command structure ever fully resolving which theater actually came first. Accepted the Japanese surrender aboard USS Missouri; later Chief of Naval Operations; died in 1966, remembered as uncommonly unflappable even by his own command's standards.", faction: "alliedPacific", rank: 0 },
+  Fletcher: { role: "Rear Admiral: Task Force 17", bio: "Commanded the American carrier forces at both Coral Sea and Midway, cautious with his ships in a war that could not yet afford to lose them carelessly. Later commanded the North Pacific Force; died in 1973.", faction: "alliedPacific", rank: 2 },
+  Pye: { role: "Vice Admiral: acting Commander in Chief, Pacific Fleet", bio: "Held temporary command of the Pacific Fleet in the weeks after Pearl Harbor and made the actual decision to recall the Wake Island relief force, a call that remains one of the most argued-over of the early Pacific war. Reverted to his prior command after Nimitz's arrival; died in 1959.", faction: "alliedPacific", rank: 2 },
+  Ghormley: { role: "Vice Admiral: South Pacific Area commander", bio: "Oversaw the planning for the Guadalcanal landing on a compressed and under-resourced timetable he privately doubted was adequate. Relieved of command in October 1942 amid the campaign's darkest weeks; served in administrative posts for the war's remainder; died in 1958.", faction: "alliedPacific", rank: 3 },
+  "Holland Smith": { role: "Lieutenant General: V Amphibious Corps", bio: "A leading advocate of direct amphibious assault over bypass strategy, and the Marine Corps' most influential voice on fortified-atoll doctrine through the Central Pacific campaign. Retired after the war with the nickname 'Howlin' Mad' intact; died in 1967.", faction: "alliedPacific", rank: 2 },
+  MacArthur: { role: "General: Supreme Commander, Southwest Pacific Area", bio: "Left the Philippines in 1942 promising to return, and spent two years making both the strategic and moral case for doing so over the Navy's preference for bypassing them entirely. Accepted the Japanese surrender and administered the postwar occupation of Japan; relieved of Korean War command in 1951; died in 1964.", faction: "alliedPacific", rank: 1 },
+  Kenney: { role: "General: Commander, Fifth Air Force", bio: "Developed and championed low-altitude skip-bombing tactics against Japanese shipping, applied with devastating effect at the Bismarck Sea, one of the most lopsided air-versus-naval engagements of the war. Later commanded Far East Air Forces; retired from the Air Force in 1951; died in 1977.", faction: "alliedPacific", rank: 2 },
+  Wainwright: { role: "Lieutenant General: Philippines commander after MacArthur's evacuation", bio: "Inherited command of the doomed Bataan and Corregidor garrisons after MacArthur left for Australia, and was ultimately forced to surrender the largest American force in history to that point. Survived brutal Japanese captivity for the rest of the war; present at the formal Japanese surrender in 1945; died in 1953.", faction: "alliedPacific", rank: 2 },
+  Sutherland: { role: "Major General: MacArthur's Chief of Staff", bio: "Ran MacArthur's Southwest Pacific Area headquarters with a famously controlling grip on what reached the general's desk, to the point other senior officers routinely complained of having to go through him rather than around him. Fell out of favor after the war over a personal scandal involving an Australian officer; died in 1966.", faction: "alliedPacific", rank: 2 },
+  Webb: { role: "President of the International Military Tribunal for the Far East", bio: "Presided over the Tokyo war crimes trials and was known to be personally frustrated by the political decision to exempt Hirohito from prosecution despite testimony implicating the imperial government at every level below the throne. Returned to the Australian judiciary after the tribunal concluded; died in 1972.", faction: "alliedPacific", rank: 2 },
+  Eichelberger: { role: "General: Eighth Army commander under MacArthur", bio: "Took Buna in a grinding 1942 campaign MacArthur's headquarters publicly credited to MacArthur himself, a lasting source of friction between the two men that never became open insubordination. Commanded occupation forces in Japan after the war; died in 1961.", faction: "alliedPacific", rank: 2 },
+  Attlee: { role: "British Prime Minister (from July 1945)", bio: "Won the 1945 general election by landslide against Churchill and inherited Britain's role in the Pacific war's final weeks and the postwar settlement that followed, generally favoring more shared Allied authority over occupied Japan than the arrangement the United States actually pursued. Led Britain's postwar Labour government through 1951, including creation of the National Health Service; died in 1967.", faction: "alliedPacific", rank: 1 },
+  LeMay: { role: "Major General: XXI Bomber Command", bio: "Directed the incendiary bombing campaign against Japanese cities and was among the strongest advocates that blockade and air power alone might force surrender without a home-islands invasion. Later led Strategic Air Command and served as Air Force Chief of Staff; died in 1990.", faction: "alliedPacific", rank: 2 },
+};
+
+const OBJECTIVES = [
+  { id: "historian", title: "The Historical Officer", desc: "Match the historical decision at 90%+ of comparable points." },
+  { id: "betterThanOKW", title: "Better Than OKW", desc: "Outperform the historical choice at 60%+ of comparable points." },
+  { id: "longDefense", title: "The Long Defense", desc: "Keep organized resistance running to October 1945 or beyond." },
+  { id: "armyPreserved", title: "The Army Preserved", desc: "Finish a war with Manpower at +4 or better." },
+  { id: "relieved", title: "Relieved of Command", desc: "Preside over a front collapse: some lessons only teach themselves this way." },
+  { id: "neverEast", title: "The War That Never Went East", desc: "Find the war in which Barbarossa was never launched." },
+  { id: "untouchedArmy", title: "The Untouched Army", desc: "End the war holding Festung Norwegen, intact and unbeaten." },
+  { id: "againstOdds", title: "Against the Odds", desc: "Complete a war whose exact dice path had under 5% compound likelihood." },
+  { id: "ironWill", title: "Iron Will", desc: "Complete a German war in Führer Mode." },
+  { id: "quietHeresies", title: "The Quiet Heresies", desc: "In Führer Mode, spend every point of political capital defying the command structure." },
+  { id: "survivedTheTerror", title: "Survived the Terror", desc: "Complete a Soviet war under NKVD Mode without being recalled." },
+  { id: "recalled", title: "Recalled to Moscow", desc: "Find out what NKVD Mode was watching for." },
+  { id: "grandAlliance", title: "The Grand Alliance", desc: "Finish a war under Yalta Mode with Coalition Cohesion strongly positive." },
+  { id: "papersOverCracks", title: "Paper Over the Cracks", desc: "Finish a war under Yalta Mode with Coalition Cohesion critically frayed, and hold the alliance together anyway." },
+  { id: "romeActsAlone", title: "Rome Acts Alone", desc: "Complete an Italian war under Axis Mode without being superseded." },
+  { id: "supersededByBerlin", title: "Case Achse, Early", desc: "Find out what Axis Mode was watching for." },
+  { id: "germanHistorian", title: "By the Book, OKW", desc: "Complete a German war matching the historical record at nearly every comparable decision." },
+  { id: "sovietHistorian", title: "By the Book, STAVKA", desc: "Complete a Soviet war matching the historical record at nearly every comparable decision." },
+  { id: "alliedHistorian", title: "By the Book, SHAEF", desc: "Complete an Allied war matching the historical record at nearly every comparable decision." },
+  { id: "moscow", title: "The Kuibyshev Lesson", desc: "Capture Moscow, and learn what it does and doesn't decide." },
+  { id: "speculativeFile", title: "The Speculative File", desc: "Reach one of the campaign's rarest speculative endings: the two armistices, or the earliest end this war ever reaches." },
+  { id: "aheadOfHistory", title: "Ahead of History", desc: "Finish a war meaningfully earlier than it actually ended, from either side that wanted it over." },
+  { id: "bankedAndSpent", title: "Banked and Spent", desc: "Reach one of the surplus-only decisions and take it: a choice available solely to a command that arrived with something left." },
+  { id: "casablancaHeld", title: "The Position Held", desc: "Refuse separate terms with the war visibly ending and the offer on the table." },
+  { id: "threeCommands", title: "Four Commands", desc: "Complete a war from every high command: German, Soviet, Allied, and Italian." },
+  { id: "italianHistorian", title: "By the Book, Comando Supremo", desc: "Complete an Italian war matching the historical record at nearly every comparable decision." },
+];
+
+// The meta-save unlock (feature request: reward a player who clears every OBJECTIVES entry
+// across their save history, not just within one run — record.objectives already accumulates
+// across runs via saveRunRecord(), this is the payoff for that accumulation). Text written to
+// read as the last page of the same institutional dossier voice the rest of the game uses —
+// not a congratulatory banner, a closing file note.
+const FULL_CLEARANCE_DEBRIEF =
+  "Every objective on file has now been closed, across all four commands. No single desk sees " +
+  "the whole war while it is happening: that was true in 1940 and it is true of this exercise. " +
+  "OKW never read STAVKA's cables. SHAEF never saw the Wolf's Lair minutes. Comando Supremo answered " +
+  "to Berlin more than it ever admitted, and after September 1943, split into two desks that no " +
+  "longer answered to each other at all. The file in front of you now is the only vantage that ever " +
+  "held all four at once, and it only exists because someone sat through the historical record, the " +
+  "counterfactual record, and everything in between, from more than one chair.\n\nThere is no further " +
+  "clearance above this one. The record stands complete, which, on a file this size, is its own kind " +
+  "of rare ending.";
+
+function evaluateObjectives(ctx) {
+  const { campaignId, flags, meters, log, rewinds, mode, favor } = ctx;
+  const comparable = (log || []).filter((e) => e.histSum != null);
+  const matched = comparable.filter((e) => e.isHistorical).length;
+  const outperformed = comparable.filter((e) => e.sum > e.histSum).length;
+  const rolls = (log || []).filter((e) => e.rollP != null);
+  const compound = rolls.reduce((a, e) => a * e.rollP, 1);
+  const earned = [];
+  if (comparable.length >= 8 && matched / comparable.length >= 0.9) earned.push("historian");
+  if (campaignId === "german" && comparable.length >= 8 && matched / comparable.length >= 0.9) earned.push("germanHistorian");
+  if (campaignId === "soviet" && comparable.length >= 6 && matched / comparable.length >= 0.9) earned.push("sovietHistorian");
+  if (campaignId === "allied" && comparable.length >= 6 && matched / comparable.length >= 0.9) earned.push("alliedHistorian");
+  if (campaignId === "italy" && comparable.length >= 6 && matched / comparable.length >= 0.9) earned.push("italianHistorian");
+  if (comparable.length >= 8 && outperformed / comparable.length >= 0.6) earned.push("betterThanOKW");
+  if (
+    campaignId === "german" &&
+    // "The Long Defense" is a DURATION achievement, so it reads OKW's endurance rather than its
+    // initiative. Those are different quantities for this command and frequently opposed: the
+    // longest German wars are yielding ones. Keyed to initiative it rewarded the opposite run.
+    (typeof CAMPAIGNS.german.endurance === "function" ? CAMPAIGNS.german.endurance(flags, meters) : 0) >= 4 &&
+    !["earlyCollapse", "collapse44", "noBarbarossa", "armisticeWest", "eastArmistice"].includes(flags.pathVariant)
+  )
+    earned.push("longDefense");
+  if ((meters.manpower || 0) >= 4) earned.push("armyPreserved");
+  if (flags.pathVariant === "earlyCollapse" || flags.pathVariant === "collapse44") earned.push("relieved");
+  if (flags.pathVariant === "noBarbarossa") earned.push("neverEast");
+  if (flags.northStand === "held") earned.push("untouchedArmy");
+  if (rolls.length >= 2 && compound < 0.05) earned.push("againstOdds");
+  if (campaignId === "german" && mode === "iron" && !flags.dismissed) earned.push("ironWill");
+  if (mode === "iron" && favor === 0 && !flags.dismissed) earned.push("quietHeresies");
+  if (campaignId === "soviet" && mode === "purge" && !flags.purged) earned.push("survivedTheTerror");
+  if (flags.purged) earned.push("recalled");
+  // Early-finish objectives. "Ahead of History" only counts for the two commands that actually
+  // wanted the war over sooner — a German war ending early is a defeat arriving faster, not an
+  // achievement, so it is deliberately excluded rather than quietly rewarded.
+  if (
+    (campaignId === "soviet" && (flags.berlinFeb45 || flags.berlinEnveloped45)) ||
+    (campaignId === "allied" && flags.westernCollapse45)
+  )
+    earned.push("aheadOfHistory");
+  if (
+    flags.earlyDnieper43 ||
+    flags.forwardSupply44 ||
+    flags.berlinEnveloped45 ||
+    flags.antwerpSeptember ||
+    flags.dispersedReich45
+  )
+    earned.push("bankedAndSpent");
+  if (flags.westernCollapse45 === "unconditional") earned.push("casablancaHeld");
+  if (campaignId === "allied" && mode === "coalition" && (flags.cohesion || 0) >= 3) earned.push("grandAlliance");
+  if (campaignId === "allied" && mode === "coalition" && (flags.cohesion || 0) <= -4 && !flags.relieved) earned.push("papersOverCracks");
+  if (campaignId === "italy" && mode === "axis" && !flags.superseded) earned.push("romeActsAlone");
+  if (flags.superseded) earned.push("supersededByBerlin");
+  if (flags.moscowCaptured) earned.push("moscow");
+  if (flags.pathVariant === "armisticeWest" || flags.pathVariant === "eastArmistice" || flags.hitlerDead44 === "valkyrieSucceeds") earned.push("speculativeFile");
+  return earned;
+}
+
+// The command rank for a finished war (see commandRating in logic.ts), from what the end screen and the war
+// record both have to hand.
+function buildRating(campaign, flags, meters, log, mode, rewinds, favor) {
+  const label = campaign.positionLabel ? campaign.positionLabel(flags, meters) : null;
+  const entry = label ? ENDINGS_GALLERY.find((e) => e.label === label) : null;
+  return commandRating({
+    tier: entry ? entry.tier : null,
+    ceiling: campaign.id ? endingCeiling(campaign.id, flags) : null,
+    removed: !!(flags.purged || flags.relieved || flags.dismissed || flags.superseded),
+    total: campaign.dynamic ? meters.manpower + meters.fuel + meters.initiative : 0,
+    battles: KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) => ({ grade: flags[`${b.id}Grade`], staff: !!flags[`${b.id}Staff`] })),
+    judged: (log || []).filter((e) => e.histSum != null).map((e) => ({ sum: e.sum, histSum: e.histSum })),
+    objectives: campaign.dynamic ? evaluateObjectives({ campaignId: campaign.id, flags, meters, log, rewinds, mode, favor }).length : 0,
+    mode: mode || "open",
+  });
+}
+
+// One readable line per battle fought, for the after-action summary.
+const BATTLE_GRADE_WORDS = { clean: "clean win", costly: "costly win", marginal: "close loss", total: "heavy loss" };
+function battleSummaryLines(flags) {
+  return KEY_BATTLE_TITLES.filter((b) => flags[`${b.id}Grade`]).map((b) => {
+    const roster = KEY_BATTLE_POSTURES[b.id] || [];
+    const setups = [flags[`${b.id}Posture`], flags[`${b.id}Posture2`]].filter(Boolean).map((id) => (roster.find((p) => p.id === id) || {}).name || id);
+    const cmdId = flags[`${b.id}PlanCommander`];
+    const cmd = cmdId ? ((KEY_BATTLE_COMMANDERS[b.id] || []).find((c) => c.id === cmdId) || {}).name : null;
+    const decisions = Object.keys(flags)
+      .filter((k) => k.startsWith(`${b.id}DecNote_`))
+      .map((k) => flags[k]);
+    const bits = [setups.length ? "against " + setups.join(", then ") : null, cmd ? "under " + cmd : null, flags[`${b.id}Staff`] ? "staff plan" : "own plan", ...decisions].filter(Boolean);
+    return `${b.title}: ${BATTLE_GRADE_WORDS[flags[`${b.id}Grade`]] || flags[`${b.id}Grade`]}${bits.length ? ` (${bits.join("; ")})` : ""}`;
+  });
+}
+
+async function withRetry(fn, attempts = 3, delayMs = 250) {
+  let lastErr;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      lastErr = e;
+      if (i < attempts - 1) await new Promise((r) => setTimeout(r, delayMs * (i + 1)));
+    }
+  }
+  throw lastErr;
+}
+
+async function saveActiveRun(payload) {
+  try {
+    await withRetry(() => window.storage.set("dispatches-ww2-active", JSON.stringify(payload)));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+async function clearActiveRun() {
+  try {
+    await withRetry(() => window.storage.delete("dispatches-ww2-active"));
+  } catch (e) {
+    // nothing to clear
+  }
+}
+
+async function saveRunRecord(campaign, flags, meters, visited, mode, log, rewinds, favor) {
+  try {
+    let record = { runs: [], nodes: [] };
+    try {
+      const existing = await window.storage.get("dispatches-ww2-record");
+      if (existing && existing.value) record = JSON.parse(existing.value);
+    } catch (e) {
+      // no existing record — first run
+    }
+    record.runs = (record.runs || []).slice(-24);
+    record.runs.push({
+      when: Date.now(),
+      label: campaign.positionLabel ? campaign.positionLabel(flags, meters) : null,
+      endDate: campaign.projectedEnd ? campaign.projectedEnd(flags, meters).stamp : null,
+      mode: mode || "open",
+      rank: buildRating(campaign, flags, meters, log, mode, rewinds, favor).rank,
+    });
+    record.nodes = [...new Set([...(record.nodes || []), ...visited])];
+    const earned = evaluateObjectives({ campaignId: campaign.id, flags, meters, log, rewinds, mode, favor });
+    record.objectives = [...new Set([...(record.objectives || []), ...earned])];
+    record.campaignsPlayed = [...new Set([...(record.campaignsPlayed || []), campaign.id])];
+    if (record.campaignsPlayed.length >= Object.keys(CAMPAIGNS).length && !record.objectives.includes("threeCommands"))
+      record.objectives.push("threeCommands");
+    const advisors = record.advisors || {};
+    (log || []).forEach((e) => {
+      if (e.advisor) advisors[e.advisor] = (advisors[e.advisor] || 0) + 1;
+    });
+    record.advisors = advisors;
+    // Round 22: the Battle Record. Every Order of Battle fought this war leaves its grade, enemy
+    // setup(s), commander and field decisions in the run's flags; the record keeps a running tally per
+    // battle across wars. Written once, when a war ends, like the rest of the record.
+    const battles = record.battles || {};
+    for (const b of KEY_BATTLE_TITLES) {
+      const grade = flags[`${b.id}Grade`];
+      if (!grade) continue;
+      const prev = battles[b.id] || { fought: 0, won: 0, setups: [], best: null, last: null };
+      const won = grade === "clean" || grade === "costly";
+      const decisions = Object.keys(flags)
+        .filter((k) => k.startsWith(`${b.id}DecNote_`))
+        .map((k) => flags[k]);
+      const setups = [...new Set([...(prev.setups || []), flags[`${b.id}Posture`], flags[`${b.id}Posture2`]].filter(Boolean))];
+      const best = prev.best && BATTLE_GRADE_ORDER.indexOf(prev.best) > BATTLE_GRADE_ORDER.indexOf(grade) ? prev.best : grade;
+      battles[b.id] = {
+        fought: prev.fought + 1,
+        won: prev.won + (won ? 1 : 0),
+        setups,
+        best,
+        last: { grade, won, commander: flags[`${b.id}PlanCommander`] || null, setup: flags[`${b.id}Posture`] || null, decisions },
+      };
+    }
+    record.battles = battles;
+    // Grand Campaign prototype: keep only the most recent completion per campaign — this isn't
+    // a history, just "what's available to seed a Grand Campaign leg with right now" (per the
+    // spec). Written unconditionally, regardless of GRAND_CAMPAIGN_ENABLED — cheap, and means
+    // legacy data is already accumulating by the time the feature is ready to leave prototype.
+    record.legacy = record.legacy || {};
+    record.legacy[campaign.id] = { flags, meters, endDate: campaign.projectedEnd ? campaign.projectedEnd(flags, meters).stamp : null, when: Date.now() };
+    await withRetry(() => window.storage.set("dispatches-ww2-record", JSON.stringify(record)), 5, 400);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function resolveStage(campaign, position, flags, meters) {
+  return campaign.dynamic
+    ? campaign.resolveNode(position, flags, meters)
+    : campaign.getStage(position, flags, meters);
+}
+
+// A saved run is only safe to offer for resume if it matches the current save-schema version
+// AND the node it points at still actually resolves against the current campaign data. Node
+// names and structure have changed repeatedly over this project's life — an old save pointing
+// at a since-renamed or removed node would otherwise crash the resume flow instead of just
+// failing to load. Invalid saves are treated as if they don't exist, not surfaced as an error.
+function isValidActiveRun(saved) {
+  if (!saved || typeof saved !== "object") return false;
+  if (saved.version !== SAVE_VERSION) return false;
+  const campaign = CAMPAIGNS[saved.campaignId];
+  if (!campaign || !saved.position) return false;
+  try {
+    const stage = resolveStage(campaign, saved.position, saved.flags || {}, saved.meters || EMPTY_METERS);
+    if (!stage || !stage.choices || !stage.choices.length) return false;
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
+// Put a battle back from a save. A save made on the planning screen or the battle report carries the battle
+// with it (saved.battle). The choice that opened it is found again by its label on the node the save points at,
+// because the choice list can shift as Initiative is spent on the planning screen, and everything the save
+// holds is checked before it is trusted. Anything that does not check out returns null, and the game then
+// resumes at the briefing as it always did.
+function restoreBattleSave(saved) {
+  const b = saved && saved.battle;
+  if (!b || typeof b !== "object" || (b.stage !== "allocation" && b.stage !== "report")) return null;
+  const campaign = CAMPAIGNS[saved.campaignId];
+  if (!campaign || !saved.position) return null;
+  let stage;
+  try {
+    stage = resolveStage(campaign, saved.position, saved.flags || {}, saved.meters || EMPTY_METERS);
+  } catch (e) {
+    return null;
+  }
+  if (!stage || !stage.choices) return null;
+  const index = stage.choices.findIndex((c) => c.label === b.label && c.keyBattleSubgame && c.keyBattleSubgame.id === b.configId);
+  if (index < 0) return null;
+  const choice = stage.choices[index];
+  const config = choice.keyBattleSubgame;
+  const ids = keyBattleCategories(config).map((c) => c.id);
+  const allocOk = (a) => !!a && typeof a === "object" && ids.every((id) => Number.isInteger(a[id]) && a[id] >= 0);
+  const baseWeights = Array.isArray(b.baseWeights) && b.baseWeights.every((w) => typeof w === "number") ? b.baseWeights : (choice.uncertain || []).map((u) => u.weight);
+  if (b.stage === "allocation") {
+    const d = b.draft;
+    if (!d || typeof d !== "object" || !allocOk(d.allocation) || !Array.isArray(d.bonusMeters) || !d.jitter || typeof d.jitter !== "object") return null;
+    if (ids.reduce((n, id) => n + d.allocation[id], 0) > 5 + d.bonusMeters.length) return null;
+    return { stage: "allocation", draft: d, pending: { index, label: b.label, config, baseWeights } };
+  }
+  const p = b.plan;
+  if (!p || typeof p !== "object" || !allocOk(p.allocation) || !Number.isInteger(p.poolSize) || !Number.isInteger(p.reserves) || !p.weights || typeof p.weights !== "object") return null;
+  return { stage: "report", draft: null, pending: { index, label: b.label, config, baseWeights, plan: p } };
+}
+
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error, info) {
+    // Nothing to report to — this is a client-only artifact. Keeping the error
+    // visible in the console is the best available diagnostic for a bug report.
+    console.error("WW2 Command crashed:", error, info);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10 text-center">
+          <div className="bg-white text-black shadow-[0_8px_30px_rgba(0,0,0,0.5)] w-full max-w-md p-8">
+            <h2 className="text-2xl mb-3" style={{ fontFamily: "Oswald, sans-serif", fontWeight: 600 }}>
+              The File Was Damaged
+            </h2>
+            <p className="text-[14px] leading-relaxed mb-6 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              Something in this session went wrong in a way the game couldn't recover from on its own.
+              Your progress autosaves as you play, so reloading should return you to the menu with a
+              "War in Progress" option to resume close to where you left off.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="w-full border-2 border-black px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150"
+              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+            >
+              Reload
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Glossary. Terms a reader who is not a wargamer may not know. In a situation report the first mention of each term is
+// underlined with dots (tap or click it for a note); the whole list is under "Glossary" on the title screen. Terms are
+// matched exactly as written (capital letters count, so "axis of advance" is not the Axis); a term whose entry has
+// `plural: true` also matches with a trailing "s"; a lower-case term also matches with a capital letter, for a
+// sentence's first word. Facts are checked in claims/glossary-and-map.json.
+// ---------------------------------------------------------------------------------------------------------------------
+const GLOSSARY_GROUPS = [
+  { id: "formations", label: "Formations" },
+  { id: "commands", label: "Commands, services and forces" },
+  { id: "operations", label: "Operations and events" },
+  { id: "weapons", label: "Weapons, machines and intelligence" },
+  { id: "ideas", label: "Ideas and terms" },
+  { id: "game", label: "In this game" },
+];
+const GLOSSARY = [
+  // Formations
+  { group: "formations", term: "corps", plural: false, text: "A formation of two or more divisions, tens of thousands of men, under one headquarters. Armies were built from corps." },
+  { group: "formations", term: "division", plural: true, text: "The basic self-contained fighting formation: infantry, guns and support under one command, usually 10,000 to 20,000 men in this war. Several divisions make a corps." },
+  { group: "formations", term: "brigade", plural: true, text: "A formation smaller than a division, a few thousand men, often attached to a larger force for a particular job." },
+  { group: "formations", term: "Army Group", also: ["army group"], plural: true, text: "The largest field command of the war: several armies under one commander on a stretch of front, such as Army Group Centre in Russia." },
+  { group: "formations", term: "Panzer", plural: true, text: "German for armour: a tank, or an armoured division. A Panzer division combined tanks, motorised infantry and guns for fast offensives." },
+  { group: "formations", term: "Combat Group", also: ["Combat Groups"], text: "The Italian co-belligerent army's Gruppi di Combattimento of 1944-45: formations the size of a weak division (some 9,000 men), equipped and supplied by the Allies, with British weapons." },
+  // Commands, services and forces
+  { group: "commands", term: "Stavka", text: "The Soviet Supreme High Command, the headquarters through which Stalin directed the war from June 1941." },
+  { group: "commands", term: "OKW", text: "Oberkommando der Wehrmacht, the High Command of the German armed forces: Hitler's personal military staff." },
+  { group: "commands", term: "OKH", text: "Oberkommando des Heeres, the German Army High Command, which ran the war on the Eastern Front." },
+  { group: "commands", term: "SHAEF", text: "Supreme Headquarters Allied Expeditionary Force, the combined American and British command under General Eisenhower for the liberation of north-west Europe." },
+  { group: "commands", term: "Comando Supremo", text: "The Italian armed forces' supreme headquarters in Rome, the staff through which Mussolini, and after July 1943 the king and Badoglio, directed the war." },
+  { group: "commands", term: "Wehrmacht", text: "The German armed forces as a whole from 1935 to 1945: army, navy and air force." },
+  { group: "commands", term: "Luftwaffe", text: "The German air force." },
+  { group: "commands", term: "Kriegsmarine", text: "The German navy." },
+  { group: "commands", term: "Regia Marina", text: "The Royal Italian Navy." },
+  { group: "commands", term: "Regia Aeronautica", text: "The Royal Italian Air Force." },
+  { group: "commands", term: "SS", also: ["Waffen-SS"], text: "The Nazi Party's armed and police organisation. The Waffen-SS were its field divisions, which fought alongside the army." },
+  { group: "commands", term: "NKVD", text: "The Soviet interior ministry, which ran the secret police, the labour camps and the internal and border troops." },
+  { group: "commands", term: "Volkssturm", text: "The German \"people's storm\": a militia of older men and boys raised from late 1944 for the last defence of the Reich." },
+  { group: "commands", term: "Home Army", text: "The main Polish resistance force (Armia Krajowa), loyal to the Polish government in exile in London." },
+  { group: "commands", term: "Free French", text: "The French forces that carried on the war under General de Gaulle after the armistice of June 1940." },
+  { group: "commands", term: "Vichy", text: "The French government under Marshal Pétain, based at Vichy from 1940 to 1944, which governed unoccupied France and the empire under the armistice with Germany." },
+  { group: "commands", term: "Axis", text: "The alliance of Germany, Italy and Japan, with the smaller states that joined it." },
+  { group: "commands", term: "partisan", plural: true, text: "An irregular fighter operating behind enemy lines: in this game the Soviet, Yugoslav, Polish and Italian resistance fighters." },
+  { group: "commands", term: "Duce", text: "\"Leader\": the title Mussolini took as head of the Fascist government of Italy." },
+  { group: "commands", term: "Führer", text: "\"Leader\": Hitler's title as head of the German state and, after 1938, commander of its armed forces." },
+  { group: "commands", term: "Reich", text: "The German state: here the Third Reich, Nazi Germany from 1933 to 1945." },
+  { group: "commands", term: "Fascist Grand Council", text: "The Fascist Party's highest body. On 24-25 July 1943 it voted against Mussolini, and the king then dismissed him." },
+  // Operations and events
+  { group: "operations", term: "Barbarossa", text: "The German invasion of the Soviet Union, launched on 22 June 1941." },
+  { group: "operations", term: "Sea Lion", text: "The German plan of summer 1940 to invade Britain. It was never launched." },
+  { group: "operations", term: "Typhoon", text: "The German offensive against Moscow, begun on 30 September 1941." },
+  { group: "operations", term: "Uranus", text: "The Soviet counteroffensive that encircled the German Sixth Army at Stalingrad, begun on 19 November 1942." },
+  { group: "operations", term: "Citadel", text: "The German offensive at Kursk in July 1943, the last big German offensive in the East." },
+  { group: "operations", term: "Bagration", text: "The Soviet summer offensive of 1944 that destroyed German Army Group Centre in Belorussia, begun on 22 June." },
+  { group: "operations", term: "Overlord", text: "The Allied operation to invade north-west Europe through Normandy, begun on D-Day, 6 June 1944." },
+  { group: "operations", term: "Torch", text: "The Anglo-American landings in French North Africa on 8 November 1942." },
+  { group: "operations", term: "Market Garden", text: "The Allied operation of September 1944 to seize the bridges over the Dutch rivers and outflank the German defences; it ended at Arnhem." },
+  { group: "operations", term: "Operation Dragoon", also: ["Dragoon"], text: "The Allied landing in the south of France on 15 August 1944." },
+  { group: "operations", term: "Husky", text: "The Allied invasion of Sicily in July 1943." },
+  { group: "operations", term: "Weserübung", text: "The German invasion of Denmark and Norway in April 1940." },
+  { group: "operations", term: "Crusader", text: "The British offensive in the Western Desert in November 1941 that relieved the besieged port of Tobruk." },
+  { group: "operations", term: "Dunkirk", text: "The port on the French coast from which more than 300,000 British, French and other Allied soldiers were taken off between 26 May and 4 June 1940." },
+  { group: "operations", term: "Blitz", text: "The German bombing of British cities from September 1940 to May 1941." },
+  { group: "operations", term: "Atlantic Wall", text: "The German coastal fortifications along the Channel and Atlantic coasts of western Europe, built mostly from 1942." },
+  { group: "operations", term: "Rome Protocols", text: "The agreements signed in Rome on 7 December 1944 between the Allied command in the Mediterranean and the leadership of the northern Italian resistance (the CLNAI), which settled how the partisans were to be supplied and who commanded them." },
+  // Weapons, machines and intelligence
+  { group: "weapons", term: "flak", text: "German Flugabwehrkanone, \"aircraft defence gun\": anti-aircraft guns, and by extension anti-aircraft fire." },
+  { group: "weapons", term: "radar", text: "Detecting aircraft or ships at a distance by radio echo. Britain had a chain of radar stations before the war began." },
+  { group: "weapons", term: "U-boat", plural: true, text: "A German submarine." },
+  { group: "weapons", term: "wolfpack", plural: true, text: "A group of U-boats working together against a convoy." },
+  { group: "weapons", term: "convoy", plural: true, text: "Merchant ships sailing together under naval escort, to protect them from submarines." },
+  { group: "weapons", term: "Enigma", text: "The cipher machine used by the German armed forces. British codebreakers at Bletchley Park read many of its messages." },
+  { group: "weapons", term: "Ultra", text: "The British name for the intelligence taken from decrypted Enigma and other high-grade German messages." },
+  { group: "weapons", term: "Panther", plural: true, text: "The German medium tank brought in during 1943 as an answer to the T-34." },
+  // Ideas and terms
+  { group: "ideas", term: "pocket", also: ["Kessel"], plural: true, text: "A force cut off and surrounded. The Germans called it a Kessel, a cauldron." },
+  { group: "ideas", term: "salient", plural: true, text: "A bulge in the front line, which can be attacked from both sides." },
+  { group: "ideas", term: "bridgehead", plural: true, text: "A foothold across a river or on a beach from which the attack can go on." },
+  { group: "ideas", term: "encirclement", plural: true, text: "Surrounding an enemy force so that it is cut off from supply and from retreat." },
+  { group: "ideas", term: "armistice", plural: true, text: "An agreement to stop fighting that falls short of a peace treaty. France signed one with Germany on 22 June 1940; Italy signed one with the Allies on 3 September 1943." },
+  { group: "ideas", term: "co-belligerent", text: "The status of Italy from October 1943: no longer an ally of Germany and fighting beside the Allies, but not formally one of them." },
+  { group: "ideas", term: "rasputitsa", text: "The Russian \"time without roads\": the mud of spring and autumn that stopped wheels and tracks on the Eastern Front." },
+  { group: "ideas", term: "Lend-Lease", text: "The American programme, begun in March 1941, of supplying Britain, the Soviet Union and others with war material without immediate payment." },
+  // In this game
+  { group: "game", term: "Manpower", text: "The first meter: the men available and the shape they are in. Under it are Organisation, Experience and Readiness." },
+  { group: "game", term: "Matériel", text: "The second meter: fuel, arms and ammunition, shipping and rail. Under it are Fuel & Oil, Arms & Ammunition and Shipping & Rail." },
+  { group: "game", term: "Initiative", text: "The third meter: how far you are ahead of, or behind, the historical pace. Under it are Intelligence, Command and Tempo." },
+  { group: "game", term: "Order of Battle", text: "The screen on which you commit your forces to a major battle: which arms get effort, under which commander and with which approach." },
+];
+
+const GLOSSARY_MATCH = (() => {
+  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const byWord = {};
+  const forms = [];
+  GLOSSARY.forEach((e, idx) => {
+    for (const f of [e.term, ...(e.also || [])]) {
+      const variants = new Set([f]);
+      if (/^[a-z]/.test(f)) variants.add(f[0].toUpperCase() + f.slice(1));
+      for (const v of variants) {
+        byWord[v] = idx;
+        if (e.plural) byWord[v + "s"] = idx;
+        forms.push({ form: v, src: esc(v) + (e.plural ? "s?" : "") });
+      }
+    }
+  });
+  forms.sort((x, y) => y.form.length - x.form.length);
+  return { source: "\\b(?:" + forms.map((x) => x.src).join("|") + ")\\b", byWord };
+})();
+
+// Where the first mention of each glossary term falls in `text`: [{ start, end, idx }], in reading order.
+function glossarySpans(text) {
+  const out = [];
+  const seen = new Set();
+  const re = new RegExp(GLOSSARY_MATCH.source, "g");
+  let m;
+  while ((m = re.exec(text))) {
+    const idx = GLOSSARY_MATCH.byWord[m[0]];
+    if (idx === undefined || seen.has(idx)) continue;
+    seen.add(idx);
+    out.push({ start: m.index, end: m.index + m[0].length, idx });
+  }
+  return out;
+}
+
+// The whole list, for the title screen.
+function GlossaryList() {
+  return (
+    <div className="mt-3">
+      <p className="text-[12px] italic mb-3 text-[#000000] opacity-70" style={{ fontFamily: "'Courier Prime', monospace" }}>
+        In a situation report, the first mention of each of these is underlined with dots. Tap or click it for the note.
+      </p>
+      {GLOSSARY_GROUPS.map((g) => (
+        <details key={g.id} className="mb-2 border-l-4 pl-2" style={{ borderColor: "#00000033" }}>
+          <summary className="text-[12px] uppercase tracking-widest font-bold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            {g.label}
+          </summary>
+          <div className="mt-1">
+            {GLOSSARY.filter((e) => e.group === g.id)
+              .slice()
+              .sort((a, b) => a.term.localeCompare(b.term))
+              .map((e) => (
+                <p key={e.term} className="text-[13px] leading-snug text-[#000000] mb-2" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                  <b>{e.term}</b>: {e.text}
+                </p>
+              ))}
+          </div>
+        </details>
+      ))}
+    </div>
+  );
+}

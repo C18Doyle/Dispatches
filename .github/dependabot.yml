@@ -45,6 +45,12 @@ updates:
     groups: { all: { update-types: [minor, patch] } }
     ignore: [{ dependency-name: "*", update-types: ["version-update:semver-major"] }]
   - package-ecosystem: npm
+    directory: /Dispatches WW2
+    schedule: { interval: monthly }
+    open-pull-requests-limit: 1
+    groups: { all: { update-types: [minor, patch] } }
+    ignore: [{ dependency-name: "*", update-types: ["version-update:semver-major"] }]
+  - package-ecosystem: npm
     directory: /Dispatches 1940
     schedule: { interval: monthly }
     open-pull-requests-limit: 1

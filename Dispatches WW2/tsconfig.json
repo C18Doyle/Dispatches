@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es2022",
+    "lib": [
+      "es2022"
+    ],
+    "types": [],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "paths": {
+      "@dispatches/engine": [
+        "../packages/engine/src/index.ts"
+      ],
+      "@dispatches/i18n": [
+        "../packages/i18n/src/index"
+      ]
+    }
+  },
+  "include": [
+    "src/logic.ts",
+    "src/logic-pacific.ts",
+    "src/rules.ts"
+  ]
+}
