@@ -45,6 +45,6 @@ Method: web search on 2026-10-14, reading search summaries and Wikipedia pages, 
 | pr-7 | Cossack officers arrested the Socialist-Revolutionary members of the Directory on the night of 17 to 18 November | web-checked | Same as `claims/siberia.json`. |
 | pr-8 | The Tsar and his family were shot at Ekaterinburg on 17 July 1918 by their Bolshevik guards | drafted | The text does not say who gave the order. |
 | pr-9 | Brest-Litovsk six months before; Kazan fell on 6 August; Left SR rising in July; Uritsky killed and Lenin wounded on 30 August | drafted | |
-| pr-10 | 2 September: Republic declared an armed camp; Revolutionary Military Council formed under Trotsky | drafted | |
+| pr-10 | 2 September: Republic declared a military camp; Revolutionary Military Council formed under Trotsky | web-checked (search-summary) | Wikipedia "Revolutionary Military Council": the decree is titled as declaring the Soviet Republic a military camp. The report in the game says "armed camp"; the sources support "military camp" only. |
 | pr-11 | Grain detachments went into the villages from the summer of 1918 | drafted | |
 | pr-12 | The families of some officers who served in the Red Army were held as hostages | drafted | NEEDS A READER: a source for the practice and its scale. |

@@ -183,7 +183,7 @@ CAMPAIGNS.bolsheviks = {
           },
           historicalRecord: true,
           situation:
-            "The Republic has been declared a single armed camp. You chair the new Revolutionary Military Council with sweeping authority over every front — and an army built from a collapsed one, led in most technical respects by men who fought for the Tsar. The Military Opposition faction argues that trusting former Imperial officers, even under commissar watch, betrays the revolution that just overthrew them.",
+            "The Republic has been declared a single military camp. You chair the new Revolutionary Military Council with sweeping authority over every front — and an army built from a collapsed one, led in most technical respects by men who fought for the Tsar. The Military Opposition faction argues that trusting former Imperial officers, even under commissar watch, betrays the revolution that just overthrew them.",
           choices: [
             {
               label: "Commit to the voenspetsy system: ex-Imperial officers under Bolshevik commissar oversight, army-wide.",

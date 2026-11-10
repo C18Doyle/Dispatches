@@ -224,7 +224,7 @@ const PRELUDES = {
     title: "Moscow",
     paragraphs: [
       "Six months ago the Soviet government signed the Treaty of Brest-Litovsk. Since then it has lost most of the Volga to a Czechoslovak revolt and a Socialist-Revolutionary government at Samara, and Kazan fell on 6 August. A rising by the Left Socialist-Revolutionaries in Moscow in July was put down. On 30 August Uritsky, head of the Petrograd Cheka, was shot dead, and Lenin was shot and wounded in Moscow.",
-      "On 2 September the Republic was declared an armed camp and the Revolutionary Military Council was formed under Trotsky. On 5 September the Council of People's Commissars ordered the Red Terror: the Cheka was to shoot enemies of the regime and hold hostages. This game starts with the Military Council, and the Terror is not one of its orders. It is part of the setting. It is described in \"What this game leaves out\".",
+      "On 2 September the Republic was declared a military camp and the Revolutionary Military Council was formed under Trotsky. On 5 September the Council of People's Commissars ordered the Red Terror: the Cheka was to shoot enemies of the regime and hold hostages. This game starts with the Military Council, and the Terror is not one of its orders. It is part of the setting. It is described in \"What this game leaves out\".",
       "The army this council commands is built by conscription in a country with little food. Grain detachments went into the villages from the summer of 1918, and peasants resisted them. The families of some officers who served in the Red Army were held as hostages for their loyalty.",
     ],
   },
@@ -707,7 +707,7 @@ function TopBar({ title, screenTitle, onClose, menuItems }) {
   );
 }
 
-function CipherBlock({ campaign, node, skin, reduceMotion }) {
+function CipherBlock({ campaign, node, skin, reduceMotion, letterhead = null }) {
   const groups = cipherGroups(node?.title || campaign.id);
   const originatorMap = {
     southRussia: "AFSR Field Staff",
@@ -727,7 +727,8 @@ function CipherBlock({ campaign, node, skin, reduceMotion }) {
       {/* Header device — the one element that's structurally different per
           skin, not just recolored. Everything else in this block keeps the
           same slot order across all three. */}
-      {skin.headerStyle === "seal" && (
+      {letterhead}
+      {!letterhead && skin.headerStyle === "seal" && (
         <div className="flex items-center gap-3 mb-3">
           <div className="relative w-14 h-14 rounded-full border-2 flex items-center justify-center flex-shrink-0" style={accentBorderStyle(skin)}>
             <div className="absolute inset-1 rounded-full border opacity-60" style={accentBorderStyle(skin)} />
@@ -736,7 +737,7 @@ function CipherBlock({ campaign, node, skin, reduceMotion }) {
           <div style={mutedTextStyle(skin)}>DISPATCH — ENCIPHERED</div>
         </div>
       )}
-      {skin.headerStyle === "railmarker" && (
+      {!letterhead && skin.headerStyle === "railmarker" && (
         <div className="mb-3">
           <div className="flex gap-1">
             {[0, 1, 2, 3, 4, 5, 6].map((i) => (
@@ -746,7 +747,7 @@ function CipherBlock({ campaign, node, skin, reduceMotion }) {
           <div className="mt-1" style={mutedTextStyle(skin)}>{campaign.shortTag} — VERST 0, TELEGRAPH LINE</div>
         </div>
       )}
-      {skin.headerStyle === "stamp" && (
+      {!letterhead && skin.headerStyle === "stamp" && (
         <div className="mb-3 relative">
           <div className="absolute right-0 top-0 w-16 h-16 rounded-full border-2 flex items-center justify-center opacity-90" style={{ ...accentBorderStyle(skin), transform: reduceMotion ? "none" : "rotate(-9deg)" }}>
             <div className="font-bold text-center leading-tight" style={{ ...accentTextStyle(skin), ...displayFontStyle(skin), fontSize: "9px" }}>
@@ -756,7 +757,7 @@ function CipherBlock({ campaign, node, skin, reduceMotion }) {
           <div style={{ ...mutedTextStyle(skin), maxWidth: "60%" }}>ENCIPHERED DISPATCH</div>
         </div>
       )}
-      {skin.headerStyle === "telegram" && (
+      {!letterhead && skin.headerStyle === "telegram" && (
         <div className="mb-3">
           <div className="tracking-widest font-bold mb-1" style={{ ...accentTextStyle(skin), fontSize: "10px" }}>
             {"· — ·· — ·"} {campaign.shortTag} {"· — ·· — ·"}
@@ -1057,7 +1058,7 @@ function addImpacts(a, b) {
 function EasyPreview({ choice, campaign, skin }) {
   return (
     <div className="border-2 border-dashed mt-2 px-2 py-2 text-xs" style={{ borderColor: skin.paperDim, ...monoFontStyle(skin) }}>
-      <div className="font-bold" style={accentTextStyle(skin)}>IF YOU ISSUE THIS ORDER</div>
+      <div className="font-bold" style={accentTextStyle(skin)}>THE STAFF'S FIGURES: IF YOU ISSUE THIS ORDER</div>
       {choice.uncertain ? (
         <>
           <div className="mt-1">Before the roll: {impactSummary(campaign, choice.impact)}</div>
@@ -1209,6 +1210,7 @@ function ChoiceCard({ choice, skin, meters, campaign, easyMode, planBattles, har
           ⚔ LEADS TO BATTLE PLANNING
         </div>
       )}
+      {!hardModeEnabled && !blocked && <StaffNote choice={choice} campaign={campaign} skin={skin} open={easyMode} />}
       {easyMode && !blocked && <EasyPreview choice={choice} campaign={campaign} skin={skin} />}
       {blocked ? (
         <div className="mt-3 text-xs" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
@@ -1436,7 +1438,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ea
           </button>
         </div>
         <div className="mt-4">
-          <CipherBlock campaign={c} node={node} skin={skin} reduceMotion={reduceMotion} />
+          <CipherBlock campaign={c} node={node} skin={skin} reduceMotion={reduceMotion} letterhead={<Letterhead campaign={c} node={node} nodeId={nodeId} skin={skin} />} />
         </div>
         <div className="mt-4">
           <div className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>{node.date}</div>
@@ -1452,6 +1454,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ea
           >
             {node.historicalRecord ? "◆ HISTORICAL RECORD" : "◇ SPECULATIVE — DOWNSTREAM OF DIVERGENCE"}
           </div>
+          <Plate id={PLATE_FOR[nodeId]} skin={skin} />
           {node.context && (
             <div
               className="border-l-2 mt-4 pl-3 py-1 text-xs leading-relaxed cursor-pointer"
@@ -1470,6 +1473,10 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ea
             </div>
           )}
           <TypewriterText text={node.situation + battleEchoText(BATTLES, nodeId, flags)} instant={instantText} className="text-sm mt-4 leading-relaxed" />
+          {DOCUMENTS[nodeId] && <DocumentCard doc={DOCUMENTS[nodeId]} skin={skin} />}
+          <QuoteStrip nodeId={nodeId} skin={skin} />
+          <TermsInReport node={node} skin={skin} />
+          <CastPanel campaignId={c.id} nodeId={nodeId} node={node} flags={flags} skin={skin} />
         </div>
         <div className="mt-6">
           {node.choices.map((choice, i) => (
@@ -1592,7 +1599,7 @@ const RAIL_LINES = [
 
 // Shared by FrontMapScreen and EndingScreen — one map renderer, not two
 // copies of the same rail logic drifting apart over time.
-function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false, atDate = null }) {
+function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false, atDate = null, flags = null, campaignId = null }) {
   function RailSegment({ a, b, active }) {
     const p1 = CITIES[a];
     const p2 = CITIES[b];
@@ -1702,7 +1709,7 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
       {Object.entries(ZONE_CELLS).map(([cid, d]) => {
         const city = CITIES[cid];
         if (!city || !d) return null;
-        const side = controlAt(city, atDate);
+        const side = controlFor(cid, city, atDate, flags);
         const sideColor = CONTROL_COLORS[side] || CONTROL_COLORS.unknown;
         const fillValue = side === "contested" ? "url(#contestedHatch)" : sideColor;
         return <path key={cid} d={d} fill={fillValue} fillOpacity={side === "contested" ? 1 : zoneOpacity} fillRule="evenodd" stroke="none" />;
@@ -1710,6 +1717,7 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
       {WATER_PATHS.map((d, i) => (
         <path key={i} d={d} fill={skin.dark ? "rgba(120,150,180,0.22)" : "rgba(70,110,150,0.16)"} fillRule="evenodd" stroke="none" />
       ))}
+      <TerrainLayer skin={skin} compact={compact} />
       <text x="130" y="355" fontSize="12" fill={skin.paperDim} style={{ fontFamily: skin.monoFont }} opacity="0.7">BLACK SEA</text>
       <text x="342" y="345" fontSize="11" fill={skin.paperDim} style={{ fontFamily: skin.monoFont }} opacity="0.7">CASPIAN SEA</text>
       <text x="880" y="160" fontSize="10" fill={skin.paperDim} style={{ fontFamily: skin.monoFont }} opacity="0.7">L. BAIKAL</text>
@@ -1745,6 +1753,7 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
         const active = visitedCityIds.includes(a) && visitedCityIds.includes(b);
         return <RailSegment key={`${a}-${b}`} a={a} b={b} active={active} />;
       })}
+      {!compact && <OperationsLayer atDate={atDate} skin={skin} />}
       {Object.entries(CITIES).map(([cid, city]) => {
         const visited = visitedCityIds.includes(cid);
         const isCurrent = cid === currentCityId;
@@ -1752,7 +1761,7 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
         const lp = labelPos(city, isCurrent);
         const fontSize = isCurrent ? 14 : visited ? 12 : 10.5;
         const r = markerRadius(city);
-        const side = controlAt(city, atDate);
+        const side = controlFor(cid, city, atDate, flags);
         const sideColor = CONTROL_COLORS[side] || CONTROL_COLORS.unknown;
         // Visited places are filled with the controlling side's colour.
         // Unvisited ones are outlined in it — so the front is readable
@@ -1821,7 +1830,7 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
               fill="none"
               style={{ fontFamily: skin.monoFont }}
             >
-              {city.name}
+              {placeName(cid, atDate)}
             </text>
             <text
               x={lp.x}
@@ -1832,11 +1841,12 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
               fill={visited ? (skin.dark ? skin.paper : skin.ink) : skin.paperDim}
               style={{ fontFamily: skin.monoFont }}
             >
-              {city.name}
+              {placeName(cid, atDate)}
             </text>
           </g>
         );
       })}
+      {!compact && campaignId && <AssetGlyphs campaignId={campaignId} atDate={atDate} flags={flags} skin={skin} />}
     </svg>
   );
 }
@@ -1962,7 +1972,7 @@ function MapLegendRow({ campaignId, skin }) {
   );
 }
 
-function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
+function FrontMapScreen({ campaignId, visitedNodes, flags, meters, skin, onClose }) {
   const c = CAMPAIGNS[campaignId];
   const visitedCityIds = [];
   for (const nid of visitedNodes) {
@@ -2053,10 +2063,14 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
           </div>
         )}
         <div className="border-2 mt-3" style={{ borderColor: skin.accent }}>
-          <SituationMapSvg visitedCityIds={visitedCityIds} currentCityId={currentCityId} skin={skin} atDate={atDate} />
+          <SituationMapSvg visitedCityIds={visitedCityIds} currentCityId={currentCityId} skin={skin} atDate={atDate} flags={flags} campaignId={c.id} />
         </div>
 
         <MapLegendRow campaignId={c.id} skin={skin} />
+        <AssetLegend skin={skin} />
+        <OperationsList atDate={atDate} skin={skin} />
+        <SupplyPanel campaignId={c.id} atDate={atDate} flags={flags} meters={meters} skin={skin} />
+        <PlaceNamesNote cityIds={Object.keys(CITIES)} skin={skin} />
 
         <div className="text-xs mt-3 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
           {mapVoice.body}
@@ -2351,9 +2365,10 @@ function EndingScreen({ campaignId, endingId, flags, visitedNodes, decisions, in
         >
           {ending.badge}
         </div>
+        <Plate id={PLATE_FOR[endingId]} skin={skin} />
         {finalCityId && (
           <div className="border-2 mt-5" style={{ borderColor: skin.paperDim }}>
-            <SituationMapSvg visitedCityIds={visitedCityIds} currentCityId={finalCityId} skin={skin} compact atDate={endingDate} />
+            <SituationMapSvg visitedCityIds={visitedCityIds} currentCityId={finalCityId} skin={skin} compact atDate={endingDate} flags={flags} />
             <div className="text-xs px-3 py-2" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
               WHERE THIS COMMAND'S STORY ENDS: {CITIES[finalCityId]?.name?.toUpperCase()}
             </div>

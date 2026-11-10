@@ -4295,7 +4295,7 @@ CAMPAIGNS.bolsheviks = {
           },
           historicalRecord: true,
           situation:
-            "The Republic has been declared a single armed camp. You chair the new Revolutionary Military Council with sweeping authority over every front — and an army built from a collapsed one, led in most technical respects by men who fought for the Tsar. The Military Opposition faction argues that trusting former Imperial officers, even under commissar watch, betrays the revolution that just overthrew them.",
+            "The Republic has been declared a single military camp. You chair the new Revolutionary Military Council with sweeping authority over every front — and an army built from a collapsed one, led in most technical respects by men who fought for the Tsar. The Military Opposition faction argues that trusting former Imperial officers, even under commissar watch, betrays the revolution that just overthrew them.",
           choices: [
             {
               label: "Commit to the voenspetsy system: ex-Imperial officers under Bolshevik commissar oversight, army-wide.",
@@ -6946,7 +6946,7 @@ const PRELUDES = {
     title: "Moscow",
     paragraphs: [
       "Six months ago the Soviet government signed the Treaty of Brest-Litovsk. Since then it has lost most of the Volga to a Czechoslovak revolt and a Socialist-Revolutionary government at Samara, and Kazan fell on 6 August. A rising by the Left Socialist-Revolutionaries in Moscow in July was put down. On 30 August Uritsky, head of the Petrograd Cheka, was shot dead, and Lenin was shot and wounded in Moscow.",
-      "On 2 September the Republic was declared an armed camp and the Revolutionary Military Council was formed under Trotsky. On 5 September the Council of People's Commissars ordered the Red Terror: the Cheka was to shoot enemies of the regime and hold hostages. This game starts with the Military Council, and the Terror is not one of its orders. It is part of the setting. It is described in \"What this game leaves out\".",
+      "On 2 September the Republic was declared a military camp and the Revolutionary Military Council was formed under Trotsky. On 5 September the Council of People's Commissars ordered the Red Terror: the Cheka was to shoot enemies of the regime and hold hostages. This game starts with the Military Council, and the Terror is not one of its orders. It is part of the setting. It is described in \"What this game leaves out\".",
       "The army this council commands is built by conscription in a country with little food. Grain detachments went into the villages from the summer of 1918, and peasants resisted them. The families of some officers who served in the Red Army were held as hostages for their loyalty.",
     ],
   },
@@ -7429,7 +7429,7 @@ function TopBar({ title, screenTitle, onClose, menuItems }) {
   );
 }
 
-function CipherBlock({ campaign, node, skin, reduceMotion }) {
+function CipherBlock({ campaign, node, skin, reduceMotion, letterhead = null }) {
   const groups = cipherGroups(node?.title || campaign.id);
   const originatorMap = {
     southRussia: "AFSR Field Staff",
@@ -7449,7 +7449,8 @@ function CipherBlock({ campaign, node, skin, reduceMotion }) {
       {/* Header device — the one element that's structurally different per
           skin, not just recolored. Everything else in this block keeps the
           same slot order across all three. */}
-      {skin.headerStyle === "seal" && (
+      {letterhead}
+      {!letterhead && skin.headerStyle === "seal" && (
         <div className="flex items-center gap-3 mb-3">
           <div className="relative w-14 h-14 rounded-full border-2 flex items-center justify-center flex-shrink-0" style={accentBorderStyle(skin)}>
             <div className="absolute inset-1 rounded-full border opacity-60" style={accentBorderStyle(skin)} />
@@ -7458,7 +7459,7 @@ function CipherBlock({ campaign, node, skin, reduceMotion }) {
           <div style={mutedTextStyle(skin)}>DISPATCH — ENCIPHERED</div>
         </div>
       )}
-      {skin.headerStyle === "railmarker" && (
+      {!letterhead && skin.headerStyle === "railmarker" && (
         <div className="mb-3">
           <div className="flex gap-1">
             {[0, 1, 2, 3, 4, 5, 6].map((i) => (
@@ -7468,7 +7469,7 @@ function CipherBlock({ campaign, node, skin, reduceMotion }) {
           <div className="mt-1" style={mutedTextStyle(skin)}>{campaign.shortTag} — VERST 0, TELEGRAPH LINE</div>
         </div>
       )}
-      {skin.headerStyle === "stamp" && (
+      {!letterhead && skin.headerStyle === "stamp" && (
         <div className="mb-3 relative">
           <div className="absolute right-0 top-0 w-16 h-16 rounded-full border-2 flex items-center justify-center opacity-90" style={{ ...accentBorderStyle(skin), transform: reduceMotion ? "none" : "rotate(-9deg)" }}>
             <div className="font-bold text-center leading-tight" style={{ ...accentTextStyle(skin), ...displayFontStyle(skin), fontSize: "9px" }}>
@@ -7478,7 +7479,7 @@ function CipherBlock({ campaign, node, skin, reduceMotion }) {
           <div style={{ ...mutedTextStyle(skin), maxWidth: "60%" }}>ENCIPHERED DISPATCH</div>
         </div>
       )}
-      {skin.headerStyle === "telegram" && (
+      {!letterhead && skin.headerStyle === "telegram" && (
         <div className="mb-3">
           <div className="tracking-widest font-bold mb-1" style={{ ...accentTextStyle(skin), fontSize: "10px" }}>
             {"· — ·· — ·"} {campaign.shortTag} {"· — ·· — ·"}
@@ -7779,7 +7780,7 @@ function addImpacts(a, b) {
 function EasyPreview({ choice, campaign, skin }) {
   return (
     <div className="border-2 border-dashed mt-2 px-2 py-2 text-xs" style={{ borderColor: skin.paperDim, ...monoFontStyle(skin) }}>
-      <div className="font-bold" style={accentTextStyle(skin)}>IF YOU ISSUE THIS ORDER</div>
+      <div className="font-bold" style={accentTextStyle(skin)}>THE STAFF'S FIGURES: IF YOU ISSUE THIS ORDER</div>
       {choice.uncertain ? (
         <>
           <div className="mt-1">Before the roll: {impactSummary(campaign, choice.impact)}</div>
@@ -7931,6 +7932,7 @@ function ChoiceCard({ choice, skin, meters, campaign, easyMode, planBattles, har
           ⚔ LEADS TO BATTLE PLANNING
         </div>
       )}
+      {!hardModeEnabled && !blocked && <StaffNote choice={choice} campaign={campaign} skin={skin} open={easyMode} />}
       {easyMode && !blocked && <EasyPreview choice={choice} campaign={campaign} skin={skin} />}
       {blocked ? (
         <div className="mt-3 text-xs" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>
@@ -8158,7 +8160,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ea
           </button>
         </div>
         <div className="mt-4">
-          <CipherBlock campaign={c} node={node} skin={skin} reduceMotion={reduceMotion} />
+          <CipherBlock campaign={c} node={node} skin={skin} reduceMotion={reduceMotion} letterhead={<Letterhead campaign={c} node={node} nodeId={nodeId} skin={skin} />} />
         </div>
         <div className="mt-4">
           <div className="text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>{node.date}</div>
@@ -8174,6 +8176,7 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ea
           >
             {node.historicalRecord ? "◆ HISTORICAL RECORD" : "◇ SPECULATIVE — DOWNSTREAM OF DIVERGENCE"}
           </div>
+          <Plate id={PLATE_FOR[nodeId]} skin={skin} />
           {node.context && (
             <div
               className="border-l-2 mt-4 pl-3 py-1 text-xs leading-relaxed cursor-pointer"
@@ -8192,6 +8195,10 @@ function BriefingScreen({ campaignId, nodeId, meters, flags, hardModeEnabled, ea
             </div>
           )}
           <TypewriterText text={node.situation + battleEchoText(BATTLES, nodeId, flags)} instant={instantText} className="text-sm mt-4 leading-relaxed" />
+          {DOCUMENTS[nodeId] && <DocumentCard doc={DOCUMENTS[nodeId]} skin={skin} />}
+          <QuoteStrip nodeId={nodeId} skin={skin} />
+          <TermsInReport node={node} skin={skin} />
+          <CastPanel campaignId={c.id} nodeId={nodeId} node={node} flags={flags} skin={skin} />
         </div>
         <div className="mt-6">
           {node.choices.map((choice, i) => (
@@ -8314,7 +8321,7 @@ const RAIL_LINES = [
 
 // Shared by FrontMapScreen and EndingScreen — one map renderer, not two
 // copies of the same rail logic drifting apart over time.
-function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false, atDate = null }) {
+function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false, atDate = null, flags = null, campaignId = null }) {
   function RailSegment({ a, b, active }) {
     const p1 = CITIES[a];
     const p2 = CITIES[b];
@@ -8424,7 +8431,7 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
       {Object.entries(ZONE_CELLS).map(([cid, d]) => {
         const city = CITIES[cid];
         if (!city || !d) return null;
-        const side = controlAt(city, atDate);
+        const side = controlFor(cid, city, atDate, flags);
         const sideColor = CONTROL_COLORS[side] || CONTROL_COLORS.unknown;
         const fillValue = side === "contested" ? "url(#contestedHatch)" : sideColor;
         return <path key={cid} d={d} fill={fillValue} fillOpacity={side === "contested" ? 1 : zoneOpacity} fillRule="evenodd" stroke="none" />;
@@ -8432,6 +8439,7 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
       {WATER_PATHS.map((d, i) => (
         <path key={i} d={d} fill={skin.dark ? "rgba(120,150,180,0.22)" : "rgba(70,110,150,0.16)"} fillRule="evenodd" stroke="none" />
       ))}
+      <TerrainLayer skin={skin} compact={compact} />
       <text x="130" y="355" fontSize="12" fill={skin.paperDim} style={{ fontFamily: skin.monoFont }} opacity="0.7">BLACK SEA</text>
       <text x="342" y="345" fontSize="11" fill={skin.paperDim} style={{ fontFamily: skin.monoFont }} opacity="0.7">CASPIAN SEA</text>
       <text x="880" y="160" fontSize="10" fill={skin.paperDim} style={{ fontFamily: skin.monoFont }} opacity="0.7">L. BAIKAL</text>
@@ -8467,6 +8475,7 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
         const active = visitedCityIds.includes(a) && visitedCityIds.includes(b);
         return <RailSegment key={`${a}-${b}`} a={a} b={b} active={active} />;
       })}
+      {!compact && <OperationsLayer atDate={atDate} skin={skin} />}
       {Object.entries(CITIES).map(([cid, city]) => {
         const visited = visitedCityIds.includes(cid);
         const isCurrent = cid === currentCityId;
@@ -8474,7 +8483,7 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
         const lp = labelPos(city, isCurrent);
         const fontSize = isCurrent ? 14 : visited ? 12 : 10.5;
         const r = markerRadius(city);
-        const side = controlAt(city, atDate);
+        const side = controlFor(cid, city, atDate, flags);
         const sideColor = CONTROL_COLORS[side] || CONTROL_COLORS.unknown;
         // Visited places are filled with the controlling side's colour.
         // Unvisited ones are outlined in it — so the front is readable
@@ -8543,7 +8552,7 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
               fill="none"
               style={{ fontFamily: skin.monoFont }}
             >
-              {city.name}
+              {placeName(cid, atDate)}
             </text>
             <text
               x={lp.x}
@@ -8554,11 +8563,12 @@ function SituationMapSvg({ visitedCityIds, currentCityId, skin, compact = false,
               fill={visited ? (skin.dark ? skin.paper : skin.ink) : skin.paperDim}
               style={{ fontFamily: skin.monoFont }}
             >
-              {city.name}
+              {placeName(cid, atDate)}
             </text>
           </g>
         );
       })}
+      {!compact && campaignId && <AssetGlyphs campaignId={campaignId} atDate={atDate} flags={flags} skin={skin} />}
     </svg>
   );
 }
@@ -8684,7 +8694,7 @@ function MapLegendRow({ campaignId, skin }) {
   );
 }
 
-function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
+function FrontMapScreen({ campaignId, visitedNodes, flags, meters, skin, onClose }) {
   const c = CAMPAIGNS[campaignId];
   const visitedCityIds = [];
   for (const nid of visitedNodes) {
@@ -8775,10 +8785,14 @@ function FrontMapScreen({ campaignId, visitedNodes, skin, onClose }) {
           </div>
         )}
         <div className="border-2 mt-3" style={{ borderColor: skin.accent }}>
-          <SituationMapSvg visitedCityIds={visitedCityIds} currentCityId={currentCityId} skin={skin} atDate={atDate} />
+          <SituationMapSvg visitedCityIds={visitedCityIds} currentCityId={currentCityId} skin={skin} atDate={atDate} flags={flags} campaignId={c.id} />
         </div>
 
         <MapLegendRow campaignId={c.id} skin={skin} />
+        <AssetLegend skin={skin} />
+        <OperationsList atDate={atDate} skin={skin} />
+        <SupplyPanel campaignId={c.id} atDate={atDate} flags={flags} meters={meters} skin={skin} />
+        <PlaceNamesNote cityIds={Object.keys(CITIES)} skin={skin} />
 
         <div className="text-xs mt-3 leading-relaxed" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
           {mapVoice.body}
@@ -9073,9 +9087,10 @@ function EndingScreen({ campaignId, endingId, flags, visitedNodes, decisions, in
         >
           {ending.badge}
         </div>
+        <Plate id={PLATE_FOR[endingId]} skin={skin} />
         {finalCityId && (
           <div className="border-2 mt-5" style={{ borderColor: skin.paperDim }}>
-            <SituationMapSvg visitedCityIds={visitedCityIds} currentCityId={finalCityId} skin={skin} compact atDate={endingDate} />
+            <SituationMapSvg visitedCityIds={visitedCityIds} currentCityId={finalCityId} skin={skin} compact atDate={endingDate} flags={flags} />
             <div className="text-xs px-3 py-2" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
               WHERE THIS COMMAND'S STORY ENDS: {CITIES[finalCityId]?.name?.toUpperCase()}
             </div>
@@ -10449,6 +10464,961 @@ function BattleReport({ campaignId, battle, skin }) {
     </section>
   );
 }
+// PERIOD DETAILS
+// The map's terrain, the named operations, the supply picture and the place names; then the letterheads, documents, plates, quotations, terms,
+// staff and cast that make each report read as a file of the time. Everything here is keyed by a report, a city or a campaign, so the reports
+// themselves are not touched. Nothing in this part is data the validators read (it sits below PREVIEW SCREENS).
+
+// ---------------------------------------------------------------------------------------------------------------------
+// MAP: the projection the city positions were made with (equirectangular, standard parallel 53 degrees north, one unit
+// about 7.0 km), fitted to the city table and checked against Petrograd, Moscow, Sevastopol and Chita to within a unit.
+function projectLL(lat, lon) {
+  return [Math.round((lon - 15.0) * 9.56 * 10) / 10, Math.round((64 - lat) * 15.886 * 10) / 10];
+}
+const polyPath = (pts) => pts.map(([lat, lon], i) => { const [x, y] = projectLL(lat, lon); return (i ? "L " : "M ") + x + " " + y; }).join(" ");
+
+// Rivers as waypoints through named towns (approximate: drawn to show where an army met water, not to survey it).
+const RIVERS = [
+  { id: "volga", name: "Volga", pts: [[57.0, 38.0], [57.63, 39.9], [57.77, 40.93], [56.33, 44.0], [56.1, 46.5], [55.8, 49.2], [54.3, 48.4], [53.4, 49.6], [52.0, 47.5], [51.53, 46.03], [50.0, 45.4], [48.7, 44.5], [47.0, 46.9], [46.35, 48.04]] },
+  { id: "kama", name: "Kama", pts: [[60.0, 56.5], [58.0, 56.2], [57.0, 54.0], [56.2, 52.5], [55.7, 52.0], [55.4, 50.0]] },
+  { id: "don", name: "Don", pts: [[54.0, 38.3], [53.0, 38.9], [51.7, 39.2], [50.45, 40.1], [49.6, 42.7], [48.7, 43.5], [47.6, 42.1], [47.3, 40.0], [47.1, 39.2]] },
+  { id: "dnieper", name: "Dnieper", pts: [[55.0, 31.5], [54.5, 30.4], [53.9, 30.3], [52.4, 30.9], [50.45, 30.55], [49.8, 31.5], [49.07, 33.4], [48.45, 35.0], [47.85, 35.1], [47.55, 34.4], [46.8, 33.4], [46.6, 32.6], [46.5, 31.9]] },
+  { id: "vistula", name: "Vistula", pts: [[50.0, 20.0], [51.0, 21.8], [52.2, 21.0], [52.6, 19.5], [54.0, 18.8]] },
+  { id: "kuban", name: "Kuban", pts: [[43.9, 41.0], [44.6, 40.0], [45.0, 39.0], [45.2, 38.0], [45.3, 37.4]] },
+  { id: "ob", name: "Ob", pts: [[52.5, 85.0], [53.35, 83.8], [54.9, 83.0], [56.5, 83.0], [58.3, 82.9], [60.0, 80.5], [62.0, 77.0]] },
+  { id: "irtysh", name: "Irtysh", pts: [[50.4, 80.3], [52.3, 77.0], [53.5, 75.0], [55.0, 73.4], [56.5, 71.0], [58.2, 68.25], [60.5, 68.5]] },
+  { id: "tobol", name: "Tobol", pts: [[52.0, 63.0], [53.2, 63.6], [55.4, 65.3], [57.0, 66.0], [58.2, 68.25]] },
+  { id: "yenisei", name: "Yenisei", pts: [[52.5, 91.5], [54.0, 91.5], [56.0, 92.9], [58.0, 92.0], [60.0, 90.0], [62.0, 89.5]] },
+  { id: "angara", name: "Angara", pts: [[51.9, 104.9], [52.3, 104.3], [54.0, 102.2], [56.1, 101.8], [58.0, 97.0], [58.0, 93.0]] },
+];
+// Mountain ranges as ridge lines; drawn as a row of small peaks along them.
+const RANGES = [
+  { id: "urals", name: "URALS", pts: [[52.0, 58.0], [53.0, 58.8], [54.0, 59.3], [55.2, 59.7], [56.5, 59.5], [58.0, 59.6], [59.5, 59.3], [61.0, 59.0], [63.0, 59.5]], label: [57.2, 60.4] },
+  { id: "caucasus", name: "CAUCASUS", pts: [[44.0, 38.5], [43.6, 40.5], [43.35, 42.4], [42.8, 44.0], [42.6, 45.5], [42.2, 47.0], [41.7, 48.0]], label: [42.0, 41.0] },
+  { id: "sayan", name: "SAYAN", pts: [[51.5, 92.0], [51.8, 95.0], [52.0, 98.0], [51.8, 101.0], [51.5, 103.0]], label: [50.6, 96.0] },
+  { id: "carpathians", name: "", pts: [[49.0, 22.5], [48.5, 24.5], [48.0, 25.5]], label: null },
+];
+
+function ridgePoints(pts, every) {
+  const xy = pts.map(([la, lo]) => projectLL(la, lo));
+  const out = [];
+  let carry = 0;
+  for (let i = 1; i < xy.length; i++) {
+    const [x1, y1] = xy[i - 1];
+    const [x2, y2] = xy[i];
+    const len = Math.hypot(x2 - x1, y2 - y1);
+    let d = every - carry;
+    while (d <= len) {
+      out.push([x1 + ((x2 - x1) * d) / len, y1 + ((y2 - y1) * d) / len]);
+      d += every;
+    }
+    carry = len - (d - every);
+  }
+  return out;
+}
+
+function TerrainLayer({ skin, compact }) {
+  const water = skin.dark ? "rgba(140,170,200,0.55)" : "rgba(60,100,140,0.45)";
+  const rock = skin.dark ? "rgba(255,255,255,0.35)" : "rgba(60,50,40,0.40)";
+  return (
+    <g aria-hidden="true">
+      {RIVERS.map((r) => (
+        <path key={r.id} d={polyPath(r.pts)} fill="none" stroke={water} strokeWidth={r.id === "volga" || r.id === "ob" || r.id === "yenisei" ? 2.2 : 1.4} strokeLinecap="round" strokeLinejoin="round" />
+      ))}
+      {RANGES.map((g) =>
+        ridgePoints(g.pts, 7).map(([x, y], i) => (
+          <path key={g.id + i} d={`M ${x - 3.2} ${y + 2.2} L ${x} ${y - 3} L ${x + 3.2} ${y + 2.2}`} fill="none" stroke={rock} strokeWidth="1.1" />
+        ))
+      )}
+      {!compact &&
+        RIVERS.filter((r) => ["volga", "don", "dnieper", "ob", "yenisei", "irtysh"].includes(r.id)).map((r) => {
+          const mid = r.pts[Math.floor(r.pts.length / 2)];
+          const [x, y] = projectLL(mid[0], mid[1]);
+          return (
+            <text key={"l" + r.id} x={x + 5} y={y - 3} fontSize="9" fill={water} style={{ fontFamily: skin.monoFont, fontStyle: "italic" }}>{r.name}</text>
+          );
+        })}
+      {!compact &&
+        RANGES.filter((g) => g.label).map((g) => {
+          const [x, y] = projectLL(g.label[0], g.label[1]);
+          return <text key={"r" + g.id} x={x} y={y} fontSize="8.5" fill={rock} letterSpacing="1.5" style={{ fontFamily: skin.monoFont }}>{g.name}</text>;
+        })}
+    </g>
+  );
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// MAP: named operations, drawn while they were under way. start and end are YYYYMM (inclusive).
+const OPERATIONS = [
+  { id: "icemarch", name: "Ice March", side: "white", from: "don", to: "ekaterinodar", start: 191802, end: 191804, text: "The Volunteer Army marches from the Don to the Kuban and turns on Ekaterinodar." },
+  { id: "volgathrust", name: "Caucasus Army to the Volga", side: "white", from: "ekaterinodar", to: "tsaritsyn", start: 191905, end: 191906, text: "Wrangel's Caucasus Army fights its way north to Tsaritsyn, which falls on 30 June." },
+  { id: "kolchakspring", name: "Spring offensive", side: "white", from: "omsk", to: "ufa", start: 191903, end: 191905, text: "Kolchak's army drives west from the Urals toward the Volga." },
+  { id: "redufa", name: "Eastern Front counteroffensive", side: "red", from: "ufa", to: "chelyabinsk", start: 191906, end: 191907, text: "The Red Army retakes Ufa on 9 June and Chelyabinsk on 24 July." },
+  { id: "moscowdirective", name: "Moscow Directive", side: "white", from: "kharkov", to: "orel", start: 191907, end: 191910, text: "The Armed Forces of South Russia advance on Moscow and reach Orel on 13 October." },
+  { id: "redpursuit", name: "Pursuit into Siberia", side: "red", from: "chelyabinsk", to: "omsk", start: 191908, end: 191911, text: "The Red armies drive east across the Tobol and Ishim and take Omsk on 14 November." },
+  { id: "redsouth", name: "Southern Front counteroffensive", side: "red", from: "orel", to: "kharkov", start: 191910, end: 191912, text: "The Red armies retake Orel and push the Whites south; Kharkov falls on 12 December." },
+  { id: "krasnoyarsk", name: "Advance to Krasnoyarsk", side: "red", from: "omsk", to: "krasnoyarsk", start: 191911, end: 192001, text: "The Red 5th Army follows the retreating Whites along the railway to Krasnoyarsk." },
+  { id: "siberiaice", name: "Great Siberian Ice March", side: "white", from: "krasnoyarsk", to: "irkutsk", start: 192001, end: 192002, text: "The remnants of Kolchak's armies retreat east on foot and by sleigh toward Irkutsk." },
+  { id: "polish", name: "Polish-Soviet War", side: "red", from: "kiev", to: "warsaw", start: 192006, end: 192008, text: "After the Poles take Kiev in May, the Red Army advances to the Vistula in July and August." },
+  { id: "perekop", name: "Perekop and the Sivash", side: "red", from: "perekop", to: "sevastopol", start: 192011, end: 192011, text: "The Red Army storms the Perekop defences and crosses the Sivash, 7 to 17 November." },
+  { id: "kronstadt", name: "Assault on Kronstadt", side: "red", from: "petrograd", to: "kronstadt", start: 192103, end: 192103, text: "The Red Army crosses the ice to Kronstadt on 17 and 18 March." },
+];
+const activeOperations = (atDate) => (atDate == null ? [] : OPERATIONS.filter((o) => atDate >= o.start && atDate <= o.end));
+
+function OperationsLayer({ atDate, skin }) {
+  const ops = activeOperations(atDate);
+  if (!ops.length) return null;
+  return (
+    <g aria-hidden="true">
+      <defs>
+        {["red", "white"].map((s) => (
+          <marker key={s} id={"opHead-" + s} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill={CONTROL_COLORS[s]} />
+          </marker>
+        ))}
+      </defs>
+      {ops.map((o, n) => {
+        const a = CITIES[o.from];
+        const b = CITIES[o.to];
+        if (!a || !b) return null;
+        const mx = (a.x + b.x) / 2;
+        const my = (a.y + b.y) / 2;
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const len = Math.hypot(dx, dy) || 1;
+        const bend = Math.min(30, len * 0.18);
+        const cx = mx - (dy / len) * bend;
+        const cy = my + (dx / len) * bend;
+        const col = CONTROL_COLORS[o.side];
+        const tx = (a.x + 2 * cx + b.x) / 4;
+        const ty = (a.y + 2 * cy + b.y) / 4;
+        return (
+          <g key={o.id}>
+            <path d={`M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}`} fill="none" stroke={col} strokeWidth="3" strokeDasharray="9 5" opacity="0.9" markerEnd={"url(#opHead-" + o.side + ")"} />
+            <circle cx={tx} cy={ty} r="8" fill={col} stroke={skin.dark ? skin.ground : skin.paper} strokeWidth="1.5" />
+            <text x={tx} y={ty + 4} fontSize="11" textAnchor="middle" fontWeight="bold" fill="#fff" style={{ fontFamily: skin.monoFont }}>{n + 1}</text>
+          </g>
+        );
+      })}
+    </g>
+  );
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// MAP: what a command lives on. Rail junctions, grain districts, coal and ports, held or lost as the map shows the control of the
+// nearest city; a command whose rail (or war industry) meter is low has its held junctions marked as strained.
+const CITY_ASSETS = {
+  moscow: ["junction"],
+  petrograd: ["port"],
+  kronstadt: ["port"],
+  orel: ["junction", "grain"],
+  voronezh: ["junction", "grain"],
+  kharkov: ["junction"],
+  kiev: ["grain"],
+  yuzovka: ["coal"],
+  don: ["grain"],
+  saratov: ["grain"],
+  tsaritsyn: ["junction"],
+  ekaterinodar: ["grain"],
+  novorossiysk: ["port"],
+  sevastopol: ["port"],
+  ufa: ["junction"],
+  chelyabinsk: ["junction"],
+  omsk: ["junction", "grain"],
+  krasnoyarsk: ["junction"],
+  irkutsk: ["junction"],
+  chita: ["junction"],
+};
+const ASSET_KINDS = [
+  { id: "junction", label: "RAIL JUNCTIONS", one: "junction" },
+  { id: "grain", label: "GRAIN DISTRICTS", one: "grain district" },
+  { id: "coal", label: "COAL", one: "coalfield" },
+  { id: "port", label: "PORTS", one: "port" },
+];
+const ASSET_DETAIL = {
+  yuzovka: "the Donbas coalfield",
+  don: "the Don Cossack grain lands",
+  ekaterinodar: "the Kuban grain lands",
+  saratov: "the Volga grain lands",
+  omsk: "the Siberian wheat belt",
+  kiev: "the Ukrainian grain lands",
+  orel: "the black-earth grain of the centre",
+  voronezh: "the black-earth grain of the centre",
+};
+// The side a command fights for on this map, and the meter that stands for its railways and works.
+const SUPPLY_SIDE = { southRussia: "white", siberia: "white", bolsheviks: "red" };
+const SUPPLY_AXIS = { southRussia: "rail", siberia: "rail", bolsheviks: "warIndustry" };
+
+// A few of the player's own decisions change who holds a place. Each entry names the flag and value that has to be on the run, the place,
+// the months it applies to (YYYYMM, inclusive) and the control it has then.
+const MAP_EFFECTS = [
+  { flag: "perekopOutcome", value: "stalled", city: "perekop", from: 192011, to: 192011, side: "white" },
+  { flag: "perekopOutcome", value: "stalled", city: "sevastopol", from: 192011, to: 192011, side: "white" },
+  { flag: "chelyabinskOutcome", value: "checked", city: "chelyabinsk", from: 191907, to: 191907, side: "contested" },
+  { flag: "kronstadtChoice", value: "wait_for_thaw", city: "kronstadt", from: 192104, to: 192112, side: "contested" },
+];
+function controlFor(cid, city, atDate, flags) {
+  if (flags && atDate != null) {
+    for (const e of MAP_EFFECTS) {
+      if (e.city === cid && flags[e.flag] === e.value && atDate >= e.from && atDate <= e.to) return e.side;
+    }
+  }
+  return controlAt(city, atDate);
+}
+
+function supplyReport(campaignId, atDate, flags, meters) {
+  const side = SUPPLY_SIDE[campaignId];
+  if (!side || atDate == null) return null;
+  const axis = SUPPLY_AXIS[campaignId];
+  const strained = !!(meters && axis && meters[axis] != null && meters[axis] <= -3);
+  const kinds = ASSET_KINDS.map((k) => {
+    const items = [];
+    for (const [cid, list] of Object.entries(CITY_ASSETS)) {
+      if (!list.includes(k.id)) continue;
+      const city = CITIES[cid];
+      const ctl = controlFor(cid, city, atDate, flags);
+      if (ctl === "unknown") continue;
+      let state = ctl === side ? "held" : ctl === "contested" ? "contested" : "lost";
+      if (state === "held" && strained && k.id === "junction") state = "strained";
+      items.push({ cid, name: placeName(cid, atDate), state, detail: ASSET_DETAIL[cid] || "" });
+    }
+    return { ...k, items };
+  }).filter((k) => k.items.length);
+  return { side, strained, axis, kinds };
+}
+
+function SupplyPanel({ campaignId, atDate, flags, meters, skin }) {
+  const rep = supplyReport(campaignId, atDate, flags, meters);
+  if (!rep) return null;
+  const word = { held: "HELD", strained: "HELD, STRAINED", contested: "CONTESTED", lost: "LOST" };
+  return (
+    <section className="border-2 mt-4 p-3 text-xs" style={{ borderColor: skin.paperDim, ...monoFontStyle(skin) }} aria-labelledby="supply-title">
+      <div id="supply-title" className="font-bold tracking-widest" style={accentTextStyle(skin)}>WHAT THE COMMAND LIVES ON, AS OF {monthKeyLabel(atDate)}</div>
+      {rep.strained && (
+        <div className="mt-1" style={mutedTextStyle(skin)}>The railways and works are running badly. Junctions that are held still carry less than they should.</div>
+      )}
+      {rep.kinds.map((k) => {
+        const held = k.items.filter((i) => i.state === "held" || i.state === "strained").length;
+        return (
+          <div key={k.id} className="mt-3">
+            <div className="font-bold">{k.label}: {held} OF {k.items.length} HELD</div>
+            <ul style={{ listStyle: "none", padding: 0 }} className="mt-1">
+              {k.items.map((i) => (
+                <li key={i.cid} className="py-0.5" style={i.state === "lost" ? mutedTextStyle(skin) : undefined}>
+                  {i.name}{i.detail ? ` (${i.detail})` : ""}: <b>{word[i.state]}</b>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </section>
+  );
+}
+
+function OperationsList({ atDate, skin }) {
+  const ops = activeOperations(atDate);
+  if (!ops.length) return null;
+  return (
+    <section className="border-2 mt-4 p-3 text-xs" style={{ borderColor: skin.paperDim, ...monoFontStyle(skin) }} aria-labelledby="ops-title">
+      <div id="ops-title" className="font-bold tracking-widest" style={accentTextStyle(skin)}>UNDER WAY THIS MONTH</div>
+      <ul style={{ listStyle: "none", padding: 0 }}>
+        {ops.map((o, n) => (
+          <li key={o.id} className="mt-2">
+            <b>{n + 1}. {o.name.toUpperCase()}</b> ({o.side === "red" ? "Red" : "White"}). {o.text}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+// Drawn beside each marker on the full map: a small glyph for each asset the place carries, dashed when it is contested and pale when it is lost.
+function AssetGlyphs({ campaignId, atDate, flags, skin }) {
+  const side = SUPPLY_SIDE[campaignId];
+  if (!side) return null;
+  const ink = skin.dark ? skin.paper : skin.ink;
+  return (
+    <g aria-hidden="true">
+      {Object.entries(CITY_ASSETS).map(([cid, list]) => {
+        const city = CITIES[cid];
+        if (!city) return null;
+        const ctl = controlFor(cid, city, atDate, flags);
+        if (ctl === "unknown") return null;
+        const op = ctl === side ? 1 : ctl === "contested" ? 0.7 : 0.3;
+        const dash = ctl === "contested" ? "2 1.5" : undefined;
+        return list.map((a, i) => {
+          const x = city.x - 8 + i * 9;
+          const y = city.y - markerRadius(city) - 6;
+          if (a === "junction") return <g key={cid + a} opacity={op}><circle cx={x} cy={y} r="3.4" fill="none" stroke={ink} strokeWidth="1.3" strokeDasharray={dash} /><path d={`M ${x - 3.4} ${y} H ${x + 3.4} M ${x} ${y - 3.4} V ${y + 3.4}`} stroke={ink} strokeWidth="1" /></g>;
+          if (a === "grain") return <g key={cid + a} opacity={op}><circle cx={x} cy={y} r="3.4" fill="#c9a227" stroke={ink} strokeWidth="0.9" strokeDasharray={dash} /></g>;
+          if (a === "coal") return <g key={cid + a} opacity={op}><rect x={x - 3.2} y={y - 3.2} width="6.4" height="6.4" fill={ink} stroke={ink} strokeDasharray={dash} /></g>;
+          return <g key={cid + a} opacity={op}><path d={`M ${x} ${y - 3.6} L ${x + 3.6} ${y + 3} L ${x - 3.6} ${y + 3} Z`} fill="none" stroke={ink} strokeWidth="1.3" strokeDasharray={dash} /></g>;
+        });
+      })}
+    </g>
+  );
+}
+
+function AssetLegend({ skin }) {
+  const ink = skin.dark ? skin.paper : skin.ink;
+  const items = [
+    ["junction", "rail junction"],
+    ["grain", "grain district"],
+    ["coal", "coalfield"],
+    ["port", "port"],
+  ];
+  return (
+    <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+      {items.map(([k, t]) => (
+        <span key={k} className="flex items-center gap-1">
+          <svg width="12" height="12" viewBox="-6 -6 12 12" aria-hidden="true">
+            {k === "junction" && <g><circle r="3.4" fill="none" stroke={ink} strokeWidth="1.3" /><path d="M -3.4 0 H 3.4 M 0 -3.4 V 3.4" stroke={ink} strokeWidth="1" /></g>}
+            {k === "grain" && <circle r="3.4" fill="#c9a227" stroke={ink} strokeWidth="0.9" />}
+            {k === "coal" && <rect x="-3.2" y="-3.2" width="6.4" height="6.4" fill={ink} />}
+            {k === "port" && <path d="M 0 -3.6 L 3.6 3 L -3.6 3 Z" fill="none" stroke={ink} strokeWidth="1.3" />}
+          </svg>
+          {t}
+        </span>
+      ))}
+      <span>Dashed: contested. Pale: lost.</span>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// PLACE NAMES: the name in use on the date, and the later names a reader may know the place by.
+const CITY_NAMES = {
+  ekaterinodar: [[191701, "Ekaterinodar"], [192012, "Krasnodar"]],
+};
+const CITY_LATER = {
+  tsaritsyn: "Stalingrad from 1925, Volgograd from 1961",
+  petrograd: "Leningrad from 1924, St Petersburg from 1991",
+  yuzovka: "Stalin from 1924, Donetsk from 1961",
+  ekaterinodar: "Krasnodar from December 1920",
+  kiev: "Kyiv in the Ukrainian spelling used today",
+  kharkov: "Kharkiv in the Ukrainian spelling used today",
+};
+function placeName(cid, atDate) {
+  const city = CITIES[cid];
+  if (!city) return cid;
+  const list = CITY_NAMES[cid];
+  if (!list || atDate == null) return city.name;
+  let name = list[0][1];
+  for (const [from, n] of list) if (atDate >= from) name = n;
+  return name;
+}
+function PlaceNamesNote({ cityIds, skin }) {
+  const rows = [...new Set(cityIds)].filter((c) => CITY_LATER[c]);
+  if (!rows.length) return null;
+  return (
+    <details className="mt-3 text-xs" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>
+      <summary className="cursor-pointer font-bold tracking-widest" style={accentTextStyle(skin)}>PLACE NAMES THAT CHANGED</summary>
+      <ul style={{ listStyle: "none", padding: 0 }} className="mt-2">
+        {rows.map((c) => (
+          <li key={c} className="py-0.5"><b>{CITIES[c].name}</b>: {CITY_LATER[c]}.</li>
+        ))}
+      </ul>
+    </details>
+  );
+}
+// LETTERS AND DOCUMENTS
+// The letterhead of each command, the documents on the table, the quotations, the terms in a report, the staff and the staff note.
+// All of it is keyed by a report, a campaign or a choice, and nothing here changes what a report says or what an order does.
+
+const reportMonth = (node) => firstMonthKey(node && node.date);
+
+// ---------------------------------------------------------------------------------------------------------------------
+// LETTERHEAD: who is writing, from where, and how the commander is addressed. The forms follow the usage of each side on the date.
+function letterheadFor(campaignId, node, nodeId) {
+  const month = reportMonth(node) || 0;
+  const cid = NODE_TO_CITY[nodeId];
+  const place = (cid && placeName(cid, month || null)) || { southRussia: "Ekaterinodar", siberia: "Omsk", bolsheviks: "Moscow", provisionalGov17: "Petrograd" }[campaignId];
+  switch (campaignId) {
+    case "southRussia":
+      return {
+        organ: month < 191901 ? "Command of the Volunteer Army" : month < 192006 ? "Command of the Armed Forces of South Russia" : "Command of the Russian Army",
+        initials: month < 191901 ? "VA" : month < 192006 ? "AFSR" : "RA",
+        place,
+        salutation: "Your Excellency,",
+      };
+    case "siberia":
+      return { organ: month < 191811 ? "Council of Ministers of the Russian State" : "Headquarters of the Supreme Ruler", initials: "SR", place, salutation: month < 191811 ? "Your Excellency," : "Supreme Ruler," };
+    case "bolsheviks":
+      return { organ: "Revolutionary Military Council of the Republic", initials: "RVS", place, salutation: "Comrade Chairman," };
+    default:
+      return { organ: "The Provisional Government", initials: "PG", place, salutation: "Citizen Minister," };
+  }
+}
+
+function Letterhead({ campaign, node, nodeId, skin }) {
+  const lh = letterheadFor(campaign.id, node, nodeId);
+  const ink = skin.dark ? skin.paper : skin.ink;
+  const kind = skin.headerStyle;
+  const frame =
+    kind === "seal" ? { border: "3px solid #111", outline: "1px solid #111", outlineOffset: "-7px" } : kind === "telegram" ? { borderTop: `4px double ${skin.accent}`, borderBottom: `4px double ${skin.accent}` } : { borderTop: `3px solid ${skin.accent}`, borderBottom: `1px solid ${skin.accent}` };
+  return (
+    <div className="mb-3 p-3" style={{ ...frame, ...monoFontStyle(skin) }}>
+      <div className="flex items-center gap-3">
+        <svg width="56" height="56" viewBox="-28 -28 56 56" aria-hidden="true" style={{ flexShrink: 0 }}>
+          {kind === "seal" && (
+            <g>
+              <circle r="24" fill={skin.accent} />
+              <circle r="19" fill="none" stroke={skin.paper} strokeWidth="1.2" />
+              <text y="5" textAnchor="middle" fontSize="13" fontWeight="bold" fill={skin.paper} style={{ fontFamily: skin.displayFont }}>{lh.initials}</text>
+              <path d="M -10 24 L -14 34 L -6 30 M 10 24 L 14 34 L 6 30" stroke={skin.accent} strokeWidth="3" fill="none" />
+            </g>
+          )}
+          {kind === "railmarker" && (
+            <g>
+              <path d="M -24 20 H 24 M -18 20 V -16 M 18 20 V -16 M -24 -10 H 24 M -24 -2 H 24" stroke={ink} strokeWidth="2" fill="none" />
+              <circle cx="-18" cy="-18" r="3.5" fill={skin.accent} />
+              <circle cx="18" cy="-18" r="3.5" fill={skin.accent} />
+              <path d="M -24 6 Q 0 14 24 6" stroke={skin.accent} strokeWidth="1.6" fill="none" />
+            </g>
+          )}
+          {kind === "stamp" && (
+            <g>
+              <circle r="24" fill="none" stroke={skin.accent} strokeWidth="3" />
+              <path d="M 0 -17 L 4.5 -5.5 L 16.5 -5 L 7.2 2.8 L 10.2 14.8 L 0 8 L -10.2 14.8 L -7.2 2.8 L -16.5 -5 L -4.5 -5.5 Z" fill={skin.accent} />
+            </g>
+          )}
+          {kind === "telegram" && (
+            <g>
+              <rect x="-24" y="-14" width="48" height="28" fill="none" stroke={skin.accent} strokeWidth="2.2" />
+              <path d="M -24 -14 L 0 4 L 24 -14" fill="none" stroke={skin.accent} strokeWidth="2" />
+              <path d="M -18 20 h4 m4 0 h10 m4 0 h4 m4 0 h6" stroke={ink} strokeWidth="2" strokeLinecap="round" />
+            </g>
+          )}
+        </svg>
+        <div style={{ minWidth: 0 }}>
+          <div className="font-bold uppercase tracking-wide" style={{ ...displayFontStyle(skin), ...accentTextStyle(skin), fontSize: "15px", lineHeight: 1.15 }}>{lh.organ}</div>
+          <div className="text-xs mt-1" style={mutedTextStyle(skin)}>{lh.place.toUpperCase()}</div>
+        </div>
+      </div>
+      <div className="text-xs mt-2" style={mutedTextStyle(skin)}>{lh.salutation}</div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// DOCUMENTS on the table at a report. The layout is a reconstruction of the form; the text is a summary of the document, never a
+// transcript, and a line in quotation marks is a real quotation with its translation noted. `basis` says where the summary comes from.
+const DOCUMENTS = {
+  aprilCrisis17: {
+    kind: "NOTE", title: "Note to the Allied Governments", from: "P. N. Miliukov, Minister of Foreign Affairs", to: "The Allied governments", date: "1 May 1917",
+    lines: ["Repeats the Provisional Government's declaration of 9 April on the aims of the war: no domination over other peoples.", "States the government's intention to carry the war to a decisive victory and to keep its obligations to the Allies.", "The Soviet's Executive Committee had spent weeks obtaining the phrase \"peace without annexations\". It is not in the Note."],
+    basis: "The Note of 1 May 1917 (18 April, Old Style) and the declaration of 9 April (27 March, Old Style). See claims/documents-round1.md.",
+  },
+  armyCommissars17: {
+    kind: "DECLARATION", title: "Declaration of the Rights of the Soldier", from: "A. F. Kerensky, Minister of War", to: "The army", date: "11 May 1917",
+    lines: ["Gives the soldier the civil rights of other citizens when he is off duty, including the right to belong to political organisations.", "Keeps military discipline in the ranks and on duty."],
+    basis: "The Declaration of 11 May 1917 (29 April, Old Style). See claims/documents-round1.md.",
+  },
+  kornilovAffair17: {
+    kind: "TELEGRAM", title: "Order to General Kornilov", from: "A. F. Kerensky, Minister-President", to: "General L. G. Kornilov, Supreme Commander", date: "9 September 1917",
+    lines: ["Orders Kornilov to hand over the post of Supreme Commander to General Lukomsky and to come to Petrograd.", "Kornilov answered the same day that he would not."],
+    basis: "Kerensky's telegram and Kornilov's reply of 27 August, Old Style (9 September). Browder and Kerensky, The Russian Provisional Government, 1917: Documents, vol. 3. See claims/documents-round1.md.",
+  },
+  moscowDirective19: {
+    kind: "DIRECTIVE", title: "Directive No. 08878", from: "General A. I. Denikin, Commander-in-Chief", to: "The armies of the Armed Forces of South Russia", date: "3 July 1919",
+    lines: ["“With the aim of seizing the heart of Russia, Moscow, I order:” (translation)", "The Volunteer Army, under General May-Maevsky, is to advance on Moscow by Kursk, Orel and Tula.", "The Don Army and the Caucasus Army have their own axes. The directive gave no time for the start of the offensive."],
+    basis: "Denikin's directive of 20 June (3 July). Translation of the opening line from a Markovtsy campaign history; directive number from RBTH. See claims/documents-round1.md.",
+  },
+  wrangelsDismissal20: {
+    kind: "ORDER", title: "Order removing General Wrangel", from: "General A. I. Denikin, Commander-in-Chief", to: "The Armed Forces of South Russia", date: "8 February 1920",
+    lines: ["Removes Lieutenant-General Wrangel from his command.", "Wrangel left for Constantinople at the end of the month."],
+    basis: "Order of 8 February 1920; the departure date is from the fact-check pass (claims/south-russia-round1.md).",
+  },
+  omskCoup18: {
+    kind: "PROCLAMATION", title: "Proclamation of the Supreme Ruler", from: "Admiral A. V. Kolchak", to: "The population of Russia", date: "18 November 1918",
+    lines: ["The Council of Ministers hands its powers to Admiral Kolchak, who takes the title of Supreme Ruler of the Russian State.", "The first act of the new ruler is an address that says he will follow neither reaction nor party politics. It is quoted at the foot of this report."],
+    basis: "The coup of 18 November 1918. See claims/documents-round1.md.",
+  },
+  revvoensovietFormed18: {
+    kind: "DECREE", title: "Decree declaring the Soviet Republic a military camp", from: "The All-Russian Central Executive Committee", to: "The Republic", date: "2 September 1918",
+    lines: ["Declares the Soviet Republic a military camp.", "Creates the Revolutionary Military Council of the Republic with Trotsky as its chairman.", "Places the fronts under one commander-in-chief, answerable to the chairman. The first was Ioakim Vatsetis."],
+    basis: "VTsIK decree of 2 September 1918. See claims/documents-round1.md.",
+  },
+  grainRequisition18: {
+    kind: "DECREE", title: "Decree on the requisition of grain and fodder", from: "The Council of People's Commissars", to: "The provinces", date: "11 January 1919",
+    lines: ["Fixes a quota of grain for each province, county and village, to be delivered in full.", "Grain is taken at fixed prices."],
+    basis: "Decree of 11 January 1919 introducing the prodrazverstka. See claims/documents-round1.md.",
+  },
+  polishWar20: {
+    kind: "ORDER", title: "Order of the day to the Western Front", from: "M. N. Tukhachevsky, commanding the Western Front", to: "The armies of the Western Front", date: "2 July 1920",
+    lines: ["Announces the advance on Warsaw and calls the army to carry the revolution westward through Poland.", "Ends with the words \"To the West!\""],
+    basis: "Order of 2 July 1920; translations of its middle passage differ, so only its sense is given. See claims/documents-round1.md.",
+  },
+  kronstadt21: {
+    kind: "RESOLUTION", title: "The Petropavlovsk resolution", from: "A general meeting of the ships' crews at Kronstadt", to: "The garrison and the Soviet government", date: "1 March 1921",
+    lines: ["Fifteen demands. The first is new elections to the Soviets by secret ballot, after free electoral propaganda.", "Freedom of speech and of the press for workers and peasants, for anarchists and for the left socialist parties.", "A meeting of 15,000 to 16,000 passed it. Two Bolshevik officials voted against."],
+    basis: "The resolution of 1 March 1921, as given by Mett, Avrich and the anarchist FAQ. See claims/documents-round1.md.",
+  },
+};
+
+function DocumentCard({ doc, skin }) {
+  const ink = skin.dark ? skin.paper : skin.ink;
+  return (
+    <details className="mt-4" style={monoFontStyle(skin)}>
+      <summary className="cursor-pointer text-xs font-bold tracking-widest" style={accentTextStyle(skin)}>▸ THE DOCUMENT ON THE TABLE: {doc.title.toUpperCase()}</summary>
+      <div className="mt-2 p-3" style={{ border: `1px solid ${ink}`, background: skin.dark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.55)", boxShadow: `3px 3px 0 ${skin.paperDim}` }}>
+        <div className="flex justify-between text-xs" style={mutedTextStyle(skin)}>
+          <span className="tracking-widest font-bold">{doc.kind}</span>
+          <span>{doc.date}</span>
+        </div>
+        <div className="font-bold mt-2" style={{ ...displayFontStyle(skin), fontSize: "17px" }}>{doc.title}</div>
+        <div className="text-xs mt-2"><b>FROM:</b> {doc.from}</div>
+        <div className="text-xs"><b>TO:</b> {doc.to}</div>
+        <div className="border-t my-2" style={{ borderColor: skin.paperDim }} />
+        {doc.lines.map((l, i) => (
+          <p key={i} className="text-sm mt-2 leading-relaxed" style={{ fontFamily: BODY_FONT }}>{l}</p>
+        ))}
+        <div className="border-t mt-3 pt-2 text-xs" style={{ borderColor: skin.paperDim, ...mutedTextStyle(skin) }}>
+          RECONSTRUCTED: the layout is of the period. The text is a summary, not a transcript. {doc.basis}
+        </div>
+      </div>
+    </details>
+  );
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// QUOTATIONS: real words, short, each logged in claims/quotations.json with its translation and source (tools/check-quotations.mjs).
+// QUOTES-BEGIN
+const QUOTES = [
+  { id: "q-kornilov-1917", node: "kornilovAffair17", who: "General Lavr Kornilov", when: "27 August 1917 (Old Style), to Kerensky", text: "Russian people, the life of your motherland is in your hands!" },
+  { id: "q-kolchak-1918", node: "omskCoup18", who: "Admiral Alexander Kolchak", when: "18 November 1918, on taking power", text: "I will not follow the path of reaction or the disastrous path of partisanship. My main goal is to create a combat-ready army, defeat the Bolsheviks, and reestablish law and order." },
+  { id: "q-denikin-1919", node: "moscowDirective19", who: "General Anton Denikin", when: "Directive of 3 July 1919", text: "With the aim of seizing the heart of Russia, Moscow, I order:" },
+  { id: "q-wrangel-directive", node: "moscowDirective19", who: "Baron Pyotr Wrangel", when: "Later, on the Directive", text: "a death sentence to the armies of the South of Russia" },
+  { id: "q-kronstadt-1921", node: "kronstadt21", who: "The Petropavlovsk resolution", when: "1 March 1921, first demand", text: "Immediate new elections to the Soviets. The present Soviets no longer express the wishes of the workers and peasants. The new elections should be by secret ballot, and should be preceded by free electoral propaganda." },
+];
+// QUOTES-END
+
+function QuoteStrip({ nodeId, skin }) {
+  const list = QUOTES.filter((q) => q.node === nodeId);
+  if (!list.length) return null;
+  return (
+    <div className="mt-4">
+      <div className="text-xs font-bold tracking-widest" style={{ ...monoFontStyle(skin), ...accentTextStyle(skin) }}>FROM THE RECORD</div>
+      {list.map((q) => (
+        <figure key={q.id} className="border-l-4 pl-3 mt-2" style={{ borderColor: skin.accent, margin: 0 }}>
+          <blockquote className="text-sm leading-relaxed" style={{ margin: 0, fontFamily: BODY_FONT }}>{"“" + q.text + "”"}</blockquote>
+          <figcaption className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>{q.who}, {q.when}. A translation; sources in claims/quotations.json.</figcaption>
+        </figure>
+      ))}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// TERMS in a report: every glossary entry the report uses, so the player does not have to leave the page.
+function termsIn(text) {
+  const found = [];
+  for (const g of GLOSSARY) {
+    const esc = g.term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    if (new RegExp("(^|[^A-Za-z])" + esc + "([^A-Za-z]|$)", "i").test(text)) found.push(g);
+  }
+  return found;
+}
+function TermsInReport({ node, skin }) {
+  const text = [node.situation, node.context, ...(node.choices || []).map((c) => c.label)].filter(Boolean).join(" \n ");
+  const list = React.useMemo(() => termsIn(text), [text]);
+  if (!list.length) return null;
+  return (
+    <details className="mt-4 text-xs" style={monoFontStyle(skin)}>
+      <summary className="cursor-pointer font-bold tracking-widest" style={accentTextStyle(skin)}>TERMS IN THIS REPORT ({list.length})</summary>
+      <dl className="mt-2">
+        {list.map((g) => (
+          <div key={g.term} className="mb-2">
+            <dt className="font-bold">{g.term}</dt>
+            <dd style={{ margin: 0, ...mutedTextStyle(skin) }}>{g.definition}</dd>
+          </div>
+        ))}
+      </dl>
+    </details>
+  );
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// STAFF: the people who return, where they stand on this run. A rule applies from its month (YYYYMM), and when it names a flag, only
+// if the run has that flag at that value; the last rule that applies is the one shown. A person is "at this report" where it lists them.
+const CAST = {
+  southRussia: [
+    { id: "wrangel", name: "Lieutenant-General Pyotr Wrangel", role: "Commands the Caucasus Army", appears: ["moscowDirective19", "volgaThrust19", "volgaOverextension19", "volgaCossackDesertion19", "wrangelsDismissal20", "wrangelsReassignment20", "sevastopolCouncil20", "landLawDecision20", "northernTauride20", "wrangelsEnvoy20"], rules: [
+      { from: 191907, text: "Commands the Caucasus Army on the Volga." },
+      { from: 192002, flag: "wrangelDismissal", value: "dismissed", text: "Dismissed by your order." },
+      { from: 192002, flag: "wrangelDismissal", value: "retained", text: "Kept in his command." },
+      { from: 192002, flag: "wrangelDismissal", value: "reassigned", text: "Reassigned to a field command." },
+    ] },
+    { id: "maimaevsky", name: "Lieutenant-General Vladimir May-Maevsky", role: "Commands the Volunteer Army", appears: ["moscowDirective19", "kievConvergence19", "orelCulmination19", "cossackDesertion19"], rules: [
+      { from: 191907, text: "Commands the Volunteer Army on the Moscow axis." },
+      { from: 191912, text: "Replaced in command of the Volunteer Army in late November 1919, by Wrangel." },
+    ] },
+  ],
+  siberia: [
+    { id: "boldyrev", name: "General Vasily Boldyrev", role: "Commander-in-chief of the Directory", appears: ["omskCoup18", "boldyrevsFirstWeek18"], rules: [
+      { from: 191811, text: "In Omsk, offered an office he did not ask for." },
+      { from: 191811, flag: "boldyrevFirstWeek", value: "reinstatement_pressed", text: "You pressed for his reinstatement." },
+      { from: 191811, flag: "boldyrevFirstWeek", value: "expulsion_accepted", text: "You accepted his expulsion." },
+    ] },
+    { id: "diterichs", name: "General Mikhail Diterichs", role: "Commands the Third Army", appears: ["chelyabinskGrinder19", "diterichsOverruled19"], rules: [
+      { from: 191907, text: "Commands the Third Army at Chelyabinsk." },
+      { from: 191908, flag: "diterichsHandling", value: "retained", text: "Kept in command." },
+      { from: 191908, flag: "diterichsHandling", value: "released", text: "Released from his command." },
+    ] },
+    { id: "janin", name: "General Maurice Janin", role: "Allied commander in Siberia", appears: ["janinsWord19", "irkutskUltimatum20"], rules: [
+      { from: 191811, text: "Commands the Allied and Czechoslovak forces." },
+      { from: 191912, flag: "janinChoice", value: "accepted", text: "You took his word." },
+      { from: 191912, flag: "janinChoice", value: "declined", text: "You declined his word." },
+    ] },
+    { id: "semyonov", name: "Ataman Grigory Semyonov", role: "Controls the railway at Chita", appears: ["reluctanceAftermath18", "semyonovResponse18", "semyonovMerger20", "chitaFall20"], rules: [
+      { from: 191811, text: "Holds Chita and the line east of Lake Baikal." },
+      { from: 192003, flag: "semyonovChoice", value: "merged", text: "Merged with your command." },
+      { from: 192003, flag: "semyonovChoice", value: "refused", text: "Refused; he stays apart." },
+    ] },
+  ],
+  bolsheviks: [
+    { id: "stalin", name: "Joseph Stalin", role: "Political commissar on the Southern Front", appears: ["tsaritsynCrisis18", "tsaritsynAftermath18", "stalinsRecall18", "stalinsNewPosting18"], rules: [
+      { from: 191810, text: "At Tsaritsyn." },
+      { from: 191812, flag: "stalinRecallHandling", value: "reassigned", text: "Recalled and reassigned." },
+      { from: 191812, flag: "stalinRecallHandling", value: "unresolved", text: "Recalled; the question is left open." },
+    ] },
+    { id: "smirnov", name: "Ivan Smirnov", role: "Member of the Military Opposition", appears: ["militaryOppositionCongress19", "congressFallout19", "smirnovReassignment19"], rules: [
+      { from: 191903, text: "Speaks for the Military Opposition." },
+      { from: 191903, flag: "smirnovAssignment", value: "sidelined", text: "Kept from field command." },
+      { from: 191903, flag: "smirnovAssignment", value: "field_command", text: "Given a field command." },
+    ] },
+    { id: "voroshilov", name: "Kliment Voroshilov", role: "Commands at Tsaritsyn", appears: ["tsaritsynCrisis18", "tsaritsynAftermath18"], rules: [
+      { from: 191810, text: "Commands the Tenth Army at Tsaritsyn." },
+      { from: 191811, flag: "voroshilovCompliance", value: "smooth", text: "Complies with the centre." },
+      { from: 191811, flag: "voroshilovCompliance", value: "friction", text: "Complies with friction." },
+    ] },
+    { id: "budyonny", name: "Semyon Budyonny", role: "Commands the Red cavalry", appears: ["cavalryArmyDebate19", "distributedPursuit19", "polishWar20"], rules: [
+      { from: 191911, text: "Commands the cavalry corps." },
+      { from: 191911, flag: "cavalryDoctrine", value: "unified", text: "Your doctrine: one cavalry army." },
+      { from: 191911, flag: "cavalryDoctrine", value: "reinforced_corps", text: "Your doctrine: reinforced corps." },
+      { from: 191911, flag: "cavalryDoctrine", value: "distributed", text: "Your doctrine: cavalry spread across the armies." },
+    ] },
+  ],
+  provisionalGov17: [
+    { id: "miliukov", name: "Pavel Miliukov", role: "Minister of Foreign Affairs", appears: ["aprilCrisis17"], rules: [
+      { from: 191705, text: "At the Foreign Ministry." },
+      { from: 191705, flag: "aprilCrisisChoice", value: "coalition", text: "Out of the Cabinet; a coalition takes his place." },
+      { from: 191705, flag: "aprilCrisisChoice", value: "standFirm", text: "Still at the Foreign Ministry." },
+    ] },
+    { id: "kornilov", name: "General Lavr Kornilov", role: "Supreme Commander", appears: ["supremeCommand17", "moscowConference17", "kornilovAffair17"], rules: [
+      { from: 191707, text: "Commands the Southwestern Front." },
+      { from: 191707, flag: "supremeCommand", value: "on_his_terms", text: "Supreme Commander, on his own terms." },
+      { from: 191707, flag: "supremeCommand", value: "written_pledge", text: "Supreme Commander, under a written pledge." },
+      { from: 191709, flag: "kornilovOutcome", value: "garrisonHeld", text: "His march on Petrograd was stopped." },
+      { from: 191709, flag: "kornilovOutcome", value: "cityFell", text: "His troops took Petrograd." },
+    ] },
+  ],
+};
+
+function castStatus(person, month, flags) {
+  let out = null;
+  for (const r of person.rules) {
+    if (month < r.from) continue;
+    if (r.flag && (flags || {})[r.flag] !== r.value) continue;
+    out = r.text;
+  }
+  return out;
+}
+
+function CastPanel({ campaignId, nodeId, node, flags, skin }) {
+  const list = CAST[campaignId] || [];
+  const month = reportMonth(node) || 0;
+  const rows = list.map((p) => ({ p, status: castStatus(p, month, flags), here: p.appears.includes(nodeId) })).filter((r) => r.status);
+  if (!rows.length) return null;
+  const here = rows.filter((r) => r.here).length;
+  return (
+    <details className="mt-4 text-xs" style={monoFontStyle(skin)} open={here > 0}>
+      <summary className="cursor-pointer font-bold tracking-widest" style={accentTextStyle(skin)}>YOUR STAFF AND COMMANDERS{here ? ` (${here} AT THIS REPORT)` : ""}</summary>
+      <ul style={{ listStyle: "none", padding: 0 }} className="mt-2">
+        {rows.map(({ p, status, here: h }) => (
+          <li key={p.id} className="py-2 border-t" style={{ borderColor: skin.paperDim }}>
+            <div className="font-bold">{p.name}{h ? "  ◆ AT THIS REPORT" : ""}</div>
+            <div style={mutedTextStyle(skin)}>{p.role}</div>
+            <div>{status}</div>
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// STAFF NOTE: what the staff would say about an order, worked out from its own data: the likely result, the best case and the risk.
+// It is the data the order already carries (its meter effects and the outcomes of its roll), put in words, so it works in every mode.
+const STAFF_OFFICE = { southRussia: "The Operations Section", siberia: "The Staff Section", bolsheviks: "The Operations Section", provisionalGov17: "The Cabinet Chancery" };
+function axisPhrase(campaign, impact) {
+  const label = (k) => ((campaign.triangleAxes.find((a) => a.key === k) || {}).label || k).toLowerCase();
+  const gains = Object.entries(impact || {}).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([k]) => label(k));
+  const costs = Object.entries(impact || {}).filter(([, v]) => v < 0).sort((a, b) => a[1] - b[1]).map(([k]) => label(k));
+  const join = (xs) => (xs.length <= 1 ? xs.join("") : xs.slice(0, -1).join(", ") + " and " + xs[xs.length - 1]);
+  const parts = [];
+  if (gains.length) parts.push("gains in " + join(gains));
+  if (costs.length) parts.push("costs in " + join(costs));
+  return parts.length ? parts.join(", with ") : "";
+}
+const outcomeTotal = (choice, e) => Object.values(addImpacts(choice.impact, e.impact)).reduce((s, v) => s + v, 0);
+function staffNoteFor(choice, campaign) {
+  const lines = [];
+  if (choice.uncertain && choice.uncertain.length > 1) {
+    const byOdds = [...choice.uncertain].sort((a, b) => b.weight - a.weight);
+    const byValue = [...choice.uncertain].sort((a, b) => outcomeTotal(choice, b) - outcomeTotal(choice, a));
+    const tenths = (e) => Math.max(1, Math.min(9, Math.round(e.weight / 10)));
+    lines.push(["LIKELY", `${byOdds[0].title}. About ${tenths(byOdds[0])} in 10.`]);
+    if (byValue[0] !== byOdds[0]) lines.push(["BEST CASE", `${byValue[0].title}. About ${tenths(byValue[0])} in 10.`]);
+    const worst = byValue[byValue.length - 1];
+    if (worst !== byOdds[0] || byValue[0] === byOdds[0]) lines.push(["RISK", `${worst.title}. About ${tenths(worst)} in 10.`]);
+    const base = axisPhrase(campaign, choice.impact);
+    if (base) lines.push(["BEFORE THE ROLL", base.charAt(0).toUpperCase() + base.slice(1) + "."]);
+  } else {
+    const ph = axisPhrase(campaign, choice.impact);
+    lines.push(["LIKELY", ph ? ph.charAt(0).toUpperCase() + ph.slice(1) + "." : "The order is carried out as written. The command's standing does not change."]);
+    const top = Object.entries(choice.impact || {}).sort((a, b) => b[1] - a[1])[0];
+    const low = Object.entries(choice.impact || {}).sort((a, b) => a[1] - b[1])[0];
+    const label = (k) => ((campaign.triangleAxes.find((a) => a.key === k) || {}).label || k).toLowerCase();
+    if (top && top[1] > 0) lines.push(["BEST CASE", `The most it gives is ${label(top[0])}.`]);
+    if (low && low[1] < 0) lines.push(["RISK", `The most it costs is ${label(low[0])}.`]);
+    else lines.push(["RISK", "The staff can see no cost on the meters. What it does to the situation is not on them."]);
+  }
+  return lines;
+}
+function StaffNote({ choice, campaign, skin, open }) {
+  const lines = staffNoteFor(choice, campaign);
+  return (
+    <details className="mt-2 text-xs" style={monoFontStyle(skin)} open={open}>
+      <summary className="cursor-pointer font-bold" style={accentTextStyle(skin)}>▸ WHAT THE STAFF SAY</summary>
+      <div className="mt-1 pl-3 border-l-2" style={{ borderColor: skin.paperDim }}>
+        <div style={mutedTextStyle(skin)}>{STAFF_OFFICE[campaign.id]} reports:</div>
+        {lines.map(([k, t]) => (
+          <div key={k} className="mt-1"><b>{k}.</b> {t}</div>
+        ))}
+      </div>
+    </details>
+  );
+}
+// PLATES
+// Small woodcut-style illustrations, one scene for each kind of moment, drawn in the ink of the command's own paper. They are drawings, not
+// photographs or reconstructions of a real event, and every one is captioned as an illustration.
+
+const PLATE_SCENES = {
+  crowd: { caption: "A crowd with banners.", alt: "Black-ink drawing of a crowd of people holding banners on poles under a hatched sky." },
+  trench: { caption: "A trench line under shellfire.", alt: "Black-ink drawing of a trench with sandbags, barbed wire and shell bursts over a hatched sky." },
+  palace: { caption: "A palace front and a crowd before it.", alt: "Black-ink drawing of a long columned palace front with a dome, and a crowd gathered in the square." },
+  staff: { caption: "A staff table: a lamp, a map and men standing at it.", alt: "Black-ink drawing of officers standing round a table with a lamp, in front of a large wall map." },
+  train: { caption: "A train on the line.", alt: "Black-ink drawing of a steam locomotive and wagons on a railway, with telegraph poles and smoke." },
+  column: { caption: "A column on the march across a winter plain.", alt: "Black-ink drawing of a long column of men and wagons crossing a snow-covered plain under a low sun." },
+  riders: { caption: "Cavalry on the skyline.", alt: "Black-ink drawing of a line of horsemen with lances riding along a horizon in a cloud of dust." },
+  ships: { caption: "Ships at a mole.", alt: "Black-ink drawing of two steamships with funnels moored at a harbour mole, with a crowd waiting on it." },
+  ice: { caption: "A fortress island across the ice.", alt: "Black-ink drawing of a low fortress with towers and a domed church across a wide plain of ice, with small figures on it." },
+  farm: { caption: "A farmhouse under shellfire.", alt: "Black-ink drawing of a farmhouse with a chimney, a shell burst above it, bare trees and a fence." },
+  telegraph: { caption: "A telegraph line and a station.", alt: "Black-ink drawing of telegraph poles and wires converging on a small station building with a signal post." },
+  cart: { caption: "Carts and sacks on a village road.", alt: "Black-ink drawing of horse carts loaded with sacks on a village road between low huts." },
+  wall: { caption: "An earthwork across a narrow neck of land.", alt: "Black-ink drawing of a long earth rampart with guns, between water on both sides, under a hatched sky." },
+};
+
+function Figure({ x, y, s = 1, ink, banner }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`} fill={ink}>
+      <circle cx="0" cy="-12" r="3.2" />
+      <path d="M -3.6 -8.5 L 3.6 -8.5 L 4.4 3 L -4.4 3 Z" />
+      {banner && <path d={`M 5 -26 V 3`} stroke={ink} strokeWidth="1.2" fill="none" />}
+      {banner && <path d={`M 5 -26 H ${banner} V -17 H 5 Z`} />}
+    </g>
+  );
+}
+
+// A horse in a gallop, facing right (flip with d = -1), with a rider and lance when `rider` is set.
+function Horse({ x, y, s = 1, d = 1, ink, paper, rider }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s * d} ${s})`} fill={ink} stroke={ink}>
+      <ellipse cx="0" cy="0" rx="15" ry="6.5" stroke="none" />
+      <path d="M 10 -3 L 17 -15 L 24 -12 L 25 -8 L 17 -6 L 15 1 Z" stroke="none" />
+      <path d="M 11 4 L 21 15 M 8 5 L 13 16 M -10 5 L -20 14 M -7 6 L -13 16" strokeWidth="2.6" fill="none" strokeLinecap="round" />
+      <path d="M -14 -2 Q -23 -4 -25 5" strokeWidth="2.4" fill="none" />
+      {rider && <g stroke="none"><circle cx="1" cy="-19" r="3.4" /><path d="M -3 -16 L 5 -16 L 7 -5 L -5 -5 Z" /><path d="M 5 -14 L 25 -38" stroke={ink} strokeWidth="1.5" /></g>}
+    </g>
+  );
+}
+
+function PlateArt({ id, skin }) {
+  const ink = skin.dark ? skin.ground : skin.ink;
+  const paper = skin.dark ? skin.paper : skin.paper;
+  const mid = skin.dark ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.5)";
+  const hatch = (y0, y1, step = 4, op = 0.5) => {
+    const out = [];
+    for (let y = y0; y < y1; y += step) out.push(<line key={y} x1="0" y1={y} x2="400" y2={y} stroke={ink} strokeWidth="0.7" opacity={op} />);
+    return out;
+  };
+  const ground = (y, op = 0.92) => <rect x="0" y={y} width="400" height={150 - y} fill={ink} opacity={op} />;
+  switch (id) {
+    case "crowd": {
+      const heads = [];
+      for (let i = 0; i < 26; i++) heads.push(<Figure key={i} x={14 + i * 15 + ((i * 7) % 5)} y={120 - ((i * 13) % 4) * 6} s={1 + ((i * 5) % 3) * 0.12} ink={ink} banner={i % 6 === 2 ? 14 + (i % 3) * 8 : null} />);
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 70)}<path d="M 0 80 L 60 70 L 110 78 L 190 66 L 260 76 L 330 68 L 400 78 V 100 H 0 Z" fill={ink} opacity="0.35" />{ground(122, 0.3)}{heads}</g>;
+    }
+    case "trench": {
+      const wire = [];
+      for (let i = 0; i < 9; i++) wire.push(<path key={i} d={`M ${20 + i * 42} 96 l 10 -14 m -10 0 l 10 14 M ${15 + i * 42} 90 H ${40 + i * 42}`} stroke={ink} strokeWidth="1.2" fill="none" />);
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 76)}
+        <path d="M 290 20 l 6 14 l 14 -6 l -8 12 l 14 6 l -16 2 l 4 14 l -10 -10 l -10 10 l 2 -14 l -16 -2 l 14 -6 l -8 -12 l 14 6 z" fill={ink} opacity="0.85" />
+        <path d="M 70 30 l 4 10 l 10 -4 l -6 8 l 10 4 l -12 2 l 2 10 l -8 -7 l -8 7 l 2 -10 l -12 -2 l 10 -4 l -6 -8 l 10 4 z" fill={ink} opacity="0.55" />
+        {wire}{ground(104)}
+        <path d="M 0 104 h 20 v -10 h 22 v 10 h 20 v -10 h 22 v 10 h 20 v -10 h 22 v 10 h 20 v -10 h 22 v 10 h 20 v -10 h 22 v 10 h 20 v -10 h 22 v 10 h 20 v -10 h 22 v 10 h 20 v -10 h 22 v 10 H 400 V 150 H 0 Z" fill={ink} />
+        {[60, 150, 240, 330].map((x) => <g key={x} fill={paper}><circle cx={x} cy="118" r="3.4" /><path d={`M ${x - 4} 123 h 8 l 1 10 h -10 z`} /><path d={`M ${x + 5} 112 l 12 -20`} stroke={paper} strokeWidth="1.4" fill="none" /></g>)}
+      </g>;
+    }
+    case "palace": {
+      const cols = [];
+      for (let i = 0; i < 21; i++) cols.push(<rect key={i} x={60 + i * 14} y="52" width="5" height="46" fill={ink} />);
+      const crowd = [];
+      for (let i = 0; i < 24; i++) crowd.push(<Figure key={i} x={16 + i * 16 + ((i * 3) % 4)} y={133 - ((i * 5) % 3) * 5} s={0.9 + ((i * 7) % 3) * 0.1} ink={ink} banner={i === 5 || i === 15 ? 18 : null} />);
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 44)}
+        <rect x="50" y="98" width="300" height="10" fill={ink} /><rect x="56" y="46" width="288" height="6" fill={ink} />{cols}
+        <path d="M 170 46 L 200 24 L 230 46 Z" fill={ink} /><rect x="194" y="12" width="12" height="14" fill={ink} /><path d="M 192 12 L 200 3 L 208 12 Z" fill={ink} />
+        {ground(112, 0.3)}{crowd}</g>;
+    }
+    case "staff": {
+      return <g><rect width="400" height="150" fill={paper} />
+        <rect x="40" y="14" width="190" height="78" fill="none" stroke={ink} strokeWidth="2.4" />
+        <path d="M 52 70 Q 90 38 120 56 T 190 40 M 60 30 Q 110 24 150 34 M 70 82 Q 120 70 160 80 T 220 62" fill="none" stroke={ink} strokeWidth="1.4" />
+        <path d="M 80 30 L 96 50 M 150 60 L 130 44" stroke={ink} strokeWidth="2.4" markerEnd="" />
+        {ground(112)}
+        <rect x="120" y="100" width="190" height="10" fill={paper} stroke={ink} strokeWidth="2" />
+        <path d="M 128 110 V 140 M 302 110 V 140" stroke={ink} strokeWidth="5" />
+        <path d="M 226 80 h 10 v 8 h -10 z M 231 70 v 10" fill={ink} stroke={ink} strokeWidth="2" /><circle cx="231" cy="64" r="9" fill={paper} opacity="0.35" />
+        {[[110, 120, 1.5], [168, 118, 1.6], [262, 118, 1.6], [330, 120, 1.5]].map(([x, y, s], i) => <Figure key={i} x={x} y={y} s={s} ink={ink} />)}
+      </g>;
+    }
+    case "train": {
+      const poles = [];
+      for (let i = 0; i < 8; i++) poles.push(<path key={i} d={`M ${20 + i * 52} 118 V 58 M ${10 + i * 52} 64 h 20`} stroke={ink} strokeWidth="2" fill="none" />);
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 58)}
+        <path d="M 20 60 Q 70 72 120 60 T 220 60 T 320 60 T 400 60" fill="none" stroke={ink} strokeWidth="1" />{poles}
+        <path d="M 66 52 q 14 -22 38 -14 q 24 -16 44 6 q 24 -8 36 12" fill={ink} opacity="0.35" />
+        <rect x="30" y="80" width="70" height="32" fill={ink} /><rect x="30" y="68" width="22" height="12" fill={ink} /><rect x="62" y="62" width="9" height="20" fill={ink} />
+        <rect x="104" y="84" width="60" height="28" fill={ink} /><rect x="168" y="84" width="60" height="28" fill={ink} /><rect x="232" y="84" width="60" height="28" fill={ink} /><rect x="296" y="84" width="60" height="28" fill={ink} />
+        {[42, 62, 86, 120, 150, 184, 214, 248, 278, 312, 342].map((x) => <circle key={x} cx={x} cy="116" r="5.5" fill={paper} stroke={ink} strokeWidth="2" />)}
+        <rect x="0" y="121" width="400" height="5" fill={ink} />{ground(130)}</g>;
+    }
+    case "column": {
+      const ppl = [];
+      for (let i = 0; i < 20; i++) ppl.push(<Figure key={i} x={30 + i * 17} y={118 - i * 1.4} s={0.9} ink={ink} />);
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 64, 5, 0.35)}
+        <circle cx="318" cy="34" r="16" fill={ink} opacity="0.2" />
+        <path d="M 0 84 Q 80 70 160 84 T 320 82 T 400 86 V 150 H 0 Z" fill={ink} opacity="0.12" />
+        {ground(122)}{ppl}
+        {[[90, 124], [200, 112], [290, 106]].map(([x, y], i) => <g key={i}><rect x={x} y={y - 12} width="26" height="12" fill={ink} /><circle cx={x + 5} cy={y + 2} r="4.5" fill={paper} stroke={ink} strokeWidth="1.6" /><circle cx={x + 21} cy={y + 2} r="4.5" fill={paper} stroke={ink} strokeWidth="1.6" /></g>)}
+        {[60, 130, 250, 340].map((x, i) => <path key={i} d={`M ${x} ${20 + (i % 2) * 10} l 5 -3 l 5 3 M ${x + 14} ${26 + (i % 2) * 8} l 4 -3 l 4 3`} stroke={ink} strokeWidth="1.2" fill="none" />)}</g>;
+    }
+    case "riders": {
+      const r = [];
+      for (let i = 0; i < 7; i++) r.push(<Horse key={i} x={34 + i * 54} y={92 + ((i * 5) % 3) * 4} s={1.05} ink={ink} paper={paper} rider />);
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 74, 4, 0.45)}<path d="M 0 112 Q 100 104 200 112 T 400 110 V 150 H 0 Z" fill={ink} opacity="0.88" />{r}
+        <path d="M 10 122 q 40 -8 80 0 M 120 126 q 50 -10 110 0 M 250 122 q 50 -8 120 -2" stroke={paper} strokeWidth="1.4" fill="none" opacity="0.6" /></g>;
+    }
+    case "ships": {
+      const people = [];
+      for (let i = 0; i < 12; i++) people.push(<Figure key={i} x={34 + i * 11} y={102} s={0.75} ink={ink} />);
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 64, 5, 0.35)}
+        <path d="M 0 108 H 400 V 150 H 0 Z" fill={ink} opacity="0.25" />{[112, 122, 132, 142].map((y) => <path key={y} d={`M 0 ${y} q 12 -5 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0`} fill="none" stroke={ink} strokeWidth="1" opacity="0.7" />)}
+        <rect x="20" y="104" width="190" height="8" fill={ink} />{people}
+        <path d="M 230 108 L 244 86 H 386 L 392 108 Z" fill={ink} /><rect x="262" y="66" width="12" height="20" fill={ink} /><rect x="300" y="60" width="12" height="26" fill={ink} /><rect x="338" y="70" width="40" height="16" fill={ink} />
+        <path d="M 268 66 q -4 -14 8 -22 M 306 60 q -4 -16 10 -26" stroke={ink} strokeWidth="6" fill="none" opacity="0.4" />
+        <path d="M 330 86 V 40 M 372 86 V 46" stroke={ink} strokeWidth="2" /></g>;
+    }
+    case "ice": {
+      const f = [];
+      for (let i = 0; i < 14; i++) f.push(<Figure key={i} x={20 + i * 26} y={132 - ((i * 7) % 4) * 6} s={0.6 + (i % 3) * 0.08} ink={ink} />);
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 52, 5, 0.4)}
+        <rect x="20" y="62" width="360" height="12" fill={ink} /><rect x="30" y="50" width="16" height="14" fill={ink} /><rect x="120" y="46" width="16" height="18" fill={ink} /><rect x="290" y="48" width="16" height="16" fill={ink} /><rect x="352" y="52" width="16" height="12" fill={ink} />
+        <rect x="190" y="44" width="40" height="22" fill={ink} /><path d="M 196 44 a 14 14 0 0 1 28 0 z" fill={ink} /><path d="M 210 30 v -12 M 205 24 h 10" stroke={ink} strokeWidth="2" />
+        <path d="M 0 80 H 400 V 150 H 0 Z" fill={ink} opacity="0.12" />
+        {[88, 100, 112, 124, 136].map((y, i) => <path key={y} d={`M ${i * 20} ${y} h ${180 + (i * 37) % 120}`} stroke={ink} strokeWidth="0.8" opacity="0.5" />)}{f}</g>;
+    }
+    case "farm": {
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 76)}
+        <path d="M 250 24 l 7 16 l 16 -8 l -9 14 l 16 8 l -19 2 l 4 16 l -12 -12 l -12 12 l 2 -16 l -19 -2 l 16 -8 l -9 -14 l 16 8 z" fill={ink} opacity="0.85" />
+        {ground(112)}<rect x="110" y="70" width="130" height="44" fill={ink} /><path d="M 96 72 L 175 36 L 254 72 Z" fill={ink} /><rect x="206" y="28" width="12" height="26" fill={ink} />
+        {[130, 160, 190].map((x) => <rect key={x} x={x} y="84" width="16" height="16" fill={paper} />)}<rect x="214" y="92" width="14" height="22" fill={paper} />
+        {[40, 70, 310, 350].map((x, i) => <g key={x}><path d={`M ${x} 114 V ${70 - (i % 2) * 8}`} stroke={ink} strokeWidth="4" /><path d={`M ${x} ${84 - (i % 2) * 8} l -14 -16 M ${x} ${90 - (i % 2) * 8} l 14 -14 M ${x} ${100 - (i % 2) * 8} l -12 -12`} stroke={ink} strokeWidth="2" fill="none" /></g>)}
+        <path d="M 270 116 H 390 M 280 106 V 126 M 310 106 V 126 M 340 106 V 126 M 370 106 V 126" stroke={ink} strokeWidth="2" /></g>;
+    }
+    case "telegraph": {
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 70, 5, 0.35)}
+        {[0, 1, 2, 3, 4].map((i) => <path key={i} d={`M 0 ${20 + i * 7} Q 120 ${46 + i * 8} 260 ${64 + i * 3}`} fill="none" stroke={ink} strokeWidth="1" />)}
+        <path d="M 40 130 V 10 M 22 20 H 58 M 26 30 H 54" stroke={ink} strokeWidth="4" fill="none" /><path d="M 150 130 V 36 M 138 42 H 162" stroke={ink} strokeWidth="3" fill="none" /><path d="M 220 130 V 52 M 212 56 H 228" stroke={ink} strokeWidth="2.4" fill="none" />
+        {ground(120)}<rect x="250" y="76" width="110" height="46" fill={ink} /><path d="M 240 78 L 305 52 L 370 78 Z" fill={ink} />
+        {[268, 296, 324].map((x) => <rect key={x} x={x} y="88" width="14" height="14" fill={paper} />)}<rect x="340" y="98" width="12" height="24" fill={paper} />
+        <path d="M 384 124 V 40 M 376 48 l 18 -6 v 12 z" stroke={ink} strokeWidth="3" fill={ink} /></g>;
+    }
+    case "cart": {
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 62, 5, 0.35)}{ground(112, 0.3)}
+        {[[40, 60], [320, 70]].map(([x, w], i) => <g key={i}><rect x={x} y={86} width={w} height="26" fill={ink} /><path d={`M ${x - 8} 88 L ${x + w / 2} 66 L ${x + w + 8} 88 Z`} fill={ink} /><rect x={x + 10} y="94" width="10" height="10" fill={paper} /></g>)}
+        {[[120, 1], [250, -1]].map(([x, d], i) => <g key={i}><rect x={x} y={92} width="70" height="14" fill={ink} /><circle cx={x + 14} cy="116" r="11" fill={paper} stroke={ink} strokeWidth="3" /><circle cx={x + 56} cy="116" r="11" fill={paper} stroke={ink} strokeWidth="3" />
+          {[0, 1, 2].map((k) => <ellipse key={k} cx={x + 14 + k * 22} cy="86" rx="11" ry="9" fill={ink} stroke={paper} strokeWidth="1.2" />)}
+          <Horse x={x + (d > 0 ? 100 : -30)} y={104} s={0.8} d={d} ink={ink} paper={paper} /></g>)}</g>;
+    }
+    case "wall": {
+      return <g><rect width="400" height="150" fill={paper} />{hatch(4, 68, 4, 0.5)}
+        <path d="M 0 82 H 400 V 150 H 0 Z" fill={ink} opacity="0.2" />{[96, 108, 120, 132, 144].map((y) => <path key={y} d={`M 0 ${y} q 12 -4 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0`} stroke={ink} strokeWidth="0.8" fill="none" opacity="0.6" />)}
+        <path d="M 0 92 H 400 V 116 H 0 Z" fill={ink} />
+        <path d="M 30 92 V 62 H 130 V 92 M 80 62 V 50 M 230 92 V 70 H 330 V 92" stroke={ink} strokeWidth="6" fill="none" />
+        {[70, 160, 250, 340].map((x) => <g key={x}><rect x={x} y="80" width="26" height="8" fill={paper} stroke={ink} strokeWidth="1.5" /><path d={`M ${x + 26} 82 l 16 -6`} stroke={paper} strokeWidth="3" /></g>)}
+        <path d="M 120 36 l 5 12 l 12 -5 l -7 10 l 12 5 l -14 1 l 3 11 l -9 -8 l -8 8 l 2 -11 l -14 -1 l 12 -5 l -7 -10 l 12 5 z" fill={ink} opacity="0.8" /></g>;
+    }
+    default:
+      return null;
+  }
+}
+
+function Plate({ id, skin }) {
+  const scene = PLATE_SCENES[id];
+  if (!scene) return null;
+  return (
+    <figure className="mt-4" style={{ margin: 0, marginTop: "1rem" }}>
+      <svg viewBox="0 0 400 150" role="img" aria-label={scene.alt} className="w-full h-auto block" style={{ border: `2px solid ${skin.dark ? skin.paperDim : skin.ink}`, background: skin.paper }}>
+        <PlateArt id={id} skin={skin} />
+      </svg>
+      <figcaption className="text-xs mt-1" style={{ ...monoFontStyle(skin), ...mutedTextStyle(skin) }}>ILLUSTRATION. {scene.caption} Not a picture of the event itself.</figcaption>
+    </figure>
+  );
+}
+
+// Which scene goes with which report or ending.
+const PLATE_FOR = {
+  // 1917
+  aprilCrisis17: "crowd", armyCommissars17: "trench", juneOffensive17: "trench", julyDays17: "crowd", supremeCommand17: "staff", moscowConference17: "crowd",
+  kornilovAffair17: "train", directory17: "staff", democraticConference17: "crowd", octoberStand17: "palace",
+  endingWinterPalaceFalls17: "palace", endingKornilovsRepublic17: "riders", endingDecreeCabinet17: "staff",
+  // South Russia
+  kornilovsDeath18: "farm", ekaterinodarAssault18: "column", afterEkaterinodar18: "column", moscowDirective19: "staff", kievConvergence19: "crowd",
+  volgaThrust19: "riders", volgaOverextension19: "riders", rearSecurity19: "cart", peregonovka19: "cart", makhnosAftermath19: "cart", orelCulmination19: "train",
+  cossackDesertion19: "riders", volgaCossackDesertion19: "riders", kubanCoup19: "staff", kubanRadaReorganized19: "staff", kharkovLine19: "trench",
+  kharkovEncirclement19: "riders", afterTheCavalryStrike19: "riders", kubanQuotaAftermath19: "cart", novorossiysk20: "ships", voroshilovsCavalry20: "ships",
+  moleRearguardFate20: "ships", wrangelsDismissal20: "staff", wrangelsReassignment20: "staff", sevastopolCouncil20: "ships", landLawDecision20: "cart",
+  northernTauride20: "riders", wrangelsEnvoy20: "riders", crimeaDefensePrep20: "wall", frunzeOffer20: "telegraph",
+  endingBizerte: "ships", endingTheCouncilAtSevastopol20: "ships", endingSecondNovorossiysk: "ships", endingArmyDissolved20: "column", endingCossackMutiny: "riders",
+  endingTheArmyThatDidNotComeBack18: "column", endingTheLineThatBroke19: "trench",
+  // Siberia
+  omskCoup18: "telegraph", boldyrevsFirstWeek18: "staff", reluctanceAftermath18: "train", semyonovResponse18: "train", springOffensive19: "column",
+  saratovJunction19: "train", exposedFlank19: "column", ufaCounteroffensive19: "trench", chelyabinskGrinder19: "trench", diterichsOverruled19: "staff",
+  thirdArmySuccessor19: "staff", railPriority19: "train", janinsWord19: "telegraph", iceMarchDecision19: "column", eichesPursuit20: "column",
+  irkutskUltimatum20: "telegraph", semyonovMerger20: "train", manchurianBorder20: "train", chitaFall20: "train",
+  endingManchuria: "train", endingBoldyrevsOmsk18: "telegraph", endingOmskFalls19: "train", endingTheAdmiralAtIrkutsk20: "column", endingManchuriaEarly: "train",
+  endingDispersedAtTheBorder: "column", endingColumnScattered20: "column", endingLegionWithdraws: "train",
+  // Bolsheviks
+  revvoensovietFormed18: "train", tsaritsynCrisis18: "train", tsaritsynAftermath18: "staff", stalinsRecall18: "staff", grainRequisition18: "cart", stalinsNewPosting18: "staff",
+  supplyShortfall19: "cart", supplyRationingConsequence19: "staff", militaryOppositionCongress19: "crowd", congressFallout19: "staff", smirnovReassignment19: "staff",
+  southernFrontPlan19: "staff", donbasMobilization19: "crowd", donbasAttrition19: "trench", reinforcedBattalionsTest19: "trench", cavalryArmyDebate19: "riders",
+  distributedPursuit19: "riders", polishWar20: "riders", perekopAssault20: "wall", compressedEvacuation20: "ships", kronstadt21: "ice",
+  endingIceBroken: "ice", endingTheVistula20: "riders", endingTheAutumnCrisis19: "staff", endingTheIsland21: "ice", endingHollowVictory21: "ice",
+  endingUnlikelyPrecedent: "ice", endingCentralCommitteeMoves: "staff",
+};
 const SAVE_KEY = "dispatches1922_save_v1";
 const SAVE_SCHEMA_VERSION = 1;
 
@@ -10979,6 +11949,8 @@ export function App() {
         <FrontMapScreen
           campaignId={campaignId}
           visitedNodes={visitedNodes}
+          flags={flags}
+          meters={meters}
           skin={skinFor(campaignId)}
           onClose={() => setScreen("briefing")}
         />
