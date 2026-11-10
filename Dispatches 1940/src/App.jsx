@@ -12764,13 +12764,317 @@ const CAMPAIGNS = {
     id: "allied",
     seal: "SHAEF",
     name: "Allied Combined Chiefs",
-    dates: "1940–1945",
-    brief: "Direct the Western Allied war effort from Europe First to the halt on the Elbe.",
+    dates: "1939–1945",
+    brief: "Direct the Western Allied war effort from the first autumn of the war to the halt on the Elbe.",
     accent: "#2f4a3a",
     dynamic: true,
-    start: "narvik40",
+    start: "saar39",
     resolveNode(id, flags, meters) {
       const nodes = {
+        // The prelude (September 1939 to April 1940). The campaign used to open at Narvik; these five reports are the decisions before it that the record
+        // leaves a command to make: how far to push the Saar offensive that was promised to Poland, which plan to meet the German attack with, whether to
+        // go into Norwegian waters after the Altmark, whether to prepare a force for Finland, and how to answer the German reaction to the mining of the Leads.
+        // What the player chooses is carried as flags (saar39, planD39, altmarkRaid, finland40, wilfred40) that the later reports mention in a sentence
+        // and that move the meters; none of it is a hidden bonus. Dates and figures are checked against Wikipedia (Phoney War; Battle of France; Altmark
+        // incident; Operation Wilfred; Winter War) and the rest are drafted from the secondary literature (claims/allied-italian-prelude.json).
+        get saar39() {
+          return {
+          date: "SEPTEMBER 1939",
+          title: "The Promise to Poland",
+          historicalRecord: true,
+          situation:
+            "Britain and France declared war on 3 September, two days after the German army crossed the Polish frontier. The French staff had told the Poles in the spring that an offensive would open by the fifteenth day of mobilisation, and the Poles are asking where it is. The army on the Saar front is the best France has ready: the covering divisions are in place, the reserve divisions are still joining, and the guns, the tanks and the aircraft that make an offensive possible are not. The British Expeditionary Force is only beginning to cross the Channel, and its commander has been told that he serves under French orders. Across the frontier the Germans have left a thin screen behind the Westwall, with mines and a few divisions, and every report from Warsaw says that the screen will not be thin for long. The question for this room is not whether to attack in force, since nobody here is proposing that, but how much of an attack to put in the field in order to say that the promise was kept." +
+            (flags.hardMode ? " Nobody who remembers 1914 to 1918 needs to be told what the first week of a French offensive costs." : ""),
+          choices: [
+            {
+              label: "Probe into the Saar with the covering divisions, then halt and fall back on the fortified line: save the army for the long war",
+              advisor: { name: "Gamelin", position: "France cannot win a short war and does not need to; the army that goes into the Saar without its guns is wasted, and a long war is won by the blockade and by the factories." },
+              historical: true,
+              setFlags: { saar39: "probe" },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              next: "dyle39",
+              outcome:
+                "What happened. The French offensive began on 7 September and reached up to eight kilometres into German territory, with a few villages taken and no strong point. It was halted on 12 September, and on 21 September the troops were ordered back to the Maginot Line; the last of them left German soil on 17 October. The Poles were told that a relief was under way. The army kept its strength and its fortified line, and learned what a half-hearted offensive does to a promise.",
+            },
+            {
+              label: "Press the offensive with the covering armies and the first reserves, and keep it going while the Germans are in Poland",
+              advisor: { name: "Georges", position: "If the army is ever to hurt the Germans while they are tied down in the east, it is now, and an offensive that stops after a week has told Berlin that the west is quiet." },
+              setFlags: { saar39: "press" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "dyle39",
+              uncertain: [
+                {
+                  weight: modWeight(45, meters.initiative),
+                  title: "The mines and the Westwall",
+                  setFlags: { saar39: "press" },
+                  impact: { manpower: -1, fuel: -1, initiative: 1 },
+                  outcome:
+                    "Speculative. The covering divisions reach the Westwall within the fortnight and are stopped there by mines, by the fortified belt and by the German guns that did not need to be sent east. The attack costs a few thousand men and some tanks that France has no spare for, and it draws two or three German divisions back from the Polish front. Poland falls on the same schedule. The army learns the weight of the Westwall in September instead of the following spring.",
+                },
+                {
+                  weight: 100 - modWeight(45, meters.initiative),
+                  title: "A winter of garrisons",
+                  setFlags: { saar39: "press" },
+                  impact: { manpower: -2, fuel: -1, initiative: 0 },
+                  outcome:
+                    "Speculative. The offensive is stopped short of the Westwall by the first counterattacks, and the army, having taken losses it cannot replace in a hurry, is pulled back under German guns and sits the winter in a line that is a little further forward than the one it left. The divisions that went in are tired and shorter of equipment than the ones that did not, and nobody in the room can say what the attack achieved.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get dyle39() {
+          return {
+          date: "NOVEMBER 1939 – MARCH 1940",
+          title: "The Plan for the North",
+          historicalRecord: true,
+          situation:
+            "Poland is gone and the Germans are turning west, and nobody knows when. Belgium has gone back to strict neutrality and will not let the British and French staffs talk to its own, so the Allied armies can enter the country only after the Germans have. The army's choice is therefore about where to meet them. The first plan, Plan E, would hold the line of the Escaut, short and well within French reach. The second, Plan D, would run the best of the armies forward to the Dyle in front of Brussels, to hold the Germans on a shorter front further out and to fight beside the Belgians. In March a variant goes further: the Seventh Army, which is the general reserve and the best motorised force in France, would race north to Breda, to give the Dutch a hand. The weakness every officer in the room knows about is the Ardennes, where the line is held by second-line divisions on the argument that the forest is difficult country for tanks." +
+            (flags.saar39 === "press" ? " The divisions that went into the Saar in September have been refitting since, and the reserve is thinner than it was." : "") +
+            (flags.saar39 === "probe" ? " The army has spent the autumn behind its fortifications, and its commanders know it has not yet been tested." : "") +
+            (flags.hardMode ? " Every general in the room wants the Seventh Army for a different front." : ""),
+          choices: [
+            {
+              label: "Plan D with the Breda variant: advance to the Dyle and send the Seventh Army to meet the Dutch",
+              advisor: { name: "Gamelin", position: "The war must be fought in Belgium and not in France, and the army must carry the Dutch coast and the Belgian plain with it." },
+              historical: true,
+              setFlags: { planD39: "breda" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "altmarkRaid40",
+              outcome:
+                "What happened. The Allied armies adopted the advance to the Dyle in the winter and in March added the Breda variant, which moved the Seventh Army from the reserve to the extreme left of the line. When the attack came on 10 May the best mobile army of the French was in Holland, a long way from the Meuse, and the forces the plan left behind were those on which the thrust through the Ardennes fell. The plan gave the Germans precisely the kind of battle on the Belgian plain that their own staff had been preparing to fight.",
+            },
+            {
+              label: "Plan D without the Breda variant: advance to the Dyle but keep the Seventh Army in reserve behind the hinge",
+              advisor: { name: "Georges", position: "The front's reserve is thin and the hinge at Sedan is held by weak divisions, so the best army should stay where it can be sent to either." },
+              setFlags: { planD39: "dyle" },
+              impact: { manpower: 0, fuel: 0, initiative: 0 },
+              next: "altmarkRaid40",
+              uncertain: [
+                {
+                  weight: modWeight(50, meters.initiative),
+                  title: "A reserve behind the hinge",
+                  setFlags: { planD39: "dyle" },
+                  impact: { manpower: 1, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. The Dutch are told that no French army will reach Breda, and the Dutch staff, who had hoped for one, plan the defence of their own country on the old lines. In the staff exercises of the spring the reserve is always asked to be in two places at once, and the French staff has a line on its map for what it would do with it. It is not a better plan than the other. It is a plan with a reserve in it.",
+                },
+                {
+                  weight: 100 - modWeight(50, meters.initiative),
+                  title: "Neither one thing nor the other",
+                  setFlags: { planD39: "dyle" },
+                  impact: { manpower: 0, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The reserve stays where it is and nobody can say what it is for. The Belgians read the refusal as a sign that the French do not mean to come far, the Dutch as a sign that they will be alone, and the staff, which has now two plans for the north and a variant on neither, spends the spring explaining to each ally what the other one has been told.",
+                },
+              ],
+            },
+            {
+              label: "Plan E: hold the Escaut, keep the best armies back, and let the Germans come to the Belgian frontier",
+              advisor: { name: "Gort", position: "The Belgians will not talk to us, so going forward to meet a German attack on ground nobody has reconnoitred means meeting it blind, and the short line is the safe one." },
+              setFlags: { planD39: "escaut" },
+              impact: { manpower: 1, fuel: 1, initiative: -2 },
+              next: "altmarkRaid40",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "The short line holds the north",
+                  setFlags: { planD39: "escaut" },
+                  impact: { manpower: 1, fuel: 1, initiative: -1 },
+                  outcome:
+                    "Speculative. The Allied armies stay on the Franco-Belgian frontier and the Escaut, and Belgium, left to fight alone for a week, falls back on them. The Germans come to a line that is further from the Meuse and is not hurried. They do not need to be hurried, since the attack through the Ardennes does not depend on where the northern armies are, only on whether they are free to turn.",
+                },
+                {
+                  weight: 100 - modWeight(40, meters.initiative),
+                  title: "Belgium alone",
+                  setFlags: { planD39: "escaut" },
+                  impact: { manpower: 0, fuel: 1, initiative: -2 },
+                  outcome:
+                    "Speculative. The Belgian army fights its first days with no ally on its ground, and the country's government and public are told what they had feared: that the Allies mean to defend France and not Belgium. The decision is defended as caution, and is remembered as a refusal to come when called.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get altmarkRaid40() {
+          return {
+          date: "FEBRUARY 1940",
+          title: "The Altmark",
+          historicalRecord: true,
+          situation:
+            "The German supply ship Altmark, which served the pocket battleship Graf Spee, has been reported in Norwegian waters with British merchant seamen below decks, men from ships sunk in the South Atlantic. She is making the passage home along the Norwegian coast inside the territorial limit, and Norwegian torpedo boats have twice looked her over without searching her. The Admiralty has the destroyer Cossack nearby under Captain Vian, and Churchill, the First Lord, wants the prisoners freed. The Foreign Office wants to know how that is to be reconciled with a neutral country's rights, and Oslo has said that the ship was inspected and found to be unarmed. The Norwegians are the neutral that Britain most wants to keep on its side. A boarding in a Norwegian fjord is a breach of their neutrality and will be treated as one in Berlin, which has its own plans for the coast." +
+            (flags.planD39 === "breda" ? " The Seventh Army is on its way to the Dutch frontier, and the War Cabinet wants a victory, however small." : "") +
+            (flags.hardMode ? " The Altmark may be the last occasion on which the Navy is thanked for breaking a rule." : ""),
+          choices: [
+            {
+              label: "Order the Cossack into the fjord to board the Altmark and free the prisoners, and answer for the breach afterwards",
+              advisor: { name: "Churchill", position: "The prisoners are British seamen held in a German ship, and the Norwegians have twice declined to look hard enough, so the Navy should go in and answer for it afterwards." },
+              historical: true,
+              setFlags: { altmarkRaid: "board" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "finland40",
+              outcome:
+                "What happened. HMS Cossack, under Captain Philip Vian, entered the Jøssingfjord and boarded the Altmark at about 22:20 on 16 February, and freed 299 prisoners (the German records say 303). There was a short fight and some Germans were killed. London had a victory; Oslo protested at the violation of its waters, and Berlin concluded that Norway could not or would not keep the British out. Hitler ordered his planning for Norway and Denmark to be intensified three days later.",
+            },
+            {
+              label: "Respect Norwegian waters: ask Oslo to search the ship again, and protest at Berlin's use of them",
+              advisor: { name: "Halifax", position: "Britain has a case against Germany for the use of neutral waters, which is a poor case to spoil by doing the same, and the Norwegians are worth more to the Allies as friends than the prisoners are as a prize." },
+              setFlags: { altmarkRaid: "respect" },
+              impact: { manpower: -1, fuel: 0, initiative: -1 },
+              next: "finland40",
+              uncertain: [
+                {
+                  weight: modWeight(45, meters.initiative),
+                  title: "A second search",
+                  setFlags: { altmarkRaid: "respect" },
+                  impact: { manpower: 0, fuel: 0, initiative: 0 },
+                  outcome:
+                    "Speculative. A Norwegian officer goes aboard and finds what the first search did not, and the prisoners are freed under the Norwegian flag, to the embarrassment of both Oslo and Berlin. It is a smaller victory than a boarding would have been, and it does not give the German staff a reason to say that the Norwegians have failed.",
+                },
+                {
+                  weight: 100 - modWeight(45, meters.initiative),
+                  title: "The ship goes home",
+                  setFlags: { altmarkRaid: "respect" },
+                  impact: { manpower: -1, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The Altmark goes down the coast with the prisoners below, and arrives at her home port a day later. The sailors are in a German camp, the press says that the Navy has let a ship slip through its fingers, and the neutral whose waters were respected makes no sign that it will do more to keep them from being used again.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get finland40() {
+          return {
+          date: "FEBRUARY – MARCH 1940",
+          title: "A Force for Finland",
+          historicalRecord: true,
+          situation:
+            "The Finns have been fighting the Red Army since the end of November, and the press and the Parliament of both countries want something done. On 5 February the Supreme War Council agreed in principle on an expeditionary force to Finland, to land at Narvik and cross Norway and Sweden by the ore railway. The ore fields at Gällivare lie on the way, and the staffs have noticed that a force which takes them will have done two things at once. Norway and Sweden have refused to give a passage, since they have no wish to be at war with Germany or with the Soviet Union, and neither is it clear that the Finns can hold until the spring. The French are the keener, and the British service chiefs the more doubtful. If the Finns ask for terms the whole scheme falls." +
+            (flags.altmarkRaid === "board" ? " The Norwegians, still smarting from the Jøssingfjord, are in no mood to oblige." : "") +
+            (flags.altmarkRaid === "respect" ? " The Norwegian government has shown no reason for its neutrality to be doubted, and is not asked to give it up lightly." : "") +
+            (flags.hardMode ? " The French government is under the same pressure to be seen to act as the Finns are to be seen to hold." : ""),
+          choices: [
+            {
+              label: "Prepare the expedition and press Oslo and Stockholm for a passage, with the ore fields as the real aim",
+              advisor: { name: "Chamberlain", position: "The country wants help given to Finland, and a force that can land at Narvik and move on the ore fields will be of use in either case." },
+              historical: true,
+              setFlags: { finland40: "prepare" },
+              impact: { manpower: -1, fuel: -1, initiative: 1 },
+              next: "wilfred40",
+              outcome:
+                "What happened. The expedition was prepared through February and early March, and Norway and Sweden refused it a passage. The Finns asked for terms and the Peace of Moscow was signed on 12 March, and the force was stood down. Daladier's government fell on 20 March, in part over Finland. The planning was not wasted: the brigades, the shipping and the staff work for the Narvik landing were the ones that were reached for in April.",
+            },
+            {
+              label: "Send arms and aircraft to Finland but commit no troops: the army is wanted in France",
+              advisor: { name: "Ironside", position: "The army is needed in France, and a force sent through two neutral countries to a war that is nearly over would be a force lost for the spring." },
+              setFlags: { finland40: "arms" },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
+              next: "wilfred40",
+              uncertain: [
+                {
+                  weight: modWeight(55, meters.initiative),
+                  title: "Guns in time",
+                  setFlags: { finland40: "arms" },
+                  impact: { manpower: 1, fuel: 1, initiative: 0 },
+                  outcome:
+                    "Speculative. The guns and the fighters reach the Finns in time to be used in the last weeks, and the peace of 12 March is signed on terms that are a little less hard. The staff does not draw up a plan for Narvik, since there is no force to land there, and when the Germans go to Norway in April the Allies have nothing in hand.",
+                },
+                {
+                  weight: 100 - modWeight(55, meters.initiative),
+                  title: "Too little, too late",
+                  setFlags: { finland40: "arms" },
+                  impact: { manpower: 0, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. The aircraft arrive after the line at Viipuri has gone, and the guns arrive in March with their ammunition still on the way. The press says that the Allies sent everything but men. The French government, which had wanted a force, falls within the fortnight, and the staff has no plan for Norway on its table.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get wilfred40() {
+          return {
+          date: "APRIL 1940",
+          title: "Wilfred and R 4",
+          historicalRecord: true,
+          situation:
+            "The Peace of Moscow took away the cover for a landing in Norway, and the Admiralty has been pressing for the other plan. Wilfred would lay mines in the Norwegian Leads, the sheltered channel along the coast by which the ore ships bring Narvik's iron to Germany, to drive them out into open water where the Navy can take them. The French have been the more willing and the British the more cautious, since the Norwegians are likely to protest and Germany may well reply. R 4 is the plan for that: if Germany sends troops to Norway, British and French troops will be put ashore at Narvik, Trondheim, Bergen and Stavanger before they can dig in. The mining has been put back from 5 April to 8 April. The troops for R 4 are embarked in cruisers in the Scottish ports. Every report from Copenhagen and the Baltic says that German ships are moving." +
+            (flags.finland40 === "prepare" ? " The troops and the shipping that were drawn up for Finland in the winter are the force available, and their orders were written for a different war." : "") +
+            (flags.finland40 === "arms" ? " No force has been prepared since the Peace of Moscow, and R 4 is a plan for troops who are still in their depots." : "") +
+            (flags.altmarkRaid === "board" ? " The Germans have not forgotten what the Navy did in the Jøssingfjord, and nor has anyone in Oslo." : "") +
+            (flags.hardMode ? " Nobody here has seen a German sailing order, and every guess is at the mercy of the next signal." : ""),
+          choices: [
+            {
+              label: "Lay the mines on 8 April and hold the troops embarked, ready to land if Germany answers with force",
+              advisor: { name: "Churchill", position: "The ore route must be cut, Norway will protest and Germany may reply, and for that the troops must be afloat and not in barracks." },
+              historical: true,
+              setFlags: { wilfred40: "mines" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "narvik40",
+              outcome:
+                "What happened. Notes were delivered to Norway and Sweden on 8 April, and the mines were laid that morning. On 7 April the Admiralty had taken the troops off the cruisers so that the ships could put to sea against a German force reported off Norway, and the landings of R 4 were thereby delayed. The Germans landed at Narvik, Trondheim, Bergen, Stavanger, Kristiansand and Oslo on 9 April, and the Allies arrived after them.",
+            },
+            {
+              label: "Send the troops with the mines: land at Narvik and Trondheim at once and hold them before the Germans come",
+              advisor: { name: "Pound", position: "A landing on the same day as the mines would put the force ashore before the German ships can reach the coast, and the Navy can hold the sea for it." },
+              setFlags: { wilfred40: "occupy" },
+              impact: { manpower: -2, fuel: -1, initiative: 2 },
+              next: "narvik40",
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.initiative),
+                  title: "The first ashore",
+                  setFlags: { wilfred40: "occupy" },
+                  impact: { manpower: -1, fuel: -1, initiative: 2 },
+                  outcome:
+                    "Speculative. The first troops reach Narvik and Trondheim a day before the Germans, and the Norwegians, who have been told that they are being protected from an attack that has not yet come, protest and then do not resist. When the German ships arrive they find British troops already ashore and a Norwegian army that has been warned. It is a gamble that has paid, and everything in the plan has depended on a German signal being read in time.",
+                },
+                {
+                  weight: 100 - modWeight(35, meters.initiative),
+                  title: "Uninvited",
+                  setFlags: { wilfred40: "occupy" },
+                  impact: { manpower: -2, fuel: -2, initiative: 0 },
+                  outcome:
+                    "Speculative. The British are ashore in a neutral country before any German has crossed its frontier, and Berlin says so to the world. The Norwegians are insulted and do not co-operate, and the Germans arrive the next day anyway. The troops are in the wrong places, on a coast with no friends and with their stores on the wrong ships, and the first week of the campaign is spent arguing with the people they have come to defend.",
+                },
+              ],
+            },
+            {
+              label: "Leave Norwegian waters alone: the neutrality of a small country is worth more than the ore",
+              advisor: { name: "Halifax", position: "Britain went to war over a small neutral country, and a plan to mine another one's waters will be paid for in the opinion of every neutral that is watching." },
+              setFlags: { wilfred40: "neutral" },
+              impact: { manpower: 1, fuel: 0, initiative: -2 },
+              next: "narvik40",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "Clean hands",
+                  setFlags: { wilfred40: "neutral" },
+                  impact: { manpower: 1, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. No mines are laid, and the Allies are the only party to the war that has not violated a Norwegian rule. The Germans land on 9 April all the same, and the Norwegian government, which had no help from the British to expect, finds that it has them anyway. The ships that were meant for the mines are available for the sea battle off Narvik, and the troops are in their barracks.",
+                },
+                {
+                  weight: 100 - modWeight(40, meters.initiative),
+                  title: "Nothing to stand on",
+                  setFlags: { wilfred40: "neutral" },
+                  impact: { manpower: 0, fuel: 0, initiative: -2 },
+                  outcome:
+                    "Speculative. The Germans land on 9 April and the Allies, who had made no preparation of any kind, send what they have two days later. There is no plan, no embarked force and no agreement with the Norwegians, and the British press asks why, with the ore route plainly in danger, the Navy was left to do nothing.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
         get narvik40() {
           return {
           date: "APRIL 1940",
@@ -12785,7 +13089,12 @@ const CAMPAIGNS = {
               : "") +
             (flags.forkNarvikHeld
               ? " The garrison's own reports this week are more confident than expected: German counter-landings meant to dislodge them have so far failed, and the port itself hasn't changed hands again since the initial fighting."
-              : ""),
+              : "") +
+            (flags.finland40 === "prepare" ? " The brigades and the shipping that were drawn up in the winter for a force to Finland are the ones that are sailing, and the plans for the ore railway are the plans they carry." : "") +
+            (flags.finland40 === "arms" ? " There was no force prepared in the winter, and the expedition to Norway has been put together in days from what was at hand." : "") +
+            (flags.wilfred40 === "occupy" ? " British troops were put ashore before the Germans came, and the garrison has had its first week to dig in." : "") +
+            (flags.wilfred40 === "neutral" ? " No mines were laid and no troops were landed first, and the garrison has come to a coast that the Germans had a day to take." : "") +
+            (flags.altmarkRaid === "board" ? " The Germans have been in Norwegian waters since the Altmark, and they came prepared." : ""),
           choices: [
             {
               label: "Hold Narvik and reinforce it: the iron ore route matters enough to commit further",
@@ -12823,7 +13132,11 @@ const CAMPAIGNS = {
               : "") +
             (flags.forkNarvikHeld
               ? " Norway, unusually, is not the drain on ships and attention it might have been: the garrison there is still holding on its own, and this crisis is not competing with it for the fleet's time."
-              : ""),
+              : "") +
+            (flags.planD39 === "breda" ? " The Seventh Army, the best of the reserve, went north into Holland on the first day, and the divisions that might have been turned south to meet the break at the Meuse are not there to be turned." : "") +
+            (flags.planD39 === "dyle" ? " The reserve was kept behind the hinge, and some of it has been used to meet the break at the Meuse, though not enough to close it." : "") +
+            (flags.planD39 === "escaut" ? " The armies stood on the Escaut, and the line they have been pulled back to is a short one, though the German thrust has come in behind it all the same." : "") +
+            (flags.saar39 === "press" ? " The army that went into the Saar in September knew the weight of the Westwall from the first day, and a good part of it has been rebuilt since." : ""),
           choices: [
             {
               label: "Full evacuation effort: every available vessel, civilian and military, risk the fleet to save the army",
@@ -17145,20 +17458,232 @@ const CAMPAIGNS = {
     id: "italy",
     seal: "COMANDO SUPREMO",
     name: "Italian High Command",
-    dates: "1940–1945",
-    brief: "Direct Italy's war from Mussolini's 'parallel war' entry to the armistice split.",
+    dates: "1939–1945",
+    brief: "Direct Italy's war from the declaration of non-belligerence to the armistice split.",
     accent: "#2e4a6b",
     dynamic: true,
-    start: "nonBelligerence40",
+    start: "nonBelligerence39",
     resolveNode(id, flags, meters) {
       const nodes = {
+        // The prelude (September 1939 to June 1940). The campaign used to open at the declaration of war; these four reports are the decisions before it
+        // that the record leaves a command to make: whether to stay out when Germany goes to war, where the coal is to come from, what to promise Hitler at
+        // the Brenner, and what to answer the Duce's memorandum of 31 March. What the player chooses is carried as flags (nb39, coal40, brenner40, memo40)
+        // that the declaration report mentions in a sentence and that move the meters; none of it is a hidden bonus. Dates are checked against Wikipedia
+        // (Pact of Steel; Italy in World War II; Brenner Pass meetings) and the rest are drafted from the secondary literature
+        // (claims/allied-italian-prelude.json), with the memorandum and the appointments marked as not reopened against a primary source.
+        get nonBelligerence39() {
+          return {
+          date: "SEPTEMBER 1939",
+          title: "The Word for Waiting",
+          historicalRecord: true,
+          situation:
+            "Germany invaded Poland on 1 September, and Britain and France declared war on 3 September. Italy signed the Pact of Steel with Germany in May, an alliance that binds each to the other's side in a war, and the Duce has been told by his own staff that the army and the navy will not be ready for a war before 1942. Hitler did not warn Rome of the date. In the last days of August the Italian side sent a list of what it would need to fight, so long that the Germans said they could not supply it, and Berlin has let it be understood that it does not ask Italy for troops in the first months. Britain and France would sooner have Italy out of the war than in it. Mussolini has to give the word for what Italy is: allied, neutral, or something that has not been named." +
+            (flags.hardMode ? " Whatever word is chosen will be read in Berlin as a verdict on the alliance." : ""),
+          choices: [
+            {
+              label: "Declare non-belligerence: stand by the alliance in word and stay out of the fighting while the army is rearmed",
+              advisor: { name: "Badoglio", position: "The army cannot fight a modern war until it has the guns, the vehicles and the stocks, and an alliance that does not require it to fight yet is an alliance that has not yet been tested." },
+              historical: true,
+              setFlags: { nb39: "wait" },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
+              next: "coal40",
+              outcome:
+                "What happened. The Council of Ministers declared Italy's non-belligerence on 1 September. The word was chosen so as not to be neutrality, which the Duce would not accept, and it left Italy free to enter on Germany's side at a later time. The country had the winter to rearm in, and the Allies had a reason to keep trading with it. Mussolini, who disliked being left out of a war, never stopped looking for the moment to leave it.",
+            },
+            {
+              label: "Declare neutrality outright: set the Pact of Steel aside and trade with both sides",
+              advisor: { name: "Ciano", position: "Italy has no quarrel with Poland, the Pact of Steel was never meant to be called on this soon, and a country that is not ready for war owes an alliance nothing." },
+              setFlags: { nb39: "neutral" },
+              impact: { manpower: 1, fuel: 1, initiative: -2 },
+              next: "coal40",
+              uncertain: [
+                {
+                  weight: modWeight(45, meters.initiative),
+                  title: "A neutral's trade",
+                  setFlags: { nb39: "neutral" },
+                  impact: { manpower: 1, fuel: 1, initiative: -1 },
+                  outcome:
+                    "Speculative. London and Paris welcome the word, and the ships that bring coal and oil to Italian ports are not stopped. The factories run through the winter and the stocks are better than they would have been. Berlin reads it as a desertion and says so, and the Duce, who has been told that he is now the leader of a country that is not at war, has to find his place in a Europe that has not asked for him.",
+                },
+                {
+                  weight: 100 - modWeight(45, meters.initiative),
+                  title: "Berlin does not forgive it",
+                  setFlags: { nb39: "neutral" },
+                  impact: { manpower: 0, fuel: 0, initiative: -2 },
+                  outcome:
+                    "Speculative. The German ministries slow the steel and the coal that were promised, and the German press says what it thinks of the friends of the Axis. The Allies, who do not trust a government that signed the Pact in May, give less than was hoped. Italy has a neutrality that nobody respects and nobody rewards.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get coal40() {
+          return {
+          date: "FEBRUARY – MARCH 1940",
+          title: "Coal",
+          historicalRecord: true,
+          situation:
+            "Italy has hardly any coal of its own, and what it burns comes by sea. Before the war most of it came from Britain and Poland, and since the autumn the British have been making the passage harder with contraband control, and Italy's own ships have been stopped and searched in the Mediterranean. In February the Germans offered coal by rail through the Brenner, to be paid for in Italian goods, and from 1 March the Royal Navy has stopped German coal going to Italy by sea. The Italian staff knows what it means: the country can have its coal from the ally that is at war with Britain, or it can seek an arrangement with the power that controls the sea. The railway is open. The harbours are not. The navy needs oil more than coal, and the oil also comes by sea." +
+            (flags.nb39 === "wait" ? " The war has so far cost the country nothing it did not choose to spend, and the autumn's stocks are lower than the staff had hoped." : "") +
+            (flags.nb39 === "neutral" ? " The country has declared itself neutral, and both sets of ships have been asked to respect the word." : "") +
+            (flags.hardMode ? " The Duce reads the coal figures himself, and does not like the sum." : ""),
+          choices: [
+            {
+              label: "Take the German coal by rail over the Brenner and pay for it in goods: the alliance is the one supplier that cannot be stopped at sea",
+              advisor: { name: "Ciano", position: "The coal will come from the north, and the north will have the right to ask for what it pleases in return, so every ton bought is a ton of dependence." },
+              historical: true,
+              setFlags: { coal40: "german" },
+              impact: { manpower: 0, fuel: 1, initiative: 0 },
+              next: "brenner40",
+              outcome:
+                "What happened. German coal began to arrive by rail through the Brenner in the spring, and the Italian economy came to depend on it. The British stopped coal reaching Italy by sea from 1 March, a measure the Italian press called an act of hostility. Coal had been an argument for friendship with London in 1939. By the summer it was an argument for the Axis, and was said so in Rome.",
+            },
+            {
+              label: "Seek a trade bargain with London and Paris: coal, oil and credit in return for keeping out of the war",
+              advisor: { name: "Badoglio", position: "A country that cannot fuel its fleet cannot choose its enemy, and the only supplier with a navy is the one that is at war with Germany." },
+              setFlags: { coal40: "london" },
+              impact: { manpower: 0, fuel: -1, initiative: -1 },
+              next: "brenner40",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "A bargain, for now",
+                  setFlags: { coal40: "london" },
+                  impact: { manpower: 0, fuel: 1, initiative: -1 },
+                  outcome:
+                    "Speculative. London lets the coal through in return for a promise, and the Italian ships sail under British inspection. The deal is explained to Berlin as a matter of necessity. It is understood in Berlin as the opposite, and nobody in Rome, least of all the Duce, believes that it can last once the armies in the west are moving.",
+                },
+                {
+                  weight: 100 - modWeight(40, meters.initiative),
+                  title: "Not at that price",
+                  setFlags: { coal40: "london" },
+                  impact: { manpower: 0, fuel: -2, initiative: -1 },
+                  outcome:
+                    "Speculative. The talks stall on the terms. London asks for guarantees that Rome will not give, and the Germans, learning of the approach, make the coal from the north slower in coming. For a month the country has neither supplier, and the railway through the Brenner is the only one that will open again.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get brenner40() {
+          return {
+          date: "MARCH 1940",
+          title: "The Brenner",
+          historicalRecord: true,
+          situation:
+            "Ribbentrop has been in Rome, and Hitler has asked to see the Duce. The two men meet in a train at the Brenner Pass on 18 March, on the frontier that their countries share since the Anschluss. Hitler talks for most of the meeting and Mussolini, who has not been told of the German plans for Norway or of the date of the attack in the west, listens. Italy has been out of the war for seven months. The Duce has said more than once that Italy cannot stay out for ever. Hitler wants to know where Italy will stand, and would be glad to have British and French forces tied down in the Mediterranean. The question that the Comando Supremo will have to answer afterwards is what, if anything, the Duce said at the Brenner that the army will have to keep." +
+            (flags.coal40 === "german" ? " The coal that is arriving through the pass is on the table, and so is what it will cost." : "") +
+            (flags.coal40 === "london" ? " The approach to London is known in Berlin, and Hitler is not a man who forgets who was asked for what." : "") +
+            (flags.hardMode ? " The Duce will be judged by his people on whether he came back from the Brenner as an ally or as a client." : ""),
+          choices: [
+            {
+              label: "Tell Hitler that Italy will enter the war, but at a time of its own choosing, and ask for arms and coal",
+              advisor: { name: "Mussolini", position: "Italy will go in, and it will go in as a partner and not as a satellite, which means on a day it chooses and with its own aims." },
+              historical: true,
+              setFlags: { brenner40: "promise" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "memo40",
+              outcome:
+                "What happened. At the Brenner on 18 March Mussolini told Hitler that Italy would enter the war on Germany's side, and gave no date. Hitler told him nothing about the plans for the attack in the west, which would begin less than two months later. The commitment was a general one and the army was not consulted on it. Ciano's diary is the usual source for the meeting.",
+            },
+            {
+              label: "Give no commitment: thank Hitler, say that Italy's position is unchanged, and ask what Germany can do for the army first",
+              advisor: { name: "Ciano", position: "A promise given at the Brenner will be quoted back in Rome in the summer, and Italy's interest is better served by asking for what it needs than by promising what it will do." },
+              setFlags: { brenner40: "vague" },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
+              next: "memo40",
+              uncertain: [
+                {
+                  weight: modWeight(45, meters.initiative),
+                  title: "Hitler accepts it",
+                  setFlags: { brenner40: "vague" },
+                  impact: { manpower: 1, fuel: 1, initiative: 0 },
+                  outcome:
+                    "Speculative. Hitler hears the answer without comment, and the meeting ends on a better footing than either side expected. Berlin takes it as a sign that the Duce is waiting for a victory. The Italian side keeps its freedom of action for another two months, and the coal goes on arriving.",
+                },
+                {
+                  weight: 100 - modWeight(45, meters.initiative),
+                  title: "A cooler Berlin",
+                  setFlags: { brenner40: "vague" },
+                  impact: { manpower: 0, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The German side notes that the Duce has made no promise, and the ministries in Berlin do not hurry with the arms and the coal. The Duce, who dislikes being treated as an ally who must be asked, takes the slowness as an insult and begins to look for a way to make the point.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get memo40() {
+          return {
+          date: "31 MARCH 1940",
+          title: "The Memorandum",
+          historicalRecord: true,
+          situation:
+            "Mussolini has written a memorandum to the King, to Ciano and to the chiefs of the armed forces, dated 31 March. It says that Italy cannot stay out of the war for its duration without giving up its place as a great power, and it describes the war that Italy is to fight: a war of its own, in the Mediterranean and in Africa, parallel to Germany's, with the army on the defensive in the Alps. It does not give a date. The Comando Supremo has to answer it. Badoglio has the estimates of the service chiefs on his desk, and they are those of a country that has had a winter to prepare and is not much readier than it was. The Duce is not asking whether Italy should fight. He is asking what he is to be told when the day comes." +
+            (flags.brenner40 === "promise" ? " The promise made at the Brenner a fortnight ago is on the record, and Berlin will expect it to be kept." : "") +
+            (flags.brenner40 === "vague" ? " Nothing was promised at the Brenner, and the memorandum is the first statement in writing that Italy will fight." : "") +
+            (flags.hardMode ? " An answer that sounds like a refusal will be read in the Palazzo Venezia as one." : ""),
+          choices: [
+            {
+              label: "Plan the parallel war: a defence in the Alps, an offensive in Libya and East Africa, and the fleet in the Mediterranean",
+              advisor: { name: "Badoglio", position: "If there is to be a war, it should be fought where Italy can reach, in the Mediterranean and in Africa, and with the defensive on every other front." },
+              historical: true,
+              setFlags: { memo40: "parallel" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "nonBelligerence40",
+              outcome:
+                "What happened. The memorandum set the pattern that the war was fought on: a guerra parallela, with Italy fighting Britain in the Mediterranean and Africa for aims of its own, and with the Alps held on the defensive. It did not say how the army that lacked guns, vehicles and fuel was to take Egypt, or how the fleet was to command a sea that the British could close at both ends. The Comando Supremo wrote its plans to the order and the Duce chose the day.",
+            },
+            {
+              label: "Answer that the armed forces cannot fight before 1942 and ask for a longer horizon",
+              advisor: { name: "Cavagnari", position: "The fleet's stock of fuel oil is the limit on how long it can fight, and the oil comes by sea, so the navy cannot be asked for a long war on a guess." },
+              setFlags: { memo40: "later" },
+              impact: { manpower: 1, fuel: 1, initiative: -2 },
+              next: "nonBelligerence40",
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.initiative),
+                  title: "The Duce accepts a delay",
+                  setFlags: { memo40: "later" },
+                  impact: { manpower: 1, fuel: 1, initiative: -1 },
+                  outcome:
+                    "Speculative. The Duce reads the answer and puts the memorandum away, and the staff has the summer for the stocks it has asked for. The pressure to act does not go. It waits for the news from the west, and when the news comes it is the news that decides.",
+                },
+                {
+                  weight: 100 - modWeight(35, meters.initiative),
+                  title: "A command that cannot be trusted",
+                  setFlags: { memo40: "later" },
+                  impact: { manpower: 0, fuel: 0, initiative: -2 },
+                  outcome:
+                    "Speculative. The Duce takes the answer as a refusal and says so, and the chiefs of staff learn that their estimates will be argued with by a man who has never read them. The Comando Supremo is not consulted on the next decisions of the spring, and the plans that are drawn up afterwards are drawn up without it.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
         get nonBelligerence40() {
           return {
           date: "JUNE 1940",
           title: "The Parallel War",
           historicalRecord: true,
           situation:
-            "France is collapsing faster than anyone in Rome expected, and Mussolini has a decision that was supposed to have more time attached to it. Italy declared 'non-belligerence' (not neutrality, a deliberately temporary word) in September 1939, and the standing plan always assumed a longer war would eventually force a choice. It hasn't come to that. Germany looks likely to win outright within weeks, and the fear driving every argument in the Palazzo Venezia today is not that Italy might lose a war it joins now, but that it might win nothing at all from a war it sat out entirely. Badoglio, running the armed forces day to day, has a blunter number for the room: the army is short something like a third of the rifles and most of the reserve artillery its own mobilization tables call for, and none of that gets fixed by a declaration of war.",
+            "France is collapsing faster than anyone in Rome expected, and Mussolini has a decision that was supposed to have more time attached to it. Italy declared 'non-belligerence' (not neutrality, a deliberately temporary word) in September 1939, and the standing plan always assumed a longer war would eventually force a choice. It hasn't come to that. Germany looks likely to win outright within weeks, and the fear driving every argument in the Palazzo Venezia today is not that Italy might lose a war it joins now, but that it might win nothing at all from a war it sat out entirely. Badoglio, running the armed forces day to day, has a blunter number for the room: the army is short something like a third of the rifles and most of the reserve artillery its own mobilization tables call for, and none of that gets fixed by a declaration of war." +
+            (flags.nb39 === "neutral" ? " Italy has been called neutral since September, a word the Duce has never liked, and the choice in front of the room is the more serious for it." : "") +
+            (flags.coal40 === "german" ? " The coal that keeps the factories open comes through the Brenner, and the people who send it know what it is worth." : "") +
+            (flags.coal40 === "london" ? " The approach to London over coal is remembered in Berlin, and it is remembered here." : "") +
+            (flags.brenner40 === "promise" ? " The Duce told Hitler at the Brenner that Italy would come in, and Berlin has not forgotten the words." : "") +
+            (flags.brenner40 === "vague" ? " The Duce gave Hitler no promise at the Brenner, and Berlin has noticed." : "") +
+            (flags.memo40 === "parallel" ? " The plans of the Comando Supremo are drawn to the memorandum of 31 March: a defence in the Alps and a war of Italy's own elsewhere." : "") +
+            (flags.memo40 === "later" ? " The chiefs of staff told the Duce on 31 March that the armed forces could not be ready before 1942, and he has not forgotten that either." : "") +
+            (flags.hardMode ? " Nobody in the room can say what the Duce has already decided." : ""),
           choices: [
             {
               label: "Declare war now: France is already beaten, and the peace table seats only belligerents",
@@ -21650,6 +22175,11 @@ const NODE_ATLAS = {
     { id: "prague45", date: "MAY 1945", title: "The Last Operation" },
   ],
   allied: [
+    { id: "saar39", date: "SEPTEMBER 1939", title: "The Promise to Poland" },
+    { id: "dyle39", date: "NOVEMBER 1939 – MARCH 1940", title: "The Plan for the North" },
+    { id: "altmarkRaid40", date: "FEBRUARY 1940", title: "The Altmark" },
+    { id: "finland40", date: "FEBRUARY – MARCH 1940", title: "A Force for Finland" },
+    { id: "wilfred40", date: "APRIL 1940", title: "Wilfred and R 4" },
     { id: "narvik40", date: "APRIL 1940", title: "Narvik" },
     { id: "dunkirk40", date: "MAY 1940", title: "Dunkirk" },
     { id: "halifaxCrisis40", date: "LATE MAY 1940", title: "The War Cabinet Crisis" },
@@ -21710,6 +22240,10 @@ const NODE_ATLAS = {
     { id: "crusader41", date: "NOVEMBER – DECEMBER 1941", title: "The Relief of Tobruk" },
   ],
   italy: [
+    { id: "nonBelligerence39", date: "SEPTEMBER 1939", title: "The Word for Waiting" },
+    { id: "coal40", date: "FEBRUARY – MARCH 1940", title: "Coal" },
+    { id: "brenner40", date: "MARCH 1940", title: "The Brenner" },
+    { id: "memo40", date: "31 MARCH 1940", title: "The Memorandum" },
     { id: "nonBelligerence40", date: "JUNE 1940", title: "The Parallel War" },
     { id: "alpsFront40", date: "JUNE 1940", title: "The Alps Offensive" },
     { id: "medStrategy40", date: "JULY 1940", title: "The Mediterranean Question" },
@@ -26087,7 +26621,7 @@ function migrateSave(saved) {
   return s;
 }
 
-const NODE_TOTAL = 291; // 105 German + 71 Soviet + 58 Allied + 57 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 29: German +5 for the prelude: fallWeiss39, phoneyWar39, mechelen40, altmark40 and ore40.) (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
+const NODE_TOTAL = 300; // 105 German + 71 Soviet + 63 Allied + 61 Italian — counted from the CAMPAIGNS getters, not estimated. Recount when nodes are added. (Round 30: Allied +5 for the prelude: saar39, dyle39, altmarkRaid40, finland40 and wilfred40; Italian +4: nonBelligerence39, coal40, brenner40 and memo40.) (Round 29: German +5 for the prelude: fallWeiss39, phoneyWar39, mechelen40, altmark40 and ore40.) (Round 28: Soviet +8 for the prelude: finnishPrep39, winterStall40, summaBreak40, moscowPeace40, plan40, games41, prep41 and memo41.) (Round 26: German +1 for backhandBlow43; Soviet +7 for leningrad44, rightBank44, crimea44, iasiKishinev44, budapest44, balatonVienna45 and prague45.) (Round 24: Allied +7 for compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41 and crusader41.) (Round 24: Italy +6 for monteLungo43, adriaticRoad44, combatGroups44, partisanWinter44, groupsCommand45 and springOffensive45.) (Round 24: Soviet +7 for brodyCounterstroke41, yelnya41, winterGeneral42, rzhevVyazma42, smolenskThaw42, kharkov42 and westernOffensive42.) (Round 19: Italy +6 for the extendedHoldout40/britainAloneQuestion40/enduringNeutrality40/germanPressure41/neutralItalyOccupied42/neutralItalyEnd45 chain.) (Round 13b: German +1 for rostov41, a new predecessor to typhoon; Soviet +1 for rzhevSummer42, a new predecessor to autumnWeight42.)
 
 // Framing quotes shown on entering the War Room. Where a clean, verified, short quote from
 // the actual command figure at this moment exists, it's used with a real name and date. Where
@@ -28322,6 +28856,7 @@ const MAP_PLACES = {
     finlandOccupationCost44: [24.94, 60.17], vistulaOder45: [14.65, 52.6], berlinFeb45: [14.65, 52.6], maskingForceQuestion45: [14.65, 52.6], berlinRace45: [14.4, 52.55],
   },
   allied: {
+    saar39: [7.0, 49.23], dyle39: [2.45, 48.84], altmarkRaid40: [6.35, 58.31], finland40: [2.35, 48.86], wilfred40: [-0.13, 51.5],
     narvik40: [17.43, 68.44], dunkirk40: [2.37, 51.03], halifaxCrisis40: [-0.13, 51.5], battleOfBritain40: [-0.48, 51.55], compassGreece41: [19.2, 30.25], greeceFalls41: [22.55, 38.8],
     crete41: [25.1, 35.4], aidRussia41: [37.6, 55.75], malaya41: [103.8, 1.3], forceZ41: [103.8, 1.3], crusader41: [23.97, 32.08], europeFirst42: [-77.04, 38.9],
     atlanticConvoys42: [-2.99, 53.4], pq17_1942: [33.1, 68.97], australiaLifeline42: [151.2, -33.9], secondFront42: [-0.13, 51.5], untestedDoctrine44: [-0.13, 51.5], darlanDeal42: [3.06, 36.75],
@@ -28334,6 +28869,7 @@ const MAP_PLACES = {
     scheldt44: [4.4, 51.22], stalinTestsTheFront45: [13.4, 52.5], strategicBombing45: [13.74, 51.05], germanyOccupation45: [13.4, 52.5],
   },
   italy: {
+    nonBelligerence39: [12.5, 41.9], coal40: [12.5, 41.9], brenner40: [11.5, 47.0], memo40: [12.5, 41.9],
     nonBelligerence40: [12.5, 41.9], extendedHoldout40: [12.5, 41.9], britainAloneQuestion40: [12.5, 41.9], enduringNeutrality40: [12.5, 41.9], germanPressure41: [11.5, 47.0], neutralItalyOccupied42: [11.5, 47.0],
     neutralItalyEnd45: [12.5, 41.9], alpsFront40: [7.5, 43.78], medStrategy40: [12.5, 41.9], gibraltarGambit40: [-5.35, 36.14], gibraltarResolution40: [-1.77, 43.37], greeceDecision40: [12.5, 41.9],
     tarantoDoctrine40: [17.24, 40.47], greeceWinter40: [20.78, 40.62], compass40: [25.92, 31.62], germanRescue41: [12.5, 41.9], matapan41: [21.5, 35.8], yugoslaviaBalkans41: [15.98, 45.8],
@@ -28397,6 +28933,8 @@ const MAP_MEANWHILE = {
     mapNow("1945-05-09", [14.4, 50.1], "Prague is relieved."),
   ],
   allied: [
+    mapNow("1939-09-07", [7.0, 49.23], "French troops advance into the Saar."),
+    mapNow("1940-02-16", [6.35, 58.31], "HMS Cossack boards the Altmark in the Jøssingfjord."),
     mapNow("1940-04-14", [17.43, 68.44], "British troops land near Narvik."),
     mapNow("1940-05-26", [2.37, 51.03], "The evacuation from Dunkirk begins."),
     mapNow("1940-07-10", [1.0, 51.1], "The air battle over the Channel convoys begins."),
@@ -28416,6 +28954,8 @@ const MAP_MEANWHILE = {
     mapNow("1945-04-25", [13.0, 51.56], "American and Soviet troops meet on the Elbe."),
   ],
   italy: [
+    mapNow("1939-09-01", [12.5, 41.9], "Italy declares non-belligerence."),
+    mapNow("1940-03-18", [11.5, 47.0], "Hitler and Mussolini meet at the Brenner Pass."),
     mapNow("1940-06-10", [12.5, 41.9], "Italy declares war on Britain and France."),
     mapNow("1940-06-21", [7.5, 43.78], "The offensive in the Alps opens."),
     mapNow("1940-09-13", [25.2, 31.55], "Italian troops cross the frontier into Egypt."),
@@ -30555,6 +31095,11 @@ const NODE_HIGHLIGHT_REGIONS = {
   prague45: ["czechia"],
   },
   allied: {
+  saar39: ["france", "germany"],
+  dyle39: ["benelux", "france"],
+  altmarkRaid40: ["norway"],
+  finland40: ["norway", "finland"],
+  wilfred40: ["norway"],
   narvik40: ["norway"],
   dunkirk40: ["france"],
   halifaxCrisis40: ["britain"],
@@ -30609,6 +31154,10 @@ const NODE_HIGHLIGHT_REGIONS = {
   crusader41: ["libya", "egypt"],
   },
   italy: {
+    nonBelligerence39: ["italy"],
+    coal40: ["italy"],
+    brenner40: ["italy", "austria"],
+    memo40: ["italy"],
     nonBelligerence40: ["italy"],
     extendedHoldout40: ["italy", "france"],
     britainAloneQuestion40: ["italy", "britain"],
@@ -35050,6 +35599,9 @@ const ADVISOR_DOSSIERS = {
   Voroshilov: { role: "Marshal: People's Commissar of Defence until May 1940", bio: "A civil-war cavalry commander and one of Stalin's oldest associates, who ran the army through the purges and the first months of the Winter War and was replaced by Timoshenko in the spring of 1940.", fate: "Failed as the commander at Leningrad in 1941 and was never again given a front; outlived Stalin and died in 1969, still a Marshal of the Soviet Union.", faction: "soviet", rank: 2 },
   Pavlov: { role: "General: commander of the Western Special Military District", bio: "A tank officer who served in Spain and became the Red Army's armoured chief, then took the Western Special Military District, the one that faced the German centre, in 1940.", fate: "Arrested in the first days of July 1941 and shot on 22 July as a scapegoat for the collapse of the Western Front; rehabilitated after Stalin's death.", faction: "soviet", rank: 3 },
   Shaposhnikov: { role: "Marshal: Chief of the General Staff (1937–40 and 1941–42)", bio: "The Red Army's most senior staff officer and the author of 'The Brain of the Army', who left the General Staff in the summer of 1940, fortified the new frontier, and took the General Staff over again when Zhukov was moved from it in the summer of 1941.", fate: "Died in March 1945, worn out, weeks before Berlin.", faction: "soviet", rank: 2 },
+  Gamelin: { role: "General: Chief of the French General Staff and commander of the Allied armies on land (to May 1940)", bio: "The senior French soldier of the first months of the war, who chose a long war of blockade and industry behind the Maginot Line and who put the Allied armies on the plan to meet the Germans in Belgium.", fate: "Dismissed on 19 May 1940 in the middle of the German breakthrough and replaced by Weygand; held by the Vichy government and deported to Germany in 1943; died in 1958.", faction: "allied", rank: 1 },
+  Georges: { role: "General: commander of the North-East Front", bio: "Gamelin's subordinate in command of the armies that faced the German frontier, and the officer who had the front's reserves to dispose of.", fate: "Kept his command until the armistice of June 1940; went to Algiers in 1943 and sat on the French Committee of National Liberation; died in 1951.", faction: "allied", rank: 2 },
+  Chamberlain: { role: "Prime Minister (to May 1940)", bio: "The Prime Minister who took Britain into the war in September 1939 and led it through the Phoney War, the Finnish crisis and the Norway landings.", fate: "Resigned on 10 May 1940 after the Norway debate and served under Churchill as Lord President until ill health forced him out that October; died on 9 November 1940.", faction: "allied", rank: 1 },
   Ironside: { role: "Field Marshal: Chief of the Imperial General Staff", bio: "Britain's senior soldier during the Norway campaign's Narvik fighting in spring 1940, a command relationship strained by the campaign's confusion.", fate: "Replaced as CIGS that same month; created Baron Ironside; died in 1959.", faction: "allied", rank: 2 },
   Gort: { role: "Field Marshal: commander of the British Expeditionary Force", bio: "Made the call to fall back on Dunkirk in May 1940 rather than fight on for a doomed link-up with French forces to the south.", fate: "Later governor of Gibraltar and Malta; died of cancer in 1946.", faction: "allied", rank: 2 },
   Halifax: { role: "Foreign Secretary: the war cabinet's other voice", bio: "Pressed the War Cabinet in late May 1940 to explore terms through Mussolini's mediation, the road not taken that Churchill closed off.", fate: "Sent as ambassador to Washington from 1941; died in 1959.", faction: "allied", rank: 2 },

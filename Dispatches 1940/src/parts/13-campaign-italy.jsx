@@ -2,20 +2,232 @@
     id: "italy",
     seal: "COMANDO SUPREMO",
     name: "Italian High Command",
-    dates: "1940–1945",
-    brief: "Direct Italy's war from Mussolini's 'parallel war' entry to the armistice split.",
+    dates: "1939–1945",
+    brief: "Direct Italy's war from the declaration of non-belligerence to the armistice split.",
     accent: "#2e4a6b",
     dynamic: true,
-    start: "nonBelligerence40",
+    start: "nonBelligerence39",
     resolveNode(id, flags, meters) {
       const nodes = {
+        // The prelude (September 1939 to June 1940). The campaign used to open at the declaration of war; these four reports are the decisions before it
+        // that the record leaves a command to make: whether to stay out when Germany goes to war, where the coal is to come from, what to promise Hitler at
+        // the Brenner, and what to answer the Duce's memorandum of 31 March. What the player chooses is carried as flags (nb39, coal40, brenner40, memo40)
+        // that the declaration report mentions in a sentence and that move the meters; none of it is a hidden bonus. Dates are checked against Wikipedia
+        // (Pact of Steel; Italy in World War II; Brenner Pass meetings) and the rest are drafted from the secondary literature
+        // (claims/allied-italian-prelude.json), with the memorandum and the appointments marked as not reopened against a primary source.
+        get nonBelligerence39() {
+          return {
+          date: "SEPTEMBER 1939",
+          title: "The Word for Waiting",
+          historicalRecord: true,
+          situation:
+            "Germany invaded Poland on 1 September, and Britain and France declared war on 3 September. Italy signed the Pact of Steel with Germany in May, an alliance that binds each to the other's side in a war, and the Duce has been told by his own staff that the army and the navy will not be ready for a war before 1942. Hitler did not warn Rome of the date. In the last days of August the Italian side sent a list of what it would need to fight, so long that the Germans said they could not supply it, and Berlin has let it be understood that it does not ask Italy for troops in the first months. Britain and France would sooner have Italy out of the war than in it. Mussolini has to give the word for what Italy is: allied, neutral, or something that has not been named." +
+            (flags.hardMode ? " Whatever word is chosen will be read in Berlin as a verdict on the alliance." : ""),
+          choices: [
+            {
+              label: "Declare non-belligerence: stand by the alliance in word and stay out of the fighting while the army is rearmed",
+              advisor: { name: "Badoglio", position: "The army cannot fight a modern war until it has the guns, the vehicles and the stocks, and an alliance that does not require it to fight yet is an alliance that has not yet been tested." },
+              historical: true,
+              setFlags: { nb39: "wait" },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
+              next: "coal40",
+              outcome:
+                "What happened. The Council of Ministers declared Italy's non-belligerence on 1 September. The word was chosen so as not to be neutrality, which the Duce would not accept, and it left Italy free to enter on Germany's side at a later time. The country had the winter to rearm in, and the Allies had a reason to keep trading with it. Mussolini, who disliked being left out of a war, never stopped looking for the moment to leave it.",
+            },
+            {
+              label: "Declare neutrality outright: set the Pact of Steel aside and trade with both sides",
+              advisor: { name: "Ciano", position: "Italy has no quarrel with Poland, the Pact of Steel was never meant to be called on this soon, and a country that is not ready for war owes an alliance nothing." },
+              setFlags: { nb39: "neutral" },
+              impact: { manpower: 1, fuel: 1, initiative: -2 },
+              next: "coal40",
+              uncertain: [
+                {
+                  weight: modWeight(45, meters.initiative),
+                  title: "A neutral's trade",
+                  setFlags: { nb39: "neutral" },
+                  impact: { manpower: 1, fuel: 1, initiative: -1 },
+                  outcome:
+                    "Speculative. London and Paris welcome the word, and the ships that bring coal and oil to Italian ports are not stopped. The factories run through the winter and the stocks are better than they would have been. Berlin reads it as a desertion and says so, and the Duce, who has been told that he is now the leader of a country that is not at war, has to find his place in a Europe that has not asked for him.",
+                },
+                {
+                  weight: 100 - modWeight(45, meters.initiative),
+                  title: "Berlin does not forgive it",
+                  setFlags: { nb39: "neutral" },
+                  impact: { manpower: 0, fuel: 0, initiative: -2 },
+                  outcome:
+                    "Speculative. The German ministries slow the steel and the coal that were promised, and the German press says what it thinks of the friends of the Axis. The Allies, who do not trust a government that signed the Pact in May, give less than was hoped. Italy has a neutrality that nobody respects and nobody rewards.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get coal40() {
+          return {
+          date: "FEBRUARY – MARCH 1940",
+          title: "Coal",
+          historicalRecord: true,
+          situation:
+            "Italy has hardly any coal of its own, and what it burns comes by sea. Before the war most of it came from Britain and Poland, and since the autumn the British have been making the passage harder with contraband control, and Italy's own ships have been stopped and searched in the Mediterranean. In February the Germans offered coal by rail through the Brenner, to be paid for in Italian goods, and from 1 March the Royal Navy has stopped German coal going to Italy by sea. The Italian staff knows what it means: the country can have its coal from the ally that is at war with Britain, or it can seek an arrangement with the power that controls the sea. The railway is open. The harbours are not. The navy needs oil more than coal, and the oil also comes by sea." +
+            (flags.nb39 === "wait" ? " The war has so far cost the country nothing it did not choose to spend, and the autumn's stocks are lower than the staff had hoped." : "") +
+            (flags.nb39 === "neutral" ? " The country has declared itself neutral, and both sets of ships have been asked to respect the word." : "") +
+            (flags.hardMode ? " The Duce reads the coal figures himself, and does not like the sum." : ""),
+          choices: [
+            {
+              label: "Take the German coal by rail over the Brenner and pay for it in goods: the alliance is the one supplier that cannot be stopped at sea",
+              advisor: { name: "Ciano", position: "The coal will come from the north, and the north will have the right to ask for what it pleases in return, so every ton bought is a ton of dependence." },
+              historical: true,
+              setFlags: { coal40: "german" },
+              impact: { manpower: 0, fuel: 1, initiative: 0 },
+              next: "brenner40",
+              outcome:
+                "What happened. German coal began to arrive by rail through the Brenner in the spring, and the Italian economy came to depend on it. The British stopped coal reaching Italy by sea from 1 March, a measure the Italian press called an act of hostility. Coal had been an argument for friendship with London in 1939. By the summer it was an argument for the Axis, and was said so in Rome.",
+            },
+            {
+              label: "Seek a trade bargain with London and Paris: coal, oil and credit in return for keeping out of the war",
+              advisor: { name: "Badoglio", position: "A country that cannot fuel its fleet cannot choose its enemy, and the only supplier with a navy is the one that is at war with Germany." },
+              setFlags: { coal40: "london" },
+              impact: { manpower: 0, fuel: -1, initiative: -1 },
+              next: "brenner40",
+              uncertain: [
+                {
+                  weight: modWeight(40, meters.initiative),
+                  title: "A bargain, for now",
+                  setFlags: { coal40: "london" },
+                  impact: { manpower: 0, fuel: 1, initiative: -1 },
+                  outcome:
+                    "Speculative. London lets the coal through in return for a promise, and the Italian ships sail under British inspection. The deal is explained to Berlin as a matter of necessity. It is understood in Berlin as the opposite, and nobody in Rome, least of all the Duce, believes that it can last once the armies in the west are moving.",
+                },
+                {
+                  weight: 100 - modWeight(40, meters.initiative),
+                  title: "Not at that price",
+                  setFlags: { coal40: "london" },
+                  impact: { manpower: 0, fuel: -2, initiative: -1 },
+                  outcome:
+                    "Speculative. The talks stall on the terms. London asks for guarantees that Rome will not give, and the Germans, learning of the approach, make the coal from the north slower in coming. For a month the country has neither supplier, and the railway through the Brenner is the only one that will open again.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get brenner40() {
+          return {
+          date: "MARCH 1940",
+          title: "The Brenner",
+          historicalRecord: true,
+          situation:
+            "Ribbentrop has been in Rome, and Hitler has asked to see the Duce. The two men meet in a train at the Brenner Pass on 18 March, on the frontier that their countries share since the Anschluss. Hitler talks for most of the meeting and Mussolini, who has not been told of the German plans for Norway or of the date of the attack in the west, listens. Italy has been out of the war for seven months. The Duce has said more than once that Italy cannot stay out for ever. Hitler wants to know where Italy will stand, and would be glad to have British and French forces tied down in the Mediterranean. The question that the Comando Supremo will have to answer afterwards is what, if anything, the Duce said at the Brenner that the army will have to keep." +
+            (flags.coal40 === "german" ? " The coal that is arriving through the pass is on the table, and so is what it will cost." : "") +
+            (flags.coal40 === "london" ? " The approach to London is known in Berlin, and Hitler is not a man who forgets who was asked for what." : "") +
+            (flags.hardMode ? " The Duce will be judged by his people on whether he came back from the Brenner as an ally or as a client." : ""),
+          choices: [
+            {
+              label: "Tell Hitler that Italy will enter the war, but at a time of its own choosing, and ask for arms and coal",
+              advisor: { name: "Mussolini", position: "Italy will go in, and it will go in as a partner and not as a satellite, which means on a day it chooses and with its own aims." },
+              historical: true,
+              setFlags: { brenner40: "promise" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "memo40",
+              outcome:
+                "What happened. At the Brenner on 18 March Mussolini told Hitler that Italy would enter the war on Germany's side, and gave no date. Hitler told him nothing about the plans for the attack in the west, which would begin less than two months later. The commitment was a general one and the army was not consulted on it. Ciano's diary is the usual source for the meeting.",
+            },
+            {
+              label: "Give no commitment: thank Hitler, say that Italy's position is unchanged, and ask what Germany can do for the army first",
+              advisor: { name: "Ciano", position: "A promise given at the Brenner will be quoted back in Rome in the summer, and Italy's interest is better served by asking for what it needs than by promising what it will do." },
+              setFlags: { brenner40: "vague" },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
+              next: "memo40",
+              uncertain: [
+                {
+                  weight: modWeight(45, meters.initiative),
+                  title: "Hitler accepts it",
+                  setFlags: { brenner40: "vague" },
+                  impact: { manpower: 1, fuel: 1, initiative: 0 },
+                  outcome:
+                    "Speculative. Hitler hears the answer without comment, and the meeting ends on a better footing than either side expected. Berlin takes it as a sign that the Duce is waiting for a victory. The Italian side keeps its freedom of action for another two months, and the coal goes on arriving.",
+                },
+                {
+                  weight: 100 - modWeight(45, meters.initiative),
+                  title: "A cooler Berlin",
+                  setFlags: { brenner40: "vague" },
+                  impact: { manpower: 0, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The German side notes that the Duce has made no promise, and the ministries in Berlin do not hurry with the arms and the coal. The Duce, who dislikes being treated as an ally who must be asked, takes the slowness as an insult and begins to look for a way to make the point.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
+        get memo40() {
+          return {
+          date: "31 MARCH 1940",
+          title: "The Memorandum",
+          historicalRecord: true,
+          situation:
+            "Mussolini has written a memorandum to the King, to Ciano and to the chiefs of the armed forces, dated 31 March. It says that Italy cannot stay out of the war for its duration without giving up its place as a great power, and it describes the war that Italy is to fight: a war of its own, in the Mediterranean and in Africa, parallel to Germany's, with the army on the defensive in the Alps. It does not give a date. The Comando Supremo has to answer it. Badoglio has the estimates of the service chiefs on his desk, and they are those of a country that has had a winter to prepare and is not much readier than it was. The Duce is not asking whether Italy should fight. He is asking what he is to be told when the day comes." +
+            (flags.brenner40 === "promise" ? " The promise made at the Brenner a fortnight ago is on the record, and Berlin will expect it to be kept." : "") +
+            (flags.brenner40 === "vague" ? " Nothing was promised at the Brenner, and the memorandum is the first statement in writing that Italy will fight." : "") +
+            (flags.hardMode ? " An answer that sounds like a refusal will be read in the Palazzo Venezia as one." : ""),
+          choices: [
+            {
+              label: "Plan the parallel war: a defence in the Alps, an offensive in Libya and East Africa, and the fleet in the Mediterranean",
+              advisor: { name: "Badoglio", position: "If there is to be a war, it should be fought where Italy can reach, in the Mediterranean and in Africa, and with the defensive on every other front." },
+              historical: true,
+              setFlags: { memo40: "parallel" },
+              impact: { manpower: 0, fuel: -1, initiative: 1 },
+              next: "nonBelligerence40",
+              outcome:
+                "What happened. The memorandum set the pattern that the war was fought on: a guerra parallela, with Italy fighting Britain in the Mediterranean and Africa for aims of its own, and with the Alps held on the defensive. It did not say how the army that lacked guns, vehicles and fuel was to take Egypt, or how the fleet was to command a sea that the British could close at both ends. The Comando Supremo wrote its plans to the order and the Duce chose the day.",
+            },
+            {
+              label: "Answer that the armed forces cannot fight before 1942 and ask for a longer horizon",
+              advisor: { name: "Cavagnari", position: "The fleet's stock of fuel oil is the limit on how long it can fight, and the oil comes by sea, so the navy cannot be asked for a long war on a guess." },
+              setFlags: { memo40: "later" },
+              impact: { manpower: 1, fuel: 1, initiative: -2 },
+              next: "nonBelligerence40",
+              uncertain: [
+                {
+                  weight: modWeight(35, meters.initiative),
+                  title: "The Duce accepts a delay",
+                  setFlags: { memo40: "later" },
+                  impact: { manpower: 1, fuel: 1, initiative: -1 },
+                  outcome:
+                    "Speculative. The Duce reads the answer and puts the memorandum away, and the staff has the summer for the stocks it has asked for. The pressure to act does not go. It waits for the news from the west, and when the news comes it is the news that decides.",
+                },
+                {
+                  weight: 100 - modWeight(35, meters.initiative),
+                  title: "A command that cannot be trusted",
+                  setFlags: { memo40: "later" },
+                  impact: { manpower: 0, fuel: 0, initiative: -2 },
+                  outcome:
+                    "Speculative. The Duce takes the answer as a refusal and says so, and the chiefs of staff learn that their estimates will be argued with by a man who has never read them. The Comando Supremo is not consulted on the next decisions of the spring, and the plans that are drawn up afterwards are drawn up without it.",
+                },
+              ],
+            },
+          ],
+          };
+        },
+
         get nonBelligerence40() {
           return {
           date: "JUNE 1940",
           title: "The Parallel War",
           historicalRecord: true,
           situation:
-            "France is collapsing faster than anyone in Rome expected, and Mussolini has a decision that was supposed to have more time attached to it. Italy declared 'non-belligerence' (not neutrality, a deliberately temporary word) in September 1939, and the standing plan always assumed a longer war would eventually force a choice. It hasn't come to that. Germany looks likely to win outright within weeks, and the fear driving every argument in the Palazzo Venezia today is not that Italy might lose a war it joins now, but that it might win nothing at all from a war it sat out entirely. Badoglio, running the armed forces day to day, has a blunter number for the room: the army is short something like a third of the rifles and most of the reserve artillery its own mobilization tables call for, and none of that gets fixed by a declaration of war.",
+            "France is collapsing faster than anyone in Rome expected, and Mussolini has a decision that was supposed to have more time attached to it. Italy declared 'non-belligerence' (not neutrality, a deliberately temporary word) in September 1939, and the standing plan always assumed a longer war would eventually force a choice. It hasn't come to that. Germany looks likely to win outright within weeks, and the fear driving every argument in the Palazzo Venezia today is not that Italy might lose a war it joins now, but that it might win nothing at all from a war it sat out entirely. Badoglio, running the armed forces day to day, has a blunter number for the room: the army is short something like a third of the rifles and most of the reserve artillery its own mobilization tables call for, and none of that gets fixed by a declaration of war." +
+            (flags.nb39 === "neutral" ? " Italy has been called neutral since September, a word the Duce has never liked, and the choice in front of the room is the more serious for it." : "") +
+            (flags.coal40 === "german" ? " The coal that keeps the factories open comes through the Brenner, and the people who send it know what it is worth." : "") +
+            (flags.coal40 === "london" ? " The approach to London over coal is remembered in Berlin, and it is remembered here." : "") +
+            (flags.brenner40 === "promise" ? " The Duce told Hitler at the Brenner that Italy would come in, and Berlin has not forgotten the words." : "") +
+            (flags.brenner40 === "vague" ? " The Duce gave Hitler no promise at the Brenner, and Berlin has noticed." : "") +
+            (flags.memo40 === "parallel" ? " The plans of the Comando Supremo are drawn to the memorandum of 31 March: a defence in the Alps and a war of Italy's own elsewhere." : "") +
+            (flags.memo40 === "later" ? " The chiefs of staff told the Duce on 31 March that the armed forces could not be ready before 1942, and he has not forgotten that either." : "") +
+            (flags.hardMode ? " Nobody in the room can say what the Duce has already decided." : ""),
           choices: [
             {
               label: "Declare war now: France is already beaten, and the peace table seats only belligerents",
