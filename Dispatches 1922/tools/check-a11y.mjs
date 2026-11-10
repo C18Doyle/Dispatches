@@ -129,6 +129,29 @@ for (const [runCase, seed] of RUNS) {
   ctx.restore();
 }
 
+// ---- the prelude of each command, and "What this game leaves out" reached from it -------------------------------------
+for (const [id, label] of [["provisionalGov17", "The Provisional Government"], SOUTH, ["siberia", "Provisional All-Russian Government"], ["bolsheviks", "Revolutionary Military Council of the Republic"]]) {
+  const ctx = makeContext(cfg, bundle, 7);
+  if (ctx.failed) throw new Error(ctx.failed);
+  ctx.stayOnPrelude = true;
+  await sleep(300);
+  await ctx.settle();
+  const err = await cfg.setup(ctx, [id, label, false]);
+  if (err) throw new Error(err);
+  checkPage(ctx, id + " prelude");
+  if (!/BACKGROUND, WRITTEN WITH HINDSIGHT/.test(ctx.text())) note(id + ": the prelude does not say it is written with hindsight");
+  const hist = ctx.buttons().find((b) => ctx.lab(b) === "WHAT THIS GAME LEAVES OUT");
+  if (!hist) note(id + ": the prelude has no way to \"What this game leaves out\"");
+  else {
+    await ctx.click(hist);
+    checkPage(ctx, id + " what the game leaves out");
+    if (!/Red Terror/.test(ctx.text()) || !/pogroms/.test(ctx.text())) note(id + ": the hard-history page is missing the terror or the pogroms");
+    await ctx.click(ctx.buttons().find((b) => /^Close and go back$/.test(ctx.lab(b))));
+    if (!/CONTINUE TO THE FIRST REPORT/.test(ctx.text())) note(id + ": closing the hard-history page does not return to the prelude");
+  }
+  ctx.restore();
+}
+
 // ---- the Order of Battle: the planning screen at each of its three steps, and the report ------------------------------------
 {
   const runCase = [...SOUTH, false];

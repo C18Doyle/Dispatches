@@ -171,6 +171,10 @@ export function App() {
   // with hard mode. `history` is the run as it stood before each order, newest last; it is not saved.
   const [easyMode, setEasyMode] = useState(false);
   const [history, setHistory] = useState([]);
+  // The orders given this run, for the "Your war against the record" panel on the ending screen (saved with the run; a run saved before this existed has none).
+  const [decisions, setDecisions] = useState([]);
+  // Where "What this game leaves out" returns to: the prelude of a new run, or the War Record.
+  const [historyFrom, setHistoryFrom] = useState("warrecord");
   // Battle planning: on by default; an order that hosts a battle opens the Order of Battle first. `pendingBattle` is the order waiting for its plan.
   const [planBattles, setPlanBattles] = useState(true);
   const [pendingBattle, setPendingBattle] = useState(null);
@@ -207,6 +211,7 @@ export function App() {
       hardModeEnabled,
       easyMode,
       planBattles,
+      decisions,
       screen,
       savedAt: Date.now(),
     });
@@ -216,7 +221,7 @@ export function App() {
     // would re-render the menu constantly for no visible reason while a
     // run is in progress.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [campaignId, nodeId, meters, flags, visitedNodes, hardModeValue, hardModeMaxed, hardModeEnabled, easyMode, planBattles, screen]);
+  }, [campaignId, nodeId, meters, flags, visitedNodes, hardModeValue, hardModeMaxed, hardModeEnabled, easyMode, planBattles, decisions, screen]);
 
   function handleResume() {
     const save = readSave();
@@ -231,6 +236,7 @@ export function App() {
     setHardModeEnabled(!!save.hardModeEnabled);
     setEasyMode(!!save.easyMode);
     setPlanBattles(save.planBattles !== false);
+    setDecisions(Array.isArray(save.decisions) ? save.decisions : []);
     setHistory([]);
     setScreen(save.screen === "bulletin" ? "bulletin" : "briefing");
     // Backfill discovery for a save written before this log existed, or any
@@ -260,10 +266,11 @@ export function App() {
     setHardModeValue(0); // capital spent so far — 0 means all 5 points available
     setHardModeMaxed(false);
     setHistory([]);
+    setDecisions([]);
     setFlagsState({});
     setVisitedNodes([c.start]);
     setNodeId(c.start);
-    setScreen("briefing");
+    setScreen(PRELUDES[id] ? "prelude" : "briefing");
     setDiscovery((prev) => addDiscovered(prev, id, "nodes", c.start));
   }
 
@@ -288,8 +295,9 @@ export function App() {
     const c = CAMPAIGNS[campaignId];
     // Easy mode keeps the run as it stood before this order, so the order can be taken back.
     if (easyMode) {
-      setHistory((h) => [...h, { nodeId, meters, flags, visitedNodes, hardModeValue, hardModeMaxed, discovery }]);
+      setHistory((h) => [...h, { nodeId, meters, flags, visitedNodes, hardModeValue, hardModeMaxed, discovery, decisions }]);
     }
+    setDecisions((d) => [...d, decisionEntry(c, nodeId, flags, meters, choice)]);
     const axes = c.triangleAxes.map((a) => a.key);
     const config = plan ? battleOf(choice) : null;
     let effChoice = choice;
@@ -384,6 +392,7 @@ export function App() {
     setHardModeValue(last.hardModeValue);
     setHardModeMaxed(last.hardModeMaxed);
     setDiscovery(last.discovery);
+    setDecisions(last.decisions || []);
     setBattleReport(null);
     try {
       window.localStorage.setItem(DISCOVERY_KEY, JSON.stringify(last.discovery));
@@ -428,7 +437,7 @@ export function App() {
         />
       )}
       {screen === "warrecord" && (
-        <WarRecordScreen onClose={toRecords} onOpenSection={setScreen} discovery={discovery} />
+        <WarRecordScreen onClose={toRecords} onOpenSection={(key) => { setHistoryFrom("warrecord"); setScreen(key); }} discovery={discovery} />
       )}
       {screen === "atlas" && <DiscoveryAtlasScreen onClose={() => setScreen("warrecord")} discovery={discovery} />}
       {screen === "endingsgallery" && <EndingsGalleryScreen onClose={() => setScreen("warrecord")} discovery={discovery} />}
@@ -450,6 +459,15 @@ export function App() {
         />
       )}
       {screen === "howtoread" && <HowToReadScreen onClose={() => setScreen("warrecord")} />}
+      {screen === "hardhistory" && <HardHistoryScreen onClose={() => setScreen(historyFrom)} />}
+      {screen === "prelude" && PRELUDES[campaignId] && (
+        <PreludeScreen
+          campaignId={campaignId}
+          onContinue={() => setScreen("briefing")}
+          onOpenHistory={() => { setHistoryFrom("prelude"); setScreen("hardhistory"); }}
+          onClose={toRecords}
+        />
+      )}
       {screen === "detail" && (
         <CampaignDetailScreen
           campaignId={campaignId}
@@ -543,7 +561,7 @@ export function App() {
         />
       )}
       {screen === "ending" && (
-        <EndingScreen campaignId={campaignId} endingId={nodeId} flags={flags} visitedNodes={visitedNodes} instantText={instantText} onClose={toRecords} />
+        <EndingScreen campaignId={campaignId} endingId={nodeId} flags={flags} visitedNodes={visitedNodes} decisions={decisions} instantText={instantText} onClose={toRecords} />
       )}
       {screen === "end" && <EndStubScreen onClose={toRecords} />}
     </main>
