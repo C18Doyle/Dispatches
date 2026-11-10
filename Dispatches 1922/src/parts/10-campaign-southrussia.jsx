@@ -63,7 +63,7 @@
         bio:
           "Career Imperial Army officer of humble birth, risen on merit rather than aristocratic connection. Committed to a unified, centrally-governed Russia and instinctively suspicious of regional autonomy movements — a position that put him at odds with the Cossack Hosts and Ukrainian nationalists whose cooperation his campaign depended on. On 12 June 1919, he formally submitted to Kolchak's authority, telegraphing: 'Safety of cause lies in a single high commander-in-chief... I yield to Admiral Kolchak and recognize him as Supreme Governor Russian state and commander-in-chief Russia Army.' The recognition was real but purely symbolic — it changed nothing about AFSR's operational independence, which every later decision from this command reflects.",
         fate:
-          "Named Kolchak's successor as Supreme Ruler in December 1919; briefly held that title himself, in name only, from January to April 1920 — while personally commanding the Novorossiysk evacuation and the retreat that followed. Resigned command in April 1920 after the retreat into Crimea, handing over to Wrangel. Died in exile in the United States in 1947, having spent his final years urging émigrés not to side with Nazi Germany against the USSR.",
+          "Named by Kolchak as his successor on 4 January 1920; he accepted neither the title nor its functions, and the office was declared extinct on 4 April 1920, the day he handed command to Wrangel. He commanded the Novorossiysk evacuation and the retreat that followed. Resigned command in April 1920 after the retreat into Crimea, handing over to Wrangel. Died in exile in the United States in 1947, having spent his final years urging émigrés not to side with Nazi Germany against the USSR.",
         faction: "AFSR High Command",
         rank: 0,
       },
@@ -81,7 +81,7 @@
         bio:
           "Wrangel's closest staff officer and confidant, serving as his chief of staff through the entire Crimean period. Co-signed, with Konovalets, the letter proposing cooperation to Makhno's insurgent staff in June 1920 — an overture Makhno's own council answered by executing the messenger who delivered it.",
         fate:
-          "Evacuated with the rest of the command in November 1920. Remained one of Wrangel's closest associates in emigration, active in the Russian All-Military Union alongside Kutepov. Died in Cannes in 1954, one of the few senior AFSR/Russian Army commanders to die of natural causes rather than assassination, execution, or violence.",
+          "Evacuated with the rest of the command in November 1920. Remained one of Wrangel's closest associates in emigration, active in the Russian All-Military Union alongside Kutepov. Organized the army's move from Gallipoli and Lemnos to Serbia in 1921.",
         faction: "AFSR High Command",
         rank: 1,
       },
@@ -97,7 +97,7 @@
       krivoshein: {
         role: "Head of Government, South Russia (from April 1920)",
         bio:
-          "Agriculture minister under Nicholas II and Stolypin's closest collaborator on the land reforms of 1906–11, which broke up the peasant commune and created a class of individual smallholders. Brought in by Wrangel in April 1920 to give the Crimea a civil government, he wrote the land law of May 1920 — peasants purchasing, through the state, the land they already worked. It was the measure White commanders had been advised to adopt since 1918 and had refused every time.",
+          "Agriculture minister under Nicholas II and Stolypin's closest collaborator on the land reforms of 1906–11, which broke up the peasant commune and created a class of individual smallholders. Joined Wrangel in the spring of 1920 and headed his government in the Crimea from June, he wrote the land law of May 1920 — peasants purchasing, through the state, the land they already worked. It was the measure White commanders had been advised to adopt since 1918 and had refused every time.",
         fate:
           "The law had seven months to work in a peninsula under siege, which was not enough to test whether it would have changed anything in 1918. Evacuated with the rest in November 1920. Died in Berlin in 1921, a year after the government he had been brought in to build.",
         faction: "Crimean Government",
@@ -106,18 +106,18 @@
       ulagai: {
         role: "Commander, Kuban Expeditionary Force",
         bio:
-          "Led the roughly 4,500-man landing across the Sea of Azov in August 1920, timed to coincide with the land law's rollout in the hope of linking up with Kuban partisan networks and widening the Northern Tauride offensive.",
+          "Led the landing across the Sea of Azov in August 1920, a force of several thousand men (the sources differ on how many), timed to coincide with the land law's rollout in the hope of linking up with Kuban partisan networks and widening the Northern Tauride offensive.",
         fate:
-          "The expedition lasted barely three weeks before being forced to withdraw — the hoped-for peasant and Cossack rising in the Kuban never materialized at the scale needed to hold the bridgehead.",
+          "The expedition lasted about three and a half weeks before being forced to withdraw — the hoped-for peasant and Cossack rising in the Kuban never materialized at the scale needed to hold the bridgehead.",
         faction: "AFSR High Command",
         rank: 2,
       },
       holman: {
-        role: "Brigadier-General, head of the British Military Mission to South Russia",
+        role: "Major-General, head of the British Military Mission to South Russia",
         bio:
-          "Led Britain's military mission from mid-1919, overseeing the delivery of over 200,000 rifles and substantial artillery to the AFSR. At Novorossiysk personally promised Denikin that British forces would see the women and children of White officers evacuated safely, and stood on the harbor mole through the night of 26 March supervising the Don Cossacks' embarkation himself.",
+          "Led Britain's military mission from mid-1919, overseeing the delivery of over 200,000 rifles and substantial artillery to the AFSR. At Novorossiysk personally promised Denikin that British forces would see the women and children of White officers evacuated safely.",
         fate:
-          "Left South Russia with the evacuation's completion. His personal emotional investment in the people he'd promised to save was noted by those who served under him — described by one contemporary as visibly overwhelmed by what he witnessed on the docks.",
+          "Left South Russia with Denikin in April 1920. His personal emotional investment in the people he'd promised to save was noted by those who served under him — described by one contemporary as visibly overwhelmed by what he witnessed on the docks.",
         faction: "British Military Mission",
         rank: 2,
       },
@@ -186,7 +186,7 @@
               headline: "PEACE WITH GERMANY, SIX WEEKS OLD",
               body: "Brest-Litovsk, signed 3 March: Poland, Finland, the Baltics, and all of Ukraine surrendered to German occupation — a quarter of the old empire. Trotsky's own delegation walked out twice before signing. Lenin's argument carried the room: a government that does not survive the winter builds socialism nowhere. That government is what this command now exists to fight.",
               meanwhile: {
-                siberia: "No organized front here yet. The Czechoslovak Legion — 50,000 men working their way east along the Trans-Siberian under an agreement with the Bolsheviks to evacuate peacefully — is still six weeks from the clash that will end that agreement and open this front entirely.",
+                siberia: "No organized front here yet. The Czechoslovak Legion — some 40,000 men working their way east along the Trans-Siberian under an agreement with the Bolsheviks to evacuate peacefully — is still five weeks from the clash that will end that agreement and open this front entirely.",
                 bolsheviks: "The peace bought survival, not consensus. The Left Socialist-Revolutionaries who shared power with the Bolsheviks broke over the treaty within weeks, and their own uprising against the government they helped form is still four months off.",
               },
             },
@@ -198,8 +198,8 @@
                 label: "Call off the assault. Withdraw north toward the Don rather than continue a fight Kornilov's death has made yours to lose or preserve.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "I did not ask for this command in the middle of a battle I did not plan. What I will not do is spend the army that's left on a city we do not currently have the strength to take, in a fight that was already going badly before this morning.",
+                  position:
+                    "Denikin argues that the army cannot spend what is left of it on a city it lacks the strength to take, in a fight that was already going badly before Kornilov's death.",
                 },
                 historical: true,
                 setFlags: { ekaterinodarChoice: "withdraw" },
@@ -212,8 +212,8 @@
                 label: "Press the assault. Honor Kornilov's plan and gamble that the city falls before the army does.",
                 advisor: {
                   name: "Alekseev",
-                  quote:
-                    "Abandoning the fight the same day our commander dies looks like exactly the weakness this movement cannot afford to show. I have heard that argument made with real conviction. I have not yet heard anyone explain how it survives contact with a garrison twice our number, under a man who has held command for a single day and did not draw up this attack.",
+                  position:
+                    "Alekseev argues that abandoning the fight on the day the commander dies would show a weakness the movement cannot afford, and asks how a retreat survives a garrison twice the army's size under a new and untried commander.",
                 },
                 historical: false,
                 setFlags: { ekaterinodarChoice: "press" },
@@ -242,7 +242,7 @@
               headline: "THE WAR IN THE WEST GOES ON WITHOUT US",
               body: "Germany's spring offensive has been running on the Western Front since 21 March — fifty divisions transferred from the east, freed by the peace Russia signed at Brest-Litovsk three weeks earlier. The Allies are being pushed back toward Amiens by men who were facing Russian guns in November. Every officer in this army understands the arithmetic: the troops now breaking the British Fifth Army are there because Russia left the war. It is the central grievance of the White movement and the reason Allied support for it will exist at all.",
               meanwhile: {
-                siberia: "No front here yet. The Czechoslovak Legion is still moving east along the Trans-Siberian under Bolshevik agreement, six weeks from the Chelyabinsk clash that opens this theatre.",
+                siberia: "No front here yet. The Czechoslovak Legion is still moving east along the Trans-Siberian under Bolshevik agreement, five weeks from the Chelyabinsk clash that opens this theatre.",
                 bolsheviks: "The government has moved the capital from Petrograd to Moscow in March, out of reach of the German advance the peace was supposed to have stopped.",
               },
             },
@@ -255,8 +255,8 @@
                 keyBattleSubgame: { id: "ekaterinodar" },
                 advisor: {
                   name: "Alekseev",
-                  quote:
-                    "I have already told you what I think the odds are. I am telling you now that a foothold thrown away a day early is a foothold we never actually get to test the value of.",
+                  position:
+                    "Alekseev argues that a foothold given up a day early is a foothold whose value is never tested.",
                 },
                 historical: false,
                 impact: { manpower: -3 },
@@ -289,8 +289,8 @@
                 label: "Withdraw now. A foothold that hasn't become a breakthrough after two days isn't going to on the third.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "I said at the outset I would not spend this army on a city we cannot currently take. Two days of proof that the garrison holds is enough proof. I am not waiting for a third.",
+                  position:
+                    "Denikin holds that two days of assault have shown the garrison will hold, and that a third day is not worth the army.",
                 },
                 historical: false,
                 impact: { manpower: 2 },
@@ -318,8 +318,8 @@
                   label: "Push through the gap now, while it's open. An exhausted army that hesitates may lose the opening entirely.",
                   advisor: {
                     name: "Alekseev",
-                    quote:
-                      "I did not argue for the extra day so that we could stop the moment it actually worked. The gap is real. Gaps this size do not stay open for commanders who wait to be certain.",
+                    position:
+                      "Alekseev argues that the gap in the Red line is real, and that gaps of this size do not stay open for commanders who wait to be certain.",
                   },
                   historical: false,
                   setFlags: { footholdChoice: "push_through" },
@@ -332,8 +332,8 @@
                   label: "Consolidate the gain. Begin the withdrawal now, from a genuinely stronger position than the historical retreat ever had.",
                   advisor: {
                     name: "Denikin",
-                    quote:
-                      "I would rather withdraw from a position we actually hold than gamble it chasing more than we have any right to expect an exhausted army to take. The gain is real. I intend to keep it real rather than risk it becoming another overreach.",
+                    position:
+                      "Denikin would rather keep the ground the army holds than risk it chasing more than an exhausted army can take.",
                   },
                   historical: false,
                   setFlags: { footholdChoice: "consolidate" },
@@ -356,8 +356,8 @@
                 label: "Withdraw immediately, disorganized or not. Every additional hour under this pressure costs more than reorganizing would save.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "I would rather retreat badly organized than lose more of this army to a garrison that has already proven it can outlast whatever pressure we bring to bear. We go now.",
+                  position:
+                    "Denikin would rather retreat in poor order than lose more of the army to a garrison that has shown it can outlast the pressure.",
                 },
                 historical: false,
                 setFlags: { collapseChoice: "immediate_withdrawal" },
@@ -370,8 +370,8 @@
                 label: "Take a day to reorganize first, accepting the continued pressure in exchange for a more orderly withdrawal.",
                 advisor: {
                   name: "Alekseev",
-                  quote:
-                    "I was wrong about the foothold. I am not certain compounding that mistake with a disorganized retreat is the correction it looks like — a day spent reorganizing under pressure is costly, but a retreat that falls apart entirely is costlier still.",
+                  position:
+                    "Alekseev admits he misjudged the foothold, and warns that a retreat that falls apart is costlier than a day spent reorganizing under pressure.",
                 },
                 historical: false,
                 setFlags: { collapseChoice: "reorganize_first" },
@@ -437,7 +437,7 @@
             badge: "\u25c7 SPECULATIVE — DOWNSTREAM OF DIVERGENCE",
             classification: "speculative",
             epilogue:
-              "The Volunteer Army does not survive Ekaterinodar. There is no second campaign, no Moscow Directive, no Orel, no Novorossiysk, and no Crimea — none of it occurs, because the force it would have been fought by is broken on the Kuban steppe in April 1918 by a garrison it should not have spent a third day in front of.\n\nThe real margin here was thin enough that this is not a large counterfactual. Kornilov was killed by a shell at his headquarters at Elizavetinskaya on 13 April 1918; Denikin called off the assault and extracted roughly four thousand men, and the First Kuban Campaign — the Ice March — reached the Don in May with the army intact but barely. Everything the AFSR later became grew from those four thousand. An army that stayed one day longer in front of Sorokin's garrison is not a different army by much. It is the same army, minus the extraction.\n\nWhat follows is what the White movement in south Russia looked like without a Volunteer Army at its centre: Cossack hosts defending their own territory and negotiating separately, German-backed formations in the Ukraine with their own priorities, and no unified command for the Allies to recognise, supply, or blame. Denikin, if he is among the four thousand who do not get clear, does not write the five volumes. There is no Novorossiysk to answer for, and no Bizerte to sail to.\n\nThe war is still won by the same side. It is won faster, against opponents who never combine, and the version of it that gets written afterward has no southern front worth arguing about — which is its own kind of erasure, and not obviously a kinder one than the record the historical army earned.",
+              "The Volunteer Army does not survive Ekaterinodar. There is no second campaign, no Moscow Directive, no Orel, no Novorossiysk, and no Crimea — none of it occurs, because the force it would have been fought by is broken on the Kuban steppe in April 1918 by a garrison it should not have spent a third day in front of.\n\nThe real margin here was thin enough that this is not a large counterfactual. Kornilov was killed by a shell at his farmhouse headquarters outside Ekaterinodar on 13 April 1918; Denikin called off the assault and extracted roughly four thousand men, and the First Kuban Campaign — the Ice March — reached the Don in May with the army intact but barely. Everything the AFSR later became grew from those four thousand. An army that stayed one day longer in front of Sorokin's garrison is not a different army by much. It is the same army, minus the extraction.\n\nWhat follows is what the White movement in south Russia looked like without a Volunteer Army at its centre: Cossack hosts defending their own territory and negotiating separately, German-backed formations in the Ukraine with their own priorities, and no unified command for the Allies to recognise, supply, or blame. Denikin, if he is among the four thousand who do not get clear, does not write the five volumes. There is no Novorossiysk to answer for, and no Bizerte to sail to.\n\nThe war is still won by the same side. It is won faster, against opponents who never combine, and the version of it that gets written afterward has no southern front worth arguing about — which is its own kind of erasure, and not obviously a kinder one than the record the historical army earned.",
           };
 
         case "moscowDirective19":
@@ -448,7 +448,7 @@
               headline: "FOURTEEN MONTHS OF NEWS, LATE",
               body: "Two items this front's own dispatches have been too consumed by the fighting to properly register. November: an armistice ends the war in Europe — not a victory for either side, and Allied troops remain on Russian soil with no reason for it committed to paper. March: Moscow declares itself the seat of a new Communist International, on the record for carrying revolution past Russia's own borders. No single battle this year has done more to keep Allied funding flowing than that declaration.",
               meanwhile: {
-                siberia: "Kolchak's own spring offensive, which briefly reached the Volga in April, has already broken. The Red counteroffensive out of Buguruslan has his armies falling back toward the Urals — the collapse that becomes general by autumn.",
+                siberia: "Kolchak's own spring offensive, which came within reach of the Volga in April, has already broken. The Red counteroffensive out of Buguruslan has his armies falling back toward the Urals — the collapse that becomes general by autumn.",
                 bolsheviks: "The Eighth Party Congress's internal fight over military policy was formally settled in March by compromise commission. It settled less than the resolution suggests; this southern front, now advancing, is what actually occupies Moscow's attention.",
               },
             },
@@ -463,8 +463,8 @@
                 label: "Issue the broad-front directive: converge on Moscow from Kharkov, Tsaritsyn, and the Don simultaneously.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "Every man in this army has dreamed of marching on Moscow since the day the Volunteer Army was founded. We do not have the luxury of a methodical campaign — momentum is the only weapon that has not failed us yet.",
+                  position:
+                    "Denikin argues that the army has wanted Moscow since the Volunteer Army was founded, that it cannot afford a slow campaign, and that momentum is the one weapon that has not yet failed it.",
                 },
                 historical: true,
                 setFlags: { directiveIssued: "broad" },
@@ -477,8 +477,8 @@
                 label: "Overrule the broad front. Concentrate the cavalry on the Volga axis first, as Wrangel proposes.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "Give me every mounted division you can spare and secure Astrakhan on my flank, and I will put fifty thousand sabres somewhere the Red Army cannot ignore. Spread the same men across three fronts and none of them will be strong enough to matter.",
+                  position:
+                    "Wrangel argues for giving him every mounted division that can be spared and securing Astrakhan on his flank, and holds that the same men spread over three fronts would be too weak to matter.",
                 },
                 historical: false,
                 setFlags: { directiveIssued: "concentrated" },
@@ -514,14 +514,14 @@
             title: "Kiev: Whose Flag",
             historicalRecord: true,
             situation:
-              "The broad-front advance has reached Kiev from the south just as Ukrainian People's Republic forces close on it from the west — General Antin Kravs's Galician and Zaporizhzhia corps, some eighteen thousand men under Petliura's overall command, have already skirmished their way into the outskirts and are planning a victory parade for the morning of the 31st. Lieutenant-General Nikolai Bredov's advance guard, roughly six thousand strong, is a day behind them and closing on the same bridges. Two armies that have never coordinated a single operation between them are about to occupy the same city within hours of each other, and nobody on either side has decided what happens when they meet.",
+              "The broad-front advance has reached Kiev from the south just as Ukrainian People's Republic forces close on it from the west — General Antin Kravs's Galician and Zaporizhzhia corps, some eighteen thousand men under Petliura's overall command, have already skirmished their way into the outskirts and are planning a victory parade for the afternoon of the 31st. Lieutenant-General Nikolai Bredov's advance guard, roughly six thousand strong, is a day behind them and closing on the same bridges. Two armies that have never coordinated a single operation between them are about to occupy the same city within hours of each other, and nobody on either side has decided what happens when they meet.",
             choices: [
               {
                 label: "Let Bredov use his own judgment: enter alongside the Ukrainian parade, then demand Kravs's army disarm and withdraw the moment friction gives grounds for it.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "Petliura's government has never been recognized by this command and will not be now, on the strength of a parade. If his troops are inside Kiev when Bredov arrives, they leave Kiev — armed or not, however that has to happen.",
+                  position:
+                    "Denikin holds that this command has never recognized Petliura's government and will not do so because of a parade, and that Ukrainian troops inside Kiev must leave it.",
                 },
                 historical: true,
                 setFlags: { kievApproach: "assert_exclusive" },
@@ -534,8 +534,8 @@
                 label: "Restrain Bredov. Hold outside the city overnight and negotiate a provisional joint arrangement rather than enter alongside the parade at all.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "We do not have eighteen thousand extra men to spend making a point about whose flag flies over a city hall. Let Kravs have his parade. An army that fights the Reds without us costs this command less than a city that fights us instead.",
+                  position:
+                    "Wrangel argues that the army cannot spare men to make a point about whose flag flies over the city hall, and that an army fighting the Reds without it costs less than a city fighting it.",
                 },
                 historical: false,
                 setFlags: { kievApproach: "provisional_accommodation" },
@@ -548,8 +548,8 @@
                 label: "Preempt entirely. Push Bredov's advance guard forward a day early to deny Kravs's corps the city outright, before any parade can happen.",
                 advisor: {
                   name: "Kutepov",
-                  quote:
-                    "Whoever is inside the walls when the other side arrives makes the rules for what happens next. I would rather Bredov's men be inside those walls a day early than negotiate anything with a force that got there first.",
+                  position:
+                    "Kutepov argues that whoever is inside the walls when the other side arrives makes the rules, and would rather Bredov's men were there a day early.",
                 },
                 historical: false,
                 setFlags: { kievApproach: "preempt" },
@@ -582,8 +582,8 @@
                 label: "Press north toward Saratov, chasing the junction with Kolchak's retreating forces.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "I said at Tsaritsyn that concentration would buy us something the broad front couldn't. I did not say it would buy us everything Denikin has been writing to Omsk about. Pressing this far outruns the supply we actually have.",
+                  position:
+                    "Wrangel argues that his case for concentration was not a case for pressing as far as Denikin has been writing to Omsk, and that the advance now outruns the army's supply.",
                 },
                 historical: false,
                 impact: { manpower: -3, rail: -4 },
@@ -595,8 +595,8 @@
                 label: "Consolidate the Volga gains rather than chase a junction that was never likely to hold.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "A real gain we can hold is worth more than a hoped-for one we cannot. I did not argue for concentration so we could spend the advantage it bought chasing a rendezvous with an army that may not exist by the time we get there.",
+                  position:
+                    "Wrangel argues that a gain the army can hold is worth more than one it hopes for, and that the advantage should not be spent chasing a junction with an army that may no longer exist.",
                 },
                 historical: false,
                 impact: { manpower: 2, rail: 2 },
@@ -625,8 +625,8 @@
                 label: "Withdraw immediately, in whatever order can be managed, rather than hold ground that never had a purpose beyond the junction.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "I did not argue against this thrust to watch us compound the error by holding the empty end of it a day longer than necessary. Pull back now, while the withdrawal is still a choice rather than something the Reds make for us.",
+                  position:
+                    "Wrangel argues that the thrust was an error and that the army should pull back at once, while the withdrawal is still its own choice.",
                 },
                 historical: false,
                 setFlags: { volgaOverextensionChoice: "withdraw_immediate" },
@@ -639,8 +639,8 @@
                 label: "Hold the position briefly, on the theory that abandoning ground immediately after reaching it looks worse than a short, deliberate pause.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "I understand the appeal of not looking like we panicked the moment we discovered the junction was empty. I do not think the appearance of composure is worth the actual exposure it costs to maintain it here, this far from anything resembling support.",
+                  position:
+                    "Wrangel holds that the look of composure is not worth the exposure it costs to keep up this far from support.",
                 },
                 historical: false,
                 setFlags: { volgaOverextensionChoice: "brief_hold" },
@@ -677,8 +677,8 @@
                 label: "Order the Cossack Hosts held in the line under threat of court-martial for desertion.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "Wrangel's axis or the center, it makes no difference — an army that answers to its own province before its own command is not an army I can plan around. Hold them by discipline, wherever the breach opens.",
+                  position:
+                    "Denikin holds that an army whose contingents answer to their own provinces before their own command cannot be planned around, and that they must be held by discipline wherever the breach opens.",
                 },
                 historical: false,
                 setFlags: { volgaCossackDiscipline: "enforced" },
@@ -692,8 +692,8 @@
                 label: "Let Wrangel handle it his own way — release the Cossacks formally rather than contest a departure already underway.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "I built this axis on their sabres. I am not going to answer their going home with a court-martial order from a command that was never out here with us. Release them, and let what's left of this army be the men who chose to stay.",
+                  position:
+                    "Wrangel argues that the Cossacks are the men the axis was built on, that he will not answer their going home with a court-martial order, and that the army should be the men who chose to stay.",
                 },
                 historical: false,
                 setFlags: { volgaCossackDiscipline: "released" },
@@ -733,8 +733,8 @@
                 label: "Divert two divisions to secure the rear. The advance can afford to slow.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "A line of supply that can be cut at will is not a line of supply. I would rather arrive at Moscow a month late with the army intact than arrive on schedule and starving.",
+                  position:
+                    "Denikin argues that a supply line that can be cut at will is no supply line, and that arriving at Moscow a month late with the army intact is better than arriving on time and starving.",
                 },
                 historical: false,
                 setFlags: { rearSecured: true },
@@ -749,8 +749,8 @@
                 label: "Keep every division on the offensive. Accept the losses to rail and supply as the cost of momentum.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "Momentum is the one advantage we still hold over an enemy who outnumbers us on every front. Trade it for rear-area policing against irregulars and we have handed Trotsky the only thing he was missing.",
+                  position:
+                    "Wrangel argues that momentum is the one advantage left against an enemy that outnumbers the army on every front, and that policing the rear against irregulars gives it away.",
                 },
                 historical: true,
                 setFlags: { rearSecured: false },
@@ -773,14 +773,14 @@
             title: "Peregonovka: The Trap That Broke",
             historicalRecord: true,
             situation:
-              "The diverted divisions have Makhno's exhausted Insurgent Army encircled near the village of Peregonovka after a four-hundred-mile pursuit — by every visible measure this should be a rout in the AFSR's favor. But reports overnight describe unusual movement inside the pocket, and the encircling line, thinned by the pursuit itself, has gaps nobody has had time to reinforce before dawn.",
+              "The diverted divisions have Makhno's exhausted Insurgent Army encircled near the village of Peregonovka after a pursuit across some six hundred kilometres of Ukraine — by every visible measure this should be a rout in the AFSR's favor. But reports overnight describe unusual movement inside the pocket, and the encircling line, thinned by the pursuit itself, has gaps nobody has had time to reinforce before dawn.",
             choices: [
               {
                 label: "Press the attack at dawn as planned. The numerical advantage should close the pocket before Makhno can organize anything.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "We did not divert two divisions from the front to hesitate at the moment they finally have him cornered. Close the ring at first light.",
+                  position:
+                    "Denikin argues that the two divisions were diverted to close the ring, and that it should be closed at first light.",
                 },
                 historical: true,
                 setFlags: { peregonovkaChoice: "press" },
@@ -794,8 +794,8 @@
                 keyBattleSubgame: { id: "peregonovka" },
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "A cornered force that senses weakness in the ring finds it. I would rather close this trap a little later with a line that actually holds than lose the encirclement entirely to a gap we saw and chose not to fix.",
+                  position:
+                    "Wrangel argues that a cornered force that senses weakness in the ring will find it, and would rather close the trap later with a line that holds.",
                 },
                 historical: false,
                 setFlags: { peregonovkaChoice: "consolidate" },
@@ -846,8 +846,8 @@
                   label: "Pursue the scattered remnants. A commander this dangerous left even partially intact tends not to stay that way for long.",
                   advisor: {
                     name: "Wrangel",
-                    quote:
-                      "We have not actually beaten him. We have inconvenienced him, and a man with his record does not stay inconvenienced. I would rather spend the effort finishing this now than explain, in three months, why we let him reconstitute.",
+                    position:
+                      "Wrangel argues that the army has only inconvenienced Makhno, that he will not stay inconvenienced, and that the effort should go to finishing him now.",
                   },
                   historical: false,
                   setFlags: { makhnoPursuit: "pursued" },
@@ -860,8 +860,8 @@
                   label: "Accept the partial win. Redirect the effort toward the front rather than chase scattered raiders.",
                   advisor: {
                     name: "Denikin",
-                    quote:
-                      "I did not commit divisions to this operation to spend more of them chasing raiders through country we do not fully control. The depot held. That is the result we can actually use, and I intend to use it where it matters most right now.",
+                    position:
+                      "Denikin holds that the divisions were not committed to chase raiders through country the army does not control, and that the depot holding is the result to use.",
                   },
                   historical: false,
                   setFlags: { makhnoPursuit: "not_pursued" },
@@ -884,8 +884,8 @@
                 label: "Commit what's left of the divisions to the front regardless of their condition. There isn't time to wait for them to recover.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "I know exactly what condition they're in. Orel is not going to wait politely for them to recover from it, and I will not let a defeat we already paid for cost us the divisions on top of the depot.",
+                  position:
+                    "Denikin argues that Orel will not wait for the divisions to recover, and that a defeat already paid for must not cost the divisions as well.",
                 },
                 historical: false,
                 setFlags: { makhnoAftermathChoice: "commit_regardless" },
@@ -898,8 +898,8 @@
                 label: "Write them off as combat-ineffective for now. Rebuild before committing them rather than compound the loss.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "Sending divisions this mauled into the next fight does not make them useful sooner. It makes the next defeat theirs as well, on top of this one. I would rather have fewer effective divisions at Orel than the same number in name only.",
+                  position:
+                    "Wrangel argues that sending divisions this mauled into the next fight makes the next defeat theirs too, and prefers fewer effective divisions at Orel to the same number in name only.",
                 },
                 historical: false,
                 setFlags: { makhnoAftermathChoice: "rebuild_first" },
@@ -920,15 +920,15 @@
               headline: "THE REPUBLIC'S WORST MONTH",
               body: "By most later accounts, this month is the closest the Soviet government comes to losing the war outright — not on one front but three, in the same few weeks, by circumstance rather than by any coordination between the White commands.",
               meanwhile: {
-                siberia: "Kolchak's spring offensive, which briefly reached the Volga in the west, has been reversed entirely. His armies are falling back toward Omsk with no defensive line holding, in a retreat that will not really stop until Chita, a year and two thousand miles later.",
+                siberia: "Kolchak's spring offensive, which came within reach of the Volga in the west, has been reversed entirely. His armies are falling back toward Omsk with no defensive line holding, in a retreat that will not really stop until Chita, a year and two thousand miles later.",
                 bolsheviks: "General Yudenich's separate White army has reached the outskirts of Petrograd itself — close enough that the city's fall was treated inside the Council of People's Commissars as a genuine possibility, not a remote one. Trotsky personally organizes the city's defense.",
               },
             },
             historicalRecord: true,
             context:
-              "Orel is 250 miles from Moscow. The AFSR has advanced roughly 400 miles in four months on an offensive that began at Tsaritsyn in June, and its line now runs some 700 miles from Kiev to Tsaritsyn, held by fewer than 100,000 combat effectives. The Red Southern Front opposing it has been reorganized under Alexander Yegorov, with Stalin as its senior political member, and is concentrating a strike group south of Orel — Latvian riflemen, a Estonian brigade, and Primakov's cavalry — specifically to cut the salient at its base rather than meet it head-on.",
+              "Orel is about 200 miles from Moscow. The AFSR has advanced roughly 400 miles in four months on an offensive that began at Tsaritsyn in June, and its line now runs some 700 miles from Kiev to Tsaritsyn, held by fewer than 100,000 combat effectives. The Red Southern Front opposing it has been reorganized under Alexander Yegorov, with Stalin as its senior political member, and is concentrating a strike group south of Orel — Latvian riflemen, a Estonian brigade, and Primakov's cavalry — specifically to cut the salient at its base rather than meet it head-on.",
             situation:
-              "Orel has fallen — two hundred miles from Moscow, the deepest the Volunteer Army will ever reach. The Red Southern Front has been reorganized under new command and is throwing everything it has into a counteroffensive. Kuban Cossack officers are asking, openly now, whether they are fighting for Moscow or for Denikin's Moscow." +
+              "Orel has fallen — about two hundred miles from Moscow, the high-water mark of the Volunteer Army's advance. The Red Southern Front has been reorganized under new command and is throwing everything it has into a counteroffensive. Kuban Cossack officers are asking, openly now, whether they are fighting for Moscow or for Denikin's Moscow." +
               (flags.directiveIssued === "broad"
                 ? " Orel was reached on three axes at once, which is why it was reached at all and why there is nothing concentrated anywhere to hold it with."
                 : "") +
@@ -947,14 +947,14 @@
                 label: "Order the Kornilov Division to hold Orel at all costs. No withdrawal.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "We did not come two hundred miles to give it back without a fight. Hold Orel and the whole character of this war changes.",
+                  position:
+                    "Denikin argues that the army did not come two hundred miles to give Orel back without a fight, and that holding it would change the character of the war.",
                 },
                 historical: true,
                 setFlags: { orelHeld: "attempted" },
                 impact: {},
                 aftermath:
-                  "Orel was retaken by the Red Army on 20 October 1919, eight days after it fell. The Kornilov Division — one of the AFSR's four named 'coloured' regiments and among its most reliable formations — was badly cut up holding it. Neither the Volunteer Army nor any other White force came closer to Moscow at any point in the war. The line from Orel to the Black Sea did not stabilise again.",
+                  "Orel was retaken by the Red Army on 20 October 1919, seven days after it fell. The Kornilov Division — one of the AFSR's four named 'coloured' regiments and among its most reliable formations — was badly cut up holding it. Neither the Volunteer Army nor any other White force came closer to Moscow at any point in the war. The line from Orel to the Black Sea did not stabilise again.",
                 costsCapital: true,
                 next: "cossackDesertion19",
                 outcome:
@@ -965,8 +965,8 @@
                 keyBattleSubgame: { id: "orel" },
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "Ground we can retake. An army we cannot. Hold Orel with exhausted troops against a rested counteroffensive and you will lose both the city and the men in it.",
+                  position:
+                    "Wrangel argues that ground can be retaken and an army cannot, and that exhausted troops holding Orel against a rested counteroffensive will lose both.",
                 },
                 historical: false,
                 setFlags: { orelHeld: "withdrawn" },
@@ -1028,8 +1028,8 @@
                 label: "Commit the preserved cavalry to a real defensive stand at the Kharkov-Kursk line.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "We preserved this army specifically so it would still be capable of a fight when it mattered. If Kharkov is not where it matters, I do not know what would qualify — but I will not pretend the rear-area problems that were never about Orel have solved themselves in the meantime.",
+                  position:
+                    "Wrangel argues that the army was preserved to fight when it mattered, asks where that would be if not Kharkov, and notes that the rear-area problems have not solved themselves.",
                 },
                 historical: false,
                 setFlags: { kharkovLine: "stand" },
@@ -1044,8 +1044,8 @@
                 label: "Continue the withdrawal further south rather than commit to another costly stand.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "I have watched this army spend itself on lines that were never going to hold indefinitely. Preserving the army a second time, rather than spending it again on a position I am not convinced we can actually keep, is not cowardice. It may be the only strategy left that hasn't already failed once.",
+                  position:
+                    "Denikin argues that the army has spent itself on lines that could not be held, and that preserving it a second time is not cowardice and may be the only strategy that has not already failed.",
                 },
                 historical: false,
                 setFlags: { kharkovLine: "withdraw" },
@@ -1084,8 +1084,8 @@
                 label: "Commit the cavalry to strike Budyonny's flanking force directly, betting on breaking the encirclement before it closes.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "A ring that never closes is not a ring. If we can break the force forming it before the flanks meet, we have not merely held Kharkov — we have taken the initiative away from the one commander on that side who has consistently had it. I do not think the odds are good. I think they are worth taking.",
+                  position:
+                    "Wrangel argues that if the force forming the ring can be broken before the flanks meet, the army takes the initiative from the one Red commander who has held it, and judges the odds poor but worth taking.",
                 },
                 historical: false,
                 setFlags: { kharkovEncirclementChoice: "counterattack" },
@@ -1134,8 +1134,8 @@
                 label: "Withdraw now, while the flanks haven't closed, rather than gamble the preserved cavalry on breaking them.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "I have already said what I think of spending this army further on ground I am not convinced we can keep. I think that argument applies with more force, not less, when the enemy doing the threatening is the one cavalry commander on that front who has not yet been wrong about what he can actually accomplish.",
+                  position:
+                    "Denikin argues that his objection to spending the army on ground it cannot keep applies with more force against the one Red cavalry commander who has not yet been wrong about what he can do.",
                 },
                 historical: true,
                 setFlags: { kharkovEncirclementChoice: "withdraw_early" },
@@ -1167,8 +1167,8 @@
                   label: "Give the cavalry the recovery time. A force this depleted committed too soon is a force wasted twice.",
                   advisor: {
                     name: "Wrangel",
-                    quote:
-                      "We spent this cavalry to buy exactly this kind of choice — the ability to decide our own pace instead of having Budyonny decide it for us. I would rather use the time we bought than spend it proving we didn't actually need it.",
+                    position:
+                      "Wrangel argues that the cavalry was spent to buy the choice of the army's own pace instead of Budyonny's, and that the time bought should be used.",
                   },
                   historical: false,
                   setFlags: { cavalryRecovery: "granted" },
@@ -1181,8 +1181,8 @@
                   label: "Fold it back into the line under strength. The wider retreat can't afford to wait on any single formation's recovery.",
                   advisor: {
                     name: "Denikin",
-                    quote:
-                      "I understand what that cavalry bought us. I am not convinced the rest of this retreat can afford to pay it back in weeks we may not actually have before the next crisis this war hands us.",
+                    position:
+                      "Denikin accepts what the cavalry bought but doubts the rest of the retreat can afford to pay it back in weeks it may not have.",
                   },
                   historical: false,
                   setFlags: { cavalryRecovery: "denied" },
@@ -1205,8 +1205,8 @@
                 label: "Slow the retreat to compensate for the missing cavalry screen, even though time is exactly what this army doesn't have.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "Slowing down against an enemy who has no intention of slowing down is one kind of expensive. Marching past a cavalry force we have just proven we cannot outfight, blind, with no screen, is a different and worse kind. I know which one I am choosing.",
+                  position:
+                    "Wrangel argues that slowing against an enemy who will not slow is expensive, and that marching blind past a cavalry force the army cannot outfight is worse.",
                 },
                 historical: false,
                 setFlags: { cavalryLossResponse: "slow_down" },
@@ -1219,8 +1219,8 @@
                 label: "Press on at the pace the collapse already demands. There isn't a version of this retreat that has time to spare regardless.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "I will not pretend the exposure is acceptable. I will say that a retreat which slows itself down every time something goes wrong was never going to reach the coast in any condition worth calling an army, and something has been going wrong in this war for months.",
+                  position:
+                    "Denikin admits the exposure is not acceptable, and argues that a retreat that slows every time something goes wrong will not reach the coast as an army.",
                 },
                 historical: false,
                 setFlags: { cavalryLossResponse: "press_on" },
@@ -1245,8 +1245,8 @@
                 label: "Order the Cossack Hosts held in the line under threat of court-martial for desertion.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "An army where each contingent fights only for its own province is not an army — it is an alliance of convenience, and alliances of convenience dissolve at the first serious pressure. I would rather hold them by discipline than lose the line by their absence.",
+                  position:
+                    "Denikin argues that an army in which each contingent fights for its own province is an alliance of convenience that dissolves under pressure, and would rather hold it by discipline.",
                 },
                 historical: true,
                 setFlags: { cossackDiscipline: "enforced" },
@@ -1260,8 +1260,8 @@
                 label: "Formally release Cossack units to defend their home territories, folding it into the operational plan.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "They are leaving whether we authorize it or not. The only choice left to us is whether that departure happens as a coordinated withdrawal we can still direct, or as the kind of collapse that takes the men still willing to fight with it.",
+                  position:
+                    "Wrangel argues that the Cossacks are leaving whether or not it is authorized, and that the only choice is a coordinated withdrawal the command can direct or a collapse that takes the willing men with it.",
                 },
                 historical: false,
                 setFlags: { cossackDiscipline: "released" },
@@ -1289,8 +1289,8 @@
                 label: "Let the coup proceed. Kalabukhov and the Black Sea faction's leaders are handed over for court-martial.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "I said releasing them from the line rather than disciplining them would cost us something. It cost us exactly this — a Rada that believed leniency meant we had lost the authority to answer a coup with force. We have not.",
+                  position:
+                    "Wrangel argues that releasing the Cossacks instead of disciplining them has cost what he warned it would: a Rada that took leniency for lost authority.",
                 },
                 historical: true,
                 setFlags: { kubanCoup: "proceeds" },
@@ -1304,8 +1304,8 @@
                 label: "Overrule Pokrovsky. Negotiate with the Rada's separatist faction rather than crush it by force.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "I have spent this entire campaign arguing that a unified command cannot tolerate a private peace negotiated behind its back. Say it now, after already choosing leniency once, and it reads as inconsistency rather than principle. I am honestly not certain the reading is wrong.",
+                  position:
+                    "Denikin argues that he has insisted on a unified command that cannot tolerate a private peace, and that saying so after choosing leniency once reads as inconsistency.",
                 },
                 historical: false,
                 setFlags: { kubanCoup: "negotiated" },
@@ -1339,8 +1339,8 @@
                 label: "Go further than Pokrovsky asked to go. Dissolve the Rada outright and skip the court-martial — have them shot.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "You are describing exactly what Pokrovsky proposed to me directly, and exactly what your own commander-in-chief told him in person he would not permit. I am not going to pretend I heard that instruction if you are asking me to help you overrule it a second time.",
+                  position:
+                    "Wrangel argues that what is proposed is what Pokrovsky asked for and what the commander-in-chief told him in person he would not permit, and he will not help overrule that a second time.",
                 },
                 historical: false,
                 setFlags: { kubanCoup: "dissolved_outright" },
@@ -1378,8 +1378,8 @@
                 label: "Test it directly. Order the reorganized Rada to deliver a specific mobilization quota within the month.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "A Rada that votes correctly and a Host that actually reports for duty are not the same thing, and I would rather find out which one we have now than discover the gap once we're depending on it at the front.",
+                  position:
+                    "Wrangel argues that a Rada that votes correctly and a Host that reports for duty are not the same, and wants to learn which the army has now rather than at the front.",
                 },
                 historical: false,
                 setFlags: { kubanQuotaTest: "ordered" },
@@ -1413,8 +1413,8 @@
                 label: "Don't test it. A demand that exposes the gap is worse than an untested assumption that the arrangement is working.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "Not asking the question is its own kind of answer, and I know it. I would still rather retreat with an untested arrangement than retreat having proven, formally and on the record, that the Kuban no longer actually supplies this army.",
+                  position:
+                    "Denikin accepts that not asking is itself an answer, and would still retreat with an untested arrangement rather than prove formally that the Kuban no longer supplies the army.",
                 },
                 historical: false,
                 setFlags: { kubanQuotaTest: "avoided" },
@@ -1446,8 +1446,8 @@
                   label: "Press a second, larger request while the arrangement is proving itself. Test the ceiling, not just the floor.",
                   advisor: {
                     name: "Wrangel",
-                    quote:
-                      "One quota met tells us the arrangement can work. It does not tell us how far it stretches, and I would rather find that limit now, while we still have some choice in the timing, than discover it later when we don't.",
+                    position:
+                      "Wrangel argues that one quota met shows the arrangement can work but not how far it stretches, and wants to find the limit now while the timing is the army's choice.",
                   },
                   historical: false,
                   setFlags: { kubanSecondRequest: "pressed" },
@@ -1460,8 +1460,8 @@
                   label: "Don't press further. One successful quota is a real result — spending it testing for a ceiling risks losing what was actually gained.",
                   advisor: {
                     name: "Denikin",
-                    quote:
-                      "I would rather bank one genuine success than risk it chasing a second that may simply prove the first was luck rather than a working arrangement. We can test the ceiling later, if there's a later left to test it in.",
+                    position:
+                      "Denikin would rather bank one real success than risk a second that might show the first was luck.",
                   },
                   historical: false,
                   setFlags: { kubanSecondRequest: "not_pressed" },
@@ -1484,8 +1484,8 @@
                 label: "Discipline the Rada's leadership publicly. A quota this badly missed can't go unaddressed without teaching every other body watching that quotas are optional.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "I understand the argument for quiet absorption. I do not think it survives contact with every other regional body currently deciding whether its own quotas are enforceable, based entirely on what happens to this one.",
+                  position:
+                    "Wrangel argues that quiet absorption of the shortfall will not survive the way every other regional body reads what happens to this one.",
                 },
                 historical: false,
                 setFlags: { kubanShortfallResponse: "disciplined" },
@@ -1499,8 +1499,8 @@
                 label: "Absorb the shortfall quietly. A second confrontation with the Kuban isn't one this retreat can currently afford.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "Letting this go unanswered teaches every other body watching exactly the wrong lesson. It teaches it anyway. A second open confrontation with the Kuban, on top of everything this retreat is already managing, is a point I do not currently have the army left to afford making.",
+                  position:
+                    "Denikin argues that letting the shortfall pass teaches every other body the wrong lesson, and that the army cannot afford a second open confrontation with the Kuban.",
                 },
                 historical: false,
                 setFlags: { kubanShortfallResponse: "absorbed" },
@@ -1519,7 +1519,7 @@
             title: "Novorossiysk: The Ships",
             historicalRecord: true,
             situation:
-              "The retreat has run out of road. Over a hundred thousand troops, Cossacks, and civilian refugees are crowded into Novorossiysk with the Red Army days away, and the British have told you plainly that their ships can carry perhaps five or six thousand people at a time. Kutepov's evacuation commission has to decide, in practice, who those ships are for — there is no version of this that gets everyone out." +
+              "The retreat has run out of road. Tens of thousands of troops, Cossacks, and civilian refugees are crowded into Novorossiysk with the Red Army days away, and the British have told you plainly that only five or six thousand people can be taken off by their ships. Kutepov's evacuation commission has to decide, in practice, who those ships are for — there is no version of this that gets everyone out." +
               (flags.cossackDiscipline === "enforced"
                 ? " The court-martial order issued against the departing Cossack Hosts is still nominally in force. It is being enforced by nobody, against men who are standing on the same docks asking for the same berths."
                 : flags.cossackDiscipline === "released"
@@ -1537,8 +1537,8 @@
                 costsCapital: true,
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "I will not pretend to you that this is a decision I can defend on paper. It is the decision that gets the core of a fighting force to Crimea instead of losing all of it here. I do not expect it to be forgiven, by the men we leave or by history.",
+                  position:
+                    "Denikin admits the decision cannot be defended on paper, argues that it gets the core of a fighting force to the Crimea, and does not expect it to be forgiven.",
                 },
                 historical: true,
                 setFlags: { novorossiyskPolicy: "volunteer_priority" },
@@ -1551,8 +1551,8 @@
                 label: "Hold a defensive perimeter longer to run more evacuation waves, accepting the risk of being overrun before the last ships leave.",
                 advisor: {
                   name: "Kutepov",
-                  quote:
-                    "Every additional hour we hold this perimeter is an hour bought with men who are, by definition, not on a ship. I am not going to pretend that arithmetic troubles me less than it should. It is still the arithmetic. Once the Reds are within artillery range of the harbor, holding longer stops being generosity and starts being a second disaster stacked on the first.",
+                  position:
+                    "Kutepov argues that every hour spent holding the perimeter is bought with men who are not on a ship, and that once the Reds are within artillery range of the harbour holding longer is a second disaster.",
                 },
                 historical: false,
                 setFlags: { novorossiyskPolicy: "extended_perimeter" },
@@ -1579,35 +1579,35 @@
             title: "The Mole: Whoever Holds It Last",
             historicalRecord: true,
             situation:
-              "The extended perimeter has bought its day and a half — and now Voroshilov's cavalry is through the line, closing on the harbor itself while General Holman personally supervises the Don Cossacks' embarkation on the mole. Denikin has already ordered the Volunteer Army's remaining units rushed aboard first, leaving the far more numerous Don Cossacks to wait their turn on a dock that may not have a turn left to give them.",
+              "The extended perimeter has bought its day and a half — and now the Red cavalry is through the line, closing on the harbor itself while the Don Cossacks are still waiting to embark on the mole. Denikin has already ordered the Volunteer Army's remaining units rushed aboard first, leaving the far more numerous Don Cossacks to wait their turn on a dock that may not have a turn left to give them.",
             choices: [
               {
                 label: "Hold the mole with whatever rearguard remains, buying the last possible minutes for the Don Cossacks still waiting to board.",
                 advisor: {
                   name: "Holman",
-                  quote:
-                    "I have made promises on this dock I intend to keep as far as it is physically possible to keep them. If a rearguard can buy the time to get more of these men aboard, I will ask for exactly that, knowing what it costs the men who provide it.",
+                  position:
+                    "Holman says he made promises about the evacuation that he means to keep as far as is physically possible, and will ask for a rearguard if it buys time to get more men aboard.",
                 },
                 historical: true,
                 setFlags: { moleChoice: "held" },
                 impact: {},
                 next: "moleRearguardFate20",
                 outcome:
-                  "The rearguard holds as long as it can. Cossacks arriving without their horses shoot them on the dock rather than leave them to the Reds — the docks fill with the sound and the sight of it, a detail contemporary accounts don't soften and this one won't either. Voroshilov's cavalry takes the port on the 27th regardless. What the rearguard bought was measured in boarding slots, not in the battle's outcome.",
+                  "The rearguard holds as long as it can. Cossacks arriving without their horses shoot them on the dock rather than leave them to the Reds — the docks fill with the sound and the sight of it, a detail contemporary accounts don't soften and this one won't either. The Red cavalry takes the port on 27 March regardless. What the rearguard bought was measured in boarding slots, not in the battle's outcome.",
               },
               {
                 label: "Order the last ships to cast off now rather than wait for a rearguard that may not survive to matter.",
                 advisor: {
                   name: "Kutepov",
-                  quote:
-                    "A ship that waits for a rearguard that breaks anyway saves no one. It only risks the men already aboard for the sake of a gesture. I have made harder calls than this one on less certainty, and I am not going to dress this one up as anything more complicated than it is: leave with what we have.",
+                  position:
+                    "Kutepov argues that a ship that waits for a rearguard that breaks anyway saves no one, and that the army should leave with what it has.",
                 },
                 historical: false,
                 setFlags: { moleChoice: "departed" },
                 impact: { manpower: 3 },
                 next: "sevastopolCouncil20",
                 outcome:
-                  "The last ships cast off without waiting on the rearguard's outcome. Fewer of the Don Cossacks still on the mole make it aboard — the decision trades a chance at marginally more evacuees for the certainty of not losing the ones already loaded. Voroshilov's cavalry takes an emptier port than it otherwise would have, which was never really the point of the choice either way.",
+                  "The last ships cast off without waiting on the rearguard's outcome. Fewer of the Don Cossacks still on the mole make it aboard — the decision trades a chance at marginally more evacuees for the certainty of not losing the ones already loaded. The Red cavalry takes an emptier port than it otherwise would have, which was never really the point of the choice either way.",
               },
             ],
           };
@@ -1634,8 +1634,8 @@
                 label: "Signal the rearguard to break for the boats now, while there may still be room.",
                 advisor: {
                   name: "Kutepov",
-                  quote:
-                    "They have already done what was asked of them. I will not ask a rearguard for one more minute of discipline on the theory that it serves anyone but my own conscience about how this reads afterward. Signal them to break.",
+                  position:
+                    "Kutepov argues that the rearguard has done what was asked of it, and that it should be signalled to break.",
                 },
                 historical: false,
                 setFlags: { rearguardFate: "signaled_to_break" },
@@ -1648,8 +1648,8 @@
                 label: "Hold discipline. The rearguard's job was to cover the crossing, and the crossing isn't finished yet.",
                 advisor: {
                   name: "Kutepov",
-                  quote:
-                    "I have spent this entire evacuation deciding who gets a place on a ship and who doesn't. I am not going to spend the rearguard's own discipline on the theory that they have already earned the right to stop covering the men still behind them.",
+                  position:
+                    "Kutepov argues that he has spent the evacuation deciding who gets a place, and will not spend the rearguard's discipline on the theory that it has earned the right to stop covering the men behind it.",
                 },
                 historical: false,
                 setFlags: { rearguardFate: "held_discipline" },
@@ -1705,15 +1705,15 @@
                 costsCapital: true,
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "I am not punishing him for being right. I am removing him because an army whose senior officers believe they may simply publish their disagreements and be heard over their own commander's head is an army that has already stopped being a single command in anything but name.",
+                  position:
+                    "Denikin argues that he is not punishing Wrangel for being right, and that an army whose senior officers publish their disagreements over their commander's head has stopped being one command.",
                 },
                 historical: true,
                 setFlags: { wrangelDismissal: "dismissed" },
                 impact: { manpower: -1 },
                 next: "novorossiysk20",
                 aftermath:
-                  "Wrangel is dismissed alongside Lukomsky and Shatilov, and sails for Constantinople on 8 February. He is not the only general this decision removes, and Novorossiysk — three weeks away — will make the removal of exactly this kind of criticism look considerably worse in hindsight than it looked in the room where it was decided.",
+                  "Denikin signs the order dismissing Wrangel on 8 February, and Wrangel reaches Constantinople at the end of the month. He is not the only general this decision removes, and Novorossiysk — three weeks away — will make the removal of exactly this kind of criticism look considerably worse in hindsight than it looked in the room where it was decided.",
                 outcome:
                   "The dismissal order goes out. Wrangel leaves for exile within days, a Commander-in-Chief this command still formally answers to, now watching the war he predicted from a hotel room on the Bosphorus.",
               },
@@ -1721,8 +1721,8 @@
                 label: "Keep him. Bring the criticism into the planning room instead of pushing the man who made it out of it.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "I did not write that report to be dismissed for it. I wrote it because I believe the strategy is wrong and I am prepared to say so to your face rather than only in a document that circulates behind it. If you want a different answer from me, put me somewhere I can actually give one.",
+                  position:
+                    "Wrangel argues that he wrote the report because he believes the strategy is wrong, and would rather say so openly than in a circulating document, and asks to be put where he can give a different answer.",
                 },
                 historical: false,
                 setFlags: { wrangelDismissal: "retained" },
@@ -1744,8 +1744,8 @@
                 label: "Reassign him to a subordinate field command instead. Remove him from the room where the report was read, not from the army.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "Dismissal answers the insubordination. It does not answer whether he was right, and I am not yet convinced those are the same question. Give him a corps to prove his case with, if he believes it that strongly, and let the results argue for him instead of a memorandum.",
+                  position:
+                    "Denikin argues that dismissal answers the insubordination and not the question of whether Wrangel was right, and proposes giving him a corps to prove his case.",
                 },
                 historical: false,
                 setFlags: { wrangelDismissal: "reassigned" },
@@ -1777,8 +1777,8 @@
                 label: "Give him a genuine formation, understrength but real, and let his handling of it answer the argument either way.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "I did not write that report to be handed a name and no men behind it. Give me something real to command and I will either prove the criticism or prove myself wrong — either result is more useful to this army than a memorandum nobody has to test.",
+                  position:
+                    "Wrangel argues that he wants a real command in which to prove the criticism or prove himself wrong, and not a name with no men behind it.",
                 },
                 historical: false,
                 // Round 23: gated — this is a real (if thin) formation pulled
@@ -1798,8 +1798,8 @@
                 label: "Give him a nominal post instead — occupied, visibly still serving, without the strength to prove anything either way.",
                 advisor: {
                   name: "Shatilov",
-                  quote:
-                    "A real command answers his criticism by testing it, which is a risk if he happens to be right. A nominal one answers it by never letting the test happen at all — quieter, and considerably less likely to hand him a victory to point to afterward.",
+                  position:
+                    "Shatilov argues that a real command answers the criticism by testing it, which is a risk, and that a nominal one answers it by never allowing the test, which is quieter.",
                 },
                 historical: false,
                 setFlags: { wrangelReassignmentScale: "nominal_post" },
@@ -1853,8 +1853,8 @@
                 label: "Put the succession to the council and abide by it. Resign if they name Wrangel.",
                 advisor: {
                   name: "Denikin",
-                  quote:
-                    "I have commanded this army since Kornilov died in front of Ekaterinodar. I will not command it as a man they have agreed among themselves to tolerate. If they want Wrangel, they should say so to my face and I will go the same day.",
+                  position:
+                    "Denikin argues that he will not command the army as a man the senior officers have agreed to tolerate, and that if they want Wrangel they should say so to him.",
                 },
                 historical: true,
                 setFlags: { sevastopolCouncil: "resigned" },
@@ -1869,8 +1869,8 @@
                 label: "Remain in command. Refuse to make the Crimea's defence hostage to a council of subordinates.",
                 advisor: {
                   name: "Kutepov",
-                  quote:
-                    "Frunze will be at Perekop before the summer is out. I would rather answer to a commander the army has doubts about than spend the spring establishing which of us the army prefers while the isthmus goes unprepared.",
+                  position:
+                    "Kutepov argues that Frunze will be at Perekop before the summer is out, and that the army should not spend the spring deciding whom it prefers while the isthmus goes unprepared.",
                 },
                 historical: false,
                 setFlags: { sevastopolCouncil: "remained" },
@@ -1938,8 +1938,8 @@
                 label: "Adopt the Land Law as Krivoshein has drafted it: peasant purchase through state intermediation, landowners compensated.",
                 advisor: {
                   name: "Krivoshein",
-                  quote:
-                    "This does not make us the party of the peasant. It makes us the government that stopped asking the peasant to fight for men who still owned the land under his feet — which may be the only thing left in this war we still have the standing to do something about.",
+                  position:
+                    "Krivoshein argues that the law does not make the government the party of the peasant, but the government that stopped asking him to fight for men who still own his land.",
                 },
                 historical: true,
                 setFlags: { landLawPolicy: "purchase_model" },
@@ -1952,8 +1952,8 @@
                 label: "Push further. Confiscate and redistribute immediately, without payment or state intermediation.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "A purchase requirement is what keeps this from being indistinguishable from what the Bolsheviks already hand out for free — I grant the argument. What I doubt is that we have the time left to preserve that distinction at the pace of a formal land registry. We are not negotiating on a schedule that rewards patience.",
+                  position:
+                    "Wrangel grants that a purchase requirement keeps the law distinct from what the Bolsheviks give away, and doubts there is time to preserve the distinction at the pace of a land registry.",
                 },
                 historical: false,
                 setFlags: { landLawPolicy: "immediate_confiscation" },
@@ -1985,8 +1985,8 @@
                 label: "Commit Ulagai's force to the Kuban expedition. Widen the offensive while the initiative is real.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "We do not have the men to hold Tauride and wait patiently for a land law to change peasant opinion on its own schedule. If Ulagai can bring the Kuban's own partisan networks into this, the reform gets an army behind it instead of a pamphlet.",
+                  position:
+                    "Wrangel argues that the army cannot hold the Tauride and wait for a land law to change peasant opinion, and that Ulagai's Kuban landing would give the reform an army behind it.",
                 },
                 historical: true,
                 setFlags: { taurideChoice: "kuban_expedition" },
@@ -1995,14 +1995,14 @@
                 impact: {},
                 next: "wrangelsEnvoy20",
                 outcome:
-                  "Ulagai's 4,500 men land in the Kuban. The expedition lasts three weeks before it's forced to withdraw — and in Tauride and Ukraine alike, the peasants the whole operation was supposed to win over simply don't rally to the White cause. Not out of active hostility in every case. Out of a settled distrust that one land law, arriving this late, was never going to undo.",
+                  "Ulagai's force lands in the Kuban on 14 August. The expedition lasts about three weeks before it's forced to withdraw — and in Tauride and Ukraine alike, the peasants the whole operation was supposed to win over simply don't rally to the White cause. Not out of active hostility in every case. Out of a settled distrust that one land law, arriving this late, was never going to undo.",
               },
               {
                 label: "Hold the Tauride gains. Let the land law's actual effects on the ground be tested before overextending further.",
                 advisor: {
                   name: "Kutepov",
-                  quote:
-                    "Momentum has its appeal, I won't deny it. A reform announced three weeks ago has not had time to change a single mind in the Kuban, and sending Ulagai chasing partisan networks there doesn't buy that reform more time to work — it spends men we need to hold what's already ours.",
+                  position:
+                    "Kutepov argues that a reform announced three weeks ago has not had time to change a mind in the Kuban, and that Ulagai's landing spends men needed to hold what is already held.",
                 },
                 historical: false,
                 setFlags: { taurideChoice: "consolidate" },
@@ -2041,8 +2041,8 @@
                 label: "Send it. If there is any chance Makhno answers, the offensive needs every ally it can find.",
                 advisor: {
                   name: "Shatilov",
-                  quote:
-                    "I have drafted the letter myself, and I will tell you plainly I do not expect an answer worth having. I also do not think we can afford to have declined an opening we never actually tested, if this offensive runs out of men before it runs out of ground.",
+                  position:
+                    "Shatilov says he has drafted the letter to Makhno and does not expect a useful answer, but doubts the army can afford to decline an opening it never tested.",
                 },
                 historical: true,
                 setFlags: { makhnoOutreach: "sent" },
@@ -2057,8 +2057,8 @@
                 label: "Don't send it. Whatever this buys against the Bolsheviks isn't worth the propaganda if it fails badly.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "I have read what the Soviet papers are already saying about an alliance between us that has never existed. Sending this letter and having it answered with an execution does not disprove that story to anyone inclined to believe it — it simply gives them a fresher version of the same lie to print.",
+                  position:
+                    "Wrangel argues that a letter answered with an execution does not disprove the Soviet story of an alliance, and gives it a fresher version to print.",
                 },
                 historical: false,
                 setFlags: { makhnoOutreach: "withheld" },
@@ -2099,8 +2099,8 @@
                 label: "Quietly begin organizing evacuation logistics now, in parallel with the defense, before the line actually breaks.",
                 advisor: {
                   name: "Wrangel",
-                  quote:
-                    "I do not intend to explain to the men on that isthmus that I was drawing up passenger manifests while they held the line. I also do not intend to preside over a second Novorossiysk because I refused to plan for the version of this that has already happened once.",
+                  position:
+                    "Wrangel argues that he will not explain to the men on the isthmus that he was drawing up passenger lists while they held the line, nor preside over a second Novorossiysk for refusing to plan.",
                 },
                 historical: true,
                 setFlags: { evacuationPrep: "advance" },
@@ -2113,8 +2113,8 @@
                 label: "Commit every available resource to the defense itself. No evacuation planning until the line is actually broken.",
                 advisor: {
                   name: "Kutepov",
-                  quote:
-                    "I understand the caution after Novorossiysk. I am telling you that every dock official and every requisitioned ship spent on a evacuation we may not need is a rifle, a shell, or a horse the isthmus does not get — and the isthmus is what decides whether we need the ships at all.",
+                  position:
+                    "Kutepov argues that every dock official and ship spent on an evacuation that may not be needed is a rifle, a shell or a horse the isthmus does not get, and that the isthmus decides whether the ships are needed.",
                 },
                 historical: false,
                 setFlags: { evacuationPrep: "none" },

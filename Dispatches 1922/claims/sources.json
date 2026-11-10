@@ -1,0 +1,380 @@
+{
+  "wp-iceMarch": {
+    "title": "Ice March",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Ice_March",
+    "read": "page"
+  },
+  "wp-kuban-offensive": {
+    "title": "Kuban Offensive",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Kuban_Offensive",
+    "read": "search summary"
+  },
+  "wp-kornilov": {
+    "title": "Lavr Kornilov",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Lavr_Kornilov",
+    "read": "search summary"
+  },
+  "enc-volunteer-army": {
+    "title": "Volunteer Army (1914-1918-online encyclopedia)",
+    "kind": "web (reference)",
+    "url": "https://encyclopedia.1914-1918-online.net/article/volunteer-army/",
+    "read": "search summary"
+  },
+  "wp-volunteer-army": {
+    "title": "Volunteer Army",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Volunteer_Army",
+    "read": "search summary"
+  },
+  "wp-supreme-ruler": {
+    "title": "Supreme Ruler of Russia",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Supreme_Ruler_of_Russia",
+    "read": "search summary"
+  },
+  "frus-denikin-1919": {
+    "title": "FRUS 1919 Russia: telegram reporting Denikin's speech of 12 June 1919",
+    "kind": "primary (US diplomatic telegram)",
+    "url": "https://history.state.gov/historicaldocuments/frus1919Russia/d887",
+    "read": "search summary"
+  },
+  "wp-kiev-1919": {
+    "title": "Capture of Kiev by the White Army",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Capture_of_Kiev_by_the_White_Army",
+    "read": "page"
+  },
+  "wp-novorossiysk": {
+    "title": "Evacuation of Novorossiysk (1920)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Evacuation_of_Novorossiysk_(1920)",
+    "read": "page"
+  },
+  "wp-crimea-evac": {
+    "title": "Evacuation of Crimea",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Evacuation_of_Crimea",
+    "read": "page"
+  },
+  "wp-ulagay": {
+    "title": "Ulagay's Landing",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Ulagay%27s_Landing",
+    "read": "page"
+  },
+  "wp-orel-kursk": {
+    "title": "Orel-Kursk operation",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Orel%E2%80%93Kursk_operation",
+    "read": "search summary"
+  },
+  "pygmywars-orel": {
+    "title": "Orel Whites order of battle (pygmywars.com)",
+    "kind": "web (order of battle)",
+    "url": "https://www.pygmywars.com/rcw/history/orbats/orelwhites.html",
+    "read": "page"
+  },
+  "wp-peregonovka": {
+    "title": "Battle of Peregonovka",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Peregonovka",
+    "read": "page"
+  },
+  "eou-makhno": {
+    "title": "Makhno, Nestor (Encyclopedia of Ukraine)",
+    "kind": "web (reference)",
+    "url": "https://www.encyclopediaofukraine.com/pages/M/A/MakhnoNestor.htm",
+    "read": "search summary"
+  },
+  "wp-kutepov": {
+    "title": "Alexander Kutepov",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Alexander_Kutepov",
+    "read": "page"
+  },
+  "wp-krivoshein": {
+    "title": "Alexander Krivoshein",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Alexander_Krivoshein",
+    "read": "page"
+  },
+  "wp-vologodsky": {
+    "title": "Pyotr Vologodsky",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Pyotr_Vologodsky",
+    "read": "page"
+  },
+  "wp-boldyrev": {
+    "title": "Vasily Boldyrev",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Vasily_Boldyrev",
+    "read": "page"
+  },
+  "wp-diterikhs": {
+    "title": "Mikhail Diterikhs",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Mikhail_Diterikhs",
+    "read": "page"
+  },
+  "wp-voytsekhovsky": {
+    "title": "Sergey Voytsekhovsky",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Sergey_Voytsekhovsky",
+    "read": "page"
+  },
+  "wp-gajda": {
+    "title": "Radola Gajda",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Radola_Gajda",
+    "read": "page"
+  },
+  "wp-kappel": {
+    "title": "Vladimir Kappel",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Vladimir_Kappel",
+    "read": "page"
+  },
+  "wp-lukomsky": {
+    "title": "Alexander Lukomsky",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Alexander_Lukomsky",
+    "read": "search summary"
+  },
+  "wp-holman": {
+    "title": "Herbert Holman",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Herbert_Holman",
+    "read": "search summary"
+  },
+  "wp-great-ice-march": {
+    "title": "Great Siberian Ice March",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Great_Siberian_Ice_March",
+    "read": "page"
+  },
+  "ruwp-great-ice-march": {
+    "title": "Великий Сибирский Ледяной поход (Russian Wikipedia)",
+    "kind": "web (tertiary)",
+    "url": "https://ru.wikipedia.org/wiki/Великий_Сибирский_Ледяной_поход",
+    "read": "page"
+  },
+  "wp-czech-revolt": {
+    "title": "Revolt of the Czechoslovak Legion",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Revolt_of_the_Czechoslovak_Legion",
+    "read": "search summary"
+  },
+  "wp-kolchak-coup": {
+    "title": "Kolchak Coup",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Kolchak_Coup",
+    "read": "search summary"
+  },
+  "frus-omsk-1918": {
+    "title": "FRUS 1918 Russia vol. II: reports on the Omsk coup (861.00/3259, 3306)",
+    "kind": "primary (US diplomatic telegrams)",
+    "url": "https://history.state.gov/historicaldocuments/frus1918Russiav02/d531",
+    "read": "search summary"
+  },
+  "frus-omsk-1919": {
+    "title": "FRUS 1919 Russia: report of the executions at Omsk, 23 December 1918 (861.00/3708)",
+    "kind": "primary (US diplomatic telegram)",
+    "url": "https://history.state.gov/historicaldocuments/frus1919Russia/d496",
+    "read": "search summary"
+  },
+  "wp-white-spring": {
+    "title": "Spring offensive of the White Army",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Spring_offensive_of_the_White_Army",
+    "read": "search summary"
+  },
+  "wp-8th-congress": {
+    "title": "8th Congress of the Russian Communist Party (Bolsheviks)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/8th_Congress_of_the_Russian_Communist_Party_(Bolsheviks)",
+    "read": "search summary"
+  },
+  "cliff-trotsky": {
+    "title": "Tony Cliff, Trotsky: The Sword of the Revolution",
+    "kind": "book (online)",
+    "url": "https://www.marxists.org/archive/cliff/works/1990/trotsky2/08-disputes.html",
+    "read": "search summary"
+  },
+  "wp-1st-cavalry": {
+    "title": "1st Cavalry Army",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/1st_Cavalry_Army",
+    "read": "search summary"
+  },
+  "wp-voronezh": {
+    "title": "Voronezh-Kastornoye operation (1919)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Voronezh%E2%80%93Kastornoye_operation_(1919)",
+    "read": "page"
+  },
+  "wp-riga": {
+    "title": "Treaty of Riga",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Treaty_of_Riga",
+    "read": "search summary"
+  },
+  "enc-polish-soviet": {
+    "title": "Polish-Soviet War 1920-1921 (1914-1918-online encyclopedia)",
+    "kind": "web (reference)",
+    "url": "https://encyclopedia.1914-1918-online.net/article/polish-soviet-war-1920-1921/",
+    "read": "search summary"
+  },
+  "wp-kronstadt": {
+    "title": "Kronstadt rebellion",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Kronstadt_rebellion",
+    "read": "search summary"
+  },
+  "wp-tsaritsyn": {
+    "title": "Battle of Tsaritsyn",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Tsaritsyn",
+    "read": "search summary"
+  },
+  "lenin-1918-10-24": {
+    "title": "Lenin, telegram of 24 October 1918 on Tsaritsyn",
+    "kind": "primary",
+    "url": "https://www.marxists.org/archive/lenin/works/1918/oct/24.htm",
+    "read": "search summary"
+  },
+  "wp-vacietis": {
+    "title": "Jukums Vacietis",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Jukums_V%C4%81cietis",
+    "read": "search summary"
+  },
+  "wp-perekop": {
+    "title": "Siege of Perekop (1920)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Siege_of_Perekop_(1920)",
+    "read": "page"
+  },
+  "lenin-1920-11-12": {
+    "title": "Lenin, telegram of 12 November 1920 and editorial note on Frunze's radio offer",
+    "kind": "primary (collected works)",
+    "url": "https://www.marxists.org/archive/lenin/works/1920/nov/12.htm",
+    "read": "page"
+  },
+  "wp-russian-republic": {
+    "title": "Russian Republic (1917)",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Russian_Republic",
+    "read": "search summary"
+  },
+  "wp-moscow-conference": {
+    "title": "Moscow State Conference",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Moscow_State_Conference",
+    "read": "search summary"
+  },
+  "wp-kornilov-affair": {
+    "title": "Kornilov affair",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Kornilov_affair",
+    "read": "search summary"
+  },
+  "wp-kerensky-offensive": {
+    "title": "Kerensky offensive",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Kerensky_offensive",
+    "read": "page"
+  },
+  "wp-democratic-conference": {
+    "title": "All-Russian Democratic Conference",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/All-Russian_Democratic_Conference",
+    "read": "search summary"
+  },
+  "soviethistory-army": {
+    "title": "Revolution in the Army (soviethistory.msu.edu)",
+    "kind": "web (documents)",
+    "url": "https://soviethistory.msu.edu/1917/revolution-in-the-army/",
+    "read": "search summary"
+  },
+  "wp-army-wrangel": {
+    "title": "Army of Wrangel",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Army_of_Wrangel",
+    "read": "search summary"
+  },
+  "wp-wrangel": {
+    "title": "Pyotr Wrangel",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Pyotr_Wrangel",
+    "read": "search summary"
+  },
+  "wp-pskov-miliukov": {
+    "title": "Russian Provisional Government",
+    "kind": "web (tertiary)",
+    "url": "https://en.wikipedia.org/wiki/Russian_Provisional_Government",
+    "read": "search summary"
+  },
+  "round1-sources": {
+    "title": "Sources of the round-1 new text (see claims/south-russia-round1.md, provisional-government-round1.md, battles-round1.md, battles-round2.md)",
+    "kind": "register note",
+    "url": "",
+    "read": "see note"
+  },
+  "okunev-shatilov": {
+    "title": "D. Okunev, article on General P. N. Shatilov and the move of Wrangel's army to Serbia, 1921 (Manuscript, 2021)",
+    "kind": "web (journal)",
+    "url": "https://manuscript-journal.ru/article/mns20210117/pdf",
+    "read": "search summary"
+  },
+  "synod-gallipoli": {
+    "title": "The Russian Army at Gallipoli (synodold.orthodoxws.com)",
+    "kind": "web (church site)",
+    "url": "https://synodold.orthodoxws.com/synod/eng2008/5engallipoli2.html",
+    "read": "search summary"
+  },
+  "perm-chelyabinsk": {
+    "title": "R. A. Badikov, the Chelyabinsk operation and Eiche (Vestnik of Perm University, 2016)",
+    "kind": "web (journal)",
+    "url": "https://press.psu.ru/index.php/history/article/download/3302/2389/7756",
+    "read": "search summary"
+  },
+  "wollenberg-red-army": {
+    "title": "Erich Wollenberg, The Red Army, appendix chronicle (marxists.org)",
+    "kind": "book (online)",
+    "url": "https://www.marxists.org/history/ussr/government/red-army/1937/wollenberg-red-army/append02.htm",
+    "read": "search summary"
+  },
+  "kolchak-gold": {
+    "title": "Shalak, Kolchak's gold reserve (history.bgu.ru) and other search results on the gold",
+    "kind": "web (journal)",
+    "url": "https://history.bgu.ru/dl.ashx?id=4101",
+    "read": "search summary"
+  },
+  "petrushevsky-diary": {
+    "title": "Vladimir Petrushevsky diary, 26 May 1917 (Dickinson College)",
+    "kind": "web (diary)",
+    "url": "https://blogs.dickinson.edu/vapetrushevsky/may-26th-1917/",
+    "read": "search summary"
+  },
+  "enc-kornilov": {
+    "title": "Kornilov, Lavr Georgievich (1914-1918-online encyclopedia)",
+    "kind": "web (reference)",
+    "url": "https://encyclopedia.1914-1918-online.net/article/kornilov_lavr_georgievich",
+    "read": "search summary"
+  },
+  "marx-history-civil-war": {
+    "title": "History of the Civil War in the USSR, vol. 1, ch. 14 (marxists.org)",
+    "kind": "book (online, Soviet-era)",
+    "url": "https://www.marxists.org/history/ussr/events/civilwar/history-civil-war/vol1/ch14-1.htm",
+    "read": "search summary"
+  },
+  "marx-history-oct": {
+    "title": "History of the Civil War in the USSR, vol. 2, ch. 4 (marxists.org)",
+    "kind": "book (online, Soviet-era)",
+    "url": "https://www.marxists.org/history/ussr/events/civilwar/history-civil-war/vol2/ch04-5.htm",
+    "read": "search summary"
+  }
+}
