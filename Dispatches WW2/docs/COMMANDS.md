@@ -13,40 +13,38 @@ Dispatches WW2 joins Dispatches 1940 (OKW, STAVKA, SHAEF, Comando Supremo) and D
 | British | War Cabinet and Chiefs of Staff | September 1939 | Europe and Asia | 1940 `allied` (British reports) + 1941 `alliedPacific` (British and Commonwealth reports) |
 | American | Joint Chiefs of Staff | May 1940 | Europe and Pacific | 1941 `alliedPacific` (American reports) + 1940 `allied` (American reports) |
 
-SHAEF and CINCPAC stop being commands. Their reports are shared out by whose decision the report puts to the player.
+SHAEF and CINCPAC stop being commands (built in November 2026: `src/parts/16-commands-britain-us.jsx`). Their two files stay in the game as `sourceOnly` campaigns, the home of the reports, and are not offered.
 
 ## The rule for sharing out a report
 
-A report goes to the command whose people made the decision in the record. Where two governments decided together (the conferences), the report appears in both files, written from each side's chair, and the two versions set different flags.
+A report goes to the command whose government made the decision in the record. The lists are `BRITISH_REPORTS`, `AMERICAN_FROM_ALLIED` and `BOTH_REPORTS` in part 16; a CINCPAC report on neither British list is American.
 
-- **Joint conferences in both files:** Arcadia (Dec 1941), Casablanca (Jan 1943), Tehran (Nov 1943), Yalta (Feb 1945).
-- **Commonwealth Pacific goes to Britain:** Curtin's turn, the Kokoda Track, Rangoon, Burma's reconquest, Singapore and Force Z.
-- **Mediterranean after Torch:** Sicily, Salerno and Anzio to Britain (Alexander's 15th Army Group and Churchill's push); Anvil/Dragoon to the US (Eisenhower and Marshall against Churchill).
-- **North-west Europe:** SHAEF's own decisions (the Transportation Plan, broad front or narrow thrust, the Bulge, the Elbe) to the US; Market Garden, Arnhem and the Scheldt to Britain.
+- **Conferences.** Arcadia, Casablanca and Tehran are each in both source files under two ids, so each command takes one: Britain plays SHAEF's (europeFirst42, casablanca43, tehran43), the US plays CINCPAC's (arcadia41, unconditionalSurrender43, tehransPromise43). Yalta (yaltaFeb45) is in both files. Writing each conference from its own side's chair is still to do.
+- **Commonwealth Pacific goes to Britain:** Curtin's turn, the Kokoda Track, the fall of Rangoon and Burma's reconquest. Singapore and Force Z were already SHAEF's and stay British.
+- **Mediterranean after Torch:** Anzio, Rome, the Gothic Line, the Aegean and Turkey to Britain; Sicily and Anvil/Dragoon to the US.
+- **North-west Europe:** SHAEF's own decisions (the Transportation Plan, Omaha, Falaise, broad front or narrow thrust, the Bulge, the Elbe, Germany's future) to the US; Market Garden, Arnhem and the Scheldt to Britain.
 
-## British command (draft allocation)
+## British command (as built)
 
-1939 to 1941 from 1940 `allied`: saar39, dyle39, altmarkRaid40, finland40, wilfred40, narvik40, dunkirk40, halifaxCrisis40, battleOfBritain40, compassGreece41, greeceFalls41, crete41, aidRussia41, crusader41, malaya41, forceZ41.
+From SHAEF's file: saar39, dyle39, altmarkRaid40, finland40, wilfred40, narvik40, dunkirk40, halifaxCrisis40, battleOfBritain40, compassGreece41, greeceFalls41, crete41, aidRussia41, malaya41, forceZ41, crusader41, europeFirst42, casablanca43, tehran43, atlanticConvoys42, pq17_1942, australiaLifeline42, dieppe42, bomberDirective43, italyOrOverlord43, dodecanese43, aegeanReckoning43, turkishQuestion44, turkishBelligerence44, anzio44, anzioSiege44, romeDividend44, gothicLineEarly44, ljubljanaGap44, gapStalled44, viennaStandoff44, strategicBombing45, marketGarden44, arnhemPerimeter44, scheldt44, yaltaFeb45.
 
-1942 to 1945 from 1940 `allied`: atlanticConvoys42, pq17_1942, australiaLifeline42, dieppe42, bomberDirective43, italyOrOverlord43, dodecanese43, aegeanReckoning43, turkishQuestion44, turkishBelligerence44, anzio44, anzioSiege44, romeDividend44, gothicLineEarly44, ljubljanaGap44, gapStalled44, viennaStandoff44, marketGarden44, arnhemPerimeter44, scheldt44, strategicBombing45.
+From CINCPAC's file: curtinsTurn42, rangoonRetreatAllied42, kokodaTrailAllied42, burmaReconquest45.
 
-From 1941 `alliedPacific`: curtinsTurn42, rangoonRetreatAllied42, carrierRequest42 (Churchill asks; in the British file it is the asking), kokodaTrailAllied42, britainsCalculus43, burmaReconquest45.
+## American command (as built)
 
-Shared (British version): arcadia41, casablanca43, tehran43, yaltaFeb45.
+From CINCPAC's file: every report except the four British ones above (the fleet at Hawaii, the embargo, Wake, Arcadia, Corregidor, Doolittle, Midway, Watchtower, the Central Pacific, the Philippine Sea, Leyte, Iwo Jima, Okinawa, the bomb decisions, Downfall, the occupation, and the branch where the US stays out of the war).
 
-## American command (draft allocation)
-
-1940 to 1941 from 1941 `alliedPacific`: fleetAtHawaii40, richardsonObjection40, atlanticTransfer41, americanEmbargoResponse41, chinaAirForce41, wakeIslandRelief41 and the no-war branch (aStandoffInsteadOfAWar41 and its reports).
-
-The Pacific from 1942: every other `alliedPacific` report (Corregidor, Doolittle, Midway, Watchtower, the Central Pacific drive, the Philippine Sea, Leyte, Iwo Jima, Okinawa, the bomb decisions, Downfall, the occupation).
-
-Europe from 1940 `allied`: europeFirst42, pacificPressure42, secondFront42, darlanDeal42, sicilyHusky43, untestedDoctrine44, overlordPrep44, omahaCrisis44 and its four follow-ons, normandy44, falaise44, eisenhowerIntervenes44, anvilDragoon44, resistanceContact44, ardennesResponse44, bulgeExploited44, stalinTestsTheFront45, westernCollapse45, berlinDecision45, berlinRace45, germanyOccupation45.
-
-Shared (American version): arcadia41, casablanca43, tehran43, yaltaFeb45.
+From SHAEF's file: pacificPressure42, secondFront42, darlanDeal42, resistanceContact44, sicilyHusky43, untestedDoctrine44, overlordPrep44, omahaCrisis44, omahaIsolated44, omahaBreakthroughLate44, omahaToehold44, falaise44, normandy44, eisenhowerIntervenes44, anvilDragoon44, ardennesResponse44, bulgeExploited44, stalinTestsTheFront45, westernCollapse45, berlinDecision45, berlinRace45, germanyOccupation45, yaltaFeb45.
 
 ## Order of play in the two-theatre files
 
-A file is one line of reports in date order. Where a command fights in two theatres, the reports of both run in one chain sorted by their dates; a hinge report hands the file from one theatre to the other. The map under the report follows the report's theatre (`theatre: "europe" | "pacific"` on each report).
+- A British or American file runs two **tracks**, one through each source file (`tracks` on the campaign; `compositeNext`). Each track keeps its next unplayed report in the flag `trk_<key>`, so saves, the history and rewind keep it.
+- The next report is the one, among the open tracks, whose date starts earliest (`trackMonth`: a season counts as its usual month, a bare year as June); the track just played wins a tie. Within a track the source file's own order holds.
+- A track passes the other command's reports **by the record**: the historical order (else the first), and for a roll its likeliest outcome (`recordStep`). Their flags are taken, their meters are not, and no screen is shown, so the later reports read as they were written.
+- The American file's war in Europe opens when the Pacific track reaches Arcadia (`opensAt`), so the branch where the United States stays out of the war ends the file there, as it did in 1941. The British file's Asia track begins in 1940 and meets its first British report at Rangoon.
+- The file ends when every open track has ended.
+- **Rules and endings.** The British command plays by 1940's rules and ends with SHAEF's ending (positionLabel, epilogue, projected end, the European map at the end); the American command plays by 1941's rules (`PACIFIC_RULES` in src/rules.ts) and ends with CINCPAC's ending and the Pacific map.
+- **Each report is drawn for its source file** (`campaignView`): its map (the European map for SHAEF's reports, the Pacific map for CINCPAC's), its conditions line, its staff's reading, its events and divergence forks are the source file's, under the command's seal, name and colour. A map draws the trail of earlier reports from its own source file only (`mapHistory`).
 
 ## The American effort split (improvement 4)
 

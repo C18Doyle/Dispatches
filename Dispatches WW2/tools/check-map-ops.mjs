@@ -30,7 +30,8 @@ const problems = [];
 let checked = 0;
 const perCampaign = {};
 // Dispatches WW2: the European commands only (the Pacific commands draw their orders on PACIFIC_MAP; see check-map-front).
-for (const cid of Object.keys(CAMPAIGNS).filter((c) => !["japan", "alliedPacific"].includes(c))) {
+// ... and not the British and American commands, whose reports are drawn under their source files (allied here; alliedPacific on PACIFIC_MAP).
+for (const cid of Object.keys(CAMPAIGNS).filter((c) => !["japan", "alliedPacific"].includes(c) && !CAMPAIGNS[c].tracks)) {
   const bbox = BBOX[cid];
   if (!bbox) { problems.push(`${cid}: no map frame found in 30-warroom-and-maps.jsx`); continue; }
   for (const [nodeId, ops] of Object.entries(MAP_OPS[cid] || {})) {

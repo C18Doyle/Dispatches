@@ -76,7 +76,8 @@ if (ps >= 0) {
     }
   }
 }
-for (const id of Object.keys(CAMPAIGNS)) if ((perCampaign[id] || 0) < 4) problems.push(`${id}: only ${perCampaign[id] || 0} events (at least four)`);
+// The British and American commands (part 16) have no events of their own: theirs are filed under their source files (allied, alliedPacific).
+for (const id of Object.keys(CAMPAIGNS).filter((c) => !CAMPAIGNS[c].tracks)) if ((perCampaign[id] || 0) < 4) problems.push(`${id}: only ${perCampaign[id] || 0} events (at least four)`);
 if (problems.length) {
   console.error("check-events: " + problems.length + " problem(s)");
   for (const p of problems) console.error("  " + p);
