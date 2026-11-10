@@ -1,0 +1,1509 @@
+[
+ {
+  "id": "southRussia-kornilovsDeath18-1",
+  "node": "kornilovsDeath18",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "Brest-Litovsk, signed 3 March: Poland, Finland, the Baltics, and all of Ukraine surrendered to German occupation — a quarter of the old empire.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-kornilovsDeath18-2",
+  "node": "kornilovsDeath18",
+  "kind": "figure",
+  "where": "meanwhile siberia",
+  "claim": "The Czechoslovak Legion — some 40,000 men working their way east along the Trans-Siberian under an agreement with the Bolsheviks to evacuate peacefully — is still five weeks from the clash that will end that agreement and open this front entirely.",
+  "status": "disputed",
+  "sources": [
+   "wp-czech-revolt"
+  ],
+  "note": "As above."
+ },
+ {
+  "id": "southRussia-kornilovsDeath18-3",
+  "node": "kornilovsDeath18",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "The Left Socialist-Revolutionaries who shared power with the Bolsheviks broke over the treaty within weeks, and their own uprising against the government they helped form is still four months off.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-kornilovsDeath18-4",
+  "node": "kornilovsDeath18",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "He is dead — a fact his own staff are keeping from the Volunteer Army for now, for fear that losing the man who founded this movement will collapse what little cohesion four thousand exhausted men retreating across frozen steppe still have.",
+  "status": "disputed",
+  "sources": [
+   "wp-iceMarch"
+  ],
+  "note": "Strength is given as 4,000 at first and later 6,000 (about 2,000 Don Cossacks, 14 guns)."
+ },
+ {
+  "id": "southRussia-kornilovsDeath18-5",
+  "node": "kornilovsDeath18",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Kornilov's assault on Ekaterinodar, the Kuban Cossack capital, is five days old and has made no real progress against a Red garrison more than twice the Volunteers' number.",
+  "status": "web-checked",
+  "sources": [
+   "wp-iceMarch"
+  ],
+  "note": "The attack began on 10 April; Denikin abandoned it after five days of fighting."
+ },
+ {
+  "id": "southRussia-kornilovsDeath18-6",
+  "node": "kornilovsDeath18",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "The withdrawal begins that evening — the retreat that becomes known as the Ice March, back across the frozen Kuban steppe toward the Don.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-kornilovsDeath18-7",
+  "node": "kornilovsDeath18",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "It is not the last time this army fights for Ekaterinodar: reinforced and reorganized, it returns to take the city for real in August.",
+  "status": "web-checked",
+  "sources": [
+   "enc-volunteer-army"
+  ],
+  "note": "16 August in one source, 18 August in another."
+ },
+ {
+  "id": "southRussia-kornilovsDeath18-8",
+  "node": "kornilovsDeath18",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "By January 1919 the Volunteer Army has unified with the Don Cossack forces into the Armed Forces of South Russia, and this command's real campaign — the one that reaches its high-water mark at Tsaritsyn a year from now — begins in earnest.",
+  "status": "web-checked",
+  "sources": [
+   "wp-volunteer-army"
+  ],
+  "note": "Armed Forces of South Russia, 8 January 1919."
+ },
+ {
+  "id": "southRussia-ekaterinodarAssault18-1",
+  "node": "ekaterinodarAssault18",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "Germany's spring offensive has been running on the Western Front since 21 March — fifty divisions transferred from the east, freed by the peace Russia signed at Brest-Litovsk three weeks earlier.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-ekaterinodarAssault18-2",
+  "node": "ekaterinodarAssault18",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "The Allies are being pushed back toward Amiens by men who were facing Russian guns in November.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-ekaterinodarAssault18-3",
+  "node": "ekaterinodarAssault18",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "Every officer in this army understands the arithmetic: the troops now breaking the British Fifth Army are there because Russia left the war.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-ekaterinodarAssault18-4",
+  "node": "ekaterinodarAssault18",
+  "kind": "fact",
+  "where": "meanwhile siberia",
+  "claim": "The Czechoslovak Legion is still moving east along the Trans-Siberian under Bolshevik agreement, five weeks from the Chelyabinsk clash that opens this theatre.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-ekaterinodarAssault18-5",
+  "node": "ekaterinodarAssault18",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "The government has moved the capital from Petrograd to Moscow in March, out of reach of the German advance the peace was supposed to have stopped.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-moscowDirective19-1",
+  "node": "moscowDirective19",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "November: an armistice ends the war in Europe — not a victory for either side, and Allied troops remain on Russian soil with no reason for it committed to paper.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-moscowDirective19-2",
+  "node": "moscowDirective19",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "March: Moscow declares itself the seat of a new Communist International, on the record for carrying revolution past Russia's own borders.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-moscowDirective19-3",
+  "node": "moscowDirective19",
+  "kind": "fact",
+  "where": "meanwhile siberia",
+  "claim": "Kolchak's own spring offensive, which came within reach of the Volga in April, has already broken.",
+  "status": "web-checked",
+  "sources": [
+   "wp-white-spring"
+  ],
+  "note": "Approached the Volga by the end of April; never reached Kazan or Samara."
+ },
+ {
+  "id": "southRussia-moscowDirective19-4",
+  "node": "moscowDirective19",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "The Eighth Party Congress's internal fight over military policy was formally settled in March by compromise commission.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-moscowDirective19-5",
+  "node": "moscowDirective19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Wrangel wants the offensive concentrated — mass the cavalry, secure the flanks, advance methodically up the Volga.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-moscowDirective19-6",
+  "node": "moscowDirective19",
+  "kind": "figure",
+  "where": "situation",
+  "claim": "You are drafting Directive No. 08878.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-kievConvergence19-1",
+  "node": "kievConvergence19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "The broad-front advance has reached Kiev from the south just as Ukrainian People's Republic forces close on it from the west — General Antin Kravs's Galician and Zaporizhzhia corps, some eighteen thousand men under Petliura's overall command, have already skirmished their way into the outskirts and are planning a victory parade for the afternoon of the 31st.",
+  "status": "web-checked",
+  "sources": [
+   "wp-kiev-1919"
+  ],
+  "note": "Planned for 16:00. An earlier text said morning (corrected)."
+ },
+ {
+  "id": "southRussia-kievConvergence19-2",
+  "node": "kievConvergence19",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "Ukrainian troops marching on Duma Square and Bredov's volunteers entering the city collide within the same hour on the 31st; when Colonel Salsky's men pull down the Russian tricolor someone had raised beside their own flag, a White cavalryman is shot dead in the scuffle that follows.",
+  "status": "web-checked",
+  "sources": [
+   "wp-kiev-1919"
+  ],
+  "note": "A soldier tore the tricolor down on Salsky's order; a volunteer cavalryman who attacked Salsky was killed."
+ },
+ {
+  "id": "southRussia-rearSecurity19-1",
+  "node": "rearSecurity19",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "The treaty signed at Versailles on 28 June formally ended the war Russia entered in 1914 and left in 1918.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-rearSecurity19-2",
+  "node": "rearSecurity19",
+  "kind": "figure",
+  "where": "bulletin",
+  "claim": "Article 116 voids the Brest-Litovsk treaty outright and obliges Germany to respect the independence of territories that were Russian on 1 August 1914.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-rearSecurity19-3",
+  "node": "rearSecurity19",
+  "kind": "fact",
+  "where": "meanwhile siberia",
+  "claim": "Kolchak's front is in general retreat toward the Urals after the failure of the spring offensive; the Allied recognition Omsk was promised in exchange for a commitment to the Constituent Assembly has not materialised in any binding form.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-rearSecurity19-4",
+  "node": "rearSecurity19",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "Moscow was excluded from Versailles entirely and treats its exclusion as confirmation of what the Comintern declared in March — that this order is one to be overturned, not joined.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-rearSecurity19-5",
+  "node": "rearSecurity19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Makhno's Revolutionary Insurgent Army has broken out behind the front, striking rail depots and supply columns across the AFSR's rear areas in Ukraine.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-peregonovka19-1",
+  "node": "peregonovka19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "The diverted divisions have Makhno's exhausted Insurgent Army encircled near the village of Peregonovka after a pursuit across some six hundred kilometres of Ukraine — by every visible measure this should be a rout in the AFSR's favor.",
+  "status": "web-checked",
+  "sources": [
+   "wp-peregonovka",
+   "eou-makhno"
+  ],
+  "note": "The insurgents retreated about 600 km over some four months before the battle."
+ },
+ {
+  "id": "southRussia-orelCulmination19-1",
+  "node": "orelCulmination19",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "By most later accounts, this month is the closest the Soviet government comes to losing the war outright — not on one front but three, in the same few weeks, by circumstance rather than by any coordination between the White commands.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-orelCulmination19-2",
+  "node": "orelCulmination19",
+  "kind": "fact",
+  "where": "meanwhile siberia",
+  "claim": "Kolchak's spring offensive, which came within reach of the Volga in the west, has been reversed entirely.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-orelCulmination19-3",
+  "node": "orelCulmination19",
+  "kind": "figure",
+  "where": "background",
+  "claim": "Orel is about 200 miles from Moscow.",
+  "status": "web-checked",
+  "sources": [
+   "wp-orel-kursk"
+  ],
+  "note": "About 300 km in a straight line. An earlier text said 250 miles (corrected)."
+ },
+ {
+  "id": "southRussia-orelCulmination19-4",
+  "node": "orelCulmination19",
+  "kind": "figure",
+  "where": "background",
+  "claim": "The AFSR has advanced roughly 400 miles in four months on an offensive that began at Tsaritsyn in June, and its line now runs some 700 miles from Kiev to Tsaritsyn, held by fewer than 100,000 combat effectives.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-orelCulmination19-5",
+  "node": "orelCulmination19",
+  "kind": "fact",
+  "where": "background",
+  "claim": "The Red Southern Front opposing it has been reorganized under Alexander Yegorov, with Stalin as its senior political member, and is concentrating a strike group south of Orel — Latvian riflemen, a Estonian brigade, and Primakov's cavalry — specifically to cut the salient at its base rather than meet it head-on.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-orelCulmination19-6",
+  "node": "orelCulmination19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Orel has fallen — about two hundred miles from Moscow, the high-water mark of the Volunteer Army's advance.",
+  "status": "web-checked",
+  "sources": [
+   "wp-orel-kursk"
+  ],
+  "note": "Sources call Orel the high-water mark; none was found for 'deepest'."
+ },
+ {
+  "id": "southRussia-orelCulmination19-7",
+  "node": "orelCulmination19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "The Red Southern Front has been reorganized under new command and is throwing everything it has into a counteroffensive.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-orelCulmination19-8",
+  "node": "orelCulmination19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Kuban Cossack officers are asking, openly now, whether they are fighting for Moscow or for Denikin's Moscow.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-orelCulmination19-9",
+  "node": "orelCulmination19",
+  "kind": "fact",
+  "where": "historical aftermath",
+  "claim": "Orel was retaken by the Red Army on 20 October 1919, seven days after it fell.",
+  "status": "web-checked",
+  "sources": [
+   "wp-orel-kursk"
+  ],
+  "note": "Taken 13 October, held 13 to 19, retaken 20 October."
+ },
+ {
+  "id": "southRussia-orelCulmination19-10",
+  "node": "orelCulmination19",
+  "kind": "fact",
+  "where": "historical aftermath",
+  "claim": "The Kornilov Division — one of the AFSR's four named 'coloured' regiments and among its most reliable formations — was badly cut up holding it.",
+  "status": "drafted",
+  "sources": [
+   "pygmywars-orel"
+  ],
+  "note": "The order of battle says the Kornilov Brigade was within weeks split into Kornilov and Markov Divisions; the 'four coloured' wording needs a reviewer."
+ },
+ {
+  "id": "southRussia-orelCulmination19-11",
+  "node": "orelCulmination19",
+  "kind": "fact",
+  "where": "historical aftermath",
+  "claim": "Neither the Volunteer Army nor any other White force came closer to Moscow at any point in the war.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-cossackDesertion19-1",
+  "node": "cossackDesertion19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "As it passes back through Don and Kuban territory, whole Cossack units are simply leaving the line — not mutinying, not surrendering, just riding home to defend their own farms and villages now that the front has come to them.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-cossackDesertion19-2",
+  "node": "cossackDesertion19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "The Volunteer Army divisions still in the line are asking why they should hold ground the Cossacks themselves have abandoned.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-cossackDesertion19-3",
+  "node": "cossackDesertion19",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "Whether it stops a Cossack rider from turning his horse toward the Don when the front is his own front now is a separate question from whether the order was given.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-volgaCossackDesertion19-1",
+  "node": "volgaCossackDesertion19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Wrangel's cavalry never reached Orel and never retreated from it — but the general collapse of the AFSR's central front has left the Volga gains isolated regardless, and the same Cossack units that made the breakthrough possible are now within reach of their own Don and Kuban villages for the first time since the advance began.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-kubanCoup19-1",
+  "node": "kubanCoup19",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "Kalabukhov is hanged on 7 November, a sign reading 'For treason to the Motherland and Cossackdom' left on his chest.",
+  "status": "drafted",
+  "sources": [],
+  "note": "NOT CONFIRMED: Kuban Rada sources searched twice; one names Kurgansky as hanged and dates arrests to 6 November. Needs a reviewer."
+ },
+ {
+  "id": "southRussia-kubanRadaReorganized19-1",
+  "node": "kubanRadaReorganized19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Mobilization orders for the Kuban Host go out through it without formal objection.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-kubanRadaReorganized19-2",
+  "node": "kubanRadaReorganized19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Whether that formal compliance is translating into Cossack units actually reporting for duty, rather than simply a body that says yes while its own constituency quietly doesn't, is a separate question command hasn't yet tested directly.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-kharkovEncirclement19-1",
+  "node": "kharkovEncirclement19",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "The line is holding against direct pressure — but Budyonny's cavalry and the 14th Army under Uborevich are maneuvering around both flanks, exactly the encirclement that broke the historical defense here regardless of how hard the center held.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-kharkovEncirclement19-2",
+  "node": "kharkovEncirclement19",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "The city falls on schedule, in mid-December.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-novorossiysk20-1",
+  "node": "novorossiysk20",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Tens of thousands of troops, Cossacks, and civilian refugees are crowded into Novorossiysk with the Red Army days away, and the British have told you plainly that only five or six thousand people can be taken off by their ships.",
+  "status": "web-checked",
+  "sources": [
+   "wp-novorossiysk"
+  ],
+  "note": "Denikin was told only 5,000 to 6,000 could be evacuated by the British."
+ },
+ {
+  "id": "southRussia-voroshilovsCavalry20-1",
+  "node": "voroshilovsCavalry20",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Denikin has already ordered the Volunteer Army's remaining units rushed aboard first, leaving the far more numerous Don Cossacks to wait their turn on a dock that may not have a turn left to give them.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-voroshilovsCavalry20-2",
+  "node": "voroshilovsCavalry20",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "The Red cavalry takes the port on 27 March regardless.",
+  "status": "web-checked",
+  "sources": [
+   "wp-novorossiysk"
+  ],
+  "note": "The Red Army entered Novorossiysk on 27 March."
+ },
+ {
+  "id": "southRussia-wrangelsDismissal20-1",
+  "node": "wrangelsDismissal20",
+  "kind": "fact",
+  "where": "meanwhile siberia",
+  "claim": "Admiral Kolchak — recognized by this command's own Commander-in-Chief as Supreme Ruler of Russia — was shot at Irkutsk on 7 February, handed over by the Czechoslovak Legion in exchange for its own safe passage.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-wrangelsDismissal20-2",
+  "node": "wrangelsDismissal20",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "With Kolchak's execution and this front's own collapse now visible, Moscow's attention is beginning to turn toward the question that will define the rest of the year: how far west the Red Army's own ambitions should now reach.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-wrangelsDismissal20-3",
+  "node": "wrangelsDismissal20",
+  "kind": "fact",
+  "where": "historical aftermath",
+  "claim": "Denikin signs the order dismissing Wrangel on 8 February, and Wrangel reaches Constantinople at the end of the month.",
+  "status": "disputed",
+  "sources": [
+   "wp-wrangel"
+  ],
+  "note": "One source gives 8 February for the order, another for his departure; he reached Constantinople at the end of February. Lukomsky's and Shatilov's dismissal was not found and was removed."
+ },
+ {
+  "id": "southRussia-sevastopolCouncil20-1",
+  "node": "sevastopolCouncil20",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "Polish forces under Piłsudski are about to launch a major offensive into Ukraine, taking Kiev within the month.",
+  "status": "web-checked",
+  "sources": [
+   "enc-polish-soviet"
+  ],
+  "note": "Kiev was taken in early May."
+ },
+ {
+  "id": "southRussia-sevastopolCouncil20-2",
+  "node": "sevastopolCouncil20",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "The war that results will occupy a substantial share of the Red Army's own reserves for the rest of this year — reserves that would otherwise be free to concentrate against the Crimea sooner.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-sevastopolCouncil20-3",
+  "node": "sevastopolCouncil20",
+  "kind": "fact",
+  "where": "background",
+  "claim": "Novorossiysk cost the AFSR its cohesion as much as its numbers: tens of thousands left on the quays, the Don and Kuban formations broken as organised bodies, and a command whose authority over the Cossack hosts had been the war's central political problem since 1918.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-sevastopolCouncil20-4",
+  "node": "sevastopolCouncil20",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "It is a room of men who have just watched an evacuation go the way Novorossiysk went, being asked, in effect, whether the command that presided over it should continue.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-sevastopolCouncil20-5",
+  "node": "sevastopolCouncil20",
+  "kind": "fact",
+  "where": "historical aftermath",
+  "claim": "Denikin put the succession to the council on 4 April 1920, accepted its answer, resigned the same day and sailed for Constantinople aboard a British destroyer.",
+  "status": "disputed",
+  "sources": [
+   "wp-supreme-ruler",
+   "wp-wrangel"
+  ],
+  "note": "Sources: the generals recommended Wrangel and Denikin designated him; 3 or 4 April; Dragomirov's role single-sourced."
+ },
+ {
+  "id": "southRussia-sevastopolCouncil20-6",
+  "node": "sevastopolCouncil20",
+  "kind": "fact",
+  "where": "historical aftermath",
+  "claim": "He never held command again and spent the rest of his life writing the war's history rather than fighting it — dying in Michigan in 1947, having refused German offers to front a Russian force against the Soviet Union.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-landLawDecision20-1",
+  "node": "landLawDecision20",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "British support, which sustained this army through 1919 — the rifles, the shells, the uniforms, the tanks at Tsaritsyn — is being wound down.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-landLawDecision20-2",
+  "node": "landLawDecision20",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "Poland invaded Ukraine in April and took Kiev in May.",
+  "status": "web-checked",
+  "sources": [
+   "enc-polish-soviet"
+  ],
+  "note": ""
+ },
+ {
+  "id": "southRussia-landLawDecision20-3",
+  "node": "landLawDecision20",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "The Red Army's counteroffensive is beginning — and every division committed to it is a division not yet turned toward the Crimea.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-landLawDecision20-4",
+  "node": "landLawDecision20",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "Among the Volunteer Army's own officer corps — many of them landowners themselves — it does not go without resentment.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-northernTauride20-1",
+  "node": "northernTauride20",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "General Ulagai is proposing an expeditionary force across the Sea of Azov to the Kuban, to link with White partisan networks and widen the offensive before the Red Army can concentrate against it.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-northernTauride20-2",
+  "node": "northernTauride20",
+  "kind": "fact",
+  "where": "historical outcome",
+  "claim": "Ulagai's force lands in the Kuban on 14 August.",
+  "status": "web-checked",
+  "sources": [
+   "wp-ulagay"
+  ],
+  "note": "14 August; evacuation completed 7 September."
+ },
+ {
+  "id": "southRussia-wrangelsEnvoy20-1",
+  "node": "wrangelsEnvoy20",
+  "kind": "fact",
+  "where": "background",
+  "claim": "By April 1920 the British had told Wrangel plainly that continuing the war bought him no further support — General Percy's mission warned that prolonging the struggle 'can have only one result,' and pressed him toward negotiating with the Bolsheviks directly.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-wrangelsEnvoy20-2",
+  "node": "wrangelsEnvoy20",
+  "kind": "fact",
+  "where": "background",
+  "claim": "Wrangel refused, at whatever cost, and instead widened his own search for allies: overtures to the Don and Kuban Cossacks, an offer of cooperation to Poland and Petliura's Ukraine, and now — on the strength of nothing more than the Soviet press's own repeated, and false, claims that Makhno was already secretly working with him — a letter to the one force in south Russia that has spent three years fighting everybody, Reds and Whites alike, with equal conviction.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-wrangelsEnvoy20-3",
+  "node": "wrangelsEnvoy20",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Shatilov and Konovalets have drafted a letter to 'the Ataman of the insurrectionary troops, Makhno,' proposing arms, ammunition, and specialists in exchange for coordinated action against the Bolsheviks — sealed at Melitopol on 18 June.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-wrangelsEnvoy20-4",
+  "node": "wrangelsEnvoy20",
+  "kind": "fact",
+  "where": "historical aftermath",
+  "claim": "The messenger, a twenty-eight-year-old named Ivan Mikhailov, delivers the letter to the Makhnovist staff at Vrem'evka on 9 July.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-wrangelsEnvoy20-5",
+  "node": "wrangelsEnvoy20",
+  "kind": "fact",
+  "where": "historical aftermath",
+  "claim": "The Makhnovists publish both the letter and their reply in their own press specifically to put the record straight — Soviet newspapers had been claiming a secret Makhno-Wrangel alliance for weeks, and this is the answer to that claim as much as it is an answer to Wrangel.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-crimeaDefensePrep20-1",
+  "node": "crimeaDefensePrep20",
+  "kind": "fact",
+  "where": "meanwhile siberia",
+  "claim": "The Far Eastern Republic — the Bolshevik-tolerated buffer state formed in April — has just moved its capital to Chita itself, as Japanese forces complete their withdrawal from Transbaikal.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-crimeaDefensePrep20-2",
+  "node": "crimeaDefensePrep20",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "The Polish war has just concluded with an armistice; formal peace talks are underway at Riga.",
+  "status": "web-checked",
+  "sources": [
+   "wp-riga"
+  ],
+  "note": "Preliminary treaty of 12 October 1920."
+ },
+ {
+  "id": "southRussia-crimeaDefensePrep20-3",
+  "node": "crimeaDefensePrep20",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "Frunze's Southern Front, no longer needing to share reserves with the Polish front, is free to turn its full attention to Perekop.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-crimeaDefensePrep20-4",
+  "node": "crimeaDefensePrep20",
+  "kind": "fact",
+  "where": "situation",
+  "claim": "Frunze's Southern Front is massing against Perekop and the Sivash crossings — the same offensive already being planned on the other side of this history.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-crimeaDefensePrep20-5",
+  "node": "crimeaDefensePrep20",
+  "kind": "figure",
+  "where": "historical outcome",
+  "claim": "It is the reason the eventual Crimean evacuation moves some 145,000 people off the peninsula in reasonable order — the one piece of this whole campaign that does not end in the kind of chaos Novorossiysk did.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-frunzeOffer20-1",
+  "node": "frunzeOffer20",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "The Red Army has been attacking across the Perekop isthmus and wading the Sivash since the night of 7 November.",
+  "status": "disputed",
+  "sources": [
+   "wp-perekop"
+  ],
+  "note": "The Sivash crossing is dated to the night of 8 November on one page and 7 November (22:00) on another."
+ },
+ {
+  "id": "southRussia-frunzeOffer20-2",
+  "node": "frunzeOffer20",
+  "kind": "fact",
+  "where": "bulletin",
+  "claim": "On 11 November a radio message from Frunze, the commander of the Southern Front, arrives in clear.",
+  "status": "disputed",
+  "sources": [
+   "lenin-1920-11-12",
+   "wp-perekop"
+  ],
+  "note": "Lenin's note says 11 November; the Perekop page says Frunze's telegram of 12 November. Sources differ on whether Wrangel answered."
+ },
+ {
+  "id": "southRussia-frunzeOffer20-3",
+  "node": "frunzeOffer20",
+  "kind": "fact",
+  "where": "meanwhile bolsheviks",
+  "claim": "Lenin cables the Southern Front the next day.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-frunzeOffer20-4",
+  "node": "frunzeOffer20",
+  "kind": "fact",
+  "where": "historical aftermath",
+  "claim": "The last ships left the Crimea on 14 November.",
+  "status": "disputed",
+  "sources": [
+   "wp-crimea-evac"
+  ],
+  "note": "The evacuation is dated 13 to 16 November; a US Navy report says the last left on 14 November."
+ },
+ {
+  "id": "southRussia-endingBizerte-1",
+  "node": "endingBizerte",
+  "kind": "figure",
+  "where": "epilogue",
+  "claim": "The evacuation Wrangel spent months quietly preparing empties Crimea in five days: some 145,000 soldiers, officials, and civilians aboard over a hundred ships, bound first for Constantinople.",
+  "status": "web-checked",
+  "sources": [
+   "wp-crimea-evac"
+  ],
+  "note": "145,693 people on 126 vessels, 13 to 16 November, five ports."
+ },
+ {
+  "id": "southRussia-endingBizerte-2",
+  "node": "endingBizerte",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Judged against everything else this war has been, it is orderly — the one evacuation in this war that does not become a byword for chaos the way Novorossiysk did.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingBizerte-3",
+  "node": "endingBizerte",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The warships continue on to Bizerte in French Tunisia, interned there until 1924, when France recognizes the Soviet government and the fleet is sold for scrap where it sits at anchor.",
+  "status": "drafted",
+  "sources": [
+   "wp-crimea-evac"
+  ],
+  "note": "Widely stated; not read this round."
+ },
+ {
+  "id": "southRussia-endingBizerte-4",
+  "node": "endingBizerte",
+  "kind": "figure",
+  "where": "epilogue",
+  "claim": "France finances refugee camps at Gallipoli and on Lemnos, roughly 24,000 in the first and over 10,000 in the second by that November — conditions in both are harsh, typhoid and starvation among them.",
+  "status": "drafted",
+  "sources": [],
+  "note": "NOT CONFIRMED: no source read gives camp figures."
+ },
+ {
+  "id": "southRussia-endingBizerte-5",
+  "node": "endingBizerte",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "At Gallipoli, Kutepov imposes a brutal discipline that holds the First Army Corps together as a body, later mythologized among émigrés as the 'Gallipoli miracle.' On Lemnos, no such regime takes hold; morale collapses, and many of the Cossack units there accept repatriation to Soviet Russia rather than face indefinite exile.",
+  "status": "web-checked",
+  "sources": [
+   "synod-gallipoli"
+  ],
+  "note": "Kutepov's discipline credited with keeping the corps together."
+ },
+ {
+  "id": "southRussia-endingBizerte-6",
+  "node": "endingBizerte",
+  "kind": "figure",
+  "where": "epilogue",
+  "claim": "Behind the evacuation, in Crimea itself, a Red Terror follows under Béla Kun and Rosalia Zemlyachka — historians' estimates of the executions range from roughly 12,000 to well over 50,000, many of them soldiers who surrendered on the promise of an amnesty that was never honored.",
+  "status": "web-checked",
+  "sources": [
+   "wp-crimea-evac"
+  ],
+  "note": "The page gives 12,000 to 120,000 (the middle figure garbled)."
+ },
+ {
+  "id": "southRussia-endingTheCouncilAtSevastopol20-1",
+  "node": "endingTheCouncilAtSevastopol20",
+  "kind": "figure",
+  "where": "epilogue",
+  "claim": "Historically Denikin put the succession to the council, accepted its answer, resigned the same day and sailed for Constantinople aboard a British destroyer — and the war went on for another seven months under Wrangel, who reorganised the army, published Krivoshein's land law in May, took the Northern Tauride in June, and in November got nearly 146,000 people out of the Crimea in the good order Novorossiysk had failed to manage.",
+  "status": "web-checked",
+  "sources": [
+   "wp-crimea-evac"
+  ],
+  "note": "145,693."
+ },
+ {
+  "id": "southRussia-endingTheCouncilAtSevastopol20-2",
+  "node": "endingTheCouncilAtSevastopol20",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "All of that required a commander the army had agreed to follow, arrived at in a room in Sevastopol on 4 April 1920.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingTheCouncilAtSevastopol20-3",
+  "node": "endingTheCouncilAtSevastopol20",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "What the historical AFSR salvaged in November was salvaged by a chain of command that had settled the question in April, and this one never does.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingTheCouncilAtSevastopol20-4",
+  "node": "endingTheCouncilAtSevastopol20",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Denikin lived until 1947 and wrote five volumes about this war, and refused in the Second World War to lend his name to a German-sponsored Russian force on the grounds that he had never fought for anything except Russia.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingSecondNovorossiysk-1",
+  "node": "endingSecondNovorossiysk",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Without an evacuation already in motion when the Perekop line finally breaks, the withdrawal to the docks happens the way Novorossiysk did nine months earlier — improvised, overcrowded, working from ships that were never actually requisitioned in advance.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingSecondNovorossiysk-2",
+  "node": "endingSecondNovorossiysk",
+  "kind": "figure",
+  "where": "epilogue",
+  "claim": "Fewer of the roughly 145,000 who historically made it out get a berth this time.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingSecondNovorossiysk-3",
+  "node": "endingSecondNovorossiysk",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "More are left behind for the Red Terror under Béla Kun and Rosalia Zemlyachka that follows regardless of how the evacuation itself went — that atrocity was never contingent on this choice, only its scale plausibly was.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingSecondNovorossiysk-4",
+  "node": "endingSecondNovorossiysk",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "This command withdrew from Ekaterinodar in good order in April 1918, at the very start, when Denikin first inherited a battle he didn't plan.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingSecondNovorossiysk-5",
+  "node": "endingSecondNovorossiysk",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "That early discipline bought it nothing durable by November 1920 — the same unprepared scramble at the docks, the same reputation lost in a single uncoordinated week.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingArmyDissolved20-1",
+  "node": "endingArmyDissolved20",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "There is no evacuation to describe, orderly or otherwise, because by the time Frunze's offensive reaches Perekop there is no longer a coherent army left to evacuate.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingArmyDissolved20-2",
+  "node": "endingArmyDissolved20",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "This is not the historical record — the real AFSR, battered as it was, remained a fighting force capable of Wrangel's genuinely organized evacuation all the way to the end.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingCossackMutiny-1",
+  "node": "endingCossackMutiny",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "It is the accumulated weight of every choice that answered a Cossack Host's objection with central authority instead of accommodation — the Kalabukhov hanging, the discipline enforced on units that wanted to go home, every moment the chain of command chose control over consent.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingCossackMutiny-2",
+  "node": "endingCossackMutiny",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "It is what an accumulation of exactly this kind of choice makes plausible: a command that never lost a decisive battle to the Red Army, undone instead by an army that stopped trusting it.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingCossackMutiny-3",
+  "node": "endingCossackMutiny",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The Don and Kuban Hosts that rode home to defend their own stanitsas found the front arriving there anyway, and the Soviet policy of decossackization — the January 1919 directive and everything that followed from it — did not distinguish between Cossacks who had fought to the end and Cossacks who had gone home early.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingCossackMutiny-4",
+  "node": "endingCossackMutiny",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Those who reached the coast in time joined the emigration; those who did not were absorbed into a Soviet order that spent the next decade dismantling the Host system as a category.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingTheArmyThatDidNotComeBack18-1",
+  "node": "endingTheArmyThatDidNotComeBack18",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The Volunteer Army does not survive Ekaterinodar.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingTheArmyThatDidNotComeBack18-2",
+  "node": "endingTheArmyThatDidNotComeBack18",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "There is no second campaign, no Moscow Directive, no Orel, no Novorossiysk, and no Crimea — none of it occurs, because the force it would have been fought by is broken on the Kuban steppe in April 1918 by a garrison it should not have spent a third day in front of.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingTheArmyThatDidNotComeBack18-3",
+  "node": "endingTheArmyThatDidNotComeBack18",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Kornilov was killed by a shell at his farmhouse headquarters outside Ekaterinodar on 13 April 1918; Denikin called off the assault and extracted roughly four thousand men, and the First Kuban Campaign — the Ice March — reached the Don in May with the army intact but barely.",
+  "status": "web-checked",
+  "sources": [
+   "wp-iceMarch",
+   "wp-kornilov"
+  ],
+  "note": "13 April; one source says 12 April and one a grenade. The farm's name was not found; an earlier text said Elizavetinskaya (corrected)."
+ },
+ {
+  "id": "southRussia-endingTheArmyThatDidNotComeBack18-4",
+  "node": "endingTheArmyThatDidNotComeBack18",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "What follows is what the White movement in south Russia looked like without a Volunteer Army at its centre: Cossack hosts defending their own territory and negotiating separately, German-backed formations in the Ukraine with their own priorities, and no unified command for the Allies to recognise, supply, or blame.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingTheLineThatBroke19-1",
+  "node": "endingTheLineThatBroke19",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The historical AFSR retreated from Kharkov in December 1919 badly, and survived it.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingTheLineThatBroke19-2",
+  "node": "endingTheLineThatBroke19",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Denikin does not resign at Sevastopol in April, because there is no Sevastopol council to convene — no organised remnant reaches the Crimea to be argued over.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingTheLineThatBroke19-3",
+  "node": "endingTheLineThatBroke19",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "Wrangel's Russian Army, the land law, the Northern Tauride, the November evacuation that got a hundred and forty-six thousand people out: none of it happens.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-endingTheLineThatBroke19-4",
+  "node": "endingTheLineThatBroke19",
+  "kind": "fact",
+  "where": "epilogue",
+  "claim": "The southern front simply ends in Ukraine in the last month of 1919, four months early, and the Red Army turns its full weight east and west a season sooner than the record shows.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-kornilov-bio-1",
+  "node": "dossier:kornilov",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Former commander of the Petrograd Military District under the Provisional Government, arrested and imprisoned after his failed September 1917 attempt to establish a military dictatorship.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-kornilov-bio-2",
+  "node": "dossier:kornilov",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Escaped to organize the Volunteer Army in the Don region with Alekseev after the Bolshevik seizure of power.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-kornilov-fate-3",
+  "node": "dossier:kornilov",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Killed on 13 April 1918, when a Red artillery shell struck the single room of his farmhouse headquarters near Ekaterinodar.",
+  "status": "web-checked",
+  "sources": [
+   "wp-iceMarch"
+  ],
+  "note": "The shell killed only Kornilov."
+ },
+ {
+  "id": "southRussia-dossier-alekseev-bio-1",
+  "node": "dossier:alekseev",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Former Chief of Staff of the Imperial Russian Army under the Tsar and briefly Supreme Commander-in-Chief under the Provisional Government.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-alekseev-bio-2",
+  "node": "dossier:alekseev",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Co-founded the Volunteer Army with Kornilov, taking political leadership while Kornilov held military command.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-alekseev-fate-3",
+  "node": "dossier:alekseev",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Died of heart failure in Ekaterinodar in October 1918, six months after Kornilov, having lived just long enough to see the Volunteer Army retake the city it had failed to capture under his and Kornilov's joint leadership.",
+  "status": "disputed",
+  "sources": [
+   "wp-volunteer-army"
+  ],
+  "note": "Sources give 8 October or September 1918 (Old Style/New Style)."
+ },
+ {
+  "id": "southRussia-dossier-denikin-bio-1",
+  "node": "dossier:denikin",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Career Imperial Army officer of humble birth, risen on merit rather than aristocratic connection.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-denikin-bio-2",
+  "node": "dossier:denikin",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Committed to a unified, centrally-governed Russia and instinctively suspicious of regional autonomy movements — a position that put him at odds with the Cossack Hosts and Ukrainian nationalists whose cooperation his campaign depended on.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-denikin-bio-3",
+  "node": "dossier:denikin",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "On 12 June 1919, he formally submitted to Kolchak's authority, telegraphing: 'Safety of cause lies in a single high commander-in-chief...",
+  "status": "drafted",
+  "sources": [
+   "frus-denikin-1919"
+  ],
+  "note": "Quotation: check the full telegram text before it stays in quotation marks."
+ },
+ {
+  "id": "southRussia-dossier-denikin-bio-4",
+  "node": "dossier:denikin",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "I yield to Admiral Kolchak and recognize him as Supreme Governor Russian state and commander-in-chief Russia Army.' The recognition was real but purely symbolic — it changed nothing about AFSR's operational independence, which every later decision from this command reflects.",
+  "status": "web-checked",
+  "sources": [
+   "frus-denikin-1919"
+  ],
+  "note": "A real quotation, confirmed in the telegram summary; the first sentence ('Safety of cause...') was not seen."
+ },
+ {
+  "id": "southRussia-dossier-denikin-fate-5",
+  "node": "dossier:denikin",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Named by Kolchak as his successor on 4 January 1920; he accepted neither the title nor its functions, and the office was declared extinct on 4 April 1920, the day he handed command to Wrangel.",
+  "status": "web-checked",
+  "sources": [
+   "wp-supreme-ruler"
+  ],
+  "note": "He accepted neither title nor functions; the office was declared extinct on 4 April 1920. An earlier text said December 1919 (corrected)."
+ },
+ {
+  "id": "southRussia-dossier-denikin-fate-6",
+  "node": "dossier:denikin",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "He commanded the Novorossiysk evacuation and the retreat that followed.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-denikin-fate-7",
+  "node": "dossier:denikin",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Resigned command in April 1920 after the retreat into Crimea, handing over to Wrangel.",
+  "status": "web-checked",
+  "sources": [
+   "wp-supreme-ruler",
+   "wp-novorossiysk"
+  ],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-denikin-fate-8",
+  "node": "dossier:denikin",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Died in exile in the United States in 1947, having spent his final years urging émigrés not to side with Nazi Germany against the USSR.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-wrangel-fate-1",
+  "node": "dossier:wrangel",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Succeeded Denikin as Commander-in-Chief in April 1920, held Crimea for six more months, and organized the November 1920 evacuation of the remaining White forces.",
+  "status": "web-checked",
+  "sources": [
+   "wp-wrangel"
+  ],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-wrangel-fate-2",
+  "node": "dossier:wrangel",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Died in Brussels in 1928.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-shatilov-bio-1",
+  "node": "dossier:shatilov",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Co-signed, with Konovalets, the letter proposing cooperation to Makhno's insurgent staff in June 1920 — an overture Makhno's own council answered by executing the messenger who delivered it.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-shatilov-fate-2",
+  "node": "dossier:shatilov",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Evacuated with the rest of the command in November 1920.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-shatilov-fate-3",
+  "node": "dossier:shatilov",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Organized the army's move from Gallipoli and Lemnos to Serbia in 1921.",
+  "status": "web-checked",
+  "sources": [
+   "okunev-shatilov"
+  ],
+  "note": "A 2021 article by Okunev; replaces an unverified death date."
+ },
+ {
+  "id": "southRussia-dossier-kutepov-bio-1",
+  "node": "dossier:kutepov",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "A straightforward, respected combat officer with no real background in politics or administration — as Governor-General of the Black Sea region in 1918 he executed suspected looters and pogrom perpetrators without much regard for legal process.",
+  "status": "web-checked",
+  "sources": [
+   "wp-kutepov"
+  ],
+  "note": "Governor of Novorossiysk after the Volunteer Army took it in August 1918; the 'Governor-General of the Black Sea region' wording is from other pages."
+ },
+ {
+  "id": "southRussia-dossier-kutepov-bio-2",
+  "node": "dossier:kutepov",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Oversaw the evacuation commission at Novorossiysk in 1920.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-kutepov-fate-3",
+  "node": "dossier:kutepov",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Kidnapped off a Paris street by Soviet OGPU agents on 26 January 1930; died of a heart attack during the struggle.",
+  "status": "web-checked",
+  "sources": [
+   "wp-kutepov"
+  ],
+  "note": "Died of a heart attack during the struggle (Sudoplatov's account)."
+ },
+ {
+  "id": "southRussia-dossier-krivoshein-bio-1",
+  "node": "dossier:krivoshein",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Agriculture minister under Nicholas II and Stolypin's closest collaborator on the land reforms of 1906–11, which broke up the peasant commune and created a class of individual smallholders.",
+  "status": "web-checked",
+  "sources": [
+   "wp-krivoshein"
+  ],
+  "note": "Minister from 21 May 1908 to 26 October 1915, not from 1906."
+ },
+ {
+  "id": "southRussia-dossier-krivoshein-bio-2",
+  "node": "dossier:krivoshein",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Joined Wrangel in the spring of 1920 and headed his government in the Crimea from June, he wrote the land law of May 1920 — peasants purchasing, through the state, the land they already worked.",
+  "status": "web-checked",
+  "sources": [
+   "wp-krivoshein"
+  ],
+  "note": "Head of the South Russian Government June to November 1920. The page does not mention the land law."
+ },
+ {
+  "id": "southRussia-dossier-krivoshein-bio-3",
+  "node": "dossier:krivoshein",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "It was the measure White commanders had been advised to adopt since 1918 and had refused every time.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-krivoshein-fate-4",
+  "node": "dossier:krivoshein",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "The law had seven months to work in a peninsula under siege, which was not enough to test whether it would have changed anything in 1918.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-krivoshein-fate-5",
+  "node": "dossier:krivoshein",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Evacuated with the rest in November 1920.",
+  "status": "drafted",
+  "sources": [],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-krivoshein-fate-6",
+  "node": "dossier:krivoshein",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Died in Berlin in 1921, a year after the government he had been brought in to build.",
+  "status": "web-checked",
+  "sources": [
+   "wp-krivoshein"
+  ],
+  "note": "28 October 1921."
+ },
+ {
+  "id": "southRussia-dossier-ulagai-bio-1",
+  "node": "dossier:ulagai",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "Led the landing across the Sea of Azov in August 1920, a force of several thousand men (the sources differ on how many), timed to coincide with the land law's rollout in the hope of linking up with Kuban partisan networks and widening the Northern Tauride offensive.",
+  "status": "disputed",
+  "sources": [
+   "wp-ulagay"
+  ],
+  "note": "The page gives Ulagay 8,000 (12,500 with the other landings); Trotsky wrote 'a few thousand'. An earlier text said 4,500 (corrected)."
+ },
+ {
+  "id": "southRussia-dossier-ulagai-fate-2",
+  "node": "dossier:ulagai",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "The expedition lasted about three and a half weeks before being forced to withdraw — the hoped-for peasant and Cossack rising in the Kuban never materialized at the scale needed to hold the bridgehead.",
+  "status": "web-checked",
+  "sources": [
+   "wp-ulagay"
+  ],
+  "note": ""
+ },
+ {
+  "id": "southRussia-dossier-holman-bio-1",
+  "node": "dossier:holman",
+  "kind": "figure",
+  "where": "dossier bio",
+  "claim": "Led Britain's military mission from mid-1919, overseeing the delivery of over 200,000 rifles and substantial artillery to the AFSR.",
+  "status": "drafted",
+  "sources": [],
+  "note": "NOT CONFIRMED."
+ },
+ {
+  "id": "southRussia-dossier-holman-bio-2",
+  "node": "dossier:holman",
+  "kind": "fact",
+  "where": "dossier bio",
+  "claim": "At Novorossiysk personally promised Denikin that British forces would see the women and children of White officers evacuated safely.",
+  "status": "drafted",
+  "sources": [],
+  "note": "NOT CONFIRMED; Holman's presence at Novorossiysk was not found, and the claim that he stood on the mole was removed."
+ },
+ {
+  "id": "southRussia-dossier-holman-fate-3",
+  "node": "dossier:holman",
+  "kind": "fact",
+  "where": "dossier fate",
+  "claim": "Left South Russia with Denikin in April 1920.",
+  "status": "web-checked",
+  "sources": [
+   "wp-holman"
+  ],
+  "note": "He accompanied Denikin to Constantinople."
+ }
+]

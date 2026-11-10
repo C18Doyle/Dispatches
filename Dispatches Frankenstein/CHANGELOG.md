@@ -5,6 +5,26 @@ Add an entry in the same commit as the change. Engine changes live in packages/e
 Format: version or date, then Fixed / Changed / Added. A change that moves the UI baseline must also be
 listed in tests/baseline/known-diffs.json (see docs/WORKFLOW.md).
 
+## Unreleased
+### Changed
+- **The writing follows docs/WRITING.md.** All 176 em dashes are gone from the story text and the screens; 30 lines that leaned on "not X but Y", "less X than Y", "quietly" or a repeated "for the first time" were rewritten. Every apostrophe and quotation mark is curly. No node, option, flag or number changed: the 240 behaviour runs replay with the same moves, and only the recorded text moved (`record:baseline`; the 24 UI runs were re-accepted for the same reason).
+- **One type scale.** The ten one-off text sizes in the interface are replaced by `text-xs`, `text-sm`, `text-base` and a new `text-prose` (scene text, outcomes, endings). Nothing is smaller than 12 px at the default setting; checked at 375 px wide with no horizontal scroll.
+- **One set of button words.** The How to Play, Ledger and Settings screens all close with "Close" (two said "Back"); the menu button reads "How to Play"; the settings screen is "Type and Sound" (it was "The Ledger's Print", easy to confuse with the Ledger); endings are "found" everywhere (the menu and the ending screen said "Discovered"); the strain badge reads "ODDS -7 POINTS".
+- **Act I forks earlier.** The first scene after the storm is now two scenes: raising the spires leads to "The Glow Over Ingolstadt" (the town saw it; you may write the Rector a dull letter about Saint Elmo's fire), and the chemical batteries lead to "Green at the Coil Ends" (Heinrich's acid ate the coils; you may pay a tinsmith for new copper). Each new option leaves a mark that the university notice and the next scenes mention. The old scene 3 is gone; a run saved on it resumes on the first of the two (`NODE_ALIASES`).
+- **The creature shows before the ending.** Eight new lines under scene descriptions in the second act read the hidden Voice and Bond (marks on a door, a candle left out, a letter with no signature) without naming either.
+- **The novel's people.** Five new cards between scenes: Justine Moritz's verdict (condemned if your Secrecy holds, adjourned if the town is looking at the castle), a letter from Elizabeth, a letter from Henry Clerval, and Walton's letter from the ice before the last choice on each track. No new ending.
+- **The demo's last screen** has a "Get the Full Game" button (the page the full game is published on) beside the series link.
+- **Rewind the Last Choice** on The Apprentice (the difficulty that shows the numbers): up to twenty choices, cleared when a new run starts.
+- **Reading options** in Settings: Plain Type (the system's own faces instead of the engraved capitals and the gothic title) and High Contrast (white cards, black text, lifted grey text); both remembered in this browser only.
+- **A sixteenth ending, "The Account".** At the last choice of any track, a fifth option (leave everything and follow the creature north) opens to a man whose creature has turned from him. It ends on the ice, with the stranger taken aboard Walton's ship, and it has an "In the Novel" note with four checked claims (Letter 4, Vol. III ch. 7). The how-to page and the demo's last screen now say sixteen.
+- **Three forks in the middle of the tracks.** The books on the sill lead to "The Footprints in the Dust" (you may ask the creature to bury the gravedigger), the live banister to "The Live Rail" (you may cut it loose first), and the false wall to "The False Wall" (you may ask the creature to wait behind it). Each leaves a flag that the next scene mentions, and each adds a "What You Carried" line.
+- **Challenge runs.** On the chapter card, Without Fritz (no panel at all) and No Rewind (on The Apprentice). A challenge is kept with the run, shown in the Ledger's last runs, in Copy Summary and on the saved card.
+- **Save Card** on the ending screen: a 1080 x 1350 picture of the ending, how it is remembered, the record and what the run carried, saved as a file or handed to the phone's share sheet.
+- The How to Play page has sections for Rewinding, Challenges, Reading Options and The Saved Card, and the Newspaper section mentions the letters.
+### Added
+- `npm run check:phone` (in the CI browser job): the built game at 375 px in the default look, Plain Type and High Contrast; fails on sideways scroll, a clipped meter label or text under 12 px, and lists axe findings as advisory.
+- `npm run check:writing` (part of `npm test`): fails on an em dash, a straight quotation mark, or a stock word in any content string or in the screens; lists the rhetorical shapes for a reader.
+
 ## 1.1.0 (2026-10-10)
 ### Fixed
 - **Four "In the Novel" notes said things the book does not.** Victor does see the creature before the glacier (by lightning, the night William is killed); he does tell a magistrate the whole story (who half believes it); the creature pleads with more than three people; and the funeral pile is the creature's. The notes are corrected, and every claim in them is now in `claims/novel-notes.json` and checked (below).

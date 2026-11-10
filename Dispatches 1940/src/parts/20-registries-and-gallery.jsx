@@ -287,6 +287,11 @@ const NODE_ATLAS = {
     { id: "prague45", date: "MAY 1945", title: "The Last Operation" },
   ],
   allied: [
+    { id: "saar39", date: "SEPTEMBER 1939", title: "The Promise to Poland" },
+    { id: "dyle39", date: "NOVEMBER 1939 – MARCH 1940", title: "The Plan for the North" },
+    { id: "altmarkRaid40", date: "FEBRUARY 1940", title: "The Altmark" },
+    { id: "finland40", date: "FEBRUARY – MARCH 1940", title: "A Force for Finland" },
+    { id: "wilfred40", date: "APRIL 1940", title: "Wilfred and R 4" },
     { id: "narvik40", date: "APRIL 1940", title: "Narvik" },
     { id: "dunkirk40", date: "MAY 1940", title: "Dunkirk" },
     { id: "halifaxCrisis40", date: "LATE MAY 1940", title: "The War Cabinet Crisis" },
@@ -347,6 +352,10 @@ const NODE_ATLAS = {
     { id: "crusader41", date: "NOVEMBER – DECEMBER 1941", title: "The Relief of Tobruk" },
   ],
   italy: [
+    { id: "nonBelligerence39", date: "SEPTEMBER 1939", title: "The Word for Waiting" },
+    { id: "coal40", date: "FEBRUARY – MARCH 1940", title: "Coal" },
+    { id: "brenner40", date: "MARCH 1940", title: "The Brenner" },
+    { id: "memo40", date: "31 MARCH 1940", title: "The Memorandum" },
     { id: "nonBelligerence40", date: "JUNE 1940", title: "The Parallel War" },
     { id: "alpsFront40", date: "JUNE 1940", title: "The Alps Offensive" },
     { id: "medStrategy40", date: "JULY 1940", title: "The Mediterranean Question" },

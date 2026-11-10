@@ -80,6 +80,9 @@ jobs:
       - name: "Layout check of Sherlock (phone and desktop widths, overflow, tap targets, tiny text, screen heights)"
         working-directory: Dispatches Sherlock
         run: npx tsx scripts/check_layout.ts
+      - name: "Frankenstein at phone width in each reading mode (layout fails the run; axe findings are advisory)"
+        working-directory: Dispatches Frankenstein
+        run: node scripts/check-phone.mjs
       - name: "Firefox smoke test of Dracula (advisory, as the other games have not been looked at in Firefox yet)"
         continue-on-error: true
         run: |

@@ -208,6 +208,61 @@
         "8C",
         "8B-SURGE"
       ]
+    },
+    {
+      "interludeId": "JUSTINE_CONDEMNED",
+      "onEnterNodes": [
+        "9A",
+        "9A-PAID",
+        "9B",
+        "9C"
+      ],
+      "when": {
+        "resource": "secrecy",
+        "op": ">=",
+        "value": 0
+      }
+    },
+    {
+      "interludeId": "JUSTINE_ADJOURNED",
+      "onEnterNodes": [
+        "9A",
+        "9A-PAID",
+        "9B",
+        "9C"
+      ],
+      "when": {
+        "resource": "secrecy",
+        "op": "<",
+        "value": 0
+      }
+    },
+    {
+      "interludeId": "LETTER_ELIZABETH",
+      "onEnterNodes": [
+        "12A",
+        "12B",
+        "12C",
+        "12C-X"
+      ]
+    },
+    {
+      "interludeId": "LETTER_CLERVAL",
+      "onEnterNodes": [
+        "13A",
+        "13B",
+        "13B-COVER",
+        "13C",
+        "13C-CLEARED"
+      ]
+    },
+    {
+      "interludeId": "LETTER_WALTON",
+      "onEnterNodes": [
+        "15A",
+        "15B",
+        "15C"
+      ]
     }
   ],
   "assist": {

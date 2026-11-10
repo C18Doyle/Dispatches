@@ -29,15 +29,15 @@ await page.waitForSelector("text=Begin the Work", { timeout: 5000 });
 await page.screenshot({ path: "dist/screenshot-00-menu.png" });
 
 // How To round-trip
-await page.getByRole("button", { name: "How To" }).click();
-await page.waitForSelector("text=How to Play");
+await page.getByRole("button", { name: "How to Play" }).click();
+await page.waitForSelector("h1:has-text('How to Play')");
 await page.screenshot({ path: "dist/screenshot-00a-research.png" });
-await page.getByRole("button", { name: "Back" }).click();
+await page.getByRole("button", { name: "Close" }).click();
 await page.waitForSelector("text=Begin the Work");
 
 // Settings round-trip (font size + music)
 await page.getByRole("button", { name: "Settings", exact: true }).first().click();
-await page.waitForSelector("text=The Ledger's Print");
+await page.waitForSelector("text=Type and Sound");
 await page.screenshot({ path: "dist/screenshot-00b-settings.png" });
 await page.getByRole("button", { name: "large", exact: true }).click();
 // Music and Sound Effects sections each have their own On/Off pair now —

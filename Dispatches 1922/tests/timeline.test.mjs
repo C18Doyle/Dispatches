@@ -42,9 +42,9 @@ const months = (text) => [...text.matchAll(new RegExp("(" + MONTHS.join("|") + "
   const ctx = await start(["provisionalGov17", "The Provisional Government"]);
   await openWar(ctx);
   const t = ctx.text();
-  check(/THE WAR AT LARGE — UP TO APRIL 1917/.test(t), "1917 opening: the view says it runs up to April 1917");
+  check(/THE WAR AT LARGE — UP TO MAY 1917/.test(t), "1917 opening: the view says it runs up to May 1917");
   check(/No other command has a report dated this early/.test(t), "1917 opening: no other command is listed yet");
-  check(/APRIL 1917 · YOU ARE HERE/.test(t) && /your command/.test(t), "1917 opening: the player's own report is marked");
+  check(/MAY 1917 · YOU ARE HERE/.test(t) && /your command/.test(t), "1917 opening: the player's own report is marked");
   ctx.restore();
 }
 

@@ -8,6 +8,24 @@ React 18 + Tailwind 3, esbuild. Four campaigns (`provisionalGov17`, `southRussia
 - `src/main.jsx`, `src/input.css`, `src/prelude.html`, `build.mjs` build. `tools/` validators (`check-*.js`, `walk-historical.js`, `monte-carlo.mjs`) and `tools/ui_differential.mjs`. `tests/*.js` older jsdom behaviour tests (need `bundle_test.js` = a copy of `dist/bundle.js` in the project root). `tests/baseline/ui/` recorded runs from the pre-refactor build.
 - `HANDOVER.md`, `VALIDATION_REPORT.md`, `CIVILWAR_EXPANSION_PLAN.md`, `IMPROVEMENT_RECOMMENDATIONS.md` content/history notes.
 
+## Advisers
+An adviser line is `advisor: { name, position }`: one or two sentences in the third person saying what the person argues, never speech and never an invented figure. A real quotation goes only where it is logged with a source. `npm run check:advisers` enforces it.
+
+## Dates
+Western calendar, day then month, everywhere on screen (`7 November 1917`). Russia used the Julian calendar until 14 February 1918 (13 days behind), so Russian dates before that are converted; Old Style may appear in a code comment or a claims note, never on screen. Where sources disagree on a day, give the month. The How to Read screen carries the one sentence that explains it.
+
+## The historical spine
+`tools/historical-spine.mjs` (`npm run check:spine`, in test:fast) follows the choice flagged `historical: true` at every report, on the real rules, branching on each contested roll. It fails if a report on that path has no historical choice or more than one, if the historical choice is gated, if the path dead-ends, or if the most likely ending of the record is not a `historical` ending. It also ratchets (tests/spine-baseline.json) the share of record-following runs that end historically. A new report, gate or ending checkpoint must leave a player who follows the record at a historical ending.
+
+## Your war against the record
+`decisionEntry` and `RecordPanel` (src/parts/30-screens.jsx) record and show every order against the choice flagged `historical: true` at that report; the log is the `decisions` state in 40-app.jsx, saved with the run (optional field, no schema bump) and rewound with Easy mode. A choice's `outcome` is what is shown as "what the record did", so the historical choice's `outcome` must read as the account of what happened. `npm run test:record`.
+
+## Preludes and the hard history
+`PRELUDES` (one per command) and `HARD_HISTORY` are in src/parts/30-screens.jsx, shown by `PreludeScreen` after ENTER COMMAND and by `HardHistoryScreen` (from the prelude and the War Record). The prelude is not saved: a resumed run goes straight to its report. Tests start past the prelude (`tests/ui.config.mjs` setup) unless `ctx.stayOnPrelude`; `check:a11y` visits both screens. Every figure in them must be in claims/preludes-round1.md with a source; they describe atrocities and never offer one as an order, a meter or a score.
+
+## Period details
+src/parts/36-period.jsx (the map: terrain, operations, supply, place names), 37-letters.jsx (letterhead, documents, quotations, terms, staff, staff note) and 38-plates.jsx (the plates) are keyed by report, city or campaign, so no report text changes. A document is a summary of the real document, labelled as a reconstruction; a quotation goes only in `QUOTES` and claims/quotations.json with its translation and source; a plate scene is drawn in the skin's ink and captioned as an illustration. `npm run check:period` ties them to the campaigns and the registers; `npm run test:period` plays them on screen. The staff note works from `choice.impact` and `choice.uncertain`, so a new order gets one for free. Sources: claims/documents-round1.md.
+
 ## Orders of Battle
 `src/battle.ts` is the pure arithmetic (typed, in `npm run typecheck`). `src/parts/35-battles.jsx` holds the configs (`BATTLES`), the planning screen and the report. A battle is hosted by a choice with `keyBattleSubgame: { id }` and exactly two contested outcomes; `winBranch` is the index of the better one. The staff's plan must move the odds by exactly 0 (tests/battle.test.mjs proves it for every config, setup and pool size), so never change the arithmetic without running it. New battle: config, `keyBattleSubgame` on the order, a line in claims/battles-round1.md.
 

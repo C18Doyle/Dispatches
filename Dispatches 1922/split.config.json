@@ -10,6 +10,9 @@
     { "name": "20-data-exports", "start": "^export \\{ modWeight, meterPct" },
     { "name": "30-screens", "start": "^// PREVIEW SCREENS" },
     { "name": "35-battles", "start": "^// ORDERS OF BATTLE" },
+    { "name": "36-period", "start": "^// PERIOD DETAILS" },
+    { "name": "37-letters", "start": "^// LETTERS AND DOCUMENTS" },
+    { "name": "38-plates", "start": "^// PLATES" },
     { "name": "40-app", "start": "^const SAVE_KEY = " }
   ]
 }

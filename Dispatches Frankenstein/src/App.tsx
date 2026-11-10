@@ -17,11 +17,12 @@ import {
 } from "@dispatches/engine";
 import type { Action, Difficulty, GameState, Quote, UiPrefs } from "@dispatches/engine";
 import { def } from "./game";
-import { IS_DEMO, isDemoStop } from "./demo";
+import { FULL_GAME_URL, IS_DEMO, isDemoStop } from "./demo";
 import { IN_RUN_SCREENS, parseRunSave, serializeRunSave } from "./runSave";
 import { LEDGER_KEY, carriedNotes, count, parseLedger, recordRun, runRecord, summaryText } from "./ledger";
 import type { Ledger } from "./ledger";
 import * as sfx from "./sfx";
+import { makeCard, shareOrSave } from "./card";
 
 type Resource = string;
 type FontSize = UiPrefs["fontSize"];
@@ -107,6 +108,80 @@ function saveSettings(
   }
 }
 
+// Reading options: UI-only, kept in this browser. They set a class on <html> (see index.css).
+const READING_KEY = "frankenstein_reading";
+interface Reading {
+  plainType: boolean;
+  highContrast: boolean;
+}
+
+function loadReading(): Reading {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(READING_KEY) ?? "{}");
+    return { plainType: parsed.plainType === true, highContrast: parsed.highContrast === true };
+  } catch {
+    return { plainType: false, highContrast: false };
+  }
+}
+
+function saveReading(reading: Reading) {
+  try {
+    localStorage.setItem(READING_KEY, JSON.stringify(reading));
+  } catch {
+    /* a convenience only */
+  }
+}
+
+// Challenges: optional extra rules chosen on the chapter card. UI-only, kept with the run in this browser, and marked in the Ledger and on the card.
+const CHALLENGE_KEY = "frankenstein_challenge";
+interface Challenge {
+  noFritz: boolean;
+  noRewind: boolean;
+}
+const NO_CHALLENGE: Challenge = { noFritz: false, noRewind: false };
+
+function loadChallenge(): Challenge {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(CHALLENGE_KEY) ?? "{}");
+    return { noFritz: parsed.noFritz === true, noRewind: parsed.noRewind === true };
+  } catch {
+    return NO_CHALLENGE;
+  }
+}
+
+function saveChallenge(c: Challenge) {
+  try {
+    localStorage.setItem(CHALLENGE_KEY, JSON.stringify(c));
+  } catch {
+    /* a convenience only */
+  }
+}
+
+function challengeLabels(c: Challenge, rewindExists: boolean): string[] {
+  return [...(c.noFritz ? ["Without Fritz"] : []), ...(c.noRewind && rewindExists ? ["No Rewind"] : [])];
+}
+
+/** An On/Off pair for one setting, in the settings screen's own style. */
+function ToggleRow({ label, on, onChange, onSound }: { label: string; on: boolean; onChange: (on: boolean) => void; onSound: () => void }) {
+  const seg = (active: boolean) =>
+    `flex-1 py-2 border font-heading text-xs uppercase tracking-widest transition-colors ${
+      active ? "bg-ink text-parchment border-ink" : "border-ink/30 text-ink/70 hover:border-ink/60"
+    }`;
+  return (
+    <>
+      <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">{label}</p>
+      <div className="flex gap-2 mb-4" role="group" aria-label={label}>
+        <button aria-pressed={on} onClick={() => { onSound(); onChange(true); }} className={seg(on)}>
+          On
+        </button>
+        <button aria-pressed={!on} onClick={() => { onSound(); onChange(false); }} className={seg(!on)}>
+          Off
+        </button>
+      </div>
+    </>
+  );
+}
+
 const ENDINGS_SEEN_KEY = "frankenstein_endings_seen";
 
 function loadEndingsSeen(): Set<string> {
@@ -153,7 +228,7 @@ function QuoteLine({ quote, className }: { quote: Quote; className: string }) {
   return (
     <p className={className}>
       {quote.speaker}
-      {novel ? <span className="not-italic font-heading text-[0.65rem] uppercase tracking-widest text-ink-soft"> · {quote.source}</span> : null}: {"“"}
+      {novel ? <span className="not-italic font-heading text-xs uppercase tracking-widest text-ink-soft"> · {quote.source}</span> : null}: {"“"}
       {quote.text}
       {"”"}
     </p>
@@ -245,10 +320,10 @@ function Meter({ resource, value }: { resource: Resource; value: number }) {
   return (
     <div className="flex-1 min-w-0" role="meter" aria-label={RESOURCE_LABELS[resource]} aria-valuemin={range.min} aria-valuemax={range.max} aria-valuenow={value} aria-valuetext={`${value}${inCrisis ? ", in crisis" : ""}`}>
       <div className="flex items-baseline justify-between mb-1 sm:mb-1.5 gap-1">
-        <span className="font-heading text-[0.52rem] xs:text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">
+        <span className="font-heading text-xs uppercase tracking-[0.1em] sm:tracking-[0.18em] text-ink-soft font-semibold truncate">
           {RESOURCE_LABELS[resource]}
         </span>
-        <span className={`font-heading text-[0.65rem] sm:text-xs font-bold tabular-nums shrink-0 ${inCrisis ? "text-blood" : "text-ink"}`}>
+        <span className={`font-heading text-xs font-bold tabular-nums shrink-0 ${inCrisis ? "text-blood" : "text-ink"}`}>
           {value > 0 ? `+${value}` : value}
         </span>
       </div>
@@ -316,6 +391,22 @@ export default function App() {
   const [ledger, setLedger] = useState<Ledger>(() => loadLedger());
   const recordedState = useRef<GameState | null>(null);
   const [copyNote, setCopyNote] = useState("");
+  const [reading, setReading] = useState<Reading>(loadReading);
+  const [challenge, setChallenge] = useState<Challenge>(loadChallenge);
+  useEffect(() => saveChallenge(challenge), [challenge]);
+  // Rewind (on the difficulty that shows the numbers): the scene screens the player has left, newest last.
+  const [rewinds, setRewinds] = useState<GameState[]>([]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("plain-type", reading.plainType);
+    document.documentElement.classList.toggle("high-contrast", reading.highContrast);
+    saveReading(reading);
+  }, [reading]);
+
+  // A new run starts with nothing to rewind to.
+  useEffect(() => {
+    if (state.phase === "MENU") setRewinds([]);
+  }, [state.phase]);
 
   // Fritz waits outside each node rather than staying underfoot — collapse
   // the panel (and clear any gossip line, which is scoped to the node it
@@ -407,7 +498,7 @@ export default function App() {
     if (recordedState.current === state) return;
     recordedState.current = state;
     setCopyNote("");
-    const nextLedger = recordRun(ledger, runRecord(def, state));
+    const nextLedger = recordRun(ledger, runRecord(def, state, challengeLabels(challenge, def.config.difficulties[state.difficulty].showPreview)));
     setLedger(nextLedger);
     saveLedger(nextLedger);
     const id = state.endingId;
@@ -509,7 +600,7 @@ export default function App() {
         <div className="parchment-card max-w-sm w-full p-7 font-body text-ink relative" role="dialog" aria-modal="true" aria-labelledby="settings-title">
           <CornerFlourishes />
           <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1" aria-hidden="true">Settings</p>
-          <h1 id="settings-title" className="font-heading text-2xl font-bold mb-5">The Ledger's Print</h1>
+          <h1 id="settings-title" className="font-heading text-2xl font-bold mb-5">Type and Sound</h1>
 
           <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Font Size</p>
           <div className="flex gap-2 mb-7">
@@ -554,8 +645,8 @@ export default function App() {
             </button>
           </div>
           <label className="block mb-7">
-            <span className="font-heading text-[0.65rem] uppercase tracking-widest text-ink-soft/70">
-              Volume — {Math.round(prefs.musicVolume * 100)}%
+            <span className="font-heading text-xs uppercase tracking-widest text-ink-soft/70">
+              Volume: {Math.round(prefs.musicVolume * 100)}%
             </span>
             <input
               type="range"
@@ -592,8 +683,8 @@ export default function App() {
             </button>
           </div>
           <label className="block mb-7">
-            <span className="font-heading text-[0.65rem] uppercase tracking-widest text-ink-soft/70">
-              Volume — {Math.round(prefs.sfxVolume * 100)}%
+            <span className="font-heading text-xs uppercase tracking-widest text-ink-soft/70">
+              Volume: {Math.round(prefs.sfxVolume * 100)}%
             </span>
             <input
               type="range"
@@ -606,6 +697,10 @@ export default function App() {
               className="w-full mt-2 accent-blood"
             />
           </label>
+
+          <ToggleRow label="Plain Type" on={reading.plainType} onChange={(on) => setReading((r) => ({ ...r, plainType: on }))} onSound={click} />
+          <ToggleRow label="High Contrast" on={reading.highContrast} onChange={(on) => setReading((r) => ({ ...r, highContrast: on }))} onSound={click} />
+          <div className="mb-3" />
 
           <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Dispatches</p>
           <p className="text-xs text-ink/70 mb-3 leading-relaxed">
@@ -679,6 +774,7 @@ export default function App() {
                     <span className="text-ink-soft">
                       {" "}
                       · {def.flavor.difficultyInfo?.[r.difficulty as Difficulty]?.label ?? r.difficulty} · {count(r.choices, "choice")}, {count(r.experiments, "experiment")}
+                      {r.challenge?.length ? ` · ${r.challenge.join(", ")}` : ""}
                     </span>
                   </li>
                 ))}
@@ -692,7 +788,7 @@ export default function App() {
             }}
             className="mt-8 px-6 py-2.5 bg-ink text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink-soft transition-colors"
           >
-            Back
+            Close
           </button>
         </div>
       </VoidScreen>
@@ -702,7 +798,7 @@ export default function App() {
       <VoidScreen>
         <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative max-h-[85vh] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="research-title">
           <CornerFlourishes />
-          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">How To</p>
+          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">Guide</p>
           <h1 id="research-title" className="font-heading text-2xl font-bold mb-6">How to Play</h1>
           <div className="space-y-5">
             {def.flavor.howToPlay.map((section) => (
@@ -710,7 +806,7 @@ export default function App() {
                 <h2 className="font-heading text-sm uppercase tracking-widest text-blood font-bold mb-1.5">
                   {section.heading}
                 </h2>
-                <p className="text-[0.98rem] leading-relaxed text-ink/90">{section.body}</p>
+                <p className="text-prose leading-relaxed text-ink/90">{section.body}</p>
               </div>
             ))}
           </div>
@@ -721,7 +817,7 @@ export default function App() {
             }}
             className="mt-8 px-6 py-2.5 bg-ink text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink-soft transition-colors"
           >
-            Back
+            Close
           </button>
         </div>
       </VoidScreen>
@@ -760,7 +856,7 @@ export default function App() {
               Continue Your Work
             </button>
           )}
-          <div className="mt-4 flex gap-3 justify-center">
+          <div className="mt-4 flex flex-wrap gap-3 justify-center">
             <button
               onClick={() => {
                 click();
@@ -768,7 +864,7 @@ export default function App() {
               }}
               className="px-6 py-2.5 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
             >
-              How To
+              How to Play
             </button>
             <button
               onClick={() => {
@@ -792,8 +888,8 @@ export default function App() {
             )}
           </div>
           {endingsSeen.size > 0 && (
-            <p className="mt-6 font-heading text-[0.65rem] uppercase tracking-[0.2em] text-ash">
-              {endingsSeen.size} / {TOTAL_ENDINGS} Endings Discovered
+            <p className="mt-6 font-heading text-xs uppercase tracking-[0.2em] text-ash">
+              {endingsSeen.size} / {TOTAL_ENDINGS} Endings Found
             </p>
           )}
           <p className="mt-8 font-body italic text-ash text-sm">
@@ -808,7 +904,7 @@ export default function App() {
         <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative">
           <CornerFlourishes />
           <h1 className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-5">From a Private Journal</h1>
-          <div className="space-y-4 text-[1.05rem] leading-relaxed">
+          <div className="space-y-4 text-prose leading-relaxed">
             {def.flavor.prologue.map((para, i) => (
               <p key={i} className={i === 0 ? "font-heading text-lg tracking-wide" : ""}>
                 {para}
@@ -856,7 +952,31 @@ export default function App() {
               </button>
             ))}
           </div>
-          <p className="text-ash text-sm italic mb-8 min-h-[2.5rem] px-2">{DIFFICULTY_INFO[state.difficulty].blurb}</p>
+          <p className="text-ash text-sm italic mb-6 min-h-[2.5rem] px-2">{DIFFICULTY_INFO[state.difficulty].blurb}</p>
+
+          <p className="font-heading text-xs uppercase tracking-[0.3em] text-ash mb-3">Challenge (optional)</p>
+          <div className="flex flex-col sm:flex-row gap-2 justify-center mb-8">
+            {[
+              { key: "noFritz" as const, label: "Without Fritz", show: true },
+              { key: "noRewind" as const, label: "No Rewind", show: rules.showPreview },
+            ]
+              .filter((c) => c.show)
+              .map((c) => (
+                <button
+                  key={c.key}
+                  aria-pressed={challenge[c.key]}
+                  onClick={() => {
+                    click();
+                    setChallenge((prev) => ({ ...prev, [c.key]: !prev[c.key] }));
+                  }}
+                  className={`px-4 py-2 border font-heading uppercase text-xs tracking-[0.2em] transition-colors ${
+                    challenge[c.key] ? "bg-brass text-ink border-brass" : "border-brass-dim/70 text-parchment hover:border-brass"
+                  }`}
+                >
+                  {c.label}
+                </button>
+              ))}
+          </div>
 
           <OrnamentDivider />
           <button
@@ -897,7 +1017,7 @@ export default function App() {
         <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative">
           <CornerFlourishes />
           <h1 className="font-heading text-2xl sm:text-3xl font-bold mb-5">{demoEnd.title}</h1>
-          <div className="space-y-4 text-[1.05rem] leading-relaxed">
+          <div className="space-y-4 text-prose leading-relaxed">
             {demoEnd.body.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
@@ -912,6 +1032,15 @@ export default function App() {
             >
               {demoEnd.restart}
             </button>
+            <a
+              href={FULL_GAME_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => click()}
+              className="px-5 py-2.5 bg-ink text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink-soft transition-colors"
+            >
+              Get the Full Game
+            </a>
             <a
               href="https://dispatches.itch.io"
               target="_blank"
@@ -928,7 +1057,7 @@ export default function App() {
   } else if (screen === "ENDING") {
     const ending = resolveEnding(def, state);
     const isFailure = state.endingId?.startsWith("ENDING_CRISIS");
-    const thisRun = runRecord(def, state);
+    const thisRun = runRecord(def, state, challengeLabels(challenge, rules.showPreview));
     const carried = carriedNotes(def, thisRun);
     const novelNote = state.endingId ? def.flavor.novelNotes?.[state.endingId] : undefined;
     content = (
@@ -940,37 +1069,37 @@ export default function App() {
             {isFailure ? "The Work Collapses" : "The Campaign Ends"}
           </p>
           <h1 className="font-heading text-3xl sm:text-4xl font-bold mb-1 leading-tight">{ending.title}</h1>
-          <p className="font-heading text-[0.65rem] uppercase tracking-[0.2em] text-brass-dim font-semibold mb-4">
-            {isNewEnding ? "New Ending Discovered" : "An Ending You've Reached Before"} · {endingsSeen.size} / {TOTAL_ENDINGS}
+          <p className="font-heading text-xs uppercase tracking-[0.2em] text-brass-dim font-semibold mb-4">
+            {isNewEnding ? "New Ending Found" : "An Ending You’ve Found Before"} · {endingsSeen.size} / {TOTAL_ENDINGS}
           </p>
           <p className="font-heading text-sm uppercase tracking-wide text-ink-soft font-bold mb-6 border-b border-ink/20 pb-4">
             {ending.headline}
           </p>
-          <p className="leading-relaxed text-[1.05rem] whitespace-pre-line">{ending.text}</p>
+          <p className="leading-relaxed text-prose whitespace-pre-line">{ending.text}</p>
           {ending.epilogueLabel && (
-            <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-brass-dim font-semibold mt-4">
-              How It's Remembered: <span className="text-ink">{ending.epilogueLabel}</span>
+            <p className="font-heading text-xs uppercase tracking-[0.25em] text-brass-dim font-semibold mt-4">
+              How It’s Remembered: <span className="text-ink">{ending.epilogueLabel}</span>
             </p>
           )}
 
           <div className="mt-7 pt-5 border-t border-ink/20">
-            <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-3">Your Record</p>
+            <p className="font-heading text-xs uppercase tracking-[0.25em] text-blood font-bold mb-3">Your Record</p>
             <div className={`grid grid-cols-2 gap-3 text-sm ${rules.enforceMoney ? "sm:grid-cols-4" : "sm:grid-cols-3"}`}>
               <div>
-                <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">Track</p>
+                <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/70">Track</p>
                 <p className="font-semibold">{BRANCH_LABELS[state.activeBranch]?.split("· ")[1] ?? state.activeBranch}</p>
               </div>
               <div>
-                <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">Choices Made</p>
+                <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/70">Choices Made</p>
                 <p className="font-semibold">{state.history.length}</p>
               </div>
               <div>
-                <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">Difficulty</p>
+                <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/70">Difficulty</p>
                 <p className="font-semibold">{DIFFICULTY_INFO[state.difficulty].label}</p>
               </div>
               {rules.enforceMoney && (
                 <div>
-                  <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">Purse Left</p>
+                  <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/70">Purse Left</p>
                   <p className="font-semibold">{state.money} Thaler</p>
                 </div>
               )}
@@ -978,7 +1107,7 @@ export default function App() {
             <div className="flex flex-wrap gap-4 mt-4">
               {RESOURCE_IDS.map((r) => (
                 <div key={r} className="flex-1 min-w-[5rem]">
-                  <p className="font-heading text-[0.6rem] uppercase tracking-widest text-ink-soft/70">{RESOURCE_LABELS[r]}</p>
+                  <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/70">{RESOURCE_LABELS[r]}</p>
                   <p className={`font-heading text-lg font-bold ${isInCrisis(r, state.resources[r]) ? "text-blood" : "text-ink"}`}>
                     {state.resources[r] > 0 ? `+${state.resources[r]}` : state.resources[r]}
                   </p>
@@ -989,7 +1118,7 @@ export default function App() {
 
           {carried.length > 0 && (
             <div className="mt-6">
-              <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">What You Carried</p>
+              <p className="font-heading text-xs uppercase tracking-[0.25em] text-blood font-bold mb-2">What You Carried</p>
               <ul className="list-disc pl-5 space-y-1 text-sm text-ink/90">
                 {carried.map((line) => (
                   <li key={line}>{line}</li>
@@ -999,7 +1128,7 @@ export default function App() {
           )}
           {novelNote && (
             <div className="mt-6">
-              <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">In the Novel</p>
+              <p className="font-heading text-xs uppercase tracking-[0.25em] text-blood font-bold mb-2">In the Novel</p>
               <p className="text-sm text-ink/90 leading-relaxed">{novelNote}</p>
             </div>
           )}
@@ -1009,6 +1138,7 @@ export default function App() {
               onClick={() => {
                 click();
                 setFavorPanelOpen(false);
+                setChallenge(NO_CHALLENGE);
                 dispatch({ type: "RESTART" });
               }}
               className="px-5 py-2.5 bg-blood text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-blood-bright transition-colors"
@@ -1027,6 +1157,31 @@ export default function App() {
               className="px-5 py-2.5 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
             >
               Copy Summary
+            </button>
+            <button
+              onClick={async () => {
+                click();
+                const blob = await makeCard({
+                  kindLabel: isFailure ? "The Work Collapses" : "The Campaign Ends",
+                  title: ending.title,
+                  headline: ending.headline,
+                  remembered: ending.epilogueLabel ? `How it is remembered: ${ending.epilogueLabel}` : undefined,
+                  stats: [
+                    { label: "Track", value: BRANCH_LABELS[state.activeBranch]?.split("· ")[1]?.replace(/^The /, "") ?? state.activeBranch },
+                    { label: "Choices", value: String(state.history.length) },
+                    { label: "Difficulty", value: DIFFICULTY_INFO[state.difficulty].label },
+                  ],
+                  reserves: RESOURCE_IDS.map((r) => ({ label: RESOURCE_LABELS[r], value: `${state.resources[r] > 0 ? "+" : ""}${state.resources[r]}` })),
+                  carried,
+                  challenge: thisRun.challenge?.length ? thisRun.challenge.join(", ") : undefined,
+                  footer: "dispatches.itch.io",
+                });
+                if (!blob) setCopyNote("This browser cannot draw the card. Copy the summary instead.");
+                else setCopyNote(await shareOrSave(blob, "frankenstein-ending.png", `Frankenstein: ${ending.title}`));
+              }}
+              className="px-5 py-2.5 border border-ink text-ink font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
+            >
+              Save Card
             </button>
             <span role="status" className="text-sm text-ink-soft">
               {copyNote}
@@ -1129,12 +1284,12 @@ export default function App() {
         <div className="parchment-card max-w-xl w-full p-8 sm:p-10 font-body text-ink relative">
           <CornerFlourishes />
           <h1 className={`font-heading text-xs uppercase tracking-[0.3em] font-bold mb-5 ${kindColor}`}>{kindLabel}</h1>
-          <p className="text-[1.1rem] leading-relaxed italic">{state.pendingOutcomeText}</p>
+          <p className="text-prose leading-relaxed italic">{state.pendingOutcomeText}</p>
           {!rules.showPreview &&
             state.pendingOutcomeStamps &&
             Object.values(state.pendingOutcomeStamps).some((d) => !!d) && (
               <div className="mt-5 pt-4 border-t border-ink/15">
-                <p className="font-heading text-[0.6rem] uppercase tracking-[0.2em] text-ink-soft/70 font-semibold mb-2">
+                <p className="font-heading text-xs uppercase tracking-[0.2em] text-ink-soft/70 font-semibold mb-2">
                   What Changed
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -1174,7 +1329,7 @@ export default function App() {
             {rules.enforceMoney && (
               <div className="flex items-center gap-1.5 mb-3 text-brass-dim">
                 <CoinIcon className="w-3.5 h-3.5" />
-                <span className="font-heading text-[0.65rem] uppercase tracking-widest font-semibold">
+                <span className="font-heading text-xs uppercase tracking-widest font-semibold">
                   Purse: {state.money} Thaler
                 </span>
               </div>
@@ -1186,7 +1341,21 @@ export default function App() {
             </div>
           </div>
 
-          {!fritzPanelOpen ? (
+          {rules.showPreview && !challenge.noRewind && rewinds.length > 0 && (
+            <button
+              onClick={() => {
+                click();
+                const last = rewinds[rewinds.length - 1];
+                setRewinds((r) => r.slice(0, -1));
+                setArmedOptionIndex(null);
+                dispatch({ type: "HYDRATE", state: last });
+              }}
+              className="mb-6 mr-3 px-4 py-2 border border-brass-dim text-ash font-heading uppercase text-xs tracking-widest hover:border-brass hover:text-parchment transition-colors"
+            >
+              Rewind the Last Choice
+            </button>
+          )}
+          {challenge.noFritz ? null : !fritzPanelOpen ? (
             <button
               onClick={() => {
                 click();
@@ -1199,7 +1368,7 @@ export default function App() {
           ) : (
             <div className="parchment-card p-4 mb-6 relative">
               <CornerFlourishes />
-              <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">Fritz</p>
+              <p className="font-heading text-xs uppercase tracking-[0.25em] text-blood font-bold mb-2">Fritz</p>
               <div className="flex flex-wrap gap-2">
                 {rules.adviceEnabled && (
                   <button
@@ -1216,7 +1385,7 @@ export default function App() {
                   >
                     {state.adviceRevealed
                       ? "Fritz Has Advised You"
-                      : `Ask Fritz's Advice (${state.adviceUsesLeft} left)`}
+                      : `Ask Fritz’s Advice (${state.adviceUsesLeft} left)`}
                   </button>
                 )}
                 {!state.favorUsed && (
@@ -1227,7 +1396,7 @@ export default function App() {
                     }}
                     className="px-4 py-2 border border-ink/40 text-ink font-heading uppercase text-xs tracking-widest hover:border-ink hover:bg-ink hover:text-parchment transition-colors"
                   >
-                    Fritz's Favor
+                    Fritz’s Favor
                   </button>
                 )}
                 <button
@@ -1258,22 +1427,22 @@ export default function App() {
               )}
               {/* Gossip and the Creature Report are mutually exclusive (each
                   click above clears the other) so the panel never shows two
-                  stacked Fritz lines at once — only ever the most recent. */}
+                  stacked Fritz lines at once, only ever the most recent. */}
               {gossipLine && (
                 <p className="mt-2 text-sm italic text-ink/70">
-                  Fritz: "{gossipLine}"
+                  Fritz: “{gossipLine}”
                 </p>
               )}
               {creatureReportLine && (
                 <p className="mt-2 text-sm italic text-ink/70">
-                  Fritz, on the creature: "{creatureReportLine}"
+                  Fritz, on the creature: “{creatureReportLine}”
                 </p>
               )}
               {favorPanelOpen && !state.favorUsed && (
                 <div className="mt-3 border-t border-ink/15 pt-3">
                   <p className="text-xs text-ink/80 mb-2">
-                    Fritz can have one of your resources quietly improved — but only, he admits, at the behest of
-                    someone he won't name, and the improvement always costs you elsewhere. Use it once, and choose carefully.
+                    Fritz can have one of your resources improved, but only, he admits, at the behest of
+                    someone he won’t name, and the improvement always costs you elsewhere. Use it once, and choose carefully.
                   </p>
                   <div className="flex gap-2">
                     {RESOURCE_IDS.map((r) => (
@@ -1298,11 +1467,11 @@ export default function App() {
           <div className="parchment-card p-6 sm:p-8 font-body text-ink relative">
             <CornerFlourishes />
             <h2 data-screen-heading className="font-heading text-2xl font-bold mb-3">{node.title}</h2>
-            <p className="text-[1.05rem] leading-relaxed text-ink/90 mb-2">{node.description}</p>
+            <p className="text-prose leading-relaxed text-ink/90 mb-2">{node.description}</p>
             {(node.echoes ?? [])
               .filter((e) => evalCondition(e.when, state))
               .map((e, i) => (
-                <p key={i} className="mt-3 text-[1rem] leading-relaxed italic text-ink/80 border-l-2 border-blood/50 pl-3">
+                <p key={i} className="mt-3 text-base leading-relaxed italic text-ink/80 border-l-2 border-blood/50 pl-3">
                   {e.text}
                 </p>
               ))}
@@ -1327,6 +1496,7 @@ export default function App() {
                     onClick={() => {
                       if (armed) {
                         select();
+                        if (rules.showPreview) setRewinds((r) => [...r.slice(-19), state]);
                         dispatch({ type: "SELECT_OPTION", optionIndex: i });
                         setArmedOptionIndex(null);
                       } else {
@@ -1354,7 +1524,7 @@ export default function App() {
                       )}
                       {option.roll && rollStrain(option.roll, state.resources, def.config.strain) > 0 && (
                         <span className="stamp text-blood border-blood">
-                          <span aria-hidden="true">▼ </span>STRAIN: {RESOURCE_LABELS[option.roll.about ?? option.roll.scaling?.resource ?? ""]} SHORT, -{Math.round(rollStrain(option.roll, state.resources, def.config.strain) * 100)} POINTS
+                          <span aria-hidden="true">▼ </span>STRAIN: {RESOURCE_LABELS[option.roll.about ?? option.roll.scaling?.resource ?? ""]} SHORT, ODDS -{Math.round(rollStrain(option.roll, state.resources, def.config.strain) * 100)} POINTS
                         </span>
                       )}
                       {option.gate && (
@@ -1386,16 +1556,16 @@ export default function App() {
                       ) : null}
                     </div>
                     <p
-                      className={`font-heading font-semibold text-[1rem] leading-snug ${
+                      className={`font-heading font-semibold text-base leading-snug ${
                         locked ? "text-ink/50" : armed ? "text-blood-bright" : "text-ink group-hover:text-blood"
                       }`}
                     >
                       {option.label}
                     </p>
-                    <p className="mt-1.5 text-[0.92rem] leading-snug text-ink/75">{option.detail}</p>
+                    <p className="mt-1.5 text-sm leading-snug text-ink/75">{option.detail}</p>
                     <QuoteLine quote={option.quote} className="mt-2 text-sm italic text-ink/70" />
                     {armed && (
-                      <p className="mt-2 text-[0.7rem] uppercase tracking-widest text-blood-bright font-heading font-semibold">
+                      <p className="mt-2 text-xs uppercase tracking-widest text-blood-bright font-heading font-semibold">
                         Tap again to confirm
                       </p>
                     )}
