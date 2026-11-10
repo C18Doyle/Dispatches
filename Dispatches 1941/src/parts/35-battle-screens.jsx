@@ -99,11 +99,13 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // assessment is gated below (needs Initiative to spend, one use per screen instance — buying
   // a second look at the same ground has diminishing returns the design isn't trying to model).
   const [reconUsed, setReconUsed] = useState(!!(resume && resume.reconUsed));
+  // A trusted adviser's own staff has already looked at the ground: the pass costs nothing (see trustedAdvisers in logic.ts).
+  const reconAdviser = trustedAdvisers(flags || {})[0] || null;
   function requestRecon() {
-    if (reconUsed || (meters.initiative || 0) <= 0 || !posture) return;
+    if (reconUsed || (!reconAdviser && (meters.initiative || 0) <= 0) || !posture) return;
     setIntel(drawIntel(KEY_BATTLE_RECON_ERROR_RATE));
     setReconUsed(true);
-    if (onSpendInitiative) onSpendInitiative();
+    if (onSpendInitiative && !reconAdviser) onSpendInitiative();
     if (soundOn) playRadio();
   }
 
@@ -463,11 +465,11 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
             {!reconUsed && !easyMode && (
               <button
                 onClick={requestRecon}
-                disabled={(meters.initiative || 0) <= 0}
+                disabled={!reconAdviser && (meters.initiative || 0) <= 0}
                 className="mt-2 text-[11px] uppercase tracking-widest underline disabled:opacity-40 disabled:cursor-not-allowed text-[#000000] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
                 style={labelStyle}
               >
-                Call for a Reconnaissance Pass: costs 1 Initiative
+                {reconAdviser ? `Call for a Reconnaissance Pass from ${reconAdviser}'s staff: no cost` : "Call for a Reconnaissance Pass: costs 1 Initiative"}
               </button>
             )}
             {reconUsed && (

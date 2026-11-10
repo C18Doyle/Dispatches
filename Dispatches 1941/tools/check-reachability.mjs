@@ -54,7 +54,9 @@ const reads = (k) => new RegExp(`(\\.|\\?\\.)${k}\\b|\\[["']${k}["']\\]|["']${k}
 // the tallies behind the readings under each meter are read by name from logic.ts (flags[def.flag]), so a text search cannot see them
 // (and the arrears, which logic.ts reads through ARREARS_FLAGS)
 const tallyFlags = new Set([...Object.values(game.logic.METER_STRANDS).flat().map((d) => d.flag), ...Object.values(game.logic.ARREARS_FLAGS)]);
-for (const k of writtenFlags) if (!tallyFlags.has(k) && !reads(k)) note("writeOnlyFlag", k, `flag written but never read: ${k}`);
+// families of flags that logic.ts writes and reads by a built key: the advisers' standing (tr_, trn_, trgone_), the events seen (ev_) and the beliefs checked (ix_)
+const dynamicFamily = /^(tr_|trn_|trgone_|ev_|ix_)/;
+for (const k of writtenFlags) if (!tallyFlags.has(k) && !dynamicFamily.test(k) && !reads(k)) note("writeOnlyFlag", k, `flag written but never read: ${k}`);
 // 3. dead gates: a choice that exists at some meter state but is blocked (disabledReason) at every meter state tried.
 // Each node is re-resolved with the flags of up to 10 distinct wars, at every combination of meters on a coarse grid (64 states).
 {

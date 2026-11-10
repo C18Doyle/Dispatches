@@ -47,8 +47,37 @@ const arrive = (extra) => L.arrivalScreen({ dynamic: true, campaignId: "japan", 
 check(arrive({}).screen === "stateEvent" && arrive({}).stateEvent.id === "x_b", "the arrival screen is the event screen when an event is due");
 check(arrive({ stateEvents: undefined }).screen === "briefing", "without state events the arrival is the briefing, as before");
 check(arrive({ events: { japan: [{ type: "press", afterNode: "a", pressEvent: "p" }] } }).screen === "press", "a report-keyed event comes before a state event");
+check(arrive({ events: { japan: [{ type: "press", afterNode: "a", pressEvent: "p" }] } }).stateEvent?.id === "x_b", "and the state event that was due follows it");
 check(arrive({ forks: { japan: [{ id: "f", flag: "fk", revealNode: "b" }] }, flags: { fk: true } }).screen === "divergence", "a divergence reveal comes before a state event");
+check(arrive({ forks: { japan: [{ id: "f", flag: "fk", revealNode: "b" }] }, flags: { fk: true } }).stateEvent?.id === "x_b", "and the state event follows it too");
 check(arrive({ dynamic: false }).screen === "briefing", "a campaign that is not dynamic never shows a state event");
+
+// --- advisers and trust ----------------------------------------------------------------------------------------
+{
+  const stage = { choices: [{ label: "a", advisor: { name: "Nagano", position: "p" }, impact: {} }, { label: "b", advisor: { name: "Tojo", position: "p" }, impact: {} }, { label: "c", advisor: { name: "Nagano", position: "p" }, impact: {}, disabledReason: "no" }, { label: "d", impact: {} }] };
+  check(L.advisersOn(stage).join(",") === "Nagano,Tojo", "the advisers on a decision are listed once each, without a closed order or an order no one argues");
+  let f = {};
+  f = L.trustAfter(f, stage, 0);
+  check(L.trustOf(f, "Nagano") === 2 && L.trustOf(f, "Tojo") === -1, "an order that follows an adviser earns the adviser a point and costs the others half a point");
+  check(L.adviserStanding(f, "Nagano") === "heard", "one followed order does not yet make an adviser trusted");
+  f = L.trustAfter(f, stage, 0);
+  check(L.adviserStanding(f, "Nagano") === "trusted" && L.trustedAdvisers(f).join(",") === "Nagano", "two followed orders make an adviser trusted");
+  check(L.adviserStanding(f, "Tojo") === "heard", "an adviser passed over twice is still heard");
+  f = L.trustAfter(L.trustAfter(f, stage, 0), stage, 0);
+  check(L.adviserStanding(f, "Tojo") === "quiet", "an adviser passed over four times goes quiet");
+  for (let i = 0; i < 6; i++) f = L.trustAfter(f, stage, 0);
+  check(L.trustOf(f, "Tojo") === L.TRUST_MIN && L.adviserStanding(f, "Tojo") === "gone", "an adviser passed over to the floor is gone");
+  check(L.trustOf(f, "Nagano") === L.TRUST_MAX, "trust is capped");
+  const before = f.tr_tojo;
+  f = L.trustAfter(f, stage, 1);
+  check(f.tr_tojo === before, "an adviser who is gone is no longer counted");
+  const ev = L.resignationEvent(f, "japan");
+  check(ev && ev.id === "resigns_tojo" && ev.paras.length === 2, "an adviser who is gone leaves by a state event");
+  check(L.resignationEvent({ ...f, ev_resigns_tojo: true }, "japan") === null, "and the event is shown once");
+  check(L.dueStateEvent({ campaignId: "japan", events: [], nextDate: "JUNE 1944", flags: f, meters: M(0, 0, 0) })?.id === "resigns_tojo", "a resignation is due at any report, with or without a window");
+  const r = L.resolveChoice({ stage: { choices: [{ label: "a", advisor: { name: "Nagano", position: "p" }, impact: { readiness: 1 } }, { label: "b", advisor: { name: "Tojo", position: "p" }, impact: {} }] }, index: 0, mode: "open", favor: 5, defiance: 0, flags: {}, meters: M(0, 0, 0), rand: () => 0.5 });
+  check(r.flags.tr_nagano === 2 && r.flags.tr_tojo === -1, "resolving an order updates the advisers' standing");
+}
 
 // --- the tallies and the bands -----------------------------------------------------------------------------------
 let r = resolve(choice({ readiness: 2 }, { label: "Train new aircrews" }), M(0, 0, 0));

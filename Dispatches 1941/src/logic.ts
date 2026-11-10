@@ -109,12 +109,96 @@ export function dueStateEvent(args: {
   flags: Flags;
   meters: Meters;
 }): StateEvent | null {
+  const resignation = resignationEvent(args.flags, args.campaignId);
+  if (resignation) return resignation;
   const start = reportStartMonth(args.nextDate);
   if (!start) return null;
   for (const e of args.events) {
     if (e.campaign !== args.campaignId || args.flags[STATE_EVENT_FLAG_PREFIX + e.id]) continue;
     if (start < e.from || start > e.to) continue;
     if (e.when(args.flags, args.meters)) return e;
+  }
+  return null;
+}
+
+// ---------- Advisers and trust ----------
+// Each adviser who argues an order has a standing with the player, kept as a number of half-points in the flag tr_<name>: an order that
+// follows the adviser earns two (a point), and every adviser whose order was passed over loses one (half a point), once for a decision.
+// An adviser who has been overruled to -4 half-points (-2) goes quiet and the argument is no longer shown; at the floor the adviser asks to be
+// relieved, once, and is gone for the rest of the file. An adviser trusted to +4 or more is marked, and brings a reconnaissance pass before a
+// battle at no cost. Ported from Dispatches 1940.
+export const TRUST_MIN = -6;
+export const TRUST_MAX = 6;
+export const TRUST_QUIET_AT = -4;
+export const TRUST_TRUSTED_AT = 4;
+export type Standing = "trusted" | "heard" | "quiet" | "gone";
+
+const slugOf = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+export const trustKey = (name: string) => `tr_${slugOf(name)}`;
+const goneKey = (name: string) => `trgone_${slugOf(name)}`;
+const nameKey = (name: string) => `trn_${slugOf(name)}`;
+
+/** The adviser's standing in half-points, from -6 to +6. */
+export function trustOf(flags: Flags, name: string): number {
+  return Number(flags[trustKey(name)]) || 0;
+}
+
+export function adviserStanding(flags: Flags, name: string): Standing {
+  if (flags[goneKey(name)]) return "gone";
+  const t = trustOf(flags, name);
+  if (t <= TRUST_QUIET_AT) return "quiet";
+  if (t >= TRUST_TRUSTED_AT) return "trusted";
+  return "heard";
+}
+
+/** The advisers on this decision, once each, whose orders the player could have given. */
+export function advisersOn(stage: Stage): string[] {
+  const seen: string[] = [];
+  for (const c of stage.choices) if (c.advisor && !c.disabledReason && !seen.includes(c.advisor.name)) seen.push(c.advisor.name);
+  return seen;
+}
+
+/** The flags after the player gives the order at `index`: the adviser it follows gains, the others on the decision lose. */
+export function trustAfter(flags: Flags, stage: Stage, index: number): Flags {
+  const chosen = stage.choices[index] && stage.choices[index].advisor ? stage.choices[index].advisor!.name : null;
+  let out = flags;
+  for (const name of advisersOn(stage)) {
+    if (out[goneKey(name)]) continue;
+    const next = Math.max(TRUST_MIN, Math.min(TRUST_MAX, trustOf(out, name) + (name === chosen ? 2 : -1)));
+    out = { ...out, [trustKey(name)]: next, [nameKey(name)]: name };
+    if (next <= TRUST_MIN) out = { ...out, [goneKey(name)]: name };
+  }
+  return out;
+}
+
+/** Names of the advisers the player trusts, in the order they were first heard. */
+export function trustedAdvisers(flags: Flags): string[] {
+  return Object.keys(flags)
+    .filter((k) => k.startsWith("tr_") && !flags[`trgone_${k.slice(3)}`] && Number(flags[k]) >= TRUST_TRUSTED_AT)
+    .map((k) => String(flags[`trn_${k.slice(3)}`] || k.slice(3)));
+}
+
+/** An adviser who has asked to be relieved and has not yet been seen to go: a state event that the file writes for itself. */
+export function resignationEvent(flags: Flags, campaignId: string): StateEvent | null {
+  for (const [k, v] of Object.entries(flags)) {
+    if (!k.startsWith("trgone_") || typeof v !== "string") continue;
+    const id = `resigns_${k.slice(7)}`;
+    if (flags[STATE_EVENT_FLAG_PREFIX + id]) continue;
+    return {
+      id,
+      campaign: campaignId,
+      kind: "The staff",
+      anchor: "",
+      from: "",
+      to: "",
+      date: "",
+      title: `${v} asks to be relieved`,
+      paras: [
+        `${v} has put in a request to leave the staff. The orders you have given have passed over ${v}'s advice too often, and ${v} will not go on arguing a case that is not heard.`,
+        `The request is granted. ${v}'s advice will not be put to you again, and the orders ${v} would have argued will have to stand on their own.`,
+      ],
+      when: () => true,
+    };
   }
   return null;
 }
@@ -574,6 +658,8 @@ export function resolveChoice(args: {
   if (choice.uncertain && rollIndex != null && choice.uncertain[rollIndex].setFlags) {
     flags = { ...flags, ...choice.uncertain[rollIndex].setFlags };
   }
+  // Who was heard: the adviser the order follows gains trust, the others on the decision lose a little.
+  flags = trustAfter(flags, stage, index);
   // How a battle was fought, and how well (the plan's grade), carry into later node text.
   if (subgame && subgame.flagsOut) flags = { ...flags, ...subgame.flagsOut };
   if (planCosts && planCosts.grade && choice.keyBattleSubgame) flags = { ...flags, [`${choice.keyBattleSubgame.id}Grade`]: planCosts.grade };
@@ -711,9 +797,9 @@ export interface Arrival {
 
 /**
  * Decides which interstitial (if any) shows on arriving at nextPos: a Historical
- * Divergence reveal wins outright; otherwise a SPECIAL_EVENTS entry keyed to the node
- * just left; otherwise a state-driven event the file has earned (STATE_EVENTS, one at
- * a time); otherwise the next briefing.
+ * Divergence reveal comes first, then a SPECIAL_EVENTS entry keyed to the node just left, then the
+ * next briefing. A state-driven event the file has earned (STATE_EVENTS, one at a time) is returned
+ * beside them: it takes the arrival when nothing else does, and otherwise follows the screen that did.
  */
 export function arrivalScreen(args: {
   dynamic: boolean;
@@ -730,6 +816,10 @@ export function arrivalScreen(args: {
   meters?: Meters;
 }): Arrival {
   const { dynamic, campaignId, flags } = args;
+  const stateEvent =
+    dynamic && args.stateEvents && args.meters
+      ? dueStateEvent({ campaignId, events: args.stateEvents, nextDate: args.nextDate, flags, meters: args.meters })
+      : null;
   const fork = dynamic
     ? (args.forks[campaignId] || []).find(
         (fk) => fk.revealNode === String(args.nextPos) && flags[fk.flag] && !args.seenReveals.includes(fk.id)
@@ -738,13 +828,9 @@ export function arrivalScreen(args: {
   const event = dynamic
     ? (args.events[campaignId] || []).find((e) => e.afterNode === args.position && (!e.condition || e.condition(flags)))
     : null;
-  if (fork) return { screen: "divergence", divergenceForkId: fork.id, pressEvent: null, stateEvent: null };
+  if (fork) return { screen: "divergence", divergenceForkId: fork.id, pressEvent: null, stateEvent };
   if (event) {
-    return { screen: event.type, divergenceForkId: null, pressEvent: event.type === "press" ? event.pressEvent : null, stateEvent: null };
+    return { screen: event.type, divergenceForkId: null, pressEvent: event.type === "press" ? event.pressEvent : null, stateEvent };
   }
-  const stateEvent =
-    dynamic && args.stateEvents && args.meters
-      ? dueStateEvent({ campaignId, events: args.stateEvents, nextDate: args.nextDate, flags, meters: args.meters })
-      : null;
   return { screen: stateEvent ? "stateEvent" : "briefing", divergenceForkId: null, pressEvent: null, stateEvent };
 }
