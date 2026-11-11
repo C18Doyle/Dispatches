@@ -4103,7 +4103,7 @@ function warRoomModeInfo(mode, campaignId) {
     axis: t("Axis Mode"),
     fanatical: t("Fanatical Resolve Mode"),
   };
-  if (campaignId === "alliedPacific") names.coalition = t("Coalition Resolve Mode");
+  if (campaignId === "alliedPacific" || campaignId === "american") names.coalition = t("Coalition Resolve Mode");
   const hard = !!HARD_MODE_NAMES[mode];
   const summaries = {
     easy: t("Each choice shows what it will do to the meters, the choice the record made is marked, and you can rewind."),
@@ -4114,7 +4114,7 @@ function warRoomModeInfo(mode, campaignId) {
     axis: t("No rewind. Berlin watches every act of independent Italian judgment, and losing its trust ends the command."),
     fanatical: t("No rewind. IGHQ's tolerance for choices that break with dogma is counted out of 5: each draws a charge of insubordination, and at 5 the file ends in a coup."),
   };
-  if (campaignId === "alliedPacific") summaries.coalition = t("No rewind. Overriding a partner's strong objection costs Coalition Resolve between Washington, London, Chongqing and Canberra, and a broken coalition relieves you.");
+  if (campaignId === "alliedPacific" || campaignId === "american") summaries.coalition = t("No rewind. Overriding a partner's strong objection costs Coalition Resolve between Washington, London, Chongqing and Canberra, and a broken coalition relieves you.");
   const trackerRules = {
     iron: t("Political capital: you have five points to spend defying the historical command. Five defiances and you are dismissed."),
     purge: t("Suspicion rises as you defy the apparatus, counted out of 5. At 5 you are recalled."),

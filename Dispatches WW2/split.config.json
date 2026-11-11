@@ -31,6 +31,10 @@
       "start": "^  alliedPacific: \\{"
     },
     {
+      "name": "16-commands-britain-us",
+      "start": "^  // ---------- THE BRITISH AND AMERICAN COMMANDS \\(Dispatches WW2\\) ----------"
+    },
+    {
       "name": "20-registries-and-gallery",
       "start": "^const ARBITRARY_CSS = "
     },
@@ -41,6 +45,10 @@
     {
       "name": "26-battles-pacific",
       "start": "^const KEY_BATTLE_CONFIGS = "
+    },
+    {
+      "name": "29-composite-tables",
+      "start": "^// ---------- THE BRITISH AND AMERICAN COMMANDS IN THE SHARED TABLES \\(Dispatches WW2\\) ----------"
     },
     {
       "name": "30-warroom-and-maps",

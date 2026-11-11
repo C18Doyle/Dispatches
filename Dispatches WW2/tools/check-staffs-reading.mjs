@@ -21,7 +21,8 @@ const ok = (c, m) => { if (!c) problems.push(m); };
 const wc = (s) => String(s || "").trim().split(/\s+/).filter(Boolean).length;
 let checked = 0;
 let count = 0;
-for (const cid of Object.keys(CAMPAIGNS)) {
+// Dispatches WW2: the British and American commands read their beliefs under their source files (campaignView), so they are not checked twice.
+for (const cid of Object.keys(CAMPAIGNS).filter((c) => !CAMPAIGNS[c].tracks)) {
   ok(Object.keys(M.INTEL_ITEMS[cid] || {}).length > 0, `${cid}: no report carries a belief`);
   checked++;
 }

@@ -27,7 +27,7 @@ const MAX_STEPS = 1200;
 // brackets and, at the end, lists the lines on screen that do not carry them (the interface text that is still English). docs/LOCALISATION.md.
 const LANG = process.env.I18N_LANG || "";
 const untranslated = new Map();
-const ALL = [["german", "OKW"], ["soviet", "STAVKA"], ["allied", "SHAEF"], ["italy", "COMANDO"], ["japan", "IGHQ"], ["alliedPacific", "CINCPAC"]];
+const ALL = [["german", "OKW"], ["soviet", "STAVKA"], ["italy", "COMANDO"], ["japan", "IGHQ"], ["british", "WAR CABINET"], ["american", "JOINT CHIEFS"]];
 const CAMPAIGNS = ALL.filter(([id]) => !process.env.CAMPAIGNS || process.env.CAMPAIGNS.split(",").includes(id));
 const PLAYS = [
   { label: "easy-manual", mode: "Easy", seed: 7, staff: false },
@@ -137,7 +137,9 @@ async function playOne(browser, [id, prefix], play) {
         else {
           const chits = bs.filter((x) => /^Add effort/.test(x.label));
           const others = bs.filter((x) => !/^Add effort|favors|^(✓ )?No particular emphasis|Reconnaissance Pass|^Spread effort|^Clear all effort|^Ask the staff|^Let Your Staff Plan It/i.test(x.label));
-          const commit = others.find((x) => PROCEED.test(x.label));
+          // a tactical approach is a toggle (aria-pressed), never the commit button, even when its name starts like one ("Launch at Once")
+          const toggles = new Set(await page.evaluate(() => [...document.querySelectorAll("[data-bot][aria-pressed]")].map((e) => Number(e.getAttribute("data-bot")))));
+          const commit = others.find((x) => PROCEED.test(x.label) && !toggles.has(x.i));
           if (commit) pick = commit;
           else if (!policy.approachChosen && others.length) { policy.approachChosen = true; pick = others[Math.floor(rnd() * others.length)]; }
           else if (chits.length) pick = chits[Math.floor(rnd() * chits.length)];

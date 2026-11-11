@@ -6,7 +6,10 @@ import { loadFromJsx } from "../../packages/testkit/src/load-campaigns.mjs";
 
 const esbuild = createRequire(import.meta.url)("esbuild");
 const { CAMPAIGNS, NODE_ATLAS, NODE_TOTAL } = loadFromJsx(esbuild, "src/App.jsx", ["NODE_ATLAS", "NODE_TOTAL"]);
-const result = checkOrphans(CAMPAIGNS, {
+// Dispatches WW2: the British and American commands (part 16) play the reports of the two Allied source files, which are walked here as
+// themselves; their own walk would follow the source files' links, not the order compositeNext gives them, so they are left out.
+const WALKED = Object.fromEntries(Object.entries(CAMPAIGNS).filter(([, c]) => !c.tracks));
+const result = checkOrphans(WALKED, {
   axes: ["manpower","fuel","initiative"],
   resolveNode: (camp, id, flags, meters) => camp.resolveNode(id, flags, meters),
   startOf: (camp) => camp.start,

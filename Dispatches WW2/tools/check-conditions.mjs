@@ -28,7 +28,8 @@ const style = (at, t) => {
   if (/\b(color|armor|armored|defense|honor|labor|center|neighbor|harbor|kilometers|gray|theater|offense)\b/i.test(t)) problems.push(`${at}: American spelling in "${t.slice(0, 50)}"`);
 };
 
-for (const cid of Object.keys(CAMPAIGNS)) {
+// Dispatches WW2: the British and American commands (part 16) are checked under their source files, whose rows they use.
+for (const cid of Object.keys(CAMPAIGNS).filter((c) => !CAMPAIGNS[c].tracks)) {
   const rows = C.COMMS[cid];
   if (!rows || !rows.length) { problems.push(`COMMS ${cid}: no row`); continue; }
   let last = 0;
@@ -80,7 +81,7 @@ for (const [key, b] of Object.entries(C.BOMBARDMENTS)) {
 // how many date lines name no month or season: they get no weather line
 let noMonth = 0;
 let reports = 0;
-for (const cid of Object.keys(CAMPAIGNS)) {
+for (const cid of Object.keys(CAMPAIGNS).filter((c) => !CAMPAIGNS[c].tracks)) {
   const files = { german: "10-campaign-german.jsx", soviet: "11-campaign-soviet.jsx", allied: "12-campaign-allied.jsx", italy: "13-campaign-italy.jsx", japan: "14-campaign-japan.jsx", alliedPacific: "15-campaign-alliedpacific.jsx" };
   const text = readFileSync(join(ROOT, "src/parts", files[cid]), "utf8");
   const ids = [...new Set([...text.matchAll(/\bget (\w+)\(\) \{/g)].map((m) => m[1]))];

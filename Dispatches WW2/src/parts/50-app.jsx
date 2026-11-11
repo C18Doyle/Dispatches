@@ -158,6 +158,8 @@ function WW2CommandInner() {
   }, []);
 
   const campaign = campaignId ? CAMPAIGNS[campaignId] : null;
+  // The British and American commands draw each report as its source file did (maps, staff's reading, events): campaignView in part 16.
+  const view = campaignView(campaign, position);
   const stage = useMemo(() => {
     if (!campaign) return null;
     // Führer Mode necessity rule lives in logic.ts (playableStage).
@@ -350,7 +352,7 @@ function WW2CommandInner() {
     const newLog = [...log, buildLogEntry(seen, choiceIndex, rollIndex)];
     setLog(newLog);
 
-    const { nextPos, isEnd } = nextPosition({
+    const raw = nextPosition({
       dynamic: !!campaign.dynamic,
       length: campaign.length,
       position,
@@ -359,12 +361,19 @@ function WW2CommandInner() {
       mode,
       flags,
     });
+    // A British or American file runs two tracks in date order (compositeNext, part 16); every other command goes where the order leads.
+    const step = campaign.tracks ? compositeNext(campaign, position, raw.nextPos, raw.isEnd, flags, meters) : { ...raw, flags };
+    const { nextPos, isEnd } = step;
+    const flagsStep = step.flags;
+    if (flagsStep !== flags) setFlags(flagsStep);
+    // Events and divergence forks are filed under the source file of the report being arrived at.
+    const evCampaign = campaign.tracks && !isEnd ? compositeSourceOf(nextPos) : campaignId;
 
     setOutcomeStage(null);
     if (!isEnd) {
       // A special dispatch is due on arriving at some reports (and when an adviser has asked to be relieved): shown once, before the report.
-      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: campaignId, flags, meters }) || pacificStateEvent(campaignId, nextPos, flags, meters) : null;
-      const flagsOut = dueEv ? { ...flags, [eventSeenKey(dueEv.id)]: true } : flags;
+      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: evCampaign, flags: flagsStep, meters }) || pacificStateEvent(evCampaign, nextPos, flagsStep, meters) : null;
+      const flagsOut = dueEv ? { ...flagsStep, [eventSeenKey(dueEv.id)]: true } : flagsStep;
       if (dueEv) setFlags(flagsOut);
       const newHistory = [...history, { position: nextPos, flags: flagsOut, meters, log: newLog }];
       setHistory(newHistory);
@@ -373,16 +382,16 @@ function WW2CommandInner() {
       setPosition(nextPos);
       setChoiceIndex(null);
       setRollIndex(null);
-      const nextStage = resolveStage(campaign, nextPos, flags, meters);
+      const nextStage = resolveStage(campaign, nextPos, flagsStep, meters);
       // Historical Divergence Mode reveal check runs first and, when it matches, wins outright —
       // it's deterministic (this fork fired, this is its one reveal point) rather than the
       // probabilistic ~1-in-7 real-news check below. seenWireHeadlines is shared with the real
       // Wire Bulletin list; onContinue below already pushes whichever id was shown into it.
       const divergeFork = arrivalFork({
         dynamic: !!campaign.dynamic,
-        campaignId,
+        campaignId: evCampaign,
         nextPos,
-        flags,
+        flags: flagsStep,
         forks: DIVERGENCE_FORKS,
         seenWireIds: seenWireHeadlines,
       });
@@ -423,7 +432,7 @@ function WW2CommandInner() {
       }
     } else {
       clearActiveRun();
-      saveRunRecord(campaign, flags, meters, visited, mode, newLog, rewinds, favor);
+      saveRunRecord(campaign, flagsStep, meters, visited, mode, newLog, rewinds, favor);
       setScreen("end");
     }
   }
@@ -751,7 +760,7 @@ function WW2CommandInner() {
       )}
       {screen === "event" && campaign && pendingEvent && (
         <SpecialEventScreen
-          campaign={campaign}
+          campaign={view}
           event={pendingEvent.event}
           onContinue={() => {
             const wire = pendingEvent.wire;
@@ -767,7 +776,7 @@ function WW2CommandInner() {
       )}
       {screen === "wire" && campaign && pendingWireHeadline && (
         <WireBulletin
-          campaign={campaign}
+          campaign={view}
           headline={pendingWireHeadline}
           onContinue={() => {
             setSeenWireHeadlines((prev) => [...prev, pendingWireHeadline.id]);
@@ -778,7 +787,7 @@ function WW2CommandInner() {
       )}
       {screen === "battleAllocation" && campaign && pendingBattle && (
         <BattleAllocationScreen
-          campaign={campaign}
+          campaign={view}
           config={pendingBattle.config}
           meters={meters}
           flags={flags}
@@ -826,7 +835,7 @@ function WW2CommandInner() {
       )}
       {screen === "battleResult" && campaign && displayStage && pendingBattle && pendingBattle.plan && (
         <BattleSimulationScreen
-          campaign={campaign}
+          campaign={view}
           mode={mode}
           config={pendingBattle.config}
           plan={pendingBattle.plan}
@@ -847,7 +856,7 @@ function WW2CommandInner() {
       )}
       {screen === "briefing" && campaign && stage && (
         <BriefingScreen
-          campaign={campaign}
+          campaign={view}
           stage={stage}
           nodeId={position}
           meters={meters}
@@ -873,7 +882,7 @@ function WW2CommandInner() {
       )}
       {screen === "outcome" && campaign && displayStage && (
         <OutcomeScreen
-          campaign={campaign}
+          campaign={view}
           stage={displayStage}
           choiceIndex={choiceIndex}
           rollIndex={rollIndex}

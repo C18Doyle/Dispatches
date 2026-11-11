@@ -105,7 +105,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           </button>
         )}
         {Object.values(CAMPAIGNS)
-          .filter((c) => !c.hidden)
+          .filter((c) => !c.hidden && !c.sourceOnly)
           .map((c) => {
             const unlocked = !DEMO_BUILD || DEMO_UNLOCKED_CAMPAIGNS.includes(c.id);
             const body = (
@@ -149,7 +149,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           })}
 
         {Object.values(CAMPAIGNS)
-          .filter((c) => c.hidden)
+          .filter((c) => c.hidden && !c.sourceOnly)
           .map((c) => (
             <div
               key={c.id}
@@ -2970,7 +2970,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             nodeId={nodeId}
             lastSeenMapStatuses={lastSeenMapStatuses}
             onStatusesChange={onStatusesChange}
-            history={history}
+            history={mapHistory(campaign, history)}
             orders={stage.choices}
             review={showReview ? (!iron ? (total >= 3 ? t(" · ahead of the historical baseline") : total <= -3 ? t(" · behind the historical baseline") : t(" · tracking the historical record")) : "") + (comparableSoFar.length > 0 ? t(" · history matched at {matchedSoFar} of {comparableSoFarLength} points", { matchedSoFar, comparableSoFarLength: comparableSoFar.length }) : "") : null}
           />
@@ -3131,9 +3131,9 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
         {campaign.dynamic &&
           (PACIFIC_COMMANDS.includes(campaign.id) ? (
-            <PACIFIC_MAP.ReportMap key={nodeId} campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} log={log} />
+            <PACIFIC_MAP.ReportMap key={nodeId} campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={mapHistory(campaign, history)} log={log} />
           ) : (
-            <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={history} onOpen={() => setShowMap(true)} />
+            <ReportMap campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={mapHistory(campaign, history)} onOpen={() => setShowMap(true)} />
           ))}
         <Typewriter text={situationWithNote} instant={instantText} soundOn={soundOn} />
         {campaign.dynamic && onIntelCheck && <IntelPanel campaignId={campaign.id} nodeId={nodeId} flags={flags} easy={easy} hard={noRewind} onCheck={(id) => onIntelCheck(nodeId, id, noRewind)} accent={campaign.accent} />}
@@ -5311,21 +5311,21 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
             </summary>
             <CheckpointMap
               embedded
-              campaign={campaign}
+              campaign={campaign.endSource ? { ...CAMPAIGNS[campaign.endSource], seal: campaign.seal, name: campaign.name, accent: campaign.accent } : campaign}
               year={yearFrom(endStamp, 1945)}
               flags={flags}
               meters={meters}
               resolved
               seenWireHeadlines={seenWireHeadlines || []}
               nodeId={position}
-              history={history}
+              history={mapHistory(campaign, history)}
               endDate={endStamp.replace(/\s*\(.*\)\s*$/, "")}
             />
           </details>
         )}
 
         {/* The Pacific commands (from Dispatches 1941) have no projected end: their theatre map at the end is drawn at the date of the last report, as in 1941. */}
-        {PACIFIC_COMMANDS.includes(campaign.id) && campaign.dynamic && (log || []).length > 0 && (
+        {(PACIFIC_COMMANDS.includes(campaign.id) || campaign.endSource === "alliedPacific") && campaign.dynamic && (log || []).length > 0 && (
           <details className="mb-6">
             <summary className="text-xs uppercase tracking-[0.25em] font-semibold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               {t("The Theater Map at the end of the war")}

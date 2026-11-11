@@ -63,6 +63,8 @@ function campaignPaperStyle(campaignId, accent) {
     italy: "#f2f0e8",
     japan: "#f6efdf",
     alliedPacific: "#eef2f6",
+    british: "#eff3f4",
+    american: "#eef2f6",
   };
   const style = {
     backgroundColor: tints[campaignId] || "#ffffff",

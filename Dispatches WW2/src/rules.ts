@@ -12,8 +12,10 @@
 import * as europe from "./logic";
 import * as pacific from "./logic-pacific";
 
-/** Commands that play by 1941's rules. */
+/** Commands whose reports are drawn on the Pacific map (1941's map layer, PACIFIC_MAP). */
 export const PACIFIC_COMMANDS: readonly string[] = ["japan", "alliedPacific"];
+/** Commands that play by 1941's rules: the Pacific commands, and the American command (most of its reports are CINCPAC's). */
+export const PACIFIC_RULES: readonly string[] = ["japan", "alliedPacific", "american"];
 
 type Rules = typeof europe | typeof pacific;
 // The two rule modules have the same function shapes (an extra optional argument on one side is ignored by the other),
@@ -29,7 +31,7 @@ export const EMPTY_METERS = europe.EMPTY_METERS;
 
 /** The rule set a command plays by. */
 export function rulesOf(campaignId: string | null | undefined): Rules {
-  return campaignId && PACIFIC_COMMANDS.includes(campaignId) ? pacific : europe;
+  return campaignId && PACIFIC_RULES.includes(campaignId) ? pacific : europe;
 }
 
 /** Selects the rules for a command. Cheap and idempotent, so it may be called on every render. */

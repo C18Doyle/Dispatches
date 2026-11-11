@@ -1,5 +1,7 @@
   allied: {
     id: "allied",
+    // Dispatches WW2: a source file, not offered; its reports are played by the British and American commands (16-commands-britain-us).
+    sourceOnly: true,
     seal: "SHAEF",
     name: "Allied Combined Chiefs",
     dates: "1939–1945",

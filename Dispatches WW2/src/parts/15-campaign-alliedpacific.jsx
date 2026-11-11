@@ -1,5 +1,7 @@
   alliedPacific: {
     id: "alliedPacific",
+    // Dispatches WW2: a source file, not offered; its reports are played by the British and American commands (16-commands-britain-us).
+    sourceOnly: true,
     seal: "CINCPAC",
     name: "Allied Pacific Command",
     dates: "Beginning 1940",
@@ -3489,9 +3491,3 @@
       return "The war reaches its historical conclusion by whatever route this history's specific choices carved to it, an ending the broad record would still recognize even where the path here diverged from it in the details.";
     },
   },
-};
-
-// ---------- STYLE HELPERS ----------
-// The artifact environment ships only Tailwind's precompiled core classes — arbitrary
-// values like text-[#ffffff] are never generated. This stylesheet implements every
-// arbitrary class this campaign uses, so the classes behave as written.
