@@ -3,6 +3,7 @@ import * as Tone from "tone";
 import { t, T, initLanguage, setLanguage, getLanguage, subscribe as subscribeLanguage, registerTables, LANGUAGES } from "@dispatches/i18n";
 import I18N_TABLES from "./i18n/tables.js";
 import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey, dueStateEvent, selectRules, rulesOf, PACIFIC_COMMANDS, PACIFIC_RULES } from "./rules";
+import { ALLOCATIONS, RECORD_ALLOCATION, effortFlag, reportYear, effortDue, effortStage, allocationEffect, allocationRecord } from "./effort";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
 // the file:// protocol, under which both fetch() of a relative path and a MediaElementAudioSource

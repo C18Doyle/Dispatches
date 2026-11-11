@@ -35,7 +35,7 @@
     "test:saves": "node ../packages/testkit/src/cli.mjs saves-verify",
     "test:migration": "node tests/migration.test.mjs",
     "test:battle-resume": "node tests/battle-resume.test.mjs",
-    "test:logic": "node tests/logic-rules.test.mjs",
+    "test:logic": "node tests/logic-rules.test.mjs && node tests/effort.test.mjs",
     "test:battle-toggle": "node tests/battle-toggle.test.mjs",
     "check-events": "npm run extract-campaigns && node tools/check-events.mjs",
     "check-map-ops": "npm run extract-campaigns && node tools/check-map-ops.mjs",

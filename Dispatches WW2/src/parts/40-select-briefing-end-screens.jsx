@@ -3273,6 +3273,18 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   {t("Strain: {p}{p2}", { p: choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : t("supplies short"), p2: choice.concealRoll ? t(", and the odds are worse for it") : `, so the odds are ${choice.strain.points} points worse for it` })}
                 </span>
               )}
+              {choice.effort && choice.effort.points !== 0 && (
+                <span className="block mt-1 text-[12px] font-bold" style={{ color: choice.effort.points > 0 ? "#2e5a3a" : "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <span aria-hidden="true">{choice.effort.points > 0 ? "▲ " : "▼ "}</span>
+                  {choice.effort.points > 0
+                    ? choice.concealRoll
+                      ? t("Allocation: {theatre} has more of the year's effort, and the odds are better for it", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe") })
+                      : t("Allocation: {theatre} has more of the year's effort, so the odds are {n} points better", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe"), n: choice.effort.points })
+                    : choice.concealRoll
+                    ? t("Allocation: {theatre} has less of the year's effort, and the odds are worse for it", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe") })
+                    : t("Allocation: {theatre} has less of the year's effort, so the odds are {n} points worse", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe"), n: -choice.effort.points })}
+                </span>
+              )}
               {choice.uncertain && !choice.concealRoll && (
                 <span
                   className="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
@@ -5380,6 +5392,14 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
           <div className="mb-6">
             {sectionHead(t("Where the Command Ended"))}
             <MeterPanel meters={meters} flags={flags} prev={null} />
+          </div>
+        )}
+
+        {/* The American command's yearly allocations of effort (part 46), against the record's. */}
+        {campaign.id === "american" && allocationRecord(flags).length > 0 && (
+          <div className="mb-6">
+            {sectionHead(t("Allocation of effort"))}
+            <EffortRecord flags={flags} accent={campaign.accent} />
           </div>
         )}
 
