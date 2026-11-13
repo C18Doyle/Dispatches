@@ -21,7 +21,20 @@ export const LANGUAGES = [
   { code: "it", name: "Italiano" },
 ];
 
+// Languages a game adds for itself (addLanguages): only that game offers them, so a game without their tables never shows them.
+const EXTRA = [];
 const CODES = LANGUAGES.map((l) => l.code);
+const codes = () => [...CODES, ...EXTRA.map((l) => l.code)];
+
+/** Adds languages this game has tables for, beyond the shared LANGUAGES: [{ code, name }]. */
+export function addLanguages(list) {
+  for (const l of list || []) if (l && l.code && !codes().includes(l.code)) EXTRA.push({ code: l.code, name: l.name || l.code });
+}
+
+/** Every language this game offers: the shared LANGUAGES and any it added. Use this for the language picker. */
+export function languages() {
+  return [...LANGUAGES, ...EXTRA];
+}
 let tables = {};
 let current = "en";
 const listeners = new Set();
@@ -40,18 +53,19 @@ export function getLanguage() {
 }
 
 export function hasLanguage(code) {
-  return CODES.includes(code) || code === "pseudo";
+  return codes().includes(code) || code === "pseudo";
 }
 
 /** Picks the best of our languages for a list of browser languages ("de-AT" gives "de", "zh-CN" gives "zh-Hans", "pt-PT" gives "pt-BR"). */
 export function matchLanguage(browserLanguages) {
   for (const raw of browserLanguages || []) {
     const l = String(raw || "").toLowerCase();
-    if (CODES.some((c) => c.toLowerCase() === l)) return CODES.find((c) => c.toLowerCase() === l);
+    const all = codes();
+    if (all.some((c) => c.toLowerCase() === l)) return all.find((c) => c.toLowerCase() === l);
     if (l.startsWith("zh")) return "zh-Hans";
     if (l.startsWith("pt")) return "pt-BR";
     const base = l.split("-")[0];
-    const hit = CODES.find((c) => c.toLowerCase() === base);
+    const hit = all.find((c) => c.toLowerCase() === base);
     if (hit) return hit;
   }
   return "en";

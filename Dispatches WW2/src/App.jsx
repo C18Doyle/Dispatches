@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo, useRef, useId, useSyncExternalStore, Component } from "react";
 import * as Tone from "tone";
-import { t, T, initLanguage, setLanguage, getLanguage, subscribe as subscribeLanguage, registerTables, LANGUAGES } from "@dispatches/i18n";
+import { t, T, initLanguage, setLanguage, getLanguage, subscribe as subscribeLanguage, registerTables, LANGUAGES, addLanguages, languages } from "@dispatches/i18n";
 import I18N_TABLES from "./i18n/tables.js";
 import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey, dueStateEvent, selectRules, rulesOf, PACIFIC_COMMANDS, PACIFIC_RULES } from "./rules";
 import { ALLOCATIONS, RECORD_ALLOCATION, effortFlag, reportYear, effortDue, effortStage, allocationEffect, allocationRecord } from "./effort";
-import { useKeptSetting, FONT_SCALES, fontScaleName, useFullscreen, CRASH_OPT_IN_KEY, CRASH_CONTEXT, crashReportsOn, buildCrashReport, keepCrashReport, downloadCrashReport, KEY_HELP, PAD_HELP, useInputControls, INPUT_CSS } from "./shell-core";
+import { useKeptSetting, FONT_SCALES, fontScaleName, useFullscreen, CRASH_OPT_IN_KEY, CRASH_CONTEXT, crashReportsOn, buildCrashReport, keepCrashReport, downloadCrashReport, KEY_HELP, PAD_HELP, useInputControls, INPUT_CSS, useSharedSetting, READABILITY_KEYS, WIDE_LINES_CSS, WIDE_LETTERS_CSS, MAP_CONTRAST_CSS } from "./shell-core";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
 // the file:// protocol, under which both fetch() of a relative path and a MediaElementAudioSource
@@ -20,6 +20,8 @@ import REGIONS_GEOMETRY from "../assets/maps/regions.json";
 
 // The language layer (docs/LOCALISATION.md): the stored language, else the browser's; the tables are this game's translations of its interface.
 registerTables(I18N_TABLES);
+// Japanese and French are this game's own additions to the shared languages (the other games do not have their tables).
+addLanguages([{ code: "ja", name: "日本語" }, { code: "fr", name: "Français" }]);
 initLanguage({ key: "dispatchesWW2_language" });
 /** The current language code; the component that calls it re-renders when the language changes. */
 const useLanguage = () => useSyncExternalStore(subscribeLanguage, getLanguage, () => "en");
@@ -40221,6 +40223,151 @@ const SPECIAL_EVENTS = [
     ],
     source: "The Verona trial, 8 to 10 January 1944, and the executions of 11 January.",
   },
+  // ---- The home front (Dispatches WW2, November 2026; facts in claims/home-front-round1.json) ------------------------------------------
+  {
+    id: "home-reich-ration-card",
+    campaign: "german",
+    at: ["phoneyWar39"],
+    dateline: "Berlin, autumn 1939",
+    title: "The ration card",
+    text: [
+      "Food has been rationed since the last days of August, before a shot was fired in Poland. Meat, fats, sugar, milk and bread now come by card, and the cards are graded by the work a person does, so a miner draws more than a clerk.",
+      "Clothing follows on a points card in the autumn. The regime remembers the hunger winters of the last war and the strikes that came with them, and it means to keep the shops supplied from the conquered lands rather than ask more of its own people.",
+    ],
+    source: "German food and clothing rationing from late August and November 1939.",
+  },
+  {
+    id: "home-reich-total-war",
+    campaign: "german",
+    at: ["atlanticWall43"],
+    dateline: "Berlin, February 1943",
+    title: "Total war at home",
+    text: [
+      "In the Sportpalast on 18 February Goebbels asks a hand-picked crowd whether it wants total war, and it roars that it does. A decree of January has already ordered women and men not yet at work to register for war labour.",
+      "The factories run on more than Germans. Millions of foreign workers, many of them taken from their homes by force, and prisoners of war now stand at the machines and in the fields, and the war economy cannot run without them.",
+    ],
+    source: "The Sportpalast speech of 18 February 1943 and the labour registration decree of January 1943.",
+  },
+  {
+    id: "home-ussr-labour-decree",
+    campaign: "soviet",
+    at: ["games41"],
+    dateline: "Moscow, January 1941",
+    title: "The factory clock",
+    text: [
+      "Since the decree of 26 June 1940 the working day is eight hours instead of seven and the week has seven days. A worker may not leave a job without permission, and coming more than twenty minutes late is a crime that the courts punish.",
+      "The country is being made ready for a war it has not yet been told it must fight. More than a million have already been convicted under it, most of them sentenced to corrective labour at their own benches with part of their pay withheld.",
+    ],
+    source: "Decree of the Presidium of the Supreme Soviet, 26 June 1940.",
+  },
+  {
+    id: "home-ussr-rations",
+    campaign: "soviet",
+    at: ["order227_42"],
+    dateline: "Kuibyshev, summer 1942",
+    title: "Bread by category",
+    text: [
+      "Rationing began in Moscow and Leningrad in July 1941 and now reaches every town. Workers in war industry draw the most bread, office staff less, and dependants and children least of all. A card lost is a month gone hungry.",
+      "What the card does not give, the collective farm market sells at prices many times higher. Women, teenagers and the old fill the factories that were carried east, often working twelve hours, and sleep in dugouts and barracks beside the lines.",
+    ],
+    source: "Soviet rationing from July 1941 and the wartime labour of evacuated industry.",
+  },
+  {
+    id: "home-britain-rationing",
+    campaign: "allied",
+    at: ["altmarkRaid40"],
+    dateline: "London, February 1940",
+    title: "Bacon, butter and sugar",
+    text: [
+      "Rationing began on 8 January with bacon, butter and sugar, and meat is to follow in March. Each household is registered with its own grocer and butcher, and the coupons in the ration book are cut out at the counter.",
+      "Most of the children sent to the country in September have drifted home again, because the bombers have not come. The blackout has killed more people on the roads than the enemy has.",
+    ],
+    source: "British rationing from 8 January 1940; the evacuation of September 1939.",
+  },
+  {
+    id: "home-britain-volunteers",
+    campaign: "allied",
+    at: ["halifaxCrisis40"],
+    dateline: "London, late May 1940",
+    title: "The volunteers",
+    text: [
+      "On 14 May Anthony Eden asked on the wireless for men to join a force of Local Defence Volunteers, and within days hundreds of thousands had given their names at police stations. Most have an armband and no rifle.",
+      "On 22 May Parliament passed in a single afternoon an Act that puts every person and every piece of property at the government's disposal. Signposts are being taken down so that an invader cannot read the roads.",
+    ],
+    source: "The Local Defence Volunteers broadcast of 14 May 1940 and the Emergency Powers (Defence) Act of 22 May 1940.",
+  },
+  {
+    id: "home-italy-bread",
+    campaign: "italy",
+    at: ["rommelAdvance41"],
+    dateline: "Rome, winter 1941",
+    title: "Bread on the card",
+    text: [
+      "Since October bread has been rationed, at about two hundred grams a day for most people, and pasta, oil and sugar were on the card before it. Coffee has all but gone, and the substitutes are made from barley and chicory.",
+      "The black market supplies whoever can pay. In the cities the ration does not cover the hunger, and the prefects report that people talk more about the price of bread than about the war in Africa.",
+    ],
+    source: "Italian bread rationing from October 1941 and the prefects' reports on public opinion.",
+  },
+  {
+    id: "home-italy-strikes",
+    campaign: "italy",
+    at: ["tunisiaCollapse43"],
+    dateline: "Turin and Milan, March 1943",
+    title: "The March strikes",
+    text: [
+      "On 5 March the workers at Fiat Mirafiori in Turin stopped work, and within days the strikes had spread to the factories of Milan. They asked for bread, for the allowance paid to families bombed out of their homes, and in some shops for an end to the war.",
+      "They were the first mass strikes in Axis Europe. The regime gave way on pay, arrested some of the organisers and could not hide what the stoppage showed about how far its own workers still followed it.",
+    ],
+    source: "The strikes in Turin and Milan of March 1943.",
+  },
+  {
+    id: "home-japan-rice",
+    campaign: "japan",
+    at: ["neutralityPact41"],
+    dateline: "Tokyo, April 1941",
+    title: "Rice by the passbook",
+    text: [
+      "From this month rice is rationed in the six largest cities, at 2.3 go, about 330 grams, a day for an adult. Each household has a passbook, and the neighbourhood association hands out the ration and passes on the orders of the state.",
+      "Sugar and matches were rationed before the rice. The National Mobilisation Law of 1938 lets the government direct labour, prices and goods without asking the Diet, and it is using that power more each month.",
+    ],
+    source: "Rice rationing in the six largest cities from April 1941; the National Mobilisation Law of 1938.",
+  },
+  {
+    id: "home-japan-evacuation",
+    campaign: "japan",
+    at: ["ichiGoTriumph44"],
+    dateline: "Tokyo, autumn 1944",
+    title: "The children leave the cities",
+    text: [
+      "Since August the schoolchildren of the great cities have been sent in their classes to temples and inns in the countryside, hundreds of thousands of them, with their teachers. The parents stay behind at work.",
+      "The government expects American bombers from the airfields on Saipan to reach the home islands soon. In the countryside the evacuated children are often hungry, and the farmers who keep them have little enough to eat themselves.",
+    ],
+    source: "The school evacuation from the cities of Japan from August 1944.",
+  },
+  {
+    id: "home-us-war-plants",
+    campaign: "alliedPacific",
+    at: ["doolittleRaidAllied42"],
+    dateline: "Washington, spring 1942",
+    title: "The last cars",
+    text: [
+      "In February the last cars built for civilians came off the lines in Detroit, and the plants have turned to tanks, engines and aircraft. Tyres were rationed in the first weeks after Pearl Harbor because the rubber came from Malaya.",
+      "Sugar has gone on the ration book in May, and on the East Coast petrol is rationed too, to save the tankers the U-boats are sinking off the beaches. A War Production Board decides what may still be made for the home.",
+    ],
+    source: "American civilian car production halted February 1942; tyre, sugar and petrol rationing in 1942.",
+  },
+  {
+    id: "home-us-women-at-work",
+    campaign: "alliedPacific",
+    at: ["torpedoCrisis43"],
+    dateline: "Detroit and Seattle, January 1943",
+    title: "Women at the benches",
+    text: [
+      "In the aircraft plants of Seattle and the shipyards of the West Coast, women now rivet, weld and inspect. More than six million women will join the paid work force before the war ends, many of them in jobs they were told before the war they could not do.",
+      "Black workers, whom many defence plants turned away until the President's order of June 1941 forbade it, are moving north and west to the war jobs, and the cities they come to are short of houses.",
+    ],
+    source: "Women's war work in American industry; Executive Order 8802 of June 1941.",
+  },
 ];
 
 function SpecialEventScreen({ campaign, event, onContinue }) {
@@ -41643,7 +41790,7 @@ function BattleSketch({ categories, allocation, status, accent, onAdd, onRemove,
     </svg>
   );
 }
-function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
+function SelectScreen({ onChooseCampaign, onResume, onStartGrand, confirmOrders, onSetConfirmOrders, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
   const language = getLanguage();
   const [record, setRecord] = useState(null);
   // Every war in progress (one per command) and the three named slots: loadSavedRuns in part 45.
@@ -42224,7 +42371,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             {t("Settings")}
           </summary>
           <div className="mt-3 flex flex-col gap-3">
-            <SettingsRows instantText={instantText} onToggleInstant={onToggleInstant} soundOn={soundOn} onToggleSound={onToggleSound} fontScale={fontScale} onCycleFontScale={onCycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={onToggleReducedMotion} musicOn={musicOn} onToggleMusic={onToggleMusic} musicVolume={musicVolume} onMusicVolumeChange={onMusicVolumeChange} dyslexia={dyslexia} onToggleDyslexia={onToggleDyslexia} night={night} onToggleNight={onToggleNight} />
+            <SettingsRows confirmOrders={confirmOrders} onSetConfirmOrders={onSetConfirmOrders} instantText={instantText} onToggleInstant={onToggleInstant} soundOn={soundOn} onToggleSound={onToggleSound} fontScale={fontScale} onCycleFontScale={onCycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={onToggleReducedMotion} musicOn={musicOn} onToggleMusic={onToggleMusic} musicVolume={musicVolume} onMusicVolumeChange={onMusicVolumeChange} dyslexia={dyslexia} onToggleDyslexia={onToggleDyslexia} night={night} onToggleNight={onToggleNight} />
           </div>
         </details>
 
@@ -44351,12 +44498,19 @@ function AdviserLine({ advisor, flags }) {
   );
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history, onIntelCheck }) {
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history, onIntelCheck, confirmOrders = "one" }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [showMap, setShowMap] = useState(false);
   const easy = mode === "easy";
   // Read the briefing alone (the war-room stamp; flags.purist): no record mark and no odds figures here. The outcome still shows what the record did.
   const purist = !!(flags && flags.purist);
+  // "Give an order with two clicks" (the setting): the first press marks the order, the second gives it. Pressing another order marks that one instead.
+  const [armed, setArmed] = useState(null);
+  useEffect(() => setArmed(null), [nodeId]);
+  const choose = (i) => {
+    if (confirmOrders !== "two" || armed === i) return onChoose(i);
+    setArmed(i);
+  };
   const iron = mode === "iron";
   // Japan's Fanatical Resolve is the same rule as the NKVD mode: a count of suspicion out of five (flags.suspicion).
   const purge = mode === "purge" || mode === "fanatical";
@@ -44659,7 +44813,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             <button
               key={i}
               data-hotkey={k < 9 ? String(k + 1) : undefined}
-              onClick={() => onChoose(i)}
+              onClick={() => choose(i)}
+              aria-pressed={confirmOrders === "two" ? armed === i : undefined}
               disabled={(iron && choice.favor && choice.favor > favor) || !!choice.disabledReason}
               className="text-left border-2 px-4 py-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] group disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000]"
               style={{
@@ -44669,6 +44824,11 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               }}
             >
               <span className="font-medium block">{choice.label}</span>
+              {armed === i && (
+                <span role="status" className="block mt-1 text-[12px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
+                  {t("Press again to give this order")}
+                </span>
+              )}
               {campaign.dynamic && intelRests(campaign.id, nodeId, i, flags, easy) && (
                 <span className="block mt-1 text-[11px] uppercase tracking-widest opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                   {intelRests(campaign.id, nodeId, i, flags, easy)}
@@ -48466,7 +48626,7 @@ function EffortRecord({ flags, accent }) {
  * The rows of the settings, on the opening screen and in the in-run menu. `idp` keeps the labels' ids apart when both could be on a page.
  * "Always let my staff plan battles" and "Keep crash reports" keep themselves; the rest belong to the app.
  */
-function SettingsRows({ idp = "setting-", instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
+function SettingsRows({ idp = "setting-", confirmOrders = "one", onSetConfirmOrders, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
   const language = getLanguage();
   // "Always let my staff plan battles": off until asked for. The battle screens read the same key.
   const STAFF_KEY = "dispatchesWW2_staff_plans";
@@ -48488,6 +48648,16 @@ function SettingsRows({ idp = "setting-", instantText, onToggleInstant, soundOn,
     }
   }
   const [crashOn, setCrashOn] = useKeptSetting(CRASH_OPT_IN_KEY, false);
+  const [wideLines, setWideLines] = useSharedSetting(READABILITY_KEYS.lines, false);
+  const [wideLetters, setWideLetters] = useSharedSetting(READABILITY_KEYS.letters, false);
+  const [mapContrast, setMapContrast] = useSharedSetting(READABILITY_KEYS.mapContrast, false);
+  const [ambience, setAmbience] = useSharedSetting(AMBIENCE_KEY, false);
+  const readability = [
+    ["lines", t("Wider line spacing"), wideLines, setWideLines],
+    ["letters", t("Wider letter spacing"), wideLetters, setWideLetters],
+    ["mapcontrast", t("Stronger map colours"), mapContrast, setMapContrast],
+    ["ambience", t("Background sound (wireless, wind, sea)"), ambience, setAmbience],
+  ];
   const fs = useFullscreen();
   const toggleCls = "border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]";
   const labelCls = "text-xs uppercase tracking-[0.25em] font-bold text-[#000000]";
@@ -48538,7 +48708,7 @@ function SettingsRows({ idp = "setting-", instantText, onToggleInstant, soundOn,
             className="border-2 border-black px-3 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] bg-transparent focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {LANGUAGES.map((l) => (
+            {languages().map((l) => (
               <option key={l.code} value={l.code} lang={l.code}>
                 {l.name}
               </option>
@@ -48645,7 +48815,34 @@ function SettingsRows({ idp = "setting-", instantText, onToggleInstant, soundOn,
               className="w-full accent-black"
             />
           )}
-        </div>      {fs.can && (
+        </div>      {readability.map(([id, name, on, set]) => (
+        <div key={id} className={`${paper} p-4 flex items-center justify-between`}>
+          <span id={idp + id + "-label"} className={labelCls} style={mono}>
+            {name}
+          </span>
+          <button onClick={() => set(!on)} aria-pressed={!!on} aria-labelledby={idp + id + "-label"} className={toggleCls} style={mono}>
+            {on ? t("On") : t("Off")}
+          </button>
+        </div>
+      ))}
+      {onSetConfirmOrders && (
+        <div className={`${paper} p-4 flex items-center justify-between gap-3`}>
+          <span id={idp + "confirm-label"} className={labelCls} style={mono}>
+            {t("Give an order with")}
+            <span className="block normal-case tracking-normal font-normal text-[12px] opacity-80 mt-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              {t("Two clicks: the first press marks the order, the second gives it, so a stray key or tap gives nothing.")}
+            </span>
+          </span>
+          <div role="group" aria-labelledby={idp + "confirm-label"} className="flex gap-2 shrink-0">
+            {[["one", t("One click")], ["two", t("Two clicks")]].map(([v, name]) => (
+              <button key={v} onClick={() => onSetConfirmOrders(v)} aria-pressed={confirmOrders === v} className={toggleCls + (confirmOrders === v ? " bg-[#000000] text-[#ffffff]" : "")} style={mono}>
+                {name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {fs.can && (
         <div className={`${paper} p-4 flex items-center justify-between`}>
           <span id={idp + "fullscreen-label"} className={labelCls} style={mono}>
             {t("Full screen")}
@@ -48804,8 +49001,15 @@ function InRunMenu({ campaign, canSave, slots, onSaveSlot, onClose, onJournal, o
 
 // ---- The war journal ----
 /** The orders given so far in this file, newest first: what was chosen, what the record did, the odds faced, and the allocations. */
-function WarJournal({ campaign, log, flags, onClose }) {
+function WarJournal({ campaign, log, flags, onClose, notes = {}, onNote }) {
   const entries = (log || []).map((e, i) => ({ ...e, n: i + 1 })).reverse();
+  // A note of the player's own against an order: a small link here, nowhere else. Kept with the file (notes, by order number).
+  const [editing, setEditing] = useState(null);
+  const [draft, setDraft] = useState("");
+  const saveNote = (n) => {
+    if (onNote) onNote(n, draft.trim());
+    setEditing(null);
+  };
   return (
     <ShellSheet title={t("War Journal")} onClose={onClose}>
       <p className="text-[13px] mb-3" style={{ fontFamily: "'Courier Prime', monospace" }}>
@@ -48841,6 +49045,41 @@ function WarJournal({ campaign, log, flags, onClose }) {
                 {typeof e.rollP === "number" ? " " + t("A roll: this outcome had a {p}% chance.", { p: Math.round(e.rollP * 100) }) : ""}
                 {e.advisor ? " " + t("Advised by {name}.", { name: e.advisor }) : ""}
               </div>
+              {notes[e.n] && editing !== e.n && (
+                <p className="text-[12px] italic mt-1 opacity-90" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                  {notes[e.n]}
+                </p>
+              )}
+              {onNote && editing !== e.n && (
+                <button
+                  onClick={() => (setEditing(e.n), setDraft(notes[e.n] || ""))}
+                  aria-label={notes[e.n] ? t("Show and edit your note on order {n}", { n: e.n }) : t("Show a box to add a note to order {n}", { n: e.n })}
+                  className="mt-1 text-[10px] uppercase tracking-widest underline opacity-50 hover:opacity-100 focus:opacity-100"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  {notes[e.n] ? t("edit note") : t("note")}
+                </button>
+              )}
+              {editing === e.n && (
+                <div className="mt-1 flex gap-2">
+                  <input
+                    type="text"
+                    autoFocus
+                    maxLength={200}
+                    value={draft}
+                    onChange={(ev) => setDraft(ev.target.value)}
+                    onKeyDown={(ev) => {
+                      if (ev.key === "Enter") saveNote(e.n);
+                    }}
+                    aria-label={t("Your note on order {n}", { n: e.n })}
+                    className="flex-1 min-w-0 border border-black px-2 py-1 text-[12px]"
+                    style={{ fontFamily: "'Courier Prime', monospace" }}
+                  />
+                  <button onClick={() => saveNote(e.n)} className="border border-black px-2 text-[10px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    {t("Keep")}
+                  </button>
+                </div>
+              )}
             </li>
           ))}
         </ol>
@@ -48991,6 +49230,23 @@ const ARCHIVE_PHOTOS = {
   battleOfBritain40: { caption: "RAF pilots look over a shot-down German fighter. The photograph is filed with the Battle of Britain; its exact date is not recorded.", credit: "Royal Air Force official photographer, Imperial War Museum, CH 2064", license: "Public domain", licenseUrl: null },
   coralSeaMidwayAllied42: { caption: "USS Yorktown is hit by a torpedo at Midway, 4 June 1942.", credit: "US Navy photograph 80-G-414423, US National Archives", license: "Public domain", licenseUrl: null },
   omahaCrisis44: { caption: "Into the Jaws of Death: troops of the 1st Infantry Division wade ashore at Omaha Beach, 6 June 1944.", credit: "Robert F. Sargent, US Coast Guard", license: "Public domain", licenseUrl: null },
+  // The key battles (the second set, November 2026).
+  crete41: { caption: "German paratroopers in action on Crete, May 1941.", credit: "Bundesarchiv, Bild 101I-166-0510-05 / Franz-Peter Weixler", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  backhandBlow43: { caption: "A Tiger I in southern Russia, near Kharkov, 1943.", credit: "Bundesarchiv, Bild 101I-704-0129-08 / Bauer-Altvater", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  ardennes: { caption: "German soldiers in a half-track during the Ardennes offensive, December 1944.", credit: "Bundesarchiv, Bild 183-J28519 / Göttert", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  stalingradStreets42: { caption: "Soviet soldiers fighting through the ruins of Stalingrad, September 1942.", credit: "RIA Novosti archive, image 602770 / Georgy Zelma", license: "CC BY-SA 3.0", licenseUrl: CC_BY_SA_3 },
+  berlinAssault45: { caption: "Soviet artillery on the approaches to Berlin, April 1945.", credit: "Bundesarchiv, Bild 183-E0406-0022-012", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  pq17_1942: { caption: "Ships of convoy PQ 17 gathered in Hvalfjord, Iceland, 1942.", credit: "Royal Navy official photographer, Imperial War Museum, A 8953", license: "Public domain", licenseUrl: null },
+  bomberDirective43: { caption: "Schweinfurt burns as a B-17 turns for home, 14 October 1943.", credit: "US Army Air Forces photograph, National Museum of the US Air Force", license: "Public domain", licenseUrl: null },
+  arnhemPerimeter44: { caption: "British paratroopers in Oosterbeek, 23 September 1944.", credit: "Army Film and Photographic Unit, Sgt D. M. Smith, Imperial War Museum, BU 1121", license: "Public domain", licenseUrl: null },
+  ardennesResponse44: { caption: "Men of the 101st Airborne Division in Bastogne, Christmas 1944.", credit: "US Army Signal Corps", license: "Public domain", licenseUrl: null },
+  matapan41: { caption: "The Battle of Matapan from the air, 27 March 1941.", credit: "Midshipman A. Wallington, Imperial War Museum, A 9801", license: "Public domain", licenseUrl: null },
+  guadalcanal42: { caption: "A Japanese air attack on American shipping off Guadalcanal, 12 November 1942.", credit: "US Navy photograph 80-G-32366, Naval History and Heritage Command", license: "Public domain", licenseUrl: null },
+  leyteGulf44: { caption: "A Fuso-class battleship and the cruiser Mogami, seen from an American aircraft during the Battle of Leyte Gulf, 24 October 1944.", credit: "US Navy photograph 80-G-281762, Naval History and Heritage Command", license: "Public domain", licenseUrl: null },
+  iwoJima45: { caption: "American landing ships arriving off Iwo Jima, February 1945.", credit: "Archives Branch, USMC History Division", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0/" },
+  guadalcanalAllied42: { caption: "US Marines come ashore on Guadalcanal, 7 August 1942.", credit: "US Marine Corps, National Archives 80-CF-112-5-3", license: "Public domain", licenseUrl: null },
+  philippineSeaAllied44: { caption: "A Japanese carrier under attack in the Battle of the Philippine Sea, 20 June 1944.", credit: "Cdr Francis N. Gilreath, US Navy, National Museum of Naval Aviation", license: "Public domain", licenseUrl: null },
+  iwoJimaAllied45: { caption: "Marines take shelter on the beach at Iwo Jima, February 1945.", credit: "Archives Branch, USMC History Division", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0/" },
 };
 /** The music beyond the main score: all Holst's The Planets, in public-domain recordings by US military bands. */
 const MUSIC_TRACKS = {
@@ -49023,7 +49279,7 @@ function ArchivePhoto({ nodeId }) {
   if (!p || failed) return null;
   return (
     <figure className="mb-4 border-2 border-black bg-[#f2ead9]">
-      <img src={`assets/photos/${nodeId}.jpg`} alt={p.caption} loading="lazy" className="w-full h-auto block" style={{ filter: "grayscale(0.15) contrast(1.02)" }} onError={() => setFailed(true)} />
+      <img src={`assets/photos/${nodeId}.webp`} alt={p.caption} loading="lazy" className="w-full h-auto block" style={{ filter: "grayscale(0.15) contrast(1.02)" }} onError={() => setFailed(true)} />
       <figcaption className="px-3 py-2 text-[12px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
         {p.caption}
         <span className="block text-[10px] uppercase tracking-wider opacity-75 mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
@@ -49065,6 +49321,112 @@ function ArchiveCredits() {
       <p className="mt-2 text-[12px] opacity-80">{t("Photographs and recordings from Wikimedia Commons. A CC BY-SA photograph may be reused under the same licence, with the credit given here.")}</p>
     </div>
   );
+}
+
+// ---- Background sound (Settings: off by default) ----
+// Three quiet beds made from noise with Tone.js, nothing recorded: the wireless (static and the odd crackle) on the opening screen, wind
+// with a distant thud now and then for a European report, and a slow sea swell for a Pacific one. They fade over two seconds when the
+// theatre changes. The browser lets audio start only after a press, so the bed waits for the first one after the page loads.
+const AMBIENCE_KEY = "dispatchesWW2_ambience";
+let ambienceNodes = null;
+let ambienceKind = null;
+let ambienceTimer = null;
+function ambienceStop() {
+  if (ambienceTimer) clearTimeout(ambienceTimer);
+  ambienceTimer = null;
+  const old = ambienceNodes;
+  ambienceNodes = null;
+  ambienceKind = null;
+  if (!old) return;
+  try {
+    old.out.gain.rampTo(0, 1.5);
+    setTimeout(() => old.all.forEach((n) => { try { n.dispose(); } catch (e) { /* gone */ } }), 1800);
+  } catch (e) {
+    /* already gone */
+  }
+}
+function ambienceStart(kind) {
+  if (ambienceKind === kind) return;
+  ambienceStop();
+  try {
+    const out = new Tone.Gain(0).toDestination();
+    const all = [out];
+    const add = (n) => (all.push(n), n);
+    if (kind === "wire") {
+      const noise = add(new Tone.Noise("white"));
+      const band = add(new Tone.Filter({ frequency: 1900, type: "bandpass", Q: 0.7 }));
+      const level = add(new Tone.Gain(0.05));
+      noise.chain(band, level, out);
+      noise.start();
+      const crackle = add(new Tone.NoiseSynth({ noise: { type: "white" }, envelope: { attack: 0.001, decay: 0.03, sustain: 0 }, volume: -30 }));
+      crackle.connect(out);
+      const tick = () => {
+        try { crackle.triggerAttackRelease("64n"); } catch (e) { /* stopped */ }
+        ambienceTimer = setTimeout(tick, 600 + Math.random() * 2600);
+      };
+      tick();
+    } else if (kind === "pacific") {
+      const noise = add(new Tone.Noise("brown"));
+      const low = add(new Tone.Filter({ frequency: 520, type: "lowpass" }));
+      const swell = add(new Tone.Gain(0.35));
+      const lfo = add(new Tone.LFO({ frequency: 0.11, min: 0.08, max: 0.45 }));
+      lfo.connect(swell.gain);
+      noise.chain(low, swell, out);
+      noise.start();
+      lfo.start();
+    } else {
+      const noise = add(new Tone.Noise("pink"));
+      const low = add(new Tone.Filter({ frequency: 600, type: "lowpass" }));
+      const lfo = add(new Tone.LFO({ frequency: 0.07, min: 280, max: 950 }));
+      lfo.connect(low.frequency);
+      const level = add(new Tone.Gain(0.16));
+      noise.chain(low, level, out);
+      noise.start();
+      lfo.start();
+      const thud = add(new Tone.NoiseSynth({ noise: { type: "brown" }, envelope: { attack: 0.04, decay: 1.4, sustain: 0 }, volume: -26 }));
+      const thudLow = add(new Tone.Filter({ frequency: 140, type: "lowpass" }));
+      thud.chain(thudLow, out);
+      const boom = () => {
+        try { thud.triggerAttackRelease("2n"); } catch (e) { /* stopped */ }
+        ambienceTimer = setTimeout(boom, 9000 + Math.random() * 16000);
+      };
+      ambienceTimer = setTimeout(boom, 5000);
+    }
+    out.gain.rampTo(0.5, 2);
+    ambienceNodes = { out, all };
+    ambienceKind = kind;
+  } catch (e) {
+    ambienceNodes = null;
+    ambienceKind = null;
+  }
+}
+/** Plays the bed for `kind` ("wire", "europe", "pacific", or null for none) while `on`. */
+function useAmbience(on, kind) {
+  useEffect(() => {
+    if (!on || !kind) {
+      ambienceStop();
+      return undefined;
+    }
+    let cancelled = false;
+    const begin = async () => {
+      try {
+        await Tone.start();
+      } catch (e) {
+        return;
+      }
+      if (!cancelled) ambienceStart(kind);
+    };
+    if (Tone.getContext && Tone.getContext().state === "running") begin();
+    const opts = { once: true, capture: true };
+    document.addEventListener("pointerdown", begin, opts);
+    document.addEventListener("keydown", begin, opts);
+    return () => {
+      cancelled = true;
+      document.removeEventListener("pointerdown", begin, opts);
+      document.removeEventListener("keydown", begin, opts);
+    };
+  }, [on, kind]);
+  useEffect(() => () => ambienceStop(), []);
 }
 
 function WW2CommandInner() {
@@ -49154,6 +49516,18 @@ function WW2CommandInner() {
   const [musicOn, setMusicOn] = useKeptSetting("dispatchesWW2_music", true);
   const [musicVolume, setMusicVolume] = useKeptSetting("dispatchesWW2_music_volume", 0.5);
   // The in-run menu and the war journal (part 47), and what the menu's save slots hold while it is open.
+  // "Give an order with one click or two" (Settings): two means the first press marks an order and the second gives it.
+  const [confirmOrders, setConfirmOrders] = useKeptSetting("dispatchesWW2_confirm_orders", "one");
+  // The player's own notes on orders, by order number (the war journal); kept with the file.
+  const [notes, setNotes] = useState({});
+  // Readability (Settings): wider lines, wider letters, stronger map colours.
+  const [wideLines] = useSharedSetting(READABILITY_KEYS.lines, false);
+  const [wideLetters] = useSharedSetting(READABILITY_KEYS.letters, false);
+  const [mapContrast] = useSharedSetting(READABILITY_KEYS.mapContrast, false);
+  // Background sound (part 47): the wireless on the opening screen, wind for a European report, the sea for a Pacific one.
+  const [ambienceOn] = useSharedSetting(AMBIENCE_KEY, false);
+  const ambienceKindNow = screen === "select" ? "wire" : !campaignId || screen === "end" ? null : PACIFIC_COMMANDS.includes(campaignId) || (CAMPAIGNS[campaignId] && CAMPAIGNS[campaignId].tracks && compositeSourceOf(position) === "alliedPacific") ? "pacific" : "europe";
+  useAmbience(ambienceOn, ambienceKindNow);
   const [menuOpen, setMenuOpen] = useState(false);
   const [journalOpen, setJournalOpen] = useState(false);
   const [menuSlots, setMenuSlots] = useState(SAVE_SLOTS.map((n) => ({ n, run: null })));
@@ -49222,6 +49596,7 @@ function WW2CommandInner() {
     setHistory([{ position: testNode, flags: {}, meters: seedMeters, log: [] }]);
     setVisited([String(testNode)]);
     setRewinds(0);
+    setNotes({});
     setSeenWireHeadlines([]);
     setPendingWireHeadline(null);
     setPendingEvent(null);
@@ -49290,6 +49665,7 @@ function WW2CommandInner() {
     setHistory([{ position: startPos, flags: seedFlags, meters: seedMeters, log: [] }]);
     setVisited([String(startPos)]);
     setRewinds(0);
+    setNotes({});
     setSeenWireHeadlines([]);
     setPendingWireHeadline(null);
     setPendingEvent(null);
@@ -49510,6 +49886,7 @@ function WW2CommandInner() {
           visited: newVisited,
           rewinds,
           history: newHistory,
+          notes,
         });
       }
     } else {
@@ -49550,6 +49927,7 @@ function WW2CommandInner() {
       visited,
       rewinds,
       history,
+      notes,
     };
   }
 
@@ -49726,6 +50104,7 @@ function WW2CommandInner() {
     setLog(saved.log || []);
     setVisited(saved.visited || []);
     setRewinds(saved.rewinds || 0);
+    setNotes(saved.notes && typeof saved.notes === "object" ? saved.notes : {});
     setHistory(saved.history || [{ position: saved.position, flags: saved.flags, meters: saved.meters, log: saved.log }]);
     setChoiceIndex(null);
     setRollIndex(null);
@@ -49828,10 +50207,11 @@ function WW2CommandInner() {
     musicVolume, onMusicVolumeChange: setMusicVolume,
     dyslexia, onToggleDyslexia: () => setDyslexia((v) => !v),
     night, onToggleNight: () => setNight((v) => !v),
+    confirmOrders, onSetConfirmOrders: setConfirmOrders,
   };
 
   return (
-    <div style={{ zoom: fontScale }}>
+    <main style={{ zoom: fontScale }}>
       <style>{INPUT_CSS}</style>
       <style>{ARBITRARY_CSS}</style>
       <style>{`
@@ -49889,6 +50269,9 @@ function WW2CommandInner() {
         }
       `}</style>
       {dyslexia && <style>{DYSLEXIA_CSS}</style>}
+      {wideLines && <style>{WIDE_LINES_CSS}</style>}
+      {wideLetters && <style>{WIDE_LETTERS_CSS}</style>}
+      {mapContrast && <style>{MAP_CONTRAST_CSS}</style>}
       {night && <style>{NIGHT_CSS}</style>}
       {reducedMotion && (
         <style>{`
@@ -49897,7 +50280,7 @@ function WW2CommandInner() {
         `}</style>
       )}
       <audio ref={musicRef} src={musicSrc} loop preload="none" />
-      {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} dyslexia={dyslexia} onToggleDyslexia={() => setDyslexia((v) => !v)} night={night} onToggleNight={() => setNight((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
+      {screen === "select" && <SelectScreen confirmOrders={confirmOrders} onSetConfirmOrders={setConfirmOrders} onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} dyslexia={dyslexia} onToggleDyslexia={() => setDyslexia((v) => !v)} night={night} onToggleNight={() => setNight((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
       {screen === "warroom" && campaign && (
         <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaignId, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
       )}
@@ -50005,6 +50388,7 @@ function WW2CommandInner() {
           campaign={view}
           stage={stage}
           nodeId={position}
+          confirmOrders={confirmOrders}
           meters={meters}
           flags={flags}
           reportNumber={history.length}
@@ -50071,7 +50455,7 @@ function WW2CommandInner() {
             onClick={() => (setMenuOpen(false), setJournalOpen(true))}
             aria-label={t("Show the war journal")}
             title={t("War journal (J)")}
-            className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            className="bg-white text-[#000000] border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
           >
             <span aria-hidden="true">☰</span>
           </button>
@@ -50079,7 +50463,7 @@ function WW2CommandInner() {
             onClick={openMenu}
             aria-label={t("Settings and menu")}
             title={t("Menu (Esc)")}
-            className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            className="bg-white text-[#000000] border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
           >
             <span aria-hidden="true">{"⚙︎"}</span>
           </button>
@@ -50100,8 +50484,21 @@ function WW2CommandInner() {
           settings={settingsProps}
         />
       )}
-      {inRun && journalOpen && <WarJournal campaign={campaign} log={log} flags={flags} onClose={() => setJournalOpen(false)} />}
-    </div>
+      {inRun && journalOpen && <WarJournal
+          campaign={campaign}
+          log={log}
+          flags={flags}
+          notes={notes}
+          onNote={(n, text) => {
+            const next = { ...notes };
+            if (text) next[n] = text;
+            else delete next[n];
+            setNotes(next);
+            saveActiveRun({ ...runPayload(), notes: next });
+          }}
+          onClose={() => setJournalOpen(false)}
+        />}
+    </main>
   );
 }
 

@@ -1,4 +1,4 @@
-function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
+function SelectScreen({ onChooseCampaign, onResume, onStartGrand, confirmOrders, onSetConfirmOrders, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
   const language = getLanguage();
   const [record, setRecord] = useState(null);
   // Every war in progress (one per command) and the three named slots: loadSavedRuns in part 45.
@@ -579,7 +579,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             {t("Settings")}
           </summary>
           <div className="mt-3 flex flex-col gap-3">
-            <SettingsRows instantText={instantText} onToggleInstant={onToggleInstant} soundOn={soundOn} onToggleSound={onToggleSound} fontScale={fontScale} onCycleFontScale={onCycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={onToggleReducedMotion} musicOn={musicOn} onToggleMusic={onToggleMusic} musicVolume={musicVolume} onMusicVolumeChange={onMusicVolumeChange} dyslexia={dyslexia} onToggleDyslexia={onToggleDyslexia} night={night} onToggleNight={onToggleNight} />
+            <SettingsRows confirmOrders={confirmOrders} onSetConfirmOrders={onSetConfirmOrders} instantText={instantText} onToggleInstant={onToggleInstant} soundOn={soundOn} onToggleSound={onToggleSound} fontScale={fontScale} onCycleFontScale={onCycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={onToggleReducedMotion} musicOn={musicOn} onToggleMusic={onToggleMusic} musicVolume={musicVolume} onMusicVolumeChange={onMusicVolumeChange} dyslexia={dyslexia} onToggleDyslexia={onToggleDyslexia} night={night} onToggleNight={onToggleNight} />
           </div>
         </details>
 
@@ -2706,12 +2706,19 @@ function AdviserLine({ advisor, flags }) {
   );
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history, onIntelCheck }) {
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history, onIntelCheck, confirmOrders = "one" }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [showMap, setShowMap] = useState(false);
   const easy = mode === "easy";
   // Read the briefing alone (the war-room stamp; flags.purist): no record mark and no odds figures here. The outcome still shows what the record did.
   const purist = !!(flags && flags.purist);
+  // "Give an order with two clicks" (the setting): the first press marks the order, the second gives it. Pressing another order marks that one instead.
+  const [armed, setArmed] = useState(null);
+  useEffect(() => setArmed(null), [nodeId]);
+  const choose = (i) => {
+    if (confirmOrders !== "two" || armed === i) return onChoose(i);
+    setArmed(i);
+  };
   const iron = mode === "iron";
   // Japan's Fanatical Resolve is the same rule as the NKVD mode: a count of suspicion out of five (flags.suspicion).
   const purge = mode === "purge" || mode === "fanatical";
@@ -3014,7 +3021,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
             <button
               key={i}
               data-hotkey={k < 9 ? String(k + 1) : undefined}
-              onClick={() => onChoose(i)}
+              onClick={() => choose(i)}
+              aria-pressed={confirmOrders === "two" ? armed === i : undefined}
               disabled={(iron && choice.favor && choice.favor > favor) || !!choice.disabledReason}
               className="text-left border-2 px-4 py-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] group disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000]"
               style={{
@@ -3024,6 +3032,11 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               }}
             >
               <span className="font-medium block">{choice.label}</span>
+              {armed === i && (
+                <span role="status" className="block mt-1 text-[12px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace", color: campaign.accent }}>
+                  {t("Press again to give this order")}
+                </span>
+              )}
               {campaign.dynamic && intelRests(campaign.id, nodeId, i, flags, easy) && (
                 <span className="block mt-1 text-[11px] uppercase tracking-widest opacity-70" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                   {intelRests(campaign.id, nodeId, i, flags, easy)}

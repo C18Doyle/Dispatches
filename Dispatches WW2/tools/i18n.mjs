@@ -18,7 +18,7 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const PARTS = join(ROOT, "src", "parts");
 const I18N = join(ROOT, "src", "i18n");
-const LANGS = ["zh-Hans", "ru", "de", "pt-BR", "es", "it"];
+const LANGS = ["zh-Hans", "ru", "de", "pt-BR", "es", "it", "ja", "fr"];
 const args = new Set(process.argv.slice(2));
 
 /** Every text of the interface, in source order: the first argument of t(...) and T(...) when it is a double-quoted string. */

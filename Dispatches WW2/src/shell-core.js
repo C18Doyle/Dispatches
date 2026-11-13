@@ -261,3 +261,42 @@ export const INPUT_CSS = `
 [data-input="pad"] :focus, [data-input="keys"] :focus-visible { outline: 4px solid #b08d3f !important; outline-offset: 3px; }
 [data-input="pad"] button, [data-input="pad"] summary, [data-input="pad"] select { min-height: 44px; }
 `;
+
+// ---- Settings shared between components ----
+/**
+ * A setting kept between visits that every component reading it sees change at once: the settings rows set it, the app root applies it.
+ * Each copy listens for the others through a window event (dispatchesWW2-setting).
+ */
+export function useSharedSetting(key, initial) {
+  const [value, setValue] = useKeptSetting(key, initial);
+  useEffect(() => {
+    const on = (e) => {
+      if (e.detail && e.detail.key === key) setValue(e.detail.value);
+    };
+    window.addEventListener("dispatchesWW2-setting", on);
+    return () => window.removeEventListener("dispatchesWW2-setting", on);
+  }, [key]);
+  const set = (v) => {
+    setValue(v);
+    try {
+      window.dispatchEvent(new CustomEvent("dispatchesWW2-setting", { detail: { key, value: v } }));
+    } catch (e) {
+      /* old browser: this copy still changes */
+    }
+  };
+  return [value, set];
+}
+
+// ---- Readability ----
+// Wider lines, wider letters and stronger map colours: applied by the app root as style sheets when the setting is on.
+export const READABILITY_KEYS = { lines: "dispatchesWW2_wide_lines", letters: "dispatchesWW2_wide_letters", mapContrast: "dispatchesWW2_map_contrast" };
+export const WIDE_LINES_CSS = `
+p, li, dd, label, figcaption, .leading-snug, .leading-relaxed, .leading-tight { line-height: 1.9 !important; }
+`;
+export const WIDE_LETTERS_CSS = `
+p, li, dd, figcaption, button span.block { letter-spacing: 0.05em !important; word-spacing: 0.14em !important; }
+`;
+export const MAP_CONTRAST_CSS = `
+.dg-reportmap-inner { filter: contrast(1.35) saturate(1.35); }
+.dg-reportmap-inner svg path { stroke-width: 1.6px; }
+`;

@@ -3,6 +3,10 @@ export interface Language {
   name: string;
 }
 export const LANGUAGES: Language[];
+/** Adds languages this game has tables for, beyond the shared LANGUAGES. */
+export function addLanguages(list: Language[]): void;
+/** Every language this game offers: the shared LANGUAGES and any it added. */
+export function languages(): Language[];
 export type Params = Record<string, unknown> & { context?: string };
 /** The text for a message in the current language (English when there is no translation). */
 export function t(msg: string, params?: Params): string;

@@ -1,6 +1,6 @@
 // Checks of the language layer: fallback to English, parameters, plurals in languages with different rules, language matching.
 // Run: node packages/i18n/tests/i18n.test.mjs
-import { t, T, setLanguage, registerTables, matchLanguage, format, getLanguage, hasLanguage, LANGUAGES, subscribe } from "../src/index.js";
+import { t, T, setLanguage, registerTables, matchLanguage, format, getLanguage, hasLanguage, LANGUAGES, subscribe, addLanguages, languages } from "../src/index.js";
 
 const fails = [];
 const check = (ok, what) => {
@@ -42,6 +42,16 @@ setLanguage("it", { persist: false });
 setLanguage("xx", { persist: false });
 off();
 check(heard === 2 && getLanguage() === "en", "listeners hear each change once, and an unknown language becomes English");
+
+// A game can add a language of its own; the shared list is untouched.
+check(!hasLanguage("ja") && languages().length === LANGUAGES.length, "no added language until a game adds one");
+addLanguages([{ code: "ja", name: "日本語" }, { code: "ja", name: "again" }]);
+registerTables({ ja: { Continue: "続ける" } });
+check(hasLanguage("ja") && languages().length === LANGUAGES.length + 1 && LANGUAGES.every((l) => l.code !== "ja"), "an added language is offered once, beside the shared list, which does not change");
+check(matchLanguage(["ja-JP"]) === "ja", "the browser language matches an added language");
+setLanguage("ja", { persist: false });
+check(t("Continue") === "続ける", "an added language uses its table");
+setLanguage("en", { persist: false });
 
 if (fails.length) {
   console.log(`\n${fails.length} check(s) failed`);
