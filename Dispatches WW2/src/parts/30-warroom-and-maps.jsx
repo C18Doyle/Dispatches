@@ -397,6 +397,7 @@ function WireBulletin({ campaign, headline, onContinue }) {
         </div>
         <div className="wire-tear wire-tear-bottom" style={{ "--wire-paper": paperTint }}></div>
         <button
+          data-hotkey="enter"
           onClick={onContinue}
           className="w-full border-2 mt-4 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-150"
           style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: paperTint }}
@@ -1594,6 +1595,7 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
         )}
         <div className="flex flex-col gap-3">
           <button
+            data-hotkey="enter"
             onClick={() => onEnter(hasForks ? historicallyAccurate : true, KEY_BATTLE_SUBGAME_ENABLED ? controlBattles : true)}
             className="w-full border-2 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold text-[#ffffff] transition-colors duration-150"
             style={{ borderColor: campaign.accent, backgroundColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}

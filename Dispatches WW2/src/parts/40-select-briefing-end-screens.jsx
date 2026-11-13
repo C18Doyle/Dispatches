@@ -1,26 +1,8 @@
 function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
   const language = getLanguage();
   const [record, setRecord] = useState(null);
-  const [activeRun, setActiveRun] = useState(null);
-  // "Always let my staff plan battles": off until asked for. The battle screens read the same key.
-  const STAFF_KEY = "dispatchesWW2_staff_plans";
-  const [staffAlways, setStaffAlways] = useState(() => {
-    try {
-      return window.localStorage.getItem(STAFF_KEY) === "1";
-    } catch (e) {
-      return false;
-    }
-  });
-  function toggleStaffAlways() {
-    const next = !staffAlways;
-    setStaffAlways(next);
-    try {
-      if (next) window.localStorage.setItem(STAFF_KEY, "1");
-      else window.localStorage.removeItem(STAFF_KEY);
-    } catch (e) {
-      /* storage can be blocked; the setting then lasts only until the page is closed */
-    }
-  }
+  // Every war in progress (one per command) and the three named slots: loadSavedRuns in part 45.
+  const [saved, setSaved] = useState({ active: [], slots: [] });
   useEffect(() => {
     (async () => {
       try {
@@ -29,22 +11,24 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
       } catch (e) {
         setRecord(null);
       }
-      try {
-        const active = await window.storage.get("dispatches-ww2-active");
-        if (active && active.value) {
-          const parsed = migrateSave(JSON.parse(active.value));
-          if (isValidActiveRun(parsed)) {
-            setActiveRun(parsed);
-          } else {
-            setActiveRun(null);
-            clearActiveRun(); // stale/incompatible save — clean it up rather than leave it dangling
-          }
-        }
-      } catch (e) {
-        setActiveRun(null);
-      }
+      setSaved(await loadSavedRuns());
     })();
   }, []);
+  // Deleting a slot takes two presses: the first asks, the second deletes.
+  const [confirmSlot, setConfirmSlot] = useState(null);
+  async function removeSlot(n) {
+    if (confirmSlot !== n) {
+      setConfirmSlot(n);
+      return;
+    }
+    setConfirmSlot(null);
+    await deleteSlot(n);
+    setSaved(await loadSavedRuns());
+  }
+  const runSummary = (run) =>
+    t("{name}{p} · {length} decisions on file: resume where you left off.{p2}", { name: CAMPAIGNS[run.campaignId].name, p: run.mode && run.mode !== "open"
+      ? ` · ${warRoomModeInfo(run.mode, run.campaignId).label}`
+      : "", length: (run.log || []).length, p2: (run.battle && (() => { const t = KEY_BATTLE_TITLES.find((x) => x.id === run.battle.configId); return t ? ` You were part way through ${t.title}.` : ""; })()) || "" });
 
   const runs = record ? record.runs || [] : [];
   const discovered = record ? (record.nodes || []).length : 0;
@@ -86,23 +70,58 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
       </div>
 
       <div className="grid grid-cols-1 gap-6 w-full max-w-md">
-        {activeRun && CAMPAIGNS[activeRun.campaignId] && (
-          <button
-            onClick={() => onResume(activeRun)}
-            className={`${paper} text-left p-5 hover:-translate-y-1 transition-transform duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]`}
-          >
-            <div
-              className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] mb-1"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+        {saved.active
+          .filter((run) => CAMPAIGNS[run.campaignId])
+          .sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0))
+          .map((run) => (
+            <button
+              key={run.campaignId}
+              onClick={() => onResume(run)}
+              className={`${paper} text-left p-5 hover:-translate-y-1 transition-transform duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]`}
             >
-              {t("↻ War in Progress")}
+              <div
+                className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] mb-1"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                {t("↻ War in Progress")}
+              </div>
+              <p className="text-[14px] text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                {runSummary(run)}
+              </p>
+            </button>
+          ))}
+        {saved.slots.some((s) => s.run) && (
+          <div className={`${paper} p-5`}>
+            <div className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] mb-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              {t("Saved Files")}
             </div>
-            <p className="text-[14px] text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              {t("{name}{p} · {length} decisions on file: resume where you left off.{p2}", { name: CAMPAIGNS[activeRun.campaignId].name, p: activeRun.mode && activeRun.mode !== "open"
-                ? ` · ${warRoomModeInfo(activeRun.mode, activeRun.campaignId).label}`
-                : "", length: (activeRun.log || []).length, p2: activeRun.battle && (() => { const t = KEY_BATTLE_TITLES.find((x) => x.id === activeRun.battle.configId); return t ? ` You were part way through ${t.title}.` : ""; })() })}
-            </p>
-          </button>
+            <ul className="flex flex-col gap-2">
+              {saved.slots
+                .filter((s) => s.run && CAMPAIGNS[s.run.campaignId])
+                .map((s) => (
+                  <li key={s.n} className="flex items-stretch gap-2">
+                    <button
+                      onClick={() => onResume(s.run)}
+                      className="flex-1 text-left border-2 border-black px-3 py-2 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                      style={{ fontFamily: "'Courier Prime', monospace" }}
+                    >
+                      <span className="block text-[11px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                        {t("Resume slot {n}: {name}", { n: s.n, name: s.run.slotName || CAMPAIGNS[s.run.campaignId].name })}
+                      </span>
+                      <span className="block text-[13px]">{runSummary(s.run)}</span>
+                    </button>
+                    <button
+                      onClick={() => removeSlot(s.n)}
+                      aria-label={confirmSlot === s.n ? t("Press again to delete slot {n}", { n: s.n }) : t("Delete slot {n}", { n: s.n })}
+                      className="border-2 border-black px-3 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                      style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                    >
+                      {confirmSlot === s.n ? t("Delete?") : "✕"}
+                    </button>
+                  </li>
+                ))}
+            </ul>
+          </div>
         )}
         {Object.values(CAMPAIGNS)
           .filter((c) => !c.hidden && !c.sourceOnly)
@@ -247,6 +266,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             ))}
           </div>
         )}
+        {runs.length > 0 && <RecordsByCommand record={record} />}
         <details className={`${paper} p-5`}>
           <summary
             className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer select-none"
@@ -559,158 +579,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
             {t("Settings")}
           </summary>
           <div className="mt-3 flex flex-col gap-3">
-        <div className={`${paper} p-4 flex items-center justify-between`}>
-          <span id="setting-instant-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            {t("Instant text (skip typewriter)")}
-          </span>
-          <button
-            onClick={onToggleInstant}
-            aria-pressed={instantText}
-            aria-labelledby="setting-instant-label"
-            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            {instantText ? t("On") : t("Off")}
-          </button>
-        </div>
-        <div className={`${paper} p-4 flex items-center justify-between`}>
-          <span id="setting-sound-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            {t("Sound (typewriter, stamps, dice, battle reports)")}
-          </span>
-          <button
-            onClick={onToggleSound}
-            aria-pressed={soundOn}
-            aria-labelledby="setting-sound-label"
-            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            {soundOn ? t("On") : t("Off")}
-          </button>
-        </div>
-        <div className={`${paper} p-4 flex items-center justify-between gap-3`}>
-          <span id="setting-language-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            {t("Language")}
-            {language !== "en" && (
-              <span className="block normal-case tracking-normal font-normal text-[12px] opacity-80 mt-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
-                {t("Menus, buttons and help are translated. The story text is in English.")}
-              </span>
-            )}
-          </span>
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            aria-labelledby="setting-language-label"
-            className="border-2 border-black px-3 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] bg-transparent focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            {LANGUAGES.map((l) => (
-              <option key={l.code} value={l.code} lang={l.code}>
-                {l.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className={`${paper} p-4 flex items-center justify-between`}>
-          <span id="setting-textsize-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            {t("Text size")}
-          </span>
-          <button
-            onClick={onCycleFontScale}
-            aria-labelledby="setting-textsize-label"
-            aria-label={t("Text size: {p}. Activate to cycle to the next size.", { p: fontScale <= 0.9 ? t("Small") : fontScale >= 1.15 ? t("Large") : t("Normal") })}
-            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            {fontScale <= 0.9 ? t("Small") : fontScale >= 1.15 ? t("Large") : t("Normal")}
-          </button>
-        </div>
-        <div className={`${paper} p-4 flex items-center justify-between`}>
-          <span id="setting-dyslexia-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            {t("Dyslexia-friendly typeface")}
-          </span>
-          <button
-            onClick={onToggleDyslexia}
-            aria-pressed={!!dyslexia}
-            aria-labelledby="setting-dyslexia-label"
-            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            {dyslexia ? t("On") : t("Off")}
-          </button>
-        </div>
-        <div className={`${paper} p-4 flex items-center justify-between`}>
-          <span id="setting-night-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            {t("Night reading (a dark page)")}
-          </span>
-          <button
-            onClick={onToggleNight}
-            aria-pressed={!!night}
-            aria-labelledby="setting-night-label"
-            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            {night ? t("On") : t("Off")}
-          </button>
-        </div>
-        <div className={`${paper} p-4 flex items-center justify-between`}>
-          <span id="setting-reducedmotion-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            {t("Reduce motion (stamp tilt, transitions)")}
-          </span>
-          <button
-            onClick={onToggleReducedMotion}
-            aria-pressed={reducedMotion}
-            aria-labelledby="setting-reducedmotion-label"
-            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            {reducedMotion ? t("On") : t("Off")}
-          </button>
-        </div>
-        <div className={`${paper} p-4 flex items-center justify-between gap-3`}>
-          <span id="setting-staff-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            {t("Always let my staff plan battles")}
-            <span className="block normal-case tracking-normal font-normal text-[12px] opacity-80 mt-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
-              {t("The staff plan and fight every battle for you. Off by default.")}
-            </span>
-          </span>
-          <button
-            onClick={toggleStaffAlways}
-            aria-pressed={staffAlways}
-            aria-labelledby="setting-staff-label"
-            className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
-            style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-          >
-            {staffAlways ? t("On") : t("Off")}
-          </button>
-        </div>
-        <div className={`${paper} p-4 flex flex-col gap-2`}>
-          <div className="flex items-center justify-between">
-            <span id="setting-music-label" className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              {t("Music")}
-            </span>
-            <button
-              onClick={onToggleMusic}
-              aria-pressed={musicOn}
-              aria-labelledby="setting-music-label"
-              className="border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95"
-              style={{ fontFamily: "'IBM Plex Mono', monospace" }}
-            >
-              {musicOn ? t("On") : t("Off")}
-            </button>
-          </div>
-          {musicOn && (
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.05"
-              value={musicVolume}
-              onChange={(e) => onMusicVolumeChange(parseFloat(e.target.value))}
-              aria-label={t("Music volume, currently {p} percent", { p: Math.round(musicVolume * 100) })}
-              className="w-full accent-black"
-            />
-          )}
-        </div>
+            <SettingsRows instantText={instantText} onToggleInstant={onToggleInstant} soundOn={soundOn} onToggleSound={onToggleSound} fontScale={fontScale} onCycleFontScale={onCycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={onToggleReducedMotion} musicOn={musicOn} onToggleMusic={onToggleMusic} musicVolume={musicVolume} onMusicVolumeChange={onMusicVolumeChange} dyslexia={dyslexia} onToggleDyslexia={onToggleDyslexia} night={night} onToggleNight={onToggleNight} />
           </div>
         </details>
 
@@ -2858,18 +2727,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
     window.scrollTo({ top: 0, left: 0 });
     if (headingRef.current) headingRef.current.focus();
   }, [reportNumber, stage]);
-  useEffect(() => {
-    const onKey = (e) => {
-      const n = parseInt(e.key, 10);
-      if (!isNaN(n) && n >= 1 && n <= displayOrder.length) {
-        const trueIdx = displayOrder[n - 1];
-        const c = stage.choices[trueIdx];
-        if (!(iron && c.favor && c.favor > favor)) onChoose(trueIdx);
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  });
+  // The number keys give the order with that number: the app-wide keys (useInputControls, part 47) press the choice marked
+  // data-hotkey="1" … "9" below, skipping a disabled one, and not while a menu is open or a box is being typed in.
   // With Sound on, a soft note goes with each direction the meters moved since the last decision.
   useEffect(() => {
     if (!soundOn || !prev || !prev.meters) return undefined;
@@ -3145,11 +3004,12 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
           {t("Issue Order")}
         </div>
         <div className="flex flex-col gap-3 mb-6">
-          {displayOrder.map((i) => {
+          {displayOrder.map((i, k) => {
             const choice = stage.choices[i];
             return (
             <button
               key={i}
+              data-hotkey={k < 9 ? String(k + 1) : undefined}
               onClick={() => onChoose(i)}
               disabled={(iron && choice.favor && choice.favor > favor) || !!choice.disabledReason}
               className="text-left border-2 px-4 py-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] group disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#000000]"
@@ -3305,7 +3165,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
 
         {!noRewind && pastStages && pastStages.length > 0 && (
           <details className="border-t-2 pt-3" style={{ borderColor: campaign.accent }}>
-            <summary
+            <summary data-hotkey="r"
               className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}
             >
@@ -4887,6 +4747,7 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
               </details>
             )}
             <button
+              data-hotkey="enter"
               onClick={onContinue}
               className="w-full border-2 px-4 py-3 hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] active:translate-y-px"
               style={{ borderColor: campaign.accent, ...bodyStyle }}
@@ -4936,13 +4797,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
     window.scrollTo({ top: 0, left: 0 });
     if (headingRef.current) headingRef.current.focus();
   }, [stage, choiceIndex, rollIndex]);
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "Enter" || e.key === " ") onProceed();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  });
+  // Enter or Space goes on: the app-wide keys (useInputControls, part 47) press the button marked data-hotkey="enter" below.
   useEffect(() => {
     if (soundOn) playStamp();
   }, []);
@@ -5138,6 +4993,7 @@ function OutcomeScreen({ campaign, stage, choiceIndex, rollIndex, meters, flags,
         )}
 
         <button
+          data-hotkey="enter"
           onClick={onProceed}
           className="border-2 px-5 py-2 uppercase tracking-widest text-sm hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
           style={{ borderColor: campaign.accent, fontFamily: "Oswald, sans-serif" }}
@@ -5481,7 +5337,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
 
         {pastStages && pastStages.length > 0 && (
           <details className="border-t-2 pt-3 mb-6" style={{ borderColor: campaign.accent }}>
-            <summary className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            <summary data-hotkey="r" className="text-xs uppercase tracking-[0.25em] text-[#000000] font-semibold cursor-pointer select-none" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               {t("Reconsider an Earlier Decision")}
             </summary>
             <div className="flex flex-col gap-2 mt-3">

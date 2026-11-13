@@ -8,6 +8,8 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+// Each command keeps its own war in progress (dispatches-ww2-active-<command>); these tests have one.
+const activeOf = (store) => Object.keys(store).find((k) => k.startsWith("dispatches-ww2-active-"));
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
@@ -35,6 +37,8 @@ function snapshot(ctx) {
   const o = {};
   for (let i = 0; i < ctx.w.localStorage.length; i++) {
     const k = ctx.w.localStorage.key(i);
+    // Instant text is kept between visits now; the resumed page starts without it, so the battle report plays line by line (with Pause).
+    if (k === "dispatchesWW2_instant_text") continue;
     o[k] = ctx.w.localStorage.getItem(k);
   }
   return o;
@@ -78,7 +82,7 @@ check(!!saveBtn, "planning screen offers Save and leave the field");
 await ctx1.click(saveBtn);
 check(/War in Progress/.test(ctx1.text()) && /part way through/.test(ctx1.text()), "menu offers the war and names the battle");
 const saved1 = snapshot(ctx1);
-const run1 = JSON.parse(saved1["dispatches-ww2-active"]);
+const run1 = JSON.parse(saved1[activeOf(saved1)]);
 check(run1.battle && run1.battle.stage === "allocation" && run1.battle.draft && run1.battle.draft.postureId !== undefined, "the save carries the planning draft and the enemy setup");
 ctx1.restore();
 
@@ -106,7 +110,8 @@ for (let i = 0; i < 40 && !report; i++) {
   await ctx2.click(b);
 }
 check(report, "committing the resumed plan opens the battle report");
-const commitSave = JSON.parse(snapshot(ctx2)["dispatches-ww2-active"]);
+const snap2 = snapshot(ctx2);
+const commitSave = JSON.parse(snap2[activeOf(snap2)]);
 check(commitSave.battle && commitSave.battle.stage === "report" && commitSave.battle.plan, "committing the plan saves it at once");
 const first = ctx2.text();
 check(!!find(ctx2, /^Start battle/), "the report opens with a Start battle button at the top");
@@ -145,9 +150,9 @@ ctx3.restore();
 
 // --- a damaged battle section must not strand the player --------------------------------------------
 const bad = { ...saved1 };
-const broken = JSON.parse(bad["dispatches-ww2-active"]);
+const broken = JSON.parse(bad[activeOf(bad)]);
 broken.battle.draft.allocation = { nonsense: 1 };
-bad["dispatches-ww2-active"] = JSON.stringify(broken);
+bad[activeOf(bad)] = JSON.stringify(broken);
 const ctx4 = await boot(bad);
 await ctx4.click(find(ctx4, /War in Progress/));
 check(!/Order of Battle[:—] Before Committing/.test(ctx4.text()) && !/The File Was Damaged/.test(ctx4.text()), "a damaged battle section falls back to the briefing");

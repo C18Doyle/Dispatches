@@ -6,6 +6,8 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+// Each command keeps its own war in progress (dispatches-ww2-active-<command>); these tests have one.
+const activeOf = (store) => Object.keys(store).find((k) => k.startsWith("dispatches-ww2-active-"));
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
@@ -121,7 +123,7 @@ if (saveButton) {
   await saveCtx.click(saveButton);
   const stored = snapshot(saveCtx);
   storedSave = stored;
-  const run = stored["dispatches-ww2-active"] ? JSON.parse(stored["dispatches-ww2-active"]) : null;
+  const run = stored[activeOf(stored)] ? JSON.parse(stored[activeOf(stored)]) : null;
   check(!!run && run.controlBattles === false, "the save records that the player does not plan battles");
   saveCtx.restore();
   const back = await boot(stored);
@@ -140,7 +142,7 @@ if (saveButton) {
 }
 // ...and an older save, written before the stamp existed, means "plan the battles"
 if (storedSave) {
-  const old = { ...storedSave, "dispatches-ww2-active": JSON.stringify({ ...JSON.parse(storedSave["dispatches-ww2-active"]), controlBattles: undefined }) };
+  const old = { ...storedSave, [activeOf(storedSave)]: JSON.stringify({ ...JSON.parse(storedSave[activeOf(storedSave)]), controlBattles: undefined }) };
   const oldCtx = await boot(old);
   const resumeOld = find(oldCtx, /War in Progress/);
   check(!!resumeOld, "a save without the setting still resumes");
