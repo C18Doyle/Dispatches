@@ -282,6 +282,7 @@ function SpecialEventScreen({ campaign, event, onContinue }) {
         </div>
         <div className="wire-tear wire-tear-bottom" style={{ "--wire-paper": paperTint }}></div>
         <button
+          data-hotkey="enter"
           onClick={onContinue}
           className="w-full border-2 mt-4 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold transition-colors duration-150"
           style={{ borderColor: campaign.accent, color: campaign.accent, fontFamily: "'IBM Plex Mono', monospace", background: paperTint }}

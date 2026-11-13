@@ -355,21 +355,100 @@ async function withRetry(fn, attempts = 3, delayMs = 250) {
   throw lastErr;
 }
 
+// ---------- SAVES ----------
+// Each command keeps its own war in progress (dispatches-ww2-active-<command>), saved after every decision, so a British war and a
+// Japanese war can be under way at once and starting one never touches another. Beside them are three named slots
+// (dispatches-ww2-slot-<n>) the player fills by hand from the in-run menu. A save from before this (the one key dispatches-ww2-active)
+// is moved into its command's place the first time the saves are read (loadSavedRuns).
+const LEGACY_ACTIVE_KEY = "dispatches-ww2-active";
+const activeKey = (campaignId) => `dispatches-ww2-active-${campaignId}`;
+const SAVE_SLOTS = [1, 2, 3];
+const slotKey = (n) => `dispatches-ww2-slot-${n}`;
+
 async function saveActiveRun(payload) {
+  if (!payload || !payload.campaignId) return false;
   try {
-    await withRetry(() => window.storage.set("dispatches-ww2-active", JSON.stringify(payload)));
+    await withRetry(() => window.storage.set(activeKey(payload.campaignId), JSON.stringify({ ...payload, savedAt: Date.now() })));
     return true;
   } catch (e) {
     return false;
   }
 }
 
-async function clearActiveRun() {
+/** Clears one command's war in progress. */
+async function clearActiveRun(campaignId) {
+  if (!campaignId) return;
   try {
-    await withRetry(() => window.storage.delete("dispatches-ww2-active"));
+    await withRetry(() => window.storage.delete(activeKey(campaignId)));
   } catch (e) {
     // nothing to clear
   }
+}
+
+/** Saves the run into a named slot. `name` is the player's own, or the command and the report. */
+async function saveToSlot(n, payload, name) {
+  if (!SAVE_SLOTS.includes(n) || !payload || !payload.campaignId) return false;
+  try {
+    await withRetry(() => window.storage.set(slotKey(n), JSON.stringify({ ...payload, slotName: name || "", savedAt: Date.now() })));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+async function deleteSlot(n) {
+  try {
+    await withRetry(() => window.storage.delete(slotKey(n)));
+  } catch (e) {
+    // nothing to delete
+  }
+}
+
+/** A stored run, parsed, migrated and checked; null when it is missing, unreadable or no longer resolves. */
+async function readRun(key) {
+  try {
+    const got = await window.storage.get(key);
+    if (!got || !got.value) return null;
+    const run = migrateSave(JSON.parse(got.value));
+    return isValidActiveRun(run) ? run : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * Every saved run: one war in progress per command (in the order of the opening screen) and the three slots. An old single save is
+ * moved into its command's place first, unless that command already has a newer one. A war in progress that no longer loads is removed.
+ */
+async function loadSavedRuns() {
+  const legacy = await readRun(LEGACY_ACTIVE_KEY);
+  if (legacy) {
+    const current = await readRun(activeKey(legacy.campaignId));
+    if (!current) await saveActiveRun(legacy);
+  }
+  try {
+    await window.storage.delete(LEGACY_ACTIVE_KEY);
+  } catch (e) {
+    // nothing to move
+  }
+  const active = [];
+  // Every command that still exists, including SHAEF and CINCPAC (no longer offered, but a war begun as one before the British and
+  // American commands still resumes and plays, as it did when there was one save).
+  for (const id of Object.keys(CAMPAIGNS)) {
+    const run = await readRun(activeKey(id));
+    if (run) active.push(run);
+    else {
+      try {
+        const raw = await window.storage.get(activeKey(id));
+        if (raw && raw.value) await clearActiveRun(id); // a stale or incompatible save: clean it up rather than leave it dangling
+      } catch (e) {
+        // nothing there
+      }
+    }
+  }
+  const slots = [];
+  for (const n of SAVE_SLOTS) slots.push({ n, run: await readRun(slotKey(n)) });
+  return { active, slots };
 }
 
 async function saveRunRecord(campaign, flags, meters, visited, mode, log, rewinds, favor) {
@@ -382,13 +461,36 @@ async function saveRunRecord(campaign, flags, meters, visited, mode, log, rewind
       // no existing record — first run
     }
     record.runs = (record.runs || []).slice(-24);
+    const rating = buildRating(campaign, flags, meters, log, mode, rewinds, favor);
+    const label = campaign.positionLabel ? campaign.positionLabel(flags, meters) : null;
     record.runs.push({
       when: Date.now(),
-      label: campaign.positionLabel ? campaign.positionLabel(flags, meters) : null,
+      campaignId: campaign.id,
+      label,
       endDate: campaign.projectedEnd ? campaign.projectedEnd(flags, meters).stamp : null,
       mode: mode || "open",
-      rank: buildRating(campaign, flags, meters, log, mode, rewinds, favor).rank,
+      rank: rating.rank,
+      decisions: (log || []).length,
+      departures: (log || []).filter((e) => !e.isHistorical && e.histLabel).length,
     });
+    // The records page (RecordsByCommand, part 47): per command, the files closed, the best rank and the endings reached, kept for
+    // every war (the run list above keeps only the last 25); and how often each report's record was departed from.
+    const byCommand = record.byCommand || {};
+    const mine = byCommand[campaign.id] || { played: 0, bestScore: null, bestRank: null, endings: [] };
+    byCommand[campaign.id] = {
+      played: mine.played + 1,
+      bestScore: mine.bestScore == null || rating.score > mine.bestScore ? rating.score : mine.bestScore,
+      bestRank: mine.bestScore == null || rating.score > mine.bestScore ? rating.rank : mine.bestRank,
+      endings: label ? [...new Set([...(mine.endings || []), label])] : mine.endings || [],
+    };
+    record.byCommand = byCommand;
+    const departures = record.departures || {};
+    for (const e of log || []) {
+      if (e.isHistorical || !e.histLabel || !e.title) continue;
+      const k = `${campaign.id}|${e.title}`;
+      departures[k] = { campaign: campaign.id, title: e.title, count: ((departures[k] && departures[k].count) || 0) + 1 };
+    }
+    record.departures = departures;
     record.nodes = [...new Set([...(record.nodes || []), ...visited])];
     const earned = evaluateObjectives({ campaignId: campaign.id, flags, meters, log, rewinds, mode, favor });
     record.objectives = [...new Set([...(record.objectives || []), ...earned])];
@@ -505,12 +607,24 @@ class ErrorBoundary extends Component {
     return { hasError: true };
   }
   componentDidCatch(error, info) {
-    // Nothing to report to — this is a client-only artifact. Keeping the error
-    // visible in the console is the best available diagnostic for a bug report.
     console.error("WW2 Command crashed:", error, info);
+    // A crash report (part 47): kept on this machine only if the player turned "Keep crash reports" on, and always offered below to
+    // copy or save, so the player can send it to the developer.
+    const report = buildCrashReport(error, info);
+    keepCrashReport(report);
+    this.setState({ report });
   }
   render() {
     if (this.state.hasError) {
+      const report = this.state.report;
+      const copy = async () => {
+        try {
+          await navigator.clipboard.writeText(JSON.stringify(report, null, 2));
+          this.setState({ copied: true });
+        } catch (e) {
+          this.setState({ copied: false });
+        }
+      };
       return (
         <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10 text-center">
           <div className="bg-white text-black shadow-[0_8px_30px_rgba(0,0,0,0.5)] w-full max-w-md p-8">
@@ -529,6 +643,31 @@ class ErrorBoundary extends Component {
             >
               Reload
             </button>
+            {report && (
+              <div className="mt-6 text-left">
+                <p className="text-[13px] leading-relaxed mb-3 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                  A short report of what went wrong (the command, the report you were on, the error, and the browser and language; nothing else) can be sent to the
+                  developer. Copy it or save it as a file, and attach it to a message or a bug report.
+                  {crashReportsOn() ? " A copy is also kept on this machine." : ""}
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={copy}
+                    className="flex-1 border-2 border-black px-3 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff]"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    {this.state.copied ? "Copied" : "Copy the report"}
+                  </button>
+                  <button
+                    onClick={() => downloadCrashReport(report)}
+                    className="flex-1 border-2 border-black px-3 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff]"
+                    style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                  >
+                    Save the report
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       );

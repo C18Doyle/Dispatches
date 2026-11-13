@@ -37,10 +37,11 @@ function WW2CommandInner() {
   const [grandChain, setGrandChain] = useState(null);
   const [favor, setFavor] = useState(5);
   const [defiance, setDefiance] = useState(0);
-  const [instantText, setInstantText] = useState(false);
+  // Kept between visits (useKeptSetting, part 47). Sound is not: the audio engine may only start from a press, so it is off at each launch.
+  const [instantText, setInstantText] = useKeptSetting("dispatchesWW2_instant_text", false);
   const [soundOn, setSoundOn] = useState(false);
-  const [fontScale, setFontScale] = useState(1);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [fontScale, setFontScale] = useKeptSetting("dispatchesWW2_text_size", 1);
+  const [reducedMotion, setReducedMotion] = useKeptSetting("dispatchesWW2_reduced_motion", false);
   // The dyslexia-friendly typeface is the one setting that is kept between visits: a reader who needs it needs it on the first screen.
   const [dyslexia, setDyslexia] = useState(() => {
     try {
@@ -81,9 +82,12 @@ function WW2CommandInner() {
   // false, matching the sound-effects toggle's deliberately silent-until-asked pattern — right
   // for typewriter clacks/stamps, wrong for a game score nobody would think to go looking for
   // in a collapsed Settings panel). Still toggleable off for anyone who doesn't want it.
-  const [musicOn, setMusicOn] = useState(true);
-  const [musicVolume, setMusicVolume] = useState(0.5);
-  const FONT_SCALES = [0.9, 1, 1.15];
+  const [musicOn, setMusicOn] = useKeptSetting("dispatchesWW2_music", true);
+  const [musicVolume, setMusicVolume] = useKeptSetting("dispatchesWW2_music_volume", 0.5);
+  // The in-run menu and the war journal (part 47), and what the menu's save slots hold while it is open.
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [journalOpen, setJournalOpen] = useState(false);
+  const [menuSlots, setMenuSlots] = useState(SAVE_SLOTS.map((n) => ({ n, run: null })));
   function cycleFontScale() {
     setFontScale((s) => {
       const idx = FONT_SCALES.indexOf(s);
@@ -133,7 +137,7 @@ function WW2CommandInner() {
       window.__TEST_CAMPAIGN__ ||
       new URLSearchParams(window.location.search).get("testCampaign") ||
       (testNode === "omahaCrisis44" ? "allied" : "german");
-    clearActiveRun();
+    clearActiveRun(testCampaign);
     const seedMeters = { manpower: 5, fuel: 5, initiative: 5 };
     setMode("open");
     setFavor(5);
@@ -197,7 +201,7 @@ function WW2CommandInner() {
     closeMeterPanels();
     setFavor(5);
     setDefiance(0);
-    clearActiveRun();
+    clearActiveRun(id);
     selectRules(id);
     setCampaignId(id);
     const baseSeedFlags = startFlags(playMode);
@@ -415,10 +419,9 @@ function WW2CommandInner() {
       } else {
         setScreen("briefing");
       }
-      // Autosave every 3rd decision (plus always on manual Save / Home) — the storage API is
-      // rate-limited, and saving on every single choice was very likely exhausting it over a
-      // real play session, which is the most probable cause of saves silently failing.
-      if (newLog.length % 3 === 0) {
+      // Autosave after every decision, into this command's own place. (It was every third decision while the game ran on a host whose
+      // storage API was rate-limited; a browser's or the desktop build's storage is not, and a closed window should lose nothing.)
+      {
         saveActiveRun({
           version: SAVE_VERSION,
           campaignId,
@@ -436,7 +439,7 @@ function WW2CommandInner() {
         });
       }
     } else {
-      clearActiveRun();
+      clearActiveRun(campaignId);
       saveRunRecord(campaign, flagsStep, meters, visited, mode, newLog, rewinds, favor);
       setScreen("end");
     }
@@ -453,7 +456,12 @@ function WW2CommandInner() {
   }
 
   async function manualSave() {
-    return await saveActiveRun({
+    return await saveActiveRun(runPayload());
+  }
+
+  /** The run as it stands, for a save (a war in progress or a slot). */
+  function runPayload() {
+    return {
       battle: battleSnapshot() || undefined,
       version: SAVE_VERSION,
       campaignId,
@@ -468,7 +476,7 @@ function WW2CommandInner() {
       visited,
       rewinds,
       history,
-    });
+    };
   }
 
   async function goHome() {
@@ -672,7 +680,7 @@ function WW2CommandInner() {
   }
 
   function switchCampaign() {
-    clearActiveRun();
+    clearActiveRun(campaignId);
     setScreen("select");
     setCampaignId(null);
     setPosition(0);
@@ -693,8 +701,92 @@ function WW2CommandInner() {
         })
       : [];
 
+  // ---- The app shell (part 47): crash context, the in-run menu, the war journal, keys and controller ----
+  Object.assign(CRASH_CONTEXT, { campaignId, position, screen, mode, decisions: log.length });
+  const inRun = !!campaign && screen !== "select";
+  // A file is saved to a slot at a briefing, before the order is given: the clean place to resume.
+  const canSaveSlot = inRun && screen === "briefing";
+  async function openMenu() {
+    setJournalOpen(false);
+    setMenuOpen(true);
+    const all = await loadSavedRuns();
+    setMenuSlots(all.slots);
+  }
+  async function saveSlot(n, name) {
+    const ok = await saveToSlot(n, runPayload(), name);
+    setMenuSlots((await loadSavedRuns()).slots);
+    return ok;
+  }
+  useInputControls({
+    onBack: () => {
+      if (journalOpen) return setJournalOpen(false), true;
+      if (menuOpen) return setMenuOpen(false), true;
+      if (inRun) return openMenu(), true;
+      return false;
+    },
+    onMenu: () => {
+      if (!inRun) return false;
+      if (menuOpen) setMenuOpen(false);
+      else openMenu();
+      return true;
+    },
+    onJournal: () => {
+      if (!inRun) return false;
+      setMenuOpen(false);
+      setJournalOpen((v) => !v);
+      return true;
+    },
+  });
+  const settingsProps = {
+    instantText, onToggleInstant: () => setInstantText((v) => !v),
+    soundOn, onToggleSound: toggleSound,
+    fontScale, onCycleFontScale: cycleFontScale,
+    reducedMotion, onToggleReducedMotion: () => setReducedMotion((v) => !v),
+    musicOn, onToggleMusic: () => setMusicOn((v) => !v),
+    musicVolume, onMusicVolumeChange: setMusicVolume,
+    dyslexia, onToggleDyslexia: () => setDyslexia((v) => !v),
+    night, onToggleNight: () => setNight((v) => !v),
+  };
+
   return (
     <div style={{ zoom: fontScale }}>
+      <style>{INPUT_CSS}</style>
+      {inRun && (
+        <div className="fixed bottom-3 right-3 z-50 flex gap-2 dg-shell-buttons">
+          <button
+            onClick={() => (setMenuOpen(false), setJournalOpen(true))}
+            aria-label={t("Show the war journal")}
+            title={t("War journal (J)")}
+            className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+          >
+            <span aria-hidden="true">☰</span>
+          </button>
+          <button
+            onClick={openMenu}
+            aria-label={t("Settings and menu")}
+            title={t("Menu (Esc)")}
+            className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+          >
+            <span aria-hidden="true">⚙</span>
+          </button>
+        </div>
+      )}
+      {inRun && menuOpen && (
+        <InRunMenu
+          campaign={campaign}
+          canSave={canSaveSlot}
+          slots={menuSlots}
+          onSaveSlot={saveSlot}
+          onClose={() => setMenuOpen(false)}
+          onJournal={() => (setMenuOpen(false), setJournalOpen(true))}
+          onSaveAndHome={async () => {
+            setMenuOpen(false);
+            await goHome();
+          }}
+          settings={settingsProps}
+        />
+      )}
+      {inRun && journalOpen && <WarJournal campaign={campaign} log={log} flags={flags} onClose={() => setJournalOpen(false)} />}
       <style>{ARBITRARY_CSS}</style>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Courier+Prime:ital@0;1&family=IBM+Plex+Mono:wght@400;500;700&family=Caveat:wght@500;600&display=swap');

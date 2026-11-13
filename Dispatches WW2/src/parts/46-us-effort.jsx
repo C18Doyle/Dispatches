@@ -91,6 +91,7 @@ function EffortScreen({ campaign, year, onChoose }) {
             return (
               <button
                 key={a}
+                data-hotkey={String(ALLOCATIONS.indexOf(a) + 1)}
                 onClick={() => onChoose(a)}
                 className="text-left border-2 px-4 py-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] group"
                 style={{ borderColor: campaign.accent, background: tint, fontFamily: "'Courier Prime', monospace" }}

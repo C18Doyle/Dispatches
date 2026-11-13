@@ -99,6 +99,10 @@
       "start": "^// ---------- THE AMERICAN EFFORT SPLIT \\(Dispatches WW2\\) ----------"
     },
     {
+      "name": "47-app-shell",
+      "start": "^// ---------- THE APP SHELL \\(Dispatches WW2\\) ----------"
+    },
+    {
       "name": "50-app",
       "start": "^function WW2CommandInner\\("
     }
