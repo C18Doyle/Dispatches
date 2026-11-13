@@ -751,42 +751,6 @@ function WW2CommandInner() {
   return (
     <div style={{ zoom: fontScale }}>
       <style>{INPUT_CSS}</style>
-      {inRun && (
-        <div className="fixed bottom-3 right-3 z-50 flex gap-2 dg-shell-buttons">
-          <button
-            onClick={() => (setMenuOpen(false), setJournalOpen(true))}
-            aria-label={t("Show the war journal")}
-            title={t("War journal (J)")}
-            className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
-          >
-            <span aria-hidden="true">☰</span>
-          </button>
-          <button
-            onClick={openMenu}
-            aria-label={t("Settings and menu")}
-            title={t("Menu (Esc)")}
-            className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
-          >
-            <span aria-hidden="true">⚙</span>
-          </button>
-        </div>
-      )}
-      {inRun && menuOpen && (
-        <InRunMenu
-          campaign={campaign}
-          canSave={canSaveSlot}
-          slots={menuSlots}
-          onSaveSlot={saveSlot}
-          onClose={() => setMenuOpen(false)}
-          onJournal={() => (setMenuOpen(false), setJournalOpen(true))}
-          onSaveAndHome={async () => {
-            setMenuOpen(false);
-            await goHome();
-          }}
-          settings={settingsProps}
-        />
-      )}
-      {inRun && journalOpen && <WarJournal campaign={campaign} log={log} flags={flags} onClose={() => setJournalOpen(false)} />}
       <style>{ARBITRARY_CSS}</style>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Courier+Prime:ital@0;1&family=IBM+Plex+Mono:wght@400;500;700&family=Caveat:wght@500;600&display=swap');
@@ -1018,6 +982,43 @@ function WW2CommandInner() {
           seenWireHeadlines={seenWireHeadlines}
         />
       )}
+      {/* The app shell (part 47) comes after the screens, so a reader or the Tab key meets the report first. */}
+      {inRun && (
+        <div className="fixed bottom-3 right-3 z-50 flex gap-2 dg-shell-buttons">
+          <button
+            onClick={() => (setMenuOpen(false), setJournalOpen(true))}
+            aria-label={t("Show the war journal")}
+            title={t("War journal (J)")}
+            className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+          >
+            <span aria-hidden="true">☰</span>
+          </button>
+          <button
+            onClick={openMenu}
+            aria-label={t("Settings and menu")}
+            title={t("Menu (Esc)")}
+            className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+          >
+            <span aria-hidden="true">⚙</span>
+          </button>
+        </div>
+      )}
+      {inRun && menuOpen && (
+        <InRunMenu
+          campaign={campaign}
+          canSave={canSaveSlot}
+          slots={menuSlots}
+          onSaveSlot={saveSlot}
+          onClose={() => setMenuOpen(false)}
+          onJournal={() => (setMenuOpen(false), setJournalOpen(true))}
+          onSaveAndHome={async () => {
+            setMenuOpen(false);
+            await goHome();
+          }}
+          settings={settingsProps}
+        />
+      )}
+      {inRun && journalOpen && <WarJournal campaign={campaign} log={log} flags={flags} onClose={() => setJournalOpen(false)} />}
     </div>
   );
 }
