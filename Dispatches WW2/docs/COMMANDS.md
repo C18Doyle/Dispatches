@@ -48,10 +48,13 @@ From SHAEF's file: pacificPressure42, secondFront42, darlanDeal42, resistanceCon
 
 ## The American effort split (improvement 4)
 
-- Flag `usEffort`, an integer from -2 (the Pacific first) to +2 (Germany first). The record: +1 from Arcadia, held at Casablanca, +1 at Tehran (Overlord fixed), 0 in 1945.
-- Set at four reports: Arcadia (December 1941), Casablanca (January 1943), Tehran (November 1943) and a new report in early 1945 (the last allocation, from the record of the Pacific build-up).
-- Effect, in `src/logic.ts` beside `strainStage`: a contested choice in a report tagged `europe` gets its success weight moved by `usEffort` steps; a `pacific` report gets the opposite. One step is the same size as one stage of strain, so the split costs exactly what it buys. The stage shown is the stage rolled.
-- Shown on every American report under the meters as one line: where the weight of the war lies, and what it costs the other theatre.
+As built (November 2026): `src/effort.ts` (the arithmetic, tested by `tests/effort.test.mjs` under `npm run test:logic`) and part `46-us-effort` (the screen, the four years' papers and the end-of-file record).
+
+- **When.** Once a year, 1942 to 1945, before the year's first American briefing, once Arcadia has opened the war in Europe (flag `trkOpen_E`). The file where the United States stays out of the war has no allocation. The screen is shown while the year has none (flag `usEffort_<year>`), so a save, a resume or a rewind to before it asks again.
+- **Choices.** Germany first (65% of the effort to Europe), an even hand (50%), the Pacific first (35%). The record (`RECORD_ALLOCATION`): an even hand in 1942 and 1943 (Germany first in principle, the Pacific about as much in fact), Germany first in 1944 and 1945 (Overlord, then the last campaign in the west until May).
+- **Effect.** The odds written in the two source files are the record's, so an allocation is measured from the record's for that year: each step away (`EFFORT_STEP`, 6 points) makes the contested orders of one theatre better and the other's as much worse. A report's theatre is its source file (`compositeSourceOf`: SHAEF's reports are Europe, CINCPAC's the Pacific); its year is the first year its date names. Probability moves between a choice's best and worst outcomes as strain moves it, after strain, never below 5% of the whole. Orders that open an Order of Battle keep their own arithmetic, and the meters do not move. The stage shown is the stage rolled.
+- **Shown** on each moved order as one line (`choice.effort`: which theatre has more or less of the year's effort and by how many points), and at the end of the file as the four years against the record.
+- Not done: the allocation does not yet reach the battles (the Order of Battle's own odds), and the British command has no allocation of its own.
 
 ## Britain's imperial war (improvement 5)
 

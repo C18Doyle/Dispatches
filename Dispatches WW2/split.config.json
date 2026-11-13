@@ -95,6 +95,10 @@
       "start": "^const ADVISOR_DOSSIERS = \\{"
     },
     {
+      "name": "46-us-effort",
+      "start": "^// ---------- THE AMERICAN EFFORT SPLIT \\(Dispatches WW2\\) ----------"
+    },
+    {
       "name": "50-app",
       "start": "^function WW2CommandInner\\("
     }

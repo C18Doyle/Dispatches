@@ -163,9 +163,14 @@ function WW2CommandInner() {
   const stage = useMemo(() => {
     if (!campaign) return null;
     // Führer Mode necessity rule lives in logic.ts (playableStage).
-    return strainStage(playableStage(resolveStage(campaign, position, flags, meters), mode, favor), flags, meters, controlBattles);
+    const strained = strainStage(playableStage(resolveStage(campaign, position, flags, meters), mode, favor), flags, meters, controlBattles);
+    // The American command's yearly allocation moves the odds of the year's contested orders in both theatres (src/effort.ts, part 46).
+    if (campaign.id !== "american" || !strained) return strained;
+    return effortStage(strained, flags, compositeSourceOf(position) === "alliedPacific" ? "pacific" : "europe", reportYear(strained.date));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaign, position, flags, meters, mode, controlBattles]);
+  // The year's allocation is asked for before the year's first briefing, once the war in Europe has opened (flag trkOpen_E, part 16).
+  const effortYear = campaign && campaign.id === "american" && stage ? effortDue(flags, reportYear(stage.date), !!flags.trkOpen_E) : null;
 
   // The stage the player chose from. A dynamic stage re-resolves from flags and meters as soon as the
   // choice applies its impact, which can drop or shift a meter-gated choice and changes the roll odds
@@ -854,7 +859,10 @@ function WW2CommandInner() {
           }}
         />
       )}
-      {screen === "briefing" && campaign && stage && (
+      {screen === "briefing" && campaign && stage && effortYear && (
+        <EffortScreen campaign={view} year={effortYear} onChoose={(a) => setFlags((f) => ({ ...f, [effortFlag(effortYear)]: a }))} />
+      )}
+      {screen === "briefing" && campaign && stage && !effortYear && (
         <BriefingScreen
           campaign={view}
           stage={stage}
