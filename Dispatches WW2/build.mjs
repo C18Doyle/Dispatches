@@ -55,7 +55,7 @@ const STATIC_ASSETS = [];
 // assets/ subpath. Currently just the Checkpoint Map's per-campaign, per-year placeholder
 // art (see CheckpointMap in src/App.jsx, which loads `assets/maps/<campaignId>/<year>.png`
 // relative to index.html).
-const STATIC_ASSET_DIRS = ["maps"];
+const STATIC_ASSET_DIRS = ["maps", "photos", "music"];
 
 const HTML_META = {
   full: {

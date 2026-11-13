@@ -255,8 +255,13 @@ function WW2CommandInner() {
   // border41, narvik40) — chooseOption's check never runs for the very first node a player sees
   // (nothing chose their way into it), so that one case is handled here instead, using the same
   // WireBulletin/pendingWireHeadline plumbing.
-  function enterWarRoom(historicallyAccurate = true, planBattles = true) {
+  function enterWarRoom(historicallyAccurate = true, planBattles = true, purist = false) {
     setControlBattles(planBattles);
+    // "Read the briefing alone" is a flag of the file, so a save, a resume and a rewind to the start keep it.
+    if (purist) {
+      setFlags((f) => ({ ...f, purist: true }));
+      setHistory((h) => h.map((snap, i) => (i === 0 ? { ...snap, flags: { ...snap.flags, purist: true } } : snap)));
+    }
     if (!historicallyAccurate && campaignId && DIVERGENCE_FORKS[campaignId]) {
       const forkFlags = rollDivergenceForks(campaignId);
       if (Object.keys(forkFlags).length) {
@@ -554,6 +559,14 @@ function WW2CommandInner() {
   // now also called immediately when musicOn goes false, independent of whether any fade has
   // finished — stopping no longer depends on a ramp that might never converge.
   const musicRef = useRef(null);
+  // The track for the screen (musicSrcFor, part 47): Mars on the opening screen, Neptune for IGHQ, Saturn at the end, the score otherwise.
+  // A new track starts from its beginning, and plays at once if the music is on.
+  const musicSrc = musicSrcFor(screen, campaignId);
+  useEffect(() => {
+    const el = musicRef.current;
+    if (el && musicOn) el.play().catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [musicSrc]);
   const audioGraphRef = useRef(null); // { ctx, gain } once built; null if Web Audio is unavailable
   function getMusicGraph() {
     const el = musicRef.current;
@@ -814,7 +827,7 @@ function WW2CommandInner() {
           *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
         `}</style>
       )}
-      <audio ref={musicRef} src={MUSIC_TRACK_SRC} loop preload="none" />
+      <audio ref={musicRef} src={musicSrc} loop preload="none" />
       {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} dyslexia={dyslexia} onToggleDyslexia={() => setDyslexia((v) => !v)} night={night} onToggleNight={() => setNight((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
       {screen === "warroom" && campaign && (
         <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaignId, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
@@ -999,7 +1012,7 @@ function WW2CommandInner() {
             title={t("Menu (Esc)")}
             className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
           >
-            <span aria-hidden="true">⚙</span>
+            <span aria-hidden="true">{"⚙︎"}</span>
           </button>
         </div>
       )}
