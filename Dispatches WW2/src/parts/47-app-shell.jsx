@@ -2,121 +2,7 @@
 // What sits around the files rather than in them: the settings (shown on the opening screen and in the in-run menu), the in-run menu
 // with its three save slots, the war journal, the records across runs, the keyboard and controller, and the crash reports.
 
-// ---- Settings kept between visits ----
-/** A setting that is kept in localStorage under `key` (as JSON). Storage can be blocked; the setting then lasts until the page closes. */
-function useKeptSetting(key, initial) {
-  const [value, setValue] = useState(() => {
-    try {
-      const raw = window.localStorage.getItem(key);
-      return raw == null ? initial : JSON.parse(raw);
-    } catch (e) {
-      return initial;
-    }
-  });
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(value));
-    } catch (e) {
-      /* not kept */
-    }
-  }, [key, value]);
-  return [value, setValue];
-}
-
-/** The text sizes, smallest first. Extra large is for a handheld (the Steam Deck) read at arm's length. */
-const FONT_SCALES = [0.9, 1, 1.15, 1.3];
-const fontScaleName = (s) => (s <= 0.9 ? t("Small") : s >= 1.3 ? t("Extra large") : s >= 1.15 ? t("Large") : t("Normal"));
-
-/** Full screen, where the browser or the desktop build allows it. */
-function useFullscreen() {
-  const [on, setOn] = useState(() => typeof document !== "undefined" && !!document.fullscreenElement);
-  useEffect(() => {
-    const onChange = () => setOn(!!document.fullscreenElement);
-    document.addEventListener("fullscreenchange", onChange);
-    return () => document.removeEventListener("fullscreenchange", onChange);
-  }, []);
-  const can = typeof document !== "undefined" && !!(document.documentElement && document.documentElement.requestFullscreen);
-  const toggle = () => {
-    try {
-      if (document.fullscreenElement) document.exitFullscreen();
-      else document.documentElement.requestFullscreen();
-    } catch (e) {
-      /* refused: stays as it is */
-    }
-  };
-  return { on, can, toggle };
-}
-
-// ---- Crash reports ----
-// When the file is damaged (ErrorBoundary, part 45) the game can keep a report of what happened: the command, the report, the screen,
-// the error and where it was thrown. Keeping them is off until the player turns it on (Settings: "Keep crash reports"). A report never
-// leaves the machine unless the player copies or saves it, or a build sets CRASH_REPORT_URL and the player has turned reports on.
-const CRASH_REPORT_URL = null; // set by a release build that has somewhere to send reports; null sends nothing
-const CRASH_OPT_IN_KEY = "dispatchesWW2_crash_reports";
-const CRASH_STORE_KEY = "dispatchesWW2_crash_log";
-/** Where the player is, kept up to date by the app on every render so a report can say it. */
-const CRASH_CONTEXT = { campaignId: null, position: null, screen: null, mode: null, decisions: 0 };
-const crashReportsOn = () => {
-  try {
-    return window.localStorage.getItem(CRASH_OPT_IN_KEY) === "true";
-  } catch (e) {
-    return false;
-  }
-};
-function buildCrashReport(error, info) {
-  return {
-    when: new Date().toISOString(),
-    game: "Dispatches WW2",
-    version: typeof __GAME_VERSION__ !== "undefined" ? __GAME_VERSION__ : "0.1.0",
-    language: getLanguage(),
-    ...CRASH_CONTEXT,
-    error: String((error && error.message) || error).slice(0, 500),
-    stack: String((error && error.stack) || "").split("\n").slice(0, 12).join("\n"),
-    componentStack: String((info && info.componentStack) || "").split("\n").slice(0, 12).join("\n"),
-    userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
-  };
-}
-/** Keeps the report (the last ten) and, when a destination is set and the player agreed, sends it. Never throws. */
-function keepCrashReport(report) {
-  if (!crashReportsOn()) return;
-  try {
-    const list = JSON.parse(window.localStorage.getItem(CRASH_STORE_KEY) || "[]");
-    window.localStorage.setItem(CRASH_STORE_KEY, JSON.stringify([...list, report].slice(-10)));
-  } catch (e) {
-    /* storage full or blocked */
-  }
-  if (CRASH_REPORT_URL) {
-    try {
-      fetch(CRASH_REPORT_URL, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(report), keepalive: true }).catch(() => {});
-    } catch (e) {
-      /* offline */
-    }
-  }
-}
-function keptCrashReports() {
-  try {
-    return JSON.parse(window.localStorage.getItem(CRASH_STORE_KEY) || "[]");
-  } catch (e) {
-    return [];
-  }
-}
-/** Hands the player a report as a file to save. */
-function downloadCrashReport(report) {
-  try {
-    const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `dispatches-ww2-crash-${String(report.when || Date.now()).replace(/[:.]/g, "-")}.json`;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      URL.revokeObjectURL(a.href);
-      a.remove();
-    }, 0);
-  } catch (e) {
-    /* no downloads here */
-  }
-}
+// The settings kept between visits, full screen, crash reports and the keyboard and controller are in src/shell-core.js (a module).
 
 // ---- Settings ----
 /**
@@ -326,147 +212,6 @@ function SettingsRows({ idp = "setting-", instantText, onToggleInstant, soundOn,
     </>
   );
 }
-
-// ---- Keyboard and controller ----
-// One set of markers drives both: a button with data-hotkey="1" … "9" is pressed by that number key, data-hotkey="enter" by Enter (when
-// nothing else has the focus) and data-hotkey="r" by R. Escape (or B on a controller) closes what is open or opens the menu; J (or the
-// controller's View button) opens the war journal; Start opens the menu. On a controller the D-pad or left stick moves between the
-// buttons on the page, and A presses the one that has the focus. Keys typed into a text box are left alone.
-const KEY_HELP = [
-  ["1 – 9", T("Choose the order, allocation or option with that number")],
-  ["Enter or Space", T("Continue, or press the button that has the focus")],
-  ["R", T("Open Reconsider an Earlier Decision")],
-  ["J", T("Open the war journal")],
-  ["Esc", T("Close what is open, or open this menu")],
-  ["Tab", T("Move between the buttons")],
-];
-const PAD_HELP = [
-  ["D-pad or left stick", T("Move between the buttons")],
-  ["A", T("Press the button that has the focus")],
-  ["B", T("Close what is open, or open this menu")],
-  ["Start", T("Open this menu")],
-  ["View", T("Open the war journal")],
-];
-
-const FOCUSABLE = 'button:not([disabled]), summary, select:not([disabled]), input:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
-/** Whether a control can be seen. Where the page has no layout at all (a test page), it is whatever is not hidden or inside a closed section. */
-const visible = (el) => {
-  const r = el.getBoundingClientRect();
-  if (r.width > 0 && r.height > 0) return true;
-  const laidOut = document.documentElement.getBoundingClientRect().width > 0;
-  if (laidOut) return false;
-  if (el.closest("[hidden], [aria-hidden='true']")) return false;
-  const shut = el.closest("details:not([open])");
-  return !shut || el.tagName === "SUMMARY" || (el.closest("summary") && el.closest("summary").parentElement === shut);
-};
-/** The part of the page input acts on: the open dialog if there is one, else the whole page. */
-const inputScope = () => document.querySelector('[role="dialog"][aria-modal="true"]') || document;
-function pressHotkey(key) {
-  const el = [...inputScope().querySelectorAll(`[data-hotkey="${key}"]`)].find((e) => visible(e) && !e.disabled);
-  if (!el) return false;
-  el.click();
-  return true;
-}
-function moveFocus(step) {
-  const list = [...inputScope().querySelectorAll(FOCUSABLE)].filter(visible);
-  if (!list.length) return;
-  const i = list.indexOf(document.activeElement);
-  const next = list[i < 0 ? (step > 0 ? 0 : list.length - 1) : (i + step + list.length) % list.length];
-  next.focus();
-  if (next.scrollIntoView) next.scrollIntoView({ block: "center", behavior: "auto" });
-}
-const typingIn = (el) => !!el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT" || el.isContentEditable);
-
-/** Keyboard shortcuts and controller support, for the whole app. `onBack` closes what is open or opens the menu. */
-function useInputControls({ onBack, onMenu, onJournal }) {
-  const handlers = useRef({ onBack, onMenu, onJournal });
-  handlers.current = { onBack, onMenu, onJournal };
-  useEffect(() => {
-    const setMode = (m) => {
-      if (document.documentElement.dataset.input !== m) document.documentElement.dataset.input = m;
-    };
-    function onKey(e) {
-      if (e.ctrlKey || e.metaKey || e.altKey) return;
-      const typing = typingIn(e.target);
-      if (e.key === "Escape") {
-        if (handlers.current.onBack()) e.preventDefault();
-        return;
-      }
-      if (typing) return;
-      setMode("keys");
-      if (/^[1-9]$/.test(e.key)) {
-        if (pressHotkey(e.key)) e.preventDefault();
-      } else if (e.key === "Enter" || e.key === " ") {
-        // Enter or Space: the focused control's own, else the screen's continue button.
-        const a = document.activeElement;
-        const onControl = a && a !== document.body && a.matches && a.matches(FOCUSABLE);
-        if (!onControl && pressHotkey("enter")) e.preventDefault();
-      } else if (e.key === "r" || e.key === "R") {
-        if (pressHotkey("r")) e.preventDefault();
-      } else if (e.key === "j" || e.key === "J") {
-        if (handlers.current.onJournal()) e.preventDefault();
-      }
-    }
-    const onPointer = () => setMode("pointer");
-    document.addEventListener("keydown", onKey);
-    document.addEventListener("pointerdown", onPointer, { passive: true });
-
-    // The controller: polled while one is connected. Buttons act on the press, not while held; the stick repeats while held.
-    let raf = 0;
-    const prev = {};
-    let stickAt = 0;
-    function poll(now) {
-      raf = 0;
-      const pads = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : [];
-      if (!pads.length) return;
-      const pad = pads[0];
-      const pressed = (i) => !!(pad.buttons[i] && pad.buttons[i].pressed);
-      const edge = (i) => {
-        const p = pressed(i);
-        const was = prev[i];
-        prev[i] = p;
-        return p && !was;
-      };
-      let used = false;
-      if (edge(12) || edge(14)) (moveFocus(-1), (used = true));
-      if (edge(13) || edge(15)) (moveFocus(1), (used = true));
-      const y = pad.axes[1] || 0;
-      if (Math.abs(y) > 0.6 && now - stickAt > 220) {
-        moveFocus(y > 0 ? 1 : -1);
-        stickAt = now;
-        used = true;
-      }
-      if (edge(0)) {
-        const a = document.activeElement;
-        if (a && a !== document.body && a.click) a.click();
-        else moveFocus(1);
-        used = true;
-      }
-      if (edge(1)) (handlers.current.onBack(), (used = true));
-      if (edge(9)) (handlers.current.onMenu(), (used = true));
-      if (edge(8)) (handlers.current.onJournal(), (used = true));
-      if (used) setMode("pad");
-      raf = requestAnimationFrame(poll);
-    }
-    const start = () => {
-      if (!raf && typeof requestAnimationFrame === "function") raf = requestAnimationFrame(poll);
-    };
-    window.addEventListener("gamepadconnected", start);
-    if (navigator.getGamepads && [...navigator.getGamepads()].some(Boolean)) start();
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.removeEventListener("pointerdown", onPointer);
-      window.removeEventListener("gamepadconnected", start);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
-}
-
-/** With a controller in hand the focus is drawn large and every control is a comfortable size to land on. */
-const INPUT_CSS = `
-[data-input="pad"] :focus, [data-input="keys"] :focus-visible { outline: 4px solid #b08d3f !important; outline-offset: 3px; }
-[data-input="pad"] button, [data-input="pad"] summary, [data-input="pad"] select { min-height: 44px; }
-`;
 
 // ---- The in-run menu ----
 function ShellButton({ children, onClick, hotkey, disabled, label }) {
@@ -704,6 +449,163 @@ function RecordsByCommand({ record }) {
           </ol>
         </>
       )}
+    </div>
+  );
+}
+
+// ---- The war replayed on the Pacific map ----
+/**
+ * The Pacific theatre map at the end of the war, with a replay: the map stepped through the date of every order given, about one a second,
+ * each drawn with the flags and meters the file had then (history[i + 1] is the state after order i). The European map has the same on its
+ * timeline (CheckpointMap, part 30).
+ */
+function PacificEndMap({ log, history, flags, meters, accent }) {
+  const frames = (log || []).map((e, i) => ({ date: e.date, flags: (history && history[i + 1] && history[i + 1].flags) || flags, meters: (history && history[i + 1] && history[i + 1].meters) || meters }));
+  const last = frames.length - 1;
+  const [at, setAt] = useState(last);
+  const [playing, setPlaying] = useState(false);
+  useEffect(() => {
+    if (!playing) return undefined;
+    if (at >= last) {
+      setPlaying(false);
+      return undefined;
+    }
+    const id = setTimeout(() => setAt((i) => Math.min(i + 1, last)), 900);
+    return () => clearTimeout(id);
+  }, [playing, at, last]);
+  if (last < 0) return null;
+  const f = frames[Math.min(at, last)];
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" };
+  return (
+    <div>
+      <PACIFIC_MAP.PacificMap date={f.date} atEnd={at === last} flags={f.flags} meters={f.meters} accent={accent} />
+      {last > 1 && (
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => {
+              if (playing) return setPlaying(false);
+              if (at >= last) setAt(0);
+              setPlaying(true);
+            }}
+            aria-pressed={playing}
+            aria-label={playing ? t("Pause the replay") : t("Show the war as a replay, one report at a time")}
+            className="border-2 border-black px-3 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            style={mono}
+          >
+            {playing ? t("❚❚ Pause") : t("▶ Replay the war")}
+          </button>
+          <input
+            type="range"
+            min={0}
+            max={last}
+            step={1}
+            value={at}
+            onChange={(e) => (setPlaying(false), setAt(parseInt(e.target.value, 10)))}
+            aria-label={t("Timeline position {p} of {runTimelineLength}: {p2}{p3}", { p: at + 1, runTimelineLength: last + 1, p2: localiseDate(f.date) || "", p3: "" })}
+            className="flex-1 accent-black"
+            style={{ accentColor: accent }}
+          />
+          <span className="text-[10px] uppercase tracking-wider font-bold" style={{ ...mono, color: accent }}>
+            {localiseDate(f.date)}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ---- Archive photographs and music (Wikimedia Commons; assets/commons-manifest.json holds what was read at download) ----
+// One photograph at the top of a key report's briefing, keyed by report id (so the British and American commands show the photograph of
+// a report they share with SHAEF or CINCPAC). Each caption says when and where the photograph was taken, which is not always the report's
+// own day; each credit is the one the licence asks for. Public domain: US Navy, US Coast Guard and Imperial War Museum (Crown copyright
+// expired). CC BY-SA 3.0: Bundesarchiv and RIA Novosti, which ask for the archive, the image number and the licence.
+const CC_BY_SA_3_DE = "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en";
+const CC_BY_SA_3 = "https://creativecommons.org/licenses/by-sa/3.0/deed.en";
+const ARCHIVE_PHOTOS = {
+  caseYellow40: { caption: "A Panzer IV in France, June 1940.", credit: "Bundesarchiv, Bild 146-1981-070-15", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  stalingradPocket: { caption: "Ruins in Stalingrad, October 1942.", credit: "Bundesarchiv, Bild 183-B22436 / Bauer-Altvater", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  moscowDefense41: { caption: "Anti-aircraft gunners on a Moscow rooftop by the Kremlin, August 1941.", credit: "RIA Novosti archive, image 887721 / Oleg Knorring", license: "CC BY-SA 3.0", licenseUrl: CC_BY_SA_3 },
+  kurskDefense43: { caption: "Soviet anti-tank riflemen under fire on the Kursk salient, July 1943.", credit: "RIA Novosti archive, image 4408 / Natalia Bode", license: "CC BY-SA 3.0", licenseUrl: CC_BY_SA_3 },
+  tobruk42: { caption: "Italian M13/40 tanks in North Africa, May 1941.", credit: "Bundesarchiv, Bild 101I-783-0104-38 / Moosmüller", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  alamein42: { caption: "Italian infantry on the march in North Africa, April 1941.", credit: "Bundesarchiv, Bild 101I-783-0104-09 / Moosmüller", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  pearlHarbor41: { caption: "Japanese naval aircraft prepare to take off for Pearl Harbor, 7 December 1941.", credit: "US Navy photograph 80-G-182259, Naval History and Heritage Command", license: "Public domain", licenseUrl: null },
+  midway42: { caption: "The battleship Yamato on trials, 30 October 1941. At Midway it carried Yamamoto's flag.", credit: "US Navy photograph 80-G-704702, Naval History and Heritage Command", license: "Public domain", licenseUrl: null },
+  dunkirk40: { caption: "Troops queue on the beach at Dunkirk to be taken off, late May 1940.", credit: "Imperial War Museum, NYP 68075", license: "Public domain", licenseUrl: null },
+  battleOfBritain40: { caption: "RAF pilots look over a shot-down German fighter. The photograph is filed with the Battle of Britain; its exact date is not recorded.", credit: "Royal Air Force official photographer, Imperial War Museum, CH 2064", license: "Public domain", licenseUrl: null },
+  coralSeaMidwayAllied42: { caption: "USS Yorktown is hit by a torpedo at Midway, 4 June 1942.", credit: "US Navy photograph 80-G-414423, US National Archives", license: "Public domain", licenseUrl: null },
+  omahaCrisis44: { caption: "Into the Jaws of Death: troops of the 1st Infantry Division wade ashore at Omaha Beach, 6 June 1944.", credit: "Robert F. Sargent, US Coast Guard", license: "Public domain", licenseUrl: null },
+};
+/** The music beyond the main score: all Holst's The Planets, in public-domain recordings by US military bands. */
+const MUSIC_TRACKS = {
+  menu: { src: "assets/music/menu-mars.ogg", type: 'audio/ogg; codecs="vorbis"', title: "Holst, Mars, the Bringer of War", by: "United States Air Force Band (Heritage of America Band)" },
+  pacific: { src: "assets/music/pacific-neptune.opus", type: 'audio/ogg; codecs="opus"', title: "Holst, Neptune, the Mystic", by: "“The President's Own” United States Marine Band" },
+  end: { src: "assets/music/end-saturn.opus", type: 'audio/ogg; codecs="opus"', title: "Holst, Saturn, the Bringer of Old Age", by: "“The President's Own” United States Marine Band" },
+};
+/**
+ * The music for the screen: Mars on the opening screen, Neptune through the Japanese command's file, Saturn at the end of a war, and the
+ * main score everywhere else. Opened from a file on disk (file://) the browser plays only the score built into the page (the tracks would
+ * be silent through the volume control), and a browser that cannot play a track's format keeps the score too.
+ */
+function musicSrcFor(screen, campaignId) {
+  const key = screen === "select" ? "menu" : screen === "end" ? "end" : campaignId === "japan" ? "pacific" : null;
+  if (!key || typeof window === "undefined" || window.location.protocol === "file:") return MUSIC_TRACK_SRC;
+  const track = MUSIC_TRACKS[key];
+  try {
+    const probe = document.createElement("audio");
+    if (!probe.canPlayType || !probe.canPlayType(track.type)) return MUSIC_TRACK_SRC;
+  } catch (e) {
+    return MUSIC_TRACK_SRC;
+  }
+  return track.src;
+}
+
+/** A report's archive photograph, with its caption and credit, if it has one. */
+function ArchivePhoto({ nodeId }) {
+  const p = ARCHIVE_PHOTOS[nodeId];
+  const [failed, setFailed] = useState(false);
+  if (!p || failed) return null;
+  return (
+    <figure className="mb-4 border-2 border-black bg-[#f2ead9]">
+      <img src={`assets/photos/${nodeId}.jpg`} alt={p.caption} loading="lazy" className="w-full h-auto block" style={{ filter: "grayscale(0.15) contrast(1.02)" }} onError={() => setFailed(true)} />
+      <figcaption className="px-3 py-2 text-[12px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+        {p.caption}
+        <span className="block text-[10px] uppercase tracking-wider opacity-75 mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          {p.credit} ·{" "}
+          {p.licenseUrl ? (
+            <a href={p.licenseUrl} target="_blank" rel="noopener noreferrer" className="underline">
+              {p.license}
+            </a>
+          ) : (
+            p.license
+          )}
+        </span>
+      </figcaption>
+    </figure>
+  );
+}
+
+/** The credits for the photographs and the music, for the opening screen's Credits. */
+function ArchiveCredits() {
+  return (
+    <div className="mt-3 text-[13px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+      <p className="font-bold mb-1">{t("Photographs")}</p>
+      <ul className="mb-3 list-disc pl-5">
+        {Object.entries(ARCHIVE_PHOTOS).map(([id, p]) => (
+          <li key={id}>
+            {p.caption} {p.credit}, {p.licenseUrl ? <a href={p.licenseUrl} target="_blank" rel="noopener noreferrer" className="underline">{p.license}</a> : p.license}.
+          </li>
+        ))}
+      </ul>
+      <p className="font-bold mb-1">{t("Music")}</p>
+      <ul className="list-disc pl-5">
+        <li>{t("Main score: Hyteck9.")}</li>
+        {Object.values(MUSIC_TRACKS).map((m) => (
+          <li key={m.src}>
+            {m.title}, {m.by}. {t("Public domain.")}
+          </li>
+        ))}
+      </ul>
+      <p className="mt-2 text-[12px] opacity-80">{t("Photographs and recordings from Wikimedia Commons. A CC BY-SA photograph may be reused under the same licence, with the credit given here.")}</p>
     </div>
   );
 }

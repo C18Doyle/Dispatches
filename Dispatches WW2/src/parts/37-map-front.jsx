@@ -630,8 +630,21 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
   if (route.length > 1) keyItems.push([<circle key="a" cx="12" cy="7" r="2.7" fill="#f2ead9" stroke={ink} strokeWidth="1.1" />, null, t("Earlier reports")]);
   if (meanwhile.length > 0) keyItems.push([<circle key="a" cx="12" cy="7" r="6" fill="#4a4a4a" />, <text key="b" x="12" y="10" textAnchor="middle" fontSize="8" fontWeight="700" fill="#fff" style={mono}>1</text>, t("Another command")]);
   if (ground.length > 0) keyItems.push([<circle key="a" cx="12" cy="7" r="6" fill="#f2ead9" stroke="#2f5233" strokeWidth="1.4" />, <text key="b" x="12" y="10" textAnchor="middle" fontSize="8" fontWeight="700" fill="#2f5233" style={mono}>A</text>, t("Ground against the record")]);
+  // What the map shows, in words, for a screen reader: the date and who holds what (the Pacific map has the same, in part 33).
+  const heldBy = MAP_REGIONS.reduce((acc, r) => {
+    const st = statuses[r.id] || "neutral";
+    (acc[st] = acc[st] || []).push(t(r.name));
+    return acc;
+  }, {});
+  const spoken = [
+    t("The map on {date}.", { date: localiseDate(stage.date) || stage.date || "" }),
+    ...Object.entries(heldBy).map(([st, names]) => t("{status}: {regions}.", { status: t(STATUS_LABELS[st] || st), regions: names.join(", ") })),
+    fronts.some((fr) => fr.kind !== "zone" && !fr.projection) ? t("A front line is drawn.") : "",
+    meanwhile.length ? t("{n} {n, plural, one {other command is} other {other commands are}} marked on the map.", { n: meanwhile.length }) : "",
+  ].filter(Boolean).join(" ");
   return (
     <div className="mb-4" role="group" aria-label={t("The map of the front on the day of this report")}>
+      <p className="sr-only">{spoken}</p>
       <div className="dg-reportmap relative w-full overflow-hidden" style={{ aspectRatio: frame ? "2 / 1" : "4 / 3", border: "3px double #1a1410" }}>
         <div className="dg-reportmap-inner absolute inset-0">
           <div className="absolute left-0 top-0 w-full" style={{ aspectRatio: "4 / 3", ...inner }}>

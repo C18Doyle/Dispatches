@@ -596,6 +596,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           >
             <p className="not-italic mb-2">{t("Developer: Craig Doyle")}</p>
             <p className="not-italic">{t("Music: Hyteck9")}</p>
+            <ArchiveCredits />
           </div>
         </details>
 
@@ -2709,6 +2710,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [showMap, setShowMap] = useState(false);
   const easy = mode === "easy";
+  // Read the briefing alone (the war-room stamp; flags.purist): no record mark and no odds figures here. The outcome still shows what the record did.
+  const purist = !!(flags && flags.purist);
   const iron = mode === "iron";
   // Japan's Fanatical Resolve is the same rule as the NKVD mode: a count of suspicion out of five (flags.suspicion).
   const purge = mode === "purge" || mode === "fanatical";
@@ -2988,6 +2991,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         </h2>
         {campaign.dynamic && <ReportConditions campaign={campaign} stage={stage} nodeId={nodeId} meters={meters} />}
         {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
+        {campaign.dynamic && <ArchivePhoto key={"photo-" + nodeId} nodeId={nodeId} />}
         {campaign.dynamic &&
           (PACIFIC_COMMANDS.includes(campaign.id) ? (
             <PACIFIC_MAP.ReportMap key={nodeId} campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={mapHistory(campaign, history)} log={log} />
@@ -3025,7 +3029,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   {intelRests(campaign.id, nodeId, i, flags, easy)}
                 </span>
               )}
-              {easy && choice.historical && (
+              {easy && !purist && choice.historical && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#3a6b4f", color: "#3a6b4f" }}
@@ -3130,22 +3134,27 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               {choice.strain && choice.strain.points > 0 && (
                 <span className="block mt-1 text-[12px] font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
                   <span aria-hidden="true">▼ </span>
-                  {t("Strain: {p}{p2}", { p: choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : t("supplies short"), p2: choice.concealRoll ? t(", and the odds are worse for it") : `, so the odds are ${choice.strain.points} points worse for it` })}
+                  {t("Strain: {p}{p2}", { p: choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : t("supplies short"), p2: choice.concealRoll || purist ? t(", and the odds are worse for it") : `, so the odds are ${choice.strain.points} points worse for it` })}
                 </span>
               )}
               {choice.effort && choice.effort.points !== 0 && (
                 <span className="block mt-1 text-[12px] font-bold" style={{ color: choice.effort.points > 0 ? "#2e5a3a" : "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
                   <span aria-hidden="true">{choice.effort.points > 0 ? "▲ " : "▼ "}</span>
                   {choice.effort.points > 0
-                    ? choice.concealRoll
+                    ? choice.concealRoll || purist
                       ? t("Allocation: {theatre} has more of the year's effort, and the odds are better for it", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe") })
                       : t("Allocation: {theatre} has more of the year's effort, so the odds are {n} points better", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe"), n: choice.effort.points })
-                    : choice.concealRoll
+                    : choice.concealRoll || purist
                     ? t("Allocation: {theatre} has less of the year's effort, and the odds are worse for it", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe") })
                     : t("Allocation: {theatre} has less of the year's effort, so the odds are {n} points worse", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe"), n: -choice.effort.points })}
                 </span>
               )}
-              {choice.uncertain && !choice.concealRoll && (
+              {choice.uncertain && purist && (
+                <span className="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  {t("⚄ Contested: the outcome is not certain")}
+                </span>
+              )}
+              {choice.uncertain && !choice.concealRoll && !purist && (
                 <span
                   className="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -5198,7 +5207,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
             <summary className="text-xs uppercase tracking-[0.25em] font-semibold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               {t("The Theater Map at the end of the war")}
             </summary>
-            <PACIFIC_MAP.PacificMap date={log[log.length - 1].date} atEnd flags={flags} meters={meters} accent={campaign.accent} />
+            <PacificEndMap log={log} history={history} flags={flags} meters={meters} accent={campaign.accent} />
           </details>
         )}
 

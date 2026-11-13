@@ -103,6 +103,12 @@ jobs:
       - name: Real-browser playthrough of every WW2 command to its ending
         working-directory: Dispatches WW2
         run: node tools/playthrough.mjs
+      - name: "WW2 with the keyboard only, and with a (simulated) controller"
+        working-directory: Dispatches WW2
+        run: node tools/input-playthrough.mjs
+      - name: "WW2 screenshot comparison (a screen with no accepted image is recorded and kept in the artifact)"
+        working-directory: Dispatches WW2
+        run: node tools/visual-check.mjs
       - name: Keep screenshots
         if: always()
         uses: actions/upload-artifact@v7

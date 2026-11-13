@@ -54,5 +54,180 @@
     "claim": "German troops entered Kursk on 2 November 1941 (some sources say 3 November).",
     "status": "confirmed-secondary",
     "source": "Search results 2026-10-08 (regional histories and Papers Past)."
+  },
+  {
+    "id": "g-pac-ighq",
+    "where": "glossary: IGHQ",
+    "claim": "Imperial General Headquarters set up in November 1937, with separate army and navy sections.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-combined-fleet",
+    "where": "glossary: Combined Fleet",
+    "claim": "Yamamoto Isoroku commanded the Combined Fleet from August 1939 until his death in April 1943.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-kwantung",
+    "where": "glossary: Kwantung Army",
+    "claim": "Kwantung Army officers staged the Mukden Incident (18 September 1931); defeat at Nomonhan (Khalkhin Gol), August 1939.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-jcs",
+    "where": "glossary: Joint Chiefs",
+    "claim": "The Joint Chiefs of Staff first met in February 1942: Marshall, King, Arnold, and Leahy from July 1942.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-big-six",
+    "where": "glossary: Big Six",
+    "claim": "Supreme Council for the Direction of the War, 1945: prime minister, foreign minister, army and navy ministers, army and navy chiefs of staff.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-tf58",
+    "where": "glossary: task force",
+    "claim": "Task Force 58 was the fast carrier task force under Spruance (Fifth Fleet), 1944 and 1945.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-ichigo",
+    "where": "glossary: Ichi-Go",
+    "claim": "Operation Ichi-Go, April to December 1944, overran the airfields of the US Fourteenth Air Force in south and east China.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-downfall",
+    "where": "glossary: Downfall",
+    "claim": "Olympic (Kyushu, planned for November 1945) and Coronet (Kanto plain, planned for March 1946).",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-ketsugo",
+    "where": "glossary: Ketsu-Go",
+    "claim": "Ketsu-Go, the 1945 plan for the defence of the home islands, relied on massed special attack units and a defence of the beaches.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-shogo",
+    "where": "glossary: Sho-Go",
+    "claim": "Sho-1 (the Philippines) was put into effect in October 1944 and led to the Battle of Leyte Gulf.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-tengo",
+    "where": "glossary: Ten-Go",
+    "claim": "Operation Ten-Go, April 1945, included the sortie of Yamato (Ten-ichi-go), sunk on 7 April 1945 by US carrier aircraft.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-tokyo-express",
+    "where": "glossary: Tokyo Express",
+    "claim": "Allied name for Japanese destroyer supply runs to Guadalcanal, 1942 to February 1943.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-burma-road",
+    "where": "glossary: Burma Road",
+    "claim": "Lashio to Kunming; closed by the Japanese conquest of Burma in 1942.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-hump",
+    "where": "glossary: the Hump",
+    "claim": "The airlift from Assam (India) to Kunming over the eastern Himalayas, April 1942 to 1945.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-hull-note",
+    "where": "glossary: Hull note",
+    "claim": "The Hull note was handed to the Japanese ambassadors on 26 November 1941.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-imperial-conference",
+    "where": "glossary: Imperial Conference",
+    "claim": "The Imperial Conference of 1 December 1941 sanctioned war against the United States, Britain and the Netherlands.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-tripartite",
+    "where": "glossary: Tripartite Pact",
+    "claim": "Signed in Berlin on 27 September 1940.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-potsdam",
+    "where": "glossary: Potsdam Declaration",
+    "claim": "Issued 26 July 1945, demanding unconditional surrender of the Japanese armed forces.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-kamikaze",
+    "where": "glossary: kamikaze",
+    "claim": "First organised kamikaze attacks: October 1944, Leyte Gulf. Kamikaze means divine wind.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-b29",
+    "where": "glossary: B-29",
+    "claim": "The B-29 carried out the 1945 incendiary campaign and the atomic attacks on Hiroshima and Nagasaki.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-yamato",
+    "where": "glossary: Yamato",
+    "claim": "Nine 46 cm guns; Combined Fleet flagship February 1942 to February 1943; sunk 7 April 1945.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-jn25",
+    "where": "glossary: JN-25",
+    "claim": "US and British codebreakers read enough of JN-25 in May 1942 to forecast the Midway operation.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-embargo",
+    "where": "glossary: embargo",
+    "claim": "US freeze of Japanese assets 26 July 1941, followed by Britain and the Netherlands; oil exports stopped from August 1941.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-unconditional",
+    "where": "glossary: unconditional surrender",
+    "claim": "Roosevelt announced the demand at the Casablanca press conference, 24 January 1943.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
+  },
+  {
+    "id": "g-pac-tokyo-raid",
+    "where": "glossary: firebombing",
+    "claim": "Operation Meetinghouse, 9 to 10 March 1945; estimates of the dead run from about 80,000 to over 100,000.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Pacific war; added November 2026 for the Dispatches WW2 glossary, not re-read against a source in this round."
   }
 ]

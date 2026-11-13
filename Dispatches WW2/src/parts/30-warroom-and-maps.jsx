@@ -1104,6 +1104,22 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
     return kept;
   }, [history, campaign, nodeId, flags, meters, embedded, endDate]);
   const [viewIndex, setViewIndex] = useState(runTimeline.length - 1);
+  // The replay: the timeline stepped forward on its own, one report about every second, from the start to the latest.
+  const [replaying, setReplaying] = useState(false);
+  useEffect(() => {
+    if (!replaying) return undefined;
+    if (viewIndex >= runTimeline.length - 1) {
+      setReplaying(false);
+      return undefined;
+    }
+    const id = setTimeout(() => setViewIndex((i) => Math.min(i + 1, runTimeline.length - 1)), 900);
+    return () => clearTimeout(id);
+  }, [replaying, viewIndex, runTimeline.length]);
+  const toggleReplay = () => {
+    if (replaying) return setReplaying(false);
+    if (viewIndex >= runTimeline.length - 1) setViewIndex(0);
+    setReplaying(true);
+  };
   const current = runTimeline[Math.min(viewIndex, runTimeline.length - 1)];
   const statusYear = current.year;
   const clampedYear = years.includes(statusYear) ? statusYear : years.filter((y) => y <= statusYear).pop() || years[0];
@@ -1210,7 +1226,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               max={runTimeline.length - 1}
               step={1}
               value={viewIndex}
-              onChange={(e) => setViewIndex(parseInt(e.target.value, 10))}
+              onChange={(e) => (setReplaying(false), setViewIndex(parseInt(e.target.value, 10)))}
               aria-label={t("Timeline position {p} of {runTimelineLength}: {p2}{p3}", { p: viewIndex + 1, runTimelineLength: runTimeline.length, p2: localiseDate(current.date) || "", p3: current.title ? `: ${current.title}` : "" })}
               className="w-full accent-black"
               style={{ accentColor: campaign.accent }}
@@ -1247,6 +1263,17 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
                 </button>
               )}
             </div>
+            {runTimeline.length > 2 && (
+              <button
+                onClick={toggleReplay}
+                aria-pressed={replaying}
+                aria-label={replaying ? t("Pause the replay") : t("Show the war as a replay, one report at a time")}
+                className="mt-2 border-2 border-black px-3 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                {replaying ? t("❚❚ Pause") : t("▶ Replay the war")}
+              </button>
+            )}
           </div>
         )}
         {review && !embedded && (
@@ -1529,6 +1556,8 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   const hasForks = (DIVERGENCE_FORKS[campaign.id] || []).length > 0;
   // "Take control of battle planning": ticked, the Order of Battle opens on a battle choice; unticked, it is made like any other decision.
   const [controlBattles, setControlBattles] = useState(true);
+  // "Read the briefing alone" (purist): off until stamped; the briefing then shows no record mark and no odds.
+  const [purist, setPurist] = useState(false);
 
   return (
     <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10">
@@ -1593,10 +1622,18 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             text="Lift the stamp, and the battles are not played: those choices are made like any other decision."
           />
         )}
+        <StampToggle
+          accent={campaign.accent}
+          checked={purist}
+          onChange={setPurist}
+          stamp="ALONE"
+          title={t("Read the Briefing Alone")}
+          text="Stamp it, and the briefing shows no record mark and no odds: you judge each order on the report alone. The outcome still tells you what the record did."
+        />
         <div className="flex flex-col gap-3">
           <button
             data-hotkey="enter"
-            onClick={() => onEnter(hasForks ? historicallyAccurate : true, KEY_BATTLE_SUBGAME_ENABLED ? controlBattles : true)}
+            onClick={() => onEnter(hasForks ? historicallyAccurate : true, KEY_BATTLE_SUBGAME_ENABLED ? controlBattles : true, purist)}
             className="w-full border-2 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold text-[#ffffff] transition-colors duration-150"
             style={{ borderColor: campaign.accent, backgroundColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
           >

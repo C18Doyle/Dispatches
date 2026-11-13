@@ -46,7 +46,10 @@
     "check-staffs-reading": "npm run extract-campaigns && node tools/check-staffs-reading.mjs",
     "check-i18n": "node tools/i18n.mjs --require-complete",
     "test:i18n": "node ../packages/i18n/tests/i18n.test.mjs",
-    "test:saves-slots": "node tests/saves-slots.test.mjs"
+    "test:saves-slots": "node tests/saves-slots.test.mjs",
+    "test:input": "node tools/input-playthrough.mjs",
+    "visual:check": "node tools/visual-check.mjs",
+    "store-shots": "node tools/store-screenshots.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {

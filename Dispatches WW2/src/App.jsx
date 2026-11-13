@@ -4,6 +4,7 @@ import { t, T, initLanguage, setLanguage, getLanguage, subscribe as subscribeLan
 import I18N_TABLES from "./i18n/tables.js";
 import { EMPTY_METERS, impactSum, effectiveChoice, playableStage, startFlags, resolveChoice, materielReadout, materielStrandOf, MATERIEL_STRANDS, METER_STRANDS, STRAND_ALIAS, strandOf, strandReadout, commandRating, endingCeiling, COMMAND_RANKS, arrearsOf, strainStage, strainOf, buildLogEntry, nextPosition, nextVisited, arrivalFork, adviserStanding, trustedAdvisers, dueEvent, eventSeenKey, dueStateEvent, selectRules, rulesOf, PACIFIC_COMMANDS, PACIFIC_RULES } from "./rules";
 import { ALLOCATIONS, RECORD_ALLOCATION, effortFlag, reportYear, effortDue, effortStage, allocationEffect, allocationRecord } from "./effort";
+import { useKeptSetting, FONT_SCALES, fontScaleName, useFullscreen, CRASH_OPT_IN_KEY, CRASH_CONTEXT, crashReportsOn, buildCrashReport, keepCrashReport, downloadCrashReport, KEY_HELP, PAD_HELP, useInputControls, INPUT_CSS } from "./shell-core";
 // Bundled at build time (esbuild's "dataurl"/JSON loaders — see build.mjs) rather than fetched
 // at runtime. A player who downloads the full/demo zip and opens index.html directly is using
 // the file:// protocol, under which both fetch() of a relative path and a MediaElementAudioSource
@@ -37968,6 +37969,22 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
     return kept;
   }, [history, campaign, nodeId, flags, meters, embedded, endDate]);
   const [viewIndex, setViewIndex] = useState(runTimeline.length - 1);
+  // The replay: the timeline stepped forward on its own, one report about every second, from the start to the latest.
+  const [replaying, setReplaying] = useState(false);
+  useEffect(() => {
+    if (!replaying) return undefined;
+    if (viewIndex >= runTimeline.length - 1) {
+      setReplaying(false);
+      return undefined;
+    }
+    const id = setTimeout(() => setViewIndex((i) => Math.min(i + 1, runTimeline.length - 1)), 900);
+    return () => clearTimeout(id);
+  }, [replaying, viewIndex, runTimeline.length]);
+  const toggleReplay = () => {
+    if (replaying) return setReplaying(false);
+    if (viewIndex >= runTimeline.length - 1) setViewIndex(0);
+    setReplaying(true);
+  };
   const current = runTimeline[Math.min(viewIndex, runTimeline.length - 1)];
   const statusYear = current.year;
   const clampedYear = years.includes(statusYear) ? statusYear : years.filter((y) => y <= statusYear).pop() || years[0];
@@ -38074,7 +38091,7 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
               max={runTimeline.length - 1}
               step={1}
               value={viewIndex}
-              onChange={(e) => setViewIndex(parseInt(e.target.value, 10))}
+              onChange={(e) => (setReplaying(false), setViewIndex(parseInt(e.target.value, 10)))}
               aria-label={t("Timeline position {p} of {runTimelineLength}: {p2}{p3}", { p: viewIndex + 1, runTimelineLength: runTimeline.length, p2: localiseDate(current.date) || "", p3: current.title ? `: ${current.title}` : "" })}
               className="w-full accent-black"
               style={{ accentColor: campaign.accent }}
@@ -38111,6 +38128,17 @@ function CheckpointMap({ campaign, year, flags, meters, resolved, seenWireHeadli
                 </button>
               )}
             </div>
+            {runTimeline.length > 2 && (
+              <button
+                onClick={toggleReplay}
+                aria-pressed={replaying}
+                aria-label={replaying ? t("Pause the replay") : t("Show the war as a replay, one report at a time")}
+                className="mt-2 border-2 border-black px-3 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                {replaying ? t("❚❚ Pause") : t("▶ Replay the war")}
+              </button>
+            )}
           </div>
         )}
         {review && !embedded && (
@@ -38393,6 +38421,8 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   const hasForks = (DIVERGENCE_FORKS[campaign.id] || []).length > 0;
   // "Take control of battle planning": ticked, the Order of Battle opens on a battle choice; unticked, it is made like any other decision.
   const [controlBattles, setControlBattles] = useState(true);
+  // "Read the briefing alone" (purist): off until stamped; the briefing then shows no record mark and no odds.
+  const [purist, setPurist] = useState(false);
 
   return (
     <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10">
@@ -38457,10 +38487,18 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             text="Lift the stamp, and the battles are not played: those choices are made like any other decision."
           />
         )}
+        <StampToggle
+          accent={campaign.accent}
+          checked={purist}
+          onChange={setPurist}
+          stamp="ALONE"
+          title={t("Read the Briefing Alone")}
+          text="Stamp it, and the briefing shows no record mark and no odds: you judge each order on the report alone. The outcome still tells you what the record did."
+        />
         <div className="flex flex-col gap-3">
           <button
             data-hotkey="enter"
-            onClick={() => onEnter(hasForks ? historicallyAccurate : true, KEY_BATTLE_SUBGAME_ENABLED ? controlBattles : true)}
+            onClick={() => onEnter(hasForks ? historicallyAccurate : true, KEY_BATTLE_SUBGAME_ENABLED ? controlBattles : true, purist)}
             className="w-full border-2 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold text-[#ffffff] transition-colors duration-150"
             style={{ borderColor: campaign.accent, backgroundColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
           >
@@ -41242,8 +41280,21 @@ function ReportMap({ campaign, stage, nodeId, flags, meters, history, onOpen }) 
   if (route.length > 1) keyItems.push([<circle key="a" cx="12" cy="7" r="2.7" fill="#f2ead9" stroke={ink} strokeWidth="1.1" />, null, t("Earlier reports")]);
   if (meanwhile.length > 0) keyItems.push([<circle key="a" cx="12" cy="7" r="6" fill="#4a4a4a" />, <text key="b" x="12" y="10" textAnchor="middle" fontSize="8" fontWeight="700" fill="#fff" style={mono}>1</text>, t("Another command")]);
   if (ground.length > 0) keyItems.push([<circle key="a" cx="12" cy="7" r="6" fill="#f2ead9" stroke="#2f5233" strokeWidth="1.4" />, <text key="b" x="12" y="10" textAnchor="middle" fontSize="8" fontWeight="700" fill="#2f5233" style={mono}>A</text>, t("Ground against the record")]);
+  // What the map shows, in words, for a screen reader: the date and who holds what (the Pacific map has the same, in part 33).
+  const heldBy = MAP_REGIONS.reduce((acc, r) => {
+    const st = statuses[r.id] || "neutral";
+    (acc[st] = acc[st] || []).push(t(r.name));
+    return acc;
+  }, {});
+  const spoken = [
+    t("The map on {date}.", { date: localiseDate(stage.date) || stage.date || "" }),
+    ...Object.entries(heldBy).map(([st, names]) => t("{status}: {regions}.", { status: t(STATUS_LABELS[st] || st), regions: names.join(", ") })),
+    fronts.some((fr) => fr.kind !== "zone" && !fr.projection) ? t("A front line is drawn.") : "",
+    meanwhile.length ? t("{n} {n, plural, one {other command is} other {other commands are}} marked on the map.", { n: meanwhile.length }) : "",
+  ].filter(Boolean).join(" ");
   return (
     <div className="mb-4" role="group" aria-label={t("The map of the front on the day of this report")}>
+      <p className="sr-only">{spoken}</p>
       <div className="dg-reportmap relative w-full overflow-hidden" style={{ aspectRatio: frame ? "2 / 1" : "4 / 3", border: "3px double #1a1410" }}>
         <div className="dg-reportmap-inner absolute inset-0">
           <div className="absolute left-0 top-0 w-full" style={{ aspectRatio: "4 / 3", ...inner }}>
@@ -42190,6 +42241,7 @@ function SelectScreen({ onChooseCampaign, onResume, onStartGrand, instantText, o
           >
             <p className="not-italic mb-2">{t("Developer: Craig Doyle")}</p>
             <p className="not-italic">{t("Music: Hyteck9")}</p>
+            <ArchiveCredits />
           </div>
         </details>
 
@@ -44303,6 +44355,8 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [showMap, setShowMap] = useState(false);
   const easy = mode === "easy";
+  // Read the briefing alone (the war-room stamp; flags.purist): no record mark and no odds figures here. The outcome still shows what the record did.
+  const purist = !!(flags && flags.purist);
   const iron = mode === "iron";
   // Japan's Fanatical Resolve is the same rule as the NKVD mode: a count of suspicion out of five (flags.suspicion).
   const purge = mode === "purge" || mode === "fanatical";
@@ -44582,6 +44636,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         </h2>
         {campaign.dynamic && <ReportConditions campaign={campaign} stage={stage} nodeId={nodeId} meters={meters} />}
         {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
+        {campaign.dynamic && <ArchivePhoto key={"photo-" + nodeId} nodeId={nodeId} />}
         {campaign.dynamic &&
           (PACIFIC_COMMANDS.includes(campaign.id) ? (
             <PACIFIC_MAP.ReportMap key={nodeId} campaign={campaign} stage={stage} nodeId={nodeId} flags={flags} meters={meters} history={mapHistory(campaign, history)} log={log} />
@@ -44619,7 +44674,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   {intelRests(campaign.id, nodeId, i, flags, easy)}
                 </span>
               )}
-              {easy && choice.historical && (
+              {easy && !purist && choice.historical && (
                 <span
                   className="inline-block mt-1 mr-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace", borderColor: "#3a6b4f", color: "#3a6b4f" }}
@@ -44724,22 +44779,27 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
               {choice.strain && choice.strain.points > 0 && (
                 <span className="block mt-1 text-[12px] font-bold" style={{ color: "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
                   <span aria-hidden="true">▼ </span>
-                  {t("Strain: {p}{p2}", { p: choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : t("supplies short"), p2: choice.concealRoll ? t(", and the odds are worse for it") : `, so the odds are ${choice.strain.points} points worse for it` })}
+                  {t("Strain: {p}{p2}", { p: choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : t("supplies short"), p2: choice.concealRoll || purist ? t(", and the odds are worse for it") : `, so the odds are ${choice.strain.points} points worse for it` })}
                 </span>
               )}
               {choice.effort && choice.effort.points !== 0 && (
                 <span className="block mt-1 text-[12px] font-bold" style={{ color: choice.effort.points > 0 ? "#2e5a3a" : "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
                   <span aria-hidden="true">{choice.effort.points > 0 ? "▲ " : "▼ "}</span>
                   {choice.effort.points > 0
-                    ? choice.concealRoll
+                    ? choice.concealRoll || purist
                       ? t("Allocation: {theatre} has more of the year's effort, and the odds are better for it", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe") })
                       : t("Allocation: {theatre} has more of the year's effort, so the odds are {n} points better", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe"), n: choice.effort.points })
-                    : choice.concealRoll
+                    : choice.concealRoll || purist
                     ? t("Allocation: {theatre} has less of the year's effort, and the odds are worse for it", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe") })
                     : t("Allocation: {theatre} has less of the year's effort, so the odds are {n} points worse", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe"), n: -choice.effort.points })}
                 </span>
               )}
-              {choice.uncertain && !choice.concealRoll && (
+              {choice.uncertain && purist && (
+                <span className="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  {t("⚄ Contested: the outcome is not certain")}
+                </span>
+              )}
+              {choice.uncertain && !choice.concealRoll && !purist && (
                 <span
                   className="inline-block mt-2 text-[11px] uppercase tracking-widest font-bold border border-current px-2 py-[2px]"
                   style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -46792,7 +46852,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
             <summary className="text-xs uppercase tracking-[0.25em] font-semibold text-[#000000] cursor-pointer select-none py-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               {t("The Theater Map at the end of the war")}
             </summary>
-            <PACIFIC_MAP.PacificMap date={log[log.length - 1].date} atEnd flags={flags} meters={meters} accent={campaign.accent} />
+            <PacificEndMap log={log} history={history} flags={flags} meters={meters} accent={campaign.accent} />
           </details>
         )}
 
@@ -47871,6 +47931,7 @@ async function saveRunRecord(campaign, flags, meters, visited, mode, log, rewind
       label,
       endDate: campaign.projectedEnd ? campaign.projectedEnd(flags, meters).stamp : null,
       mode: mode || "open",
+      purist: !!(flags && flags.purist),
       rank: rating.rank,
       decisions: (log || []).length,
       departures: (log || []).filter((e) => !e.isHistorical && e.histLabel).length,
@@ -48160,6 +48221,37 @@ const GLOSSARY = [
   { group: "ideas", term: "co-belligerent", text: "The status of Italy from October 1943: no longer an ally of Germany and fighting beside the Allies, but not formally one of them." },
   { group: "ideas", term: "rasputitsa", text: "The Russian \"time without roads\": the mud of spring and autumn that stopped wheels and tracks on the Eastern Front." },
   { group: "ideas", term: "Lend-Lease", text: "The American programme, begun in March 1941, of supplying Britain, the Soviet Union and others with war material without immediate payment." },
+  // The Pacific war (Dispatches WW2; facts in claims/glossary-and-map.json, ids g-pac-*)
+  { group: "commands", term: "IGHQ", also: ["Imperial General Headquarters"], text: "Imperial General Headquarters, the supreme command of Japan's army and navy in wartime, set up in 1937. Its army and navy sections planned apart and often disagreed." },
+  { group: "commands", term: "Combined Fleet", text: "The main battle force of the Imperial Japanese Navy, commanded from 1939 until his death in 1943 by Admiral Yamamoto Isoroku." },
+  { group: "commands", term: "Kwantung Army", text: "The Japanese army in Manchuria. Its officers staged the Mukden Incident of 1931, and its defeat at Nomonhan in 1939 helped turn Japan's planners south." },
+  { group: "commands", term: "Joint Chiefs", also: ["Joint Chiefs of Staff"], text: "The Joint Chiefs of Staff: the heads of the US Army, Navy and Army Air Forces, with the President's chief of staff, who directed America's war from 1942." },
+  { group: "commands", term: "Big Six", text: "The six members of Japan's Supreme Council for the Direction of the War in 1945: the prime minister, the foreign minister, the army and navy ministers and the two chiefs of staff." },
+  { group: "formations", term: "task force", plural: true, text: "A naval force put together for one operation: carriers, battleships, cruisers and destroyers under one commander. Task Force 58 was the American fast carrier force of 1944 and 1945." },
+  { group: "formations", term: "air group", plural: true, text: "The aircraft of one carrier, its fighters, dive bombers and torpedo bombers, flown and maintained as one unit." },
+  { group: "operations", term: "Ichi-Go", text: "Japan's largest offensive of the war, in China from April to December 1944, which took the airfields from which American bombers could reach Japan." },
+  { group: "operations", term: "Downfall", text: "The planned Allied invasion of Japan: Olympic, against Kyushu in November 1945, and Coronet, against the Tokyo plain in 1946. It was never carried out." },
+  { group: "operations", term: "Ketsu-Go", text: "Japan's plan of 1945 for the defence of the home islands, built on mass suicide attacks and a fight on the beaches." },
+  { group: "operations", term: "Sho-Go", also: ["Shō-Gō"], text: "Japan's plans of 1944 for a decisive battle wherever the Americans landed next. The plan for the Philippines brought on the Battle of Leyte Gulf." },
+  { group: "operations", term: "Ten-Go", text: "The Japanese air and sea operation against the Americans off Okinawa in April 1945, which included the one-way sortie of the battleship Yamato." },
+  { group: "operations", term: "Tokyo Express", text: "The Allied name for the Japanese destroyers that ran troops and supplies to Guadalcanal by night in 1942 and 1943." },
+  { group: "operations", term: "Burma Road", text: "The mountain road from Lashio in Burma to Kunming in China, the land route for supplies to Chiang Kai-shek's China until the Japanese cut it in 1942." },
+  { group: "operations", term: "the Hump", text: "The air route over the eastern Himalayas from India to Kunming that supplied China after the Burma Road was cut." },
+  { group: "operations", term: "Hull note", also: ["Hull Note"], text: "The American note of 26 November 1941 asking Japan to leave China and Indochina. Tokyo read it as an ultimatum and went to war." },
+  { group: "operations", term: "Imperial Conference", plural: true, text: "A meeting of Japan's leaders in the Emperor's presence, which gave the final sanction to decisions such as the war of December 1941." },
+  { group: "operations", term: "Tripartite Pact", text: "The alliance of Germany, Italy and Japan, signed in Berlin on 27 September 1940." },
+  { group: "operations", term: "Potsdam Declaration", text: "The Allied demand of 26 July 1945 that Japan surrender unconditionally, with a warning of destruction if it refused." },
+  { group: "weapons", term: "carrier", plural: true, text: "An aircraft carrier: a warship with a flight deck from which aircraft take off and land. In the Pacific, carriers, not battleships, decided the war at sea." },
+  { group: "weapons", term: "kamikaze", text: "The Japanese suicide air attacks from October 1944, in which pilots flew their aircraft into Allied ships. The word means divine wind." },
+  { group: "weapons", term: "B-29", plural: true, text: "The Boeing B-29 Superfortress, the American long-range bomber that burned Japan's cities in 1945 and carried the atomic bombs." },
+  { group: "weapons", term: "Yamato", text: "The largest battleship ever built, with nine 46 cm guns, for a time the flagship of the Combined Fleet. American carrier aircraft sank it in April 1945." },
+  { group: "weapons", term: "JN-25", text: "The main operational code of the Japanese navy. American and British codebreakers' reading of it made the ambush at Midway possible." },
+  { group: "ideas", term: "Decisive Battle", text: "The Japanese navy's doctrine: wear the American fleet down as it crossed the Pacific, then destroy it in one great fleet action near Japan." },
+  { group: "ideas", term: "island-hopping", also: ["leapfrogging"], text: "The American way across the Pacific: take some islands for their airfields and pass the rest by, leaving their garrisons cut off." },
+  { group: "ideas", term: "atoll", plural: true, text: "A ring of coral reef and low islands around a lagoon. Tarawa, Kwajalein and Eniwetok were atolls." },
+  { group: "ideas", term: "embargo", plural: true, text: "A ban on trade. In July and August 1941 the United States, Britain and the Netherlands froze Japan's assets and cut off its oil." },
+  { group: "ideas", term: "unconditional surrender", text: "The Allied demand, announced at Casablanca in January 1943, that the Axis powers surrender without negotiated terms." },
+  { group: "ideas", term: "firebombing", text: "Bombing with incendiaries to burn a city. The raid on Tokyo of 9 and 10 March 1945 killed, by most counts, around 100,000 people." },
   // In this game
   { group: "game", term: "Manpower", text: "The first meter: the men available and the shape they are in. Under it are Organisation, Experience and Readiness." },
   { group: "game", term: "Matériel", text: "The second meter: fuel, arms and ammunition, shipping and rail. Under it are Fuel & Oil, Arms & Ammunition and Shipping & Rail." },
@@ -48367,121 +48459,7 @@ function EffortRecord({ flags, accent }) {
 // What sits around the files rather than in them: the settings (shown on the opening screen and in the in-run menu), the in-run menu
 // with its three save slots, the war journal, the records across runs, the keyboard and controller, and the crash reports.
 
-// ---- Settings kept between visits ----
-/** A setting that is kept in localStorage under `key` (as JSON). Storage can be blocked; the setting then lasts until the page closes. */
-function useKeptSetting(key, initial) {
-  const [value, setValue] = useState(() => {
-    try {
-      const raw = window.localStorage.getItem(key);
-      return raw == null ? initial : JSON.parse(raw);
-    } catch (e) {
-      return initial;
-    }
-  });
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(value));
-    } catch (e) {
-      /* not kept */
-    }
-  }, [key, value]);
-  return [value, setValue];
-}
-
-/** The text sizes, smallest first. Extra large is for a handheld (the Steam Deck) read at arm's length. */
-const FONT_SCALES = [0.9, 1, 1.15, 1.3];
-const fontScaleName = (s) => (s <= 0.9 ? t("Small") : s >= 1.3 ? t("Extra large") : s >= 1.15 ? t("Large") : t("Normal"));
-
-/** Full screen, where the browser or the desktop build allows it. */
-function useFullscreen() {
-  const [on, setOn] = useState(() => typeof document !== "undefined" && !!document.fullscreenElement);
-  useEffect(() => {
-    const onChange = () => setOn(!!document.fullscreenElement);
-    document.addEventListener("fullscreenchange", onChange);
-    return () => document.removeEventListener("fullscreenchange", onChange);
-  }, []);
-  const can = typeof document !== "undefined" && !!(document.documentElement && document.documentElement.requestFullscreen);
-  const toggle = () => {
-    try {
-      if (document.fullscreenElement) document.exitFullscreen();
-      else document.documentElement.requestFullscreen();
-    } catch (e) {
-      /* refused: stays as it is */
-    }
-  };
-  return { on, can, toggle };
-}
-
-// ---- Crash reports ----
-// When the file is damaged (ErrorBoundary, part 45) the game can keep a report of what happened: the command, the report, the screen,
-// the error and where it was thrown. Keeping them is off until the player turns it on (Settings: "Keep crash reports"). A report never
-// leaves the machine unless the player copies or saves it, or a build sets CRASH_REPORT_URL and the player has turned reports on.
-const CRASH_REPORT_URL = null; // set by a release build that has somewhere to send reports; null sends nothing
-const CRASH_OPT_IN_KEY = "dispatchesWW2_crash_reports";
-const CRASH_STORE_KEY = "dispatchesWW2_crash_log";
-/** Where the player is, kept up to date by the app on every render so a report can say it. */
-const CRASH_CONTEXT = { campaignId: null, position: null, screen: null, mode: null, decisions: 0 };
-const crashReportsOn = () => {
-  try {
-    return window.localStorage.getItem(CRASH_OPT_IN_KEY) === "true";
-  } catch (e) {
-    return false;
-  }
-};
-function buildCrashReport(error, info) {
-  return {
-    when: new Date().toISOString(),
-    game: "Dispatches WW2",
-    version: typeof __GAME_VERSION__ !== "undefined" ? __GAME_VERSION__ : "0.1.0",
-    language: getLanguage(),
-    ...CRASH_CONTEXT,
-    error: String((error && error.message) || error).slice(0, 500),
-    stack: String((error && error.stack) || "").split("\n").slice(0, 12).join("\n"),
-    componentStack: String((info && info.componentStack) || "").split("\n").slice(0, 12).join("\n"),
-    userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
-  };
-}
-/** Keeps the report (the last ten) and, when a destination is set and the player agreed, sends it. Never throws. */
-function keepCrashReport(report) {
-  if (!crashReportsOn()) return;
-  try {
-    const list = JSON.parse(window.localStorage.getItem(CRASH_STORE_KEY) || "[]");
-    window.localStorage.setItem(CRASH_STORE_KEY, JSON.stringify([...list, report].slice(-10)));
-  } catch (e) {
-    /* storage full or blocked */
-  }
-  if (CRASH_REPORT_URL) {
-    try {
-      fetch(CRASH_REPORT_URL, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(report), keepalive: true }).catch(() => {});
-    } catch (e) {
-      /* offline */
-    }
-  }
-}
-function keptCrashReports() {
-  try {
-    return JSON.parse(window.localStorage.getItem(CRASH_STORE_KEY) || "[]");
-  } catch (e) {
-    return [];
-  }
-}
-/** Hands the player a report as a file to save. */
-function downloadCrashReport(report) {
-  try {
-    const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `dispatches-ww2-crash-${String(report.when || Date.now()).replace(/[:.]/g, "-")}.json`;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      URL.revokeObjectURL(a.href);
-      a.remove();
-    }, 0);
-  } catch (e) {
-    /* no downloads here */
-  }
-}
+// The settings kept between visits, full screen, crash reports and the keyboard and controller are in src/shell-core.js (a module).
 
 // ---- Settings ----
 /**
@@ -48691,147 +48669,6 @@ function SettingsRows({ idp = "setting-", instantText, onToggleInstant, soundOn,
     </>
   );
 }
-
-// ---- Keyboard and controller ----
-// One set of markers drives both: a button with data-hotkey="1" … "9" is pressed by that number key, data-hotkey="enter" by Enter (when
-// nothing else has the focus) and data-hotkey="r" by R. Escape (or B on a controller) closes what is open or opens the menu; J (or the
-// controller's View button) opens the war journal; Start opens the menu. On a controller the D-pad or left stick moves between the
-// buttons on the page, and A presses the one that has the focus. Keys typed into a text box are left alone.
-const KEY_HELP = [
-  ["1 – 9", T("Choose the order, allocation or option with that number")],
-  ["Enter or Space", T("Continue, or press the button that has the focus")],
-  ["R", T("Open Reconsider an Earlier Decision")],
-  ["J", T("Open the war journal")],
-  ["Esc", T("Close what is open, or open this menu")],
-  ["Tab", T("Move between the buttons")],
-];
-const PAD_HELP = [
-  ["D-pad or left stick", T("Move between the buttons")],
-  ["A", T("Press the button that has the focus")],
-  ["B", T("Close what is open, or open this menu")],
-  ["Start", T("Open this menu")],
-  ["View", T("Open the war journal")],
-];
-
-const FOCUSABLE = 'button:not([disabled]), summary, select:not([disabled]), input:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
-/** Whether a control can be seen. Where the page has no layout at all (a test page), it is whatever is not hidden or inside a closed section. */
-const visible = (el) => {
-  const r = el.getBoundingClientRect();
-  if (r.width > 0 && r.height > 0) return true;
-  const laidOut = document.documentElement.getBoundingClientRect().width > 0;
-  if (laidOut) return false;
-  if (el.closest("[hidden], [aria-hidden='true']")) return false;
-  const shut = el.closest("details:not([open])");
-  return !shut || el.tagName === "SUMMARY" || (el.closest("summary") && el.closest("summary").parentElement === shut);
-};
-/** The part of the page input acts on: the open dialog if there is one, else the whole page. */
-const inputScope = () => document.querySelector('[role="dialog"][aria-modal="true"]') || document;
-function pressHotkey(key) {
-  const el = [...inputScope().querySelectorAll(`[data-hotkey="${key}"]`)].find((e) => visible(e) && !e.disabled);
-  if (!el) return false;
-  el.click();
-  return true;
-}
-function moveFocus(step) {
-  const list = [...inputScope().querySelectorAll(FOCUSABLE)].filter(visible);
-  if (!list.length) return;
-  const i = list.indexOf(document.activeElement);
-  const next = list[i < 0 ? (step > 0 ? 0 : list.length - 1) : (i + step + list.length) % list.length];
-  next.focus();
-  if (next.scrollIntoView) next.scrollIntoView({ block: "center", behavior: "auto" });
-}
-const typingIn = (el) => !!el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT" || el.isContentEditable);
-
-/** Keyboard shortcuts and controller support, for the whole app. `onBack` closes what is open or opens the menu. */
-function useInputControls({ onBack, onMenu, onJournal }) {
-  const handlers = useRef({ onBack, onMenu, onJournal });
-  handlers.current = { onBack, onMenu, onJournal };
-  useEffect(() => {
-    const setMode = (m) => {
-      if (document.documentElement.dataset.input !== m) document.documentElement.dataset.input = m;
-    };
-    function onKey(e) {
-      if (e.ctrlKey || e.metaKey || e.altKey) return;
-      const typing = typingIn(e.target);
-      if (e.key === "Escape") {
-        if (handlers.current.onBack()) e.preventDefault();
-        return;
-      }
-      if (typing) return;
-      setMode("keys");
-      if (/^[1-9]$/.test(e.key)) {
-        if (pressHotkey(e.key)) e.preventDefault();
-      } else if (e.key === "Enter" || e.key === " ") {
-        // Enter or Space: the focused control's own, else the screen's continue button.
-        const a = document.activeElement;
-        const onControl = a && a !== document.body && a.matches && a.matches(FOCUSABLE);
-        if (!onControl && pressHotkey("enter")) e.preventDefault();
-      } else if (e.key === "r" || e.key === "R") {
-        if (pressHotkey("r")) e.preventDefault();
-      } else if (e.key === "j" || e.key === "J") {
-        if (handlers.current.onJournal()) e.preventDefault();
-      }
-    }
-    const onPointer = () => setMode("pointer");
-    document.addEventListener("keydown", onKey);
-    document.addEventListener("pointerdown", onPointer, { passive: true });
-
-    // The controller: polled while one is connected. Buttons act on the press, not while held; the stick repeats while held.
-    let raf = 0;
-    const prev = {};
-    let stickAt = 0;
-    function poll(now) {
-      raf = 0;
-      const pads = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : [];
-      if (!pads.length) return;
-      const pad = pads[0];
-      const pressed = (i) => !!(pad.buttons[i] && pad.buttons[i].pressed);
-      const edge = (i) => {
-        const p = pressed(i);
-        const was = prev[i];
-        prev[i] = p;
-        return p && !was;
-      };
-      let used = false;
-      if (edge(12) || edge(14)) (moveFocus(-1), (used = true));
-      if (edge(13) || edge(15)) (moveFocus(1), (used = true));
-      const y = pad.axes[1] || 0;
-      if (Math.abs(y) > 0.6 && now - stickAt > 220) {
-        moveFocus(y > 0 ? 1 : -1);
-        stickAt = now;
-        used = true;
-      }
-      if (edge(0)) {
-        const a = document.activeElement;
-        if (a && a !== document.body && a.click) a.click();
-        else moveFocus(1);
-        used = true;
-      }
-      if (edge(1)) (handlers.current.onBack(), (used = true));
-      if (edge(9)) (handlers.current.onMenu(), (used = true));
-      if (edge(8)) (handlers.current.onJournal(), (used = true));
-      if (used) setMode("pad");
-      raf = requestAnimationFrame(poll);
-    }
-    const start = () => {
-      if (!raf && typeof requestAnimationFrame === "function") raf = requestAnimationFrame(poll);
-    };
-    window.addEventListener("gamepadconnected", start);
-    if (navigator.getGamepads && [...navigator.getGamepads()].some(Boolean)) start();
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.removeEventListener("pointerdown", onPointer);
-      window.removeEventListener("gamepadconnected", start);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
-}
-
-/** With a controller in hand the focus is drawn large and every control is a comfortable size to land on. */
-const INPUT_CSS = `
-[data-input="pad"] :focus, [data-input="keys"] :focus-visible { outline: 4px solid #b08d3f !important; outline-offset: 3px; }
-[data-input="pad"] button, [data-input="pad"] summary, [data-input="pad"] select { min-height: 44px; }
-`;
 
 // ---- The in-run menu ----
 function ShellButton({ children, onClick, hotkey, disabled, label }) {
@@ -49069,6 +48906,163 @@ function RecordsByCommand({ record }) {
           </ol>
         </>
       )}
+    </div>
+  );
+}
+
+// ---- The war replayed on the Pacific map ----
+/**
+ * The Pacific theatre map at the end of the war, with a replay: the map stepped through the date of every order given, about one a second,
+ * each drawn with the flags and meters the file had then (history[i + 1] is the state after order i). The European map has the same on its
+ * timeline (CheckpointMap, part 30).
+ */
+function PacificEndMap({ log, history, flags, meters, accent }) {
+  const frames = (log || []).map((e, i) => ({ date: e.date, flags: (history && history[i + 1] && history[i + 1].flags) || flags, meters: (history && history[i + 1] && history[i + 1].meters) || meters }));
+  const last = frames.length - 1;
+  const [at, setAt] = useState(last);
+  const [playing, setPlaying] = useState(false);
+  useEffect(() => {
+    if (!playing) return undefined;
+    if (at >= last) {
+      setPlaying(false);
+      return undefined;
+    }
+    const id = setTimeout(() => setAt((i) => Math.min(i + 1, last)), 900);
+    return () => clearTimeout(id);
+  }, [playing, at, last]);
+  if (last < 0) return null;
+  const f = frames[Math.min(at, last)];
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" };
+  return (
+    <div>
+      <PACIFIC_MAP.PacificMap date={f.date} atEnd={at === last} flags={f.flags} meters={f.meters} accent={accent} />
+      {last > 1 && (
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => {
+              if (playing) return setPlaying(false);
+              if (at >= last) setAt(0);
+              setPlaying(true);
+            }}
+            aria-pressed={playing}
+            aria-label={playing ? t("Pause the replay") : t("Show the war as a replay, one report at a time")}
+            className="border-2 border-black px-3 py-1 text-[10px] uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            style={mono}
+          >
+            {playing ? t("❚❚ Pause") : t("▶ Replay the war")}
+          </button>
+          <input
+            type="range"
+            min={0}
+            max={last}
+            step={1}
+            value={at}
+            onChange={(e) => (setPlaying(false), setAt(parseInt(e.target.value, 10)))}
+            aria-label={t("Timeline position {p} of {runTimelineLength}: {p2}{p3}", { p: at + 1, runTimelineLength: last + 1, p2: localiseDate(f.date) || "", p3: "" })}
+            className="flex-1 accent-black"
+            style={{ accentColor: accent }}
+          />
+          <span className="text-[10px] uppercase tracking-wider font-bold" style={{ ...mono, color: accent }}>
+            {localiseDate(f.date)}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ---- Archive photographs and music (Wikimedia Commons; assets/commons-manifest.json holds what was read at download) ----
+// One photograph at the top of a key report's briefing, keyed by report id (so the British and American commands show the photograph of
+// a report they share with SHAEF or CINCPAC). Each caption says when and where the photograph was taken, which is not always the report's
+// own day; each credit is the one the licence asks for. Public domain: US Navy, US Coast Guard and Imperial War Museum (Crown copyright
+// expired). CC BY-SA 3.0: Bundesarchiv and RIA Novosti, which ask for the archive, the image number and the licence.
+const CC_BY_SA_3_DE = "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en";
+const CC_BY_SA_3 = "https://creativecommons.org/licenses/by-sa/3.0/deed.en";
+const ARCHIVE_PHOTOS = {
+  caseYellow40: { caption: "A Panzer IV in France, June 1940.", credit: "Bundesarchiv, Bild 146-1981-070-15", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  stalingradPocket: { caption: "Ruins in Stalingrad, October 1942.", credit: "Bundesarchiv, Bild 183-B22436 / Bauer-Altvater", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  moscowDefense41: { caption: "Anti-aircraft gunners on a Moscow rooftop by the Kremlin, August 1941.", credit: "RIA Novosti archive, image 887721 / Oleg Knorring", license: "CC BY-SA 3.0", licenseUrl: CC_BY_SA_3 },
+  kurskDefense43: { caption: "Soviet anti-tank riflemen under fire on the Kursk salient, July 1943.", credit: "RIA Novosti archive, image 4408 / Natalia Bode", license: "CC BY-SA 3.0", licenseUrl: CC_BY_SA_3 },
+  tobruk42: { caption: "Italian M13/40 tanks in North Africa, May 1941.", credit: "Bundesarchiv, Bild 101I-783-0104-38 / Moosmüller", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  alamein42: { caption: "Italian infantry on the march in North Africa, April 1941.", credit: "Bundesarchiv, Bild 101I-783-0104-09 / Moosmüller", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  pearlHarbor41: { caption: "Japanese naval aircraft prepare to take off for Pearl Harbor, 7 December 1941.", credit: "US Navy photograph 80-G-182259, Naval History and Heritage Command", license: "Public domain", licenseUrl: null },
+  midway42: { caption: "The battleship Yamato on trials, 30 October 1941. At Midway it carried Yamamoto's flag.", credit: "US Navy photograph 80-G-704702, Naval History and Heritage Command", license: "Public domain", licenseUrl: null },
+  dunkirk40: { caption: "Troops queue on the beach at Dunkirk to be taken off, late May 1940.", credit: "Imperial War Museum, NYP 68075", license: "Public domain", licenseUrl: null },
+  battleOfBritain40: { caption: "RAF pilots look over a shot-down German fighter. The photograph is filed with the Battle of Britain; its exact date is not recorded.", credit: "Royal Air Force official photographer, Imperial War Museum, CH 2064", license: "Public domain", licenseUrl: null },
+  coralSeaMidwayAllied42: { caption: "USS Yorktown is hit by a torpedo at Midway, 4 June 1942.", credit: "US Navy photograph 80-G-414423, US National Archives", license: "Public domain", licenseUrl: null },
+  omahaCrisis44: { caption: "Into the Jaws of Death: troops of the 1st Infantry Division wade ashore at Omaha Beach, 6 June 1944.", credit: "Robert F. Sargent, US Coast Guard", license: "Public domain", licenseUrl: null },
+};
+/** The music beyond the main score: all Holst's The Planets, in public-domain recordings by US military bands. */
+const MUSIC_TRACKS = {
+  menu: { src: "assets/music/menu-mars.ogg", type: 'audio/ogg; codecs="vorbis"', title: "Holst, Mars, the Bringer of War", by: "United States Air Force Band (Heritage of America Band)" },
+  pacific: { src: "assets/music/pacific-neptune.opus", type: 'audio/ogg; codecs="opus"', title: "Holst, Neptune, the Mystic", by: "“The President's Own” United States Marine Band" },
+  end: { src: "assets/music/end-saturn.opus", type: 'audio/ogg; codecs="opus"', title: "Holst, Saturn, the Bringer of Old Age", by: "“The President's Own” United States Marine Band" },
+};
+/**
+ * The music for the screen: Mars on the opening screen, Neptune through the Japanese command's file, Saturn at the end of a war, and the
+ * main score everywhere else. Opened from a file on disk (file://) the browser plays only the score built into the page (the tracks would
+ * be silent through the volume control), and a browser that cannot play a track's format keeps the score too.
+ */
+function musicSrcFor(screen, campaignId) {
+  const key = screen === "select" ? "menu" : screen === "end" ? "end" : campaignId === "japan" ? "pacific" : null;
+  if (!key || typeof window === "undefined" || window.location.protocol === "file:") return MUSIC_TRACK_SRC;
+  const track = MUSIC_TRACKS[key];
+  try {
+    const probe = document.createElement("audio");
+    if (!probe.canPlayType || !probe.canPlayType(track.type)) return MUSIC_TRACK_SRC;
+  } catch (e) {
+    return MUSIC_TRACK_SRC;
+  }
+  return track.src;
+}
+
+/** A report's archive photograph, with its caption and credit, if it has one. */
+function ArchivePhoto({ nodeId }) {
+  const p = ARCHIVE_PHOTOS[nodeId];
+  const [failed, setFailed] = useState(false);
+  if (!p || failed) return null;
+  return (
+    <figure className="mb-4 border-2 border-black bg-[#f2ead9]">
+      <img src={`assets/photos/${nodeId}.jpg`} alt={p.caption} loading="lazy" className="w-full h-auto block" style={{ filter: "grayscale(0.15) contrast(1.02)" }} onError={() => setFailed(true)} />
+      <figcaption className="px-3 py-2 text-[12px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+        {p.caption}
+        <span className="block text-[10px] uppercase tracking-wider opacity-75 mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          {p.credit} ·{" "}
+          {p.licenseUrl ? (
+            <a href={p.licenseUrl} target="_blank" rel="noopener noreferrer" className="underline">
+              {p.license}
+            </a>
+          ) : (
+            p.license
+          )}
+        </span>
+      </figcaption>
+    </figure>
+  );
+}
+
+/** The credits for the photographs and the music, for the opening screen's Credits. */
+function ArchiveCredits() {
+  return (
+    <div className="mt-3 text-[13px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
+      <p className="font-bold mb-1">{t("Photographs")}</p>
+      <ul className="mb-3 list-disc pl-5">
+        {Object.entries(ARCHIVE_PHOTOS).map(([id, p]) => (
+          <li key={id}>
+            {p.caption} {p.credit}, {p.licenseUrl ? <a href={p.licenseUrl} target="_blank" rel="noopener noreferrer" className="underline">{p.license}</a> : p.license}.
+          </li>
+        ))}
+      </ul>
+      <p className="font-bold mb-1">{t("Music")}</p>
+      <ul className="list-disc pl-5">
+        <li>{t("Main score: Hyteck9.")}</li>
+        {Object.values(MUSIC_TRACKS).map((m) => (
+          <li key={m.src}>
+            {m.title}, {m.by}. {t("Public domain.")}
+          </li>
+        ))}
+      </ul>
+      <p className="mt-2 text-[12px] opacity-80">{t("Photographs and recordings from Wikimedia Commons. A CC BY-SA photograph may be reused under the same licence, with the credit given here.")}</p>
     </div>
   );
 }
@@ -49330,8 +49324,13 @@ function WW2CommandInner() {
   // border41, narvik40) — chooseOption's check never runs for the very first node a player sees
   // (nothing chose their way into it), so that one case is handled here instead, using the same
   // WireBulletin/pendingWireHeadline plumbing.
-  function enterWarRoom(historicallyAccurate = true, planBattles = true) {
+  function enterWarRoom(historicallyAccurate = true, planBattles = true, purist = false) {
     setControlBattles(planBattles);
+    // "Read the briefing alone" is a flag of the file, so a save, a resume and a rewind to the start keep it.
+    if (purist) {
+      setFlags((f) => ({ ...f, purist: true }));
+      setHistory((h) => h.map((snap, i) => (i === 0 ? { ...snap, flags: { ...snap.flags, purist: true } } : snap)));
+    }
     if (!historicallyAccurate && campaignId && DIVERGENCE_FORKS[campaignId]) {
       const forkFlags = rollDivergenceForks(campaignId);
       if (Object.keys(forkFlags).length) {
@@ -49629,6 +49628,14 @@ function WW2CommandInner() {
   // now also called immediately when musicOn goes false, independent of whether any fade has
   // finished — stopping no longer depends on a ramp that might never converge.
   const musicRef = useRef(null);
+  // The track for the screen (musicSrcFor, part 47): Mars on the opening screen, Neptune for IGHQ, Saturn at the end, the score otherwise.
+  // A new track starts from its beginning, and plays at once if the music is on.
+  const musicSrc = musicSrcFor(screen, campaignId);
+  useEffect(() => {
+    const el = musicRef.current;
+    if (el && musicOn) el.play().catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [musicSrc]);
   const audioGraphRef = useRef(null); // { ctx, gain } once built; null if Web Audio is unavailable
   function getMusicGraph() {
     const el = musicRef.current;
@@ -49889,7 +49896,7 @@ function WW2CommandInner() {
           *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
         `}</style>
       )}
-      <audio ref={musicRef} src={MUSIC_TRACK_SRC} loop preload="none" />
+      <audio ref={musicRef} src={musicSrc} loop preload="none" />
       {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} dyslexia={dyslexia} onToggleDyslexia={() => setDyslexia((v) => !v)} night={night} onToggleNight={() => setNight((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
       {screen === "warroom" && campaign && (
         <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaignId, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
@@ -50074,7 +50081,7 @@ function WW2CommandInner() {
             title={t("Menu (Esc)")}
             className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
           >
-            <span aria-hidden="true">⚙</span>
+            <span aria-hidden="true">{"⚙︎"}</span>
           </button>
         </div>
       )}

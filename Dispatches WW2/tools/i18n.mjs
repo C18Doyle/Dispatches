@@ -25,7 +25,7 @@ const args = new Set(process.argv.slice(2));
 export function sourceTexts() {
   const found = new Map();
   const bad = [];
-  const files = [...readdirSync(PARTS).filter((f) => f.endsWith(".jsx")).sort().map((f) => [f, join(PARTS, f)]), ["logic.ts", join(ROOT, "src", "logic.ts")]];
+  const files = [...readdirSync(PARTS).filter((f) => f.endsWith(".jsx")).sort().map((f) => [f, join(PARTS, f)]), ["logic.ts", join(ROOT, "src", "logic.ts")], ["shell-core.js", join(ROOT, "src", "shell-core.js")]];
   for (const [file, path] of files) {
     const src = readFileSync(path, "utf8");
     const re = /(?<![A-Za-z0-9_$.])[tT]\(\s*("(?:[^"\\\n]|\\.)*"|[^"\s)][^)]{0,40})/g;
