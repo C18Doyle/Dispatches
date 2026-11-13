@@ -11,7 +11,7 @@ export const shelf = node(
   "0",
   "WEB",
   "The Case-Book",
-  "Five volumes lie on the corner of the table at 221B, in the lamp-light, in Watson's bad handwriting and your own good paper. The thick black one is the case that you will remember: it is the whole of a winter and a spring, and it is not finished with you. The four thinner ones are the smaller cases, each done in a day or a week, each complete in itself. Any of them can be opened. None of them depends on any other, and what you do in one will not follow you into the next.",
+  "Eight volumes lie on the corner of the table at 221B. The four thick ones are the major cases: the black one is a winter and a spring, the grey one is the week of a return, the green one is a moor, and the brown one is a winter that came before the rest. The four thinner ones are smaller cases, each complete in itself. None depends on any other. Tap a volume to read about it.",
   [
     opt({
       label: "The Final Problem. London, 1891.",
@@ -21,6 +21,33 @@ export const shelf = node(
       says: "I would not open that one tonight, Holmes. But I see that you are going to.",
       outcome: "You take down the black volume and open it at the first page. It smells of pipe-smoke and fog.",
       next: "1",
+    }),
+    opt({
+      label: "The Return. London, 1894.",
+      detail: "The second major case: three years after the Falls, a dead man comes home, a young man is shot in a locked room in Park Lane, and an empty house stands opposite your own window. Twenty-six scenes in three acts, eight endings, one of them hidden.",
+      stamps: {},
+      who: "Dr Watson",
+      says: "I did not think that I should ever see this volume opened again, Holmes. I have kept it dusted. I could not think what else to do with it.",
+      outcome: "You take down the grey volume with the blank spine. There is a dried flower pressed in it, and the corner of a page has been turned down, and turned back.",
+      next: "E1",
+    }),
+    opt({
+      label: "The Hound of the Baskervilles. Dartmoor, 1889.",
+      detail: "The third major case: a legend, a dead baronet and a hound on the moor. You stay Holmes in London, and Watson is your hands: his letters come to Baker Street, and your telegrams go back. Thirty-eight scenes in three acts, eight endings, one of them hidden.",
+      stamps: {},
+      who: "Dr Watson",
+      says: "I have a stick of Dr Mortimer's in the umbrella-stand, Holmes. I have not been able to throw it away. I take it that this means that you are going to open that one.",
+      outcome: "You take down the green volume with the torn spine. A bit of heather falls out of it, and a pressed button of a boot.",
+      next: "D1",
+    }),
+    opt({
+      label: "The Professor. London, 1887.",
+      detail: "The fourth major case, and the one before them all: four crimes in a winter that have nothing to do with one another, and a name that is written four ways. The Board is the whole game. Twenty-three scenes, seven endings, one of them hidden.",
+      stamps: {},
+      who: "Dr Watson",
+      says: "That one has no title on the spine, Holmes, and I have never been able to say why. It is the only volume that you will not let me dust.",
+      outcome: "You take down the plain brown volume. There are four cards in it, held by a pin, and a fifth that has been taken out.",
+      next: "P1",
     }),
     opt({
       label: "The Speckled Band. Stoke Moran, 1883.",

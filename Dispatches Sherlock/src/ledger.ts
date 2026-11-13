@@ -48,7 +48,7 @@ export function parseLedger(raw: string | null): Ledger {
   }
 }
 
-const ROAD_NAMES: Record<string, string> = { YARD: "Scotland Yard", STREET: "the Irregulars", CONTINENT: "the flight", MYCROFT: "Whitehall", BOHEMIA: "A Scandal in Bohemia", BAND: "The Speckled Band", CARBUNCLE: "The Blue Carbuncle", LEAGUE: "The Red-Headed League" };
+const ROAD_NAMES: Record<string, string> = { RETURN: "The Return", HOUND: "The Hound of the Baskervilles", PROFESSOR: "The Professor", YARD: "Scotland Yard", STREET: "the Irregulars", CONTINENT: "the flight", MYCROFT: "Whitehall", BOHEMIA: "A Scandal in Bohemia", BAND: "The Speckled Band", CARBUNCLE: "The Blue Carbuncle", LEAGUE: "The Red-Headed League" };
 const TRUST_WORDS = ["Estranged", "Cold", "Doubtful", "Wary", "Neutral", "Warming", "Trusting", "Loyal", "Devoted"];
 
 /** The facts worth keeping about a finished run. */
@@ -98,7 +98,7 @@ export function summaryText(def: GameDefinition, run: RunRecord, endingTitle: st
   const res = def.config.resources.map((r) => `${r.label} ${run.resources[r.id] > 0 ? "+" : ""}${run.resources[r.id]}`).join(", ");
   const carried = carriedNotes(def, run);
   const lines = [
-    `Sherlock Holmes: The Final Problem. ${endingTitle}`,
+    `Dispatches: Sherlock. ${endingTitle}`,
     `${label}. ${count(run.choices, "choice")}, ${count(run.experiments, "gambit")}${run.road ? `, by way of ${ROAD_NAMES[run.road] ?? run.road}` : ""}. ${res}.`,
   ];
   if (run.trust && Object.keys(run.trust).length) lines.push(`Trust: ${Object.entries(run.trust).map(([who, v]) => `${who} ${TRUST_WORDS[Math.max(0, Math.min(8, v + 4))].toLowerCase()}`).join(", ")}.`);

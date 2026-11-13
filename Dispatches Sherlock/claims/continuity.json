@@ -19,7 +19,8 @@
     { "name": "Mycroft", "pattern": "\\bMycroft\\b", "introducedAt": "canon" },
     { "name": "Lestrade", "pattern": "\\bLestrade\\b", "introducedAt": "canon" },
     { "name": "Mrs Hudson", "pattern": "\\bHudson\\b", "introducedAt": "canon" },
-    { "name": "Watson", "pattern": "\\bWatson\\b", "introducedAt": "canon" }
+    { "name": "Watson", "pattern": "\\bWatson\\b", "introducedAt": "canon" },
+    { "name": "Parker", "pattern": "\\bParker\\b", "introducedAt": ["E4"] }
   ],
   "facts": [
     { "what": "the Professor is called James Moriarty, never John or Jim", "pattern": "Professor Moriarty", "contradicts": "\\b(?:John|Jim|Jack) Moriarty\\b" },

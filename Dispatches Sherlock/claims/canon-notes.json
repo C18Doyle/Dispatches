@@ -337,6 +337,333 @@
         "ENDING_THE_GOOSE_CLUB",
         "ENDING_THE_UMBRELLA"
       ]
+    },
+    {
+      "id": "er-camden-bust",
+      "statement": "Holmes and Watson wait in Camden House, which stands opposite 221B. A wax bust made by Monsieur Oscar Meunier of Grenoble stands in the window, and Mrs Hudson moves it every quarter of an hour (eight times in two hours), working it from the front on her knees so that her shadow is never seen. Moran comes in by the back, kneels at the window and fires an air-gun at the bust.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_TIGER_TAKEN",
+        "ENDING_THE_EMPTY_WINDOW",
+        "ENDING_THE_TIGER_LOOSE",
+        "ENDING_THE_DOCTOR_HURT"
+      ]
+    },
+    {
+      "id": "er-bust-shot",
+      "statement": "The bullet goes through the head of the bust and flattens itself on the wall of the sitting-room; Mrs Hudson picks it up from the carpet. It is a soft revolver bullet, fired from an air-gun.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_TIGER_TAKEN"
+      ]
+    },
+    {
+      "id": "er-lestrade-credit",
+      "statement": "Lestrade takes Moran in Camden House, with two uniformed policemen. Holmes tells him that he does not propose to appear in the matter at all, and that to Lestrade alone belongs the credit. The charge is the murder of the Honourable Ronald Adair, by an expanding bullet from an air-gun through the open window of 427, Park Lane, on 30 March.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_TIGER_TAKEN",
+        "ENDING_A_QUIET_ARRANGEMENT"
+      ]
+    },
+    {
+      "id": "er-watson-butt",
+      "statement": "Moran seizes Holmes by the throat, and Watson strikes him on the head with the butt of his revolver; Moran drops to the floor. Watson is not hurt.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_TIGER_TAKEN",
+        "ENDING_THE_DOCTOR_HURT"
+      ]
+    },
+    {
+      "id": "er-single-day",
+      "statement": "In the story Holmes reaches Baker Street at two o'clock on the day, tells Watson his story that evening in Kensington, and they leave at half-past nine for Camden House, where Moran is taken before morning. The bait works on the first night. Park Lane is a Friday, 30 March 1894, between ten and twenty past eleven, and Watson says it was on an April evening that Holmes returned.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_TIGER_TAKEN",
+        "ENDING_THE_EMPTY_WINDOW"
+      ]
+    },
+    {
+      "id": "er-motive",
+      "statement": "Holmes's account of the motive is conjecture, and he says so: Adair had found Moran cheating at cards and threatened to expose him; Moran murdered him to avoid exclusion from his clubs. Holmes says that it will be verified or disproved at the trial. Moran and Adair had won four hundred and twenty pounds in partnership from Godfrey Milner and Lord Balmoral some weeks before.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_COLONEL_TALKS",
+        "ENDING_THE_WITNESS_BOX",
+        "ENDING_NOT_PROVEN"
+      ]
+    },
+    {
+      "id": "er-stewart",
+      "statement": "Holmes is sure that Moran was at the bottom of the death of Mrs Stewart of Lauder in 1887, but nothing could be proved.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_COLONEL_TALKS"
+      ]
+    },
+    {
+      "id": "er-airgun-museum",
+      "statement": "Holmes says that Moran will trouble them no more, and that the air-gun of Von Herder, the blind German mechanic who made it to the order of Professor Moriarty, will embellish the Scotland Yard Museum. The story does not report the trial.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-03)",
+      "status": "primary",
+      "endings": [
+        "ENDING_A_QUIET_ARRANGEMENT",
+        "ENDING_NOT_PROVEN",
+        "ENDING_THE_WITNESS_BOX"
+      ]
+    },
+    {
+      "id": "er-inv-witness-box",
+      "statement": "Holmes giving evidence himself at the Old Bailey. In the story he takes care not to appear.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_WITNESS_BOX"
+      ]
+    },
+    {
+      "id": "er-inv-statement",
+      "statement": "A written statement by Moran, in pencil, twenty pages long.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_COLONEL_TALKS"
+      ]
+    },
+    {
+      "id": "er-inv-doctor-hurt",
+      "statement": "Watson's collar-bone broken in the struggle.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_DOCTOR_HURT"
+      ]
+    },
+    {
+      "id": "er-inv-loose",
+      "statement": "Moran escaping over the yard wall into Manchester Street.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_TIGER_LOOSE"
+      ]
+    },
+    {
+      "id": "er-inv-arrangement",
+      "statement": "A settlement through Mycroft, with Moran sent to an island in the Indian Ocean.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_A_QUIET_ARRANGEMENT"
+      ]
+    },
+    {
+      "id": "er-inv-not-proven",
+      "statement": "A jury finding the case against Moran not proven.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_NOT_PROVEN"
+      ]
+    },
+    {
+      "id": "er-inv-empty-window",
+      "statement": "Moran, warned, not coming to Camden House.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_EMPTY_WINDOW"
+      ]
+    },
+    {
+      "id": "h-mire-boot",
+      "statement": "On the night of the fog Stapleton flees into the Grimpen Mire. Holmes and Watson, searching it, find Sir Henry's missing boot (marked Meyers, Toronto), which he had used to put the hound on the track and threw away in his flight. They find no other trace, conclude that he never reached the island of refuge, and take it that he is buried in the Mire.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_GREAT_MIRE",
+        "ENDING_THE_HOUND_LOOSE"
+      ]
+    },
+    {
+      "id": "h-wife-tied",
+      "statement": "Mrs Stapleton, who has posed as his sister, is found at Merripit House tied to a post in an upper room. She had tried to warn Sir Henry, and her husband bound her.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_GREAT_MIRE",
+        "ENDING_THE_WIFE_FREED",
+        "ENDING_THE_QUIET_WARRANT"
+      ]
+    },
+    {
+      "id": "h-identity",
+      "statement": "Stapleton is the son of Rodger Baskerville, Sir Charles's younger brother, who was said to have died in South America unmarried. He married Beryl Garcia of Costa Rica, took public money, changed his name to Vandeleur and fled to England, where he kept a school (St Oliver's) in the east of Yorkshire.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_NETS_DRAWN",
+        "ENDING_THE_WIFE_FREED",
+        "ENDING_THE_QUIET_WARRANT",
+        "ENDING_THE_HOUND_LOOSE"
+      ]
+    },
+    {
+      "id": "h-dog",
+      "statement": "The dog was bought in London from Ross and Mangles of the Fulham Road, the strongest and most savage in their shop, and was made to look diabolical by artificial means: the creature was painted with phosphorus. Holmes empties five barrels into it on the night of the fog.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_NETS_DRAWN",
+        "ENDING_THE_QUIET_WARRANT",
+        "ENDING_A_NAME_ON_THE_MOOR"
+      ]
+    },
+    {
+      "id": "h-voyage",
+      "statement": "Sir Henry's nerves are shattered by the night on the moor, and he and Dr Mortimer go on a long voyage that has been recommended for their restoration.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_NERVE_BROKEN"
+      ]
+    },
+    {
+      "id": "h-selden-clothes",
+      "statement": "Selden, the convict, is killed in a fall from the rocks while dressed in clothes that had been Sir Henry's; Holmes says that the clothes were the poor devil's death, and the hound followed the scent of them.",
+      "source": "Project Gutenberg, The Hound of the Baskervilles (#2852) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_CONVICT_SAVED"
+      ]
+    },
+    {
+      "id": "h-inv-assizes",
+      "statement": "Stapleton taken alive and tried at the Exeter Assizes. In the book he is lost in the Mire and never tried.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_NETS_DRAWN"
+      ]
+    },
+    {
+      "id": "h-inv-wife-evidence",
+      "statement": "Mrs Stapleton giving evidence at the Exeter Assizes.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_WIFE_FREED"
+      ]
+    },
+    {
+      "id": "h-inv-warrant",
+      "statement": "Stapleton arrested at Merripit House on Laura Lyons's sworn statement before the night of the fog.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_QUIET_WARRANT"
+      ]
+    },
+    {
+      "id": "h-inv-henry-dead",
+      "statement": "Sir Henry Baskerville killed by the hound. In the book he is saved.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_A_NAME_ON_THE_MOOR"
+      ]
+    },
+    {
+      "id": "h-inv-selden-spared",
+      "statement": "Selden kept in the cellar of the Hall and spared the rope through the Home Office.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_CONVICT_SAVED"
+      ]
+    },
+    {
+      "id": "h-inv-hound-loose",
+      "statement": "Stapleton never found, and the county police left to the case.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_HOUND_LOOSE"
+      ]
+    },
+    {
+      "id": "fp-prof-career",
+      "statement": "Moriarty wrote a treatise upon the binomial theorem at the age of twenty-one, which had a European vogue. On the strength of it he won the mathematical chair at one of the smaller universities. Dark rumours gathered round him in the university town, and he was compelled to resign his chair and come down to London, where he set up as an Army coach.",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_MILD_MAN",
+        "ENDING_THE_PROFESSOR_STOPPED",
+        "ENDING_THE_LOST_WINTER"
+      ]
+    },
+    {
+      "id": "fp-prof-power",
+      "statement": "Holmes tells Watson that for years past he has continually been conscious of some power behind the malefactor, a deep organising power that stands in the way of the law and shields the wrongdoer; Moriarty is aloof from the police and has no criminal record.",
+      "source": "Project Gutenberg, The Memoirs of Sherlock Holmes (#834), The Final Problem (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_FIRST_WARNING",
+        "ENDING_A_NOTE_ON_THE_TABLE",
+        "ENDING_THE_WRONG_MAN"
+      ]
+    },
+    {
+      "id": "vof-asteroid",
+      "statement": "Moriarty is the celebrated author of The Dynamics of an Asteroid, a book that ascends to such rarefied heights of pure mathematics that no man in the scientific press was capable of criticising it. Holmes says that he is so aloof from general suspicion that he could have a man who called him a criminal into court for libel.",
+      "source": "Project Gutenberg, The Valley of Fear (#3289) (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_MILD_MAN",
+        "ENDING_A_NOTE_ON_THE_TABLE"
+      ]
+    },
+    {
+      "id": "er-stewart-1887",
+      "statement": "Holmes is sure that Colonel Moran was at the bottom of the death of Mrs Stewart of Lauder in 1887, though nothing could be proved, and says that Moran was for a time Moriarty's chief of staff.",
+      "source": "Project Gutenberg, The Return of Sherlock Holmes (#108), The Adventure of the Empty House (checked against the text on 2026-11-08)",
+      "status": "primary",
+      "endings": [
+        "ENDING_THE_PROFESSOR_STOPPED",
+        "ENDING_THE_WRONG_MAN"
+      ]
+    },
+    {
+      "id": "p-inv-meeting",
+      "statement": "Holmes meeting Moriarty in 1887, the tea in Kensington and what is said there. In the canon Holmes comes upon the organisation gradually and meets Moriarty in person only in the last weeks of 1891.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_PROFESSOR_STOPPED",
+        "ENDING_THE_FIRST_WARNING",
+        "ENDING_THE_OFFER"
+      ]
+    },
+    {
+      "id": "p-inv-cases",
+      "statement": "The four cases of the winter, the cab-yard and the note to the Yard are the game's own.",
+      "source": "The author: this ending is the game's own.",
+      "status": "invented",
+      "endings": [
+        "ENDING_THE_MILD_MAN",
+        "ENDING_A_NOTE_ON_THE_TABLE",
+        "ENDING_THE_WRONG_MAN",
+        "ENDING_THE_LOST_WINTER",
+        "ENDING_THE_OFFER"
+      ]
     }
   ]
 }

@@ -34,7 +34,8 @@ export default {
       await ctx.click(b);
       return null;
     };
-    return (await press(/^Begin the Case/)) || (await press(/^Continue$/)) || (await press(CARD[difficulty])) || (await press(/^Enter$/));
+    // the menu opens the Case-Book; the difficulty is a control on the shelf
+    return (await press(/^Open the Case-Book/)) || (await press(/^Change$/)) || (await press(CARD[difficulty]));
   },
 
   isCrashed: (ctx) => ctx.text().length < 20,
@@ -50,7 +51,7 @@ export default {
     if (!options.length) return by(/^Continue/) || by(/^Enter/) || null;
 
     // an option that was armed by the last tap is confirmed
-    const armed = options.find((b) => /Tap again to confirm/.test(b.textContent));
+    const armed = options.find((b) => /Tap again to/.test(b.textContent));
     if (armed) return armed;
 
     // Baker Street: at most two calls on it per scene, so a run cannot loop in its panel
