@@ -9,7 +9,7 @@
  * The rows of the settings, on the opening screen and in the in-run menu. `idp` keeps the labels' ids apart when both could be on a page.
  * "Always let my staff plan battles" and "Keep crash reports" keep themselves; the rest belong to the app.
  */
-function SettingsRows({ idp = "setting-", instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
+function SettingsRows({ idp = "setting-", confirmOrders = "one", onSetConfirmOrders, instantText, onToggleInstant, soundOn, onToggleSound, fontScale, onCycleFontScale, reducedMotion, onToggleReducedMotion, musicOn, onToggleMusic, musicVolume, onMusicVolumeChange, dyslexia, onToggleDyslexia, night, onToggleNight }) {
   const language = getLanguage();
   // "Always let my staff plan battles": off until asked for. The battle screens read the same key.
   const STAFF_KEY = "dispatchesWW2_staff_plans";
@@ -31,6 +31,16 @@ function SettingsRows({ idp = "setting-", instantText, onToggleInstant, soundOn,
     }
   }
   const [crashOn, setCrashOn] = useKeptSetting(CRASH_OPT_IN_KEY, false);
+  const [wideLines, setWideLines] = useSharedSetting(READABILITY_KEYS.lines, false);
+  const [wideLetters, setWideLetters] = useSharedSetting(READABILITY_KEYS.letters, false);
+  const [mapContrast, setMapContrast] = useSharedSetting(READABILITY_KEYS.mapContrast, false);
+  const [ambience, setAmbience] = useSharedSetting(AMBIENCE_KEY, false);
+  const readability = [
+    ["lines", t("Wider line spacing"), wideLines, setWideLines],
+    ["letters", t("Wider letter spacing"), wideLetters, setWideLetters],
+    ["mapcontrast", t("Stronger map colours"), mapContrast, setMapContrast],
+    ["ambience", t("Background sound (wireless, wind, sea)"), ambience, setAmbience],
+  ];
   const fs = useFullscreen();
   const toggleCls = "border-2 border-black px-4 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]";
   const labelCls = "text-xs uppercase tracking-[0.25em] font-bold text-[#000000]";
@@ -81,7 +91,7 @@ function SettingsRows({ idp = "setting-", instantText, onToggleInstant, soundOn,
             className="border-2 border-black px-3 py-2 text-xs uppercase tracking-widest font-bold text-[#000000] bg-transparent focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            {LANGUAGES.map((l) => (
+            {languages().map((l) => (
               <option key={l.code} value={l.code} lang={l.code}>
                 {l.name}
               </option>
@@ -188,7 +198,34 @@ function SettingsRows({ idp = "setting-", instantText, onToggleInstant, soundOn,
               className="w-full accent-black"
             />
           )}
-        </div>      {fs.can && (
+        </div>      {readability.map(([id, name, on, set]) => (
+        <div key={id} className={`${paper} p-4 flex items-center justify-between`}>
+          <span id={idp + id + "-label"} className={labelCls} style={mono}>
+            {name}
+          </span>
+          <button onClick={() => set(!on)} aria-pressed={!!on} aria-labelledby={idp + id + "-label"} className={toggleCls} style={mono}>
+            {on ? t("On") : t("Off")}
+          </button>
+        </div>
+      ))}
+      {onSetConfirmOrders && (
+        <div className={`${paper} p-4 flex items-center justify-between gap-3`}>
+          <span id={idp + "confirm-label"} className={labelCls} style={mono}>
+            {t("Give an order with")}
+            <span className="block normal-case tracking-normal font-normal text-[12px] opacity-80 mt-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
+              {t("Two clicks: the first press marks the order, the second gives it, so a stray key or tap gives nothing.")}
+            </span>
+          </span>
+          <div role="group" aria-labelledby={idp + "confirm-label"} className="flex gap-2 shrink-0">
+            {[["one", t("One click")], ["two", t("Two clicks")]].map(([v, name]) => (
+              <button key={v} onClick={() => onSetConfirmOrders(v)} aria-pressed={confirmOrders === v} className={toggleCls + (confirmOrders === v ? " bg-[#000000] text-[#ffffff]" : "")} style={mono}>
+                {name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {fs.can && (
         <div className={`${paper} p-4 flex items-center justify-between`}>
           <span id={idp + "fullscreen-label"} className={labelCls} style={mono}>
             {t("Full screen")}
@@ -347,8 +384,15 @@ function InRunMenu({ campaign, canSave, slots, onSaveSlot, onClose, onJournal, o
 
 // ---- The war journal ----
 /** The orders given so far in this file, newest first: what was chosen, what the record did, the odds faced, and the allocations. */
-function WarJournal({ campaign, log, flags, onClose }) {
+function WarJournal({ campaign, log, flags, onClose, notes = {}, onNote }) {
   const entries = (log || []).map((e, i) => ({ ...e, n: i + 1 })).reverse();
+  // A note of the player's own against an order: a small link here, nowhere else. Kept with the file (notes, by order number).
+  const [editing, setEditing] = useState(null);
+  const [draft, setDraft] = useState("");
+  const saveNote = (n) => {
+    if (onNote) onNote(n, draft.trim());
+    setEditing(null);
+  };
   return (
     <ShellSheet title={t("War Journal")} onClose={onClose}>
       <p className="text-[13px] mb-3" style={{ fontFamily: "'Courier Prime', monospace" }}>
@@ -384,6 +428,41 @@ function WarJournal({ campaign, log, flags, onClose }) {
                 {typeof e.rollP === "number" ? " " + t("A roll: this outcome had a {p}% chance.", { p: Math.round(e.rollP * 100) }) : ""}
                 {e.advisor ? " " + t("Advised by {name}.", { name: e.advisor }) : ""}
               </div>
+              {notes[e.n] && editing !== e.n && (
+                <p className="text-[12px] italic mt-1 opacity-90" style={{ fontFamily: "'Courier Prime', monospace" }}>
+                  {notes[e.n]}
+                </p>
+              )}
+              {onNote && editing !== e.n && (
+                <button
+                  onClick={() => (setEditing(e.n), setDraft(notes[e.n] || ""))}
+                  aria-label={notes[e.n] ? t("Show and edit your note on order {n}", { n: e.n }) : t("Show a box to add a note to order {n}", { n: e.n })}
+                  className="mt-1 text-[10px] uppercase tracking-widest underline opacity-50 hover:opacity-100 focus:opacity-100"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  {notes[e.n] ? t("edit note") : t("note")}
+                </button>
+              )}
+              {editing === e.n && (
+                <div className="mt-1 flex gap-2">
+                  <input
+                    type="text"
+                    autoFocus
+                    maxLength={200}
+                    value={draft}
+                    onChange={(ev) => setDraft(ev.target.value)}
+                    onKeyDown={(ev) => {
+                      if (ev.key === "Enter") saveNote(e.n);
+                    }}
+                    aria-label={t("Your note on order {n}", { n: e.n })}
+                    className="flex-1 min-w-0 border border-black px-2 py-1 text-[12px]"
+                    style={{ fontFamily: "'Courier Prime', monospace" }}
+                  />
+                  <button onClick={() => saveNote(e.n)} className="border border-black px-2 text-[10px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    {t("Keep")}
+                  </button>
+                </div>
+              )}
             </li>
           ))}
         </ol>
@@ -534,6 +613,23 @@ const ARCHIVE_PHOTOS = {
   battleOfBritain40: { caption: "RAF pilots look over a shot-down German fighter. The photograph is filed with the Battle of Britain; its exact date is not recorded.", credit: "Royal Air Force official photographer, Imperial War Museum, CH 2064", license: "Public domain", licenseUrl: null },
   coralSeaMidwayAllied42: { caption: "USS Yorktown is hit by a torpedo at Midway, 4 June 1942.", credit: "US Navy photograph 80-G-414423, US National Archives", license: "Public domain", licenseUrl: null },
   omahaCrisis44: { caption: "Into the Jaws of Death: troops of the 1st Infantry Division wade ashore at Omaha Beach, 6 June 1944.", credit: "Robert F. Sargent, US Coast Guard", license: "Public domain", licenseUrl: null },
+  // The key battles (the second set, November 2026).
+  crete41: { caption: "German paratroopers in action on Crete, May 1941.", credit: "Bundesarchiv, Bild 101I-166-0510-05 / Franz-Peter Weixler", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  backhandBlow43: { caption: "A Tiger I in southern Russia, near Kharkov, 1943.", credit: "Bundesarchiv, Bild 101I-704-0129-08 / Bauer-Altvater", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  ardennes: { caption: "German soldiers in a half-track during the Ardennes offensive, December 1944.", credit: "Bundesarchiv, Bild 183-J28519 / Göttert", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  stalingradStreets42: { caption: "Soviet soldiers fighting through the ruins of Stalingrad, September 1942.", credit: "RIA Novosti archive, image 602770 / Georgy Zelma", license: "CC BY-SA 3.0", licenseUrl: CC_BY_SA_3 },
+  berlinAssault45: { caption: "Soviet artillery on the approaches to Berlin, April 1945.", credit: "Bundesarchiv, Bild 183-E0406-0022-012", license: "CC BY-SA 3.0 DE", licenseUrl: CC_BY_SA_3_DE },
+  pq17_1942: { caption: "Ships of convoy PQ 17 gathered in Hvalfjord, Iceland, 1942.", credit: "Royal Navy official photographer, Imperial War Museum, A 8953", license: "Public domain", licenseUrl: null },
+  bomberDirective43: { caption: "Schweinfurt burns as a B-17 turns for home, 14 October 1943.", credit: "US Army Air Forces photograph, National Museum of the US Air Force", license: "Public domain", licenseUrl: null },
+  arnhemPerimeter44: { caption: "British paratroopers in Oosterbeek, 23 September 1944.", credit: "Army Film and Photographic Unit, Sgt D. M. Smith, Imperial War Museum, BU 1121", license: "Public domain", licenseUrl: null },
+  ardennesResponse44: { caption: "Men of the 101st Airborne Division in Bastogne, Christmas 1944.", credit: "US Army Signal Corps", license: "Public domain", licenseUrl: null },
+  matapan41: { caption: "The Battle of Matapan from the air, 27 March 1941.", credit: "Midshipman A. Wallington, Imperial War Museum, A 9801", license: "Public domain", licenseUrl: null },
+  guadalcanal42: { caption: "A Japanese air attack on American shipping off Guadalcanal, 12 November 1942.", credit: "US Navy photograph 80-G-32366, Naval History and Heritage Command", license: "Public domain", licenseUrl: null },
+  leyteGulf44: { caption: "A Fuso-class battleship and the cruiser Mogami, seen from an American aircraft during the Battle of Leyte Gulf, 24 October 1944.", credit: "US Navy photograph 80-G-281762, Naval History and Heritage Command", license: "Public domain", licenseUrl: null },
+  iwoJima45: { caption: "American landing ships arriving off Iwo Jima, February 1945.", credit: "Archives Branch, USMC History Division", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0/" },
+  guadalcanalAllied42: { caption: "US Marines come ashore on Guadalcanal, 7 August 1942.", credit: "US Marine Corps, National Archives 80-CF-112-5-3", license: "Public domain", licenseUrl: null },
+  philippineSeaAllied44: { caption: "A Japanese carrier under attack in the Battle of the Philippine Sea, 20 June 1944.", credit: "Cdr Francis N. Gilreath, US Navy, National Museum of Naval Aviation", license: "Public domain", licenseUrl: null },
+  iwoJimaAllied45: { caption: "Marines take shelter on the beach at Iwo Jima, February 1945.", credit: "Archives Branch, USMC History Division", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0/" },
 };
 /** The music beyond the main score: all Holst's The Planets, in public-domain recordings by US military bands. */
 const MUSIC_TRACKS = {
@@ -566,7 +662,7 @@ function ArchivePhoto({ nodeId }) {
   if (!p || failed) return null;
   return (
     <figure className="mb-4 border-2 border-black bg-[#f2ead9]">
-      <img src={`assets/photos/${nodeId}.jpg`} alt={p.caption} loading="lazy" className="w-full h-auto block" style={{ filter: "grayscale(0.15) contrast(1.02)" }} onError={() => setFailed(true)} />
+      <img src={`assets/photos/${nodeId}.webp`} alt={p.caption} loading="lazy" className="w-full h-auto block" style={{ filter: "grayscale(0.15) contrast(1.02)" }} onError={() => setFailed(true)} />
       <figcaption className="px-3 py-2 text-[12px] leading-snug text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
         {p.caption}
         <span className="block text-[10px] uppercase tracking-wider opacity-75 mt-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
@@ -608,5 +704,111 @@ function ArchiveCredits() {
       <p className="mt-2 text-[12px] opacity-80">{t("Photographs and recordings from Wikimedia Commons. A CC BY-SA photograph may be reused under the same licence, with the credit given here.")}</p>
     </div>
   );
+}
+
+// ---- Background sound (Settings: off by default) ----
+// Three quiet beds made from noise with Tone.js, nothing recorded: the wireless (static and the odd crackle) on the opening screen, wind
+// with a distant thud now and then for a European report, and a slow sea swell for a Pacific one. They fade over two seconds when the
+// theatre changes. The browser lets audio start only after a press, so the bed waits for the first one after the page loads.
+const AMBIENCE_KEY = "dispatchesWW2_ambience";
+let ambienceNodes = null;
+let ambienceKind = null;
+let ambienceTimer = null;
+function ambienceStop() {
+  if (ambienceTimer) clearTimeout(ambienceTimer);
+  ambienceTimer = null;
+  const old = ambienceNodes;
+  ambienceNodes = null;
+  ambienceKind = null;
+  if (!old) return;
+  try {
+    old.out.gain.rampTo(0, 1.5);
+    setTimeout(() => old.all.forEach((n) => { try { n.dispose(); } catch (e) { /* gone */ } }), 1800);
+  } catch (e) {
+    /* already gone */
+  }
+}
+function ambienceStart(kind) {
+  if (ambienceKind === kind) return;
+  ambienceStop();
+  try {
+    const out = new Tone.Gain(0).toDestination();
+    const all = [out];
+    const add = (n) => (all.push(n), n);
+    if (kind === "wire") {
+      const noise = add(new Tone.Noise("white"));
+      const band = add(new Tone.Filter({ frequency: 1900, type: "bandpass", Q: 0.7 }));
+      const level = add(new Tone.Gain(0.05));
+      noise.chain(band, level, out);
+      noise.start();
+      const crackle = add(new Tone.NoiseSynth({ noise: { type: "white" }, envelope: { attack: 0.001, decay: 0.03, sustain: 0 }, volume: -30 }));
+      crackle.connect(out);
+      const tick = () => {
+        try { crackle.triggerAttackRelease("64n"); } catch (e) { /* stopped */ }
+        ambienceTimer = setTimeout(tick, 600 + Math.random() * 2600);
+      };
+      tick();
+    } else if (kind === "pacific") {
+      const noise = add(new Tone.Noise("brown"));
+      const low = add(new Tone.Filter({ frequency: 520, type: "lowpass" }));
+      const swell = add(new Tone.Gain(0.35));
+      const lfo = add(new Tone.LFO({ frequency: 0.11, min: 0.08, max: 0.45 }));
+      lfo.connect(swell.gain);
+      noise.chain(low, swell, out);
+      noise.start();
+      lfo.start();
+    } else {
+      const noise = add(new Tone.Noise("pink"));
+      const low = add(new Tone.Filter({ frequency: 600, type: "lowpass" }));
+      const lfo = add(new Tone.LFO({ frequency: 0.07, min: 280, max: 950 }));
+      lfo.connect(low.frequency);
+      const level = add(new Tone.Gain(0.16));
+      noise.chain(low, level, out);
+      noise.start();
+      lfo.start();
+      const thud = add(new Tone.NoiseSynth({ noise: { type: "brown" }, envelope: { attack: 0.04, decay: 1.4, sustain: 0 }, volume: -26 }));
+      const thudLow = add(new Tone.Filter({ frequency: 140, type: "lowpass" }));
+      thud.chain(thudLow, out);
+      const boom = () => {
+        try { thud.triggerAttackRelease("2n"); } catch (e) { /* stopped */ }
+        ambienceTimer = setTimeout(boom, 9000 + Math.random() * 16000);
+      };
+      ambienceTimer = setTimeout(boom, 5000);
+    }
+    out.gain.rampTo(0.5, 2);
+    ambienceNodes = { out, all };
+    ambienceKind = kind;
+  } catch (e) {
+    ambienceNodes = null;
+    ambienceKind = null;
+  }
+}
+/** Plays the bed for `kind` ("wire", "europe", "pacific", or null for none) while `on`. */
+function useAmbience(on, kind) {
+  useEffect(() => {
+    if (!on || !kind) {
+      ambienceStop();
+      return undefined;
+    }
+    let cancelled = false;
+    const begin = async () => {
+      try {
+        await Tone.start();
+      } catch (e) {
+        return;
+      }
+      if (!cancelled) ambienceStart(kind);
+    };
+    if (Tone.getContext && Tone.getContext().state === "running") begin();
+    const opts = { once: true, capture: true };
+    document.addEventListener("pointerdown", begin, opts);
+    document.addEventListener("keydown", begin, opts);
+    return () => {
+      cancelled = true;
+      document.removeEventListener("pointerdown", begin, opts);
+      document.removeEventListener("keydown", begin, opts);
+    };
+  }, [on, kind]);
+  useEffect(() => () => ambienceStop(), []);
 }
 

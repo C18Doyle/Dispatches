@@ -85,6 +85,18 @@ function WW2CommandInner() {
   const [musicOn, setMusicOn] = useKeptSetting("dispatchesWW2_music", true);
   const [musicVolume, setMusicVolume] = useKeptSetting("dispatchesWW2_music_volume", 0.5);
   // The in-run menu and the war journal (part 47), and what the menu's save slots hold while it is open.
+  // "Give an order with one click or two" (Settings): two means the first press marks an order and the second gives it.
+  const [confirmOrders, setConfirmOrders] = useKeptSetting("dispatchesWW2_confirm_orders", "one");
+  // The player's own notes on orders, by order number (the war journal); kept with the file.
+  const [notes, setNotes] = useState({});
+  // Readability (Settings): wider lines, wider letters, stronger map colours.
+  const [wideLines] = useSharedSetting(READABILITY_KEYS.lines, false);
+  const [wideLetters] = useSharedSetting(READABILITY_KEYS.letters, false);
+  const [mapContrast] = useSharedSetting(READABILITY_KEYS.mapContrast, false);
+  // Background sound (part 47): the wireless on the opening screen, wind for a European report, the sea for a Pacific one.
+  const [ambienceOn] = useSharedSetting(AMBIENCE_KEY, false);
+  const ambienceKindNow = screen === "select" ? "wire" : !campaignId || screen === "end" ? null : PACIFIC_COMMANDS.includes(campaignId) || (CAMPAIGNS[campaignId] && CAMPAIGNS[campaignId].tracks && compositeSourceOf(position) === "alliedPacific") ? "pacific" : "europe";
+  useAmbience(ambienceOn, ambienceKindNow);
   const [menuOpen, setMenuOpen] = useState(false);
   const [journalOpen, setJournalOpen] = useState(false);
   const [menuSlots, setMenuSlots] = useState(SAVE_SLOTS.map((n) => ({ n, run: null })));
@@ -153,6 +165,7 @@ function WW2CommandInner() {
     setHistory([{ position: testNode, flags: {}, meters: seedMeters, log: [] }]);
     setVisited([String(testNode)]);
     setRewinds(0);
+    setNotes({});
     setSeenWireHeadlines([]);
     setPendingWireHeadline(null);
     setPendingEvent(null);
@@ -221,6 +234,7 @@ function WW2CommandInner() {
     setHistory([{ position: startPos, flags: seedFlags, meters: seedMeters, log: [] }]);
     setVisited([String(startPos)]);
     setRewinds(0);
+    setNotes({});
     setSeenWireHeadlines([]);
     setPendingWireHeadline(null);
     setPendingEvent(null);
@@ -441,6 +455,7 @@ function WW2CommandInner() {
           visited: newVisited,
           rewinds,
           history: newHistory,
+          notes,
         });
       }
     } else {
@@ -481,6 +496,7 @@ function WW2CommandInner() {
       visited,
       rewinds,
       history,
+      notes,
     };
   }
 
@@ -657,6 +673,7 @@ function WW2CommandInner() {
     setLog(saved.log || []);
     setVisited(saved.visited || []);
     setRewinds(saved.rewinds || 0);
+    setNotes(saved.notes && typeof saved.notes === "object" ? saved.notes : {});
     setHistory(saved.history || [{ position: saved.position, flags: saved.flags, meters: saved.meters, log: saved.log }]);
     setChoiceIndex(null);
     setRollIndex(null);
@@ -759,10 +776,11 @@ function WW2CommandInner() {
     musicVolume, onMusicVolumeChange: setMusicVolume,
     dyslexia, onToggleDyslexia: () => setDyslexia((v) => !v),
     night, onToggleNight: () => setNight((v) => !v),
+    confirmOrders, onSetConfirmOrders: setConfirmOrders,
   };
 
   return (
-    <div style={{ zoom: fontScale }}>
+    <main style={{ zoom: fontScale }}>
       <style>{INPUT_CSS}</style>
       <style>{ARBITRARY_CSS}</style>
       <style>{`
@@ -820,6 +838,9 @@ function WW2CommandInner() {
         }
       `}</style>
       {dyslexia && <style>{DYSLEXIA_CSS}</style>}
+      {wideLines && <style>{WIDE_LINES_CSS}</style>}
+      {wideLetters && <style>{WIDE_LETTERS_CSS}</style>}
+      {mapContrast && <style>{MAP_CONTRAST_CSS}</style>}
       {night && <style>{NIGHT_CSS}</style>}
       {reducedMotion && (
         <style>{`
@@ -828,7 +849,7 @@ function WW2CommandInner() {
         `}</style>
       )}
       <audio ref={musicRef} src={musicSrc} loop preload="none" />
-      {screen === "select" && <SelectScreen onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} dyslexia={dyslexia} onToggleDyslexia={() => setDyslexia((v) => !v)} night={night} onToggleNight={() => setNight((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
+      {screen === "select" && <SelectScreen confirmOrders={confirmOrders} onSetConfirmOrders={setConfirmOrders} onChooseCampaign={(id) => pickCampaign(id, "open")} onResume={resumeRun} onStartGrand={startGrandCampaign} instantText={instantText} onToggleInstant={() => setInstantText((v) => !v)} dyslexia={dyslexia} onToggleDyslexia={() => setDyslexia((v) => !v)} night={night} onToggleNight={() => setNight((v) => !v)} soundOn={soundOn} onToggleSound={toggleSound} fontScale={fontScale} onCycleFontScale={cycleFontScale} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion((v) => !v)} musicOn={musicOn} onToggleMusic={() => setMusicOn((v) => !v)} musicVolume={musicVolume} onMusicVolumeChange={setMusicVolume} />}
       {screen === "warroom" && campaign && (
         <WarRoomScreen campaign={campaign} mode={mode} onModeChange={(m) => pickCampaign(campaignId, m)} onEnter={enterWarRoom} onBack={() => setScreen("select")} />
       )}
@@ -936,6 +957,7 @@ function WW2CommandInner() {
           campaign={view}
           stage={stage}
           nodeId={position}
+          confirmOrders={confirmOrders}
           meters={meters}
           flags={flags}
           reportNumber={history.length}
@@ -1002,7 +1024,7 @@ function WW2CommandInner() {
             onClick={() => (setMenuOpen(false), setJournalOpen(true))}
             aria-label={t("Show the war journal")}
             title={t("War journal (J)")}
-            className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            className="bg-white text-[#000000] border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
           >
             <span aria-hidden="true">☰</span>
           </button>
@@ -1010,7 +1032,7 @@ function WW2CommandInner() {
             onClick={openMenu}
             aria-label={t("Settings and menu")}
             title={t("Menu (Esc)")}
-            className="bg-white border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+            className="bg-white text-[#000000] border-2 border-black w-11 h-11 text-lg shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
           >
             <span aria-hidden="true">{"⚙︎"}</span>
           </button>
@@ -1031,8 +1053,21 @@ function WW2CommandInner() {
           settings={settingsProps}
         />
       )}
-      {inRun && journalOpen && <WarJournal campaign={campaign} log={log} flags={flags} onClose={() => setJournalOpen(false)} />}
-    </div>
+      {inRun && journalOpen && <WarJournal
+          campaign={campaign}
+          log={log}
+          flags={flags}
+          notes={notes}
+          onNote={(n, text) => {
+            const next = { ...notes };
+            if (text) next[n] = text;
+            else delete next[n];
+            setNotes(next);
+            saveActiveRun({ ...runPayload(), notes: next });
+          }}
+          onClose={() => setJournalOpen(false)}
+        />}
+    </main>
   );
 }
 

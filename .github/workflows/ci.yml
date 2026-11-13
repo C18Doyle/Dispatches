@@ -106,6 +106,9 @@ jobs:
       - name: "WW2 with the keyboard only, and with a (simulated) controller"
         working-directory: Dispatches WW2
         run: node tools/input-playthrough.mjs
+      - name: "WW2 accessibility of the in-run screens (axe: serious and critical fail)"
+        working-directory: Dispatches WW2
+        run: node tools/a11y-screens.mjs
       - name: "WW2 screenshot comparison (a screen with no accepted image is recorded and kept in the artifact)"
         working-directory: Dispatches WW2
         run: node tools/visual-check.mjs

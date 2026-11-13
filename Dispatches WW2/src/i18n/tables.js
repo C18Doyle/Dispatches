@@ -6,5 +6,7 @@ import de from "./de.json";
 import ptBR from "./pt-BR.json";
 import es from "./es.json";
 import it from "./it.json";
+import ja from "./ja.json";
+import fr from "./fr.json";
 
-export default { "zh-Hans": zhHans, ru, de, "pt-BR": ptBR, es, it };
+export default { "zh-Hans": zhHans, ru, de, "pt-BR": ptBR, es, it, ja, fr };

@@ -139,7 +139,10 @@ async function buildVariant(name, { isDemo = false, grandCampaign = false, keyBa
 
   for (const dir of STATIC_ASSET_DIRS) {
     const src = path.join(ASSETS, dir);
-    if (existsSync(src)) cpSync(src, path.join(outDir, "assets", dir), { recursive: true });
+    const dest = path.join(outDir, "assets", dir);
+    // Replace, not add to: a file removed or renamed in assets/ (a JPEG turned WebP) must not linger in the build.
+    if (existsSync(dest)) rmSync(dest, { recursive: true, force: true });
+    if (existsSync(src)) cpSync(src, dest, { recursive: true });
   }
 }
 
