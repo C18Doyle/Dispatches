@@ -3,7 +3,8 @@
 //
 //   node tools/balance.mjs [runs] [--write]      (reads the assembled src/App.jsx; 6000 runs a command takes about a minute)
 // The six commands a player can pick. The British and American files step through their two tracks as the game does (compositeNext, part 16).
-// The Pacific rules' strain on rolls (src/logic-pacific.ts) is not simulated: a roll here uses the weights as written.
+// The Pacific rules' strain on rolls (src/logic-pacific.ts) is not simulated: a roll here uses the weights as written. The year's new strength
+// (src/effort.ts) is; the allocation of effort, the command style and the battles' chits are not (they act on battles, which are orders here).
 //
 // Per campaign, for each style of player (random, the historical choice every time, always the first, always the last, the choice with the best
 // immediate effect on the meters, and a gambler who takes a contested choice when there is one):
@@ -23,6 +24,13 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(join(ROOT, "package.json"));
 const { loadFromJsx } = await import(pathToFileURL(join(ROOT, "../packages/testkit/src/load-campaigns.mjs")).href);
 const { CAMPAIGNS, ENDINGS_GALLERY, compositeNext } = loadFromJsx(require("esbuild"), join(ROOT, "src/App.jsx"), ["ENDINGS_GALLERY", "compositeNext"]);
+// The year's new strength (src/effort.ts), applied as the game applies it on arriving at a report of a new year.
+const { buildSync } = require("esbuild");
+const { mkdtempSync } = await import("node:fs");
+const { tmpdir } = await import("node:os");
+const effortOut = join(mkdtempSync(join(tmpdir(), "balance-")), "effort.cjs");
+buildSync({ entryPoints: [join(ROOT, "src/effort.ts")], bundle: true, platform: "node", format: "cjs", outfile: effortOut, logLevel: "error" });
+const { yearTurn, reportYear } = require(effortOut);
 const RUNS = Number(process.argv.find((a) => /^\d+$/.test(a)) || 6000);
 const WRITE = process.argv.includes("--write");
 const GAP = 4;
@@ -49,10 +57,15 @@ function play(c, style, rnd) {
   let flags = {};
   let m = { manpower: 0, fuel: 0, initiative: 0 };
   const trace = [];
+  let prevYear = null;
   for (let step = 0; step < 400; step++) {
     let node;
     try { node = c.resolveNode(pos, flags, m); } catch (e) { return null; }
     if (!node || !node.choices) return null;
+    const turn = yearTurn(flags, m, reportYear(node.date), prevYear);
+    flags = turn.flags;
+    m = turn.meters;
+    prevYear = reportYear(node.date) || prevYear;
     const avail = node.choices.filter((x) => !x.disabledReason);
     if (!avail.length) return null;
     let ch;

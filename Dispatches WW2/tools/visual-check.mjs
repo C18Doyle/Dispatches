@@ -44,28 +44,33 @@ const press = (page, src) =>
     if (b) b.click();
     return !!b;
   }, src);
-// The screens: each opens a fresh page and gets there by itself.
+// The screens: each opens a fresh page and gets there by itself. All are taken at 1280x800, the Steam Deck's screen; the "deck-" screens
+// also set the Extra large text and the controller's focus drawing a player on a Deck would use.
 const SCREENS = [
   { name: "opening", night: false, go: async () => true },
   { name: "opening-night", night: true, go: async () => true },
   { name: "war-room-okw", night: false, go: async (p) => press(p, "^OKW") },
   { name: "briefing-okw-1", night: false, go: async (p) => (await press(p, "^OKW")) && (await p.waitForTimeout(300), press(p, "^Enter the War Room")) },
   { name: "briefing-ighq-1-night", night: true, go: async (p) => (await press(p, "^IGHQ")) && (await p.waitForTimeout(300), press(p, "^Enter the War Room")) },
+  { name: "deck-war-room-stavka", night: false, deck: true, go: async (p) => press(p, "^STAVKA") },
+  { name: "deck-briefing-stavka-1", night: false, deck: true, go: async (p) => (await press(p, "^STAVKA")) && (await p.waitForTimeout(300), press(p, "^Enter the War Room")) },
+  { name: "deck-briefing-joint-chiefs-1", night: true, deck: true, go: async (p) => (await press(p, "^JOINT CHIEFS")) && (await p.waitForTimeout(300), press(p, "^Enter the War Room")) },
 ];
 
 const browser = await chromium.launch();
 const failures = [];
 for (const s of SCREENS) {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1, reducedMotion: "reduce" });
-  await ctx.addInitScript((night) => {
+  await ctx.addInitScript(([night, deck]) => {
     try {
       localStorage.setItem("dispatchesWW2_instant_text", "true");
       localStorage.setItem("dispatchesWW2_music", "false");
       localStorage.setItem("dispatchesWW2_night", night ? "1" : "0");
+      if (deck) localStorage.setItem("dispatchesWW2_text_size", "1.3");
     } catch (e) {
       /* none */
     }
-  }, s.night);
+  }, [s.night, !!s.deck]);
   const page = await ctx.newPage();
   await page.goto(URL_, { waitUntil: "load" });
   await page.waitForTimeout(700);
@@ -80,7 +85,11 @@ for (const s of SCREENS) {
     await Promise.all([...document.images].filter((i) => !i.complete).map((i) => new Promise((r) => (i.onload = i.onerror = r))));
     window.scrollTo(0, 0);
   });
+  if (s.deck) await page.evaluate(() => (document.documentElement.dataset.input = "pad"));
   await page.waitForTimeout(300);
+  // At the Deck's width nothing may push the page sideways (a long label in a narrow column, a map that will not shrink).
+  const wide = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  if (wide > 1) failures.push(`${s.name}: the page is ${wide}px wider than the 1280px screen`);
   const png = await page.screenshot({ fullPage: false });
   writeFileSync(join(OUT, `${s.name}.png`), png);
   const basePath = join(BASE, `${s.name}.png`);

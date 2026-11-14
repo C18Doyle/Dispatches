@@ -181,13 +181,16 @@ function WW2CommandInner() {
     if (!campaign) return null;
     // Führer Mode necessity rule lives in logic.ts (playableStage).
     const strained = strainStage(playableStage(resolveStage(campaign, position, flags, meters), mode, favor), flags, meters, controlBattles);
-    // The American command's yearly allocation moves the odds of the year's contested orders in both theatres (src/effort.ts, part 46).
-    if (campaign.id !== "american" || !strained) return strained;
-    return effortStage(strained, flags, compositeSourceOf(position) === "alliedPacific" ? "pacific" : "europe", reportYear(strained.date));
+    // The command style chosen in the war room moves the odds of contested orders it suits or does not (src/command.ts).
+    return styleStage(strained, flags);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaign, position, flags, meters, mode, controlBattles]);
-  // The year's allocation is asked for before the year's first briefing, once the war in Europe has opened (flag trkOpen_E, part 16).
-  const effortYear = campaign && campaign.id === "american" && stage ? effortDue(flags, reportYear(stage.date), !!flags.trkOpen_E) : null;
+  // The year's allocation of effort is asked for before the year's first briefing (src/effort.ts, part 46); the American command's waits for
+  // the war in Europe to open (flag trkOpen_E, part 16). The bargain at Casablanca comes before the conference report (src/command.ts).
+  const effortYear = campaign && stage ? effortDue(campaign.id, flags, reportYear(stage.date)) : null;
+  const conference = campaign && stage && !effortYear ? conferenceDue(campaign.id, flags, position) : null;
+  // What a battle's result asks before the next report (src/command.ts, followUpFor): shown first, then the event, the wire and the briefing.
+  const [pendingFollowUp, setPendingFollowUp] = useState(null);
 
   // The stage the player chose from. A dynamic stage re-resolves from flags and meters as soon as the
   // choice applies its impact, which can drop or shift a meter-gated choice and changes the roll odds
@@ -269,8 +272,13 @@ function WW2CommandInner() {
   // border41, narvik40) — chooseOption's check never runs for the very first node a player sees
   // (nothing chose their way into it), so that one case is handled here instead, using the same
   // WireBulletin/pendingWireHeadline plumbing.
-  function enterWarRoom(historicallyAccurate = true, planBattles = true, purist = false) {
+  function enterWarRoom(historicallyAccurate = true, planBattles = true, purist = false, style = "steady") {
     setControlBattles(planBattles);
+    // The command style (src/command.ts) is a flag of the file too, kept the same way.
+    if (style && style !== "steady") {
+      setFlags((f) => ({ ...f, style }));
+      setHistory((h) => h.map((snap, i) => (i === 0 ? { ...snap, flags: { ...snap.flags, style } } : snap)));
+    }
     // "Read the briefing alone" is a flag of the file, so a save, a resume and a rewind to the start keep it.
     if (purist) {
       setFlags((f) => ({ ...f, purist: true }));
@@ -400,17 +408,40 @@ function WW2CommandInner() {
     setOutcomeStage(null);
     if (!isEnd) {
       // A special dispatch is due on arriving at some reports (and when an adviser has asked to be relieved): shown once, before the report.
-      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: evCampaign, flags: flagsStep, meters }) || pacificStateEvent(evCampaign, nextPos, flagsStep, meters) : null;
-      const flagsOut = dueEv ? { ...flagsStep, [eventSeenKey(dueEv.id)]: true } : flagsStep;
-      if (dueEv) setFlags(flagsOut);
-      const newHistory = [...history, { position: nextPos, flags: flagsOut, meters, log: newLog }];
+      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: evCampaign, flags: flagsStep, meters }) || pacificStateEvent(evCampaign, nextPos, flagsStep, meters) || europeStateEvent(campaignId, evCampaign, nextPos, flagsStep, meters) : null;
+      let flagsOut = dueEv ? { ...flagsStep, [eventSeenKey(dueEv.id)]: true } : flagsStep;
+      // The year's new strength and the command style's yearly cost, at the first report of a new year (src/effort.ts, src/command.ts), and the
+      // Joint Chiefs' European shortfall counted at Yalta.
+      let metersOut = meters;
+      {
+        let nextDate = null;
+        try {
+          nextDate = resolveStage(campaign, nextPos, flagsOut, meters)?.date;
+        } catch (e) {
+          nextDate = null;
+        }
+        const yearBefore = Number(flagsOut.yearCounted) || reportYear(seen.date) || 0;
+        const turn = yearTurn(flagsOut, metersOut, reportYear(nextDate), reportYear(seen.date));
+        flagsOut = turn.flags;
+        metersOut = turn.meters;
+        if (turn.restored) flagsOut = { ...flagsOut, [`yearRestoredAt_${reportYear(nextDate)}`]: String(nextPos) };
+        if (yearBefore && Number(flagsOut.yearCounted) > yearBefore) metersOut = applySmall(metersOut, styleYearCost(flagsOut));
+        const owed = reckoningAt(campaign.id, flagsOut, String(nextPos));
+        if (owed) {
+          metersOut = applySmall(metersOut, { initiative: owed });
+          flagsOut = { ...flagsOut, [`reckoned_${nextPos}`]: owed };
+        }
+      }
+      if (flagsOut !== flagsStep) setFlags(flagsOut);
+      if (metersOut !== meters) setMeters(metersOut);
+      const newHistory = [...history, { position: nextPos, flags: flagsOut, meters: metersOut, log: newLog }];
       setHistory(newHistory);
       const newVisited = nextVisited(visited, nextPos);
       setVisited(newVisited);
       setPosition(nextPos);
       setChoiceIndex(null);
       setRollIndex(null);
-      const nextStage = resolveStage(campaign, nextPos, flagsStep, meters);
+      const nextStage = resolveStage(campaign, nextPos, flagsOut, metersOut);
       // Historical Divergence Mode reveal check runs first and, when it matches, wins outright —
       // it's deterministic (this fork fired, this is its one reveal point) rather than the
       // probabilistic ~1-in-7 real-news check below. seenWireHeadlines is shared with the real
@@ -429,7 +460,15 @@ function WW2CommandInner() {
         : wantsWire
         ? pickWireHeadline(yearFrom(nextStage.date, 1940), String(nextPos), seenWireHeadlines)
         : null;
-      if (dueEv) {
+      // A battle won cleanly or lost outright asks for an order before the next report (src/command.ts).
+      const graded = choice.keyBattleSubgame ? flagsOut[`${choice.keyBattleSubgame.id}Grade`] : null;
+      const followUp = graded && followUpFor(graded) ? { grade: graded, battle: choice.keyBattleSubgame.title || choice.label } : null;
+      if (followUp) {
+        setPendingFollowUp(followUp);
+        if (dueEv) setPendingEvent({ event: dueEv, wire: headline || null });
+        else if (headline) setPendingWireHeadline(headline);
+        setScreen("followUp");
+      } else if (dueEv) {
         setPendingEvent({ event: dueEv, wire: headline || null });
         setScreen("event");
       } else if (headline) {
@@ -450,7 +489,7 @@ function WW2CommandInner() {
           defiance,
           position: nextPos,
           flags: flagsOut,
-          meters,
+          meters: metersOut,
           log: newLog,
           visited: newVisited,
           rewinds,
@@ -888,6 +927,8 @@ function WW2CommandInner() {
           flags={flags}
           mode={mode}
           soundOn={soundOn}
+          // Chits from the year's allocation of effort and the Casablanca bargain (src/effort.ts, src/command.ts).
+          effortChits={chitsForBattle(campaign.id, flags, pendingBattle.config.id, reportYear(stage && stage.date)) + conferenceChits(campaign.id, flags, pendingBattle.config.id)}
           // Round 13, Craig's item #8 ("wire the subgame into difficulty — something minor is
           // fine"). Deliberately small: doesn't touch allocation math, postures, or the roll —
           // just extends Easy Command's existing "training wheels... full visibility" philosophy
@@ -949,14 +990,51 @@ function WW2CommandInner() {
           }}
         />
       )}
-      {screen === "briefing" && campaign && stage && effortYear && (
-        <EffortScreen campaign={view} year={effortYear} onChoose={(a) => setFlags((f) => ({ ...f, [effortFlag(effortYear)]: a }))} />
+      {screen === "followUp" && campaign && pendingFollowUp && (
+        <FollowUpScreen
+          campaign={view}
+          followUp={pendingFollowUp}
+          onDone={(id, impact) => {
+            setFlags((f) => ({ ...f, [`followUp_${position}`]: id }));
+            setMeters((m) => applySmall(m, impact));
+            setPendingFollowUp(null);
+            setScreen(pendingEvent ? "event" : pendingWireHeadline ? "wire" : "briefing");
+          }}
+        />
       )}
-      {screen === "briefing" && campaign && stage && !effortYear && (
+      {screen === "briefing" && campaign && stage && effortYear && (
+        <EffortScreen
+          campaign={view}
+          command={campaign.id}
+          year={effortYear}
+          flags={flags}
+          onChoose={(a, materiel) => {
+            setFlags((f) => ({ ...f, [effortFlag(campaign.id, effortYear)]: a }));
+            if (materiel) setMeters((m) => applySmall(m, { fuel: materiel }));
+          }}
+        />
+      )}
+      {screen === "briefing" && campaign && stage && conference && (
+        <ConferenceScreen
+          campaign={view}
+          command={campaign.id}
+          conference={conference}
+          meters={meters}
+          onDone={(result, impact) => {
+            setFlags((f) => ({ ...f, [conferenceFlag(campaign.id)]: result }));
+            setMeters((m) => applySmall(m, impact || {}));
+          }}
+        />
+      )}
+      {screen === "briefing" && campaign && stage && !effortYear && !conference && (
         <BriefingScreen
           campaign={view}
           stage={stage}
           nodeId={position}
+          onEstimate={(i) => {
+            setFlags((f) => ({ ...f, [estimateKey(position, i)]: true }));
+            setMeters((mm) => applySmall(mm, { initiative: -ESTIMATE_COST }));
+          }}
           confirmOrders={confirmOrders}
           meters={meters}
           flags={flags}
@@ -1017,6 +1095,12 @@ function WW2CommandInner() {
           seenWireHeadlines={seenWireHeadlines}
         />
       )}
+      {/* With a controller in hand, the buttons it uses (shown only while data-input is "pad"; src/shell-core.js). */}
+      <div aria-hidden="true" className="dg-pad-prompts fixed bottom-3 left-3 z-40 gap-3 bg-white border-2 border-black px-3 py-1 text-[12px] text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+        {PAD_PROMPTS.map((p) => (
+          <span key={p.glyph} className="dg-pad-item" data-glyph={p.glyph} data-label={t(p.text)} style={{ "--pad-colour": p.colour }} />
+        ))}
+      </div>
       {/* The app shell (part 47) comes after the screens, so a reader or the Tab key meets the report first. */}
       {inRun && (
         <div className="fixed bottom-3 right-3 z-50 flex gap-2 dg-shell-buttons">

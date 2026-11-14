@@ -392,7 +392,7 @@
         "impact": {
           "manpower": 1,
           "fuel": 0,
-          "initiative": 2
+          "initiative": 1
         },
         "next": "yamamotoIntercept43",
         "outcome": "Every transport and half the destroyer escort are sunk, and roughly 3,000 Japanese soldiers die, most before ever reaching New Guinea, in what becomes one of the most lopsided air-versus-naval engagements of the entire war. Japan effectively stops attempting daylight convoy reinforcement of New Guinea by sea afterward, a doctrine shift as consequential as the battle's own casualty count: the skip-bombing tactics developed against exactly this kind of target close off an entire category of resupply for the rest of the campaign."
@@ -665,7 +665,7 @@
         "impact": {
           "manpower": 1,
           "fuel": 0,
-          "initiative": 1
+          "initiative": 0
         },
         "next": "peleliuDecision44",
         "outcome": "Speculative. Stilwell stays in China, in a role smaller than the ultimatum asked for and larger than the real recall left him, which was none. Whether a general who stays inside China achieves more than he could from Washington is uncertain. Ichi-Go's outcome barely moves, since it was a problem of divisions and supply that no negotiation in Chungking could fix."

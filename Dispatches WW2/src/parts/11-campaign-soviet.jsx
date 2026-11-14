@@ -85,7 +85,7 @@
                   weight: 100 - modWeight(30, meters.initiative),
                   title: "The attacks bleed",
                   setFlags: { finland39: "doubled" },
-                  impact: { manpower: -3, fuel: -1, initiative: -1 },
+                  impact: { manpower: -3, fuel: -1, initiative: 0 },
                   outcome:
                     "Speculative. The attacks go in again on every front in the worst of the cold. The artillery that would have broken the bunkers is not there, the infantry advance across open ice and snow in good order and are shot down in it, and the frostbite and sickness lists are almost as long as the casualty lists. January ends with no more ground taken than December did, and with a Red Army that has learned the wrong lesson from the same mistake.",
                 },
@@ -133,7 +133,7 @@
                   weight: 100 - modWeight(20, meters.initiative),
                   title: "Stopped on the coast road",
                   setFlags: { finland40: "overreach" },
-                  impact: { manpower: -3, fuel: -2, initiative: -2 },
+                  impact: { manpower: -2, fuel: -1, initiative: 0 },
                   outcome:
                     "Speculative. The columns go out along the coast road beyond their supplies and are stopped in the forest, where the Finns cut them into pieces as they did in the north. The offer of an expeditionary force from Britain and France stops being a talking point in London and Paris. Moscow signs a peace to close the question before it can be put again.",
                 },
@@ -845,7 +845,7 @@
               advisor: { name: "Zhukov", position: "This has been said once already, at the cost of his post, and is being said again because it is still true." },
               setFlags: { kiev41: "withdraw", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
-              impact: { manpower: 2, fuel: 0, initiative: 0 },
+              impact: { manpower: 2, fuel: 0, initiative: -1 },
               next: "yelnya41",
                             outcome:
                 "The option Zhukov actually proposed and was fired for proposing. An early withdrawal saves the bulk of the Southwestern Front's men and equipment, at the cost of Kiev itself and the political admission that Soviet territory can be voluntarily surrendered. It is, by most postwar assessments, the single clearest 'if only' of the entire eastern war's first year.",
@@ -1574,7 +1574,7 @@
               label: "Halt on the line the pocket won: relay the railways and let the thaw pass",
               advisor: { name: "Vasilevsky", position: "An advance that stops at the end of its railway is an advance, and one that stops in the mud beyond it is a hostage, so the railways are relaid before the thaw and the guns come up behind them." },
               setFlags: { smolenskThaw42: "consolidate" },
-              impact: { manpower: 1, fuel: 1, initiative: 0 },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
               next: "lendLease42",
               outcome:
                 "Speculative. The front stops at Vyazma and the upper Dnieper, the railways are relaid before the thaw closes the roads, and the armies spend April and May getting their guns, fuel and replacements forward. Smolensk is left to the Germans for the time being, with a stronger line than they had before but no longer a salient pointed at Moscow. What the pause costs is time: Army Group Centre has a spring to rebuild in, and the German summer offensive will not be aimed at a front that has not been broken.",
@@ -1602,7 +1602,7 @@
               advisor: { name: "Timoshenko", position: "The salient is the best springboard on the southern front, and an army that waits inside it lets the Germans choose the day, so he would strike first and take Kharkov." },
               historical: true,
               setFlags: { kharkov42: "attack" },
-              impact: { manpower: -3, fuel: -2, initiative: -1 },
+              impact: { manpower: -2, fuel: -1, initiative: -1 },
               next: "order227_42",
               outcome:
                 "What happened. The Southwestern Front attacked on May 12 and made ground toward Kharkov for five days. On the 17th Kleist's First Panzer Army struck the southern shoulder of the salient. On the 18th Vasilevsky, speaking for the General Staff, urged Stalin to halt the offensive and pull back, and Stalin refused. By May 28 the front had lost 277,190 men, 170,958 of them killed, missing or captured, along with some 1,250 tanks and about 2,000 guns and howitzers, against German losses of perhaps 20,000 to 30,000 men and 108 tanks. Case Blue began on June 28 against a southern front without its reserves.",
@@ -1612,7 +1612,7 @@
               advisor: { name: "Vasilevsky", position: "A salient that is worth holding when the enemy can be seen is a trap when he cannot, so he told Stalin on May 18 to stop, and would say it a week earlier if he were asked." },
               setFlags: { kharkov42: "withdraw", suspicion: Math.min(5, (flags.suspicion || 0) + 1) },
               suspicionDelta: 1,
-              impact: { manpower: 2, fuel: 1, initiative: -1 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "order227_42",
               outcome:
                 "Speculative. The offensive Stalin approved is cancelled in the week it was due, and the armies in the salient are pulled back behind the Donets before the Germans can close their pincers. The Southwestern Front goes into the summer with the 277,000 men, 1,250 tanks and some 2,000 guns that the real offensive lost in a fortnight, and without the salient that was to be its springboard. Fredericus meets an empty neck. Case Blue, when it comes on June 28, meets a southern front thinner than it was in April and a good deal stronger than it was in June.",
@@ -3193,7 +3193,7 @@
               advisor: { name: "Vasilevsky", position: "A salient this narrow is an invitation and not an achievement, and a shorter line that can be supplied is better than a longer one whose loss is explained by March." },
               favor: 1,
               setFlags: { vacuumOverreach43: "consolidate" },
-              impact: { manpower: 1, fuel: 0, initiative: 0 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "kharkov43",
               outcome:
                 "The harder discipline, held a second time in as many decisions: rather than reach for a prize the salient's own supply lines can't yet support defending, the front pulls back onto ground with a real flank and a real rear: costing some of January's gains but denying Manstein's counterstroke the thin, overextended neck it would otherwise be built to cut.",

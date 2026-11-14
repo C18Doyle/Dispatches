@@ -182,8 +182,8 @@
   {
     "kind": "music",
     "key": "menu",
-    "file": "music-menu.ogg",
-    "bytes": 7298204,
+    "file": "menu-mars.opus",
+    "bytes": 3417221,
     "title": "File:Holst- mars.ogg",
     "page": "https://commons.wikimedia.org/wiki/File:Holst-_mars.ogg",
     "license": "Public domain",
@@ -191,13 +191,14 @@
     "artist": "Performance: United States Air Force Band Composition: Gustav Holst",
     "credit": "http://www.heritageofamericaband.af.mil/recordings/frontiers.asp",
     "date": "Composition: 1914–16 Performance: 1998",
-    "mime": "application/ogg"
+    "mime": "application/ogg",
+    "note": "Re-encoded as Opus at 56 kbit/s with ffmpeg; the original is on Commons."
   },
   {
     "kind": "music",
     "key": "pacific",
-    "file": "music-pacific.opus",
-    "bytes": 7990133,
+    "file": "pacific-neptune.opus",
+    "bytes": 3704528,
     "title": "File:HOLST \"The Planets, Op. 32 7. Neptune, the Mystic\" - \"The President's Own\" U.S. Marine Band.opus",
     "page": "https://commons.wikimedia.org/wiki/File:HOLST_%22The_Planets,_Op._32_7._Neptune,_the_Mystic%22_-_%22The_President%27s_Own%22_U.S._Marine_Band.opus",
     "license": "Public domain",
@@ -205,13 +206,14 @@
     "artist": "United States Marine Band",
     "credit": "https://www.youtube.com/watch?v=kMQ3o8G-i5E",
     "date": "2016-06-27",
-    "mime": "application/ogg"
+    "mime": "application/ogg",
+    "note": "Re-encoded as Opus at 56 kbit/s with ffmpeg; the original is on Commons."
   },
   {
     "kind": "music",
     "key": "end",
-    "file": "music-end.opus",
-    "bytes": 9266136,
+    "file": "end-saturn.opus",
+    "bytes": 4256971,
     "title": "File:HOLST \"The Planets, Op. 32 5. Saturn, the Bringer of Old Age\" - \"The President's Own\" U.S. Marine Band.opus",
     "page": "https://commons.wikimedia.org/wiki/File:HOLST_%22The_Planets,_Op._32_5._Saturn,_the_Bringer_of_Old_Age%22_-_%22The_President%27s_Own%22_U.S._Marine_Band.opus",
     "license": "Public domain",
@@ -219,7 +221,8 @@
     "artist": "United States Marine Band",
     "credit": "https://www.youtube.com/watch?v=CdNMwLn2jUg",
     "date": "2016-06-27",
-    "mime": "application/ogg"
+    "mime": "application/ogg",
+    "note": "Re-encoded as Opus at 56 kbit/s with ffmpeg; the original is on Commons."
   },
   {
     "kind": "photo",

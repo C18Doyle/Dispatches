@@ -1681,7 +1681,7 @@
               advisor: { name: "Bastico", position: "An authorization from Rome does not conjure transport aircraft needed this month at a front the whole war may turn on, and he would rather admit the operation is not yet real than spend men proving it." },
               setFlags: { herculesExecution41: "stand down" },
               favor: 1,
-              impact: { manpower: 1, fuel: 1, initiative: -1 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "rommelAdvance41",
               outcome:
                 "The honest, if deflating, answer: Hercules stands down for a second time, for the same reason it stood down the first: the plan was never actually Italy's to execute alone, and the ally whose assets it depends on has its own, larger war absorbing every spare transport aircraft and glider this particular autumn. Malta's garrison spends the reprieve exactly as it spent every other one this war offered it: hardening further, and continuing to cost the Africa-bound convoys everything the escort-first choice was ever going to cost them regardless.",
@@ -1882,7 +1882,7 @@
               advisor: { name: "Rommel", position: "There is not the fuel to fight this battle the way he would prefer, so the line held is the line held, and Montgomery will pay by the yard for what he takes." },
               historical: true,
               setFlags: { alamein42: "hold" },
-              impact: { manpower: -1, fuel: -1, initiative: -1 },
+              impact: { manpower: -1, fuel: -1, initiative: 0 },
               next: "torchTunisia42",
               outcome:
                 "What happened: twelve days of attritional fighting break the Axis line by early November, and what follows is not an orderly withdrawal but a headlong 1,500-mile retreat across Libya that doesn't stop until Tunisia: the beginning of the end for the entire North African campaign, decided as much by the fuel convoys that never arrived as by anything that happened on the battlefield itself.",
@@ -1955,7 +1955,7 @@
               advisor: { name: "Messe", position: "A defense is being built in a pocket with the sea at its back and no realistic relief, and he would rather save the veteran cadres than spend them on a delay whose ending is not in doubt." },
               setFlags: { tunisiaBuildup: "evacuate" },
               favor: 1,
-              impact: { manpower: 1, fuel: 0, initiative: -1 },
+              impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "tunisiaCollapse43",
               outcome:
                 "A colder, more clear-eyed read of a position the historical buildup never fully escaped: reinforcing Tunisia bought roughly six months of delay at the cost of the men and equipment doing the buying, all of which was still eventually lost when the position collapsed regardless. Limiting the commitment and prioritizing evacuation trades some of that delay for veteran units preserved to defend Italy itself, when the war's geography turns to face it directly within the year.",
@@ -1987,7 +1987,7 @@
               advisor: { name: "Ambrosio", position: "No version of the next week keeps this army in the field, and every additional day of resistance before terms are settled is a day's casualties spent confirming a conclusion not in question." },
               setFlags: { tunisiaCollapse: "negotiate" },
               favor: 1,
-              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              impact: { manpower: 0, fuel: 0, initiative: 0 },
               next: "homeFrontBombing43",
               outcome:
                 "An earlier surrender spares some of the final week's casualties without changing the campaign's outcome in any respect that matters strategically: the same roughly 275,000 men go into Allied captivity either way, on a timeline that differs by days rather than weeks. What it does preserve, marginally, is a slightly larger share of those men returning home able-bodied whenever their captivity eventually ends.",

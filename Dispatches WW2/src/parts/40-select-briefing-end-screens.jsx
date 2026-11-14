@@ -2687,6 +2687,9 @@ function AdviserLine({ advisor, flags }) {
   const standing = adviserStanding(flags || {}, advisor.name);
   const name = advisor.name.charAt(0).toUpperCase() + advisor.name.slice(1);
   if (standing === "gone") return null;
+  // Rivals already heard in this file (src/rivals.ts): following this adviser costs them a little trust.
+  const heard = new Set(Object.keys(flags || {}).filter((k) => k.startsWith("trn_")).map((k) => flags[k]));
+  const rivals = rivalsOf(advisor.name).filter((r) => heard.has(rivalName(r, advisor.name)) && adviserStanding(flags || {}, rivalName(r, advisor.name)) !== "gone");
   if (standing === "quiet") {
     return (
       <span className="block text-[13px] italic mt-1 opacity-80 group-hover:opacity-100">
@@ -2702,11 +2705,16 @@ function AdviserLine({ advisor, flags }) {
         </span>
       )}
       {t("{p}{name} argues: {advisorPosition}", { p: standing === "trusted" && " ", name, advisorPosition: advisor.position })}
+      {rivals.map((r) => (
+        <span key={r.a + r.b} className="block not-italic mt-0.5 text-[11px]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+          {t("Rival of {rival}: following {name} costs {rival} a little trust.", { rival: rivalName(r, advisor.name), name })} {r.why}
+        </span>
+      ))}
     </span>
   );
 }
 
-function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history, onIntelCheck, confirmOrders = "one" }) {
+function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, pastStages, log, mode, favor, instantText, soundOn, controlBattles = true, onChoose, onRewind, onSave, onHome, seenWireHeadlines, lastSeenMapStatuses, onStatusesChange, history, onIntelCheck, confirmOrders = "one", onEstimate }) {
   const [saveState, setSaveState] = useState("idle"); // idle | saving | saved | failed
   const [showMap, setShowMap] = useState(false);
   const easy = mode === "easy";
@@ -2996,6 +3004,18 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         >
           {stage.title}
         </h2>
+        {(() => {
+          // The year's new strength (src/effort.ts), told at the year's first report.
+          const y = reportYear(stage.date);
+          const r = restoredIn(flags || {}, y);
+          if (!r || (flags || {})[`yearRestoredAt_${y}`] !== String(nodeId)) return null;
+          const parts = [r.manpower ? t("Manpower +{n}", { n: r.manpower }) : null, r.fuel ? t("Matériel +{n}", { n: r.fuel }) : null].filter(Boolean).join(", ");
+          return (
+            <p className="text-[12px] mb-3 font-bold text-[#2e5a3a]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              {t("{year}: the year's call-up and production restore {parts}.", { year: y, parts })}
+            </p>
+          );
+        })()}
         {campaign.dynamic && <ReportConditions campaign={campaign} stage={stage} nodeId={nodeId} meters={meters} />}
         {campaign.dynamic && <ReadAloud id={nodeId} text={stage.title + ". " + situationWithNote} />}
         {campaign.dynamic && <ArchivePhoto key={"photo-" + nodeId} nodeId={nodeId} />}
@@ -3017,9 +3037,12 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
         <div className="flex flex-col gap-3 mb-6">
           {displayOrder.map((i, k) => {
             const choice = stage.choices[i];
+            // The staff's estimate of a hidden roll (src/command.ts): bought with a point of Initiative, kept in the flags for this report.
+            const hidden = choice.uncertain && (choice.concealRoll || purist);
+            const estimated = hidden && flags && flags[estimateKey(nodeId, i)];
             return (
+            <div key={i} className="flex flex-col">
             <button
-              key={i}
               data-hotkey={k < 9 ? String(k + 1) : undefined}
               onClick={() => choose(i)}
               aria-pressed={confirmOrders === "two" ? armed === i : undefined}
@@ -3150,16 +3173,16 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                   {t("Strain: {p}{p2}", { p: choice.strain.causes.length ? choice.strain.causes.join(" and ") + " short" : t("supplies short"), p2: choice.concealRoll || purist ? t(", and the odds are worse for it") : `, so the odds are ${choice.strain.points} points worse for it` })}
                 </span>
               )}
-              {choice.effort && choice.effort.points !== 0 && (
-                <span className="block mt-1 text-[12px] font-bold" style={{ color: choice.effort.points > 0 ? "#2e5a3a" : "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
-                  <span aria-hidden="true">{choice.effort.points > 0 ? "▲ " : "▼ "}</span>
-                  {choice.effort.points > 0
+              {choice.style && choice.style.points !== 0 && (
+                <span className="block mt-1 text-[12px] font-bold" style={{ color: choice.style.points > 0 ? "#2e5a3a" : "#7a2e2e", fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <span aria-hidden="true">{choice.style.points > 0 ? "▲ " : "▼ "}</span>
+                  {choice.style.points > 0
                     ? choice.concealRoll || purist
-                      ? t("Allocation: {theatre} has more of the year's effort, and the odds are better for it", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe") })
-                      : t("Allocation: {theatre} has more of the year's effort, so the odds are {n} points better", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe"), n: choice.effort.points })
+                      ? t("Command style: this order suits it, and the odds are better for it")
+                      : t("Command style: this order suits it, so the odds are {n} points better", { n: choice.style.points })
                     : choice.concealRoll || purist
-                    ? t("Allocation: {theatre} has less of the year's effort, and the odds are worse for it", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe") })
-                    : t("Allocation: {theatre} has less of the year's effort, so the odds are {n} points worse", { theatre: choice.effort.theatre === "pacific" ? t("the Pacific") : t("Europe"), n: -choice.effort.points })}
+                    ? t("Command style: this order goes against it, and the odds are worse for it")
+                    : t("Command style: this order goes against it, so the odds are {n} points worse", { n: -choice.style.points })}
                 </span>
               )}
               {choice.uncertain && purist && (
@@ -3181,6 +3204,23 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
                 </span>
               )}
             </button>
+            {hidden && onEstimate && (
+              estimated ? (
+                <span className="text-[11px] uppercase tracking-widest font-bold mt-1 px-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  {t("The staff's estimate: {p}", { p: staffEstimate(choice).map((v) => `${v.percent}% ${v.title}`).join(" / ") })}
+                </span>
+              ) : (
+                <button
+                  onClick={() => onEstimate(i)}
+                  disabled={(meters.initiative || 0) <= -10}
+                  className="self-start mt-1 border px-2 py-1 text-[11px] uppercase tracking-widest font-semibold text-[#000000] disabled:opacity-40 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                  style={{ borderColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  {t("Show the staff's estimate of the odds (Initiative −{n})", { n: ESTIMATE_COST })}
+                </button>
+              )
+            )}
+            </div>
             );
           })}
         </div>
@@ -3225,7 +3265,7 @@ function BriefingScreen({ campaign, stage, nodeId, meters, flags, reportNumber, 
 // BattleSimulationScreen. The roll itself no longer happens at commit; it happens at the end of
 // the battle report, after the mid-battle reserve decision, so that decision can actually change
 // the odds rather than decorate a result that was already decided. See chooseOption.
-function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn, onCommit, onSpendInitiative, easyMode, resume, onDraft, onSaveLeave }) {
+function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn, onCommit, onSpendInitiative, easyMode, resume, onDraft, onSaveLeave, effortChits = 0 }) {
   const headingRef = useRef(null);
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0 });
@@ -3329,7 +3369,19 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   const [reconUsed, setReconUsed] = useState(!!(resume && resume.reconUsed));
   // A trusted adviser's own staff has already looked at the ground: the pass costs nothing (see trustedAdvisers in logic.ts).
   const reconAdviser = trustedAdvisers(flags || {})[0] || null;
+  function chooseTiming(id) {
+    if (timing !== "now" || id === "now" || !TIMINGS[id]) return;
+    const next = TIMINGS[id];
+    setTiming(id);
+    const nextPool = Math.max(3, 5 + bonusMeters.length + extraChits + next.chits);
+    if (Object.values(allocation).reduce((a, v) => a + v, 0) > nextPool) setAllocation(Object.fromEntries(categories.map((c) => [c.id, 0])));
+    if (next.recon != null) {
+      setIntel(drawIntel(next.recon));
+      setReconUsed(true);
+    }
+  }
   function requestRecon() {
+    if (timingInfo.noRecon) return;
     if (reconUsed || (!reconAdviser && (meters.initiative || 0) <= 0) || !posture) return;
     setIntel(drawIntel(KEY_BATTLE_RECON_ERROR_RATE));
     setReconUsed(true);
@@ -3344,7 +3396,13 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
   // would drop the meter to +2, shrink the pool by one mid-plan, and could leave the player with
   // more chits placed than the pool now allows.
   const [bonusMeters] = useState(() => (resume && Array.isArray(resume.bonusMeters) ? resume.bonusMeters : ["manpower", "fuel", "initiative"].filter((m) => (meters[m] || 0) > 2)));
-  const poolSize = 5 + bonusMeters.length;
+  // The year's allocation of effort and the Casablanca bargain add or take chits (src/effort.ts, src/command.ts); frozen at mount, as above.
+  const [extraChits] = useState(() => (resume && typeof resume.extraChits === "number" ? resume.extraChits : effortChits || 0));
+  // The timing of the attack (src/command.ts, TIMINGS): at the planned hour, a day's wait for a free reconnaissance pass while the enemy brings
+  // up reserves, or (by command style) an attack before the plan is finished or a long wait for the full picture. Chosen once.
+  const [timing, setTiming] = useState(() => (resume && resume.timing) || "now");
+  const timingInfo = TIMINGS[timing] || TIMINGS.now;
+  const poolSize = Math.max(3, 5 + bonusMeters.length + extraChits + timingInfo.chits);
 
   const [allocation, setAllocation] = useState(() => Object.fromEntries(categories.map((c) => [c.id, (resume && resume.allocation && resume.allocation[c.id]) || 0])));
   const spent = Object.values(allocation).reduce((a, v) => a + v, 0);
@@ -3551,7 +3609,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
 
   // Everything a saved game needs to put this screen back exactly as it stands: the plan so far, the
   // hidden setup the enemy was dealt, the intelligence already bought and the readings already given.
-  const draft = { commanderId, approachId, postureId: posture?.id ?? null, posture2Id: posture2?.id ?? null, intel, reconUsed, bonusMeters, allocation, jitter, strandInfo, assessment };
+  const draft = { commanderId, approachId, postureId: posture?.id ?? null, posture2Id: posture2?.id ?? null, intel, reconUsed, bonusMeters, allocation, jitter, strandInfo, assessment, extraChits, timing };
   const draftKey = JSON.stringify(draft);
   useEffect(() => {
     if (onDraft) onDraft(draft);
@@ -3690,7 +3748,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
                 further down: spend Initiative for a materially sharper (not perfect) read. Not
                 offered in Easy Command (item #8): the free hint there is already accurate, so a
                 Recon Pass would just be spending Initiative on nothing. */}
-            {!reconUsed && !easyMode && (
+            {!reconUsed && !easyMode && !timingInfo.noRecon && (
               <button
                 onClick={requestRecon}
                 disabled={!reconAdviser && (meters.initiative || 0) <= 0}
@@ -3809,8 +3867,43 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
           </div>
         )}
 
+        <div role="radiogroup" aria-label={t("When to attack")} className="mb-4">
+          <div className="text-xs uppercase tracking-[0.2em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
+            {t("When to attack")}
+          </div>
+          <div className="flex flex-col gap-1">
+            {timingsFor(flags || {}).map((x) => {
+              const on = timing === x.id;
+              const locked = timing !== "now" && !on;
+              const words = {
+                now: t("At the planned hour"),
+                wait: t("Wait a day: a reconnaissance pass at no cost, and the enemy brings up reserves (one chit fewer)"),
+                early: t("Go in before the plan is finished: one chit more, and no time for reconnaissance"),
+                long: t("Wait for the full picture: an exact reconnaissance, and the enemy two days stronger (two chits fewer)"),
+              }[x.id];
+              return (
+                <button
+                  key={x.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={on}
+                  disabled={locked || (timing !== "now" && x.id === "now")}
+                  onClick={() => chooseTiming(x.id)}
+                  className="text-left border px-3 py-2 text-[12px] leading-snug disabled:opacity-40 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                  style={{ borderColor: campaign.accent, backgroundColor: on ? campaign.accent : "transparent", color: on ? "#ffffff" : "#000000", ...bodyStyle }}
+                >
+                  {words}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         <div role="heading" aria-level="3" aria-live="polite" className="text-xs uppercase tracking-[0.2em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
           {t("Effort in reserve: {remaining} of {poolSize}", { remaining, poolSize })}
+          {extraChits !== 0 && (
+            <span className="normal-case font-normal"> {" "}{extraChits > 0 ? t("· {n} more from the allocation of effort", { n: extraChits }) : t("· {n} fewer from the allocation of effort", { n: -extraChits })}</span>
+          )}
           {bonusMeters.length > 0 && (
             <span className="normal-case font-normal"> {" "}{t("· {bonusMetersLength} extra from the standing of your logistics", { bonusMetersLength: bonusMeters.length })}</span>
           )}
@@ -5274,10 +5367,10 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
         )}
 
         {/* The American command's yearly allocations of effort (part 46), against the record's. */}
-        {campaign.id === "american" && allocationRecord(flags).length > 0 && (
+        {allocationRecord(campaign.id, flags).length > 0 && (
           <div className="mb-6">
             {sectionHead(t("Allocation of effort"))}
-            <EffortRecord flags={flags} accent={campaign.accent} />
+            <EffortRecord command={campaign.id} flags={flags} accent={campaign.accent} />
           </div>
         )}
 
