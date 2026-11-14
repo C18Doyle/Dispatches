@@ -49029,8 +49029,8 @@ function EffortScreen({ campaign, command, year, flags, onChoose }) {
                 key={a}
                 data-hotkey={String(k + 1)}
                 onClick={() => onChoose(a, eff.materiel)}
-                className="text-left border-2 px-4 py-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] group"
-                style={{ borderColor: campaign.accent, background: tint, fontFamily: "'Courier Prime', monospace" }}
+                className="text-left border-2 px-4 py-3 bg-[#eef2f6] text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f] group"
+                style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}
               >
                 <span className="block text-[15px] font-bold">{label}</span>
                 <span className="block mt-1 text-[12px]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
@@ -49123,8 +49123,8 @@ function StaffPaper({ campaign, kicker, dateline, title, text, orders, onChoose,
                 key={o.id}
                 data-hotkey={String(k + 1)}
                 onClick={() => onChoose(o.id)}
-                className="text-left border-2 px-4 py-3 text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
-                style={{ borderColor: campaign.accent, background: tint, fontFamily: "'Courier Prime', monospace" }}
+                className="text-left border-2 px-4 py-3 bg-[#f3efe6] text-[#000000] hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-150 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}
               >
                 <span className="block text-[15px] font-bold">{o.label}</span>
                 {o.note && (
