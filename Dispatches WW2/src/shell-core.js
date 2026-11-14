@@ -260,7 +260,24 @@ export function useInputControls({ onBack, onMenu, onJournal }) {
 export const INPUT_CSS = `
 [data-input="pad"] :focus, [data-input="keys"] :focus-visible { outline: 4px solid #b08d3f !important; outline-offset: 3px; }
 [data-input="pad"] button, [data-input="pad"] summary, [data-input="pad"] select { min-height: 44px; }
+[data-input="pad"] button:focus:not(:disabled)::after, [data-input="pad"] summary:focus::after {
+  content: "A" / ""; display: inline-block; margin-left: 8px; width: 20px; height: 20px; line-height: 20px; border-radius: 50%;
+  background: #2f6b34; color: #ffffff; font: 700 12px/20px 'IBM Plex Mono', monospace; text-align: center; vertical-align: middle; text-decoration: none;
+}
+.dg-pad-prompts { display: none; }
+[data-input="pad"] .dg-pad-prompts { display: flex; }
+/* The prompts are drawn from attributes, not text, so a page's text (what the UI baseline hashes) is the same with or without a pad. */
+.dg-pad-item::before { content: attr(data-glyph); display: inline-block; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; color: #ffffff; background: var(--pad-colour); font: 700 11px/20px 'IBM Plex Mono', monospace; text-align: center; margin-right: 5px; }
+.dg-pad-item::after { content: attr(data-label); }
 `;
+
+/** The controller's buttons as the prompt bar shows them (Xbox layout, as on the Steam Deck). */
+export const PAD_PROMPTS = [
+  { glyph: "A", colour: "#2f6b34", text: T("Press") },
+  { glyph: "B", colour: "#8a2a24", text: T("Back") },
+  { glyph: "☰", colour: "#333333", text: T("Menu") },
+  { glyph: "⧉", colour: "#333333", text: T("Journal") },
+];
 
 // ---- Settings shared between components ----
 /**

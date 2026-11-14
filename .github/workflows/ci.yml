@@ -112,6 +112,9 @@ jobs:
       - name: "WW2 screenshot comparison (a screen with no accepted image is recorded and kept in the artifact)"
         working-directory: Dispatches WW2
         run: node tools/visual-check.mjs
+      - name: "WW2 text overflow in the nine languages (Steam Deck and phone sizes)"
+        working-directory: Dispatches WW2
+        run: node tools/overflow-check.mjs
       - name: Keep screenshots
         if: always()
         uses: actions/upload-artifact@v7

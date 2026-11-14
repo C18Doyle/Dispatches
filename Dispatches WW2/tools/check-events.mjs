@@ -52,10 +52,12 @@ for (const e of EVENTS) {
 }
 // The Pacific commands' state-driven events (PACIFIC_STATE_EVENTS, from Dispatches 1941), held to 1941's rules: an anchor report inside a
 // window of months, two paragraphs, a year in the date, no dashes or quotation marks, and an ev_ flag never written by anything else.
-const ps = src.indexOf("const PACIFIC_STATE_EVENTS = ");
+// The European commands' (EUROPE_STATE_EVENTS, Dispatches WW2) are held to the same rules.
+for (const LIST of ["const PACIFIC_STATE_EVENTS = ", "const EUROPE_STATE_EVENTS = "]) {
+const ps = src.indexOf(LIST);
 if (ps >= 0) {
   const pe = src.indexOf("\n];", ps);
-  const STATE = new Function("return " + src.slice(ps + "const PACIFIC_STATE_EVENTS = ".length, pe + 2))();
+  const STATE = new Function("return " + src.slice(ps + LIST.length, pe + 2))();
   for (const e of STATE) {
     const at = `state event ${e.id}`;
     if (ids.has(e.id)) problems.push(`${at}: duplicate id`);
@@ -75,6 +77,7 @@ if (ps >= 0) {
       if (/["“”]/.test(t)) problems.push(`${at}: a quotation mark in "${t.slice(0, 40)}"`);
     }
   }
+}
 }
 // The British and American commands (part 16) have no events of their own: theirs are filed under their source files (allied, alliedPacific).
 for (const id of Object.keys(CAMPAIGNS).filter((c) => !CAMPAIGNS[c].tracks)) if ((perCampaign[id] || 0) < 4) problems.push(`${id}: only ${perCampaign[id] || 0} events (at least four)`);

@@ -1928,7 +1928,7 @@
               advisor: { name: "Eisenhower", position: "A single thrust that runs out of fuel two hundred miles into Germany is not a war-ending blow but an army group that has to be rescued." },
               setFlags: { normandy44allied: "broad", cohesion: (flags.cohesion || 0) + (1) },
               cohesionDelta: 1,
-              impact: { manpower: 2, fuel: 2, initiative: -1 },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
               next: "anvilDragoon44",
               outcome:
                 "No Market Garden is attempted, fuel and supply are distributed evenly across every advancing army group instead of concentrated behind one. Slower and less dramatic than the historical autumn, but it never hands the German army a single overextended spearhead to cut off: the risk Eisenhower's own doctrine was built to avoid, tested here without the one exception he historically made for Montgomery.",
@@ -2230,7 +2230,7 @@
                 {
                   weight: 100 - modWeight(15, meters.manpower),
                   title: "The likelier case: the ground doesn't yield",
-                  impact: { manpower: -2, fuel: -1, initiative: -1 },
+                  impact: { manpower: -2, fuel: -1, initiative: 0 },
                   outcome:
                     "What every honest accounting of the terrain and the German defense concludes: a single armored corps, on one exposed road, doesn't force a crossing this heavily contested by direct assault. The attempt costs real casualties on top of the perimeter's own losses, without changing what happens to the men still holding Oosterbeek. XXX Corps ends the battle further from relieving the division than the evacuation option would have left it from saving what could still be saved.",
                 },
@@ -2272,7 +2272,7 @@
               historical: true,
               setFlags: { anvil44: "southernFrance", cohesion: (flags.cohesion || 0) + (-1) },
               cohesionDelta: -1,
-              impact: { manpower: 0, fuel: 2, initiative: 0 },
+              impact: { manpower: 0, fuel: 1, initiative: 0 },
               next: "scheldt44",
               outcome:
                 "What happened, August 15, 1944: Operation Dragoon. Marseille was secured largely intact and became one of the Allied supply system's most valuable ports for the rest of the war, materially easing the fuel crisis that stalled the broad-front advance that autumn. Churchill's Balkans argument was overruled, as it had been at several earlier points in the war, by the straightforward military logic of supply.",
@@ -2282,7 +2282,7 @@
               advisor: { name: "Churchill", position: "No refighting of this war is asked, only noticing that the peace afterward is also being decided, right now, in whichever direction the armies happen to point." },
               setFlags: { anvil44: "balkans", cohesion: (flags.cohesion || 0) + (-2) },
               cohesionDelta: -2,
-              impact: { manpower: -2, fuel: -2, initiative: 0 },
+              impact: { manpower: -2, fuel: -1, initiative: 0 },
               next: "ljubljanaGap44",
               outcome:
                 "One considered account of Churchill's actual, unsuccessful argument, taken seriously rather than overruled: a Balkans-directed landing plausibly gets Western forces further east by the war's end, with real implications for where the Iron Curtain eventually falls, but it forfeits Marseille's port capacity at the exact moment the broad-front advance into Germany is starving for supply, and Eisenhower's supply staff were not wrong that the fuel crisis this choice risks was the more immediate danger to the campaign actually in progress.",
@@ -2773,7 +2773,7 @@
               historical: true,
               setFlags: { berlin45allied: "halt", cohesion: (flags.cohesion || 0) + (1) },
               cohesionDelta: 1,
-              impact: { manpower: 2, fuel: 1, initiative: -1 },
+              impact: { manpower: 1, fuel: 1, initiative: -1 },
               next: "germanyOccupation45",
               outcome:
                 "Eisenhower's decision remains debated by historians, some argue a Western capture of Berlin would have meaningfully shaped the early Cold War's psychology even if the city were later handed over, but the military logic was sound on its own terms: the casualties of an urban assault on a heavily defended capital, fought for a prize already allocated to an ally, were a cost Eisenhower judged not worth paying. Soviet forces took the city in twelve days of the war's costliest urban combat.",
