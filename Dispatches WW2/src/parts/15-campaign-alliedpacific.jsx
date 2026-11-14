@@ -953,7 +953,7 @@
               label: "Defy the order: remain on Corregidor with the garrison rather than leave them behind",
               advisor: { name: "Wainwright", position: "Leaving does not look like cowardice to the men on the island, whatever the newspapers make of it, and Wainwright, who takes over from MacArthur, says so." },
               setFlags: { corregidorPath: "remained", cohesion: (flags.cohesion || 0) - 1 },
-              impact: { manpower: -2, fuel: 0, initiative: -2 },
+              impact: { manpower: -2, fuel: 0, initiative: -1 },
               next: "doolittleRaidAllied42",
               outcome:
                 "A modeled alternative: the choice MacArthur reportedly considered and did not make against a direct presidential order. Staying would cost the Pacific war its most politically valuable commander when Washington needs a rallying figure in a theater that has produced only defeats, and would risk his capture or death with a garrison already understood to be lost. It also removes the promise to return, since there is no departure to redeem.",
@@ -1309,7 +1309,7 @@
               label: "Defer to BuOrd's official assessment: maintain standard procedure while the Bureau's own review continues",
               advisor: { name: "Nimitz", position: "The patrol reports show more than bad approach work, the Bureau of Ordnance is not being overruled from here, and it is being asked again to look." },
               setFlags: { torpedoCrisisPath: "deferBuOrd" },
-              impact: { manpower: -1, fuel: -1, initiative: -1 },
+              impact: { manpower: -1, fuel: -1, initiative: 0 },
               next: "theBatBombQuestion43",
               outcome:
                 "The institutionally cautious path, and the one that costs the most in ships not sunk. Without a theater commander's tests forcing the issue, the depth defect goes uncorrected for longer, and the submarine force goes on firing spreads that run under their targets or fail to detonate, against a Bureau that still blames everything but the torpedo.",
@@ -1693,7 +1693,7 @@
               advisor: { name: "Nimitz", position: "The force is at sea and the plan has gone to Washington, and a carrier pilot's read on the ground defenses is not enough to unwind it on three days' notice." + (flags.yamamotoInterceptPath === "authorize" ? " One call like this has been made on a single read before, on Yamamoto, and it should not be made twice with the odds reversed and less time to think." : flags.yamamotoInterceptPath === "declined" ? " A bet on a single intelligence read was turned down once already, on Yamamoto, and one should not be trusted now because it carries Halsey's name." : "") },
               historical: true,
               setFlags: { peleliuPath: "proceed" },
-              impact: { manpower: -3, fuel: -1, initiative: -1 },
+              impact: { manpower: -3, fuel: -1, initiative: 0 },
               next: "portChicago44",
               outcome:
                 "The 1st Marine Division lands on September 15 into defenses that are dug in, disciplined and nothing like the weakened garrison the air strikes suggested. What staff estimates called a three-day operation runs past two months and costs over 9,500 American casualties against roughly 10,900 Japanese defenders, a price argued over for decades, for an airfield the campaign barely needs.",
@@ -1702,7 +1702,7 @@
               label: "Cancel Stalemate II on Halsey's recommendation: recall the invasion force before it lands",
               advisor: { name: "Halsey", position: "Skipping Peleliu is a recommendation worth sticking a neck out for, and the divisions should go where the war still needs them." },
               setFlags: { peleliuPath: "cancelled", speculativePath: true },
-              impact: { manpower: 2, fuel: 0, initiative: -1 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "peleliuForcesRedirected44",
               outcome:
                 "Speculative. The order goes out with the fleet still three days from the beach. There is no landing, and the Palau garrison of roughly 10,900 men is bypassed and left to wither. What Nimitz's staff does with two freed divisions is decided by the next message.",
@@ -1809,7 +1809,7 @@
               advisor: { name: "Stilwell", position: "Chiang hoards American equipment for a civil war he expects to fight after this one, and he is backed because Washington says so and not because it is the choice that stops Ichi-Go." },
               historical: true,
               setFlags: { chinaPath: "nationalistOnly", cohesion: (flags.cohesion || 0) + 1 },
-              impact: { manpower: -2, fuel: -2, initiative: -1 },
+              impact: { manpower: -2, fuel: -1, initiative: -1 },
               next: "stilwellUltimatum44",
               outcome:
                 "What happened, broadly, up to this point. Support stays channeled through Chiang's government even as Ichi-Go overruns the airbases it was meant to protect, and the Stilwell-Chiang relationship, already poisonous, is about to reach the moment that actually breaks it.",
@@ -2538,7 +2538,7 @@
               advisor: { name: "LeMay", position: "The campaign did not wait for a sign-off the command was not in a position to give in March, and a sign-off is wanted now, but the campaign does not stop while the staff catches up." },
               historical: true,
               setFlags: { bombingPath: "incendiaryLate" },
-              impact: { manpower: 1, fuel: 0, initiative: 2 },
+              impact: { manpower: 1, fuel: 0, initiative: 1 },
               next: "atomicDemonstration45",
               outcome:
                 "What happened, ratified and not decided. The incendiary campaign that began over Tokyo in March continues through the spring, and sixty-odd Japanese cities are firebombed by the end of the war. The staff's late endorsement changes nothing in a doctrine that never waited on it.",
@@ -2547,7 +2547,7 @@
               label: "Press for a reconsideration despite the months already spent: raise the moral cost of continuing now, even this late",
               advisor: { name: "Arnold", position: "The objection is late, but another month of the campaign is not the same question as the campaign having already run for one." },
               setFlags: { bombingPath: "reconsiderLate" },
-              impact: { manpower: -1, fuel: -1, initiative: -1 },
+              impact: { manpower: -1, fuel: -1, initiative: 0 },
               next: "atomicDemonstration45",
               outcome:
                 "A modeled alternative: a late objection to an early decision. The staff cannot undo March, only argue about April onward. The campaign's remaining scope narrows somewhat, at a cost to the industrial-target case LeMay's doctrine was built on, and the deadliest raid is already on the record.",
@@ -2580,7 +2580,7 @@
               advisor: { name: "Stimson", position: "The argument against a demonstration is strategic and not a matter of moral comfort, and whether the same can be said of every name on the target list is a separate question not yet settled." },
               historical: true,
               setFlags: { demonstrationPath: "reject" },
-              impact: { manpower: 1, fuel: 0, initiative: 2 },
+              impact: { manpower: 1, fuel: 0, initiative: 1 },
               next: "kyotoTargetDebate45",
               outcome:
                 "What happened. The Franck Report's proposal is set aside for the reasons the Interim Committee gave: too few bombs to risk one on a demonstration whose failure would cost more than its success could gain, and no confident answer on how a demonstration would compel a surrender that the real bombings, together with the Soviet declaration of war, achieved only narrowly. Which city is still undecided.",
@@ -2926,7 +2926,7 @@
               label: "Authorize gas warfare at the Chemical Warfare Service's own broader scale: area attacks on troop concentrations near the invasion objectives",
               advisor: { name: "Porter", position: "Marshall's proposal reads well in a memo, while the Chemical Warfare Service's version is the one that actually shortens the campaign, and the difference is not small." },
               setFlags: { gasWarfarePath: "areaAuthorized" },
-              impact: { manpower: 3, fuel: -2, initiative: 2 },
+              impact: { manpower: 2, fuel: -2, initiative: 1 },
               next: nextTarget,
               outcome:
                 "Speculative. The Chemical Warfare Service's own June 1945 study considered area gas attacks on troop concentrations near the invasion objectives and not individual bunkers, a scope that would also fall on civilians in the target area. Choosing this over Marshall's limits is a different argument from his, and one that Truman's refusal of the narrower proposal never had to confront, because it never reached his desk.",
@@ -3093,7 +3093,7 @@
               advisor: { name: "MacArthur", position: "If the Emperor is tried, the occupation will need up to a million more troops than it has, and if he keeps the throne it can be governed with the force already there." },
               historical: true,
               setFlags: { emperorPath: "preserve" },
-              impact: { manpower: 1, fuel: 0, initiative: 1 },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
               next: "occupationAuthority45",
               outcome:
                 "Hirohito keeps the throne, stripped of the doctrine of divinity, while Tojo and the war cabinet are tried and, in several cases, executed. The occupation proceeds with the order MacArthur predicted, and a constitutional monarchy under American oversight becomes the postwar settlement of the real war.",
@@ -3102,7 +3102,7 @@
               label: "Include the Emperor among those tried for the war: apply the same standard used against his cabinet",
               advisor: { name: "Webb", position: "Testimony implicates the government at every level below the throne, and it is not comfortable to pretend that the throne itself bears no responsibility for what was done in its name." },
               setFlags: { emperorPath: "prosecute", cohesion: (flags.cohesion || 0) - 2 },
-              impact: { manpower: -3, fuel: -1, initiative: -2 },
+              impact: { manpower: -2, fuel: 0, initiative: -1 },
               next: "occupationAuthority45",
               outcome:
                 "A modeled alternative that some Allied governments and some of MacArthur's critics at home argued for. Whether it would have produced the resistance MacArthur predicted, or a harder but survivable transition, is disputed among historians of the occupation. The smoother settlement of the real war was bought by not testing the question.",

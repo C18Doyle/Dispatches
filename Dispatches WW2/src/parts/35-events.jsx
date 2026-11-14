@@ -604,3 +604,152 @@ function pacificStateEvent(campaignId, nextPos, flags, meters) {
   const dateline = String(e.date || "").toLowerCase().replace(/(^|[\s–-])([a-z])/g, (m, s, c) => s + c.toUpperCase());
   return { id: e.id, campaign: e.campaign, kind: e.kind, dateline: e.kind ? `${e.kind}, ${dateline}` : dateline, title: e.title, text: e.paras };
 }
+
+// ---------- THE EUROPEAN COMMANDS' STATE-DRIVEN EVENTS (Dispatches WW2) ----------
+// The same rules as the Pacific commands' above (a window of months, a condition on the file's state, two paragraphs, shown once on the
+// special-dispatch screen), for OKW, STAVKA, the War Cabinet and Comando Supremo. An event with `command` shows only in that command's file
+// (the War Cabinet's are filed under SHAEF's source file, which the Joint Chiefs' file also reads). Claims: claims/europe-events-round1.json.
+const EUROPE_STATE_EVENTS = [
+  // ---- OKW ----
+  {
+    id: "ger_speer", campaign: "german", kind: "Production", anchor: "stalingradPocket",
+    from: "1942-02", to: "1942-09", date: "FEBRUARY 1942",
+    title: "A New Armaments Minister",
+    when: (f, m) => m.fuel <= -2,
+    paras: [
+      "On 8 February 1942 Fritz Todt, the Minister for Armaments and Munitions, is killed when his aircraft crashes after taking off from the Führer's headquarters at Rastenburg. Hitler gives the ministry to his architect, Albert Speer, the same day.",
+      "Speer sets up central committees of industrialists for each kind of weapon and pushes the services to accept fewer types in longer runs. Output of arms rises steeply through 1942 and 1943, from factories that had been run as if the war would be short.",
+    ],
+  },
+  {
+    id: "ger_synthetic_fuel", campaign: "german", kind: "Production", anchor: "ardennes",
+    from: "1944-05", to: "1944-12", date: "MAY 1944",
+    title: "The Hydrogenation Plants",
+    when: (f, m) => m.fuel <= -3,
+    paras: [
+      "On 12 May 1944 the American heavy bombers strike the synthetic oil plants at Leuna, Brüx, Böhlen and elsewhere, and they come back again and again through the summer. The plants turn coal into the aviation spirit the Luftwaffe flies on.",
+      "Speer writes to Hitler that the attacks are the most dangerous of the war. By the autumn the output of aviation spirit is a small fraction of what it was in the spring, and pilots go into action with only a few hours of training in the air.",
+    ],
+  },
+  {
+    id: "ger_volkssturm", campaign: "german", kind: "The home front", anchor: "ardennes",
+    from: "1944-09", to: "1945-04", date: "OCTOBER 1944",
+    title: "The Volkssturm",
+    when: (f, m) => m.manpower <= -4,
+    paras: [
+      "A decree of 25 September 1944, announced in October, calls up every man from sixteen to sixty not already in the forces into the Volkssturm, a people's militia raised by the Party, not the army. The men keep their jobs and drill on Sundays.",
+      "Many have no uniform but an armband, and their weapons are old rifles and the new Panzerfaust. Battalions of them are sent to the frontier in the East and the West as the armies fall back toward the Reich.",
+    ],
+  },
+  // ---- STAVKA ----
+  {
+    id: "sov_road_of_life", campaign: "soviet", kind: "Supply", anchor: "winterGeneral42",
+    from: "1941-11", to: "1942-04", date: "NOVEMBER 1941",
+    title: "The Road Across the Ice",
+    when: (f, m) => m.fuel <= -2 || m.manpower <= -2,
+    paras: [
+      "Leningrad is cut off by land, and the bread ration for most of its people has been cut again and again. On 22 November 1941 the first column of lorries crosses the frozen surface of Lake Ladoga to the city, on ice that has only just become thick enough to bear them.",
+      "The road across the ice carries food and fuel in and the sick, the old and the children out through the winter. Hundreds of thousands of people in the city die of hunger and cold before the spring.",
+    ],
+  },
+  {
+    id: "sov_tankograd", campaign: "soviet", kind: "Production", anchor: "kharkov42",
+    from: "1942-01", to: "1942-10", date: "1942",
+    title: "Tankograd",
+    when: (f, m) => m.fuel <= -3,
+    paras: [
+      "The Kirov works, moved out of Leningrad in the autumn of 1941, has been joined at Chelyabinsk in the Urals to the tractor plant and the Kharkov diesel works. The people of the city call the place Tankograd.",
+      "Engineers and workers from three cities live in barracks and dugouts and work long shifts in cold buildings. In the summer of 1942 the plant begins to build the T-34 alongside its heavy tanks, and its output rises month after month.",
+    ],
+  },
+  {
+    id: "sov_partisans", campaign: "soviet", kind: "Behind the lines", anchor: "kharkov42",
+    from: "1942-05", to: "1942-12", date: "MAY 1942",
+    title: "A Staff for the Partisans",
+    when: (f, m) => m.initiative <= -2,
+    paras: [
+      "On 30 May 1942 the State Defence Committee sets up a Central Staff of the Partisan Movement under Panteleimon Ponomarenko, the Party's first secretary in Belorussia. Bands that have fought on their own in the forests are to be supplied, given radios and directed from Moscow.",
+      "The partisans' war is a war on the railways and on the occupiers' outposts, and it brings reprisals on the villages around them. In the summer of 1943 the Central Staff orders a campaign against the rail lines behind the German armies.",
+    ],
+  },
+  // ---- The War Cabinet (SHAEF's source file) ----
+  {
+    id: "brit_lend_lease", campaign: "allied", command: "british", kind: "Supply", anchor: "compassGreece41",
+    from: "1941-01", to: "1941-06", date: "MARCH 1941",
+    title: "Lend-Lease",
+    when: (f, m) => m.fuel <= -2,
+    paras: [
+      "Britain's gold and dollars are nearly gone: the cash the United States has demanded for every ship, aircraft and shell since 1939 can no longer be found. On 11 March 1941 President Roosevelt signs the Lend-Lease Act, which lets him lend or lease arms and supplies to any country whose defence he judges vital to that of the United States.",
+      "Payment is put off until after the war. The first cargoes are food and steel as much as weapons, and the shipping to carry them has still to get through the Atlantic.",
+    ],
+  },
+  {
+    id: "brit_beveridge", campaign: "allied", command: "british", kind: "The home front", anchor: "casablanca43",
+    from: "1942-11", to: "1943-04", date: "DECEMBER 1942",
+    title: "The Beveridge Report",
+    when: () => true,
+    paras: [
+      "On 1 December 1942 Sir William Beveridge publishes his report on social insurance: a single scheme to pay for sickness, unemployment and old age, against what he calls the five giants of want, disease, ignorance, squalor and idleness.",
+      "Long queues form to buy it, and hundreds of thousands of copies are sold. The government is wary of the cost while the war lasts, and in February 1943 more than a hundred members of the Commons vote against its delay.",
+    ],
+  },
+  {
+    id: "brit_bevin_boys", campaign: "allied", command: "british", kind: "The home front", anchor: "anzio44",
+    from: "1943-12", to: "1944-06", date: "DECEMBER 1943",
+    title: "The Ballot for the Pits",
+    when: (f, m) => m.manpower <= -3,
+    paras: [
+      "The mines are short of tens of thousands of men, and coal is the fuel of every factory and power station in the country. In December 1943 Ernest Bevin, the Minister of Labour, announces that one young man in ten called up for service will be sent down the pits instead, chosen by ballot.",
+      "The Bevin Boys come from every kind of home and many of them have never seen a mine. They are given a few weeks of training and no uniform, and some are taken for men dodging the call-up.",
+    ],
+  },
+  // ---- Comando Supremo ----
+  {
+    id: "ita_fleet_fuel", campaign: "italy", kind: "Supply", anchor: "tobruk42",
+    from: "1942-06", to: "1943-05", date: "1942",
+    title: "The Fleet Without Oil",
+    when: (f, m) => m.fuel <= -3,
+    paras: [
+      "Italy entered the war with a few months of fuel oil for the fleet, and Germany sends less from Romania than the navy asks for. By 1942 the battleships at Taranto and La Spezia can rarely put to sea, and the oil that is left goes to the destroyers that escort the convoys to Libya.",
+      "Each convoy that sails is weighed against the fuel it burns, and each tanker sunk on the way to Tripoli or Benghazi is fuel the army in the desert does not get.",
+    ],
+  },
+  {
+    id: "ita_armir", campaign: "italy", kind: "The Eastern Front", anchor: "torchTunisia42",
+    from: "1942-12", to: "1943-05", date: "DECEMBER 1942",
+    title: "The Army on the Don",
+    when: (f, m) => m.manpower <= -3,
+    paras: [
+      "The Italian Eighth Army, more than two hundred thousand men sent to Russia in 1942, holds a long stretch of the Don. In December 1942 the Soviet winter offensive breaks through its divisions, and in January the Alpine Corps is cut off further north.",
+      "The Alpini fight their way west through the snow, breaking out at Nikolayevka at the end of January. Tens of thousands of the army's men are dead or missing, and many of those taken prisoner do not come home.",
+    ],
+  },
+  {
+    id: "ita_cities", campaign: "italy", kind: "The home front", anchor: "torchTunisia42",
+    from: "1942-10", to: "1943-04", date: "NOVEMBER 1942",
+    title: "The Raids on the Northern Cities",
+    when: (f, m) => m.initiative <= -2,
+    paras: [
+      "From October 1942 British bombers cross the Alps by night to Genoa, Turin and Milan, and once by day to Milan. The shelters are few and the fire services small, and the raids fall on the factories and on the old centres of the cities alike.",
+      "Hundreds of thousands of people leave the cities for the countryside, sleeping in villages and travelling in to work. The flight from the cities becomes part of daily life in the north.",
+    ],
+  },
+];
+
+/** The state-driven event due on arriving at a report of a European command, as a special dispatch, or null (the same rules as the Pacific's). */
+function europeStateEvent(command, campaignId, nextPos, flags, meters) {
+  if (PACIFIC_COMMANDS.includes(campaignId)) return null;
+  const events = EUROPE_STATE_EVENTS.filter((e) => !e.command || e.command === command);
+  let nextDate;
+  try {
+    nextDate = CAMPAIGNS[campaignId].resolveNode(String(nextPos), flags, meters)?.date;
+  } catch (e) {
+    nextDate = undefined;
+  }
+  // A European adviser's resignation is the European special dispatches' business (dueEvent), so it is not offered again here.
+  const quiet = Object.fromEntries(Object.entries(flags).filter(([k]) => !k.startsWith("trgone_")));
+  const e = dueStateEvent({ campaignId, events, nextDate, flags: quiet, meters });
+  if (!e) return null;
+  const dateline = String(e.date || "").toLowerCase().replace(/(^|[\s–-])([a-z])/g, (m, s, c) => s + c.toUpperCase());
+  return { id: e.id, campaign: e.campaign, kind: e.kind, dateline: e.kind ? `${e.kind}, ${dateline}` : dateline, title: e.title, text: e.paras };
+}

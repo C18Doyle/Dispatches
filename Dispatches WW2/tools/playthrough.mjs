@@ -136,7 +136,7 @@ async function playOne(browser, [id, prefix], play) {
         if (play.staff && bs.find((x) => /^Let Your Staff Plan It/i.test(x.label))) pick = bs.find((x) => /^Let Your Staff Plan It/i.test(x.label));
         else {
           const chits = bs.filter((x) => /^Add effort/.test(x.label));
-          const others = bs.filter((x) => !/^Add effort|favors|^(✓ )?No particular emphasis|Reconnaissance Pass|^Spread effort|^Clear all effort|^Ask the staff|^Let Your Staff Plan It/i.test(x.label));
+          const others = bs.filter((x) => !/^Add effort|favors|^(✓ )?No particular emphasis|Reconnaissance Pass|^Spread effort|^Clear all effort|^Ask the staff|^Let Your Staff Plan It|^At the planned hour|^Wait a day|^Go in before the plan|^Wait for the full picture/i.test(x.label));
           // a tactical approach is a toggle (aria-pressed), never the commit button, even when its name starts like one ("Launch at Once")
           const toggles = new Set(await page.evaluate(() => [...document.querySelectorAll("[data-bot][aria-pressed]")].map((e) => Number(e.getAttribute("data-bot")))));
           const commit = others.find((x) => PROCEED.test(x.label) && !toggles.has(x.i));

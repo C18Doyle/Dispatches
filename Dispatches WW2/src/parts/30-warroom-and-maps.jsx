@@ -1558,6 +1558,13 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
   const [controlBattles, setControlBattles] = useState(true);
   // "Read the briefing alone" (purist): off until stamped; the briefing then shows no record mark and no odds.
   const [purist, setPurist] = useState(false);
+  // The command style (src/command.ts): steady unless chosen; kept in flags.style.
+  const [style, setStyle] = useState("steady");
+  const STYLE_TEXT = {
+    cautious: { name: t("Cautious"), text: t("Careful orders go better and bold ones worse; each new year costs a point of Initiative. Opens a long wait before a battle.") },
+    steady: { name: t("Steady"), text: t("Every roll as written.") },
+    audacious: { name: t("Audacious"), text: t("Bold orders go better and careful ones worse; each new year costs a point of Manpower. Opens an attack before the plan is finished.") },
+  };
 
   return (
     <div className="min-h-screen w-full bg-[#000000] flex flex-col items-center justify-center px-4 py-10">
@@ -1596,11 +1603,37 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
             })}
           </div>
         </div>
+        <div role="radiogroup" aria-label={t("Command style")} className="mb-4 pb-4 border-b-2" style={{ borderColor: campaign.accent }}>
+          <div className="font-bold uppercase tracking-widest text-[11px] mb-2 text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+            {t("Command style")}
+          </div>
+          <div className="flex flex-col sm:flex-row gap-2">
+            {STYLES.map((id) => {
+              const on = style === id;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  role="radio"
+                  aria-checked={on}
+                  onClick={() => setStyle(id)}
+                  className="flex-1 text-left border-2 px-3 py-2 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+                  style={{ borderColor: campaign.accent, backgroundColor: on ? campaign.accent : "transparent", color: on ? "#ffffff" : "#000000", fontFamily: "'Courier Prime', monospace" }}
+                >
+                  <span className="block text-[12px] uppercase tracking-widest font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    {STYLE_TEXT[id].name}
+                  </span>
+                  <span className="block text-[12px] leading-snug mt-1">{STYLE_TEXT[id].text}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
         <p className="text-[13px] leading-snug mb-4 text-[#000000]" style={{ fontFamily: "'Courier Prime', monospace" }}>
           <span className="text-[11px] uppercase tracking-widest font-bold mr-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             {t("Your staff")}
           </span>
-          {t("Advisers argue for some orders. Follow one and that adviser trusts you more; pass one over and the trust falls a little. An adviser who is overruled too often goes quiet, and then asks to be relieved. A trusted adviser brings a reconnaissance pass at no cost. On the theater map you can pick an order and see where it would send the army.")}
+          {t("Advisers argue for some orders. Follow one and that adviser trusts you more; pass one over and the trust falls a little. Some advisers are rivals: following one costs the other a little trust. An adviser who is overruled too often goes quiet, and then asks to be relieved. A trusted adviser brings a reconnaissance pass at no cost. On the theater map you can pick an order and see where it would send the army.")}
         </p>
         {hasForks && (
           <StampToggle
@@ -1633,7 +1666,7 @@ function WarRoomScreen({ campaign, mode, onModeChange, onEnter, onBack }) {
         <div className="flex flex-col gap-3">
           <button
             data-hotkey="enter"
-            onClick={() => onEnter(hasForks ? historicallyAccurate : true, KEY_BATTLE_SUBGAME_ENABLED ? controlBattles : true, purist)}
+            onClick={() => onEnter(hasForks ? historicallyAccurate : true, KEY_BATTLE_SUBGAME_ENABLED ? controlBattles : true, purist, style)}
             className="w-full border-2 px-4 py-3 text-sm uppercase tracking-[0.2em] font-bold text-[#ffffff] transition-colors duration-150"
             style={{ borderColor: campaign.accent, backgroundColor: campaign.accent, fontFamily: "'IBM Plex Mono', monospace" }}
           >

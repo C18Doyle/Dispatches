@@ -732,7 +732,7 @@
               label: "Launch Sea Lion in September regardless: order the crossing over every objection",
               advisor: { name: "Göring", position: "The RAF is finished, as the weekly reports confirm, and the army need only ferry across a Channel the Luftwaffe already owns." },
               setFlags: { sealion: "launched" },
-              impact: { manpower: -3, fuel: -2, initiative: 1 },
+              impact: { manpower: -2, fuel: -2, initiative: 1 },
               next: "sealionDisaster40",
               outcome:
                 "The order the historical September 17 postponement was issued precisely to avoid: every Kriegsmarine study, and most later wargames including the famous 1974 Sandhurst exercise, reach the same verdict about what happens next. You are about to find out which shape the verdict takes.",
@@ -1305,7 +1305,7 @@
               advisor: { name: "Raeder", position: "The enemy is in London, not Moscow. Strangle the island, take the Mediterranean, and let Stalin sell the oil to do it." },
               setFlags: { barbarossa: "cancelled", pathVariant: "noBarbarossa" },
               favor: 2,
-              impact: { manpower: 3, fuel: 2, initiative: -1 },
+              impact: { manpower: 2, fuel: 1, initiative: -2 },
               next: "armedTruce41",
               outcome:
                 "The most radical divergence this campaign contains, and from here forward everything is deep projection: no serious German planning document maps this war, because the regime's entire ideology pointed east. What can be said honestly: the army history spent in Russia stays intact, the fuel history burned there stays banked, and in exchange the Reich accepts permanent strategic dependency on Soviet deliveries, a siege war against an Anglo-American alliance whose industry is beyond reach, and an eastern neighbor whose own army grows every quarter the truce holds. Cancelling the war's central catastrophe does not buy victory. It buys a completely different road to the same destination, and that road is worth walking to see why.",
@@ -1455,7 +1455,7 @@
                 {
                   weight: 100 - modWeight(25, meters.fuel),
                   title: "The pursuit overreaches badly",
-                  impact: { manpower: -3, fuel: -2, initiative: 0 },
+                  impact: { manpower: -3, fuel: -1, initiative: 0 },
                   next: "volgaOverreach42",
                   outcome:
                     "The overextension this campaign keeps warning about arrives at its worst possible moment: winter, distance, and a supply line already stretched past Moscow combine into a genuine crisis, not merely a fruitless advance. The spearheads that pushed east are the ones now in the most danger of not coming back at all.",
@@ -1466,7 +1466,7 @@
               label: "Consolidate: hold Moscow, declare the symbolic victory, let winter set the pace",
               advisor: { name: "Bock", position: "The headline has been won, and the army should not be lost proving the headline true." },
               setFlags: { moscowCaptured: true, pursuit: "consolidate" },
-              impact: { manpower: 1, fuel: 0, initiative: 0 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "sovietFracture42",
               outcome:
                 "The disciplined choice, and the more honest one about what was actually won: a capital city, not a war. The Soviet state continues to function from the Volga, continues to receive American trucks and British tanks by convoy, and continues to out-produce Germany in tanks and aircraft every quarter from here forward. Moscow's fall becomes this campaign's most dramatic chapter title, and, in every way that mattered to the war's outcome, nothing more than that.",
@@ -1670,7 +1670,7 @@
                 {
                   weight: 100 - modWeight(30, meters.fuel),
                   title: "The recovered army holds",
-                  impact: { manpower: -3, fuel: -1, initiative: -1 },
+                  impact: { manpower: -3, fuel: -1, initiative: 0 },
                   outcome:
                     "The likelier case by some margin: the Red Army of 1942 (deployed in depth, partially re-equipped, forewarned by a year of visible staging) absorbs the opening blow without the catastrophic pocket battles of the historical 1941. The invasion grinds forward weeks, not months, before culminating far short of the Dnieper, and Germany has bought the full eastern war with none of its opening dividend. The staff argument is settled: the year favored the defender, decisively.",
                 },
@@ -1681,7 +1681,7 @@
               advisor: { name: "Raeder", position: "A year ago this was a gamble and today it is a donation. Keep the army and let the truce keep Germany." },
               setFlags: { east42: "cancelled", pathVariant: "noBarbarossa" },
               favor: 2,
-              impact: { manpower: 1, fuel: 0, initiative: 0 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "bomberWar43",
               outcome:
                 "The invasion dissolves back into garrisons, and this path joins the armed-truce war, but a year late, and the year was expensive: the Mediterranean window Raeder's strategy needed closed while three million men sat in Poland proving nothing. Gibraltar's moment, Franco's brief ambivalence, the thin British desert year: all spent. The truce war begins here with the strategic initiative already leaking away west.",
@@ -1962,7 +1962,7 @@
               label: "Shut it down entirely: release every physicist and every gram of heavy water to conventional work",
               advisor: { name: "Speer", position: "Half a program pays twice for a thing. Either it wins the war or it is a laboratory, and a laboratory can wait for peace." },
               setFlags: { uranverein43: "shutDown" },
-              impact: { manpower: 1, fuel: 1, initiative: 0 },
+              impact: { manpower: 1, fuel: 0, initiative: 0 },
               next: "invasionQuestion44",
               outcome:
                 "Beyond the historical record in decisiveness rather than direction: the real program was starved, not cancelled, and its survival cost the war effort very little precisely because it was so small. Closing it outright recovers a marginal amount of skilled capacity and closes off a line of research that a postwar Germany would have wanted, on a path where there may not be a postwar Germany that gets to want things. The immediate military effect is slight and positive. The historical irony is not available to anyone in the room: the program being shut down was never a threat to anyone, and the fear of it was, at that moment, the single largest accelerant on the American one.",
@@ -2058,7 +2058,7 @@
               label: "Strike first: launch the eastern war now, before the imbalance grows worse",
               advisor: { name: "Jodl", position: "The assessments worsened with every year of waiting, and no version of 1946 in the folder is better than 1944. That is the entire argument." },
               setFlags: { eastern44: "preempt" },
-              impact: { manpower: -3, fuel: -2, initiative: 1 },
+              impact: { manpower: -2, fuel: -2, initiative: 2 },
               next: "atomicReckoning45",
               outcome:
                 "The assessment is grim, and generous at that: attacking the fully-built, fully-deployed Red Army of 1944 (with no purge chaos, no forward-deployed vulnerability, and a materiel superiority the 1941 files never imagined) produces the eastern war at its maximum possible disadvantage. The front that forms is closer to Warsaw than Smolensk within the year. The one strategic problem this solves is the uncertainty: you now know exactly what the Red Army was for.",
@@ -2211,7 +2211,7 @@
                 advisor: { name: "Guderian", position: "Moscow is the head, the heart and the railway junction of everything, and Kiev is a detour dressed as a victory." },
                 setFlags: { eastFront: "moscow" },
               favor: 1,
-                impact: { manpower: -3, fuel: -1, initiative: -1 },
+                impact: { manpower: -2, fuel: -1, initiative: 1 },
                 next: "exposedFlank",
                 outcome:
                   "Guderian argued for exactly this in real time. But it leaves an enemy force of at least half a million men, possibly far more, intact beside your main axis of advance, and the logisticians' warnings were the accurate part of the intelligence picture: German supply was already past what rail-gauge conversion could sustain. There is no documented serious model where this ends well with that flank still live.",
@@ -2442,7 +2442,7 @@
                 label: "Split forces: partial support south, partial momentum toward Moscow",
                 advisor: { name: "Bock", position: "If both objectives must be had, neither should be starved entirely, though half a spearhead has never been seen to pierce anything." },
                 setFlags: { eastFront: "split" },
-                impact: { manpower: -2, fuel: 0, initiative: -1 },
+                impact: { manpower: -2, fuel: 0, initiative: 0 },
                 next: "rostov41",
                 outcome:
                   "Weakens both outcomes at once. A partial encirclement lets meaningful Soviet forces escape Kiev intact, trimming the historical prisoner haul by perhaps a third, while diverted panzers dilute whatever chance existed of reaching Moscow before autumn. No real-world staff study favored this as anything but the worst of both options.",
@@ -2564,7 +2564,7 @@
                 {
                   weight: 100 - (modWeight(12, meters.fuel) + (flags.forkMoscowHolds ? 20 : 0)),
                   title: "The flank collapses before the center arrives",
-                  impact: { manpower: -3, fuel: -1, initiative: -1 },
+                  impact: { manpower: -3, fuel: -1, initiative: 0 },
                   next: "rostov41",
                   outcome:
                     "The likelier case, and the one every serious staff study of this scenario lands on: the exposed flank doesn't hold quietly while the center makes its final push. Counterattacking Soviet forces cut into rear-area supply columns already running on fumes, and the spearheads reaching for Moscow arrive weaker and later than the undivided version of this same gambit needed. Typhoon, when it comes, inherits a worse starting position than the historical version: Kiev's diversion at least secured the flank it spent.",
@@ -2731,7 +2731,7 @@
               label: "Hold the static line: husband all reserves for the coming second front in the west",
               advisor: { name: "Rundstedt", position: "The war will be decided where the Americans land, not where the steppes end, so a west worth defending must be built." },
               setFlags: { preservedReserve: true },
-              impact: { manpower: 3, fuel: 2, initiative: 0 },
+              impact: { manpower: 2, fuel: 1, initiative: -1 },
               next: "atlanticWall43",
               outcome:
                 "The strongest preservation path available in this campaign. No eastern offensive means no offensive losses, and two years of undisturbed rebuilding gives the western front, where the war is eventually decided regardless, a materially stronger defending force than history's version had by June 1944. The price is written in the east: when the Soviet offensive finally comes, it comes against a line that never once disrupted its preparation.",
@@ -3545,7 +3545,7 @@
               advisor: { name: "Paulus", position: "Freedom of action is requested. The army can still fight its way west as an army, but in two weeks it will only be able to starve as one." },
               setFlags: { stalingrad: "breakout" },
               favor: 2,
-              impact: { manpower: 3, fuel: 1, initiative: 0 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "reconstituted",
               outcome:
                 "This is what General Paulus actually requested, and Hitler refused it, ordering the army to hold as a 'fortress' instead. Later wargaming suggests a breakout attempted before the encirclement fully solidified had real odds of extracting a meaningful fraction of the force: a window that closed within days. The airlift numbers everyone would later argue about become irrelevant if the army simply isn't in the pocket.",
@@ -3754,7 +3754,7 @@
                   advisor: { name: "Göring", position: "The Luftwaffe will supply the fortress, and the Führer has been given his word." },
                   historical: true,
                   setFlags: { stalingrad: "airlift", pathVariant: "earlyCollapse" },
-                  impact: { manpower: -3, fuel: -2, initiative: -1 },
+                  impact: { manpower: -2, fuel: -1, initiative: -1 },
                   next: "easternCollapse1943",
                   outcome:
                     "The historical choice, but arriving here with manpower already this depleted, the loss of Sixth Army isn't an isolated disaster the front can absorb the way it did historically. The airlift delivers exactly what the Luftwaffe's honest assessment predicted, a fraction of the minimum, and when the pocket falls, Army Group South's line goes with it. There's no scaled-back Kursk to fight this time; the eastern front effectively collapses in early 1943, more than two years ahead of the real war's ending.",
@@ -3764,7 +3764,7 @@
                   advisor: { name: "Göring", position: "The Luftwaffe will supply the fortress, and the Führer has been given his word." },
                   historical: true,
                   setFlags: { stalingrad: "airlift" },
-                  impact: { manpower: -3, fuel: -2, initiative: -1 },
+                  impact: { manpower: -2, fuel: -1, initiative: -1 },
                   next: "backhandBlow43",
                   outcome:
                     "The historical choice. Göring promised 500 tons a day; the airlift averaged closer to 100, against a stated minimum of 500-700, and the Luftwaffe lost nearly 500 transport aircraft trying, a fleet it never rebuilt. Sixth Army surrendered in February 1943: roughly 91,000 survivors of the encircled quarter-million marched into captivity, of whom perhaps 5,000 ever came home. The estimate that mattered, deliverable tonnage, was known internally to be fantasy before the decision was made.",
@@ -3774,7 +3774,7 @@
               advisor: { name: "Manstein", position: "The Volga is not worth an army, nor is anything else on this map, and the army should be withdrawn while the word still means something." },
               setFlags: { stalingrad: "early" },
               favor: 2,
-              impact: { manpower: 4, fuel: 1, initiative: -1 },
+              impact: { manpower: 1, fuel: 1, initiative: -2 },
               next: "reconstituted",
               outcome:
                 "Would mean abandoning Stalingrad before Uranus closes: politically unthinkable to Hitler given the city's name, but militarily the option that best preserved Sixth Army as a fighting force for the rest of the war. Every option in this campaign that requires Hitler to accept a visible retreat carries the same asterisk: correct on the merits, unreachable in the real command structure.",
@@ -4054,7 +4054,7 @@
               label: "Hold every position, as the Führer orders: no more ground until the spring",
               advisor: { name: "Hitler", position: "Not another step is to be given, because the ground that is lost in the winter has to be paid for in the summer, and Kharkov has to be held." },
               setFlags: { backhand43: "hold" },
-              impact: { manpower: -3, fuel: 0, initiative: -2 },
+              impact: { manpower: -3, fuel: 0, initiative: -1 },
               next: "blackMay",
               outcome:
                 "Not what happened: in the real war Hausser disobeyed the order. Here it is carried out, and the SS Panzer Corps is left in Kharkov with the Soviet armies on three sides. The panzer armies cannot gather for a flank blow because every division is tied to the line it was told to hold, and the Soviet spearheads, short of fuel as they are, are not given the opening that would have destroyed them. The corps is surrounded in the city, and what comes out of it is a fraction of what went in. The front south of Kharkov is held, and the army group has nothing left to hit back with.",
@@ -4165,7 +4165,7 @@
               label: "Skip Kursk entirely: hold the extra divisions in elastic defense",
               advisor: { name: "Manstein", position: "One army was saved from one fortress, and it should not be fed into a minefield with better publicity." },
               setFlags: { southernFront1943: "elasticDefense", preservedReserve: true },
-              impact: { manpower: 2, fuel: 1, initiative: 0 },
+              impact: { manpower: 2, fuel: 1, initiative: -1 },
               next: "vWeaponsProduction44",
               outcome:
                 "The strongest preservation option available on this branch. No offensive means no offensive losses, and the reconstituted divisions sit in reserve rather than being spent: at the cost of ceding the initiative to the Red Army even more completely than the historical defensive-minded critics of Citadel wanted.",
@@ -4576,7 +4576,7 @@
               attested: { by: "Guderian", text: "How many people do you think even know where Kursk is?", source: "Guderian, Panzer Leader (1952), his account of the conference with Hitler in early May 1943" },
               setFlags: { kursk: "cancelDefend", preservedReserve: true },
               favor: 1,
-              impact: { manpower: 2, fuel: 1, initiative: 0 },
+              impact: { manpower: 2, fuel: 1, initiative: -1 },
               next: "twoFires1943",
               outcome: offensivePossible
                 ? "Guderian's actual argument, nearly verbatim. A pure defensive posture preserves the panzer reserve rather than spending it against prepared positions, at the cost of permanently ceding the initiative to the Red Army. Most commanders still argued for some version of the attack, which is worth remembering when weighing how 'obvious' the right answer looks from here."
@@ -6172,7 +6172,7 @@
               advisor: { name: "Model", position: "The plan does not have a leg to stand on, and that is said by the man ordered to make it march to Antwerp." },
               setFlags: { ardennes: "hold" },
               favor: 1,
-              impact: { manpower: 1, fuel: 1, initiative: 0 },
+              impact: { manpower: 1, fuel: 0, initiative: -1 },
               next: "hungaryGamble45",
               outcome: fuelExhausted
                 ? "Not really a choice at all by this point: there was never enough fuel banked to attempt an offensive, so holding in place is the only option OKW's own staff would put forward. The fuel shortage that merely stalled the historical offensive short of Antwerp forecloses it outright here."

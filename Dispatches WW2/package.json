@@ -52,7 +52,8 @@
     "store-shots": "node tools/store-screenshots.mjs",
     "test:a11y": "node tools/a11y-screens.mjs",
     "size:budget": "node tools/size-budget.mjs",
-    "photos:optimise": "node tools/optimise-photos.mjs"
+    "photos:optimise": "node tools/optimise-photos.mjs",
+    "test:overflow": "node tools/overflow-check.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {

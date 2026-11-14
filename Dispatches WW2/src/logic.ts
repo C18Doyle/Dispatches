@@ -9,6 +9,7 @@
  * campaign primitives (@dispatches/engine); this file holds only 1940's rules for them, the battle
  * subgame's roll nudge and the screen-flow glue.
  */
+import { rivalsOf, rivalName } from "./rivals";
 import { t, T } from "@dispatches/i18n";
 import { applyCeilings, applyImpact as engineApplyImpact, endsRun, pickWeighted as enginePickWeighted } from "@dispatches/engine";
 import type { AxisSpec, Ceiling, EndFlag, RollRule } from "@dispatches/engine";
@@ -259,6 +260,14 @@ export function trustAfter(flags: Flags, stage: Stage, index: number): Flags {
     const next = Math.max(TRUST_MIN, Math.min(TRUST_MAX, trustOf(out, name) + (name === chosen ? 2 : -1)));
     out = { ...out, [trustKey(name)]: next, [nameKey(name)]: name };
     if (next <= TRUST_MIN) out = { ...out, [goneKey(name)]: name };
+  }
+  // Rivalries (src/rivals.ts): following one of a pair costs the other half a point more, if the rival has been heard in this file.
+  for (const r of rivalsOf(chosen)) {
+    const rival = rivalName(r, chosen as string);
+    if (out[goneKey(rival)] || !out[nameKey(rival)]) continue;
+    const next = Math.max(TRUST_MIN, trustOf(out, rival) - 1);
+    out = { ...out, [trustKey(rival)]: next };
+    if (next <= TRUST_MIN) out = { ...out, [goneKey(rival)]: rival };
   }
   return out;
 }

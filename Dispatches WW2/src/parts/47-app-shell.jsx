@@ -209,14 +209,14 @@ function SettingsRows({ idp = "setting-", confirmOrders = "one", onSetConfirmOrd
         </div>
       ))}
       {onSetConfirmOrders && (
-        <div className={`${paper} p-4 flex items-center justify-between gap-3`}>
+        <div className={`${paper} p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3`}>
           <span id={idp + "confirm-label"} className={labelCls} style={mono}>
             {t("Give an order with")}
             <span className="block normal-case tracking-normal font-normal text-[12px] opacity-80 mt-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
               {t("Two clicks: the first press marks the order, the second gives it, so a stray key or tap gives nothing.")}
             </span>
           </span>
-          <div role="group" aria-labelledby={idp + "confirm-label"} className="flex gap-2 shrink-0">
+          <div role="group" aria-labelledby={idp + "confirm-label"} className="flex flex-wrap gap-2 sm:shrink-0">
             {[["one", t("One click")], ["two", t("Two clicks")]].map(([v, name]) => (
               <button key={v} onClick={() => onSetConfirmOrders(v)} aria-pressed={confirmOrders === v} className={toggleCls + (confirmOrders === v ? " bg-[#000000] text-[#ffffff]" : "")} style={mono}>
                 {name}
@@ -398,12 +398,12 @@ function WarJournal({ campaign, log, flags, onClose, notes = {}, onNote }) {
       <p className="text-[13px] mb-3" style={{ fontFamily: "'Courier Prime', monospace" }}>
         {t("{name} · {length} {length, plural, one {order} other {orders}} on file", { name: campaign.name, length: entries.length })}
       </p>
-      {campaign.id === "american" && allocationRecord(flags).length > 0 && (
+      {allocationRecord(campaign.id, flags).length > 0 && (
         <div className="mb-4 border-2 border-black p-3">
           <div className="text-xs uppercase tracking-[0.25em] font-bold mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             {t("Allocation of effort")}
           </div>
-          <EffortRecord flags={flags} accent={campaign.accent} />
+          <EffortRecord command={campaign.id} flags={flags} accent={campaign.accent} />
         </div>
       )}
       {entries.length === 0 ? (
@@ -633,7 +633,7 @@ const ARCHIVE_PHOTOS = {
 };
 /** The music beyond the main score: all Holst's The Planets, in public-domain recordings by US military bands. */
 const MUSIC_TRACKS = {
-  menu: { src: "assets/music/menu-mars.ogg", type: 'audio/ogg; codecs="vorbis"', title: "Holst, Mars, the Bringer of War", by: "United States Air Force Band (Heritage of America Band)" },
+  menu: { src: "assets/music/menu-mars.opus", type: 'audio/ogg; codecs="opus"', title: "Holst, Mars, the Bringer of War", by: "United States Air Force Band (Heritage of America Band)" },
   pacific: { src: "assets/music/pacific-neptune.opus", type: 'audio/ogg; codecs="opus"', title: "Holst, Neptune, the Mystic", by: "“The President's Own” United States Marine Band" },
   end: { src: "assets/music/end-saturn.opus", type: 'audio/ogg; codecs="opus"', title: "Holst, Saturn, the Bringer of Old Age", by: "“The President's Own” United States Marine Band" },
 };

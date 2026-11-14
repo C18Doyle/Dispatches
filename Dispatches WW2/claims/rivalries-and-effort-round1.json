@@ -1,0 +1,121 @@
+[
+  {
+    "id": "rv-rommel-kesselring",
+    "where": "src/rivals.ts",
+    "claim": "Rommel and Kesselring disagreed over Malta, North African supply and the defence of Italy.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round."
+  },
+  {
+    "id": "rv-guderian-kluge",
+    "where": "src/rivals.ts",
+    "claim": "Guderian and Kluge quarrelled from 1941; in 1943 Kluge sought Hitler's leave to challenge Guderian to a duel.",
+    "status": "standard-account-not-reopened",
+    "source": "Guderian's memoirs and standard histories; not re-read in this round."
+  },
+  {
+    "id": "rv-raeder-goring",
+    "where": "src/rivals.ts",
+    "claim": "Raeder and Göring disputed naval aviation and the conduct of Sea Lion.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "rv-zhukov-konev",
+    "where": "src/rivals.ts",
+    "claim": "Stalin set Zhukov's and Konev's fronts racing for Berlin in April 1945.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "rv-montgomery-patton",
+    "where": "src/rivals.ts",
+    "claim": "Montgomery and Patton competed in Sicily (Messina) and for fuel and priority in 1944.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "rv-montgomery-bradley",
+    "where": "src/rivals.ts",
+    "claim": "Bradley broke with Montgomery after the Ardennes (Montgomery's press conference of January 1945) and refused to serve under him.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "rv-churchill-marshall",
+    "where": "src/rivals.ts",
+    "claim": "Churchill pressed the Mediterranean strategy; Marshall the cross-Channel invasion.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "rv-badoglio-graziani",
+    "where": "src/rivals.ts",
+    "claim": "Badoglio and Graziani were long-standing enemies; Graziani became the Salò Republic's defence minister.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "rv-badoglio-cavallero",
+    "where": "src/rivals.ts",
+    "claim": "Cavallero replaced Badoglio as Chief of the General Staff in December 1940 after the Greek defeats.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "rv-tojo-togo",
+    "where": "src/rivals.ts",
+    "claim": "Togo resigned as Foreign Minister in September 1942 over Tojo's Greater East Asia Ministry.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "rv-anami-yonai",
+    "where": "src/rivals.ts",
+    "claim": "In August 1945 Yonai argued for accepting the Potsdam terms and Anami against.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "rv-sugiyama-nagano",
+    "where": "src/rivals.ts",
+    "claim": "The Army and Navy chiefs of staff bargained over materials and shipping allocations.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "rv-macarthur-nimitz",
+    "where": "src/rivals.ts",
+    "claim": "MacArthur and Nimitz each argued for his own axis of advance on Japan.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "ef-german-record",
+    "where": "src/effort.ts EFFORT_PLANS.german; part 46",
+    "claim": "The army in the East suffered over a million casualties between June 1941 and the spring of 1942; the East had first call through Case Blue and Citadel; Directive 51 (3 November 1943) gave the West priority; reserves gathered in the West for the Ardennes in autumn 1944.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "ef-japan-record",
+    "where": "src/effort.ts EFFORT_PLANS.japan; part 46",
+    "claim": "The Navy's operations dominated 1942 (Coral Sea, Midway, Guadalcanal); services bargained over 1943 and 1944 materials; Ichi-Go and A-Go in 1944; Ketsu-Go home defence prioritised in 1945 with naval aircraft and ships folded into it.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "ef-soviet-record",
+    "where": "src/effort.ts EFFORT_PLANS.soviet; part 46",
+    "claim": "Reserve armies formed in 1942 and committed at Stalingrad in November; the Kursk salient defended in depth with the Steppe Front in reserve; Bagration in June 1944; the Berlin operation in April 1945 with Zhukov's and Konev's fronts racing; armies moved east for Manchuria from the spring of 1945.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read in this round."
+  },
+  {
+    "id": "cf-casablanca",
+    "where": "src/command.ts CONFERENCES; part 46 CONFERENCE_PAPERS",
+    "claim": "At Casablanca (January 1943) the British carried Sicily; King's figure of about fifteen per cent of the Allied effort for the Pacific and his case for thirty; the cross-Channel target date (1 May 1944) fixed at Trident in Washington in May 1943.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the conferences; not re-read in this round."
+  }
+]
