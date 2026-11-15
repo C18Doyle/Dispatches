@@ -111,6 +111,29 @@ for (const [name, R] of [["1940's rules", L], ["1941's rules", P]]) {
   check(R.trustOf(unmet, "Kesselring") === 0, `${name}: a rival not yet heard in the file is left alone`);
 }
 
+// ---- A front left short (the enemy's answer, part 35) ----
+check(!E.leftShort("german", { effort_1942: "eastFirst" }, 1942, "east"), "OKW following the record in 1942 leaves no front short");
+check(E.leftShort("german", { effort_1942: "even" }, 1942, "east"), "OKW sharing 1942 evenly leaves the East short");
+check(!E.leftShort("german", { effort_1942: "even" }, 1942, "west"), "and does not leave the West short");
+check(E.leftShort("german", { effort_1944: "even" }, 1944, "west"), "OKW sharing 1944 evenly, against Directive 51, leaves the West short");
+check(E.leftShort("american", { usEffort_1943: "germanyFirst" }, 1943, "pacific"), "the Joint Chiefs putting Germany first in 1943 leave the Pacific short");
+check(E.leftShort("japan", { effort_1945: "navyFirst" }, 1945, "army"), "IGHQ putting the navy first in 1945 leaves Ketsu-Go short");
+check(!E.leftShort("soviet", { effort_1943: "frontFirst" }, 1943, "now"), "STAVKA's shares are now and later, not two fronts: no front is left short");
+check(!E.leftShort("german", {}, 1943, "east"), "a year not yet allocated leaves no front short");
+
+// ---- Lend-Lease (STAVKA) ----
+check(E.lendLeaseDue("soviet", { effort_1943: "even" }, 1943) === 1943, "STAVKA's Lend-Lease paper is due in 1943 once the year is allocated");
+check(E.lendLeaseDue("soviet", {}, 1943) === null, "and not before the year's allocation");
+check(E.lendLeaseDue("soviet", { effort_1943: "even", lendLease_1943: "food" }, 1943) === null, "and only once a year");
+check(E.lendLeaseDue("soviet", { effort_1942: "even" }, 1942) === null, "1942 is the report on the routes, not a paper");
+check(E.lendLeaseDue("german", { effort_1943: "even" }, 1943) === null, "no other command has one");
+check(E.lendLeaseShares({ lendLease: "arctic" }, 1943) === 1 && E.lendLeaseShares({ lendLease: "persian" }, 1943) === 2, "1943: one share for a file staked on the Arctic (the convoys stopped), two for one that built up the Persian Corridor");
+check(E.lendLeaseShares({}, 1944) === 2 && E.lendLeaseShares({}, 1945) === 1, "1944 is the peak year (two shares), 1945 one (part went to Milepost)");
+check(E.lendLeaseEffect({}, 1944, "transport").impact.fuel === 2, "trucks, rails and fuel are Matériel");
+check(E.lendLeaseEffect({}, 1944, "food").impact.manpower === 2, "food and metals are Manpower");
+check(E.lendLeaseEffect({}, 1944, "weapons").chits === 2 && E.lendLeaseChits("soviet", { lendLease_1944: "weapons" }, 1944) === 2, "tanks and aircraft are chits for the year's Orders of Battle");
+check(E.lendLeaseChits("soviet", { lendLease_1944: "weapons" }, 1945) === 0, "only that year's");
+
 if (fails.length) {
   console.log(`\n${fails.length} check(s) failed`);
   process.exit(1);

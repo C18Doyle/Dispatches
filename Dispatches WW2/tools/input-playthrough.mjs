@@ -194,6 +194,53 @@ async function openCommand(page, seal) {
   await ctx.close();
 }
 
+// ---- rebinding (the menu's Keys and controller section) ----
+// The journal moved from J to K: K opens it, J no longer does, a key another action holds is refused, the binding survives a reload, and
+// Restore the defaults puts J back.
+{
+  const where = "rebinding";
+  const { ctx, page, errors } = await open();
+  await openCommand(page, "OKW");
+  const changeJournal = async () => {
+    await page.evaluate(() => {
+      const b = [...document.querySelectorAll("button")].find((x) => /^Change the key for: Open the war journal/.test(x.getAttribute("aria-label") || ""));
+      if (b) b.click();
+    });
+    await page.waitForTimeout(150);
+  };
+  const status = () => page.evaluate(() => [...document.querySelectorAll('[role="dialog"] [role="status"]')].map((e) => e.innerText).join(" | "));
+  await key(page, "Escape");
+  await changeJournal();
+  await page.keyboard.press("r");
+  await page.waitForTimeout(150);
+  if (!/already does this/i.test(await status())) problems.push(`${where}: binding the journal to R (Reconsider's key) was not refused`);
+  await changeJournal();
+  await page.keyboard.press("k");
+  await page.waitForTimeout(150);
+  if (!/K now does this/i.test(await status())) problems.push(`${where}: K was not bound to the journal (${await status()})`);
+  await key(page, "Escape");
+  if (await dialogOpen(page)) problems.push(`${where}: Escape did not close the menu after rebinding`);
+  await key(page, "j");
+  if (await dialogOpen(page)) problems.push(`${where}: J still opens the journal after it moved to K`);
+  await key(page, "k");
+  if (!/War Journal/i.test(await text(page))) problems.push(`${where}: K did not open the war journal`);
+  await key(page, "Escape");
+  await page.reload({ waitUntil: "load" });
+  await page.waitForTimeout(800);
+  const kept = await page.evaluate(() => JSON.parse(localStorage.getItem("dispatchesWW2_bindings") || "{}").keys?.journal);
+  if (kept !== "k") problems.push(`${where}: the binding was not kept (${kept})`);
+  await openCommand(page, "OKW");
+  await key(page, "Escape");
+  await page.evaluate(() => [...document.querySelectorAll("button")].find((x) => /Restore the defaults/i.test(x.innerText))?.click());
+  await page.waitForTimeout(150);
+  await key(page, "Escape");
+  await key(page, "j");
+  if (!/War Journal/i.test(await text(page))) problems.push(`${where}: J did not open the journal after Restore the defaults`);
+  for (const e of errors) problems.push(`${where}: ${e}`);
+  console.log(`${problems.some((p) => p.startsWith(where)) ? "FAIL" : "ok  "} ${where}: the journal moved to K and back, a taken key refused`);
+  await ctx.close();
+}
+
 await browser.close();
 server.close();
 if (problems.length) {

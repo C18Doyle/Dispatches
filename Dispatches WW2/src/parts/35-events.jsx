@@ -234,18 +234,6 @@ const SPECIAL_EVENTS = [
     ],
     source: "The attack in the Via Rasella and the massacre at the Ardeatine caves, 23 and 24 March 1944.",
   },
-  {
-    id: "verona-trial",
-    campaign: "italy",
-    at: ["civilWarPartisans44"],
-    dateline: "Verona, 11 January 1944",
-    title: "The Verona trial",
-    text: [
-      "Five of the men on the Grand Council who voted against Mussolini on 24 and 25 July were shot at Verona, among them Galeazzo Ciano, Mussolini's son-in-law and his former foreign minister. Mussolini had refused to hear his daughter's appeal.",
-      "The others who had voted with them, and had got away, were condemned in their absence.",
-    ],
-    source: "The Verona trial, 8 to 10 January 1944, and the executions of 11 January.",
-  },
   // ---- The home front (Dispatches WW2, November 2026; facts in claims/home-front-round1.json) ------------------------------------------
   {
     id: "home-reich-ration-card",
@@ -422,7 +410,8 @@ function SpecialEventScreen({ campaign, event, onContinue }) {
             </p>
           ))}
           <div className="text-[11px] pt-2 text-[#555]" style={{ borderTop: "1px dashed #ccc4b8", fontFamily: "'IBM Plex Mono', monospace" }}>
-            {event.source ? t("For the record: {eventSource}", { eventSource: event.source }) : t("Nothing in this dispatch changes a meter.")}
+            {event.source ? t("For the record: {eventSource}", { eventSource: event.source }) : !event.impact && t("Nothing in this dispatch changes a meter.")}
+            {event.impact && <div className="mt-1 font-bold text-[#16130f]">{t("What it costs: {impact}.", { impact: impactText(event.impact) })}</div>}
           </div>
         </div>
         <div className="wire-tear wire-tear-bottom" style={{ "--wire-paper": paperTint }}></div>
@@ -752,4 +741,182 @@ function europeStateEvent(command, campaignId, nextPos, flags, meters) {
   if (!e) return null;
   const dateline = String(e.date || "").toLowerCase().replace(/(^|[\s–-])([a-z])/g, (m, s, c) => s + c.toUpperCase());
   return { id: e.id, campaign: e.campaign, kind: e.kind, dateline: e.kind ? `${e.kind}, ${dateline}` : dateline, title: e.title, text: e.paras };
+}
+
+// ---------- WHAT THE ENEMY DOES WITH A FRONT LEFT SHORT (Dispatches WW2) ----------
+// A year's allocation of effort (src/effort.ts) that gives a front less than the record gave it is read by the enemy, who presses there. The
+// dispatch comes once, before the first of the listed reports on that front that the file reaches, and costs a point: the price of the
+// thinned front, on top of the chits its battles lost. Each says what in it is speculation, and its source line says what the record was.
+// Only the year's own allocation counts (the paper is shown at the year's first report, so a dispatch never comes before its own paper).
+// The Joint Chiefs' are filed under their source files (allied, alliedPacific) and shown only in the Joint Chiefs' file.
+// Claims: claims/lend-lease-and-reactions-round1.json.
+const ENEMY_REACTIONS = [
+  // ---- OKW ----
+  {
+    id: "react_ger_east42", command: "german", campaign: "german", year: 1942, side: "east",
+    at: ["caseBlue", "volgaOverreach42", "fractureResolution42"],
+    date: "MAY 1942", title: "The Red Army Tries the Thin Places",
+    paras: [
+      "The East has had less than its share of the year, and the Russians have noticed. Their spring attacks come against the sectors where our divisions are furthest under strength, and the replacements promised for them are still on the trains.",
+      "Speculative. The losses fall on the formations that were to lead the summer offensive, and they will lead it weaker.",
+    ],
+    source: "In the record the Red Army's May offensive south of Kharkov ended in its own encirclement, against an Eastern army that had first call on the year's men and equipment.",
+    impact: { manpower: -1 },
+  },
+  {
+    id: "react_ger_east43", command: "german", campaign: "german", year: 1943, side: "east",
+    at: ["kursk", "kurskBreach43", "reconstituted", "dnieperStabilized"],
+    date: "SUMMER 1943", title: "The Salient Grows Deeper",
+    paras: [
+      "With less of the year's effort in the East, the Russians have had the spring to themselves. Air reconnaissance shows new belts of trenches and minefields across the Kursk salient, and new armies gathering behind it.",
+      "Speculative. Every week the East waits for its tanks is a week of digging for the other side, and the staff now plan against a defence deeper than the one they measured.",
+    ],
+    source: "In the record the Soviet defences at Kursk were built in depth through the spring of 1943, with the Steppe Front held in reserve behind them, while the Eastern army had first call on the year's effort.",
+    impact: { initiative: -1 },
+  },
+  {
+    id: "react_ger_west44", command: "german", campaign: "german", year: 1944, side: "west",
+    at: ["vWeaponsProduction44", "normandy"],
+    date: "SPRING 1944", title: "The Wall Is Thinner Than the Newsreels",
+    paras: [
+      "The West has had less than Directive 51 gave it. Rommel's inspection reports from the Channel coast say so plainly: the beach obstacles and minefields are behind his programme, and the divisions in reserve are short of tanks and of fuel.",
+      "Speculative. The Allied air forces see the same gaps, and their attack on the railways into Normandy begins against a coast with less to hold it.",
+    ],
+    source: "In the record Directive 51 of 3 November 1943 gave the West first call on reinforcements, and Rommel, sent to the coast that autumn, had several million mines laid before June 1944.",
+    impact: { initiative: -1 },
+  },
+  // ---- IGHQ ----
+  {
+    id: "react_jap_navy42", command: "japan", campaign: "japan", year: 1942, side: "navy",
+    at: ["coralSea42", "midway42", "guadalcanal42"],
+    date: "MAY 1942", title: "The Carriers Wait for Aircraft",
+    paras: [
+      "The navy has had less of the year's steel and aircraft than its plans asked for. The carrier air groups home from the Indian Ocean are refitting with fewer aircraft than they lost, and the training schools are told to send their pilots forward early.",
+      "Speculative. The American carriers are raiding again, and the naval staff go into the summer's battles with air groups that are short before the first strike is flown.",
+    ],
+    source: "In the record the navy had first call in 1942 and still went to Midway without two of its six fleet carriers: Shokaku damaged and Zuikaku short of aircraft after the Coral Sea.",
+    impact: { initiative: -1 },
+  },
+  {
+    id: "react_jap_navy43", command: "japan", campaign: "japan", year: 1943, side: "navy",
+    at: ["yamamotoDeath43", "attu43", "earlyPerimeter43"],
+    date: "SPRING 1943", title: "The Escorts That Were Not Built",
+    paras: [
+      "With the army first in the year's materials, the navy has cut its programme of escort vessels again. The convoys from the southern oilfields sail with one old destroyer or none, and the American submarines have learned where they run.",
+      "Speculative. The tankers lost this spring carried the fuel the fleet was to train on, and the shortfall shows in the stocks at Truk and in the home ports.",
+    ],
+    source: "In the record Japan organised its convoys late and built escorts few and late, and American submarines sank a growing share of its tankers through 1943 and 1944.",
+    impact: { fuel: -1 },
+  },
+  {
+    id: "react_jap_army43", command: "japan", campaign: "japan", year: 1943, side: "army",
+    at: ["attu43", "earlyPerimeter43"],
+    date: "MAY 1943", title: "The Garrisons on Their Own",
+    paras: [
+      "The navy has had the larger share of the year, and the army's garrisons on the outer islands feel it first. The reinforcements for the Aleutians and the Solomons wait in Japan for shipping that has gone to the fleet.",
+      "Speculative. The Americans choose the garrisons that have not been reinforced, and the army staff learn of each landing from the last signals of the men already there.",
+    ],
+    source: "In the record the Attu garrison of about 2,600 men was neither reinforced nor taken off, and fought almost to the last man in May 1943.",
+    impact: { manpower: -1 },
+  },
+  {
+    id: "react_jap_navy44", command: "japan", campaign: "japan", year: 1944, side: "navy",
+    at: ["philippineSea44", "leyteGulf44"],
+    date: "JUNE 1944", title: "Pilots Trained on Short Fuel",
+    paras: [
+      "The army's offensive in China has taken the larger share of the year's fuel and aircraft. The carrier air groups rebuilt for the decisive battle have trained on less fuel than the schools asked for, and many of the new pilots have few hours in the air.",
+      "Speculative. The American carrier forces grow larger every month, and the naval staff go to meet them with air groups whose training was cut to feed the army's offensive.",
+    ],
+    source: "In the record the carrier air groups at the Philippine Sea in June 1944 were largely newly trained pilots, and the battle cost Japan most of its carrier aircraft.",
+    impact: { initiative: -1 },
+  },
+  {
+    id: "react_jap_army44", command: "japan", campaign: "japan", year: 1944, side: "army",
+    at: ["theMainlandCrisis44", "ichiGoTriumph44", "iwoJima45"],
+    date: "1944", title: "Ichi-Go Without Its Trucks",
+    paras: [
+      "The fleet has had the larger share of the year, and the army's great offensive in China starts with fewer trucks, less fuel and fewer replacements than its plan assumed.",
+      "Speculative. The Chinese armies hold the railway towns longer, and the American airfields the offensive was meant to take go on flying for weeks it was not meant to give them.",
+    ],
+    source: "In the record Operation Ichi-Go, from April 1944, was the largest Japanese army offensive of the war and overran several of the American airfields in southern China.",
+    impact: { manpower: -1 },
+  },
+  {
+    id: "react_jap_army45", command: "japan", campaign: "japan", year: 1945, side: "army",
+    at: ["okinawa45", "ketsuGo45"],
+    date: "SPRING 1945", title: "The Beaches Are Not Ready",
+    paras: [
+      "The navy has been given more of the year than Ketsu-Go can spare. The divisions raised for the defence of Kyushu are short of guns and of the fuel to move them, and the works on the southern beaches are behind their programme.",
+      "Speculative. The Americans read the gaps in the defences from the air, and the staff know the home islands will be held with less than the plan assumed.",
+    ],
+    source: "In the record the army's plan for the defence of the home islands, Ketsu-Go, came first in 1945, and the navy's remaining aircraft and small craft were folded into it.",
+    impact: { initiative: -1 },
+  },
+  // ---- The Joint Chiefs ----
+  {
+    id: "react_us_europe42", command: "american", campaign: "allied", year: 1942, side: "europe",
+    at: ["atlanticConvoys42", "pq17_1942", "secondFront42", "dieppe42", "darlanDeal42"],
+    date: "1942", title: "The U-Boats Come Inshore",
+    paras: [
+      "The Atlantic has had less of the year's escorts and shipping than Europe First promised. Dönitz has read it before the Navy Department has: his U-boats work closer to the American coast and the Caribbean, where tankers still sail alone.",
+      "Speculative. Each tanker sunk is fuel the build-up in Britain does not receive, and the planners for the second front count their landing craft against a shipping programme that is losing ground.",
+    ],
+    source: "In the record the U-boats sank hundreds of ships off the American coast and in the Caribbean in the first half of 1942, before coastal convoys were introduced.",
+    impact: { fuel: -1 },
+  },
+  {
+    id: "react_us_pacific42", command: "american", campaign: "alliedPacific", year: 1942, side: "pacific",
+    at: ["guadalcanalAllied42", "savoIslandReckoning42", "kokodaTrailAllied42"],
+    date: "AUGUST 1942", title: "Operation Shoestring",
+    paras: [
+      "The Pacific has had less of the year than the record gave it, and the landing in the Solomons sails on what is left. The Marines go ashore with fewer stores than they planned for, and the transports cannot stay long under Japanese aircraft from Rabaul.",
+      "Speculative. The Japanese answer comes by night down the Slot, and the Marines hold their airfield on captured rice while the navy argues over what it can risk.",
+    ],
+    source: "In the record the men who made the landing on Guadalcanal called it Operation Shoestring, and the transports withdrew after the defeat at Savo Island with their cargo only partly landed.",
+    impact: { manpower: -1 },
+  },
+  {
+    id: "react_us_europe43", command: "american", campaign: "allied", year: 1943, side: "europe",
+    at: ["sicilyHusky43", "bomberDirective43", "italyOrOverlord43"],
+    date: "1943", title: "The Bombers Fly Without Escorts",
+    paras: [
+      "Europe has had less of the year's aircraft and shipping than Casablanca promised. The Luftwaffe has seen the Eighth Air Force stop growing, and it brings fighters home from the other fronts to meet the bombers over Germany.",
+      "Speculative. The heavy losses over the Ruhr and the ball bearing plants come sooner, and the long-range fighters that would protect the bombers are still a programme on paper.",
+    ],
+    source: "In the record the Eighth Air Force lost sixty bombers on each of the Schweinfurt raids of August and October 1943, and deep raids without escort were stopped until the long-range Mustangs came.",
+    impact: { initiative: -1 },
+  },
+  {
+    id: "react_us_pacific43", command: "american", campaign: "alliedPacific", year: 1943, side: "pacific",
+    at: ["bismarckSea43", "yamamotoIntercept43", "centralPacificDrive43", "theTarawaQuestion43"],
+    date: "1943", title: "The Gilberts Are Fortified",
+    paras: [
+      "The Pacific has had less of the year than King asked for, and the Central Pacific drive waits for carriers and landing craft. The Japanese use the months: Betio, in the Gilberts, is ringed with bunkers, coast guns and a seawall.",
+      "Speculative. When the Marines go in, they go in against defences that had longer to grow, and the staff plan for the casualties that buys.",
+    ],
+    source: "In the record the Central Pacific drive began at Tarawa in November 1943, where about 1,000 Americans were killed in three days on Betio.",
+    impact: { manpower: -1 },
+  },
+  {
+    id: "react_us_europe44", command: "american", campaign: "allied", year: 1944, side: "europe",
+    at: ["anzioSiege44", "overlordPrep44", "omahaCrisis44"],
+    date: "SPRING 1944", title: "Not Enough Landing Craft",
+    paras: [
+      "Europe has had less of the year than Overlord's planners were promised, and the shortage is counted in landing ships. Every tank landing ship kept in the Pacific is one fewer for the Channel, and the Germans in France use the months to finish their work on the coast.",
+      "Speculative. The invasion goes in on a narrower front or later in the summer, and the staff weigh every week against the weather in the Channel.",
+    ],
+    source: "In the record the shortage of landing craft decided the size and the date of the invasion: Overlord was widened to five beaches and put back to June, and the landing in southern France was postponed to August.",
+    impact: { initiative: -1 },
+  },
+];
+
+/** The enemy's answer to a front left short, due on arriving at a report, as a special dispatch with its cost, or null. */
+function enemyReaction(command, campaignId, nextPos, flags) {
+  for (const r of ENEMY_REACTIONS) {
+    if (r.command !== command || r.campaign !== campaignId || !r.at.includes(String(nextPos))) continue;
+    if (flags[eventSeenKey(r.id)] || !leftShort(command, flags, r.year, r.side)) continue;
+    const dateline = String(r.date).toLowerCase().replace(/(^|[\s–-])([a-z])/g, (m, s, c) => s + c.toUpperCase());
+    return { id: r.id, campaign: r.campaign, kind: t("The enemy's answer"), dateline: `${t("The enemy's answer")}, ${dateline}`, title: r.title, text: r.paras, source: r.source, impact: r.impact };
+  }
+  return null;
 }

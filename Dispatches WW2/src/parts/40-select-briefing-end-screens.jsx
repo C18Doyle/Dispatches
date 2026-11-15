@@ -3902,7 +3902,7 @@ function BattleAllocationScreen({ campaign, config, meters, flags, mode, soundOn
         <div role="heading" aria-level="3" aria-live="polite" className="text-xs uppercase tracking-[0.2em] mb-1 text-[#000000] font-semibold" style={labelStyle}>
           {t("Effort in reserve: {remaining} of {poolSize}", { remaining, poolSize })}
           {extraChits !== 0 && (
-            <span className="normal-case font-normal"> {" "}{extraChits > 0 ? t("· {n} more from the allocation of effort", { n: extraChits }) : t("· {n} fewer from the allocation of effort", { n: -extraChits })}</span>
+            <span className="normal-case font-normal"> {" "}{extraChits > 0 ? t("· {n} more from the year's allocations", { n: extraChits }) : t("· {n} fewer from the year's allocations", { n: -extraChits })}</span>
           )}
           {bonusMeters.length > 0 && (
             <span className="normal-case font-normal"> {" "}{t("· {bonusMetersLength} extra from the standing of your logistics", { bonusMetersLength: bonusMeters.length })}</span>
@@ -4162,7 +4162,7 @@ const BATTLE_BEAT_MS = 2600;
 // Effort committed at the decisive hour arrives late. Mirrors KEY_BATTLE_RESERVE_MULT.
 const COUNTER_WORDS = { repulsed: "thrown back", heldAtCost: "held, at a cost", broke: "a break-through", gaveGround: "ground given up" };
 
-function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, uncertain, result, soundOn, instantText, reducedMotion, onResolve, onContinue, onSaveLeave, resumed }) {
+function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, uncertain, result, soundOn, instantText, reducedMotion, onResolve, onContinue, onSaveLeave, resumed, onVerdict }) {
   const headingRef = useRef(null);
   const categories = keyBattleCategories(config);
   const postures = KEY_BATTLE_POSTURES[config.id] || [];
@@ -4561,6 +4561,14 @@ function BattleSimulationScreen({ campaign, config, mode, plan, baseWeights, unc
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, done]);
+  // The verdict's music cue (part 50, playBattleCue), once, when the verdict is shown.
+  const cued = useRef(false);
+  useEffect(() => {
+    if (!done || cued.current || !onVerdict) return;
+    cued.current = true;
+    onVerdict(result && result.planCosts ? result.planCosts.grade : null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
   // The roll has not been made until the verdict, so a battle can be put down at any point before it.
   const canSaveHere = !!onSaveLeave && !done && phase !== "resolving" && !plan.autoplay;
 
@@ -5167,10 +5175,50 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
     () => (oneYearLaterText && campaign.dynamic && mode !== "open" && mode !== "easy" ? redactWearText(oneYearLaterText, manpowerSev) : oneYearLaterText),
     [oneYearLaterText, manpowerSev, campaign.dynamic, mode]
   );
-  // The officers this run actually leaned on already carry a researched fate in ADVISOR_DOSSIERS.
-  const legacyAdvisors = topAdvisors
-    .map(([name, n]) => [name, n, ADVISOR_DOSSIERS[name]])
-    .filter(([, , dossier]) => dossier && dossier.fate);
+  // What became of them: every adviser heard in this file (the trn_ flags, part of the trust rules), most followed first, with the standing
+  // the file left them in, what became of them in fact (ADVISOR_DOSSIERS.fate) and the memoir, diary or papers they left, if any.
+  const heardAdvisors = [...new Set([...Object.keys(flags).filter((k) => k.startsWith("trn_")).map((k) => flags[k]), ...Object.keys(advisorTally)])]
+    .filter((name) => ADVISOR_DOSSIERS[name])
+    .map((name) => ({ name, n: advisorTally[name] || 0, standing: adviserStanding(flags, name), dossier: ADVISOR_DOSSIERS[name] }))
+    .sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
+  const standingLine = (a) =>
+    a.standing === "gone"
+      ? t("Asked to be relieved during this file, and went.")
+      : a.standing === "trusted"
+      ? t("Trusted to the end of this file; followed {n, plural, one {once} other {# times}}.", { n: a.n })
+      : a.standing === "quiet"
+      ? a.n
+        ? t("Overruled until the arguments stopped; followed {n, plural, one {once} other {# times}}.", { n: a.n })
+        : t("Overruled until the arguments stopped, and never followed.")
+      : a.n
+      ? t("Heard to the end of this file; followed {n, plural, one {once} other {# times}}.", { n: a.n })
+      : t("Heard in this file, and never followed.");
+  const memoirTone = (standing) =>
+    standing === "trusted"
+      ? t("Had the war gone as this file did, its chapter on your headquarters would be a grateful one.")
+      : standing === "quiet"
+      ? t("Had the war gone as this file did, its chapter on your headquarters would be a bitter one.")
+      : standing === "gone"
+      ? t("Had the war gone as this file did, it would need a chapter to explain the resignation.")
+      : t("Had the war gone as this file did, its chapter on your headquarters would be a measured one.");
+  const memoirKind = { memoir: t("Memoir"), diary: t("Diary"), papers: t("Papers") };
+  const adviserEntry = (a) => (
+    <div key={a.name} className="text-[13px] leading-snug text-[#000000] border-l-4 pl-2" style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}>
+      <span className="font-bold">{a.name}</span>
+      {a.dossier.role ? <span className="text-[#444444]"> ({a.dossier.role})</span> : null}
+      <div>{standingLine(a)}</div>
+      {a.dossier.fate && (
+        <div>
+          <span className="italic">{t("Afterwards:")}</span> {a.dossier.fate}
+        </div>
+      )}
+      {a.dossier.memoir && (
+        <div>
+          {memoirKind[a.dossier.memoir.kind] || memoirKind.memoir}: <span className="italic">{a.dossier.memoir.title}</span> ({a.dossier.memoir.year}). {memoirTone(a.standing)}
+        </div>
+      )}
+    </div>
+  );
   const endingLabel = campaign.positionLabel
     ? campaign.positionLabel(flags, meters)
     : collapsed
@@ -5374,7 +5422,7 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
           </div>
         )}
 
-        {(topAdvisors.length > 0 || legacyAdvisors.length > 0) && (
+        {(topAdvisors.length > 0 || heardAdvisors.length > 0) && (
           <div className="mb-6">
             {sectionHead(t("Your Advisers"))}
             {topAdvisors.length > 0 && (
@@ -5383,14 +5431,22 @@ function EndScreen({ campaign, flags, meters, log, pastStages, rewinds, mode, fa
                 {topAdvisors.length > 1 && <span> {" "}{t("· also {p}", { p: topAdvisors.slice(1).map(([name, n]) => `${name} (${n})`).join(", ") })}</span>}
               </p>
             )}
-            <div className="flex flex-col gap-2">
-              {legacyAdvisors.map(([name, , dossier]) => (
-                <p key={name} className="text-[13px] leading-snug text-[#000000] border-l-4 pl-2" style={{ borderColor: campaign.accent, fontFamily: "'Courier Prime', monospace" }}>
-                  <span className="font-bold">{name}</span>
-                  {dossier.role ? <span className="opacity-70"> ({dossier.role})</span> : null}: {dossier.fate}
-                </p>
-              ))}
-            </div>
+            {heardAdvisors.length > 0 && (
+              <>
+                <div className="text-[11px] uppercase tracking-widest font-bold text-[#000000] mt-3 mb-2" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                  {t("What became of them")}
+                </div>
+                <div className="flex flex-col gap-2">{heardAdvisors.slice(0, 6).map(adviserEntry)}</div>
+                {heardAdvisors.length > 6 && (
+                  <details className="mt-2">
+                    <summary className="text-[12px] uppercase tracking-widest font-bold text-[#000000] cursor-pointer" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                      {t("The rest of the staff ({n})", { n: heardAdvisors.length - 6 })}
+                    </summary>
+                    <div className="flex flex-col gap-2 mt-2">{heardAdvisors.slice(6).map(adviserEntry)}</div>
+                  </details>
+                )}
+              </>
+            )}
           </div>
         )}
 

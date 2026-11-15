@@ -1,0 +1,135 @@
+[
+  {
+    "id": "react_ger_east42",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "the Red Army's May offensive south of Kharkov ended in its own encirclement, against an Eastern army that had first call on the year's men and equipment.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_ger_east43",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "the Soviet defences at Kursk were built in depth through the spring of 1943, with the Steppe Front held in reserve behind them, while the Eastern army had first call on the year's effort.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_ger_west44",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "Directive 51 of 3 November 1943 gave the West first call on reinforcements, and Rommel, sent to the coast that autumn, had several million mines laid before June 1944.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_jap_navy42",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "the navy had first call in 1942 and still went to Midway without two of its six fleet carriers: Shokaku damaged and Zuikaku short of aircraft after the Coral Sea.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_jap_navy43",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "Japan organised its convoys late and built escorts few and late, and American submarines sank a growing share of its tankers through 1943 and 1944.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_jap_army43",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "the Attu garrison of about 2,600 men was neither reinforced nor taken off, and fought almost to the last man in May 1943.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_jap_navy44",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "the carrier air groups at the Philippine Sea in June 1944 were largely newly trained pilots, and the battle cost Japan most of its carrier aircraft.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_jap_army44",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "Operation Ichi-Go, from April 1944, was the largest Japanese army offensive of the war and overran several of the American airfields in southern China.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_jap_army45",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "the army's plan for the defence of the home islands, Ketsu-Go, came first in 1945, and the navy's remaining aircraft and small craft were folded into it.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_us_europe42",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "the U-boats sank hundreds of ships off the American coast and in the Caribbean in the first half of 1942, before coastal convoys were introduced.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_us_pacific42",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "the men who made the landing on Guadalcanal called it Operation Shoestring, and the transports withdrew after the defeat at Savo Island with their cargo only partly landed.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_us_europe43",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "the Eighth Air Force lost sixty bombers on each of the Schweinfurt raids of August and October 1943, and deep raids without escort were stopped until the long-range Mustangs came.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_us_pacific43",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "the Central Pacific drive began at Tarawa in November 1943, where about 1,000 Americans were killed in three days on Betio.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "react_us_europe44",
+    "where": "src/parts/35-events.jsx ENEMY_REACTIONS",
+    "claim": "the shortage of landing craft decided the size and the date of the invasion: Overlord was widened to five beaches and put back to June, and the landing in southern France was postponed to August.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories; not re-read against a source in this round. The paragraphs marked Speculative are not claims."
+  },
+  {
+    "id": "ll-arctic-1943",
+    "where": "src/effort.ts lendLeaseShares; part 46 LEND_LEASE_PAPERS",
+    "claim": "The Arctic convoys to the Soviet Union were suspended from March to November 1943 (after JW 53 in February; JW 54A sailed in November), the escorts being needed in the Atlantic and Tirpitz lying in Norway.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Arctic convoys; not re-read in this round."
+  },
+  {
+    "id": "ll-persian-1943",
+    "where": "part 46 LEND_LEASE_PAPERS",
+    "claim": "An American command took over and built out the Persian Corridor route in 1943; the Pacific route to Vladivostok carried Soviet-flagged ships.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of Lend-Lease; not re-read in this round."
+  },
+  {
+    "id": "ll-peak-1944",
+    "where": "src/effort.ts lendLeaseShares; part 46",
+    "claim": "Lend-Lease deliveries to the Soviet Union reached their height in 1944.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of Lend-Lease; not re-read in this round."
+  },
+  {
+    "id": "ll-milepost",
+    "where": "src/effort.ts lendLeaseShares; part 46",
+    "claim": "From October 1944 part of the deliveries under the Fourth Protocol went to a stockpile in the Soviet Far East for war against Japan (Milepost).",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of Lend-Lease; not re-read in this round."
+  },
+  {
+    "id": "ll-goods",
+    "where": "part 46 LEND_LEASE_ORDERS",
+    "claim": "Lend-Lease to the Soviet Union included Valentine and Sherman tanks, Airacobra fighters, Studebaker trucks, locomotives, aviation spirit, tinned meat, flour, aluminium and copper.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of Lend-Lease; not re-read in this round."
+  }
+]

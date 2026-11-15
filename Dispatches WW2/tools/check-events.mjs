@@ -79,6 +79,42 @@ if (ps >= 0) {
   }
 }
 }
+// The enemy's answers to a front left short (ENEMY_REACTIONS, Dispatches WW2): tied to reports of their source file that exist, for a command
+// and a side that the allocation of effort has, two paragraphs (the second marked as speculation), a source line, a cost, and the house style.
+{
+  const LIST = "const ENEMY_REACTIONS = ";
+  const rs = src.indexOf(LIST);
+  if (rs < 0) problems.push("ENEMY_REACTIONS: not found in part 35");
+  else {
+    const REACTIONS = new Function("return " + src.slice(rs + LIST.length, src.indexOf("\n];", rs) + 2))();
+    const SIDES = { german: ["east", "west"], japan: ["army", "navy"], american: ["europe", "pacific"] };
+    for (const r of REACTIONS) {
+      const at = `reaction ${r.id}`;
+      if (ids.has(r.id)) problems.push(`${at}: duplicate id`);
+      ids.add(r.id);
+      if (!SIDES[r.command] || !SIDES[r.command].includes(r.side)) problems.push(`${at}: ${r.command} has no side "${r.side}" in its allocation`);
+      const c = CAMPAIGNS[r.campaign];
+      if (!c) { problems.push(`${at}: campaign "${r.campaign}" is not a campaign`); continue; }
+      for (const n of r.at || []) {
+        let node = null;
+        try { node = c.resolveNode(n, {}, { manpower: 0, fuel: 0, initiative: 0 }); } catch (err) { /* none */ }
+        if (!node || !node.choices) problems.push(`${at}: "${n}" is not a report of ${r.campaign}`);
+      }
+      if (!Array.isArray(r.at) || !r.at.length) problems.push(`${at}: tied to no report`);
+      if (!/\b19\d\d\b/.test(r.date || "")) problems.push(`${at}: the date names no year`);
+      if (!Array.isArray(r.paras) || r.paras.length !== 2) problems.push(`${at}: needs two paragraphs`);
+      else if (!/^Speculative\./.test(r.paras[1])) problems.push(`${at}: the second paragraph does not say it is speculation`);
+      if (!r.source || !/^In the record/.test(r.source)) problems.push(`${at}: no source line saying what the record was`);
+      const cost = Object.values(r.impact || {}).reduce((a, v) => a + v, 0);
+      if (cost !== -1) problems.push(`${at}: costs ${cost}, not a point`);
+      for (const t of [r.title || "", ...(r.paras || []), r.source || ""]) {
+        if (/[—–]/.test(t)) problems.push(`${at}: a dash in "${t.slice(0, 40)}"`);
+        if (/["“”]/.test(t)) problems.push(`${at}: a quotation mark in "${t.slice(0, 40)}"`);
+        if (/\b(color|armor|armored|defense|honor|labor|center|neighbor|harbor|kilometers|gray|theater|program)\b/i.test(t.replace(/Pearl Harbor/g, ""))) problems.push(`${at}: American spelling in "${t.slice(0, 40)}"`);
+      }
+    }
+  }
+}
 // The British and American commands (part 16) have no events of their own: theirs are filed under their source files (allied, alliedPacific).
 for (const id of Object.keys(CAMPAIGNS).filter((c) => !CAMPAIGNS[c].tracks)) if ((perCampaign[id] || 0) < 4) problems.push(`${id}: only ${perCampaign[id] || 0} events (at least four)`);
 if (problems.length) {

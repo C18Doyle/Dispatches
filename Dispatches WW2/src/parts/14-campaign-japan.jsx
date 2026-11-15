@@ -2340,7 +2340,7 @@
               impact: { manpower: 2, fuel: -4, initiative: -1 },
               disabledReason: meters.fuel <= -5 ? "There isn't fuel left to relocate and sustain a fleet-in-being at Formosa. Whatever's still afloat has to fight now or not at all." : undefined,
               gateCheck: { meter: "fuel", threshold: -5, label: "Matériel" },
-              next: "surrenderInquiry45",
+              next: "oilRoadCut45",
               outcome:
                 "A modeled alternative. Keeping the fleet in being preserves a defensive force, but giving up the Philippines without a naval fight cuts the oil route from the Indies completely, months ahead of the real timetable, and a fleet that survives has no fuel to move.",
             },
@@ -3389,6 +3389,65 @@
           ],
         };
         },
+        // Dispatches WW2 (round 24, tools/thin-paths.mjs): the war after Leyte is declined used to end at the next report. What giving up the
+        // Philippines without a fight does to the oil, and what the preserved fleet is then for. Claims: claims/thin-paths-round1.json.
+        get oilRoadCut45() {
+          return {
+          date: "DECEMBER 1944 – JANUARY 1945",
+          title: "The Oil Road Is Cut",
+          historicalRecord: false,
+          situation:
+            "Speculative. Without a naval battle for Leyte, the Philippines go faster than they did in the record. American aircraft from Leyte and then Luzon reach out over the South China Sea, and the tankers from Borneo and Sumatra, which in the record ran that gauntlet into the spring of 1945, stop getting through by the turn of the year.\n\n" +
+            "The Combined Fleet is intact, and it has oil only where it is not. The battleships at Lingga, south of Singapore, lie beside the wells and five thousand kilometres from the home islands; the ships in the Inland Sea are at home and dry. Toyoda's staff put three courses to Imperial General Headquarters.",
+          choices: [
+            {
+              label: "Run the oil home in the warships themselves: battleships loaded as tankers, a dash up the China coast",
+              advisor: { name: "Ozawa", position: "A battleship's bunkers and spaces can carry what a tanker carries, faster than any tanker and better armed, and the fleet has nothing better to do with its speed." },
+              setFlags: { fleetFate45: "oilRun" },
+              impact: { manpower: 0, fuel: 1, initiative: 0 },
+              next: "surrenderInquiry45",
+              uncertain: [
+                {
+                  weight: modWeight(45, meters.initiative),
+                  title: "The run gets through",
+                  setFlags: { fleetFate45: "oilRun", oilRun45: "through" },
+                  impact: { manpower: 0, fuel: 2, initiative: 1 },
+                  outcome:
+                    "Speculative. Two converted battleships and their escorts come up the China coast in bad weather and reach Kure with oil, rubber and tin in their tanks and holds. It is a few weeks' fuel for a fleet, and the last cargo of its kind. In the record the same thing was done a little later, in Operation Kita: Ise and Hyuga reached Kure from Singapore on 20 February 1945.",
+                },
+                {
+                  weight: (() => { const w = modWeight(45, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The submarines find the convoy",
+                  setFlags: { fleetFate45: "oilRun", oilRun45: "lost" },
+                  impact: { manpower: -1, fuel: -1, initiative: -1 },
+                  outcome:
+                    "Speculative. The American submarines in the South China Sea are waiting off the coast of Indochina, and the convoy loses ships and cargo on the way north. What reaches Kure is less than the fuel spent to bring it.",
+                },
+              ],
+              outcome:
+                "Speculative. Two converted battleships and their escorts come up the China coast with oil, rubber and tin, as Ise and Hyuga did in the record in February 1945.",
+            },
+            {
+              label: "Keep the fleet at Lingga, beside the oil, and leave the defence of the home islands to the army",
+              advisor: { name: "Kurita", position: "A fleet can fight where it has fuel or sit where it has none, and at Lingga it can at least train and steam." },
+              setFlags: { fleetFate45: "lingga" },
+              impact: { manpower: 0, fuel: 1, initiative: -2 },
+              next: "surrenderInquiry45",
+              outcome:
+                "A modeled alternative. The fleet keeps steaming and training on fuel from the wells nearby, and it is now a force for the defence of Singapore and the Indies, not of Japan. When the Americans come to the approaches of the home islands, the ships that might have met them are five thousand kilometres away.",
+            },
+            {
+              label: "Bring the heavy ships home to the Inland Sea as floating batteries, and send their crews ashore for the defence of the homeland",
+              advisor: { name: "Umezu", position: "The army will fight the decisive battle on the beaches of Kyushu, and the sailors and guns of ships that cannot sail are worth more there than at anchor." },
+              setFlags: { fleetFate45: "laidUp" },
+              impact: { manpower: 2, fuel: -1, initiative: -1 },
+              next: "surrenderInquiry45",
+              outcome:
+                "A modeled alternative, and what the record came to in the spring of 1945: ships without fuel moored in the Inland Sea as anti-aircraft batteries, their crews and guns sent ashore. Here it comes months sooner, and the army's plan for the homeland gets trained men the navy has no further use for.",
+            },
+          ],
+        };
+        },
         get surrenderInquiry45() {
           return {
           date: "1945",
@@ -3396,6 +3455,13 @@
           historicalRecord: false,
           situation:
             "Abandoning the Philippines rather than spending the fleet at Leyte preserved the Combined Fleet's remaining hulls, and cost the oil route from the Indies months ahead of the historical timetable regardless. A fleet with no fuel and nowhere worth going is not, in any practical sense, a navy. The question Ketsu-Go's advocates and the diplomatic faction are both circling is the same one the historical record eventually reached anyway: how does this war end." +
+            (flags.fleetFate45 === "lingga"
+              ? " The fleet itself is at Lingga, fuelled and five thousand kilometres away, which makes it a bargaining counter more than a weapon."
+              : flags.fleetFate45 === "laidUp"
+              ? " The heavy ships lie moored in the Inland Sea as batteries, and their crews are ashore with the army."
+              : flags.oilRun45 === "through"
+              ? " The oil the battleships brought home is what is left in the tanks at Kure."
+              : "") +
             (flags.hokushinPath === "south"
               ? " Nagano argued back in 1941 that this navy's whole case was resources, not territory for its own sake. A fleet preserved but stranded is close to the exact failure mode his own argument against Kantokuen was built to avoid, and if he's still in the room for this conversation, he knows it."
               : "") +
@@ -3408,7 +3474,11 @@
               advisor: { name: "Toyoda", position: "The fleet was kept alive for a reason, and that reason is now." },
               setFlags: { finalPath: "lastStand" },
               impact: { manpower: -3, fuel: -1, initiative: 1 },
-              disabledReason: meters.fuel <= -4 ? "There isn't fuel left for even a single final sortie. Whatever this fleet was preserved for, it can't reach the fight at this pipeline level." : undefined,
+              disabledReason: flags.fleetFate45 === "laidUp"
+                ? "The heavy ships are moored as batteries and their crews are ashore: there is no fleet left to sail."
+                : meters.fuel <= -4
+                ? "There isn't fuel left for even a single final sortie. Whatever this fleet was preserved for, it can't reach the fight at this pipeline level."
+                : undefined,
               gateCheck: { meter: "fuel", threshold: -4, label: "Matériel" },
               next: "END",
               outcome:

@@ -370,15 +370,133 @@ function InRunMenu({ campaign, canSave, slots, onSaveSlot, onClose, onJournal, o
       </div>
 
       {sectionHead(t("Keys and controller"))}
-      <dl className="text-[13px] grid grid-cols-[auto_1fr] gap-x-3 gap-y-1" style={{ fontFamily: "'Courier Prime', monospace" }}>
-        {[...KEY_HELP, ...PAD_HELP].map(([k, v]) => (
-          <div key={k} className="contents">
-            <dt className="font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{k}</dt>
-            <dd>{t(v)}</dd>
-          </div>
-        ))}
-      </dl>
+      <ControlsEditor />
     </ShellSheet>
+  );
+}
+
+/**
+ * The keys and the controller's buttons, with a Change button for each action that can be moved (shell-core: KEY_ACTIONS, PAD_ACTIONS). Change
+ * waits for the next key or button; Esc cancels. A key that is reserved, that always does something else, or that another action has, is refused
+ * with the reason, and nothing changes.
+ */
+function ControlsEditor() {
+  const [b, setB] = useState(() => currentBindings());
+  const [waiting, setWaiting] = useState(null);
+  const [msg, setMsg] = useState(null);
+  useEffect(() => {
+    const on = (e) => setB(e.detail || currentBindings());
+    window.addEventListener("dispatchesWW2-bindings", on);
+    return () => window.removeEventListener("dispatchesWW2-bindings", on);
+  }, []);
+  const helpOf = (kind, id) => t((kind === "keys" ? KEY_ACTIONS : PAD_ACTIONS).find((a) => a.id === id).help);
+  useEffect(() => {
+    if (!waiting) return undefined;
+    capture.on = true;
+    const finish = (value) => {
+      setWaiting(null);
+      if (value == null) return setMsg(null);
+      const name = waiting.kind === "keys" ? keyName(value) : padButtonName(value);
+      const r = rebind(waiting.kind, waiting.action, value);
+      if (r.ok) setMsg(t("{name} now does this: {help}.", { name, help: helpOf(waiting.kind, waiting.action) }));
+      else if (r.reason === "reserved") setMsg(t("{name} cannot be moved: it has its own job.", { name }));
+      else setMsg(t("{name} already does this: {help}. Change that one first.", { name, help: helpOf(waiting.kind, r.other) }));
+    };
+    const onKey = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.key === "Escape") return finish(null);
+      if (waiting.kind === "keys") finish(e.key);
+    };
+    window.addEventListener("keydown", onKey, true);
+    // The controller: the first button pressed that was not already held when the wait began.
+    let raf = 0;
+    const held = {};
+    const pads = () => (navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : []);
+    const first = pads()[0];
+    if (first) first.buttons.forEach((x, i) => (held[i] = x.pressed));
+    const poll = () => {
+      const pad = pads()[0];
+      if (pad) {
+        for (let i = 0; i < pad.buttons.length; i++) {
+          const p = pad.buttons[i].pressed;
+          if (p && !held[i]) return finish(i);
+          held[i] = p;
+        }
+      }
+      raf = requestAnimationFrame(poll);
+    };
+    if (waiting.kind === "pad" && typeof requestAnimationFrame === "function") raf = requestAnimationFrame(poll);
+    return () => {
+      // The key or button that ended the wait must not also act on the menu.
+      setTimeout(() => (capture.on = false), 0);
+      window.removeEventListener("keydown", onKey, true);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [waiting]);
+  const mono = { fontFamily: "'IBM Plex Mono', monospace" };
+  const body = { fontFamily: "'Courier Prime', monospace" };
+  const fixed = (name, help) => (
+    <li className="flex items-center gap-2 py-1 border-b border-[#dddddd]">
+      <span className="font-bold w-24 flex-none" style={mono}>{name}</span>
+      <span className="flex-1 min-w-0 text-[13px]" style={body}>{help}</span>
+    </li>
+  );
+  const row = (kind, a) => {
+    const value = b[kind][a.id];
+    const isWaiting = waiting && waiting.kind === kind && waiting.action === a.id;
+    return (
+      <li key={kind + a.id} className="flex items-center gap-2 py-1 border-b border-[#dddddd]">
+        <span className="font-bold w-24 flex-none" style={mono}>{kind === "keys" ? keyName(value) : padButtonName(value)}</span>
+        <span className="flex-1 min-w-0 text-[13px]" style={body}>
+          {isWaiting ? (kind === "keys" ? t("Press a key (Esc to cancel)") : t("Press a button on the controller (Esc to cancel)")) : t(a.help)}
+        </span>
+        <button
+          onClick={() => {
+            setMsg(null);
+            setWaiting({ kind, action: a.id });
+          }}
+          aria-label={kind === "keys" ? t("Change the key for: {help}", { help: t(a.help) }) : t("Change the controller button for: {help}", { help: t(a.help) })}
+          className="flex-none border-2 border-black px-2 py-1 text-[11px] uppercase tracking-widest font-bold hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+          style={mono}
+        >
+          {t("Change")}
+        </button>
+      </li>
+    );
+  };
+  return (
+    <div>
+      <div className="text-[11px] uppercase tracking-widest font-bold mb-1" style={mono}>{t("Keyboard")}</div>
+      <ul>
+        {fixed("1 – 9", t("Choose the order, allocation or option with that number"))}
+        {KEY_ACTIONS.map((a) => row("keys", a))}
+        {fixed("Tab", t("Move between the buttons"))}
+      </ul>
+      <div className="text-[11px] uppercase tracking-widest font-bold mt-3 mb-1" style={mono}>{t("Controller")}</div>
+      <ul>
+        {fixed(t("D-pad or left stick"), t("Move between the buttons"))}
+        {PAD_ACTIONS.map((a) => row("pad", a))}
+      </ul>
+      <p className="text-[12px] mt-2 italic" style={body}>
+        {t("Enter and Space always continue, and Esc always goes back, whatever else is bound.")}
+      </p>
+      {msg && (
+        <p role="status" className="text-[13px] mt-2 font-bold" style={body}>
+          {msg}
+        </p>
+      )}
+      <button
+        onClick={() => {
+          setBindings(defaultBindings());
+          setMsg(t("The keys and buttons are back to how they started."));
+        }}
+        className="mt-3 border-2 border-black px-3 py-1 text-xs uppercase tracking-widest font-bold hover:bg-[#000000] hover:text-[#ffffff] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b08d3f]"
+        style={mono}
+      >
+        {t("Restore the defaults")}
+      </button>
+    </div>
   );
 }
 
@@ -528,6 +646,24 @@ function RecordsByCommand({ record }) {
           </ol>
         </>
       )}
+      {(() => {
+        // The achievements (part 45), worked out from the record as it stands, and any kept from before.
+        const got = new Set([...unlockedAchievements(), ...ACHIEVEMENTS.filter((a) => { try { return a.test(record); } catch (e) { return false; } }).map((a) => a.api)]);
+        return (
+          <details className="mt-4">
+            <summary className="text-xs uppercase tracking-[0.25em] font-bold text-[#000000] cursor-pointer" style={mono}>
+              {t("Achievements: {n} of {total}", { n: ACHIEVEMENTS.filter((a) => got.has(a.api)).length, total: ACHIEVEMENTS.length })}
+            </summary>
+            <ul className="mt-1 text-[13px] text-[#000000]" style={body}>
+              {ACHIEVEMENTS.map((a) => (
+                <li key={a.api} className="py-[2px]" style={got.has(a.api) ? undefined : { color: "#555555" }}>
+                  <b>{got.has(a.api) ? "✓ " : ""}{t(a.name)}.</b> {t(a.desc)}
+                </li>
+              ))}
+            </ul>
+          </details>
+        );
+      })()}
     </div>
   );
 }
@@ -637,6 +773,26 @@ const MUSIC_TRACKS = {
   pacific: { src: "assets/music/pacific-neptune.opus", type: 'audio/ogg; codecs="opus"', title: "Holst, Neptune, the Mystic", by: "“The President's Own” United States Marine Band" },
   end: { src: "assets/music/end-saturn.opus", type: 'audio/ogg; codecs="opus"', title: "Holst, Saturn, the Bringer of Old Age", by: "“The President's Own” United States Marine Band" },
 };
+/**
+ * The cues at a battle's verdict, cut from the same recordings (about ten seconds each, levelled): the last chords of Mars for a battle won
+ * cleanly, and the great blow of Saturn's climax, dying away, for one lost outright. A win at a cost and a narrow loss have no cue: the verdict's
+ * own words carry them. Played only with the music on, over the score turned down.
+ */
+const MUSIC_CUES = {
+  clean: { src: "assets/music/cue-win-mars.opus", type: 'audio/ogg; codecs="opus"' },
+  total: { src: "assets/music/cue-defeat-saturn.opus", type: 'audio/ogg; codecs="opus"' },
+};
+function cueFor(grade) {
+  const cue = MUSIC_CUES[grade];
+  if (!cue || typeof window === "undefined" || window.location.protocol === "file:") return null;
+  try {
+    const probe = document.createElement("audio");
+    if (!probe.canPlayType || !probe.canPlayType(cue.type)) return null;
+  } catch (e) {
+    return null;
+  }
+  return cue.src;
+}
 /**
  * The music for the screen: Mars on the opening screen, Neptune through the Japanese command's file, Saturn at the end of a war, and the
  * main score everywhere else. Opened from a file on disk (file://) the browser plays only the score built into the page (the tracks would

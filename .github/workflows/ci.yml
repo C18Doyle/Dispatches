@@ -103,7 +103,7 @@ jobs:
       - name: Real-browser playthrough of every WW2 command to its ending
         working-directory: Dispatches WW2
         run: node tools/playthrough.mjs
-      - name: "WW2 with the keyboard only, and with a (simulated) controller"
+      - name: "WW2 with the keyboard only, a (simulated) controller, and rebound keys"
         working-directory: Dispatches WW2
         run: node tools/input-playthrough.mjs
       - name: "WW2 accessibility of the in-run screens (axe: serious and critical fail)"
@@ -115,6 +115,9 @@ jobs:
       - name: "WW2 text overflow in the nine languages (Steam Deck and phone sizes)"
         working-directory: Dispatches WW2
         run: node tools/overflow-check.mjs
+      - name: "WW2 reduced motion (system setting and the game's own; a control run with motion on must find some)"
+        working-directory: Dispatches WW2
+        run: node tools/motion-check.mjs
       - name: Keep screenshots
         if: always()
         uses: actions/upload-artifact@v7
