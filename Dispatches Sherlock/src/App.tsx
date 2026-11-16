@@ -19,6 +19,7 @@ import {
 } from "@dispatches/engine";
 import type { Action, Difficulty, GameState, Option, Quote, UiPrefs } from "@dispatches/engine";
 import { def } from "./game";
+import { lockWhy } from "./lockWhy";
 import { IN_RUN_SCREENS, parseRunSave, serializeRunSave } from "./runSave";
 import { LEDGER_KEY, carriedNotes, count, parseLedger, recordRun, runRecord, summaryText } from "./ledger";
 import type { Ledger } from "./ledger";
@@ -67,6 +68,9 @@ const BRANCH_LABELS: Record<string, string> = {
   CONTINENT: "Act II · The Long Flight",
   MYCROFT: "Act II · The Cabinet",
   HIATUS: "Act III · The Years Away",
+  RETURN: "April 1894 · The Empty House",
+  HOUND: "October 1889 · The Moor",
+  PROFESSOR: "Winter 1887 · The Board",
   BOHEMIA: "Case · A Scandal in Bohemia",
   BAND: "Case · The Speckled Band",
   CARBUNCLE: "Case · The Blue Carbuncle",
@@ -443,7 +447,7 @@ function StampBadge({ resource, delta }: { resource: Resource; delta: number }) 
   );
 }
 
-const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT", ...MINOR_BRANCHES];
+const ROAD_BRANCHES = ["YARD", "STREET", "CONTINENT", "MYCROFT", "RETURN", "HOUND", "PROFESSOR", ...MINOR_BRANCHES];
 const BRANCH_TINT: Record<string, string> = {
   WEB: "bg-brass-dim",
   YARD: "bg-blood",
@@ -451,6 +455,9 @@ const BRANCH_TINT: Record<string, string> = {
   CONTINENT: "bg-ink",
   MYCROFT: "bg-brass",
   HIATUS: "bg-ink-soft",
+  RETURN: "bg-verdigris",
+  HOUND: "bg-brass",
+  PROFESSOR: "bg-blood",
   BOHEMIA: "bg-brass",
   BAND: "bg-verdigris",
   CARBUNCLE: "bg-blood",
@@ -671,6 +678,7 @@ export default function App() {
   // target and adds a deliberate confirm step so a stray tap can't commit a
   // story choice by accident.
   const [armedOptionIndex, setArmedOptionIndex] = useState<number | null>(null);
+  const [difficultyOpen, setDifficultyOpen] = useState(false);
   const [rolling, setRolling] = useState(false);
   const [suspenseTick, setSuspenseTick] = useState(0);
   const [resumableSave, setResumableSave] = useState<GameState | null>(() => loadRunSave());
@@ -984,7 +992,7 @@ export default function App() {
 
           <p className="font-heading text-xs uppercase tracking-widest text-ink-soft/80 mb-2">Dispatches</p>
           <p className="text-xs text-ink/70 mb-3 leading-relaxed">
-            Sherlock Holmes: The Final Problem is one entry in the Dispatches series of historically-grounded branching narrative games.
+            Dispatches: Sherlock is one entry in the Dispatches series of historically-grounded branching narrative games.
           </p>
           <a
             href="https://dispatches.itch.io"
@@ -996,6 +1004,15 @@ export default function App() {
             See the Rest of the Series
           </a>
 
+          <button
+            onClick={() => {
+              click();
+              setOverlay("RESEARCH");
+            }}
+            className="w-full mb-3 px-5 py-2.5 border border-ink/40 text-ink font-heading uppercase text-xs tracking-widest hover:bg-ink hover:text-parchment transition-colors"
+          >
+            How to Play
+          </button>
           <button
             onClick={() => {
               click();
@@ -1103,9 +1120,20 @@ export default function App() {
     content = (
       <VoidScreen>
         <div className="parchment-card max-w-2xl w-full p-8 sm:p-10 font-body text-ink relative max-h-[85vh] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="research-title">
-          <CornerFlourishes />
-          <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold mb-1">How To</p>
-          <h1 id="research-title" className="font-heading text-2xl font-bold mb-6">How to Play</h1>
+          {/* Back stays at the top of the card as the text scrolls, so it is never a long scroll away */}
+          <div className="sticky -top-8 sm:-top-10 -mx-8 sm:-mx-10 -mt-8 sm:-mt-10 mb-5 px-8 sm:px-10 py-3 bg-parchment border-b border-ink/15 z-20 flex items-center justify-between">
+            <button
+              onClick={() => {
+                click();
+                setOverlay(null);
+              }}
+              className="px-4 py-2.5 bg-ink text-parchment font-heading font-semibold uppercase text-xs tracking-widest hover:bg-ink-soft transition-colors"
+            >
+              {"←"} Back
+            </button>
+            <p className="font-heading text-xs uppercase tracking-[0.3em] text-blood font-bold">How To</p>
+          </div>
+          <h1 id="research-title" className="font-heading text-2xl font-bold mb-5">How to Play</h1>
           <div className="space-y-5">
             {def.flavor.howToPlay.map((section) => (
               <div key={section.heading}>
@@ -1133,22 +1161,25 @@ export default function App() {
       <VoidScreen>
         <div className="max-w-lg w-full text-center">
           <PlateView id="emblem" tone="light" />
-          <p className="font-heading text-xs uppercase tracking-[0.5em] text-brass/80 mb-3">A Dispatches Chronicle</p>
+          <p className="font-heading text-xs uppercase tracking-[0.5em] text-brass/80 mb-3">A Branching Detective Story</p>
           <h1 className="flicker font-display text-5xl sm:text-6xl font-bold text-parchment leading-tight mb-2">
-            Sherlock Holmes
+            Dispatches: Sherlock
           </h1>
           <p className="font-heading text-sm sm:text-base uppercase tracking-[0.35em] text-brass mb-10">
-            The Final Problem
+            Eight Cases, 1883 to 1894
           </p>
           <OrnamentDivider />
           <button
             onClick={() => {
               select();
+              // straight to the Case-Book: the journal and the difficulty card are no longer in the way (difficulty is a choice on the shelf)
               dispatch({ type: "START_GAME" });
+              dispatch({ type: "ADVANCE_PROLOGUE" });
+              dispatch({ type: "ENTER_STORY" });
             }}
             className="mt-6 w-full sm:w-auto px-10 py-3.5 border border-brass text-parchment font-heading uppercase text-sm tracking-[0.25em] hover:bg-brass hover:text-ink transition-colors"
           >
-            Begin the Case
+            Open the Case-Book
           </button>
           {resumableSave && (
             <button
@@ -1198,7 +1229,7 @@ export default function App() {
             </p>
           )}
           <p className="mt-8 font-body italic text-ash text-sm">
-            London, 1891. A man who has never been charged with a crime is running the city.
+            Five cases lie open on the table. A man who has never been charged with a crime is running the city.
           </p>
         </div>
       </VoidScreen>
@@ -1609,7 +1640,7 @@ export default function App() {
           <header className="mb-6 text-center">
             <p className="font-heading text-xs uppercase tracking-[0.35em] text-brass mb-1">Sherlock Holmes</p>
             <h1 className="font-display text-xl sm:text-2xl font-bold text-parchment">
-              {onShelf ? "The Case-Book" : inCase ? BRANCH_LABELS[state.activeBranch].split("· ")[1] : "The Final Problem"}
+              {onShelf ? "The Case-Book" : inCase ? BRANCH_LABELS[state.activeBranch].split("· ")[1] : volumeOfBranch(state.activeBranch)?.title ?? "The Final Problem"}
             </h1>
             <p className="font-heading text-xs uppercase tracking-widest text-ash mt-1">{onShelf ? "Choose a volume" : inCase ? "A short case" : BRANCH_LABELS[state.activeBranch]}</p>
           </header>
@@ -1800,6 +1831,53 @@ export default function App() {
               ))}
             <OrnamentDivider />
 
+            {onShelf && (
+              <div className="mb-5 border border-ink/20 bg-black/[0.03] p-3">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm text-ink/90">
+                    <span className="font-heading text-[0.7rem] uppercase tracking-widest text-ink-soft/80">Difficulty </span>
+                    <span className="font-semibold">{DIFFICULTY_INFO[state.difficulty].label}</span>
+                  </p>
+                  <button
+                    type="button"
+                    aria-expanded={difficultyOpen}
+                    onClick={() => {
+                      click();
+                      setDifficultyOpen((o) => !o);
+                    }}
+                    className="px-3 py-2 border border-ink/40 text-ink font-heading uppercase text-[0.7rem] tracking-widest hover:bg-ink hover:text-parchment transition-colors"
+                  >
+                    {difficultyOpen ? "Done" : "Change"}
+                  </button>
+                </div>
+                {difficultyOpen && (
+                  <div className="mt-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {(["EASY", "MEDIUM", "HARD"] as Difficulty[]).map((d) => (
+                        <button
+                          key={d}
+                          type="button"
+                          aria-pressed={state.difficulty === d}
+                          onClick={() => {
+                            click();
+                            // the starting purse and reserves depend on the difficulty, so the run is begun again from the shelf (nothing has been played)
+                            dispatch({ type: "SET_DIFFICULTY", difficulty: d });
+                            dispatch({ type: "ENTER_STORY" });
+                          }}
+                          className={`px-3 py-2.5 border font-heading uppercase text-xs tracking-[0.15em] transition-colors ${
+                            state.difficulty === d ? "bg-ink text-parchment border-ink" : "border-ink/40 text-ink hover:border-ink"
+                          }`}
+                        >
+                          {DIFFICULTY_INFO[d].label}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="mt-2 text-sm italic text-ink/75">{DIFFICULTY_INFO[state.difficulty].blurb}</p>
+                  </div>
+                )}
+              </div>
+            )}
+
             {suggestion !== null && (
               <button
                 onClick={() => {
@@ -1821,17 +1899,19 @@ export default function App() {
                 const flagLocked = isOptionFlagLocked(state.flags, option.requiresFlag);
                 const condLocked = isOptionConditionLocked(state, option);
                 const affordLocked = !gateLocked && !flagLocked && !condLocked && locked;
+                const why = lockWhy(def, state, option);
                 const showStampPreview = rules.showPreview || state.adviceRevealed;
                 const armed = armedOptionIndex === i;
                 const volStat = onShelf ? shelfStats[i] : undefined;
                 return (
                   <Fragment key={i}>
-                  {onShelf && i <= 1 && (
-                    <h3 className="font-heading text-[0.7rem] uppercase tracking-[0.3em] text-blood font-bold pt-2">{i === 0 ? "The Major Case" : "Minor Cases"}</h3>
+                  {onShelf && (i === 0 || (!VOLUMES[i]?.major && VOLUMES[i - 1]?.major)) && (
+                    <h3 className="font-heading text-[0.7rem] uppercase tracking-[0.3em] text-blood font-bold pt-2">{i === 0 ? "The Major Cases" : "Minor Cases"}</h3>
                   )}
                   <button
                     type="button"
                     disabled={locked}
+                    aria-expanded={onShelf ? armed : undefined}
                     onClick={() => {
                       if (armed) {
                         select();
@@ -1905,14 +1985,41 @@ export default function App() {
                     >
                       {option.label}
                     </p>
-                    <p className="mt-1.5 text-[0.92rem] leading-snug text-ink/75">{option.detail}</p>
-                    <QuoteLine quote={option.quote} className="mt-2 text-sm italic text-ink/70" />
-                    {armed && (
-                      <p className="mt-2 text-[0.7rem] uppercase tracking-widest text-blood-bright font-heading font-semibold">
-                        Tap again to confirm
+                    {/* on the shelf a volume is a title until it is tapped; then it opens to its summary */}
+                    {(!onShelf || armed) && <p className="mt-1.5 text-[0.92rem] leading-snug text-ink/75">{option.detail}</p>}
+                    {why && (!onShelf || armed) && (
+                      <p className="mt-2 text-[0.82rem] leading-snug text-brass-dim" data-testid="lock-why">
+                        <span className="font-semibold">{why.locked ? "Why it is shut. " : "Why it is open. "}</span>
+                        {why.text}
                       </p>
                     )}
+                    {(!onShelf || armed) && <QuoteLine quote={option.quote} className="mt-2 text-sm italic text-ink/70" />}
+                    {armed && (
+                      <p className="mt-2 text-[0.7rem] uppercase tracking-widest text-blood-bright font-heading font-semibold">
+                        {onShelf ? "Tap again to open this case" : "Tap again to confirm"}
+                      </p>
+                    )}
+                    {onShelf && !armed && !locked && (
+                      <p className="mt-1.5 text-[0.7rem] uppercase tracking-widest text-ink/60 font-heading">{"▸"} Tap to read about it</p>
+                    )}
                   </button>
+                  {onShelf && armed && i === 0 && endingsSeen.size > 0 && def.config.skipToNodeId && (
+                    <div className="-mt-2 border border-t-0 border-ink/30 bg-black/[0.04] p-3">
+                      <button
+                        onClick={() => {
+                          select();
+                          dispatch({ type: "SKIP_TO_ACT2" });
+                          setArmedOptionIndex(null);
+                        }}
+                        className="px-4 py-2 border border-ink/40 text-ink font-heading uppercase text-xs tracking-widest hover:border-ink hover:bg-ink hover:text-parchment transition-colors"
+                      >
+                        Skip to the Monday Plan
+                      </button>
+                      <p className="mt-2 text-xs text-ink/70">
+                        For a returning player. It jumps to the choice that decides your road, resets your reserves{rules.enforceMoney ? " and refills your purse" : ""}, and shuts any option that depended on an earlier choice.
+                      </p>
+                    </div>
+                  )}
                   {onShelf && savedCases[VOLUMES[i]?.id] && (
                     <div className="-mt-2 border border-t-0 border-ink/30 bg-black/[0.04] p-3">
                       <p className="text-sm text-ink/90">

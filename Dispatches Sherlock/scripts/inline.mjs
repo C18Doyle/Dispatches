@@ -13,7 +13,7 @@ const html = `<!doctype html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Sherlock Holmes: The Final Problem${demo ? " (demo)" : ""}</title>
+    <title>Dispatches: Sherlock${demo ? " (demo)" : ""}</title>
     <style>
 ${fonts}
 ${css}
@@ -35,12 +35,12 @@ if (!demo) {
   const version = JSON.parse(readFileSync("package.json", "utf8")).version;
   const nl = String.fromCharCode(10);
   const readme = [
-    `Sherlock Holmes: The Final Problem (version ${version})`,
+    `Dispatches: Sherlock (version ${version})`,
     "",
     "Open index.html in any modern browser. It is one file and needs no network: the fonts and the story are inside it.",
     "Your saved cases and your settings live in the browser that you open it with, and stay there; they are not in this folder.",
     "",
-    "The Case-Book holds one major case (The Final Problem, 1891) and four minor cases. Tap a choice once to mark it and again to confirm it.",
+    "The Case-Book holds four major cases (The Final Problem, 1891; The Return, 1894; The Hound of the Baskervilles, 1889; and The Professor, 1887) and four minor cases. Tap a choice once to mark it and again to confirm it.",
     "",
     "Part of the Dispatches series: https://dispatches.itch.io",
     "",

@@ -47,7 +47,8 @@ const BUDGETS = [
   ["the air of a man who", /\b(?:air|expression|face|look|manner|step|voice|eyes) of a man (?:who|to)\b/gi, 12, 25],
   ["It is the most/first/only/best/last", /\bIt (?:is|was) the (?:most|first|only|best|last)\b/g, 30, 62],
   ["you find that you", /\byou find that you\b/gi, 8, 15],
-  ["negation openers (you/he/she do not)", /\b(?:you|he|she|they) (?:do|does) not\b/gi, 150, 181],
+  // 150 for the first three cases and the minor ones, and 206 with The Hound and The Professor (61 scenes, 46 of them)
+  ["negation openers (you/he/she do not)", /\b(?:you|he|she|they) (?:do|does) not\b/gi, 206, 181],
   ["for the first time", /\bfor the first time\b/gi, 32, 30],
   ["not at all", /\bnot at all\b/gi, 45, 41],
   ["extraordinary", /\bextraordinar/gi, 10, 7],

@@ -7,7 +7,7 @@ export const flavor = {
     "He has told me nothing, which is in itself a kind of news. In ten years I have learned that Holmes is silent only when a matter is very large, or very dangerous, or both. I did not know, then, how large. I did not know that in the autumn of that year the whole world would believe him dead.",
     "What follows is the account of the months between, as nearly as it can be set down. The choices were his. I have only the right to say that, whichever way he went, I should have gone with him if I had been asked.",
   ],
-  chapterCard: { title: "The Final Problem", subtitle: "London, 1891" },
+  chapterCard: { title: "Dispatches: Sherlock", subtitle: "The Case-Book" },
   howToPlay: [
     {
       heading: "Your Part",

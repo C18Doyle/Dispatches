@@ -30,6 +30,17 @@ export const BOARD_SECTIONS: Section[] = [
   },
 ];
 
+/** What The Return pins up, by section (the board is the same in both major cases; the flags are different). */
+const OTHER_FLAGS: Record<string, string[]> = {
+  Traces: ["hdStick", "hdInquest", "hdTiptoe", "hdDogMarks", "hdLetter", "hdCabName", "hdBeard", "hdBoot", "hdBarrymoreHere", "hdHallStaff", "hdVandeleur", "hdSchoolKin", "hdDogBought", "hdDogBoy", "hdFrankland", "hdFranklandBoy", "hdRodger", "hdSketch", "hdBodyRead", "hdPony", "hdPhosphor", "hdKennel", "hdHoundDead", "hdWands", "hdStapletonWatched", "hdLauraKnown", "hdLauraMoney", "hdLauraTestifies", "hdLauraTold", "pfCertificate", "pfNurseAsked", "pfName1", "pfName2", "pfName3", "pfName4", "pfWall", "pfMaid", "pfLetter", "pfPawn", "pfKeys", "pfChalk", "pfCallers", "pfRequest", "pfLastSeen", "pfYard", "pfWitness", "pfConnected", "pfTreatise", "pfUniversity", "pfDean", "pfMoranMentioned", "pfMoranTies", "pfSubs", "pfFile", "pfNotes", "pfRecord", "retWindow", "retMaid", "retFile", "retFigures", "retBulletSeen", "retBullet", "retAirgun", "retCards", "retHerder", "retIndex", "retInquestRead", "retSentinel", "retCamden", "retCamdenSeen", "retWatchers", "retRoutine", "retShikari", "retMoranFace", "retParkerFollowed"],
+  People: ["hdHeir", "hdHenry", "hdNeighbours", "hdSpaniel", "hdPlain", "hdLegend", "hdWatsonKnows", "hdPlanTold", "hdPartPlan", "hdWatsonSworn", "hdSeldenHeld", "hdCoatGiven", "hdSeldenTerms", "hdWarders", "hdLestradeReady", "hdLestradeNear", "hdBerylSpoke", "hdHenryWarned", "hdCartwrightGoes", "hdCartwright", "hdClayton", "hdMortimerMap", "hdPapers", "pfGain", "pfNurse", "pfNurseSent", "pfHobbs", "pfPaper", "pfLestradeTold", "pfBacked", "pfHeld", "pfCardsSat", "pfQuestion", "pfOffered", "retWatsonTold", "retLestradeTold", "retLestradeFriend", "retHudsonKeeps", "retParkerTaken", "retSteward", "retLastPartner", "retBoys", "retNames", "retClerk", "retCabman"],
+  "What Went Wrong": ["hdWary", "hdStapletonMet", "hdLauraClosed", "hdShaken", "hdLost", "hdBerylLeft", "hdSeldenLeft", "hdDebtsOnly", "hdDogGiven", "hdWireBin", "hdLookAway", "hdDeadBrother", "hdFranklandQuiet", "hdShepherdQuiet", "hdNoWarrant", "pfLostTime", "pfWarned", "pfNurseClosed", "pfNurseLeft", "pfQuiet", "pfThanked", "pfNorthSilent", "pfRefused", "pfUnseen", "pfRose", "pfSilent", "pfCabThread", "retSuspected", "retDecoyPoor", "retWatsonLeft"],
+  Moves: ["hdWatsonAlone", "hdSecret", "hdNeverAlone", "hdWatchNeighbours", "hdBootsKept", "hdCartwright2", "hdCartwrightTor", "hdLeaveTor", "hdGoDown", "hdSecretDown", "hdOpenDown", "hdPrincetown", "hdHutFirst", "hdRan", "hdCellar", "hdWatchedLight", "hdBait", "hdPaper", "hdWatchMerripit", "hdLauraWrote", "hdLauraWatched", "hdStationMen", "hdLauraWarrant", "hdCordon", "hdWatsonBeside", "hdAlone", "hdVolley", "hdTaken", "hdMire", "pfWrote", "pfMycroft", "pfMuseum", "pfNorth", "pfHouse", "pfRecovered", "pfAlone", "pfWatched", "pfAccepted", "pfFollowed", "pfCall", "pfLectureGoer", "pfConfront", "pfStraight", "pfWarn", "pfFollowedHome", "retMoney", "retBust", "retBustReady", "retHudsonWorks", "retLestradeMen", "retDecoyGood", "retCordon", "retWatsonBeside", "retYardOut", "retRested", "retSecondNight"],
+};
+
+/** The major cases that are not The Final Problem: no web of the Professor's arms, and questions of their own. */
+const OWN_BOARDS = new Set(["RETURN", "HOUND", "PROFESSOR"]);
+
 interface Question {
   text: string;
   /** Answered once any of these flags is set. */
@@ -53,6 +64,17 @@ export const QUESTIONS: Question[] = [
   { text: "Where will the Professor sail from?", answeredBy: ["knowsDeparture"], roads: ["MYCROFT"] },
   { text: "Who is buying the Adler letters?", answeredBy: ["buyerNamed"], after: "adlerMet" },
   { text: "Where do the Professor's men drink?", answeredBy: ["routeKnown", "boySent"], roads: ["STREET"] },
+  { text: "What did Sir Charles Baskerville run from?", answeredBy: ["hdTiptoe", "hdDogMarks", "hdPony"], roads: ["HOUND"] },
+  { text: "Who sent the cut-out letter to Sir Henry?", answeredBy: ["hdLetter", "hdCabName", "hdBeard"], roads: ["HOUND"] },
+  { text: "Who is the man on the tor?", answeredBy: ["hdWatsonKnows", "hdCartwrightTor"], roads: ["HOUND"] },
+  { text: "Who is Mr Stapleton, and where was he before Dartmoor?", answeredBy: ["hdVandeleur", "hdRodger", "hdSchoolKin"], roads: ["HOUND"] },
+  { text: "Who is the same name, written four ways?", answeredBy: ["pfConnected", "pfRecovered"], roads: ["PROFESSOR"] },
+  { text: "Who is J. Moriarty, and why did he leave his chair?", answeredBy: ["pfUniversity", "pfDean", "pfTreatise"], roads: ["PROFESSOR"] },
+  { text: "Who paid the Colonel, and who gives him his orders?", answeredBy: ["pfMoranTies", "pfSubs"], roads: ["PROFESSOR"] },
+  { text: "How was a young man shot in a locked room with no gun?", answeredBy: ["retWindow", "retAirgun", "retHerder"], roads: ["RETURN"] },
+  { text: "Why was a man with no enemies shot?", answeredBy: ["retFigures", "retCards"], roads: ["RETURN"] },
+  { text: "Where will the Colonel be on Saturday night?", answeredBy: ["retRoutine", "retParkerFollowed", "retCabman"], roads: ["RETURN"] },
+  { text: "Who watches 221B, and for whom?", answeredBy: ["retSentinel", "retWatchers"], roads: ["RETURN"] },
   { text: "Where will the Professor go after Monday?", answeredBy: ["watsonStays", "noteLeft", "ledgeKnown"], roads: ["CONTINENT"] },
 ];
 
@@ -171,9 +193,9 @@ function Web({ state }: { state: GameState }) {
 
 export function BoardView({ state, road }: { state: GameState; road: string }) {
   const notes = def.flavor.flagNotes ?? {};
-  const pinned = BOARD_SECTIONS.map((s) => ({ ...s, shown: s.flags.filter((f) => state.flags[f] && notes[f]) }));
+  const pinned = BOARD_SECTIONS.map((s) => ({ ...s, shown: [...s.flags, ...(OTHER_FLAGS[s.title] ?? [])].filter((f) => state.flags[f] && notes[f]) }));
   const total = pinned.reduce((n, s) => n + s.shown.length, 0);
-  const open = QUESTIONS.filter((q) => (!q.roads || q.roads.includes(road)) && (!q.after || state.flags[q.after]) && !has(state, q.answeredBy));
+  const open = QUESTIONS.filter((q) => (q.roads ? q.roads.includes(road) : !OWN_BOARDS.has(road)) && (!q.after || state.flags[q.after]) && !has(state, q.answeredBy));
   let k = 0;
   return (
     <div className="space-y-5">
@@ -203,6 +225,7 @@ export function BoardView({ state, road }: { state: GameState; road: string }) {
           )}
         </div>
       </div>
+      {!OWN_BOARDS.has(road) && (
       <div>
         <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">The Professor's Web</p>
         <Web state={state} />
@@ -220,6 +243,7 @@ export function BoardView({ state, road }: { state: GameState; road: string }) {
           </div>
         )}
       </div>
+      )}
       <div>
         <p className="font-heading text-[0.65rem] uppercase tracking-[0.25em] text-blood font-bold mb-2">What You Do Not Know</p>
         {open.length ? (

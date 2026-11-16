@@ -128,7 +128,7 @@ for (const [runCase, seed] of [[["Easy"], 1], [["Medium"], 2], [["Hard"], 3], [[
     await ctx.click(b);
     steps++;
     // a new screen should put focus somewhere other than the page body
-    if (ctx.text().slice(0, 80) !== before && ctx.d.activeElement === ctx.d.body && !/Tap again to confirm/.test(ctx.text())) {
+    if (ctx.text().slice(0, 80) !== before && ctx.d.activeElement === ctx.d.body && !/Tap again to/.test(ctx.text())) {
       note(`${runCase[0]}: focus is left on the page body after a screen change`);
     }
   }

@@ -61,10 +61,7 @@ const STEPS: Step[] = [
     name: "shelf",
     run: async (p) => {
       await p.goto(base);
-      await btn(p, /Begin the Case/).click();
-      await btn(p, /^Continue$/).click();
-      await btn(p, /The Consulting Detective/).click();
-      await btn(p, /^Enter$/).click();
+      await btn(p, /Open the Case-Book/).click();
     },
   },
   { name: "scene", run: async (p) => resume(p, "6", "WEB", { evidence: 2, standing: -1, nerve: -4, hours: -1, hands: 0, wires: 5 }) },

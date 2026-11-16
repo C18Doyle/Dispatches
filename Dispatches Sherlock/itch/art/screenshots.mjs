@@ -41,10 +41,7 @@ async function session(fn) {
     await page.waitForTimeout(250);
   };
   const begin = async () => {
-    await btn(/Begin the Case/).click();
-    await btn(/^Continue$/).click();
-    await btn(/The Consulting Detective/).click();
-    await btn(/^Enter$/).click();
+    await btn(/Open the Case-Book/).click();
     await page.waitForTimeout(400);
   };
   await fn({ page, btn, shot, settle, pick, begin, top });
