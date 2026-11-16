@@ -25,6 +25,30 @@ export function useKeptSetting(key, initial) {
   return [value, setValue];
 }
 
+/** Whether the system asks for reduced motion (prefers-reduced-motion), kept up to date if it changes. */
+export function usePrefersReducedMotion() {
+  const query = "(prefers-reduced-motion: reduce)";
+  const [on, setOn] = useState(() => {
+    try {
+      return !!(window.matchMedia && window.matchMedia(query).matches);
+    } catch (e) {
+      return false;
+    }
+  });
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return undefined;
+    const mq = window.matchMedia(query);
+    const handler = (e) => setOn(e.matches);
+    if (mq.addEventListener) mq.addEventListener("change", handler);
+    else if (mq.addListener) mq.addListener(handler);
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", handler);
+      else if (mq.removeListener) mq.removeListener(handler);
+    };
+  }, []);
+  return on;
+}
+
 /** The text sizes, smallest first. Extra large is for a handheld (the Steam Deck) read at arm's length. */
 export const FONT_SCALES = [0.9, 1, 1.15, 1.3];
 export const fontScaleName = (s) => (s <= 0.9 ? t("Small") : s >= 1.3 ? t("Extra large") : s >= 1.15 ? t("Large") : t("Normal"));
@@ -142,6 +166,135 @@ export const PAD_HELP = [
   ["View", T("Open the war journal")],
 ];
 
+// ---- The bindings: which key and which controller button does what (rebindable in the menu) ----
+// Four keyboard actions and four controller actions can be moved. What cannot: the digits 1 to 9 (they are the orders' numbers on every
+// screen), Tab, the D-pad and the left stick (they move between the buttons), and Escape, which closes what is open or opens the menu
+// whatever else is bound to it, so a binding can never lock a player out of the menu that changes it.
+export const BINDINGS_KEY = "dispatchesWW2_bindings";
+export const KEY_ACTIONS = [
+  { id: "confirm", def: "Enter", help: T("Continue, or press the button that has the focus") },
+  { id: "reconsider", def: "r", help: T("Open Reconsider an Earlier Decision") },
+  { id: "journal", def: "j", help: T("Open the war journal") },
+  { id: "back", def: "Escape", help: T("Close what is open, or open this menu") },
+];
+/** The actions a Steam Input build can send (window.dispatchesInput.act), in the order the Steam configurator lists them. */
+export const STEAM_INPUT_ACTIONS = [
+  { id: "press", help: T("Press the button that has the focus") },
+  { id: "back", help: T("Close what is open, or open this menu") },
+  { id: "menu", help: T("Open this menu") },
+  { id: "journal", help: T("Open the war journal") },
+  { id: "menu_up", help: T("Move to the previous button") },
+  { id: "menu_down", help: T("Move to the next button") },
+  { id: "continue", help: T("Continue") },
+  { id: "reconsider", help: T("Open Reconsider an Earlier Decision") },
+  ...[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => ({ id: `order_${n}`, help: T("Order {n}"), n })),
+];
+export const PAD_ACTIONS = [
+  { id: "press", def: 0, help: T("Press the button that has the focus") },
+  { id: "back", def: 1, help: T("Close what is open, or open this menu") },
+  { id: "menu", def: 9, help: T("Open this menu") },
+  { id: "journal", def: 8, help: T("Open the war journal") },
+];
+/** Keys and buttons that cannot be bound to an action. */
+export const RESERVED_KEYS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "Tab", "Shift", "Control", "Alt", "Meta", "CapsLock"];
+export const RESERVED_PAD = [12, 13, 14, 15, 16];
+export const defaultBindings = () => ({
+  keys: Object.fromEntries(KEY_ACTIONS.map((a) => [a.id, a.def])),
+  pad: Object.fromEntries(PAD_ACTIONS.map((a) => [a.id, a.def])),
+});
+/** The bindings kept between visits, over the defaults (an unknown or reserved value falls back to the default). */
+export function loadBindings() {
+  const b = defaultBindings();
+  try {
+    const kept = JSON.parse(window.localStorage.getItem(BINDINGS_KEY) || "null") || {};
+    for (const a of KEY_ACTIONS) if (typeof kept.keys?.[a.id] === "string" && kept.keys[a.id] && !RESERVED_KEYS.includes(kept.keys[a.id])) b.keys[a.id] = kept.keys[a.id];
+    for (const a of PAD_ACTIONS) if (Number.isInteger(kept.pad?.[a.id]) && kept.pad[a.id] >= 0 && kept.pad[a.id] < 20 && !RESERVED_PAD.includes(kept.pad[a.id])) b.pad[a.id] = kept.pad[a.id];
+  } catch (e) {
+    /* storage blocked or the value unreadable: the defaults */
+  }
+  return b;
+}
+let BINDINGS = typeof window !== "undefined" ? loadBindings() : defaultBindings();
+export const currentBindings = () => BINDINGS;
+/** Keys that always do one thing, whatever is bound: Enter and Space continue, Escape goes back. */
+const ALWAYS = { Enter: "confirm", " ": "confirm", Escape: "back" };
+/**
+ * Bind `value` to `action` ("keys" or "pad"). Refused, and nothing changes, when the value is reserved, is one of the keys that always do
+ * something else, or is already bound to another action (that one has to be moved first): { ok: false, reason, other }.
+ */
+export function rebind(kind, action, value) {
+  if (kind === "keys" ? RESERVED_KEYS.includes(value) : RESERVED_PAD.includes(value)) return { ok: false, reason: "reserved" };
+  if (kind === "keys" && ALWAYS[value] && ALWAYS[value] !== action) return { ok: false, reason: "always", other: ALWAYS[value] };
+  const other = Object.keys(BINDINGS[kind]).find((o) => o !== action && sameBinding(kind, BINDINGS[kind][o], value));
+  if (other) return { ok: false, reason: "taken", other };
+  setBindings({ ...BINDINGS, [kind]: { ...BINDINGS[kind], [action]: value } });
+  return { ok: true };
+}
+export function setBindings(next) {
+  BINDINGS = next;
+  try {
+    window.localStorage.setItem(BINDINGS_KEY, JSON.stringify(next));
+  } catch (e) {
+    /* not kept */
+  }
+  applyPadGlyph();
+  try {
+    window.dispatchEvent(new CustomEvent("dispatchesWW2-bindings", { detail: next }));
+  } catch (e) {
+    /* no window */
+  }
+}
+const sameBinding = (kind, a, b) => (kind === "keys" ? String(a).toLowerCase() === String(b).toLowerCase() : a === b);
+/** Whether a key event is the key bound to `action`. */
+export const keyIs = (e, action) => sameBinding("keys", e.key, BINDINGS.keys[action]);
+/** The standard controller layout's button names (Xbox, as on the Steam Deck). */
+export const PAD_BUTTON_NAMES = ["A", "B", "X", "Y", "LB", "RB", "LT", "RT", "View", "Start", "L3", "R3", "D-pad up", "D-pad down", "D-pad left", "D-pad right", "Guide"];
+export const padButtonName = (i) => PAD_BUTTON_NAMES[i] || t("Button {n}", { n: i });
+/** A key's name as the help shows it. */
+export function keyName(k) {
+  if (k === " ") return t("Space");
+  if (k === "Escape") return "Esc";
+  if (k === "ArrowUp") return "↑";
+  if (k === "ArrowDown") return "↓";
+  if (k === "ArrowLeft") return "←";
+  if (k === "ArrowRight") return "→";
+  return k.length === 1 ? k.toUpperCase() : k;
+}
+/** The controller's press button, as the focus badge draws it (INPUT_CSS reads --pad-press). */
+function applyPadGlyph() {
+  try {
+    document.documentElement.style.setProperty("--pad-press", JSON.stringify(padButtonName(BINDINGS.pad.press)));
+  } catch (e) {
+    /* no document */
+  }
+}
+if (typeof document !== "undefined") applyPadGlyph();
+/** Set while the menu waits for the key or button to bind: the game's own handling stands aside. */
+export const capture = { on: false };
+
+/** The help rows, as the bindings stand: the keyboard first, then the controller. */
+export function keyHelp() {
+  const b = BINDINGS.keys;
+  return [
+    ["1 – 9", T("Choose the order, allocation or option with that number")],
+    [b.confirm === "Enter" ? t("Enter or Space") : `${keyName(b.confirm)}, ${t("Enter or Space")}`, T("Continue, or press the button that has the focus")],
+    [keyName(b.reconsider), T("Open Reconsider an Earlier Decision")],
+    [keyName(b.journal), T("Open the war journal")],
+    [b.back === "Escape" ? "Esc" : `${keyName(b.back)}, Esc`, T("Close what is open, or open this menu")],
+    ["Tab", T("Move between the buttons")],
+  ];
+}
+export function padHelp() {
+  const p = BINDINGS.pad;
+  return [
+    [t("D-pad or left stick"), T("Move between the buttons")],
+    [padButtonName(p.press), T("Press the button that has the focus")],
+    [padButtonName(p.back), T("Close what is open, or open this menu")],
+    [padButtonName(p.menu), T("Open this menu")],
+    [padButtonName(p.journal), T("Open the war journal")],
+  ];
+}
+
 export const FOCUSABLE = 'button:not([disabled]), summary, select:not([disabled]), input:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
 /** Whether a control can be seen. Where the page has no layout at all (a test page), it is whatever is not hidden or inside a closed section. */
 export const visible = (el) => {
@@ -180,9 +333,10 @@ export function useInputControls({ onBack, onMenu, onJournal }) {
       if (document.documentElement.dataset.input !== m) document.documentElement.dataset.input = m;
     };
     function onKey(e) {
-      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (capture.on || e.ctrlKey || e.metaKey || e.altKey) return;
       const typing = typingIn(e.target);
-      if (e.key === "Escape") {
+      // Escape always closes or opens the menu, and so does the key bound to it (except in a text box, where a letter is a letter).
+      if (e.key === "Escape" || (!typing && keyIs(e, "back"))) {
         if (handlers.current.onBack()) e.preventDefault();
         return;
       }
@@ -190,14 +344,16 @@ export function useInputControls({ onBack, onMenu, onJournal }) {
       setMode("keys");
       if (/^[1-9]$/.test(e.key)) {
         if (pressHotkey(e.key)) e.preventDefault();
-      } else if (e.key === "Enter" || e.key === " ") {
-        // Enter or Space: the focused control's own, else the screen's continue button.
+      } else if (e.key === "Enter" || e.key === " " || keyIs(e, "confirm")) {
+        // Enter or Space (or the key bound to continue): the focused control's own, else the screen's continue button.
         const a = document.activeElement;
         const onControl = a && a !== document.body && a.matches && a.matches(FOCUSABLE);
-        if (!onControl && pressHotkey("enter")) e.preventDefault();
-      } else if (e.key === "r" || e.key === "R") {
+        if (onControl && (e.key === "Enter" || e.key === " ")) return;
+        if (onControl && a.click) (a.click(), e.preventDefault());
+        else if (pressHotkey("enter")) e.preventDefault();
+      } else if (keyIs(e, "reconsider")) {
         if (pressHotkey("r")) e.preventDefault();
-      } else if (e.key === "j" || e.key === "J") {
+      } else if (keyIs(e, "journal")) {
         if (handlers.current.onJournal()) e.preventDefault();
       }
     }
@@ -215,6 +371,13 @@ export function useInputControls({ onBack, onMenu, onJournal }) {
       if (!pads.length) return;
       const pad = pads[0];
       const pressed = (i) => !!(pad.buttons[i] && pad.buttons[i].pressed);
+      // While the menu waits for a button to bind, it reads the controller itself.
+      if (capture.on) {
+        for (let i = 0; i < pad.buttons.length; i++) prev[i] = pressed(i);
+        raf = requestAnimationFrame(poll);
+        return;
+      }
+      const B = BINDINGS.pad;
       const edge = (i) => {
         const p = pressed(i);
         const was = prev[i];
@@ -230,15 +393,15 @@ export function useInputControls({ onBack, onMenu, onJournal }) {
         stickAt = now;
         used = true;
       }
-      if (edge(0)) {
+      if (edge(B.press)) {
         const a = document.activeElement;
         if (a && a !== document.body && a.click) a.click();
         else moveFocus(1);
         used = true;
       }
-      if (edge(1)) (handlers.current.onBack(), (used = true));
-      if (edge(9)) (handlers.current.onMenu(), (used = true));
-      if (edge(8)) (handlers.current.onJournal(), (used = true));
+      if (edge(B.back)) (handlers.current.onBack(), (used = true));
+      if (edge(B.menu)) (handlers.current.onMenu(), (used = true));
+      if (edge(B.journal)) (handlers.current.onJournal(), (used = true));
       if (used) setMode("pad");
       raf = requestAnimationFrame(poll);
     }
@@ -247,7 +410,30 @@ export function useInputControls({ onBack, onMenu, onJournal }) {
     };
     window.addEventListener("gamepadconnected", start);
     if (navigator.getGamepads && [...navigator.getGamepads()].some(Boolean)) start();
+    // The game's actions by name, for a desktop build that reads the controller through Steam Input (the action names are the ones in
+    // steam/input/game_actions_APPID.vdf; docs/STEAM.md). Returns whether the action did something.
+    const act = (name) => {
+      if (capture.on) return false;
+      setMode("pad");
+      if (name === "menu_up") return moveFocus(-1), true;
+      if (name === "menu_down") return moveFocus(1), true;
+      if (name === "press") {
+        const a = document.activeElement;
+        if (a && a !== document.body && a.click) return a.click(), true;
+        return moveFocus(1), true;
+      }
+      if (name === "back") return !!handlers.current.onBack();
+      if (name === "menu") return !!handlers.current.onMenu();
+      if (name === "journal") return !!handlers.current.onJournal();
+      if (name === "continue") return pressHotkey("enter");
+      if (name === "reconsider") return pressHotkey("r");
+      const n = /^order_([1-9])$/.exec(name);
+      if (n) return pressHotkey(n[1]);
+      return false;
+    };
+    window.dispatchesInput = { act };
     return () => {
+      if (window.dispatchesInput && window.dispatchesInput.act === act) delete window.dispatchesInput;
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerdown", onPointer);
       window.removeEventListener("gamepadconnected", start);
@@ -261,7 +447,7 @@ export const INPUT_CSS = `
 [data-input="pad"] :focus, [data-input="keys"] :focus-visible { outline: 4px solid #b08d3f !important; outline-offset: 3px; }
 [data-input="pad"] button, [data-input="pad"] summary, [data-input="pad"] select { min-height: 44px; }
 [data-input="pad"] button:focus:not(:disabled)::after, [data-input="pad"] summary:focus::after {
-  content: "A" / ""; display: inline-block; margin-left: 8px; width: 20px; height: 20px; line-height: 20px; border-radius: 50%;
+  content: var(--pad-press, "A") / ""; display: inline-block; margin-left: 8px; width: 20px; height: 20px; line-height: 20px; border-radius: 50%;
   background: #2f6b34; color: #ffffff; font: 700 12px/20px 'IBM Plex Mono', monospace; text-align: center; vertical-align: middle; text-decoration: none;
 }
 .dg-pad-prompts { display: none; }
@@ -278,6 +464,18 @@ export const PAD_PROMPTS = [
   { glyph: "☰", colour: "#333333", text: T("Menu") },
   { glyph: "⧉", colour: "#333333", text: T("Journal") },
 ];
+
+/** The prompt bar as the controller bindings stand (the menu and the journal keep their symbols while on Start and View). */
+export function padPrompts() {
+  const p = BINDINGS.pad;
+  const glyph = (i, sym) => (i === 9 || i === 8 ? sym : padButtonName(i));
+  return [
+    { glyph: padButtonName(p.press), colour: p.press === 0 ? "#2f6b34" : "#333333", text: T("Press") },
+    { glyph: padButtonName(p.back), colour: p.back === 1 ? "#8a2a24" : "#333333", text: T("Back") },
+    { glyph: glyph(p.menu, "☰"), colour: "#333333", text: T("Menu") },
+    { glyph: glyph(p.journal, "⧉"), colour: "#333333", text: T("Journal") },
+  ];
+}
 
 // ---- Settings shared between components ----
 /**

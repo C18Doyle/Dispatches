@@ -754,7 +754,7 @@
           "fuel": 0,
           "initiative": -1
         },
-        "next": "occupationAuthority45",
+        "next": "kyotoSecondWeapon45",
         "outcome": "Speculative. An attempt to answer a loss that has no answer: occupation policy makes the United States explicitly responsible for protecting the Japanese cultural and religious sites that survive, shaped by what Kyoto's absence leaves behind. Whether such a commitment means anything to a population that saw the alternative is a question the policy can state an intention about and cannot settle."
       },
       {
@@ -771,7 +771,7 @@
           "fuel": 0,
           "initiative": 1
         },
-        "next": "occupationAuthority45",
+        "next": "kyotoSecondWeapon45",
         "outcome": "Speculative. The occupation proceeds on the footing it would have had whichever city was struck first, treating Stimson's fear as one more wartime cost and not as a condition needing its own answer. Whether the occupied country reads that as consistency or as indifference is not something policy documents can decide."
       }
     ]
@@ -939,6 +939,78 @@
         },
         "next": "indianapolisReview45",
         "outcome": "A modeled alternative: a reckoning aimed at the chain of failures and not at the man left holding the ship. Whether a review this late in the war produces reforms that prevent a four-day gap before the fighting ends is the next question."
+      }
+    ]
+  },
+  "kyotoSecondWeapon45": {
+    "date": "AUGUST 9, 1945",
+    "title": "After Kyoto, the Second Weapon",
+    "historicalRecord": false,
+    "situation": "Speculative. Three days after Kyoto, the order of 25 July still stands: further weapons are to be used against the approved targets as they are made ready, with no new decision required, and the second is ready on Tinian. In Tokyo the loss of the old capital has done what Stimson feared it would do: the army men in the war council call it proof that the Americans mean to destroy Japan whatever Japan does, and the Soviet declaration of war arrives the same day.\n\nGrew argues that this is the moment to tell Japan the Emperor may remain, before a second city is lost. Groves argues that the order already signed is the only message Tokyo will hear.",
+    "choices": [
+      {
+        "label": "Let the standing order run: the second weapon proceeds against the next target on the list",
+        "advisor": {
+          "name": "Groves",
+          "position": "The order of 25 July was written so that nobody would have to decide this twice, and Tokyo will read a pause as doubt."
+        },
+        "setFlags": {
+          "kyotoSecond45": "proceed"
+        },
+        "impact": {
+          "manpower": 0,
+          "fuel": 0,
+          "initiative": 1
+        },
+        "next": "radiationDisclosure45",
+        "outcome": "Speculative. The second weapon falls on 9 August as it did in the record, on Kokura or, if the weather turns the crew away as it did, on Nagasaki. The war council deadlocks that night as it did, and the Emperor intervenes in a country that has lost its oldest city as well."
+      },
+      {
+        "label": "Pause the second weapon and send word through Switzerland that the Emperor may remain",
+        "advisor": {
+          "name": "Grew",
+          "position": "Kyoto has taught Tokyo what the weapon is, and an assurance about the Emperor now could do what a second city cannot."
+        },
+        "setFlags": {
+          "kyotoSecond45": "assurance"
+        },
+        "impact": {
+          "manpower": 0,
+          "fuel": -1,
+          "initiative": -1
+        },
+        "next": "radiationDisclosure45",
+        "uncertain": [
+          {
+            "weight": 40,
+            "title": "The peace faction takes the opening",
+            "setFlags": {
+              "kyotoSecond45": "assurance",
+              "kyotoSecond45Result": "accepted"
+            },
+            "impact": {
+              "manpower": 1,
+              "fuel": 0,
+              "initiative": -1
+            },
+            "outcome": "Speculative. The assurance gives the men around the Emperor the argument they lacked, and the decision to accept the Potsdam terms is made without a second city lost. The army does not forgive the old capital, and the occupation inherits that."
+          },
+          {
+            "weight": 60,
+            "title": "The army reads the pause as weakness",
+            "setFlags": {
+              "kyotoSecond45": "assurance",
+              "kyotoSecond45Result": "refused"
+            },
+            "impact": {
+              "manpower": -1,
+              "fuel": -1,
+              "initiative": -1
+            },
+            "outcome": "Speculative. The army men in the war council call the message a sign that the Americans are tiring, the deadlock holds, and the second weapon is used after all, days later than in the record, with nothing gained by the pause."
+          }
+        ],
+        "outcome": "Speculative. The second weapon waits while the message goes through Bern, and Tokyo has to answer it."
       }
     ]
   }

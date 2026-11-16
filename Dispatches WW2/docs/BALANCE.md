@@ -34,12 +34,12 @@ No meter is pinned under random play.
 
 | style | runs | most common ending (tier) | share | mean end meters (manpower / matériel / initiative) | end with a meter on the floor |
 |---|---|---|---|---|---|
-| random | 3000 | The Coup That Didn't Take (Contested Outcome) | 20% | -0.9 / -2.3 / -5.0 | 18% |
+| random | 3000 | A Republic Founded a Month Early (Major Defeat) | 20% | -0.9 / -2.3 / -4.9 | 19% |
 | record | 600 | The Line Held on Its Own Front (Minor Defeat) | 57% | -4.3 / 0.2 / 6.3 | 0% |
 | first | 600 | A Record Argued For, Not Assumed (Minor Defeat) | 55% | -4.4 / -0.5 / 6.3 | 0% |
 | last | 600 | The War Rome Refused, Then Fought Anyway (Contested Outcome) | 75% | 1.6 / -0.3 / -8.4 | 59% |
 | greedy | 600 | A Record Argued For, Not Assumed (Minor Defeat) | 53% | 1.2 / 3.3 / 9.9 | 0% |
-| gambler | 3000 | The Coup That Didn't Take (Contested Outcome) | 23% | -3.4 / -3.0 / -6.7 | 39% |
+| gambler | 3000 | The Coup That Didn't Take (Contested Outcome) | 23% | -3.4 / -3.0 / -6.8 | 42% |
 
 No meter is pinned under random play.
 
@@ -48,7 +48,7 @@ No meter is pinned under random play.
 
 | style | runs | most common ending (tier) | share | mean end meters (manpower / matériel / initiative) | end with a meter on the floor |
 |---|---|---|---|---|---|
-| random | 3000 | Held to the Last Man, Lost to the Ledger (Minor Defeat) | 26% | -2.5 / -2.4 / 0.1 | 9% |
+| random | 3000 | Held to the Last Man, Lost to the Ledger (Minor Defeat) | 26% | -2.5 / -2.4 / 0.0 | 9% |
 | record | 600 | Peace Bought With What Remained (Minor Defeat) | 94% | -2.2 / -4.3 / 3.3 | 6% |
 | first | 600 | Peace Bought With What Remained (Minor Defeat) | 94% | -1.9 / -4.3 / 1.4 | 6% |
 | last | 600 | The Lesson Nomonhan Taught Twice (Major Defeat) | 100% | -4.0 / -5.0 / 1.0 | 0% |
@@ -76,12 +76,12 @@ No meter is pinned under random play.
 
 | style | runs | most common ending (tier) | share | mean end meters (manpower / matériel / initiative) | end with a meter on the floor |
 |---|---|---|---|---|---|
-| random | 3000 | The Cost of the Other Road (Contested Outcome) | 24% | -1.9 / -4.9 / -4.9 | 47% |
+| random | 3000 | An Honest Silence at the End (Contested Outcome) | 24% | -2.0 / -5.0 / -5.0 | 51% |
 | record | 600 | A Second Korea, A Kept Throne (Minor Defeat) | 88% | -5.5 / -4.6 / 9.1 | 9% |
 | first | 600 | A Second Korea, A Kept Throne (Minor Defeat) | 86% | -5.7 / -10.0 / 9.3 | 100% |
 | last | 600 | An Honest Silence at the End (Contested Outcome) | 100% | 5.2 / -0.3 / -9.5 | 97% |
 | greedy | 600 | The Cost of the Other Road (Contested Outcome) | 100% | 8.9 / 1.5 / 5.8 | 0% |
-| gambler | 3000 | The Admiral Who Wasn't Removed (Contested Outcome) | 23% | -4.5 / -4.4 / -3.2 | 44% |
+| gambler | 3000 | The Admiral Who Wasn't Removed (Contested Outcome) | 23% | -4.6 / -4.5 / -3.6 | 48% |
 
 No meter is pinned under random play.
 
@@ -89,13 +89,13 @@ No meter is pinned under random play.
 
 **soviet**: decisions where one order beats another by more than 4 points of meter in total: 0 of 69.
 
-**italy**: decisions where one order beats another by more than 4 points of meter in total: 0 of 61.
+**italy**: decisions where one order beats another by more than 4 points of meter in total: 0 of 62.
 
-**japan**: decisions where one order beats another by more than 4 points of meter in total: 0 of 69.
+**japan**: decisions where one order beats another by more than 4 points of meter in total: 0 of 70.
 
 **british**: decisions where one order beats another by more than 4 points of meter in total: 0 of 58.
 
-**american**: decisions where one order beats another by more than 4 points of meter in total: 0 of 77.
+**american**: decisions where one order beats another by more than 4 points of meter in total: 0 of 78.
 
 
 ## Named endings no style reached
@@ -107,4 +107,4 @@ An ending listed here was not reached by any of the six styles in these runs. So
 - **italy** (17 of 19 named endings reached): The Highland War Rome Didn't Plan For; Rome Stops Being Consulted.
 - **japan** (29 of 36 named endings reached): Deposed by Their Own Hardliners; The War That Ended in 1942, On Japan's Terms; A Smaller War, Ended Whole; The Peace That Asked for Too Much; The One Term That Held; Terms Worth Having; The Fleet's Last Sortie.
 - **british** (13 of 34 named endings reached): March 1945, And Still Signed Together; The War Ended Early, The Peace Started Colder; The Port That Stopped Being the Constraint; Fighter Command, Nearly Spent; The Alliance That Held; Papering Over the Cracks; The Race for Vienna; Discretion Revoked; The City We Already Held; Vienna, Held Quietly; The Lesson Assumed, Not Learned; The Coalition Withdraws Confidence; The United Front, Spent; The United Front, Banked; The Salient, Sealed Twice; Logistics Did the Rest; Europe First, in Name Only; The Price of the Policy; Warning Time, Spent Correctly; The Principled Cost; The War, Fought Close to Schedule. It shares SHAEF's gallery, and some of those endings turn on decisions the other Allied file now makes, taken here by the record.
-- **american** (23 of 24 named endings reached): The Coalition Comes Apart. It shares CINCPAC's gallery, and some of those endings turn on decisions the other Allied file now makes, taken here by the record.
+- **american** (22 of 24 named endings reached): A Shorter Final Act; The Coalition Comes Apart. It shares CINCPAC's gallery, and some of those endings turn on decisions the other Allied file now makes, taken here by the record.

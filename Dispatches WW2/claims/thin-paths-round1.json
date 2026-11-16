@@ -1,0 +1,23 @@
+[
+  {
+    "id": "tp-kita",
+    "where": "src/parts/14-campaign-japan.jsx oilRoadCut45",
+    "claim": "In Operation Kita the battleships Ise and Hyuga carried oil, rubber and tin from Singapore and reached Kure on 20 February 1945; the fleet had been based at Lingga, near Singapore, for its fuel; in 1945 ships without fuel were moored in the Inland Sea as anti-aircraft batteries and crews and guns sent ashore.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Imperial Japanese Navy in 1945; not re-read in this round. The paragraphs marked Speculative and modeled alternative are not claims."
+  },
+  {
+    "id": "tp-order-25-july",
+    "where": "src/data/alliedPacific.nodes.json kyotoSecondWeapon45",
+    "claim": "The order of 25 July 1945 authorised further weapons against the approved targets as they were made ready, with no new decision required; the Soviet declaration of war came on 8 to 9 August; Grew argued for assuring Japan it could keep the Emperor.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the decision to use the atomic bomb; not re-read in this round. The Kyoto branch itself is marked speculative."
+  },
+  {
+    "id": "tp-verona",
+    "where": "src/parts/13-campaign-italy.jsx verona44",
+    "claim": "The Verona trial of the Grand Council members who voted against Mussolini on 25 July 1943 sat in the Castelvecchio from 8 to 10 January 1944; of the six defendants present five were sentenced to death, including Ciano and De Bono, and Cianetti to thirty years; the petitions for clemency did not reach Mussolini; the five were shot at Forte San Procolo on 11 January 1944.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard histories of the Italian Social Republic; not re-read in this round."
+  }
+]

@@ -235,3 +235,61 @@ export function reckoningAt(command: string, flags: Flags, nodeId: string): numb
   const shortfall = p.years.reduce((a, y) => a + Math.max(0, -toward * deviation(command, flags, y)), 0);
   return -Math.min(r.max, shortfall);
 }
+
+// ---------- What the enemy does with a front left short (part 35, ENEMY_REACTIONS) ----------
+/**
+ * Whether a year's allocation gave `side` less than the record gave it. The enemy reads a front that has been thinned (fewer replacements,
+ * fewer escorts, a convoy that did not sail) and presses there, so a special dispatch comes before the next report on that front.
+ */
+export function leftShort(command: string, flags: Flags, year: number, side: string): boolean {
+  const p = effortPlan(command);
+  if (!p || p.kind !== "theatre" || !p.sides.includes(side)) return false;
+  const d = deviation(command, flags, year);
+  return side === p.sides[0] ? d > 0 : d < 0;
+}
+
+// ---------- Lend-Lease (STAVKA) ----------
+/**
+ * What STAVKA asks the Allies for under the year's protocol, 1943 to 1945 (1942 is the report "The Lifeline Routes", which sets flags.lendLease
+ * to the route the year's planning was staked on). The size of the year's deliveries follows the war at sea as it went in the record:
+ *   - 1943: the Arctic convoys were suspended from March to November (the escorts were needed in the Atlantic, and Tirpitz lay in the
+ *     Norwegian fjords), so a file that staked 1942 on the Arctic gets one share and a file that built up the Persian Corridor gets two;
+ *   - 1944: the peak year, by every route: two shares;
+ *   - 1945: deliveries ran on into the spring, and part of the Fourth Protocol went to the Far East stockpile (Milepost): one share.
+ * The ask decides where the shares go: tanks and aircraft are chits for this year's Orders of Battle (at most two), trucks, rail and fuel are
+ * Matériel, food and raw materials are Manpower (a fed army and a fed workforce). No ask is free of a cost and none costs anything: the paper is a
+ * choice of what kind of help, not whether to take it.
+ */
+export const LEND_LEASE_YEARS = [1943, 1944, 1945] as const;
+export const LEND_LEASE_ASKS = ["weapons", "transport", "food"] as const;
+export const lendLeaseFlag = (year: number) => `lendLease_${year}`;
+
+export function lendLeaseShares(flags: Flags, year: number): number {
+  if (year === 1943) return flags.lendLease === "persian" ? 2 : 1;
+  if (year === 1944) return 2;
+  if (year === 1945) return 1;
+  return 0;
+}
+
+/** The year whose Lend-Lease paper is due before a report dated `year` (STAVKA only, after the year's allocation), or null. */
+export function lendLeaseDue(command: string, flags: Flags, year: number | null): number | null {
+  if (command !== "soviet" || year == null || !(LEND_LEASE_YEARS as readonly number[]).includes(year)) return null;
+  if (effortDue(command, flags, year)) return null;
+  return flags[lendLeaseFlag(year)] ? null : year;
+}
+
+/** What an ask brings: chits for this year's Orders of Battle, and meter points. */
+export function lendLeaseEffect(flags: Flags, year: number, ask: string): { chits: number; impact: Partial<Meters> } {
+  const n = lendLeaseShares(flags, year);
+  if (ask === "weapons") return { chits: Math.min(MAX_CHITS, n), impact: {} };
+  if (ask === "transport") return { chits: 0, impact: { fuel: n } };
+  if (ask === "food") return { chits: 0, impact: { manpower: n } };
+  return { chits: 0, impact: {} };
+}
+
+/** The chits Lend-Lease weapons add to an Order of Battle in `year`. */
+export function lendLeaseChits(command: string, flags: Flags, year: number | null): number {
+  if (command !== "soviet" || year == null) return 0;
+  const ask = flags[lendLeaseFlag(year)];
+  return ask ? lendLeaseEffect(flags, year, ask).chits : 0;
+}

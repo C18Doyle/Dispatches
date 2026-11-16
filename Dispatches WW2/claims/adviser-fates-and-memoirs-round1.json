@@ -1,0 +1,912 @@
+[
+  {
+    "id": "fate-konoe",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Konoe.fate",
+    "claim": "Ordered arrested as a suspected war criminal in December 1945, he took poison on the night before he was to report, 16 December 1945.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-umezu",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Umezu.fate",
+    "claim": "Signed the surrender for the army aboard USS Missouri on 2 September 1945; sentenced to life imprisonment by the Tokyo tribunal, he died in prison in 1949.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-onishi",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Onishi.fate",
+    "claim": "Took his own life on 16 August 1945, the day after the surrender broadcast.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-yonai",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Yonai.fate",
+    "claim": "Navy Minister to the surrender, and one of those who argued for accepting the Potsdam terms; died in 1948.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-koga",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Koga.fate",
+    "claim": "Lost when his flying boat went down in a storm in March 1944, less than a year after Yamamoto's death.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-matsuoka",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Matsuoka.fate",
+    "claim": "Indicted before the Tokyo tribunal, he died of tuberculosis in 1946 before the judgment.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-tojo",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Tojo.fate",
+    "claim": "Resigned after the fall of Saipan in July 1944; shot himself when he was arrested in 1945 and survived, and was hanged after the Tokyo tribunal in December 1948.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-nomura",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Nomura.fate",
+    "claim": "Interned in Washington and exchanged in 1942; sat in the postwar Diet and died in 1964.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-kuribayashi",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Kuribayashi.fate",
+    "claim": "Killed on Iwo Jima in March 1945; how he died was never established.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-horii",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Horii.fate",
+    "claim": "Drowned in November 1942 crossing the Kumusi River in the retreat from the Kokoda Track.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-imamura",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Imamura.fate",
+    "claim": "Surrendered at Rabaul in 1945 and served a sentence for war crimes, asking to serve it alongside his men on Manus; died in 1968.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-yamamoto",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Yamamoto.fate",
+    "claim": "Killed in April 1943 when American fighters shot down his aircraft over Bougainville.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-nagano",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Nagano.fate",
+    "claim": "Indicted before the Tokyo tribunal; died of pneumonia in 1947, during the trial.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-nagumo",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Nagumo.fate",
+    "claim": "Took his own life on Saipan in July 1944 as the island fell.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-inoue",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Inoue.fate",
+    "claim": "Later Vice Minister of the Navy and one of those who worked to end the war; spent his last years teaching English to children, and died in 1975.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-ugaki",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Ugaki.fate",
+    "claim": "Led a last kamikaze flight toward Okinawa on 15 August 1945, after the surrender broadcast, and was not seen again.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-tanaka",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Tanaka.fate",
+    "claim": "Relieved after Guadalcanal and given commands ashore; died in 1969.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-kurita",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Kurita.fate",
+    "claim": "Turned back at Leyte Gulf when the American landing fleet was within his reach, and never fully explained why; died in 1977.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-toyoda",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Toyoda.fate",
+    "claim": "Tried for war crimes and acquitted in 1949; died in 1957.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-anami",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Anami.fate",
+    "claim": "Took his own life on the morning of 15 August 1945, before the surrender was broadcast.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-togo",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Togo.fate",
+    "claim": "Sentenced to twenty years by the Tokyo tribunal; died a prisoner in 1950.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-sato",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Sato.fate",
+    "claim": "Was handed the Soviet declaration of war in Moscow on 8 August 1945; later sat in the House of Councillors and died in 1971.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-yoshida",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Yoshida.fate",
+    "claim": "Prime Minister for most of the years from 1946 to 1954, and signed the peace treaty of 1951; died in 1967.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-sugiyama",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Sugiyama.fate",
+    "claim": "Shot himself in September 1945, days after the surrender was signed.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-iida",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Iida.fate",
+    "claim": "Commanded in Manchuria in 1945 and was held by the Soviet Union until 1950; died in 1980.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-sakurai",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Sakurai.fate",
+    "claim": "Commanded the Twenty-Eighth Army in Burma to the end of the war.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-kawabe",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Kawabe.fate",
+    "claim": "Relieved after the failure at Imphal in 1944, and commanded the army's air forces in the home islands in 1945; died in 1965.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-ozawa",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Ozawa.fate",
+    "claim": "Led the decoy force at Leyte Gulf and was the last Commander in Chief of the Combined Fleet; declined promotion to full admiral, and died in 1966.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-kusaka",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Kusaka.fate",
+    "claim": "Chief of Staff of the Combined Fleet to the end of the war; died in 1971.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-slim",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Slim.fate",
+    "claim": "Retook Burma in 1945; later Chief of the Imperial General Staff and Governor-General of Australia, and died in 1970.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-stilwell",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Stilwell.fate",
+    "claim": "Recalled from China in October 1944 at Chiang Kai-shek's demand; took over Tenth Army on Okinawa in 1945 and died in 1946.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-davies",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Davies.fate",
+    "claim": "Dismissed from the Foreign Service in 1954 after loyalty hearings over his reports from China, cleared in 1969, and died in 1999.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-spruance",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Spruance.fate",
+    "claim": "Commanded at Midway, the Marianas and Okinawa; later President of the Naval War College and ambassador to the Philippines, and died in 1969.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-arnold",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Arnold.fate",
+    "claim": "Promoted General of the Army in 1944 and, in 1949, General of the Air Force, the only five-star rank in that service; died in 1950.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-acheson",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Acheson.fate",
+    "claim": "Secretary of State from 1949 to 1953; died in 1971.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-grew",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Grew.fate",
+    "claim": "Under Secretary of State in 1945, and among those who argued for telling Japan it could keep its Emperor; died in 1965.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-halsey",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Halsey.fate",
+    "claim": "Commanded Third Fleet at Leyte Gulf and through the typhoons of 1944 and 1945; made Fleet Admiral in December 1945, and died in 1959.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-doolittle",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Doolittle.fate",
+    "claim": "Received the Medal of Honor for the raid and commanded the Eighth Air Force from 1944; died in 1993.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-groves",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Groves.fate",
+    "claim": "Retired from the army in 1948 and went into industry; died in 1970.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-compton",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Compton.fate",
+    "claim": "Chancellor of Washington University in St. Louis after the war; died in 1962.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-franck",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Franck.fate",
+    "claim": "Went back to research in Chicago after the war; died in 1964.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-blamey",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Blamey.fate",
+    "claim": "Accepted the Japanese surrender at Morotai in September 1945; made Field Marshal in 1950, and died in 1951.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-mitscher",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Mitscher.fate",
+    "claim": "Commanded the fast carriers through 1944 and 1945; died in 1947 while commanding the Atlantic Fleet.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-curtin",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Curtin.fate",
+    "claim": "Died in office in July 1945, weeks before the end of the war he had led Australia through.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-biddle",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Biddle.fate",
+    "claim": "Sat as the American judge at the Nuremberg trial; died in 1968.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-nimitz",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Nimitz.fate",
+    "claim": "Signed the surrender for the United States aboard USS Missouri; Chief of Naval Operations from 1945 to 1947, and died in 1966.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-fletcher",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Fletcher.fate",
+    "claim": "Commanded at the Coral Sea, Midway and the landing on Guadalcanal, and finished the war in the North Pacific; died in 1973.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-pye",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Pye.fate",
+    "claim": "President of the Naval War College from 1942; died in 1959.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-ghormley",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Ghormley.fate",
+    "claim": "Relieved by Halsey in October 1942; later commanded the American naval forces in Germany, and died in 1958.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-holland-smith",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Holland Smith.fate",
+    "claim": "Commanded the Marines at Saipan and Iwo Jima, and his relief of an army general on Saipan began a quarrel between the services that outlasted the war; died in 1967.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-macarthur",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.MacArthur.fate",
+    "claim": "Supreme Commander in occupied Japan from 1945; relieved by Truman during the Korean War in 1951, and died in 1964.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-kenney",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Kenney.fate",
+    "claim": "The first commander of Strategic Air Command, in 1946; died in 1977.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-wainwright",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Wainwright.fate",
+    "claim": "Surrendered Corregidor in May 1942 and spent the rest of the war a prisoner; stood behind MacArthur at the surrender in Tokyo Bay, received the Medal of Honor, and died in 1953.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-sutherland",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Sutherland.fate",
+    "claim": "MacArthur's chief of staff to the end of the war; retired in 1946 and died in 1966.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-webb",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Webb.fate",
+    "claim": "Presided over the Tokyo tribunal to its judgment in 1948, and sat on the High Court of Australia; died in 1972.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-eichelberger",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Eichelberger.fate",
+    "claim": "Commanded the Eighth Army in occupied Japan until 1948; died in 1961.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-attlee",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Attlee.fate",
+    "claim": "Prime Minister until 1951, whose government ended British rule in India; died in 1967.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "fate-lemay",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.LeMay.fate",
+    "claim": "Commanded the American air forces in Europe at the start of the Berlin airlift, then Strategic Air Command, and became Chief of Staff of the Air Force; died in 1990.",
+    "status": "standard-account-not-reopened",
+    "source": "Standard biographies; written in this round and not re-read against a source."
+  },
+  {
+    "id": "memoir-manstein",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Manstein.memoir",
+    "claim": "Manstein: memoir, Verlorene Siege (Lost Victories), first published 1955.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-guderian",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Guderian.memoir",
+    "claim": "Guderian: memoir, Erinnerungen eines Soldaten (Panzer Leader), first published 1951.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-kesselring",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Kesselring.memoir",
+    "claim": "Kesselring: memoir, Soldat bis zum letzten Tag, first published 1953.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-speer",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Speer.memoir",
+    "claim": "Speer: memoir, Erinnerungen (Inside the Third Reich), first published 1969.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-d-nitz",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Dönitz.memoir",
+    "claim": "Dönitz: memoir, Zehn Jahre und zwanzig Tage (Ten Years and Twenty Days), first published 1958.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-raeder",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Raeder.memoir",
+    "claim": "Raeder: memoir, Mein Leben (My Life), first published 1956.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-galland",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Galland.memoir",
+    "claim": "Galland: memoir, Die Ersten und die Letzten (The First and the Last), first published 1953.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-westphal",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Westphal.memoir",
+    "claim": "Westphal: memoir, Heer in Fesseln, first published 1950.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-speidel",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Speidel.memoir",
+    "claim": "Speidel: memoir, Invasion 1944, first published 1949.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-gehlen",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Gehlen.memoir",
+    "claim": "Gehlen: memoir, Der Dienst (The Service), first published 1971.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-halder",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Halder.memoir",
+    "claim": "Halder: diary, Kriegstagebuch (the war diary, published 1962 to 1964), first published 1962.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-keitel",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Keitel.memoir",
+    "claim": "Keitel: memoir, written in prison, published as The Memoirs of Field-Marshal Keitel, first published 1961.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-ribbentrop",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Ribbentrop.memoir",
+    "claim": "Ribbentrop: memoir, Zwischen London und Moskau, first published 1953.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-weizs-cker",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Weizsäcker.memoir",
+    "claim": "Weizsäcker: memoir, Erinnerungen, first published 1950.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-skorzeny",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Skorzeny.memoir",
+    "claim": "Skorzeny: memoir, Geheimkommando Skorzeny, first published 1950.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-zhukov",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Zhukov.memoir",
+    "claim": "Zhukov: memoir, Reminiscences and Reflections, first published 1969.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-vasilevsky",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Vasilevsky.memoir",
+    "claim": "Vasilevsky: memoir, A Lifelong Cause, first published 1973.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-rokossovsky",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Rokossovsky.memoir",
+    "claim": "Rokossovsky: memoir, A Soldier's Duty, first published 1968.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-konev",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Konev.memoir",
+    "claim": "Konev: memoir, Year of Victory, first published 1966.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-chuikov",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Chuikov.memoir",
+    "claim": "Chuikov: memoir, The Beginning of the Road, first published 1959.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-meretskov",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Meretskov.memoir",
+    "claim": "Meretskov: memoir, Serving the People, first published 1968.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-mikoyan",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Mikoyan.memoir",
+    "claim": "Mikoyan: memoir, Tak bylo (published after his death), first published 1999.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-sudoplatov",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Sudoplatov.memoir",
+    "claim": "Sudoplatov: memoir, Special Tasks, first published 1994.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-eisenhower",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Eisenhower.memoir",
+    "claim": "Eisenhower: memoir, Crusade in Europe, first published 1948.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-churchill",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Churchill.memoir",
+    "claim": "Churchill: memoir, The Second World War, first published 1948.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-montgomery",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Montgomery.memoir",
+    "claim": "Montgomery: memoir, The Memoirs of Field-Marshal Montgomery, first published 1958.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-bradley",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Bradley.memoir",
+    "claim": "Bradley: memoir, A Soldier's Story, first published 1951.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-patton",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Patton.memoir",
+    "claim": "Patton: memoir, War As I Knew It (published after his death), first published 1947.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-clark",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Clark.memoir",
+    "claim": "Clark: memoir, Calculated Risk, first published 1950.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-alexander",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Alexander.memoir",
+    "claim": "Alexander: memoir, The Alexander Memoirs, 1940 to 1945, first published 1962.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-tedder",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Tedder.memoir",
+    "claim": "Tedder: memoir, With Prejudice, first published 1966.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-harris",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Harris.memoir",
+    "claim": "Harris: memoir, Bomber Offensive, first published 1947.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-king",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.King.memoir",
+    "claim": "King: memoir, Fleet Admiral King: A Naval Record, first published 1952.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-cunningham",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Cunningham.memoir",
+    "claim": "Cunningham: memoir, A Sailor's Odyssey, first published 1951.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-truscott",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Truscott.memoir",
+    "claim": "Truscott: memoir, Command Missions, first published 1954.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-horrocks",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Horrocks.memoir",
+    "claim": "Horrocks: memoir, A Full Life, first published 1960.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-urquhart",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Urquhart.memoir",
+    "claim": "Urquhart: memoir, Arnhem, first published 1958.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-eden",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Eden.memoir",
+    "claim": "Eden: memoir, The Reckoning, first published 1965.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-stimson",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Stimson.memoir",
+    "claim": "Stimson: memoir, On Active Service in Peace and War, first published 1948.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-de-gaulle",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.de Gaulle.memoir",
+    "claim": "de Gaulle: memoir, Mémoires de guerre, first published 1954.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-halifax",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Halifax.memoir",
+    "claim": "Halifax: memoir, Fulness of Days, first published 1957.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-gamelin",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Gamelin.memoir",
+    "claim": "Gamelin: memoir, Servir, first published 1946.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-dulles",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Dulles.memoir",
+    "claim": "Dulles: memoir, The Secret Surrender, first published 1966.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-badoglio",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Badoglio.memoir",
+    "claim": "Badoglio: memoir, L'Italia nella seconda guerra mondiale, first published 1946.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-graziani",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Graziani.memoir",
+    "claim": "Graziani: memoir, Ho difeso la patria, first published 1947.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-ciano",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Ciano.memoir",
+    "claim": "Ciano: diary, Diario, 1937 to 1943, first published 1946.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-cavallero",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Cavallero.memoir",
+    "claim": "Cavallero: diary, Comando Supremo: diario 1940 to 1943, first published 1948.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-messe",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Messe.memoir",
+    "claim": "Messe: memoir, Come finì la guerra in Africa, first published 1946.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-castellano",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Castellano.memoir",
+    "claim": "Castellano: memoir, Come firmai l'armistizio di Cassibile, first published 1945.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-iachino",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Iachino.memoir",
+    "claim": "Iachino: memoir, Gaudo e Matapan, first published 1946.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-mussolini",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Mussolini.memoir",
+    "claim": "Mussolini: memoir, Storia di un anno, written at Salò, first published 1944.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-togo",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Togo.memoir",
+    "claim": "Togo: memoir, The Cause of Japan, first published 1952.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-ugaki",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Ugaki.memoir",
+    "claim": "Ugaki: diary, Sensōroku (Fading Victory), first published 1952.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-slim",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Slim.memoir",
+    "claim": "Slim: memoir, Defeat into Victory, first published 1956.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-stilwell",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Stilwell.memoir",
+    "claim": "Stilwell: papers, The Stilwell Papers (published after his death), first published 1948.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-halsey",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Halsey.memoir",
+    "claim": "Halsey: memoir, Admiral Halsey's Story, first published 1947.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-arnold",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Arnold.memoir",
+    "claim": "Arnold: memoir, Global Mission, first published 1949.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-macarthur",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.MacArthur.memoir",
+    "claim": "MacArthur: memoir, Reminiscences, first published 1964.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-kenney",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Kenney.memoir",
+    "claim": "Kenney: memoir, General Kenney Reports, first published 1949.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-eichelberger",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Eichelberger.memoir",
+    "claim": "Eichelberger: memoir, Our Jungle Road to Tokyo, first published 1950.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-wainwright",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Wainwright.memoir",
+    "claim": "Wainwright: memoir, General Wainwright's Story, first published 1946.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-holland-smith",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Holland Smith.memoir",
+    "claim": "Holland Smith: memoir, Coral and Brass, first published 1949.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-groves",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Groves.memoir",
+    "claim": "Groves: memoir, Now It Can Be Told, first published 1962.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-compton",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Compton.memoir",
+    "claim": "Compton: memoir, Atomic Quest, first published 1956.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-grew",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Grew.memoir",
+    "claim": "Grew: memoir, Ten Years in Japan, first published 1944.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-acheson",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Acheson.memoir",
+    "claim": "Acheson: memoir, Present at the Creation, first published 1969.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-lemay",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.LeMay.memoir",
+    "claim": "LeMay: memoir, Mission with LeMay, first published 1965.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-doolittle",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Doolittle.memoir",
+    "claim": "Doolittle: memoir, I Could Never Be So Lucky Again, first published 1991.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-davies",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Davies.memoir",
+    "claim": "Davies: memoir, Dragon by the Tail, first published 1972.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-biddle",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Biddle.memoir",
+    "claim": "Biddle: memoir, In Brief Authority, first published 1962.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-attlee",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Attlee.memoir",
+    "claim": "Attlee: memoir, As It Happened, first published 1954.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  },
+  {
+    "id": "memoir-yoshida",
+    "where": "src/parts/45-dossiers-objectives.jsx ADVISOR_DOSSIERS.Yoshida.memoir",
+    "claim": "Yoshida: memoir, Kaisō jūnen (The Yoshida Memoirs), first published 1957.",
+    "status": "standard-account-not-reopened",
+    "source": "Bibliographic record as remembered; titles and years not re-checked against a catalogue in this round."
+  }
+]

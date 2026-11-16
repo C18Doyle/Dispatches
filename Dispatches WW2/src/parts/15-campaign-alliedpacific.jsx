@@ -2603,6 +2603,11 @@
         get kyotoStruck45() {
           return dataNode(ALLIED_PACIFIC_DATA, "kyotoStruck45", meters);
         },
+        // Dispatches WW2 (round 24, tools/thin-paths.mjs): the war after Kyoto used to go straight to the occupation. The second weapon and the
+        // surrender council, then the record's reports from the radiation findings on. Claims: claims/thin-paths-round1.json.
+        get kyotoSecondWeapon45() {
+          return dataNode(ALLIED_PACIFIC_DATA, "kyotoSecondWeapon45", meters);
+        },
         get targetSelection45() {
           return dataNode(ALLIED_PACIFIC_DATA, "targetSelection45", meters);
         },

@@ -42,6 +42,9 @@ function WW2CommandInner() {
   const [soundOn, setSoundOn] = useState(false);
   const [fontScale, setFontScale] = useKeptSetting("dispatchesWW2_text_size", 1);
   const [reducedMotion, setReducedMotion] = useKeptSetting("dispatchesWW2_reduced_motion", false);
+  // Motion is off when the player turns it off here or the system asks for less of it (both, everywhere motion is decided in code).
+  const systemReducedMotion = usePrefersReducedMotion();
+  const motionOff = reducedMotion || systemReducedMotion;
   // The dyslexia-friendly typeface is the one setting that is kept between visits: a reader who needs it needs it on the first screen.
   const [dyslexia, setDyslexia] = useState(() => {
     try {
@@ -188,7 +191,9 @@ function WW2CommandInner() {
   // The year's allocation of effort is asked for before the year's first briefing (src/effort.ts, part 46); the American command's waits for
   // the war in Europe to open (flag trkOpen_E, part 16). The bargain at Casablanca comes before the conference report (src/command.ts).
   const effortYear = campaign && stage ? effortDue(campaign.id, flags, reportYear(stage.date)) : null;
-  const conference = campaign && stage && !effortYear ? conferenceDue(campaign.id, flags, position) : null;
+  // STAVKA's Lend-Lease paper (1943 to 1945) follows the year's allocation.
+  const lendLeaseYear = campaign && stage && !effortYear ? lendLeaseDue(campaign.id, flags, reportYear(stage.date)) : null;
+  const conference = campaign && stage && !effortYear && !lendLeaseYear ? conferenceDue(campaign.id, flags, position) : null;
   // What a battle's result asks before the next report (src/command.ts, followUpFor): shown first, then the event, the wire and the briefing.
   const [pendingFollowUp, setPendingFollowUp] = useState(null);
 
@@ -408,11 +413,12 @@ function WW2CommandInner() {
     setOutcomeStage(null);
     if (!isEnd) {
       // A special dispatch is due on arriving at some reports (and when an adviser has asked to be relieved): shown once, before the report.
-      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: evCampaign, flags: flagsStep, meters }) || pacificStateEvent(evCampaign, nextPos, flagsStep, meters) || europeStateEvent(campaignId, evCampaign, nextPos, flagsStep, meters) : null;
+      const dueEv = campaign.dynamic ? dueEvent(SPECIAL_EVENTS, { nodeId: String(nextPos), campaign: evCampaign, flags: flagsStep, meters }) || enemyReaction(campaignId, evCampaign, nextPos, flagsStep) || pacificStateEvent(evCampaign, nextPos, flagsStep, meters) || europeStateEvent(campaignId, evCampaign, nextPos, flagsStep, meters) : null;
       let flagsOut = dueEv ? { ...flagsStep, [eventSeenKey(dueEv.id)]: true } : flagsStep;
       // The year's new strength and the command style's yearly cost, at the first report of a new year (src/effort.ts, src/command.ts), and the
       // Joint Chiefs' European shortfall counted at Yalta.
-      let metersOut = meters;
+      // The enemy's answer to a front left short costs what it says (part 35, ENEMY_REACTIONS).
+      let metersOut = dueEv && dueEv.impact ? applySmall(meters, dueEv.impact) : meters;
       {
         let nextDate = null;
         try {
@@ -675,6 +681,34 @@ function WW2CommandInner() {
     return () => cancelAnimationFrame(raf);
   }, [musicOn, musicVolume]);
 
+  // A battle's verdict has its cue (MUSIC_CUES, part 47): the score is turned down under it and back up when it ends. Only with the music on.
+  const cueRef = useRef(null);
+  function playBattleCue(grade) {
+    const src = musicOn ? cueFor(grade) : null;
+    if (!src) return;
+    try {
+      if (cueRef.current) cueRef.current.pause();
+      const cue = new Audio(src);
+      cue.volume = Math.max(0, Math.min(1, musicVolume));
+      cueRef.current = cue;
+      const graph = audioGraphRef.current;
+      const el = musicRef.current;
+      const setScore = (v) => {
+        if (graph) graph.gain.gain.value = v;
+        else if (el) el.volume = v;
+      };
+      setScore(musicVolume * 0.15);
+      const restore = () => {
+        if (cueRef.current === cue) setScore(musicVolume);
+      };
+      cue.addEventListener("ended", restore);
+      cue.addEventListener("error", restore);
+      cue.play().catch(restore);
+    } catch (e) {
+      /* no cue: the verdict is on the page */
+    }
+  }
+
   // First-gesture fallback: if music is supposed to be on but the mount-time (or toggle-time)
   // play() got blocked by the browser's autoplay policy, one real click/key/touch anywhere on
   // the page is enough to satisfy it — retry then, once, rather than leaving music silent for
@@ -928,7 +962,7 @@ function WW2CommandInner() {
           mode={mode}
           soundOn={soundOn}
           // Chits from the year's allocation of effort and the Casablanca bargain (src/effort.ts, src/command.ts).
-          effortChits={chitsForBattle(campaign.id, flags, pendingBattle.config.id, reportYear(stage && stage.date)) + conferenceChits(campaign.id, flags, pendingBattle.config.id)}
+          effortChits={chitsForBattle(campaign.id, flags, pendingBattle.config.id, reportYear(stage && stage.date)) + lendLeaseChits(campaign.id, flags, reportYear(stage && stage.date)) + conferenceChits(campaign.id, flags, pendingBattle.config.id)}
           // Round 13, Craig's item #8 ("wire the subgame into difficulty — something minor is
           // fine"). Deliberately small: doesn't touch allocation math, postures, or the roll —
           // just extends Easy Command's existing "training wheels... full visibility" philosophy
@@ -980,10 +1014,11 @@ function WW2CommandInner() {
           result={pendingBattleResult}
           soundOn={soundOn}
           instantText={instantText}
-          reducedMotion={reducedMotion}
+          reducedMotion={motionOff}
           resumed={!!(battleResume && battleResume.stage === "report")}
           onSaveLeave={leaveBattleSaved}
           onResolve={(payload) => chooseOption(pendingBattle.index, payload)}
+          onVerdict={(grade) => playBattleCue(grade)}
           onContinue={() => {
             setPendingBattle(null);
             setScreen("outcome");
@@ -1014,6 +1049,18 @@ function WW2CommandInner() {
           }}
         />
       )}
+      {screen === "briefing" && campaign && stage && lendLeaseYear && (
+        <LendLeaseScreen
+          key={lendLeaseYear}
+          campaign={view}
+          year={lendLeaseYear}
+          flags={flags}
+          onDone={(ask, impact) => {
+            setFlags((f) => ({ ...f, [lendLeaseFlag(lendLeaseYear)]: ask }));
+            setMeters((m) => applySmall(m, impact || {}));
+          }}
+        />
+      )}
       {screen === "briefing" && campaign && stage && conference && (
         <ConferenceScreen
           campaign={view}
@@ -1026,7 +1073,7 @@ function WW2CommandInner() {
           }}
         />
       )}
-      {screen === "briefing" && campaign && stage && !effortYear && !conference && (
+      {screen === "briefing" && campaign && stage && !effortYear && !lendLeaseYear && !conference && (
         <BriefingScreen
           campaign={view}
           stage={stage}
@@ -1043,7 +1090,7 @@ function WW2CommandInner() {
           log={log}
           mode={mode}
           favor={favor}
-          instantText={instantText}
+          instantText={instantText || motionOff}
           soundOn={soundOn}
           controlBattles={controlBattles}
           onChoose={chooseOption}
@@ -1097,7 +1144,7 @@ function WW2CommandInner() {
       )}
       {/* With a controller in hand, the buttons it uses (shown only while data-input is "pad"; src/shell-core.js). */}
       <div aria-hidden="true" className="dg-pad-prompts fixed bottom-3 left-3 z-40 gap-3 bg-white border-2 border-black px-3 py-1 text-[12px] text-[#000000]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-        {PAD_PROMPTS.map((p) => (
+        {padPrompts().map((p) => (
           <span key={p.glyph} className="dg-pad-item" data-glyph={p.glyph} data-label={t(p.text)} style={{ "--pad-colour": p.colour }} />
         ))}
       </div>

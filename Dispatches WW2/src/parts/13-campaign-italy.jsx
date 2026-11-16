@@ -3874,7 +3874,7 @@
               disabledReason: (meters.initiative || 0) >= 1 ? undefined : "insufficient standing left to contest a German administrative decision inside the Republic's own claimed territory",
               setFlags: { alpenvorlandQuestion43: "protest" },
               impact: { manpower: 0, fuel: 0, initiative: 1 },
-              next: "civilWarPartisans44",
+              next: "verona44",
               outcome:
                 "The protest is heard and, in every practical sense, ignored: both operational zones remain under direct German civil administration for the entirety of the war, run by their own Gauleiters answering to Berlin rather than to any office in Salò, a fact the Republic's own propaganda apparatus finds no honest way to describe as anything other than what it plainly is.",
             },
@@ -3885,9 +3885,60 @@
               setFlags: { alpenvorlandQuestion43: "accept" },
               favor: 1,
               impact: { manpower: 0, fuel: 0, initiative: 0 },
-              next: "civilWarPartisans44",
+              next: "verona44",
               outcome:
                 "Roughly what actually happened: the Republic never seriously contested either zone's removal from its authority for the whole of its twenty-month existence, an acceptance that costs it nothing further to admit and that changes nothing about a fact every officer in this chain of command can read for themselves on any map issued after October 1943: this Republic's sovereignty was conditional, partial, and set by someone else's decree from its very first weeks.",
+            },
+          ],
+        };
+        },
+        // Dispatches WW2 (round 24, tools/thin-paths.mjs): the Republic's war ran from its founding straight to the partisan war. The Verona
+        // trial of January 1944 was its defining act and its army's first test. Claims: claims/thin-paths-round1.json.
+        get verona44() {
+          return {
+          date: "JANUARY 1944",
+          title: "The Verona Trial",
+          historicalRecord: true,
+          situation:
+            "The Republic means to try the members of the Grand Council who voted against Mussolini on the night of 25 July. A special tribunal is to sit in the Castelvecchio at Verona. Six of the accused are in the Republic's hands, among them Galeazzo Ciano, Mussolini's son-in-law, and Emilio De Bono, a marshal of Italy and one of the four leaders of the March on Rome. The rest are tried in their absence.\n\n" +
+            "Pavolini and the Party want the sentences carried out and seen to be carried out. The army that Graziani is trying to raise for the Republic is asked to say nothing, and some of its officers are asking what kind of state they have been called up to serve.",
+          choices: [
+            {
+              label: "Leave the trial to the Party's tribunal: the army takes no position on the Grand Council",
+              advisor: { name: "Pavolini", position: "The men who voted on 25 July opened the door to 8 September, and a Republic that does not judge them has no reason to exist." },
+              historical: true,
+              setFlags: { verona44: "silent" },
+              impact: { manpower: 0, fuel: 0, initiative: 1 },
+              next: "civilWarPartisans44",
+              outcome:
+                "What happened. The tribunal sits from 8 to 10 January. Of the six in the dock, five are sentenced to death, Ciano and De Bono among them, and Tullio Cianetti to thirty years. The petitions for clemency are kept from Mussolini, who does not ask for them, and on 11 January the five are shot at Forte San Procolo. The Republic has shown what it is, to its own officers as plainly as to anyone.",
+            },
+            {
+              label: "Ask Mussolini, in the army's name, to commute the sentence on Marshal De Bono",
+              advisor: { name: "Graziani", position: "The army did not sit on the Grand Council and should not be asked to applaud the Party settling its accounts, least of all with a marshal of Italy in the dock." },
+              setFlags: { verona44: "petition" },
+              impact: { manpower: 0, fuel: 0, initiative: -1 },
+              next: "civilWarPartisans44",
+              uncertain: [
+                {
+                  weight: modWeight(25, meters.initiative),
+                  title: "De Bono's sentence is commuted",
+                  setFlags: { verona44: "petition", verona44Result: "commuted" },
+                  impact: { manpower: 1, fuel: 0, initiative: -1 },
+                  outcome:
+                    "Speculative. Mussolini, who never wanted the trial to be about the old marshal, commutes De Bono's sentence and lets the others stand. The Party resents the army's interference, and the officers who were wondering whether to report to the Republic's divisions have one reason fewer to stay away.",
+                },
+                {
+                  weight: (() => { const w = modWeight(25, meters.initiative); return Math.max(5, 100 - w); })(),
+                  title: "The petition is set aside",
+                  setFlags: { verona44: "petition", verona44Result: "refused" },
+                  impact: { manpower: 0, fuel: 0, initiative: -2 },
+                  outcome:
+                    "Speculative. The petition is held back from Mussolini by the men around him, as the petitions of the condemned were in the record, and the five are shot on 11 January. The army has put its name to a request that failed, and the Party remembers whose name it was.",
+                },
+              ],
+              outcome:
+                "Speculative. The army asks for the old marshal's life, and the Party and Mussolini have to answer.",
             },
           ],
         };
@@ -3898,7 +3949,12 @@
           title: "The War Behind the Front",
           historicalRecord: true,
           situation:
-            "Partisan resistance in the RSI-controlled north has grown from scattered, poorly armed bands into a genuine irregular army: tens of thousands of fighters across a political spectrum from Communist to Catholic to purely apolitical draft-evaders, tying down German and RSI garrison forces across the mountains and industrial cities alike. Pavolini's Black Brigades, the Republic's own paramilitary anti-partisan force, are conducting reprisal operations with a brutality that has, if anything, deepened rather than suppressed the resistance they're meant to be fighting: a dynamic every occupation in this war's European theaters has produced in some form, and one this republic's own remaining legitimacy is being spent on regardless of which side of the argument the men actually running it privately believe.",
+            "Partisan resistance in the RSI-controlled north has grown from scattered, poorly armed bands into a genuine irregular army: tens of thousands of fighters across a political spectrum from Communist to Catholic to purely apolitical draft-evaders, tying down German and RSI garrison forces across the mountains and industrial cities alike. Pavolini's Black Brigades, the Republic's own paramilitary anti-partisan force, are conducting reprisal operations with a brutality that has, if anything, deepened rather than suppressed the resistance they're meant to be fighting: a dynamic every occupation in this war's European theaters has produced in some form, and one this republic's own remaining legitimacy is being spent on regardless of which side of the argument the men actually running it privately believe." +
+            (flags.verona44Result === "commuted"
+              ? " The army asked for De Bono's life at Verona and got it, and some officers who had stayed away have reported to the Republic's divisions since."
+              : flags.verona44Result === "refused"
+              ? " The army asked for De Bono's life at Verona and was refused, and the Party has not let it forget the asking."
+              : ""),
           choices: [
             {
               label: "Commit RSI forces fully to anti-partisan operations, including the reprisal tactics German command favors",

@@ -463,5 +463,35 @@
     "date": "2017-08-22 11:51:31",
     "mime": "image/jpeg",
     "note": "Re-encoded as WebP (quality 0.8) by tools/optimise-photos.mjs; the original is on Commons."
+  },
+  {
+    "kind": "music",
+    "key": "cueClean",
+    "file": "cue-win-mars.opus",
+    "bytes": 69555,
+    "title": "File:Holst- mars.ogg",
+    "page": "https://commons.wikimedia.org/wiki/File:Holst-_mars.ogg",
+    "license": "Public domain",
+    "licenseUrl": "",
+    "artist": "Performance: United States Air Force Band Composition: Gustav Holst",
+    "credit": "http://www.heritageofamericaband.af.mil/recordings/frontiers.asp",
+    "date": "Composition: 1914–16 Performance: 1998",
+    "mime": "application/ogg",
+    "note": "A cue cut from menu-mars.opus (466.8 s for 9.7 s, the last chords, faded in and out), levelled to -18 LUFS and encoded as Opus at 64 kbit/s with ffmpeg; the original is on Commons."
+  },
+  {
+    "kind": "music",
+    "key": "cueTotal",
+    "file": "cue-defeat-saturn.opus",
+    "bytes": 77706,
+    "title": "File:HOLST \"The Planets, Op. 32 5. Saturn, the Bringer of Old Age\" - \"The President's Own\" U.S. Marine Band.opus",
+    "page": "https://commons.wikimedia.org/wiki/File:HOLST_%22The_Planets,_Op._32_5._Saturn,_the_Bringer_of_Old_Age%22_-_%22The_President%27s_Own%22_U.S._Marine_Band.opus",
+    "license": "Public domain",
+    "licenseUrl": "",
+    "artist": "United States Marine Band",
+    "credit": "https://www.youtube.com/watch?v=CdNMwLn2jUg",
+    "date": "2016-06-27",
+    "mime": "application/ogg",
+    "note": "A cue cut from end-saturn.opus (296.2 s for 9.8 s, the climax and its dying away, faded out), levelled to -18 LUFS and encoded as Opus at 64 kbit/s with ffmpeg; the original is on Commons."
   }
 ]

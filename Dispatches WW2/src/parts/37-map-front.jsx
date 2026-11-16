@@ -211,7 +211,7 @@ const MAP_PLACES = {
     romeStandoff43: [12.5, 41.9], factionSplit43: [12.5, 41.9], germanExploitation43: [12.5, 41.9], civilConflictEnd43: [12.5, 41.9], armisticeNegotiation43: [15.19, 36.98], armisticeAnnounce43: [12.5, 41.9],
     twoItalies43: [17.94, 40.63], salernoAvalanche43: [14.78, 40.68], imiCrisis43: [26.85, 37.2], vaticanChannel44: [12.45, 41.9], imiOutcome44: [12.5, 41.9], monteCassino44: [13.83, 41.49],
     romeLiberation44: [12.5, 41.9], clnLiaison44: [9.19, 45.46], gothicLine44: [11.3, 44.1], monteLungo43: [13.95, 41.43], adriaticRoad44: [13.5, 43.6], combatGroups44: [11.3, 44.1],
-    partisanWinter44: [11.35, 44.5], groupsCommand45: [11.88, 44.28], springOffensive45: [12.03, 44.5], coBelligerentEnding45: [9.19, 45.46], saloRepublic43: [10.52, 45.61], alpenvorlandQuestion43: [11.35, 46.5],
+    partisanWinter44: [11.35, 44.5], groupsCommand45: [11.88, 44.28], springOffensive45: [12.03, 44.5], coBelligerentEnding45: [9.19, 45.46], saloRepublic43: [10.52, 45.61], alpenvorlandQuestion43: [11.35, 46.5], verona44: [10.99, 45.44],
     civilWarPartisans44: [9.19, 45.46], gothicLineRSI44: [11.3, 44.1], rsiCollapse45: [9.19, 45.46],
   },
 };

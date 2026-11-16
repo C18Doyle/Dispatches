@@ -425,3 +425,68 @@ function ConferenceScreen({ campaign, command, conference, meters, onDone }) {
     />
   );
 }
+
+// Lend-Lease, STAVKA's yearly ask under the protocol in force, 1943 to 1945 (src/effort.ts, lendLeaseDue). 1942 is the report "The Lifeline
+// Routes". Claims: claims/lend-lease-and-reactions-round1.json.
+const LEND_LEASE_PAPERS = {
+  1943: {
+    title: "The Protocol for 1943",
+    text: [
+      "The Arctic convoys are stopping again. The escorts are needed in the Atlantic, where the U-boat war is at its height, and Tirpitz lies in the Norwegian fjords; after the convoy that sails in February there will be no more until November. The Persian Corridor is being taken over and built out by an American command, and the Pacific route to Vladivostok carries what Soviet-flagged ships can carry past Japan.",
+      "The commissariat asks what the year's protocol should put first.",
+    ],
+  },
+  1944: {
+    title: "The Protocol for 1944",
+    text: [
+      "The Arctic convoys have sailed again since November, the Persian Corridor runs by rail and road to the Caspian, and the Pacific route is busy. This is the year the deliveries reach their height by every route.",
+      "The commissariat asks what the year's protocol should put first.",
+    ],
+  },
+  1945: {
+    title: "The Protocol for 1945",
+    text: [
+      "Deliveries run on into the spring. Part of the Fourth Protocol is no longer for the war against Germany: since October 1944 a stockpile for a war in the Far East has been gathered under the name Milepost.",
+      "The commissariat asks what the year's protocol should put first in what is left for the West.",
+    ],
+  },
+};
+const LEND_LEASE_ORDERS = {
+  weapons: () => t("Tanks and aircraft: Valentines, Shermans and Airacobras"),
+  transport: () => t("Trucks, rails and fuel: Studebakers, locomotives and aviation spirit"),
+  food: () => t("Food and metals: tinned meat, flour, aluminium and copper"),
+};
+const LEND_LEASE_NOTES = {
+  weapons: (n) => t("This year's Orders of Battle: {n, plural, one {# chit} other {# chits}} more.", { n }),
+  transport: (n) => t("Matériel +{n}.", { n }),
+  food: (n) => t("Manpower +{n}.", { n }),
+};
+
+/** STAVKA's Lend-Lease paper for the year: what to ask for first, and what the year's deliveries come to. */
+function LendLeaseScreen({ campaign, year, flags, onDone }) {
+  const paper = LEND_LEASE_PAPERS[year];
+  const shares = lendLeaseShares(flags, year);
+  const [chosen, setChosen] = useState(null);
+  if (!paper) return null;
+  const effect = (ask) => lendLeaseEffect(flags, year, ask);
+  const note = (ask) => LEND_LEASE_NOTES[ask](ask === "weapons" ? effect(ask).chits : shares);
+  const sizeLine =
+    shares > 1
+      ? t("The year's deliveries come to two shares.")
+      : year === 1943 && flags.lendLease === "arctic"
+      ? t("The year's deliveries come to one share: the year's planning was staked on the Arctic route, and the Arctic route is closed for most of it.")
+      : t("The year's deliveries come to one share.");
+  return (
+    <StaffPaper
+      campaign={campaign}
+      kicker={t("LEND-LEASE")}
+      dateline={String(year)}
+      title={paper.title}
+      text={[...paper.text, sizeLine]}
+      orders={LEND_LEASE_ASKS.map((a) => ({ id: a, label: LEND_LEASE_ORDERS[a](), note: note(a) }))}
+      onChoose={(id) => setChosen(id)}
+      result={chosen ? t("The ask goes into the protocol. {note}", { note: note(chosen) }) : null}
+      onContinue={() => onDone(chosen, effect(chosen).impact)}
+    />
+  );
+}
