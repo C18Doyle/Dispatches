@@ -1,0 +1,43 @@
+name: ww2-test
+
+# Push a tag named ww2test-v<version> to build Dispatches WW2 (the full build, all six commands) and push it to its itch.io test page,
+# dispatches/dispatches-ww2, channel web:
+#   git tag ww2test-v0.1.0 && git push origin ww2test-v0.1.0
+# This is a test build for the developer only: Dispatches WW2 is released on Steam, not itch.io. It is not a release: it never touches
+# another game's pages, the GitHub releases or package.json's version, and the page's visibility is set on itch.io, not here.
+on:
+  push:
+    tags: ["ww2test-v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  ww2-test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: Dispatches WW2
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
+      - name: Install (as CI does, with the shared packages)
+        working-directory: .
+        run: node tools/run-all.mjs --install "WW2"
+      - name: Build and zip
+        run: node build.mjs
+      - name: Check the zip has index.html at its root
+        run: unzip -l builds/dispatches-ww2-itch.zip | grep -E ' index\.html$'
+      - name: itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          if [ -z "$BUTLER_API_KEY" ]; then echo "BUTLER_API_KEY is not set: not pushing"; exit 1; fi
+          curl -sSL -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip -q butler.zip -d butler-bin && chmod +x butler-bin/butler
+          ./butler-bin/butler push builds/dispatches-ww2-itch.zip dispatches/dispatches-ww2:web --userversion "${GITHUB_REF_NAME#ww2test-v}"
